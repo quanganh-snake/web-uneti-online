@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import FeatureLimited from "../../../../Components/FeatureLimited/FeatureLimited";
 
 function MienHocThiTiengAnh() {
-  return (
-    <div>MienHocThiTiengAnh</div>
-  )
+	return (
+		<div className="bg-white shadow-md p-1">
+			<FeatureLimited />
+		</div>
+	);
 }
 
-export default MienHocThiTiengAnh
+export default MienHocThiTiengAnh;
