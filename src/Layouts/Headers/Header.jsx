@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { MdKeyboardArrowDown, MdNotificationImportant, MdInsertDriveFile, MdFormatListNumbered, MdLogout } from "react-icons/md";
 import { FaYoutube } from "react-icons/fa6";
 // data
@@ -8,9 +8,18 @@ import logoUNETI from "../../Assets/Images/LOGO_UNETI.ico";
 
 // styles
 import "./Header.scss";
+import NavbarMotCua from "../../Components/Navbars/NavbarMotCua";
 
 function Header() {
 	const handleLogout = () => {};
+
+	const location = useLocation();
+	const { pathname } = location;
+
+	const listPath = pathname
+		.split("/")
+		.filter(Boolean)
+		.map((item) => `/${item}`);
 
 	return (
 		<header className="shadow-md fixed left-0 right-0 top-0 w-[100%] z-10">
@@ -92,26 +101,8 @@ function Header() {
 						</div>
 					</div>
 					{/* START: Navbar Pages */}
-					<div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
-						<ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-							{/* {moduleStatic &&
-								Object.keys(moduleStatic).length > 0 &&
-								Object.keys(moduleStatic).map((module, index) => {
-									const dataModule = moduleStatic[module];
-									return (
-										<li key={index}>
-											<Link
-												to={dataModule.path}
-												className="block hover:bg-sky-800 hover:text-white px-4 py-2 text-white rounded-[99px] md:bg-transparent md:text-black"
-												aria-current="page"
-											>
-												{dataModule.name}
-											</Link>
-										</li>
-									);
-								})} */}
-						</ul>
-					</div>
+					{listPath && listPath.includes("/motcua") ? <NavbarMotCua /> : null}
+
 					{/* END: Navbar Pages */}
 				</div>
 			</nav>

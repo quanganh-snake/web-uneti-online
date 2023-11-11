@@ -17,7 +17,7 @@ function FeatureItemMotCua(props) {
 				<p dangerouslySetInnerHTML={{ __html: featureItem.desc }}></p>
 			</div>
 			<div className="feature--footer flex justify-end absolute bottom-3 right-3">
-				<Link to={featureItem.path} className="px-3 py-2 bg-white text-[#336699] font-semibold border border-sky-900 rounded-full hover:bg-[#336699] hover:text-white">
+				<Link to={pathname + featureItem.path} className="px-3 py-2 bg-white text-[#336699] font-semibold border border-sky-900 rounded-full hover:bg-[#336699] hover:text-white">
 					Gửi yêu cầu
 				</Link>
 			</div>

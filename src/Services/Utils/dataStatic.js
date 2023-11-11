@@ -72,6 +72,7 @@ export const homeMain = [
 export const homeMotCua = [
 	{
 		title: "Một cửa - Khảo thí",
+		name: "Khảo thí",
 		desc: "",
 		path: "/khaothi",
 		thumbnail: thumbnailKhaoThi,
@@ -146,6 +147,7 @@ export const homeMotCua = [
 	},
 	{
 		title: "Một cửa - Đào tạo",
+		name: "Đào tạo",
 		desc: "",
 		path: "/daotao",
 		thumbnail: thumbnailDaoTao,
@@ -228,6 +230,7 @@ export const homeMotCua = [
 	},
 	{
 		title: "Một cửa - CT&CTSV",
+		name: "CT&CTSV",
 		desc: "",
 		path: "/ct&ctsv",
 		thumbnail: thumbnailCTSV,
@@ -278,6 +281,7 @@ export const homeMotCua = [
 	},
 	{
 		title: "Một cửa - Hành chính",
+		name: "Hành chính",
 		desc: "",
 		path: "/hanhchinh",
 		thumbnail: thumbnailHanhChinh,
