@@ -24,24 +24,27 @@ function Login() {
 		}
 	};
 
-	const checkRoleUser = async (username, password) => {
+	const checkedSinhVien = async (username, password) => {
 		// Check Sinh Viên
 		const userSV = {
 			TC_SV_MaSinhVien: username,
 			TC_SV_MaSinhVien_Pass: password,
 		};
 		const tokenSV = await tokenSVLogin(userSV, dispatch);
-		console.log("🚀 ~ file: Login.jsx:33 ~ checkRoleUser ~ tokenSV:", tokenSV);
 		if (tokenSV) {
 			const accessTokenSV = tokenSV.token;
 			const dataSV = await userSVLogin({ TC_SV_MaSinhVien: username }, accessTokenSV, dispatch, navigate);
-			console.log("🚀 ~ file: Login.jsx:36 ~ checkRoleUser ~ dataSV:", dataSV);
+
 			if (dataSV?.TrangThaiHocTap === "Đang học") {
 				localStorage.setItem("role", "SV");
 				return "SV";
+			} else {
+				return null;
 			}
 		}
+	};
 
+	const checkedGiangVien = async (username, password) => {
 		// Check Giảng Viên
 		const userGV = {
 			HT_USER_TenDN: username,
@@ -53,11 +56,11 @@ function Login() {
 			const dataGV = await userGVLogin(userGV, accessTokenGV, dispatch, navigate);
 			if (dataGV?.LoaiTaiKhoan === "Giảng viên") {
 				localStorage.setItem("role", "CB");
-				return "GV";
+				return "CB";
+			} else {
+				return null;
 			}
 		}
-
-		return "Không xác định";
 	};
 
 	const handleLogin = async (e) => {
@@ -89,15 +92,11 @@ function Login() {
 			});
 		}
 
-		const user = {
-			TC_SV_MaSinhVien: username,
-			TC_SV_MaSinhVien_Pass: password,
-		};
+		const sinhvien = await checkedSinhVien(username, password);
+		const giangvien = await checkedGiangVien(username, password);
 
-		const roleAccount = await checkRoleUser(username, password);
-
-		if (!roleAccount) {
-			return toast.error("Tài khoản hoặc mật khẩu không chính xác!", {
+		if (!sinhvien && !giangvien) {
+			return toast.error("Thông tin đăng nhập không chính xác hoặc đã tốt nghiệp!", {
 				position: "top-right",
 				autoClose: 3000,
 				hideProgressBar: false,
@@ -107,8 +106,6 @@ function Login() {
 				progress: undefined,
 				theme: "light",
 			});
-		} else {
-			toast("OKE");
 		}
 	};
 

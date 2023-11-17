@@ -17,6 +17,11 @@ import thumbnailDaoTao from "../../assets/Icons/icoThumbnailDaoTao.png";
 import thumbnailHanhChinh from "../../assets/Icons/icoThumbnailHanhChinh.png";
 import thumbnailCTSV from "../../assets/Icons/icoThumbnailCTSV.png";
 
+// icons - homeTaSan
+import icoTeamViewe from "../../assets/Icons/icoTeamViewer.png";
+import icoUltraView from "../../assets/Icons/icoUltraview.png";
+import icoZalo from "../../assets/Icons/icoZalo.png";
+
 // data Static homeMain
 export const homeMain = [
 	{
@@ -25,7 +30,7 @@ export const homeMain = [
 		icon: icoHTTBGD,
 		path: "/hotrothietbigiangduong",
 		moduleActive: true,
-		roleActive: ["GV"],
+		roleActive: ["CB"],
 	},
 	{
 		title: "Thủ tục hành chính sinh viên",
@@ -41,7 +46,7 @@ export const homeMain = [
 		icon: icoHTTBSP,
 		path: "/hotrothietbisanhphong",
 		moduleActive: true,
-		roleActive: ["GV"],
+		roleActive: ["CB"],
 	},
 	{
 		title: "Hỗ trợ sử dụng phần mềm",
@@ -49,15 +54,15 @@ export const homeMain = [
 		icon: icoHTSDPM,
 		path: "https://demosupportphanmem.uneti.edu.vn/Pages/Home.aspx",
 		moduleActive: true,
-		roleActive: ["GV, SV"],
+		roleActive: ["CB", "SV"],
 	},
 	{
 		title: "Tra cứu thông tin tài sản",
 		desc: "Quét QR để tra cứu thông tin tài sản.",
 		icon: icoTCTTTS,
-		path: "/tracuuttts",
+		path: "/taisan",
 		moduleActive: true,
-		roleActive: ["GV, SV"],
+		roleActive: ["CB", "SV"],
 	},
 	{
 		title: "Quản lý chi tiết công việc",
@@ -65,7 +70,7 @@ export const homeMain = [
 		icon: icoQLCTCV,
 		path: "https://uneti.edu.vn/",
 		moduleActive: true,
-		roleActive: ["GV"],
+		roleActive: ["CB"],
 	},
 ];
 
@@ -301,3 +306,127 @@ export const homeMotCua = [
 ];
 
 export const homeTTBGD = [{}];
+
+export const homeTaiSan = {
+	listCanBoHoTro: [
+		{
+			id: 1,
+			name: "Tống Bá Quang Anh",
+			position: "KT",
+			phone: "0334350166",
+		},
+		{
+			id: 2,
+			name: "Nguyễn Mạnh Quân",
+			position: "KT",
+			phone: "0334350166",
+		},
+
+		{
+			id: 3,
+			name: "Nguyễn Thành Trung",
+			position: "KT",
+			phone: "0334350166",
+		},
+
+		{
+			id: 4,
+			name: "Ngô Mạnh Cường",
+			phone: "0334350166",
+			position: "QTM",
+			phone: "0334350166",
+		},
+
+		{
+			id: 5,
+			name: "Tô Thành Công",
+			position: "QTM",
+			phone: "0334350166",
+		},
+		{
+			id: 6,
+			name: "Hà Đăng Huy",
+			position: "KT",
+			phone: "0334350166",
+		},
+		{
+			id: 7,
+			name: "Vũ Xuân Tuấn",
+			position: "STU",
+			phone: "0334350166",
+		},
+		{
+			id: 8,
+			name: "Giang Thị Thùy Lương",
+			position: "KT",
+			phone: "0334350166",
+		},
+		{
+			id: 9,
+			name: "Nguyễn Thị Ngọc Thùy",
+			position: "KT",
+			phone: "0334350166",
+		},
+	],
+	listHotlines: [
+		{
+			id: 1,
+			name: "Phòng Đào Tạo",
+			phone: "0334350166",
+		},
+		{
+			id: 2,
+			name: "Phòng TCCB",
+			phone: "0334350166",
+		},
+		{
+			id: 3,
+			name: "Phòng CT&CTSV",
+			phone: "0334350166",
+		},
+		{
+			id: 4,
+			name: "Phòng Hành Chính",
+			phone: "0334350166",
+		},
+		{
+			id: 5,
+			name: "Phòng Khảo Thí",
+			phone: "0334350166",
+		},
+	],
+	listAppSupport: [
+		{
+			id: 1,
+			name: "Teamviewer",
+			logo: icoTeamViewe,
+			link: "",
+		},
+		{
+			id: 2,
+			name: "Ultraview",
+			logo: icoUltraView,
+			link: "",
+		},
+		{
+			id: 3,
+			name: "Zalo App",
+			logo: icoZalo,
+			link: "",
+		},
+	],
+};
+
+// Data Loại Thi
+export const dataLoaiThi = [
+	{
+		id: 1,
+		title: "Thi lần 1",
+		value: "Thi lần 1",
+	},
+	{
+		id: 2,
+		title: "Thi lại",
+		value: "Thi lại",
+	},
+];

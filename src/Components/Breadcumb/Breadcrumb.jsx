@@ -26,7 +26,6 @@ function Breadcrumb(props) {
 					</Link>
 				</li>
 				{breadcrumbs.map((breadcrumb, index) => {
-					console.log(breadcrumb.path);
 					return (
 						<li key={index}>
 							<div className="flex items-center">

@@ -1,11 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-	user: {
-		currentUser: null,
-		isFetching: false,
-		error: false,
-	},
+	currentUser: null,
+	isFetching: false,
+	error: false,
 };
 
 const userSlice = createSlice({
@@ -13,16 +11,16 @@ const userSlice = createSlice({
 	initialState,
 	reducers: {
 		userStart: (state) => {
-			state.user.isFetching = true;
+			state.isFetching = true;
 		},
 		userSuccess: (state, action) => {
-			state.user.isFetching = false;
-			state.user.currentUser = action.payload;
-			state.user.error = false;
+			state.isFetching = false;
+			state.currentUser = action.payload;
+			state.error = false;
 		},
 		userFailure: (state) => {
-			state.user.isFetching = false;
-			state.user.error = true;
+			state.isFetching = false;
+			state.error = true;
 		},
 	},
 });

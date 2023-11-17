@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdKeyboardArrowDown, MdNotificationImportant, MdInsertDriveFile, MdFormatListNumbered, MdLogout } from "react-icons/md";
 import { FaYoutube } from "react-icons/fa6";
 // data
@@ -9,9 +9,18 @@ import logoUNETI from "../../Assets/Images/LOGO_UNETI.ico";
 // styles
 import "./Header.scss";
 import NavbarMotCua from "../../Components/Navbars/NavbarMotCua";
+import { useDispatch } from "react-redux";
+import { logOut } from "./../../Apis/apiLogout";
+import { persistor } from "../../Services/Redux/store";
+import { DataSinhVien } from "../../Services/Utils/dataSinhVien.js";
+import { DataCanBoGV } from "../../Services/Utils/dataCanBoGV.js";
+import localStorage from "redux-persist/es/storage";
 
 function Header() {
-	const handleLogout = () => {};
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
+	let refreshToken = null;
 
 	const location = useLocation();
 	const { pathname } = location;
@@ -21,6 +30,23 @@ function Header() {
 		.filter(Boolean)
 		.map((item) => `/${item}`);
 
+	const role = localStorage.getItem("role") ? localStorage.getItem("role") : null;
+
+	const dataSV = DataSinhVien();
+	const dataCBGV = DataCanBoGV();
+
+	if (role) {
+		refreshToken = role === "CB" ? dataCBGV.dataToken?.refreshToken : dataSV.dataToken?.refreshToken;
+	} else {
+		navigate("/dangnhap");
+	}
+
+	const handleLogout = () => {
+		localStorage.removeItem("persist:root");
+		localStorage.removeItem("role");
+		logOut(role, dispatch, navigate, refreshToken);
+		persistor.purge();
+	};
 	return (
 		<header className="shadow-md fixed left-0 right-0 top-0 w-[100%] z-10">
 			<nav className="bg-white border-gray-200 dark:bg-gray-900">
@@ -38,8 +64,8 @@ function Header() {
 							data-dropdown-placement="bottom"
 						>
 							<span className="sr-only">Open user menu</span>
-							<img className="w-14 h-14 rounded-full object-cover border border-slate-500" src={noAvatar} alt="user photo" />
-							<span className="hidden md:block">{"Tống Bá Quang Anh"}</span>
+							<img className="w-14 h-14 rounded-full object-cover border border-slate-500" src={role === "CB" ? noAvatar : dataSV.HinhAnh} alt="user photo" />
+							<span className="hidden md:block">{role === "CB" ? dataCBGV.HoDem + " " + dataCBGV.Ten : dataSV.HoDem + " " + dataSV.Ten}</span>
 							<MdKeyboardArrowDown className="text-2xl hidden md:inline-block" />
 						</button>
 						{/* Dropdown menu */}
@@ -89,7 +115,6 @@ function Header() {
 								</li>
 								<li>
 									<Link
-										to={"#"}
 										onClick={handleLogout}
 										className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white  hover:font-bold hover:text-white hover:bg-sky-800"
 									>

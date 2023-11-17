@@ -2,6 +2,7 @@ import axios from "axios";
 import { tokenFailure, tokenStart, tokenSuccess } from "../Services/Redux/Slice/authSlice.js";
 import { BASE_URL } from "../Configs/config.js";
 import { userFailure, userStart, userSuccess } from "../Services/Redux/Slice/userSlice.js";
+import http from "../Configs/http.js";
 
 // data token
 export const tokenSVLogin = async (user, dispatch) => {
@@ -36,7 +37,7 @@ export const tokenGVLogin = async (user, dispatch) => {
 export const userSVLogin = async (username, accessToken, dispatch, navigate) => {
 	dispatch(userStart());
 	try {
-		const res = await axios.post(`${BASE_URL}/SP_MC_MaSinhVien/Load_Web_App_Para`, username, {
+		const res = await http.post(`${BASE_URL}/SP_MC_MaSinhVien/Load_Web_App_Para`, username, {
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
 			},
@@ -56,7 +57,7 @@ export const userSVLogin = async (username, accessToken, dispatch, navigate) => 
 export const userGVLogin = async (user, accessToken, dispatch, navigate) => {
 	dispatch(userStart());
 	try {
-		const res = await axios.post(`${BASE_URL}/SP_HT_USER_GIANGVIEN/Authentication_TaiSan_TBGD_Web_App`, user, {
+		const res = await http.post(`${BASE_URL}/SP_HT_USER_GIANGVIEN/Authentication_TaiSan_TBGD_Web_App`, user, {
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
 			},
