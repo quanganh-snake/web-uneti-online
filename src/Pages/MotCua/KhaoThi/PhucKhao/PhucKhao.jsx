@@ -7,6 +7,8 @@ import { checkExpiredPhucKhao, getAllHocPhanPhucKhao, postYeuCauPhucKhao } from 
 import Swal from "sweetalert2";
 import Loading from "../../../../Components/Loading/Loading";
 import moment from "moment/moment";
+import { createAxiosJWT } from "../../../../Configs/http";
+import { useDispatch } from "react-redux";
 
 function PhucKhao() {
 	const home = {
@@ -38,7 +40,8 @@ function PhucKhao() {
 
 	const dataSV = DataSinhVien();
 	const accessToken = dataSV.dataToken.token;
-
+	const dispatch = useDispatch();
+	let axiosJWT = createAxiosJWT(dataSV.dataToken, dispatch, accessToken);
 	// event handlers
 	const handleChangeValue = (e) => {
 		if (e.target.id === "MC_KT_PhucKhao_TenDot") {
@@ -178,7 +181,7 @@ function PhucKhao() {
 	};
 
 	useEffect(() => {
-		getTenDot(accessToken).then((res) => {
+		getTenDot(axiosJWT, accessToken).then((res) => {
 			setListHocKy(res?.data?.body);
 		});
 

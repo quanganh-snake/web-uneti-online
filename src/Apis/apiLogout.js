@@ -4,7 +4,7 @@ import { userSuccess } from "../Services/Redux/Slice/userSlice";
 
 export const logOut = async (role, dispatch, navigate, refreshToken) => {
 	dispatch(logOutStart());
-	await console.log(`role: ${role}`);
+	console.log(`role:`, role);
 	try {
 		const dataRefresh = {
 			refreshToken: refreshToken,
