@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 
 export const DataCanBoGV = () => {
 	const teacher = useSelector((state) => state.user?.currentUser);
+	console.log("🚀 ~ file: dataCanBoGV.js:5 ~ DataCanBoGV ~ teacher:", teacher)
 	const dataToken = useSelector((state) => state.auth?.login?.currentToken);
 
 	const {

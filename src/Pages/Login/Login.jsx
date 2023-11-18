@@ -120,8 +120,9 @@ function Login() {
 		const sinhvien = await checkedSinhVien(username, password);
 		console.log("🚀 ~ file: Login.jsx:135 ~ handleLogin ~ sinhvien:", sinhvien);
 		const giangvien = await checkedGiangVien(username, password);
+		console.log("🚀 ~ file: Login.jsx:123 ~ handleLogin ~ giangvien:", giangvien);
 
-		if (!sinhvien) {
+		if (!sinhvien && !giangvien) {
 			return toast.error("Thông tin đăng nhập không chính xác. Vui lòng kiểm tra lại!", {
 				position: "top-right",
 				autoClose: 3000,
@@ -158,19 +159,6 @@ function Login() {
 			});
 		} else if (sinhvien === "SV-Done") {
 			return toast.error("Tài khoản đã tốt nghiệp không thể sử dụng hệ thống UNETI.", {
-				position: "top-right",
-				autoClose: 3000,
-				hideProgressBar: false,
-				closeOnClick: true,
-				pauseOnHover: true,
-				draggable: true,
-				progress: undefined,
-				theme: "light",
-			});
-		}
-
-		if (!sinhvien && !giangvien) {
-			return toast.error("Thông tin đăng nhập không chính xác!", {
 				position: "top-right",
 				autoClose: 3000,
 				hideProgressBar: false,

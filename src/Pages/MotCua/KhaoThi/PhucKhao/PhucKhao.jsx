@@ -375,7 +375,7 @@ function PhucKhao() {
 																</p>
 															</td>
 															<td className="px-6 py-4">
-																<p>{hocphan.Nhom}</p>
+																<p className="text-center">{hocphan.Nhom}</p>
 															</td>
 															<td className="px-6 py-4 whitespace-nowrap">
 																<p>
@@ -419,8 +419,9 @@ function PhucKhao() {
 						</div>
 
 						{/* END: Table học phần */}
-						{/* <div className="uneti-notify my-4">
-							{listYeuCauTrung.length > 0 ? (
+						<div className="uneti-notify my-4">
+							<p className="w-full whitespace-nowrap font-bold text-red-600">*Lưu ý: Lệ phí phúc khảo kết quả học tập: Có mức thu theo quy định, được chuyển trực tiếp vào công nợ của SV.</p>
+							{/* {listYeuCauTrung.length > 0 ? (
 								<p className="w-full px-3 py-2 bg-red-700 rounded-lg text-white font-semibold text-center">
 									Yêu cầu cho môn học đã được gửi đi trước đó. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!
 								</p>
@@ -432,8 +433,8 @@ function PhucKhao() {
 								<p className="w-full px-3 py-2 bg-green-500 text-white font-semibold text-center">
 									Môn học đã được gửi yêu cầu phúc khảo. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!
 								</p>
-							) : null}
-						</div> */}
+							) : null} */}
+						</div>
 						<div className="uneti-action flex justify-center">
 							<button type="submit" className="px-3 py-2 bg-white text-sky-800 font-semibold border border-sky-800 rounded-full hover:bg-sky-800 hover:text-white">
 								Gửi yêu cầu
