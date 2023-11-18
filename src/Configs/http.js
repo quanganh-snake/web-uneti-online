@@ -43,7 +43,7 @@ const dataAuth = localStorage.getItem("persist:root") ? localStorage.getItem("pe
 // 			const dataAuthLogin = JSON.parse(dataAuth);
 // 			const dataToken = JSON.parse(dataAuthLogin.auth);
 // 			refreshToken = dataToken?.login?.currentToken.refreshToken;
-// 			console.log("🚀 ~ file: http.js:45 ~ refreshToken:", refreshToken)
+// console.log("🚀 ~ file: http.js:45 ~ refreshToken:", refreshToken);
 //         } else {
 //             localStorage.removeItem("persist:root")
 // 			console.log("error");
@@ -56,7 +56,7 @@ const dataAuth = localStorage.getItem("persist:root") ? localStorage.getItem("pe
 
 // 			try {
 // 				const response = await axios.post("/jwt/RefreshToken", { refreshToken });
-// 				console.log("🚀 ~ file: http.js:45 ~ response:", response);
+// console.log("🚀 ~ file: http.js:45 ~ response:", response);
 // 				const { token } = response.data;
 // 				// dispatch(tokenSuccess(response.data));
 // 				// localStorage.setItem("token", token);
@@ -73,16 +73,11 @@ const dataAuth = localStorage.getItem("persist:root") ? localStorage.getItem("pe
 // 	}
 // );
 
-// refreshToken
-const refreshToken = async () => {
-	try {
-		const res = await axios.post("");
-	} catch (error) {
-		console.log(error);
-	}
-};
 // Request api check tokens
 export const createAxiosJWT = (dataToken, dispatch, stateSuccess) => {
+	// console.log("🚀 ~ file: http.js:78 ~ createAxiosJWT ~ stateSuccess:", stateSuccess);
+	// console.log("🚀 ~ file: http.js:78 ~ createAxiosJWT ~ dispatch:", dispatch);
+	// console.log("🚀 ~ file: http.js:78 ~ createAxiosJWT ~ dataToken:", dataToken);
 	const newAxios = axios.create({
 		baseURL: `${API_URL}/api`,
 		headers: {
@@ -95,12 +90,31 @@ export const createAxiosJWT = (dataToken, dispatch, stateSuccess) => {
 			let date = new Date();
 			const { token: accessToken, refreshToken } = dataToken;
 
-			if (accessToken) {
+			if (accessToken && refreshToken) {
 				const decodedToken = jwtDecode(accessToken);
+				console.log(
+					"🚀 ~ file: http.js:92 ~ check accessToken expire: ",
+					decodedToken.exp < date.getTime() / 1000,
+					"  - time detail: ",
+					date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "s"
+				);
+				const decodedRefreshToken = jwtDecode(refreshToken);
+				console.log(
+					"🚀 ~ file: http.js:92 ~ check refreshToken expire: ",
+					decodedRefreshToken.exp < date.getTime() / 1000,
+					"  - time detail: ",
+					date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "s"
+				);
+
+				if (decodedRefreshToken.exp < date.getTime() / 1000) {
+					window.location.href = window.location.hostname + "/dangnhap";
+					return;
+				}
+
 				if (decodedToken.exp < date.getTime() / 1000) {
 					const resNewDataToken = await axios.post(`${API_URL}/api/jwt/RefreshToken`, { refreshToken });
 					const refreshUser = {
-						...currentToken,
+						...dataToken,
 						token: resNewDataToken.data.token,
 					};
 					dispatch(stateSuccess(refreshUser));

@@ -35,12 +35,26 @@ function Login() {
 			const accessTokenSV = tokenSV.token;
 			const dataSV = await userSVLogin({ TC_SV_MaSinhVien: username }, accessTokenSV, dispatch, navigate);
 
+			if (!dataSV) {
+				return null;
+			}
+
+			if (dataSV?.LoaiHinhDaoTao === "" || dataSV?.LoaiHinhDaoTao == null || dataSV?.LoaiHinhDaoTao === undefined) {
+				return "Invalid-LoaiHinhDaoTao";
+			}
+
+			if (dataSV?.Email_TruongCap === "" || dataSV?.Email_TruongCap == null || dataSV?.Email_TruongCap === undefined) {
+				return "Invalid-Email";
+			}
+
 			if (dataSV?.TrangThaiHocTap === "Đang học") {
 				localStorage.setItem("role", "SV");
 				return "SV";
-			} else {
-				return null;
+			} else if (dataSV?.TrangThaiHocTap === "Đã tốt nghiệp") {
+				return "SV-Done";
 			}
+		} else {
+			return null;
 		}
 	};
 
@@ -50,16 +64,27 @@ function Login() {
 			HT_USER_TenDN: username,
 			HT_USER_MK: password,
 		};
-		const tokenGV = await tokenGVLogin(userGV, dispatch);
-		if (tokenGV) {
-			const accessTokenGV = tokenGV.token;
-			const dataGV = await userGVLogin(userGV, accessTokenGV, dispatch, navigate);
-			if (dataGV?.LoaiTaiKhoan === "Giảng viên") {
-				localStorage.setItem("role", "CB");
-				return "CB";
+		try {
+			const tokenGV = await tokenGVLogin(userGV, dispatch);
+			if (tokenGV) {
+				const accessTokenGV = tokenGV.token;
+				const dataGV = await userGVLogin(userGV, accessTokenGV, dispatch, navigate);
+
+				if (!dataGV) {
+					return null;
+				}
+
+				if (dataGV?.LoaiTaiKhoan === "Giảng viên") {
+					localStorage.setItem("role", "CB");
+					return "CB";
+				} else {
+					return null;
+				}
 			} else {
 				return null;
 			}
+		} catch (error) {
+			console.log([error]);
 		}
 	};
 
@@ -93,10 +118,59 @@ function Login() {
 		}
 
 		const sinhvien = await checkedSinhVien(username, password);
+		console.log("🚀 ~ file: Login.jsx:135 ~ handleLogin ~ sinhvien:", sinhvien);
 		const giangvien = await checkedGiangVien(username, password);
 
+		if (!sinhvien) {
+			return toast.error("Thông tin đăng nhập không chính xác. Vui lòng kiểm tra lại!", {
+				position: "top-right",
+				autoClose: 3000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+		}
+
+		if (sinhvien === "Invalid-Email") {
+			return toast.error("Tài khoản của bạn thiếu thông tin email của trường cấp không thể đăng nhập. Vui lòng đợi cập nhật thông tin và quay lại sau!", {
+				position: "top-right",
+				autoClose: 3000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+		} else if (sinhvien === "Invalid-LoaiHinhDaoTao") {
+			return toast.error("Tài khoản của bạn thiếu thông tin bậc đào tạo không thể đăng nhập. Vui lòng đợi cập nhật thông tin và quay lại sau!", {
+				position: "top-right",
+				autoClose: 3000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+		} else if (sinhvien === "SV-Done") {
+			return toast.error("Tài khoản đã tốt nghiệp không thể sử dụng hệ thống UNETI.", {
+				position: "top-right",
+				autoClose: 3000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "light",
+			});
+		}
+
 		if (!sinhvien && !giangvien) {
-			return toast.error("Thông tin đăng nhập không chính xác hoặc đã tốt nghiệp!", {
+			return toast.error("Thông tin đăng nhập không chính xác!", {
 				position: "top-right",
 				autoClose: 3000,
 				hideProgressBar: false,

@@ -9,6 +9,8 @@ import Loading from "../../../../Components/Loading/Loading";
 import moment from "moment/moment";
 import { createAxiosJWT } from "../../../../Configs/http";
 import { useDispatch } from "react-redux";
+import { tokenSuccess } from "../../../../Services/Redux/Slice/authSlice";
+import { toast } from "react-toastify";
 
 function PhucKhao() {
 	const home = {
@@ -33,15 +35,14 @@ function PhucKhao() {
 	const [loaiThi, setLoaiThi] = useState("");
 	const [listHocPhan, setListHocPhan] = useState([]);
 	const [selectedRows, setSelectedRows] = useState([]);
-	const [listYeuCauQuaHan, setListYeuCauQuaHan] = useState([]);
-	const [listYeuCauTrung, setListYeuCauTrung] = useState([]);
-	const [listYeuCauThanhCong, setListYeuCauThanhCong] = useState([]);
 	const [listYeuCau, setListYeuCau] = useState([]);
+	const [listYeuCauQuaHan, setListYeuCauQuaHan] = useState([]);
 
 	const dataSV = DataSinhVien();
 	const accessToken = dataSV.dataToken.token;
+
 	const dispatch = useDispatch();
-	let axiosJWT = createAxiosJWT(dataSV.dataToken, dispatch, accessToken);
+	let axiosJWT = createAxiosJWT(dataSV.dataToken, dispatch, tokenSuccess);
 	// event handlers
 	const handleChangeValue = (e) => {
 		if (e.target.id === "MC_KT_PhucKhao_TenDot") {
@@ -53,7 +54,7 @@ function PhucKhao() {
 		}
 	};
 
-	const handleRowSelection = (event, item) => {
+	const handleRowSelection = async (event, item) => {
 		if (event.target.checked) {
 			// Thêm vào mảng yeucau
 			setSelectedRows([...selectedRows, item]);
@@ -94,9 +95,11 @@ function PhucKhao() {
 			return;
 		}
 
-		selectedRows.forEach(async (iHocPhan) => {
-			let strNgayThi = moment(iHocPhan.NgayThi).format("DD/MM/YYYY");
+		const listYeuCau = [];
+		const listKiemTraTrungYeuCau = [];
+		const listYeuCauThanhCong = [];
 
+		selectedRows.forEach(async (iHocPhan, index) => {
 			let dataHocPhan = {};
 
 			// Data post API
@@ -124,9 +127,7 @@ function PhucKhao() {
 			dataHocPhan.MC_KT_PhucKhao_TenMonHoc = iHocPhan.TenMonHoc ? iHocPhan.TenMonHoc : "null";
 			dataHocPhan.MC_KT_PhucKhao_KhoaChuQuanMon = iHocPhan.KhoaChuQuanMon ? iHocPhan.KhoaChuQuanMon : "null";
 			dataHocPhan.MC_KT_PhucKhao_TenHinhThucThi = iHocPhan.TenHinhThucThi ? iHocPhan.TenHinhThucThi : "null";
-			dataHocPhan.MC_KT_PhucKhao_NgayThi = iHocPhan.NgayThi
-				? new Date(`${dataSV.NgaySinh.split("/")[2]}-${dataSV.NgaySinh.split("/")[1]}-${dataSV.NgaySinh.split("/")[0]}`).toISOString()
-				: "null";
+			dataHocPhan.MC_KT_PhucKhao_NgayThi = iHocPhan.NgayThi ? iHocPhan.NgayThi : "null";
 			dataHocPhan.MC_KT_PhucKhao_Thu = iHocPhan.Thu ? iHocPhan.Thu.toString() : "null";
 			dataHocPhan.MC_KT_PhucKhao_Nhom = iHocPhan.Nhom ? iHocPhan.Nhom.toString() : "null";
 			dataHocPhan.MC_KT_PhucKhao_TuTiet = iHocPhan.TuTiet ? iHocPhan.TuTiet.toString() : "null";
@@ -143,41 +144,67 @@ function PhucKhao() {
 			dataHocPhan.MC_KT_PhucKhao_TuiBaiThi = iHocPhan.TuiBaiThi ? iHocPhan.TuiBaiThi.toString() : "null";
 			dataHocPhan.MC_KT_PhucKhao_SoPhach = iHocPhan.SoPhach ? iHocPhan.SoPhach.toString() : "null";
 
+			// console.log(`check dataPost: `, index, " - data: ", dataHocPhan);
 			// Kiểm tra học phần đã quá hạn phúc khảo chưa
-			const checkQuaHanPhucKhao = await checkExpiredPhucKhao(strNgayThi, accessToken);
+			// try {
+			// 	const checkQuaHanPhucKhao = await checkExpiredPhucKhao(axiosJWT, moment(iHocPhan.NgayThi).format("DD/MM/YYYY"), accessToken);
+			// 	if (checkQuaHanPhucKhao.status === 200) {
+			// 		const { KetQua } = checkQuaHanPhucKhao.data?.body[0];
+			// 		console.log("🚀 ~ file: PhucKhao.jsx:151 ~ selectedRows.forEach ~ KetQua:", KetQua);
+			// 		if (KetQua === 0) {
+			// 			console.log(`Môn `, iHocPhan.TenMonHoc, " - Kết quả hạn phúc khảo: ", KetQua);
+			// 			dsYeuCauBiTrung.push(iHocPhan.TenMonHoc);
+			// 		}
+			// 	}
+			// } catch (error) {
+			// 	console.log("Dòng 151 - Check quá hạn học phần có lỗi: ", [error]);
+			// }
+			listYeuCau.push(dataHocPhan);
+		});
+		setListYeuCau(listYeuCau);
 
-			if (Array.isArray(checkQuaHanPhucKhao.data.body)) {
-				checkQuaHanPhucKhao.data?.body?.forEach((itemCheck) => {
-					const { KetQua } = itemCheck;
-
-					if (KetQua === "0") {
-						// Học phần đã quá hạn phúc khảo
-						setListYeuCauQuaHan([...listYeuCauQuaHan, dataHocPhan]);
-					} else {
-						// Học phần vẫn trong thời gian phúc khảo
-						// 1. Check trùng
-						// 2. Gửi yêu cầu
-						setListYeuCau([...listYeuCau, dataHocPhan]);
-						console.log(listYeuCau);
-						// try {
-						// 	postYeuCauPhucKhao(dataHocPhan, accessToken).then(async (response) => {
-						// 		console.log("🚀 ~ file: PhucKhao.jsx:166 ~ postYeuCauPhucKhao ~ response:", response);
-						// 		if (response.status === 200) {
-						// 			if (response.data?.message === "Bản ghi bị trùng.") {
-						// 				setListYeuCauTrung(response.data.body);
-						// 			} else {
-						// 				setListYeuCauThanhCong(response.data.body);
-						// 				console.log(`>> line 165 - listThanhCong: ${response.data.body}`);
-						// 			}
-						// 		}
-						// 	});
-						// } catch (error) {
-						// 	console.log(error.message);
-						// }
-					}
-				});
+		Swal.fire({
+			title: "Bạn chắc chắn muốn gửi yêu cầu phúc khảo?",
+			showDenyButton: true,
+			showCancelButton: true,
+			confirmButtonText: "Save",
+			denyButtonText: `Don't save`,
+		}).then(async (result) => {
+			/* Read more about isConfirmed, isDenied below */
+			if (result.isConfirmed) {
+				await handlePostData(listYeuCau);
+			} else if (result.isDenied) {
+				Swal.fire("Changes are not saved", "", "info");
 			}
 		});
+	};
+
+	const handlePostData = async (data) => {
+		const listYCHetHan = [];
+		const listYCTrung = [];
+		const listYCThanhCong = [];
+		data.forEach(async (item) => {
+			// Kiểm tra học phần đã quá hạn phúc khảo chưa
+			try {
+				console.log(`item.NgayThi: `, item.MC_KT_PhucKhao_NgayThi);
+				const checkQuaHanPhucKhao = await checkExpiredPhucKhao(axiosJWT, moment(item.MC_KT_PhucKhao_NgayThi).format("DD/MM/YYYY"), accessToken);
+				if (checkQuaHanPhucKhao.status === 200) {
+					const { KetQua } = checkQuaHanPhucKhao.data?.body[0];
+					console.log("🚀 ~ file: PhucKhao.jsx:151 ~ selectedRows.forEach ~ KetQua:", KetQua, " - môn", item);
+					if (KetQua === 0) {
+						console.log(`Môn `, item.MC_KT_PhucKhao_TenMonHoc, " - Kết quả hạn phúc khảo: ", KetQua);
+						listYCHetHan.push(item.MC_KT_PhucKhao_TenMonHoc);
+					} else {
+						const resPostData = await postYeuCauPhucKhao(axiosJWT, item, accessToken);
+						console.log("🚀 ~ file: PhucKhao.jsx:200 ~ data.forEach ~ resPostData:", resPostData);
+					}
+				}
+			} catch (error) {
+				console.log("Dòng 151 - Check quá hạn học phần có lỗi: ", [error]);
+			}
+		});
+		console.log(listYCHetHan);
+		setListYeuCauQuaHan(listYCHetHan);
 	};
 
 	useEffect(() => {
@@ -189,20 +216,14 @@ function PhucKhao() {
 
 		if (tenDot !== "" && loaiThi !== "") {
 			setLoading(true);
-			getAllHocPhanPhucKhao(dataSV.MaSinhVien, tenDot, loaiThi, accessToken).then((res) => {
-				// console.log(res);
+			getAllHocPhanPhucKhao(axiosJWT, dataSV.MaSinhVien, tenDot, loaiThi, accessToken).then((res) => {
 				setLoading(false);
 				setListHocPhan(res?.data?.body);
 			});
 		}
-
-		// return () => {
-		// 	console.log("end");
-		// };
 	}, [tenDot, loaiThi]);
 
-	useEffect(() => {}, [listHocPhan, listYeuCauQuaHan, listYeuCauTrung, listYeuCauThanhCong]);
-
+	console.log(listYeuCauQuaHan);
 	return (
 		<div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
 			<div className="p-4 flex flex-col gap-4">
@@ -398,19 +419,21 @@ function PhucKhao() {
 						</div>
 
 						{/* END: Table học phần */}
-						<div className="uneti-notify my-4">
+						{/* <div className="uneti-notify my-4">
 							{listYeuCauTrung.length > 0 ? (
 								<p className="w-full px-3 py-2 bg-red-700 rounded-lg text-white font-semibold text-center">
 									Yêu cầu cho môn học đã được gửi đi trước đó. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!
 								</p>
 							) : null}
-							{listYeuCauQuaHan.length > 0 ? <p className="w-full px-3 py-2 bg-red-700 text-white font-semibold text-center">Môn học đã quá hạn gửi yêu cầu phúc khảo !</p> : null}
+							{listYeuCauQuaHan.length > 0 ? (
+								<p className="w-full px-3 py-2 bg-red-600 rounded-lg text-white font-semibold text-center">Môn học {listYeuCauQuaHan.join(", ")} đã quá hạn gửi yêu cầu phúc khảo !</p>
+							) : null}
 							{listYeuCauThanhCong.length > 0 ? (
 								<p className="w-full px-3 py-2 bg-green-500 text-white font-semibold text-center">
 									Môn học đã được gửi yêu cầu phúc khảo. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!
 								</p>
 							) : null}
-						</div>
+						</div> */}
 						<div className="uneti-action flex justify-center">
 							<button type="submit" className="px-3 py-2 bg-white text-sky-800 font-semibold border border-sky-800 rounded-full hover:bg-sky-800 hover:text-white">
 								Gửi yêu cầu
