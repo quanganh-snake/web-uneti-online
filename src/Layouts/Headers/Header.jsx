@@ -34,7 +34,6 @@ function Header() {
 
 	const dataSV = DataSinhVien();
 	const dataCBGV = DataCanBoGV();
-	console.log("🚀 ~ file: Header.jsx:37 ~ Header ~ dataCBGV:", dataCBGV)
 
 	if (role) {
 		refreshToken = role === "CB" ? dataCBGV.dataToken?.refreshToken : dataSV.dataToken?.refreshToken;

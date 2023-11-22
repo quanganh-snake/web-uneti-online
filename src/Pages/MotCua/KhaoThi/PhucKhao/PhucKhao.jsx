@@ -86,22 +86,19 @@ function PhucKhao() {
 			return;
 		}
 
-		if (selectedRows.length === 0) {
+		if (selectedRows.length > 1 || selectedRows.length === 0) {
 			Swal.fire({
 				icon: "error",
 				title: "Lỗi",
-				text: "Vui lòng chọn học phần cần phúc khảo!",
+				text: "Vui lòng chọn 1 học phần cần phúc khảo!",
 			});
 			return;
 		}
 
-		const listYeuCau = [];
-		const listKiemTraTrungYeuCau = [];
-		const listYeuCauThanhCong = [];
+		const itemHocPhan = selectedRows[0];
 
-		selectedRows.forEach(async (iHocPhan, index) => {
-			let dataHocPhan = {};
-
+		let dataHocPhan = {};
+		if (itemHocPhan) {
 			// Data post API
 			dataHocPhan.MC_KT_PhucKhao_TenCoSo = dataSV.CoSo ? dataSV.CoSo : "null";
 			dataHocPhan.MC_KT_PhucKhao_TenDot = tenDot ?? "null";
@@ -121,90 +118,98 @@ function PhucKhao() {
 			dataHocPhan.MC_KT_PhucKhao_NgaySinh2 = dataSV.NgaySinh
 				? new Date(`${dataSV.NgaySinh.split("/")[2]}-${dataSV.NgaySinh.split("/")[1]}-${dataSV.NgaySinh.split("/")[0]}`).toISOString()
 				: "null";
-
 			// data trong Tables
-			dataHocPhan.MC_KT_PhucKhao_MaLopHocPhan = iHocPhan.MaLopHocPhan ? iHocPhan.MaLopHocPhan : "null";
-			dataHocPhan.MC_KT_PhucKhao_TenMonHoc = iHocPhan.TenMonHoc ? iHocPhan.TenMonHoc : "null";
-			dataHocPhan.MC_KT_PhucKhao_KhoaChuQuanMon = iHocPhan.KhoaChuQuanMon ? iHocPhan.KhoaChuQuanMon : "null";
-			dataHocPhan.MC_KT_PhucKhao_TenHinhThucThi = iHocPhan.TenHinhThucThi ? iHocPhan.TenHinhThucThi : "null";
-			dataHocPhan.MC_KT_PhucKhao_NgayThi = iHocPhan.NgayThi ? iHocPhan.NgayThi : "null";
-			dataHocPhan.MC_KT_PhucKhao_Thu = iHocPhan.Thu ? iHocPhan.Thu.toString() : "null";
-			dataHocPhan.MC_KT_PhucKhao_Nhom = iHocPhan.Nhom ? iHocPhan.Nhom.toString() : "null";
-			dataHocPhan.MC_KT_PhucKhao_TuTiet = iHocPhan.TuTiet ? iHocPhan.TuTiet.toString() : "null";
-			dataHocPhan.MC_KT_PhucKhao_DenTiet = iHocPhan.DenTiet ? iHocPhan.DenTiet.toString() : "null";
-			dataHocPhan.MC_KT_PhucKhao_LoaiThi = iHocPhan.LoaiThi ? iHocPhan.LoaiThi : "null";
-			dataHocPhan.MC_KT_PhucKhao_TenPhong = iHocPhan.TenPhong ? iHocPhan.TenPhong : "null";
-			dataHocPhan.MC_KT_PhucKhao_SBD = iHocPhan.SBD ? iHocPhan.SBD.toString() : "null";
-			dataHocPhan.MC_KT_PhucKhao_DiemThi = iHocPhan.DiemThi ? iHocPhan.DiemThi.toString() : "null";
-			dataHocPhan.MC_KT_PhucKhao_DiemThi1 = iHocPhan.DiemThi1 ? iHocPhan.DiemThi1.toString() : "null";
-			dataHocPhan.MC_KT_PhucKhao_DiemThi2 = iHocPhan.DiemThi2 ? iHocPhan.DiemThi2.toString() : "null";
-			dataHocPhan.MC_KT_PhucKhao_DiemTongKet = iHocPhan.DiemTongKet ? iHocPhan.DiemTongKet.toString() : "null";
-			dataHocPhan.MC_KT_PhucKhao_DiemTongKet1 = iHocPhan.DiemTongKet1 ? iHocPhan.DiemTongKet1.toString() : "null";
-			dataHocPhan.MC_KT_PhucKhao_DiemTongKet2 = iHocPhan.DiemTongKet2 ? iHocPhan.DiemTongKet2.toString() : "null";
-			dataHocPhan.MC_KT_PhucKhao_TuiBaiThi = iHocPhan.TuiBaiThi ? iHocPhan.TuiBaiThi.toString() : "null";
-			dataHocPhan.MC_KT_PhucKhao_SoPhach = iHocPhan.SoPhach ? iHocPhan.SoPhach.toString() : "null";
+			dataHocPhan.MC_KT_PhucKhao_MaLopHocPhan = itemHocPhan.MaLopHocPhan ? itemHocPhan.MaLopHocPhan : "null";
+			dataHocPhan.MC_KT_PhucKhao_TenMonHoc = itemHocPhan.TenMonHoc ? itemHocPhan.TenMonHoc : "null";
+			dataHocPhan.MC_KT_PhucKhao_KhoaChuQuanMon = itemHocPhan.KhoaChuQuanMon ? itemHocPhan.KhoaChuQuanMon : "null";
+			dataHocPhan.MC_KT_PhucKhao_TenHinhThucThi = itemHocPhan.TenHinhThucThi ? itemHocPhan.TenHinhThucThi : "null";
+			dataHocPhan.MC_KT_PhucKhao_NgayThi = itemHocPhan.NgayThi ? itemHocPhan.NgayThi : "null";
+			dataHocPhan.MC_KT_PhucKhao_Thu = itemHocPhan.Thu ? itemHocPhan.Thu.toString() : "null";
+			dataHocPhan.MC_KT_PhucKhao_Nhom = itemHocPhan.Nhom ? itemHocPhan.Nhom.toString() : "null";
+			dataHocPhan.MC_KT_PhucKhao_TuTiet = itemHocPhan.TuTiet ? itemHocPhan.TuTiet.toString() : "null";
+			dataHocPhan.MC_KT_PhucKhao_DenTiet = itemHocPhan.DenTiet ? itemHocPhan.DenTiet.toString() : "null";
+			dataHocPhan.MC_KT_PhucKhao_LoaiThi = itemHocPhan.LoaiThi ? itemHocPhan.LoaiThi : "null";
+			dataHocPhan.MC_KT_PhucKhao_TenPhong = itemHocPhan.TenPhong ? itemHocPhan.TenPhong : "null";
+			dataHocPhan.MC_KT_PhucKhao_SBD = itemHocPhan.SBD ? itemHocPhan.SBD.toString() : "null";
+			dataHocPhan.MC_KT_PhucKhao_DiemThi = itemHocPhan.DiemThi ? itemHocPhan.DiemThi.toString() : "null";
+			dataHocPhan.MC_KT_PhucKhao_DiemThi1 = itemHocPhan.DiemThi1 ? itemHocPhan.DiemThi1.toString() : "null";
+			dataHocPhan.MC_KT_PhucKhao_DiemThi2 = itemHocPhan.DiemThi2 ? itemHocPhan.DiemThi2.toString() : "null";
+			dataHocPhan.MC_KT_PhucKhao_DiemTongKet = itemHocPhan.DiemTongKet ? itemHocPhan.DiemTongKet.toString() : "null";
+			dataHocPhan.MC_KT_PhucKhao_DiemTongKet1 = itemHocPhan.DiemTongKet1 ? itemHocPhan.DiemTongKet1.toString() : "null";
+			dataHocPhan.MC_KT_PhucKhao_DiemTongKet2 = itemHocPhan.DiemTongKet2 ? itemHocPhan.DiemTongKet2.toString() : "null";
+			dataHocPhan.MC_KT_PhucKhao_TuiBaiThi = itemHocPhan.TuiBaiThi ? itemHocPhan.TuiBaiThi.toString() : "null";
+			dataHocPhan.MC_KT_PhucKhao_SoPhach = itemHocPhan.SoPhach ? itemHocPhan.SoPhach.toString() : "null";
+		}
 
-			// console.log(`check dataPost: `, index, " - data: ", dataHocPhan);
-			// Kiểm tra học phần đã quá hạn phúc khảo chưa
-			// try {
-			// 	const checkQuaHanPhucKhao = await checkExpiredPhucKhao(axiosJWT, moment(iHocPhan.NgayThi).format("DD/MM/YYYY"), accessToken);
-			// 	if (checkQuaHanPhucKhao.status === 200) {
-			// 		const { KetQua } = checkQuaHanPhucKhao.data?.body[0];
-			// 		console.log("🚀 ~ file: PhucKhao.jsx:151 ~ selectedRows.forEach ~ KetQua:", KetQua);
-			// 		if (KetQua === 0) {
-			// 			console.log(`Môn `, iHocPhan.TenMonHoc, " - Kết quả hạn phúc khảo: ", KetQua);
-			// 			dsYeuCauBiTrung.push(iHocPhan.TenMonHoc);
-			// 		}
-			// 	}
-			// } catch (error) {
-			// 	console.log("Dòng 151 - Check quá hạn học phần có lỗi: ", [error]);
-			// }
-			listYeuCau.push(dataHocPhan);
-		});
-		setListYeuCau(listYeuCau);
-
+		// handle post
 		Swal.fire({
 			title: "Bạn chắc chắn muốn gửi yêu cầu phúc khảo?",
 			showDenyButton: true,
-			showCancelButton: true,
-			confirmButtonText: "Save",
-			denyButtonText: `Don't save`,
+			showCancelButton: false,
+			confirmButtonText: "Gửi",
+			denyButtonText: `Hủy`,
 		}).then(async (result) => {
-			/* Read more about isConfirmed, isDenied below */
 			if (result.isConfirmed) {
-				await handlePostData(listYeuCau);
+				await handlePostData(dataHocPhan);
+				setSelectedRows([]);
 			} else if (result.isDenied) {
-				Swal.fire("Changes are not saved", "", "info");
+				Swal.fire("Đã hủy gửi yêu cầu phúc khảo", "", "info");
+				setSelectedRows([]);
 			}
 		});
 	};
 
-	const handlePostData = async (data) => {
-		const listYCHetHan = [];
-		const listYCTrung = [];
-		const listYCThanhCong = [];
-		data.forEach(async (item) => {
-			// Kiểm tra học phần đã quá hạn phúc khảo chưa
-			try {
-				console.log(`item.NgayThi: `, item.MC_KT_PhucKhao_NgayThi);
-				const checkQuaHanPhucKhao = await checkExpiredPhucKhao(axiosJWT, moment(item.MC_KT_PhucKhao_NgayThi).format("DD/MM/YYYY"), accessToken);
-				if (checkQuaHanPhucKhao.status === 200) {
-					const { KetQua } = checkQuaHanPhucKhao.data?.body[0];
-					console.log("🚀 ~ file: PhucKhao.jsx:151 ~ selectedRows.forEach ~ KetQua:", KetQua, " - môn", item);
-					if (KetQua === 0) {
-						console.log(`Môn `, item.MC_KT_PhucKhao_TenMonHoc, " - Kết quả hạn phúc khảo: ", KetQua);
-						listYCHetHan.push(item.MC_KT_PhucKhao_TenMonHoc);
-					} else {
-						const resPostData = await postYeuCauPhucKhao(axiosJWT, item, accessToken);
-						console.log("🚀 ~ file: PhucKhao.jsx:200 ~ data.forEach ~ resPostData:", resPostData);
+	const handlePostData = async (dataHocPhan) => {
+		// Kiểm tra học phần đã quá hạn phúc khảo chưa
+		try {
+			console.log(`item.NgayThi: `, dataHocPhan.MC_KT_PhucKhao_NgayThi);
+			const checkQuaHanPhucKhao = await checkExpiredPhucKhao(axiosJWT, moment(dataHocPhan.MC_KT_PhucKhao_NgayThi).format("DD/MM/YYYY"), accessToken);
+			if (checkQuaHanPhucKhao.status === 200) {
+				const { KetQua } = checkQuaHanPhucKhao.data?.body[0];
+				console.log("🚀 ~ file: PhucKhao.jsx:151 ~ selectedRows.forEach ~ KetQua:", KetQua, " - môn", dataHocPhan.MC_KT_PhucKhao_TenMonHoc);
+				if (KetQua === 0) {
+					Swal.fire({
+						icon: "error",
+						title: "Thông báo quá hạn",
+						text: `Học phần ${dataHocPhan.MC_KT_PhucKhao_TenMonHoc} đã hết hạn gửi yêu cầu phúc khảo!`,
+					});
+					return;
+				} else {
+					const resPostData = await postYeuCauPhucKhao(axiosJWT, dataHocPhan, accessToken);
+
+					if (resPostData.status === 200) {
+						const data = await resPostData.data;
+
+						// Check bản ghi trùng
+						if (data.message === "Bản ghi bị trùng.") {
+							Swal.fire({
+								icon: "error",
+								title: "Thông báo quá hạn",
+								text: `Học phần ${dataHocPhan.MC_KT_PhucKhao_TenMonHoc} đã được gửi phúc khảo trước đấy. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+							});
+						} else {
+							Swal.fire({
+								position: "top-end",
+								icon: "success",
+								title: `Học phần ${dataHocPhan.MC_KT_PhucKhao_TenMonHoc} đã được gửi phúc khảo thành công. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+								showConfirmButton: false,
+								timer: 1500,
+							});
+						}
 					}
+					console.log("🚀 ~ file: PhucKhao.jsx:200 ~ data.forEach ~ resPostData:", resPostData);
 				}
-			} catch (error) {
-				console.log("Dòng 151 - Check quá hạn học phần có lỗi: ", [error]);
 			}
-		});
-		console.log(listYCHetHan);
-		setListYeuCauQuaHan(listYCHetHan);
+		} catch (error) {
+			if (!error.response) {
+				console.log(`Server not response.`);
+			} else {
+				console.log(`Error `, {
+					errorResponse: error.response,
+					errorMessage: error.message,
+				});
+			}
+		}
 	};
 
 	useEffect(() => {
@@ -223,7 +228,6 @@ function PhucKhao() {
 		}
 	}, [tenDot, loaiThi]);
 
-	console.log(listYeuCauQuaHan);
 	return (
 		<div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
 			<div className="p-4 flex flex-col gap-4">
@@ -420,7 +424,7 @@ function PhucKhao() {
 
 						{/* END: Table học phần */}
 						<div className="uneti-notify my-4">
-							<p className="w-full whitespace-nowrap font-bold text-red-600">*Lưu ý: Lệ phí phúc khảo kết quả học tập: Có mức thu theo quy định, được chuyển trực tiếp vào công nợ của SV.</p>
+							<p className="w-full font-bold text-red-600">*Lưu ý: Lệ phí phúc khảo kết quả học tập: Có mức thu theo quy định, được chuyển trực tiếp vào công nợ của SV.</p>
 							{/* {listYeuCauTrung.length > 0 ? (
 								<p className="w-full px-3 py-2 bg-red-700 rounded-lg text-white font-semibold text-center">
 									Yêu cầu cho môn học đã được gửi đi trước đó. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!

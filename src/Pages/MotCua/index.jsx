@@ -2,6 +2,7 @@ import React from "react";
 import { homeMotCua } from "../../Services/Utils/dataStatic.js";
 import ModuleItemMotCua from "../../Components/ModuleItemMotCua/ModuleItemMotCua.jsx";
 import SlideMotCua from "./Slides/SlideMotCua.jsx";
+import ChartMotCua from "./Charts/ChartMotCua.jsx";
 
 function HomeMotCua() {
 	return (
@@ -15,7 +16,12 @@ function HomeMotCua() {
 					);
 				})}
 			</div>
-			<SlideMotCua />
+			<div className="my-5 max-w-7xl">
+				<SlideMotCua />
+			</div>
+			<div className="my-5 rounded-lg">
+				<ChartMotCua />
+			</div>
 		</>
 	);
 }

@@ -57,7 +57,7 @@ export const userSVLogin = async (username, accessToken, dispatch, navigate) => 
 export const userGVLogin = async (user, accessToken, dispatch, navigate) => {
 	dispatch(userStart());
 	try {
-		const res = await http.post(`${BASE_URL}/SP_HT_USER_GIANGVIEN/Authentication_TaiSan_TBGD_Web_App`, user, {
+		const res = await http.post(`${BASE_URL}/SP_HT_USER_GIANGVIEN/Load_MaND_HRM`, user, {
 			headers: {
 				Authorization: `Bearer ${accessToken}`,
 			},
