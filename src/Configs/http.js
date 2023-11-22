@@ -3,10 +3,10 @@ import { useSelector } from "react-redux";
 import { tokenSuccess } from "../Services/Redux/Slice/authSlice";
 import { jwtDecode } from "jwt-decode";
 
-export const API_URL = "https://apiv2.uneti.edu.vn";
+export const API_URL = "https://apiv2.uneti.edu.vn/api";
 
 const http = axios.create({
-	baseURL: `${API_URL}/api`,
+	baseURL: `${API_URL}`,
 	timeout: 10000,
 	headers: {
 		"Content-Type": "application/json",
@@ -79,7 +79,7 @@ export const createAxiosJWT = (dataToken, dispatch, stateSuccess) => {
 	// console.log("🚀 ~ file: http.js:78 ~ createAxiosJWT ~ dispatch:", dispatch);
 	// console.log("🚀 ~ file: http.js:78 ~ createAxiosJWT ~ dataToken:", dataToken);
 	const newAxios = axios.create({
-		baseURL: `${API_URL}/api`,
+		baseURL: `${API_URL}`,
 		headers: {
 			"Content-Type": "application/json",
 		},
@@ -112,7 +112,7 @@ export const createAxiosJWT = (dataToken, dispatch, stateSuccess) => {
 				}
 
 				if (decodedToken.exp < date.getTime() / 1000) {
-					const resNewDataToken = await axios.post(`${API_URL}/api/jwt/RefreshToken`, { refreshToken });
+					const resNewDataToken = await axios.post(`${API_URL}/jwt/RefreshToken`, { refreshToken });
 					const refreshUser = {
 						...dataToken,
 						token: resNewDataToken.data.token,

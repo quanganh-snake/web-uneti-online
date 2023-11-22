@@ -11,7 +11,6 @@ import ModalYeuCauHoTro from "../../Components/Modals/ModalTaiSan/ModalYeuCauHoT
 import { DataSinhVien } from "../../Services/Utils/dataSinhVien.js";
 import { DataCanBoGV } from "../../Services/Utils/dataCanBoGV.js";
 import { getDanhSachYeuCau } from "../../Apis/TaiSan/apiTaiSan.js";
-import { axiosInstance } from "../../Configs/axiosInstance.js";
 import { tokenSuccess } from "../../Services/Redux/Slice/authSlice.js";
 import { useDispatch } from "react-redux";
 import { BASE_URL } from "../../Configs/config.js";
