@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
-function AuthMiddleware({allowedRoles}) {
+function AuthMiddleware() {
 	const role = localStorage.getItem("role") ? localStorage.getItem("role") : null;
 
 	const dataAuth = useSelector((state) => state.auth?.login?.currentToken?.token);

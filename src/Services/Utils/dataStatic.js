@@ -6,6 +6,10 @@ import icoHTSDPM from "../../assets/Icons/icoHTSDPM.png";
 import icoTCTTTS from "../../assets/Icons/icoTCTTTS.png";
 import icoQLCTCV from "../../assets/Icons/icoQLCTCV.png";
 
+import icoAlert from "../../assets/Icons/icoAlert.png";
+import icoFileThuTuc from "../../assets/Icons/icoFileThuTuc.png";
+import icoList from "../../assets/Icons/icoList.png";
+import icoYoutube from "../../assets/Icons/icoYoutube.png";
 // icons - thumbnails homeMotCua
 import icoKhaoThi from "../../assets/Icons/icoKhaoThi.png";
 import icoDaoTao from "../../assets/Icons/icoDaoTao.png";
@@ -21,6 +25,8 @@ import thumbnailCTSV from "../../assets/Icons/icoThumbnailCTSV.png";
 import icoTeamViewe from "../../assets/Icons/icoTeamViewer.png";
 import icoUltraView from "../../assets/Icons/icoUltraview.png";
 import icoZalo from "../../assets/Icons/icoZalo.png";
+import { MdFormatListNumbered, MdInsertDriveFile, MdNotificationImportant } from "react-icons/md";
+import { FaYoutube } from "react-icons/fa6";
 
 // data Static homeMain
 export const homeMain = [
@@ -69,6 +75,14 @@ export const homeMain = [
 		desc: "Hệ thống quản lý chi tiết công việc cán bộ phòng, ban.",
 		icon: icoQLCTCV,
 		path: "https://uneti.edu.vn/",
+		moduleActive: true,
+		roleActive: ["CB"],
+	},
+	{
+		title: "Thủ tục hành chính giảng viên",
+		desc: "Tiếp nhận giải quyết các thủ tục hành chính cho giảng viên.",
+		icon: icoTTHCSV,
+		path: "/tthcgiangvien",
 		moduleActive: true,
 		roleActive: ["CB"],
 	},
@@ -416,6 +430,8 @@ export const homeTaiSan = {
 		},
 	],
 };
+
+export const homeTTHCGV = [];
 
 // Data Loại Thi
 export const dataLoaiThi = [

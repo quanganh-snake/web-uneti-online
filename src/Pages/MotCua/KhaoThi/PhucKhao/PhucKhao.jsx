@@ -93,6 +93,7 @@ function PhucKhao() {
 		}
 
 		const itemHocPhan = selectedRows[0];
+		console.log("🚀 ~ file: PhucKhao.jsx:96 ~ handleSubmitData ~ itemHocPhan:", itemHocPhan);
 
 		let dataHocPhan = {};
 		if (itemHocPhan) {
@@ -155,6 +156,7 @@ function PhucKhao() {
 	};
 
 	const handlePostData = async (dataHocPhan) => {
+		console.log("🚀 ~ file: PhucKhao.jsx:158 ~ handlePostData ~ dataHocPhan:", dataHocPhan);
 		// Kiểm tra học phần đã quá hạn phúc khảo chưa
 		try {
 			console.log(`item.NgayThi: `, dataHocPhan.MC_KT_PhucKhao_NgayThi);
@@ -169,29 +171,40 @@ function PhucKhao() {
 						text: `Học phần ${dataHocPhan.MC_KT_PhucKhao_TenMonHoc} đã hết hạn gửi yêu cầu phúc khảo!`,
 					});
 					return;
-				} else {
-					const resPostData = await postYeuCauPhucKhao(axiosJWT, dataHocPhan, accessToken);
-					// console.log("🚀 ~ file: PhucKhao.jsx:200 ~ data.forEach ~ resPostData:", resPostData);
+				}
+				const resPostData = await postYeuCauPhucKhao(axiosJWT, dataHocPhan, accessToken);
+				console.log("🚀 ~ file: PhucKhao.jsx:200 ~ data.forEach ~ resPostData:", resPostData);
 
-					if (resPostData.status === 200) {
-						const data = await resPostData.data;
+				if ((await resPostData) == "ERR_BAD_REQUEST") {
+					Swal.fire({
+						icon: "error",
+						title: "Lỗi hệ thống",
+						text: `Vui lòng thử lại và gửi thông báo lỗi cho bộ phận hỗ trợ phần mềm!`,
+					});
+					return;
+				}
+				if ((await resPostData.status) === 200) {
+					const data = await resPostData.data;
 
-						// Check bản ghi trùng
-						if (data.message === "Bản ghi bị trùng.") {
-							Swal.fire({
-								icon: "error",
-								title: "Thông báo quá hạn",
-								text: `Học phần ${dataHocPhan.MC_KT_PhucKhao_TenMonHoc} đã được gửi phúc khảo trước đấy. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
-							});
-						} else {
-							Swal.fire({
-								position: "top-end",
-								icon: "success",
-								title: `Học phần ${dataHocPhan.MC_KT_PhucKhao_TenMonHoc} đã được gửi phúc khảo thành công. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
-								showConfirmButton: false,
-								timer: 1500,
-							});
-						}
+					// Check bản ghi trùng
+					if (data.message === "Bản ghi bị trùng.") {
+						Swal.fire({
+							icon: "error",
+							title: "Thông báo quá hạn",
+							text: `Học phần ${dataHocPhan.MC_KT_PhucKhao_TenMonHoc} đã được gửi phúc khảo trước đấy. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+						});
+					} else {
+						Swal.fire({
+							position: "center",
+							icon: "success",
+							title: `Học phần ${dataHocPhan.MC_KT_PhucKhao_TenMonHoc} đã được gửi phúc khảo thành công. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+							showConfirmButton: false,
+							timer: 1500,
+						});
+
+						setTimeout(() => {
+							window.location.reload();
+						}, 1000);
 					}
 				}
 			}

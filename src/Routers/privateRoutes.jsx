@@ -42,52 +42,63 @@ import HomeTBGD from "../Pages/ThietBiGiangDuong/index";
 
 // Pages Tài Sản
 import HomeTaiSan from "../Pages/TaiSan/index";
+import RoleMiddleware from "../Middlewares/RoleMiddleware.jsx";
+import HomeTTHCGV from "../Pages/ThuTucHanhChinhGiangVien/HomeTTHCGV.jsx";
+
+const ROLES = ["CB", "SV"];
 
 export const privateRoutes = (
 	<>
 		<Route path="/" element={<AuthMiddleware />}>
 			<Route path="" element={<Home />} />
-			<Route path="motcua">
-				<Route index element={<HomeMotCua />} />
-				<Route path="khaothi">
-					<Route index element={<HomeKhaoThi />} />
-					<Route path="mienhocthiTA" element={<MienHocThiTiengAnh />} />
-					<Route path="phuckhao" element={<PhucKhao />} />
-					<Route path="lichthi" element={<LichThi />} />
-					<Route path="dangkythilai" element={<DangKyThiLai />} />
-					<Route path="hoanthi" element={<HoanThi />} />
-					<Route path="huydangkythilai" element={<HuyDangKyThiLai />} />
-					<Route path="ketquahoctap" element={<KetQuaHocTap />} />
-				</Route>
-				<Route path="daotao">
-					<Route index element={<HomeDaoTao />} />
-					<Route path="capbangdiem" element={<CapBangDiem />} />
-					<Route path="xacnhan" element={<XacNhanDT />} />
-					<Route path="dangkytotnghiep" element={<DangKyTotNghiep />} />
-					<Route path="capbansao" element={<CapBanSao />} />
-					<Route path="suathongtin" element={<SuaThongTin />} />
-					<Route path="mienchungchi" element={<MienChungChi />} />
-					<Route path="chuyendiem" element={<ChuyenDiem />} />
-					<Route path="emaillms" element={<EmailLMS />} />
-					<Route path="dangkylopchatluong" element={<DangKyLopChatLuong />} />
-				</Route>
-				<Route path="ct&ctsv">
-					<Route index element={<HomeCTSV />} />
-					<Route path="caplai" element={<CapLai />} />
-					<Route path="xacnhan" element={<XacNhanCTSV />} />
-					<Route path="quatrinhhoc" element={<QuaTrinhHoc />} />
-					<Route path="nghihoctamthoi" element={<NghiHocTamThoi />} />
-					<Route path="xinchuyen" element={<XinChuyen />} />
-				</Route>
-				<Route path="hanhchinh">
-					<Route index element={<HomeHanhChinh />} />
-					<Route path="giaygioithieu" element={<GiayGioiThieu />} />
+			<Route element={<RoleMiddleware allowedRoles={["SV"]} />}>
+				<Route path="motcua">
+					<Route index element={<HomeMotCua />} />
+					<Route path="khaothi">
+						<Route index element={<HomeKhaoThi />} />
+						<Route path="mienhocthiTA" element={<MienHocThiTiengAnh />} />
+						<Route path="phuckhao" element={<PhucKhao />} />
+						<Route path="lichthi" element={<LichThi />} />
+						<Route path="dangkythilai" element={<DangKyThiLai />} />
+						<Route path="hoanthi" element={<HoanThi />} />
+						<Route path="huydangkythilai" element={<HuyDangKyThiLai />} />
+						<Route path="ketquahoctap" element={<KetQuaHocTap />} />
+					</Route>
+					<Route path="daotao">
+						<Route index element={<HomeDaoTao />} />
+						<Route path="capbangdiem" element={<CapBangDiem />} />
+						<Route path="xacnhan" element={<XacNhanDT />} />
+						<Route path="dangkytotnghiep" element={<DangKyTotNghiep />} />
+						<Route path="capbansao" element={<CapBanSao />} />
+						<Route path="suathongtin" element={<SuaThongTin />} />
+						<Route path="mienchungchi" element={<MienChungChi />} />
+						<Route path="chuyendiem" element={<ChuyenDiem />} />
+						<Route path="emaillms" element={<EmailLMS />} />
+						<Route path="dangkylopchatluong" element={<DangKyLopChatLuong />} />
+					</Route>
+					<Route path="ct&ctsv">
+						<Route index element={<HomeCTSV />} />
+						<Route path="caplai" element={<CapLai />} />
+						<Route path="xacnhan" element={<XacNhanCTSV />} />
+						<Route path="quatrinhhoc" element={<QuaTrinhHoc />} />
+						<Route path="nghihoctamthoi" element={<NghiHocTamThoi />} />
+						<Route path="xinchuyen" element={<XinChuyen />} />
+					</Route>
+					<Route path="hanhchinh">
+						<Route index element={<HomeHanhChinh />} />
+						<Route path="giaygioithieu" element={<GiayGioiThieu />} />
+					</Route>
 				</Route>
 			</Route>
 
 			{/*  */}
-			<Route path="hotrothietbigiangduong" element={<HomeTBGD />} />
+			<Route element={<RoleMiddleware allowedRoles={["CB"]} />}>
+				<Route path="hotrothietbigiangduong" element={<HomeTBGD />} />
+			</Route>
 			<Route path="taisan" element={<HomeTaiSan />} />
+			<Route element={<RoleMiddleware allowedRoles={["CB"]} />}>
+				<Route path="tthcgiangvien" element={<HomeTTHCGV />} />
+			</Route>
 		</Route>
 	</>
 );
