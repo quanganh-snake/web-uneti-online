@@ -48,7 +48,6 @@ function Login() {
 			}
 
 			if (dataSV?.TrangThaiHocTap === "Đang học") {
-				localStorage.setItem("role", "SV");
 				return "SV";
 			} else if (dataSV?.TrangThaiHocTap === "Đã tốt nghiệp") {
 				return "SV-Done";
@@ -75,7 +74,6 @@ function Login() {
 				}
 
 				if (dataGV?.LoaiTaiKhoan === "Giảng viên") {
-					localStorage.setItem("role", "CB");
 					return "CB";
 				} else {
 					return null;

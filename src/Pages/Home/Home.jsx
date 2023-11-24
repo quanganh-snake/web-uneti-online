@@ -1,10 +1,22 @@
 import React from "react";
 import { homeMain } from "../../Services/Utils/dataStatic";
 import { Link, useNavigate } from "react-router-dom";
+import { DataSinhVien } from "../../Services/Utils/dataSinhVien";
+import { DataCanBoGV } from "../../Services/Utils/dataCanBoGV";
 
 function Home() {
 	const navigate = useNavigate();
-	const role = localStorage.getItem("role") ? localStorage.getItem("role") : null;
+	const dataSV = DataSinhVien();
+	const dataCBGV = DataCanBoGV();
+
+	let role = null;
+	if (dataSV) {
+		role = dataSV.Role;
+	} else if (dataCBGV) {
+		role = dataCBGV.Role;
+	} else {
+		role = null;
+	}
 
 	if (role) {
 		return (

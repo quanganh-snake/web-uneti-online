@@ -36,7 +36,7 @@ export const homeMain = [
 		icon: icoHTTBGD,
 		path: "/hotrothietbigiangduong",
 		moduleActive: true,
-		roleActive: ["CB"],
+		roleActive: ["GV"],
 	},
 	{
 		title: "Thủ tục hành chính sinh viên",
@@ -52,7 +52,7 @@ export const homeMain = [
 		icon: icoHTTBSP,
 		path: "/hotrothietbisanhphong",
 		moduleActive: true,
-		roleActive: ["CB"],
+		roleActive: ["GV"],
 	},
 	{
 		title: "Hỗ trợ sử dụng phần mềm",
@@ -60,7 +60,7 @@ export const homeMain = [
 		icon: icoHTSDPM,
 		path: "https://demosupportphanmem.uneti.edu.vn/Pages/Home.aspx",
 		moduleActive: true,
-		roleActive: ["CB", "SV"],
+		roleActive: ["GV", "SV"],
 	},
 	{
 		title: "Tra cứu thông tin tài sản",
@@ -68,7 +68,7 @@ export const homeMain = [
 		icon: icoTCTTTS,
 		path: "/taisan",
 		moduleActive: true,
-		roleActive: ["CB", "SV"],
+		roleActive: ["GV", "SV"],
 	},
 	{
 		title: "Quản lý chi tiết công việc",
@@ -76,7 +76,7 @@ export const homeMain = [
 		icon: icoQLCTCV,
 		path: "https://uneti.edu.vn/",
 		moduleActive: true,
-		roleActive: ["CB"],
+		roleActive: ["GV"],
 	},
 	{
 		title: "Thủ tục hành chính giảng viên",
@@ -84,7 +84,7 @@ export const homeMain = [
 		icon: icoTTHCSV,
 		path: "/tthcgiangvien",
 		moduleActive: true,
-		roleActive: ["CB"],
+		roleActive: ["GV"],
 	},
 ];
 

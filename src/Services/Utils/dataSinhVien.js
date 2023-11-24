@@ -30,6 +30,7 @@ export const DataSinhVien = () => {
 		Khoa,
 		DiaChiThuongTru,
 		TrangThaiHocTap,
+		Role,
 	} = student ?? "";
 	let formatDate = NgayCapCMND ? NgayCapCMND?.slice(8, 10) + "/" + NgayCapCMND?.slice(5, 7) + "/" + NgayCapCMND?.slice(0, 4) : "";
 	return {
@@ -57,6 +58,7 @@ export const DataSinhVien = () => {
 		Khoa,
 		DiaChiThuongTru,
 		TrangThaiHocTap,
+		Role,
 		dataToken,
 	};
 };

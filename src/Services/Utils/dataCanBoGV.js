@@ -53,6 +53,7 @@ export const DataCanBoGV = () => {
 		DangVienChucVu,
 		MaSoThue,
 		LoaiTaiKhoan,
+		Role,
 	} = teacher ?? "";
 	let formatDate = NgayCapCMND ? NgayCapCMND?.slice(8, 10) + "/" + NgayCapCMND?.slice(5, 7) + "/" + NgayCapCMND?.slice(0, 4) : "";
 	let formatDateNgaySinh = NgaySinh ? NgaySinh?.slice(8, 10) + "/" + NgaySinh?.slice(5, 7) + "/" + NgaySinh?.slice(0, 4) : "";
@@ -108,6 +109,7 @@ export const DataCanBoGV = () => {
 		DangVienChucVu,
 		MaSoThue,
 		LoaiTaiKhoan,
+		Role,
 		dataToken,
 	};
 };

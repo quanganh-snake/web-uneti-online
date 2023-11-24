@@ -44,6 +44,8 @@ import HomeTBGD from "../Pages/ThietBiGiangDuong/index";
 import HomeTaiSan from "../Pages/TaiSan/index";
 import RoleMiddleware from "../Middlewares/RoleMiddleware.jsx";
 import HomeTTHCGV from "../Pages/ThuTucHanhChinhGiangVien/HomeTTHCGV.jsx";
+import ChiTietThuTuc from "../Pages/ThuTucHanhChinhGiangVien/ChiTietTuTuc/ChiTietThuTuc.jsx";
+import SoanHoSo from "./../Pages/ThuTucHanhChinhGiangVien/SoanHoSo/SoanHoSo";
 
 const ROLES = ["CB", "SV"];
 
@@ -97,7 +99,11 @@ export const privateRoutes = (
 			</Route>
 			<Route path="taisan" element={<HomeTaiSan />} />
 			<Route element={<RoleMiddleware allowedRoles={["CB"]} />}>
-				<Route path="tthcgiangvien" element={<HomeTTHCGV />} />
+				<Route path="tthcgiangvien">
+					<Route index element={<HomeTTHCGV />} />
+					<Route path="chitiet/:id" element={<ChiTietThuTuc />} />
+					<Route path="type:type" element={<SoanHoSo />} />
+				</Route>
 			</Route>
 		</Route>
 	</>
