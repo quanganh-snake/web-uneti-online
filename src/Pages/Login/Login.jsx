@@ -186,7 +186,7 @@ function Login() {
 						<label htmlFor="taikhoan" className="font-semibold text-sky-900">
 							Tài khoản
 						</label>
-						<input id="taikhoan" type="text" className="rounded-full border-gray-200 outline-none valid:bg-white" placeholder="Tài khoản" onChange={handleChangevalue} />
+						<input id="taikhoan" type="text" className="px-4 py-2 border border-slate-300 rounded-full outline-none valid:bg-white" placeholder="Tài khoản" onChange={handleChangevalue} />
 					</div>
 					<div className="flex flex-col  mb-4">
 						<label htmlFor="matkhau" className="font-semibold text-sky-900">
@@ -196,7 +196,7 @@ function Login() {
 							<input
 								id="matkhau"
 								type={showPassword ? "text" : "password"}
-								className="w-full rounded-full border-gray-200 outline-none valid:bg-white"
+								className="px-4 py-2 border border-slate-300 w-full rounded-full outline-none valid:bg-white"
 								placeholder="Mật khẩu"
 								onChange={handleChangevalue}
 							/>

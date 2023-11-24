@@ -1,5 +1,5 @@
 import React from "react";
-import { homeMotCua } from "../../Services/Utils/dataStatic.js";
+import { homeMotCua } from "../../Services/Static/dataStatic.js";
 import { Link } from "react-router-dom";
 
 function NavbarMotCua() {

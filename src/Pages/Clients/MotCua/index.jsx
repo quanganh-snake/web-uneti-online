@@ -1,6 +1,6 @@
 import React from "react";
-import { homeMotCua } from "../../Services/Utils/dataStatic.js";
-import ModuleItemMotCua from "../../Components/ModuleItemMotCua/ModuleItemMotCua.jsx";
+import { homeMotCua } from "../../../Services/Static/dataStatic.js";
+import ModuleItemMotCua from "../../../Components/ModuleItemMotCua/ModuleItemMotCua.jsx";
 import SlideMotCua from "./Slides/SlideMotCua.jsx";
 import ChartMotCua from "./Charts/ChartMotCua.jsx";
 

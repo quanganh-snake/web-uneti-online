@@ -1,13 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Breadcrumb from "./../../Components/Breadcumb/Breadcrumb";
+import Breadcrumb from "../../../Components/Breadcumb/Breadcrumb";
 import { FiSearch } from "react-icons/fi";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
 import { Link } from "react-router-dom";
 import SidebarTTHCGV from "./SidebarTTHCGV/SidebarTTHCGV";
+import { changeSlug } from "../../../Services/Utils/stringUtils";
 function HomeTTHCGVView(props) {
 	const { home } = props;
 
@@ -86,7 +83,8 @@ function HomeTTHCGVView(props) {
 						</thead>
 						<tbody>
 							{fakeDataTables &&
-								fakeDataTables.map((iData, index) => {
+                                fakeDataTables.map((iData, index) => {
+                                    const nameSlug = changeSlug(iData.name);
 									return (
 										<tr key={iData.id}>
 											<td className="border border-slate-300 text-center">{index + 1}</td>
@@ -94,7 +92,7 @@ function HomeTTHCGVView(props) {
 												<p className="px-2">
 													<ul>
 														<li>
-															<Link to={`/tthcgiangvien/chitiet/${iData.id}`} className="uppercase font-semibold text-[#0C4A6E]">
+															<Link to={`/tthcgiangvien/chitiet/${nameSlug}/${iData.id}`} className="uppercase font-semibold text-[#0C4A6E]">
 																{iData.name}
 															</Link>
 														</li>

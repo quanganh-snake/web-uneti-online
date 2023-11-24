@@ -9,8 +9,8 @@ import "swiper/css/navigation";
 
 // import required modules
 import { Navigation, Pagination } from "swiper/modules";
-import mcTimeLine01 from "../../../assets/Images/MC_TimeLine01.png";
-import mcTimeLine02 from "../../../assets/Images/MC_TimeLine02.png";
+import mcTimeLine01 from "../../../../assets/Images/MC_TimeLine01.png";
+import mcTimeLine02 from "../../../../assets/Images/MC_TimeLine02.png";
 function SlideMotCua() {
 	return (
 		<div className="px-4 my-10 rounded-lg">

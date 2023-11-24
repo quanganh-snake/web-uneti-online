@@ -1,8 +1,8 @@
 import React from "react";
-import { homeMotCua } from "../../../Services/Utils/dataStatic.js";
+import { homeMotCua } from "../../../../Services/Static/dataStatic.js";
 import { useLocation } from "react-router-dom";
-import FeatureItemMotCua from "../../../Components/FeatureItemMotCua/FeatureItemMotCua.jsx";
-import Breadcrumb from "../../../Components/Breadcumb/Breadcrumb.jsx";
+import FeatureItemMotCua from "../../../../Components/FeatureItemMotCua/FeatureItemMotCua.jsx";
+import Breadcrumb from "../../../../Components/Breadcumb/Breadcrumb.jsx";
 
 function HomeKhaoThi() {
 	const iconKhaoThi = homeMotCua[0].ico;

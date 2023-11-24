@@ -4,13 +4,13 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import { useEffect } from "react";
-import { getTenDot } from "../../../../Apis/MotCua/apiTenDot";
-import { checkExpiredPhucKhao, getAllHocPhanPhucKhao, postYeuCauPhucKhao } from "../../../../Apis/MotCua/KhaoThi/PhucKhao/apiPhucKhao";
-import { DataSinhVien } from "../../../../Services/Utils/dataSinhVien";
-import { createAxiosJWT } from "../../../../Configs/http";
-import { tokenSuccess } from "../../../../Services/Redux/Slice/authSlice";
+import { getTenDot } from "../../../../../Apis/MotCua/apiTenDot";
+import { checkExpiredPhucKhao, getAllHocPhanPhucKhao, postYeuCauPhucKhao } from "../../../../../Apis/MotCua/KhaoThi/PhucKhao/apiPhucKhao";
+import { DataSinhVien } from "../../../../../Services/Utils/dataSinhVien";
+import { createAxiosJWT } from "../../../../../Configs/http";
+import { tokenSuccess } from "../../../../../Services/Redux/Slice/authSlice";
 import moment from "moment";
-import { dataLoaiThi } from "../../../../Services/Utils/dataStatic";
+import { dataLoaiThi } from "../../../../../Services/Static/dataStatic";
 function PhucKhao() {
 	const home = {
 		path: "/motcua",

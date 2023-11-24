@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import SidebarTTHCGV from "../SidebarTTHCGV/SidebarTTHCGV";
-import Breadcrumb from "../../../Components/Breadcumb/Breadcrumb";
+import Breadcrumb from "../../../../Components/Breadcumb/Breadcrumb";
 import { Link } from "react-router-dom";
 
 function ChiTietThuTucView(props) {
@@ -54,7 +54,7 @@ function ChiTietThuTucView(props) {
 				<Breadcrumb home={home} breadcrumbs={breadcrumbs} />
 				<div className="mt-4 mb-2 flex flex-row justify-between">
 					<p className="px-3 py-1 bg-white text-[#336699] border border-[#336699] rounded-md font-semibold">Thông tin thủ tục</p>
-					<Link className="px-3 py-1 bg-[#336699] text-white rounded-md hover:opacity-70">Nộp hồ sơ</Link>
+					<Link to={'/tthcgiangvien/submit'} className="px-3 py-1 bg-[#336699] text-white rounded-md hover:opacity-70">Nộp hồ sơ</Link>
 				</div>
 				<div className="">
 					<table className="w-full">

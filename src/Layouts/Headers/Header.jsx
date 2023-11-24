@@ -32,28 +32,15 @@ function Header() {
 	const dataSV = DataSinhVien();
 	const dataCBGV = DataCanBoGV();
 
+	const refreshToken = dataSV.dataToken?.refreshToken ? dataSV.dataToken?.refreshToken : dataCBGV.dataToken?.refreshToken ? dataCBGV.dataToken?.refreshToken : null;
+
+	const role = dataSV.Role ? dataSV.Role : dataCBGV.Role ? dataCBGV.Role : null;
+
 	const handleLogout = () => {
 		localStorage.removeItem("persist:root");
-		localStorage.removeItem("role");
 		logOut(role, dispatch, navigate, refreshToken);
 		persistor.purge();
 	};
-
-	const [role, setRole] = useState("");
-
-	useEffect(() => {
-		const getDataRole = async () => {
-			try {
-				const dataRolePromise = localStorage.getItem("role");
-				const dataRole = await dataRolePromise;
-				setRole(dataRole);
-			} catch (error) {
-				console.error("Error retrieving data from localStorage:", error);
-			}
-		};
-
-		getDataRole();
-	}, []);
 
 	return (
 		<header className="shadow-md fixed left-0 right-0 top-0 w-[100%] z-10">
@@ -72,8 +59,8 @@ function Header() {
 							data-dropdown-placement="bottom"
 						>
 							<span className="sr-only">Open user menu</span>
-							<img className="w-14 h-14 rounded-full object-cover border border-slate-500" src={role === "CB" ? noAvatar : dataSV.HinhAnh} alt="user photo" />
-							<span className="hidden md:block">{role === "CB" ? dataCBGV.HoDem + " " + dataCBGV.Ten : dataSV.HoDem + " " + dataSV.Ten}</span>
+							<img className="w-14 h-14 rounded-full object-cover border border-slate-500" src={role === "GV" ? noAvatar : dataSV.HinhAnh} alt="user photo" />
+							<span className="hidden md:block">{role === "GV" ? dataCBGV.HoDem + " " + dataCBGV.Ten : dataSV.HoDem + " " + dataSV.Ten}</span>
 							<MdKeyboardArrowDown className="text-2xl hidden md:inline-block" />
 						</button>
 						{/* Dropdown menu */}

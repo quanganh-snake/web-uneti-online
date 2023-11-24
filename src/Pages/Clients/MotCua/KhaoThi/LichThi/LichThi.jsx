@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import LichThiView from "./LichThiView";
-import { DataSinhVien } from "../../../../Services/Utils/dataSinhVien";
+import { DataSinhVien } from "../../../../../Services/Utils/dataSinhVien";
 import { useDispatch } from "react-redux";
-import { createAxiosJWT } from "../../../../Configs/http";
-import { tokenSuccess } from "../../../../Services/Redux/Slice/authSlice";
-import { dataLoaiThi } from "../../../../Services/Utils/dataStatic";
+import { createAxiosJWT } from "../../../../../Configs/http";
+import { tokenSuccess } from "../../../../../Services/Redux/Slice/authSlice";
+import { dataLoaiThi } from "../../../../../Services/Static/dataStatic";
 
 function LichThi() {
 	const home = {

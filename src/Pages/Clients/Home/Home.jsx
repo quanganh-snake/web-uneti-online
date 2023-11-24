@@ -1,8 +1,8 @@
 import React from "react";
-import { homeMain } from "../../Services/Utils/dataStatic";
+import { homeMain } from "../../../Services/Static/dataStatic";
 import { Link, useNavigate } from "react-router-dom";
-import { DataSinhVien } from "../../Services/Utils/dataSinhVien";
-import { DataCanBoGV } from "../../Services/Utils/dataCanBoGV";
+import { DataSinhVien } from "../../../Services/Utils/dataSinhVien";
+import { DataCanBoGV } from "../../../Services/Utils/dataCanBoGV";
 
 function Home() {
 	const navigate = useNavigate();
@@ -20,7 +20,7 @@ function Home() {
 
 	if (role) {
 		return (
-			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 px-4 lg:px-0">
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-20 px-4 xl:px-0">
 				{homeMain.map((module, index) => {
 					return (
 						module.moduleActive &&

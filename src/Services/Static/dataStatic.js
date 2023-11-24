@@ -25,8 +25,6 @@ import thumbnailCTSV from "../../assets/Icons/icoThumbnailCTSV.png";
 import icoTeamViewe from "../../assets/Icons/icoTeamViewer.png";
 import icoUltraView from "../../assets/Icons/icoUltraview.png";
 import icoZalo from "../../assets/Icons/icoZalo.png";
-import { MdFormatListNumbered, MdInsertDriveFile, MdNotificationImportant } from "react-icons/md";
-import { FaYoutube } from "react-icons/fa6";
 
 // data Static homeMain
 export const homeMain = [

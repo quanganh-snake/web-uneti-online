@@ -1,51 +1,51 @@
 import { Route } from "react-router-dom";
 import AuthMiddleware from "../Middlewares/AuthMiddleware";
-import Home from "../Pages/Home/Home";
-import HomeMotCua from "../Pages/MotCua";
+import Home from "../Pages/Clients/Home/Home";
+import HomeMotCua from "../Pages/Clients/MotCua";
 
 // Pages MC - Khảo Thí
-import HomeKhaoThi from "../Pages/MotCua/KhaoThi";
-import MienHocThiTiengAnh from "../Pages/MotCua/KhaoThi/MienHocThiTiengAnh/MienHocThiTiengAnh.jsx";
-import PhucKhao from "../Pages/MotCua/KhaoThi/PhucKhao/PhucKhao";
-import LichThi from "../Pages/MotCua/KhaoThi/LichThi/LichThi";
-import DangKyThiLai from "../Pages/MotCua/KhaoThi/DangKyThiLai/DangKyThiLai";
-import HoanThi from "../Pages/MotCua/KhaoThi/HoanThi/HoanThi";
-import HuyDangKyThiLai from "../Pages/MotCua/KhaoThi/HuyDangKyThilai/HuyDangKyThiLai";
-import KetQuaHocTap from "../Pages/MotCua/KhaoThi/KetQuaHocTap/KetQuaHocTap";
+import HomeKhaoThi from "../Pages/Clients/MotCua/KhaoThi";
+import MienHocThiTiengAnh from "../Pages/Clients/MotCua/KhaoThi/MienHocThiTiengAnh/MienHocThiTiengAnh.jsx";
+import PhucKhao from "../Pages/Clients/MotCua/KhaoThi/PhucKhao/PhucKhao";
+import LichThi from "../Pages/Clients/MotCua/KhaoThi/LichThi/LichThi";
+import DangKyThiLai from "../Pages/Clients/MotCua/KhaoThi/DangKyThiLai/DangKyThiLai";
+import HoanThi from "../Pages/Clients/MotCua/KhaoThi/HoanThi/HoanThi";
+import HuyDangKyThiLai from "../Pages/Clients/MotCua/KhaoThi/HuyDangKyThilai/HuyDangKyThiLai";
+import KetQuaHocTap from "../Pages/Clients/MotCua/KhaoThi/KetQuaHocTap/KetQuaHocTap";
 
 // Pages MC - Đào Tạo
-import HomeDaoTao from "../Pages/MotCua/DaoTao";
-import CapBangDiem from "../Pages/MotCua/DaoTao/CapBangDiem/CapBangDiem";
-import XacNhanDT from "../Pages/MotCua/DaoTao/XacNhanDT/XacNhanDT";
-import DangKyTotNghiep from "../Pages/MotCua/DaoTao/DangKyTotNghiep/DangKyTotNghiep";
-import CapBanSao from "../Pages/MotCua/DaoTao/CapBanSao/CapBanSao";
-import SuaThongTin from "../Pages/MotCua/DaoTao/SuaThongTin/SuaThongTin";
-import MienChungChi from "../Pages/MotCua/DaoTao/MienChungChi/MienChungChi";
-import ChuyenDiem from "../Pages/MotCua/DaoTao/ChuyenDiem/ChuyenDiem";
-import EmailLMS from "../Pages/MotCua/DaoTao/EmailLMS/EmailLMS";
-import DangKyLopChatLuong from "../Pages/MotCua/DaoTao/DangKyLopChatLuong/DangKyLopChatLuong";
+import HomeDaoTao from "../Pages/Clients/MotCua/DaoTao";
+import CapBangDiem from "../Pages/Clients/MotCua/DaoTao/CapBangDiem/CapBangDiem";
+import XacNhanDT from "../Pages/Clients/MotCua/DaoTao/XacNhanDT/XacNhanDT";
+import DangKyTotNghiep from "../Pages/Clients/MotCua/DaoTao/DangKyTotNghiep/DangKyTotNghiep";
+import CapBanSao from "../Pages/Clients/MotCua/DaoTao/CapBanSao/CapBanSao";
+import SuaThongTin from "../Pages/Clients/MotCua/DaoTao/SuaThongTin/SuaThongTin";
+import MienChungChi from "../Pages/Clients/MotCua/DaoTao/MienChungChi/MienChungChi";
+import ChuyenDiem from "../Pages/Clients/MotCua/DaoTao/ChuyenDiem/ChuyenDiem";
+import EmailLMS from "../Pages/Clients/MotCua/DaoTao/EmailLMS/EmailLMS";
+import DangKyLopChatLuong from "../Pages/Clients/MotCua/DaoTao/DangKyLopChatLuong/DangKyLopChatLuong";
 
 // Pages MC - CT&CTSV
-import HomeCTSV from "../Pages/MotCua/CTSV";
-import CapLai from "../Pages/MotCua/CTSV/CapLai/CapLai";
-import XacNhanCTSV from "../Pages/MotCua/CTSV/XacNhanCTSV/XacNhanCTSV";
-import QuaTrinhHoc from "../Pages/MotCua/CTSV/QuaTrinhHoc/QuaTrinhHoc";
-import NghiHocTamThoi from "../Pages/MotCua/CTSV/NghiHocTamThoi/NghiHocTamThoi";
-import XinChuyen from "../Pages/MotCua/CTSV/XinChuyen/XinChuyen";
+import HomeCTSV from "../Pages/Clients/MotCua/CTSV";
+import CapLai from "../Pages/Clients/MotCua/CTSV/CapLai/CapLai";
+import XacNhanCTSV from "../Pages/Clients/MotCua/CTSV/XacNhanCTSV/XacNhanCTSV";
+import QuaTrinhHoc from "../Pages/Clients/MotCua/CTSV/QuaTrinhHoc/QuaTrinhHoc";
+import NghiHocTamThoi from "../Pages/Clients/MotCua/CTSV/NghiHocTamThoi/NghiHocTamThoi";
+import XinChuyen from "../Pages/Clients/MotCua/CTSV/XinChuyen/XinChuyen";
 
 // Pages MC - Hành Chính
-import HomeHanhChinh from "../Pages/MotCua/HanhChinh";
-import GiayGioiThieu from "../Pages/MotCua/HanhChinh/GiayGioiThieu/GiayGioiThieu";
+import HomeHanhChinh from "../Pages/Clients/MotCua/HanhChinh";
+import GiayGioiThieu from "../Pages/Clients/MotCua/HanhChinh/GiayGioiThieu/GiayGioiThieu";
 
 // Pages Thiết Bị Giảng Đường
-import HomeTBGD from "../Pages/ThietBiGiangDuong/index";
+import HomeTBGD from "../Pages/Clients/ThietBiGiangDuong/index";
 
 // Pages Tài Sản
-import HomeTaiSan from "../Pages/TaiSan/index";
+import HomeTaiSan from "../Pages/Clients/TaiSan/index";
 import RoleMiddleware from "../Middlewares/RoleMiddleware.jsx";
-import HomeTTHCGV from "../Pages/ThuTucHanhChinhGiangVien/HomeTTHCGV.jsx";
-import ChiTietThuTuc from "../Pages/ThuTucHanhChinhGiangVien/ChiTietTuTuc/ChiTietThuTuc.jsx";
-import SoanHoSo from "./../Pages/ThuTucHanhChinhGiangVien/SoanHoSo/SoanHoSo";
+import HomeTTHCGV from "../Pages/Clients/ThuTucHanhChinhGiangVien/HomeTTHCGV.jsx";
+import ChiTietThuTuc from "../Pages/Clients/ThuTucHanhChinhGiangVien/ChiTietThuTuc/ChiTietThuTuc.jsx";
+import SoanHoSo from "./../Pages/Clients/ThuTucHanhChinhGiangVien/SoanHoSo/SoanHoSo";
 
 const ROLES = ["CB", "SV"];
 
@@ -94,15 +94,15 @@ export const privateRoutes = (
 			</Route>
 
 			{/*  */}
-			<Route element={<RoleMiddleware allowedRoles={["CB"]} />}>
+			<Route element={<RoleMiddleware allowedRoles={["GV"]} />}>
 				<Route path="hotrothietbigiangduong" element={<HomeTBGD />} />
 			</Route>
 			<Route path="taisan" element={<HomeTaiSan />} />
-			<Route element={<RoleMiddleware allowedRoles={["CB"]} />}>
+			<Route element={<RoleMiddleware allowedRoles={["GV"]} />}>
 				<Route path="tthcgiangvien">
 					<Route index element={<HomeTTHCGV />} />
-					<Route path="chitiet/:id" element={<ChiTietThuTuc />} />
-					<Route path="type:type" element={<SoanHoSo />} />
+					<Route path="chitiet/:tieude/:id" element={<ChiTietThuTuc />} />
+					<Route path=":type" element={<SoanHoSo />} />
 				</Route>
 			</Route>
 		</Route>

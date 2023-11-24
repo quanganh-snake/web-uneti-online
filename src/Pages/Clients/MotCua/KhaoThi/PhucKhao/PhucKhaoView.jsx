@@ -1,6 +1,6 @@
 import React from "react";
-import Breadcrumb from "./../../../../Components/Breadcumb/Breadcrumb";
-import Loading from "../../../../Components/Loading/Loading";
+import Breadcrumb from "../../../../../Components/Breadcumb/Breadcrumb";
+import Loading from "../../../../../Components/Loading/Loading";
 import moment from "moment/moment";
 import PropTypes from "prop-types";
 

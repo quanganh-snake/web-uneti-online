@@ -1,6 +1,6 @@
 import React from "react";
-import FeatureLimited from "../../../../Components/FeatureLimited/FeatureLimited";
-import Breadcrumb from "../../../../Components/Breadcumb/Breadcrumb";
+import FeatureLimited from "../../../../../Components/FeatureLimited/FeatureLimited";
+import Breadcrumb from "../../../../../Components/Breadcumb/Breadcrumb";
 
 function MienHocThiTiengAnh() {
 	const home = {

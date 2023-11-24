@@ -4,7 +4,7 @@ import ChiTietThuTucView from "./ChiTietThuTucView";
 import { useParams } from "react-router-dom";
 
 function ChiTietThuTuc(props) {
-	const { id } = useParams();
+	const { tieude, id } = useParams();
 
 	const home = {
 		path: "/tthcgiangvien",
@@ -13,7 +13,7 @@ function ChiTietThuTuc(props) {
 
 	const breadcrumbs = [
 		{
-			path: "/tthcgiangvien/dsthutuc",
+			path: `/tthcgiangvien/chitiet/${tieude}/${id}`,
 			title: "Chi tiết thủ tục",
 		},
 	];

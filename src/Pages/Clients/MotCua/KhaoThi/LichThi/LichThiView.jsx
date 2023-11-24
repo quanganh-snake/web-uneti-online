@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Breadcrumb from "../../../../Components/Breadcumb/Breadcrumb";
+import Breadcrumb from "../../../../../Components/Breadcumb/Breadcrumb";
 
 function LichThiView(props) {
 	const { home, breadcrumbs, loading, listHocKy, tenDot, dataLoaiThi, loaiThi, listHocPhan, handleChangeValue, handleRowSelection, handleSubmitData } = props;
