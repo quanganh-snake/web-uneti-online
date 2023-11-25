@@ -16,6 +16,7 @@ import { DataCanBoGV } from "../../Services/Utils/dataCanBoGV.js";
 import localStorage from "redux-persist/es/storage";
 import DropdownProfileTeacher from "./DropdownProfileTeacher.jsx";
 import DropdownProfileStudent from "./DropdownProfileStudent.jsx";
+import NavbarTTHCGV from "../../Components/Navbars/NavbarTTHCGV.jsx";
 
 function Header() {
 	const dispatch = useDispatch();
@@ -72,7 +73,7 @@ function Header() {
 						</div>
 					</div>
 					{/* START: Navbar Pages */}
-					{listPath && listPath.includes("/motcua") ? <NavbarMotCua /> : null}
+					{listPath && listPath.includes("/motcua") ? <NavbarMotCua /> : listPath.includes("/tthcgiangvien") ? <NavbarTTHCGV /> : null}
 
 					{/* END: Navbar Pages */}
 				</div>

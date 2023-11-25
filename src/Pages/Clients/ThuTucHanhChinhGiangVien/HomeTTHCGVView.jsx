@@ -45,24 +45,32 @@ function HomeTTHCGVView(props) {
 			linhVuc: "TCCB",
 		},
 	];
+
+	// events handlers
+	const handleSearch = (e) => {
+		e.preventDefault();
+	};
 	return (
 		<div className="flex flex-col md:flex-row gap-2">
-			<div className="flex-grow-1 bg-white p-4 md:h-[100vh]">
+			<div className="bg-white p-4">
 				<SidebarTTHCGV />
 			</div>
-			<div className="flex-grow-2 bg-white w-full p-4">
+			<div className="grow bg-white w-full p-4">
 				<Breadcrumb home={home} breadcrumbs={[]} />
 				{/* START: Form search */}
 				<div className="mt-5">
 					<div className="flex flex-col md:flex-row items-center gap-4">
 						<button className="w-full md:w-auto px-3 py-2 rounded-full bg-[#0484AC] text-white font-semibold hover:opacity-70 md:whitespace-nowrap">Tìm kiếm nâng cao</button>
-						<div className="w-full relative">
+						<form className="w-full relative" onSubmit={handleSearch}>
 							<input type="text" className="w-full rounded-full px-3 py-2 border focus:outline-none" placeholder="Nhập nội dung tìm kiếm" name="" id="" />
 							<span className="absolute px-4 py-2 right-0 top-0 font-semibold cursor-pointer">
 								<FiSearch size={24} className="font-semibold" />
 							</span>
-						</div>
-						<select className="w-auto px-3 py-2 border rounded-full font-semibold text-white bg-[#0484AC] focus:outline-none" name="" id="">
+							<button type="submit" className="hidden">
+								Tìm kiếm
+							</button>
+						</form>
+						<select className="w-full md:w-auto px-3 py-2 border rounded-full font-semibold text-white bg-[#0484AC] focus:outline-none" name="" id="">
 							<option value="">Số thủ tục hiển thị</option>
 							<option value="">5</option>
 							<option value="">10</option>
@@ -73,18 +81,18 @@ function HomeTTHCGVView(props) {
 				{/* END: Form search */}
 				{/* START: Table DS Thủ tục */}
 				<div className="my-5">
-					<table className="w-full table-auto border-collapse">
+					<table className="w-full table-auto">
 						<thead className="bg-[#075985] text-white rounded-t-xl">
 							<tr>
-								<th className="border border-slate-300 px-2 py-1">STT</th>
-								<th className="border border-slate-300 px-2 py-1">Tên thủ tục</th>
-								<th className="border border-slate-300 px-2 py-1">Lĩnh vực</th>
+								<th className="border-r px-2 py-1 rounded-tl-xl">STT</th>
+								<th className="border-r px-2 py-1">Tên thủ tục</th>
+								<th className="px-2 py-1 rounded-tr-xl">Lĩnh vực</th>
 							</tr>
 						</thead>
 						<tbody>
 							{fakeDataTables &&
-                                fakeDataTables.map((iData, index) => {
-                                    const nameSlug = changeSlug(iData.name);
+								fakeDataTables.map((iData, index) => {
+									const nameSlug = changeSlug(iData.name);
 									return (
 										<tr key={iData.id}>
 											<td className="border border-slate-300 text-center">{index + 1}</td>

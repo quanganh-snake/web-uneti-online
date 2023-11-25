@@ -1,12 +1,22 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react";
+import PropTypes from "prop-types";
+import SoanHoSoView from "./SoanHoSoView";
 
 function SoanHoSo(props) {
-  return (
-    <div>SoanHoSo</div>
-  )
+	const home = {
+		path: "/tthcgiangvien",
+		title: "TTHC Giảng Viên",
+	};
+
+	const breadcrumbs = [
+		{
+			path: "/tthcgiangvien/submit",
+			title: "Soạn hồ sơ",
+		},
+	];
+	return <SoanHoSoView home={home} breadcrumbs={breadcrumbs} />;
 }
 
-SoanHoSo.propTypes = {}
+SoanHoSo.propTypes = {};
 
-export default SoanHoSo
+export default SoanHoSo;

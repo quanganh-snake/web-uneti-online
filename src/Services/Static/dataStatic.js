@@ -429,7 +429,29 @@ export const homeTaiSan = {
 	],
 };
 
-export const homeTTHCGV = [];
+export const homeTTHCGV = [
+	{
+		id: 1,
+		title: "Trang chủ",
+		name: "Trang chủ",
+		path: "",
+		roleActive: ["Admin", "GV", "CBNV"],
+	},
+	{
+		id: 2,
+		title: "Cán bộ nghiệp vụ",
+		name: "Cán bộ nghiệp vụ",
+		path: "/canbonghiepvu",
+		roleActive: ["Admin", "CBNV"],
+	},
+	{
+		id: 3,
+		title: "Quản trị hệ thống",
+		name: "Quản trị hệ thống",
+		path: "/quantriTTHCGV",
+		roleActive: ["Admin"],
+	},
+];
 
 // Data Loại Thi
 export const dataLoaiThi = [

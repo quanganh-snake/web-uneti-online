@@ -1,5 +1,3 @@
-import http from "../../../../Configs/http";
-
 // Method lấy tất cả học phần phúc khảo
 export const getAllHocPhanPhucKhao = (axiosJWT, MaSinhVien = "", tenDot = "", loaiThi = "", accessToken = "") => {
 	const strQueryParams = `MaSinhVien=${MaSinhVien}&MC_KT_PhucKhao_TenDot=${tenDot}&MC_KT_PhucKhao_LoaiThi=${loaiThi}`;
