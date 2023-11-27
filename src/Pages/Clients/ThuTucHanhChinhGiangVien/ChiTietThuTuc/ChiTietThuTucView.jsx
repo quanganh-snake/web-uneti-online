@@ -91,14 +91,14 @@ function ChiTietThuTucView(props) {
 								<td className="px-4 py-1 border border-slate-500 font-semibold">Thành phần hồ sơ đề nghị</td>
 								<td className="px-4 py-1 border border-slate-500">
 									<table className="table-auto w-full">
-										<thead className="bg-[#075985] text-white rounded-t-xl">
+										<thead className="bg-[#075985] text-white">
 											<tr>
-												<th className="border border-slate-300 px-2 py-1">STT</th>
+												<th className="rounded-tl-xl px-2 py-1">STT</th>
 												<th className="border border-slate-300 px-2 py-1">Tên giấy tờ</th>
 												<th className="border border-slate-300 px-2 py-1 lg:whitespace-nowrap">Mẫu hồ sơ/Hướng dẫn</th>
 												<th className="border border-slate-300 px-2 py-1 lg:whitespace-nowrap">Bản chính</th>
 												<th className="border border-slate-300 px-2 py-1 lg:whitespace-nowrap">Bản sao</th>
-												<th className="border border-slate-300 px-2 py-1 lg:whitespace-nowrap">Bắt buộc</th>
+												<th className="rounded-tr-xl px-2 py-1 lg:whitespace-nowrap">Bắt buộc</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -152,14 +152,14 @@ function ChiTietThuTucView(props) {
 									<table className="table-auto w-full">
 										<thead className="bg-[#075985] text-white rounded-t-xl">
 											<tr>
-												<th className="border border-slate-300 px-2 py-1">Bước</th>
+												<th className="rounded-tl-xl px-2 py-1">Bước</th>
 												<th className="border border-slate-300 px-2 py-1">Tên công việc</th>
 												<th className="border border-slate-300 px-2 py-1">Cách thức thực hiện</th>
 												<th className="border border-slate-300 px-2 py-1">Địa chỉ tiếp nhận / trả hồ sơ</th>
 												<th className="border border-slate-300 px-2 py-1">Đơn vị thực hiện / được ủy quyền thực hiện</th>
 												<th className="border border-slate-300 px-2 py-1">Đơn vị phối hợp</th>
 												<th className="border border-slate-300 px-2 py-1">Thời gian (ngày)</th>
-												<th className="border border-slate-300 px-2 py-1">Kết quả</th>
+												<th className="rounded-tr-xl px-2 py-1">Kết quả</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -250,9 +250,9 @@ function ChiTietThuTucView(props) {
 									<table className="table-auto w-full">
 										<thead className="bg-[#075985] text-white rounded-t-xl">
 											<tr>
-												<th className="border border-slate-300 px-2 py-1">STT</th>
+												<th className="rounded-tl-xl px-2 py-1">STT</th>
 												<th className="border border-slate-300 px-2 py-1">Mức phí</th>
-												<th className="border border-slate-300 px-2 py-1">Mô tả</th>
+												<th className="rounded-tr-xl px-2 py-1">Mô tả</th>
 											</tr>
 										</thead>
 										<tbody>

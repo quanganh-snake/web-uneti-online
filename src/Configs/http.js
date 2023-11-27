@@ -1,7 +1,6 @@
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { tokenSuccess } from "../Services/Redux/Slice/authSlice";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 export const API_URL = "https://apiv2.uneti.edu.vn/api";
 
@@ -107,7 +106,9 @@ export const createAxiosJWT = (dataToken, dispatch, stateSuccess) => {
 				);
 
 				if (decodedRefreshToken.exp < date.getTime() / 1000) {
-					window.location.href = window.location.hostname + "/dangnhap";
+					const navigate = useNavigate();
+					navigate("/dangnhap");
+					// window.location.href = window.location.hostname + "/dangnhap";
 					return;
 				}
 
@@ -123,7 +124,24 @@ export const createAxiosJWT = (dataToken, dispatch, stateSuccess) => {
 			}
 			return config;
 		},
-		(error) => Promise.reject(error)
+		(error) => {
+			Promise.reject(error);
+		}
+	);
+
+	newAxios.interceptors.response.use(
+		(response) => response,
+		(error) => {
+			console.log("🚀 ~ file: http.js:138 ~ createAxiosJWT ~ error:", error);
+			const status = error.response ? error.response.status : null;
+
+			if (status === 401 || status === 403) {
+				const navigate = useNavigate();
+				navigate.push("/dangnhap");
+			}
+
+			return Promise.reject(error);
+		}
 	);
 
 	return newAxios;

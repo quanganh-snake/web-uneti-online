@@ -154,7 +154,7 @@ function SoanHoSoView(props) {
 									<td className="px-2 py-1 border border-slate-300">
 										<label
 											htmlFor="attachments"
-											className="flex flex-row gap-2 items-center text-[#0C4A6E] font-semibold border border-[#0C4A6E] rounded-xl px-2 py-1 hover:opacity-70 cursor-pointer"
+											className="flex flex-row gap-2 items-center text-[#0C4A6E] md:justify-center font-semibold border border-[#0C4A6E] rounded-xl px-2 py-1 hover:opacity-70 cursor-pointer"
 										>
 											<FaUpload />
 											<span className="md:whitespace-nowrap hidden lg:inline-block">Chọn file đính kèm</span>
@@ -176,7 +176,7 @@ function SoanHoSoView(props) {
 									<td className="px-2 py-1 border border-slate-300">
 										<label
 											htmlFor="attachments"
-											className="flex flex-row gap-2 items-center text-[#0C4A6E] font-semibold border border-[#0C4A6E] rounded-xl px-2 py-1 hover:opacity-70 cursor-pointer"
+											className="flex flex-row gap-2 items-center text-[#0C4A6E] md:justify-center font-semibold border border-[#0C4A6E] rounded-xl px-2 py-1 hover:opacity-70 cursor-pointer"
 										>
 											<FaUpload />
 											<span className="md:whitespace-nowrap hidden lg:inline-block">Chọn file đính kèm</span>
@@ -199,7 +199,7 @@ function SoanHoSoView(props) {
 									<td className="px-2 py-1 border border-slate-300">
 										<label
 											htmlFor="attachments"
-											className="flex flex-row gap-2 items-center text-[#0C4A6E] font-semibold border border-[#0C4A6E] rounded-xl px-2 py-1 hover:opacity-70 cursor-pointer"
+											className="flex flex-row gap-2 items-center text-[#0C4A6E] md:justify-center font-semibold border border-[#0C4A6E] rounded-xl px-2 py-1 hover:opacity-70 cursor-pointer"
 										>
 											<FaUpload />
 											<span className="md:whitespace-nowrap hidden lg:inline-block">Chọn file đính kèm</span>
@@ -210,7 +210,7 @@ function SoanHoSoView(props) {
 							</tbody>
 						</table>
 					</div>
-					<div className="flex flex-row gap-4">
+					<div className="flex flex-row gap-4 col-span-2">
 						<p className="flex flex-row gap-2 items-center cursor-pointer hover:opacity-70 bg-[#336699] text-white border border-slate-100 px-2 py-1 rounded-xl">
 							<FaSave />
 							<span>Lưu</span>

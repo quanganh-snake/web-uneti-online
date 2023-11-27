@@ -21,7 +21,6 @@ import NavbarTTHCGV from "../../Components/Navbars/NavbarTTHCGV.jsx";
 function Header() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-
 	const location = useLocation();
 	const { pathname } = location;
 
@@ -73,7 +72,8 @@ function Header() {
 						</div>
 					</div>
 					{/* START: Navbar Pages */}
-					{listPath && listPath.includes("/motcua") ? <NavbarMotCua /> : listPath.includes("/tthcgiangvien") ? <NavbarTTHCGV /> : null}
+					{listPath && listPath.includes("/motcua") ? <NavbarMotCua /> : null}
+					{listPath.includes("/tthcgiangvien") ? <NavbarTTHCGV /> : listPath.includes("/admin") ? <NavbarTTHCGV /> : null}
 
 					{/* END: Navbar Pages */}
 				</div>

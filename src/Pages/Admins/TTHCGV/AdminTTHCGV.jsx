@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import AdminTTHCGVView from "./AdminTTHCGVView";
 
 function AdminTTHCGV() {
-  return (
-    <div>AdminTTHCGV</div>
-  )
+	return <AdminTTHCGVView />;
 }
 
-export default AdminTTHCGV
+export default AdminTTHCGV;
