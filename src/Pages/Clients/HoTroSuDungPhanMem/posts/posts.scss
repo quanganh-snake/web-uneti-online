@@ -1,0 +1,10 @@
+@use 'Styles/mixins/mixins' as *;
+@use 'Styles/mixins/var' as *;
+@use 'Styles/common/var' as *;
+
+@include b(posts) {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 20px;
+}

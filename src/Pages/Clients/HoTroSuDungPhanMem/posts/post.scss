@@ -1,0 +1,40 @@
+@use 'sass:map';
+
+@use 'Styles/mixins/mixins' as *;
+@use 'Styles/mixins/var' as *;
+@use 'Styles/common/var' as *;
+
+@include b(post) {
+  border: 1px solid map.get($vsColor, 'gray-4');
+  padding: 16px;
+  border-radius: 12px;
+
+  @include e(title) {
+    font-size: 18px;
+    font-weight: 600;
+    padding-bottom: 14px;
+    padding-top: 10px;
+    margin-bottom: 14px;
+
+    border-bottom: 1px solid map.get($vsColor, 'gray-4');
+  }
+
+  @include e(description) {
+    opacity: 0.7;
+    font-size: 14px;
+  }
+
+  @include e(button) {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid map.get($vsColor, gray-4);
+    border-radius: 12px;
+    margin-top: 12px;
+    transition: all 0.25s ease;
+
+    &:hover {
+      background-color: $color-primary;
+      color: $color-white;
+    }
+  }
+}

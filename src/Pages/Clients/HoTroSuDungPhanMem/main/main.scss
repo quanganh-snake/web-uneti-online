@@ -1,0 +1,27 @@
+@use 'Styles/mixins/mixins' as *;
+@use 'Styles/mixins/var' as *;
+@use 'Styles/common/var' as *;
+
+@include b(main) {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+
+  @include e(title) {
+    text-align: center;
+    font-size: 22px;
+    color: #245d7c;
+    font-weight: 700;
+    margin-top: 30px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  @include e(content) {
+    padding: 20px;
+    width: 100%;
+    border-radius: 20px;
+    background-color: $color-white;
+  }
+}
