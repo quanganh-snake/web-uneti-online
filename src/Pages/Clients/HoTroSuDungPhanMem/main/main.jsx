@@ -25,7 +25,12 @@ export const Main = () => {
   const dispatch = useDispatch()
   let axiosJWT = createAxiosJWT(dataToken, dispatch, tokenSuccess)
 
-  const [category, setCategory] = useState()
+  const [category, setCategory] = useState({
+    DT_CVNB_TBGD_TL_Nhom3: '',
+    DT_CVNB_TBGD_TL_ID: null,
+  })
+  const [categories, setCategories] = useState([])
+  const [posts, setPosts] = useState([])
 
   const [search, setSearch] = useState('')
 
@@ -33,26 +38,47 @@ export const Main = () => {
     setCategory(item)
   }
 
-  const handleSearch = (text) => {
-    setSearch(text)
+  const handleSearch = (params = search) => {
+    getDataHoTroSuDungPhanMem(axiosJWT, dataToken.token, params).then((res) => {
+      const data = res.data.body
+
+      const computeCategories = data.reduce((prev, curr) => {
+        if (!prev.hasOwnProperty(curr['DT_CVNB_TBGD_TL_Nhom3'])) {
+          prev[curr['DT_CVNB_TBGD_TL_Nhom3']] = true
+          prev.push({
+            DT_CVNB_TBGD_TL_ID: curr['DT_CVNB_TBGD_TL_ID'],
+            DT_CVNB_TBGD_TL_Nhom3: curr['DT_CVNB_TBGD_TL_Nhom3'],
+          })
+        }
+        return prev
+      }, [])
+
+      setPosts(data)
+
+      if (!params) {
+        setCategories(computeCategories)
+      }
+    })
   }
 
   useEffect(() => {
-    getDataHoTroSuDungPhanMem(axiosJWT, dataToken.token, search).then((res) => {
-      console.log(res)
-    })
-  }, [search])
+    handleSearch(category.DT_CVNB_TBGD_TL_Nhom3)
+  }, [category])
 
   return (
     <>
       <h2 className={bem.e('title')}>Hỗ trợ sử dụng phần mềm</h2>
       <main className={bem.b()}>
-        <Sidebar onCategoryChange={onCategoryChange} />
+        <Sidebar categories={categories} onCategoryChange={onCategoryChange} />
 
         <div className={bem.e('content')}>
-          <SearchBox search={search} onSearch={handleSearch} />
+          <SearchBox
+            search={search}
+            onSearch={handleSearch}
+            setSearch={setSearch}
+          />
 
-          <Posts search={search} category={category} />
+          <Posts posts={posts} />
         </div>
       </main>
     </>

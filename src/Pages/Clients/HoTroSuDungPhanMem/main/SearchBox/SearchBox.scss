@@ -2,7 +2,7 @@
 
 @use 'Styles/Mixins/mixins' as *;
 @use 'Styles/Mixins/var' as *;
-@use 'Styles/Common/var' as *;
+@use 'Styles/common/var' as *;
 
 @include b(search) {
   display: flex;
@@ -29,8 +29,8 @@
   }
 
   @include e(button) {
-    padding: 12px 26px;
-    background-color: $color-primary;
+    padding: 8px 26px;
+    background-color: map.get($appColor, 'primary-lighter');
     color: $color-white;
     border-radius: 12px;
   }

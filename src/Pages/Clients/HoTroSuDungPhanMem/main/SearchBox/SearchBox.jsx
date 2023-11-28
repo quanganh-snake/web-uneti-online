@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import './SearchBox.scss'
 
-export const SearchBox = ({ search, onSearch }) => {
+export const SearchBox = ({ search, setSearch, onSearch }) => {
   const bem = useBem('search')
 
   return (
@@ -13,10 +13,12 @@ export const SearchBox = ({ search, onSearch }) => {
         value={search}
         placeholder='Nhập từ khoá tìm kiếm'
         className={bem.e('input')}
-        onChange={(e) => onSearch(e.target.value)}
+        onChange={(e) => setSearch(e.target.value)}
       />
 
-      <button className={bem.e('button')}>Search</button>
+      <button onClick={onSearch} className={bem.e('button')}>
+        Search
+      </button>
     </div>
   )
 }
@@ -24,4 +26,5 @@ export const SearchBox = ({ search, onSearch }) => {
 SearchBox.propTypes = {
   search: PropTypes.string,
   onSearch: PropTypes.func,
+  setSearch: PropTypes.func,
 }

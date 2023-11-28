@@ -1,7 +1,7 @@
 export const getDataHoTroSuDungPhanMem = (
   axiosJWT,
   accessToken,
-  TuKhoaTimKiem = ''
+  tuKhoaTimKiem
 ) => {
   // console.log(`>>> Check log axios prototype: `,[axiosJWT]);
   return axiosJWT.get('/SP_DT_CVNB_TBGD_TLTiepNhanRoutes/Load_TimKiem', {
@@ -9,7 +9,7 @@ export const getDataHoTroSuDungPhanMem = (
       Authorization: `Bearer ${accessToken}`,
     },
     params: {
-      TuKhoaTimKiem,
+      TuKhoaTimKiem: tuKhoaTimKiem,
     },
   })
 }

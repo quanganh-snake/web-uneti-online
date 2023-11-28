@@ -26,14 +26,14 @@
 
   @include e(button) {
     width: 100%;
-    padding: 14px;
+    padding: 10px 14px;
     border: 1px solid map.get($appColor, gray-4);
-    border-radius: 12px;
+    border-radius: 16px;
     margin-top: 12px;
     transition: all 0.25s ease;
 
     &:hover {
-      background-color: $color-primary;
+      background-color: map.get($appColor, primary-lighter);
       color: $color-white;
     }
   }
