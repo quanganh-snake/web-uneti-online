@@ -56,8 +56,6 @@ const ROLES = ['GV', 'SV']
 
 export const privateRoutes = (
   <>
-    <Route path='ho-tro-phan-mem' element={<HoTroSuDungPhanMem />} />
-
     <Route path='/' element={<AuthMiddleware />}>
       <Route path='' element={<Home />} />
       <Route element={<RoleMiddleware allowedRoles={['SV']} />}>
@@ -101,6 +99,8 @@ export const privateRoutes = (
       </Route>
 
       {/*  */}
+      <Route path='ho-tro-phan-mem' element={<HoTroSuDungPhanMem />} />
+
       <Route element={<RoleMiddleware allowedRoles={['GV']} />}>
         <Route path='hotrothietbigiangduong' element={<HomeTBGD />} />
       </Route>
