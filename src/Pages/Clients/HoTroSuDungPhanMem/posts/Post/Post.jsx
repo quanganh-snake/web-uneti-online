@@ -1,9 +1,9 @@
 import { useBem } from '@/Hooks'
 import PropTypes from 'prop-types'
 
-import './post.scss'
+import './Post.scss'
 
-export const PostItem = ({ description, title, video }) => {
+export const Post = ({ description, title, video }) => {
   const bem = useBem('post')
 
   const handleOpenVideo = () => {
@@ -25,7 +25,7 @@ export const PostItem = ({ description, title, video }) => {
   )
 }
 
-PostItem.propTypes = {
+Post.propTypes = {
   description: PropTypes.string,
   title: PropTypes.string,
   video: PropTypes.string,

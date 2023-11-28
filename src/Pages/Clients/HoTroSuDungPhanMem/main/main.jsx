@@ -1,18 +1,18 @@
 import { useState } from 'react'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { tokenSuccess } from '@/Services/Redux/Slice/authSlice'
-
-import { useBem } from '@/Hooks'
-import { SearchBox } from './search-box.jsx'
-import { Posts } from '../posts'
-import { Sidebar } from '../sidebar'
-
-import './main.scss'
 import { useDispatch } from 'react-redux'
 import { createAxiosJWT } from '@/Configs/http.js'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV.js'
 import { useEffect } from 'react'
 import { getDataHoTroSuDungPhanMem } from '@/Apis/HoTroSuDungPhanMem/apiHoTroSuDungPhanMem.js'
+
+import { useBem } from '@/Hooks'
+import { SearchBox } from './SearchBox'
+import { Posts } from '../Posts'
+import { Sidebar } from '../Sidebar'
+
+import './Main.scss'
 
 export const Main = () => {
   const bem = useBem('main')
@@ -27,7 +27,7 @@ export const Main = () => {
 
   const [category, setCategory] = useState()
 
-  const [search, setSearch] = useState('a')
+  const [search, setSearch] = useState('')
 
   const onCategoryChange = (item) => {
     setCategory(item)

@@ -1,2 +1,1 @@
-export { Posts } from './posts.jsx'
-export { PostItem } from './post-item.jsx'
+export { Posts } from './Posts.jsx'

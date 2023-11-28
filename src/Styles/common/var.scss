@@ -1,7 +1,7 @@
 @use 'sass:math';
 @use 'sass:map';
 
-@use '../mixins/function.scss' as *;
+@use '../Mixins/function.scss' as *;
 
 // Break-point
 $sm: 768px !default;
@@ -79,8 +79,8 @@ $color-error: map.get($colors, 'error', 'base') !default;
 $color-info: map.get($colors, 'info', 'base') !default;
 $color-info: map.get($colors, 'dark', 'base') !default;
 
-$vsColor: () !default;
-$vsColor: map.merge(
+$appColor: () !default;
+$appColor: map.merge(
   (
     'gray-1': #f9fcfd,
     'gray-2': #f4f7f8,
@@ -89,6 +89,10 @@ $vsColor: map.merge(
     'divider': #ced0d4,
     'text': #2c3e50,
     'background': #ffffff,
+
+    'primary': #245d7c,
+    'primary-light': #336699,
+    'primary-lighter': #0484ac,
   ),
-  $vsColor
+  $appColor
 );

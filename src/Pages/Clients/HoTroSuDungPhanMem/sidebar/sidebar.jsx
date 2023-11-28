@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { SidebarItem } from './sidebar-item.jsx'
+import { SidebarItem } from './SidebarItem/SidebarItem'
 import { useBem } from '@/Hooks'
 import PropTypes from 'prop-types'
 
-import './sidebar.scss'
+import './Sidebar.scss'
 
 export const Sidebar = ({ onCategoryChange }) => {
   const bem = useBem('sidebar')

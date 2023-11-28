@@ -1,10 +1,10 @@
 import { useBem } from '@/Hooks'
-import { PostItem } from './post-item'
+import { Post } from './Post'
 import PropTypes from 'prop-types'
 
 import { useEffect, useMemo, useState } from 'react'
 
-import './posts.scss'
+import './Posts.scss'
 
 export const Posts = ({ category, search }) => {
   const bem = useBem('posts')
@@ -22,7 +22,7 @@ export const Posts = ({ category, search }) => {
   return (
     <div className={bem.b()}>
       {getSearch.map((post) => (
-        <PostItem key={post.id} {...post} />
+        <Post key={post.id} {...post} />
       ))}
     </div>
   )

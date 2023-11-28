@@ -1,6 +1,6 @@
 @use 'sass:map';
 @use 'function' as *;
-@use '../common/var' as *;
+@use '../Common/var' as *;
 // forward mixins
 @forward 'config';
 @forward 'function';

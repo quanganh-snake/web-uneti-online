@@ -1,14 +1,14 @@
 @use 'sass:map';
 
-@use 'Styles/mixins/mixins' as *;
-@use 'Styles/mixins/var' as *;
-@use 'Styles/common/var' as *;
+@use 'Styles/Mixins/mixins' as *;
+@use 'Styles/Mixins/var' as *;
+@use 'Styles/Common/var' as *;
 
 @include b(sidebar) {
   width: 280px;
   min-width: 280px;
   height: max-content;
-  background-color: map.get($vsColor, 'background');
+  background-color: map.get($appColor, 'background');
   padding: 18px;
   border-radius: 26px;
   display: flex;

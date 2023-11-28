@@ -1,7 +1,7 @@
 import { useBem } from '@/Hooks'
 import PropTypes from 'prop-types'
 
-import './search.scss'
+import './SearchBox.scss'
 
 export const SearchBox = ({ search, onSearch }) => {
   const bem = useBem('search')

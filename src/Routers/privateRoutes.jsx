@@ -49,7 +49,7 @@ import SoanHoSo from './../Pages/Clients/ThuTucHanhChinhGiangVien/SoanHoSo/SoanH
 import HomeAdmin from '../Pages/Admins/Home/HomeAdmin.jsx'
 import AdminTTHCGV from '../Pages/Admins/TTHCGV/AdminTTHCGV.jsx'
 
-// Think
+// Page Hỗ trợ sử dụng phần mềm
 import HoTroSuDungPhanMem from '../Pages/Clients/HoTroSuDungPhanMem/index.jsx'
 
 const ROLES = ['GV', 'SV']
@@ -99,7 +99,7 @@ export const privateRoutes = (
       </Route>
 
       {/*  */}
-      <Route path='ho-tro-phan-mem' element={<HoTroSuDungPhanMem />} />
+      <Route path='hotrosudungphanmem' element={<HoTroSuDungPhanMem />} />
 
       <Route element={<RoleMiddleware allowedRoles={['GV']} />}>
         <Route path='hotrothietbigiangduong' element={<HomeTBGD />} />
