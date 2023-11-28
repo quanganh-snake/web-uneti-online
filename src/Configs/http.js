@@ -15,25 +15,25 @@ const http = axios.create({
 const dataAuth = localStorage.getItem("persist:root") ? localStorage.getItem("persist:root") : null;
 
 // Add a request interceptor
-// http.interceptors.request.use(
-// 	(config) => {
-// 		let accessToken = null;
-// 		if (dataAuth) {
-// 			const dataAuthLogin = JSON.parse(dataAuth);
-// 			const dataToken = JSON.parse(dataAuthLogin.auth);
-// 			accessToken = dataToken?.login?.currentToken.token;
-// 		} else {
-// 			console.log("error");
-// 		}
-// 		if (accessToken) {
-// 			config.headers.Authorization = `Bearer ${accessToken}`;
-// 		}
-// 		return config;
-// 	},
-// 	(error) => Promise.reject(error)
-// );
+http.interceptors.request.use(
+	(config) => {
+		let accessToken = null;
+		if (dataAuth) {
+			const dataAuthLogin = JSON.parse(dataAuth);
+			const dataToken = JSON.parse(dataAuthLogin.auth);
+			accessToken = dataToken?.login?.currentToken.token;
+		} else {
+			console.log("error");
+		}
+		if (accessToken) {
+			config.headers.Authorization = `Bearer ${accessToken}`;
+		}
+		return config;
+	},
+	(error) => Promise.reject(error)
+);
 
-// // Add a response interceptor
+// Add a response interceptor
 // http.interceptors.response.use(
 // 	(response) => response,
 // 	async (error) => {
@@ -106,9 +106,7 @@ export const createAxiosJWT = (dataToken, dispatch, stateSuccess) => {
 				);
 
 				if (decodedRefreshToken.exp < date.getTime() / 1000) {
-					const navigate = useNavigate();
-					navigate("/dangnhap");
-					// window.location.href = window.location.hostname + "/dangnhap";
+					window.location.href = "/dangnhap";
 					return;
 				}
 
@@ -125,25 +123,27 @@ export const createAxiosJWT = (dataToken, dispatch, stateSuccess) => {
 			return config;
 		},
 		(error) => {
+			console.log(error);
 			Promise.reject(error);
 		}
 	);
 
 	newAxios.interceptors.response.use(
-		(response) => response,
+		(response) => {
+			console.log(response);
+			return response;
+		},
 		(error) => {
 			console.log("🚀 ~ file: http.js:138 ~ createAxiosJWT ~ error:", error);
 			const status = error.response ? error.response.status : null;
 
 			if (status === 401 || status === 403) {
-				const navigate = useNavigate();
-				navigate.push("/dangnhap");
+				window.location.href = "/dangnhap";
 			}
 
 			return Promise.reject(error);
 		}
 	);
-
 	return newAxios;
 };
 

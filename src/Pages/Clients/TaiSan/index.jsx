@@ -13,8 +13,7 @@ import { DataCanBoGV } from "../../../Services/Utils/dataCanBoGV.js";
 import { getDanhSachYeuCau } from "../../../Apis/TaiSan/apiTaiSan.js";
 import { tokenSuccess } from "../../../Services/Redux/Slice/authSlice.js";
 import { useDispatch } from "react-redux";
-import { BASE_URL } from "../../../Configs/config.js";
-import axios from "axios";
+import { createAxiosJWT } from "../../../Configs/http.js";
 
 function HomeTaiSan() {
 	const [loading, setLoading] = useState(true);
@@ -30,8 +29,9 @@ function HomeTaiSan() {
 	const dataSV = DataSinhVien();
 	const dataCBGV = DataCanBoGV();
 
-	const role = localStorage.getItem("role") ?? localStorage.getItem("role");
-
+	const dispatch = useDispatch();
+	const dataToken = dataSV.dataToken ?? dataCBGV.dataToken;
+	const axiosJWT = createAxiosJWT(dataToken, dispatch, tokenSuccess);
 	// event handlers
 	const handlePageChange = ({ selected }) => {
 		setCurrentPage(selected);
@@ -73,7 +73,7 @@ function HomeTaiSan() {
 
 	useEffect(() => {
 		const getAllYeuCauBaoHong = async () => {
-			getDanhSachYeuCau(dataSV.dataToken.token)
+			getDanhSachYeuCau(axiosJWT, dataToken)
 				.then((res) => {
 					setListYeuCauSuCo(res);
 					setLoading(false);

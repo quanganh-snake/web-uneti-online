@@ -74,7 +74,7 @@ function ChiTietThuTucView(props) {
 							<tr>
 								<td className="px-4 py-1 border border-slate-500 font-semibold">Tên thủ tục</td>
 								<td className="px-4 py-1 border border-slate-500">
-									<p className="uppercase font-semibold text-[#0C4A6E]">Quy trình đề nghị cấp tài khoản: Email, LMS, phân quyền: EDU, EGOV</p>
+									<div className="uppercase font-semibold text-[#0C4A6E]">Quy trình đề nghị cấp tài khoản: Email, LMS, phân quyền: EDU, EGOV</div>
 								</td>
 							</tr>
 							<tr>
@@ -108,13 +108,13 @@ function ChiTietThuTucView(props) {
 													<p className="px-2">Đề nghị cấp tài khoản: Email, LMS, phân quyền: EDU, EGOV</p>
 												</td>
 												<td className="border border-slate-300">
-													<p className="px-2">
+													<div className="px-2">
 														<ol>
 															<li>
-																<p className="text-[#0C4A6E] font-semibold">1. TTHC-DT-01-CTK.docx</p>
+																<div className="text-[#0C4A6E] font-semibold">1. TTHC-DT-01-CTK.docx</div>
 															</li>
 														</ol>
-													</p>
+													</div>
 												</td>
 												<td className="border border-slate-300">
 													<p className="text-center">1</p>
@@ -166,78 +166,78 @@ function ChiTietThuTucView(props) {
 											<tr>
 												<td className="border border-slate-300 text-center">1</td>
 												<td className="border border-slate-300">
-													<p className="px-2 text-[#245D7C] font-semibold">Tiếp nhận hồ sơ</p>
+													<div className="px-2 text-[#245D7C] font-semibold">Tiếp nhận hồ sơ</div>
 												</td>
 												<td className="border border-slate-300">
-													<p className="px-2">Nộp trực tuyến thông qua: Web/App</p>
+													<div className="px-2">Nộp trực tuyến thông qua: Web/App</div>
 												</td>
 												<td className="border border-slate-300">
-													<p className="text-center"></p>
+													<div className="text-center"></div>
 												</td>
 												<td className="border border-slate-300">
-													<p className="text-center"></p>
+													<div className="text-center"></div>
 												</td>
 												<td className="border border-slate-300 text-center">
-													<p></p>
+													<div></div>
 												</td>
 												<td className="border border-slate-300 text-center">
-													<p>0.5</p>
+													<div>0.5</div>
 												</td>
 												<td className="border border-slate-300 text-center">
-													<p></p>
+													<div></div>
 												</td>
 											</tr>
 											<tr>
 												<td className="border border-slate-300 text-center">2</td>
 												<td className="border border-slate-300">
-													<p className="px-2 text-[#245D7C] font-semibold">Xử lý hồ sơ</p>
+													<div className="px-2 text-[#245D7C] font-semibold">Xử lý hồ sơ</div>
 												</td>
 												<td className="border border-slate-300">
-													<p className="px-2">Kiểm tra và xử lý hồ sơ đã nộp trên hệ thống phần mềm Uneti Online</p>
+													<div className="px-2">Kiểm tra và xử lý hồ sơ đã nộp trên hệ thống phần mềm Uneti Online</div>
 												</td>
 												<td className="border border-slate-300">
-													<p className="text-center"></p>
+													<div className="text-center"></div>
 												</td>
 												<td className="border border-slate-300">
-													<p className="text-center">P.Đào tạo</p>
+													<div className="text-center">P.Đào tạo</div>
 												</td>
 												<td className="border border-slate-300 text-center">
-													<p></p>
+													<div></div>
 												</td>
 												<td className="border border-slate-300 text-center">
-													<p>2.5</p>
+													<div>2.5</div>
 												</td>
 												<td className="border border-slate-300 text-left">
-													<p className="px-2 text-[#245D7C] font-semibold">
+													<div className="px-2 text-[#245D7C] font-semibold">
 														Thông báo kết quả xử lý qua: Email / Thông báo trên ứng dụng Web, App <br /> - Duyệt ={">"} Thông báo kết quả; <br />- Không duyệt ={">"} Nêu lý
 														do không được chấp nhận.
-													</p>
+													</div>
 												</td>
 											</tr>
 											<tr>
 												<td className="border border-slate-300 text-center">3</td>
 												<td className="border border-slate-300">
-													<p className="px-2 font-semibold text-[#245D7C]">Trả kết quả</p>
+													<div className="px-2 font-semibold text-[#245D7C]">Trả kết quả</div>
 												</td>
 												<td className="border border-slate-300">
-													<p className="px-2">Trả kết quả trực tuyến thông qua: Web/App</p>
+													<div className="px-2">Trả kết quả trực tuyến thông qua: Web/App</div>
 												</td>
 												<td className="border border-slate-300">
-													<p className="text-center"></p>
+													<div className="text-center"></div>
 												</td>
 												<td className="border border-slate-300">
-													<p className="text-center"></p>
+													<div className="text-center"></div>
 												</td>
 												<td className="border border-slate-300 text-center">
-													<p></p>
+													<div></div>
 												</td>
 												<td className="border border-slate-300 text-center">
-													<p className="px-2">0</p>
+													<div className="px-2">0</div>
 												</td>
 												<td className="border border-slate-300 text-left">
-													<p className="px-2 text-[#245D7C] font-semibold">
+													<div className="px-2 text-[#245D7C] font-semibold">
 														- Thông báo kết quả cho CB.TCCB biết kết quả; <br />- Thông báo cho nhân sự biết thông tin tài khoản, mật khẩu thông qua email cá nhân …
-													</p>
+													</div>
 												</td>
 											</tr>
 										</tbody>
@@ -258,7 +258,7 @@ function ChiTietThuTucView(props) {
 										<tbody>
 											<tr>
 												<td colSpan={3} className="border border-slate-300">
-													<p className="px-2 py-1 font-semibold">Không có phí</p>
+													<span className="px-2 py-1 font-semibold">Không có phí</span>
 												</td>
 											</tr>
 										</tbody>
@@ -268,25 +268,25 @@ function ChiTietThuTucView(props) {
 							<tr>
 								<td className="px-4 py-1 border border-slate-500 font-semibold">Đối tượng thực hiện</td>
 								<td className="px-4 py-1 border border-slate-500">
-									<p></p>
+									<div></div>
 								</td>
 							</tr>
 							<tr>
 								<td className="px-4 py-1 border border-slate-500 font-semibold">Căn cứ pháp lý của TTHC</td>
 								<td className="px-4 py-1 border border-slate-500">
-									<p></p>
+									<div></div>
 								</td>
 							</tr>
 							<tr>
 								<td className="px-4 py-1 border border-slate-500 font-semibold">Yêu cầu hoặc điều kiện để thực hiện TTHC</td>
 								<td className="px-4 py-1 border border-slate-500">
-									<p></p>
+									<div></div>
 								</td>
 							</tr>
 							<tr>
 								<td className="px-4 py-1 border border-slate-500 font-semibold">Tệp thủ tục</td>
 								<td className="px-4 py-1 border border-slate-500">
-									<p></p>
+									<div></div>
 								</td>
 							</tr>
 						</tbody>

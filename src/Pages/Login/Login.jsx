@@ -116,9 +116,9 @@ function Login() {
 		}
 
 		const sinhvien = await checkedSinhVien(username, password);
-		console.log("🚀 ~ file: Login.jsx:135 ~ handleLogin ~ sinhvien:", sinhvien);
+		// console.log("🚀 ~ file: Login.jsx:135 ~ handleLogin ~ sinhvien:", sinhvien);
 		const giangvien = await checkedGiangVien(username, password);
-		console.log("🚀 ~ file: Login.jsx:123 ~ handleLogin ~ giangvien:", giangvien);
+		// console.log("🚀 ~ file: Login.jsx:123 ~ handleLogin ~ giangvien:", giangvien);
 
 		if (!sinhvien && !giangvien) {
 			return toast.error("Thông tin đăng nhập không chính xác. Vui lòng kiểm tra lại!", {

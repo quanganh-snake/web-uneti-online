@@ -97,7 +97,7 @@ function HomeTTHCGVView(props) {
 										<tr key={iData.id}>
 											<td className="border border-slate-300 text-center">{index + 1}</td>
 											<td className="border border-slate-300">
-												<p className="px-2">
+												<div className="px-2">
 													<ul>
 														<li>
 															<Link to={`/tthcgiangvien/chitiet/${nameSlug}/${iData.id}`} className="uppercase font-semibold text-[#0C4A6E]">
@@ -105,16 +105,16 @@ function HomeTTHCGVView(props) {
 															</Link>
 														</li>
 														<li>
-															<p className="flex items-center gap-2">
+															<span className="flex items-center gap-2">
 																Mức độ:{" "}
 																<span className="inline-block w-4 h-4 bg-[#075985] rounded-full text-center text-white font-semibold text-xs">{iData.level}</span>
-															</p>
+															</span>
 														</li>
 														<li>
-															<p className="font-semibold italic text-red-600">{iData.type}</p>
+															<span className="font-semibold italic text-red-600">{iData.type}</span>
 														</li>
 													</ul>
-												</p>
+												</div>
 											</td>
 											<td className="border border-slate-300">
 												<p className="px-2 text-center">{iData.linhVuc}</p>

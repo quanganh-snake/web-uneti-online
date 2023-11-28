@@ -1,8 +1,6 @@
-import http from "../../Configs/http";
-
-export const getDanhSachYeuCau = async (token) => {
+export const getDanhSachYeuCau = async (axiosJWT, token) => {
 	try {
-		const response = await http.get(`/SP_DT_QLTS_TiepNhan/Load`, {
+		const response = await axiosJWT.get(`/SP_DT_QLTS_TiepNhan/Load`, {
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${token}`,
