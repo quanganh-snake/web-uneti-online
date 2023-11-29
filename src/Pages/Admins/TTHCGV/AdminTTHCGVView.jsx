@@ -10,6 +10,7 @@ import TrinhTuThucHien from "./ThemMoiThuTuc/TrinhTuThucHien";
 import PhiLePhi from "./ThemMoiThuTuc/PhiLePhi";
 import TrangThaiHoSo from "./ThemMoiThuTuc/TrangThaiHoSo";
 import PhanQuyen from "./ThemMoiThuTuc/PhanQuyen";
+import SidebarTTHCGV from "./Sidebar/SidebarTTHCGV";
 function AdminTTHCGVView(props) {
 	// variables
 	// var: active Tabs
@@ -155,6 +156,19 @@ function AdminTTHCGVView(props) {
 		}
 	};
 
+	const handleAddQuyTrinh = () => {
+		const newQuyTrinh = {
+			MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo: "",
+			MC_TTHC_GV_ThanhPhanHoSo_DataFile: null,
+			MC_TTHC_GV_ThanhPhanHoSo_TenFile: "",
+			MC_TTHC_GV_ThanhPhanHoSo_BanChinh: false,
+			MC_TTHC_GV_ThanhPhanHoSo_BanSao: false,
+			MC_TTHC_GV_ThanhPhanHoSo_BatBuoc: false,
+		};
+
+		setQuyTrinh([...quyTrinh, newQuyTrinh]);
+	};
+
 	const handleOnSubmitForm = (e) => {
 		e.preventDefault();
 		const dataForms = {
@@ -184,65 +198,68 @@ function AdminTTHCGVView(props) {
 	useEffect(() => {}, [thongTinActive, tpHoSoDeNghiActive, trinhTuThucHienActive, phiActive, phanQuyenActive, trangThaiActive]);
 
 	return (
-		<div className="p-4 rounded-xl shadow-lg bg-white">
-			{/* START: Tabs Bar */}
-			<Tabs
-				handleOpenTab={handleOpenTab}
-				thongTinActive={thongTinActive}
-				tpHoSoDeNghiActive={tpHoSoDeNghiActive}
-				trinhTuThucHienActive={trinhTuThucHienActive}
-				phiActive={phiActive}
-				phanQuyenActive={phanQuyenActive}
-				trangThaiActive={trangThaiActive}
-			/>
-			{/* END: Tabs Bar */}
+		<div className="flex gap-4">
+			<SidebarTTHCGV />
+			<div className="p-4 rounded-xl shadow-lg bg-white">
+				{/* START: Tabs Bar */}
+				<Tabs
+					handleOpenTab={handleOpenTab}
+					thongTinActive={thongTinActive}
+					tpHoSoDeNghiActive={tpHoSoDeNghiActive}
+					trinhTuThucHienActive={trinhTuThucHienActive}
+					phiActive={phiActive}
+					phanQuyenActive={phanQuyenActive}
+					trangThaiActive={trangThaiActive}
+				/>
+				{/* END: Tabs Bar */}
 
-			<form className="w-full" onSubmit={handleOnSubmitForm}>
-				{/* START: Thông Tin Hồ Sơ */}
-				{thongTinActive ? (
-					<ThongTinHoSo
-						tenThuTuc={tenThuTuc}
-						viTri={viTri}
-						maThuTuc={maThuTuc}
-						mucDo={mucDo}
-						tongThoiGianGiaiQuyet={tongThoiGianGiaiQuyet}
-						linhVuc={linhVuc}
-						donViTiepNhan={donViTiepNhan}
-						noiTraKetQua={noiTraKetQua}
-						thuTucLienThong={thuTucLienThong}
-						thuTucKhongApDungMotCua={thuTucKhongApDungMotCua}
-						handleChangeValue={handleChangeValue}
-					/>
-				) : null}
-				{/* END: Thông Tin Hồ Sơ */}
+				<form className="w-full" onSubmit={handleOnSubmitForm}>
+					{/* START: Thông Tin Hồ Sơ */}
+					{thongTinActive ? (
+						<ThongTinHoSo
+							tenThuTuc={tenThuTuc}
+							viTri={viTri}
+							maThuTuc={maThuTuc}
+							mucDo={mucDo}
+							tongThoiGianGiaiQuyet={tongThoiGianGiaiQuyet}
+							linhVuc={linhVuc}
+							donViTiepNhan={donViTiepNhan}
+							noiTraKetQua={noiTraKetQua}
+							thuTucLienThong={thuTucLienThong}
+							thuTucKhongApDungMotCua={thuTucKhongApDungMotCua}
+							handleChangeValue={handleChangeValue}
+						/>
+					) : null}
+					{/* END: Thông Tin Hồ Sơ */}
 
-				{/* START: Thành phần hồ sơ đề nghị */}
-				{tpHoSoDeNghiActive ? <ThanhPhanHoSoDeNghi /> : null}
+					{/* START: Thành phần hồ sơ đề nghị */}
+					{tpHoSoDeNghiActive ? <ThanhPhanHoSoDeNghi quyTrinh={quyTrinh} setQuyTrinh={setQuyTrinh} handleAddQuyTrinh={handleAddQuyTrinh} /> : null}
 
-				{/* END: Thành phần hồ sơ đề nghị */}
+					{/* END: Thành phần hồ sơ đề nghị */}
 
-				{/* START: Thiết lập trình tự thực hiện */}
-				{trinhTuThucHienActive ? <TrinhTuThucHien /> : null}
-				{/* END: Thiết lập trình tự thực hiện */}
+					{/* START: Thiết lập trình tự thực hiện */}
+					{trinhTuThucHienActive ? <TrinhTuThucHien /> : null}
+					{/* END: Thiết lập trình tự thực hiện */}
 
-				{/* START: Phí, lệ phí */}
-				{phiActive ? <PhiLePhi /> : null}
-				{/* END: Phí, lệ phí */}
+					{/* START: Phí, lệ phí */}
+					{phiActive ? <PhiLePhi /> : null}
+					{/* END: Phí, lệ phí */}
 
-				{/* START: Trạng thái */}
-				{trangThaiActive ? <TrangThaiHoSo /> : null}
-				{/* END: Trạng thái */}
+					{/* START: Trạng thái */}
+					{trangThaiActive ? <TrangThaiHoSo /> : null}
+					{/* END: Trạng thái */}
 
-				{/* START: Phân quyền */}
-				{phanQuyenActive ? <PhanQuyen /> : null}
-				{/* END: Phân quyền */}
+					{/* START: Phân quyền */}
+					{phanQuyenActive ? <PhanQuyen /> : null}
+					{/* END: Phân quyền */}
 
-				<div className="uneti-tthcgv__add-form">
-					<button type="submit" className="px-3 py-1 bg-[#109435] text-white hover:opacity-70 rounded-md">
-						Lưu hồ sơ
-					</button>
-				</div>
-			</form>
+					<div className="uneti-tthcgv__add-form">
+						<button type="submit" className="px-3 py-1 bg-[#109435] text-white hover:opacity-70 rounded-md">
+							Lưu hồ sơ
+						</button>
+					</div>
+				</form>
+			</div>
 		</div>
 	);
 }

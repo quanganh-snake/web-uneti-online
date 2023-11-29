@@ -40,7 +40,7 @@ function ThongTinHoSo(props) {
 						/>
 					</label>
 				</div>
-				<div className="col-span-4 md:col-span-2 lg:col-span-1">
+				<div className="col-span-4 lg:col-span-2">
 					<label htmlFor="MC_TTHC_GV_MaThuTuc">
 						<p className="font-semibold mb-2">
 							Mã thủ tục <span className="text-red-500">*</span>
@@ -56,7 +56,7 @@ function ThongTinHoSo(props) {
 						/>
 					</label>
 				</div>
-				<div className="col-span-4 md:col-span-2 lg:col-span-1">
+				<div className="col-span-4 lg:col-span-2">
 					<label htmlFor="MC_TTHC_GV_IDMucDo">
 						<p className="font-semibold mb-2">
 							Mức độ <span className="text-red-500">*</span>
@@ -76,7 +76,7 @@ function ThongTinHoSo(props) {
 						</select>
 					</label>
 				</div>
-				<div className="col-span-4 md:col-span-2 lg:col-span-1">
+				<div className="col-span-4 lg:col-span-2">
 					<label htmlFor="MC_TTHC_GV_TongThoiGianGiaiQuyet" className="flex flex-col">
 						<p className="font-semibold mb-2 whitespace-nowrap">
 							Tổng thời gian giải quyết (trong giờ HC) <span className="text-red-500">*</span>
@@ -96,7 +96,7 @@ function ThongTinHoSo(props) {
 						</div>
 					</label>
 				</div>
-				<div className="col-span-4 md:col-span-2 lg:col-span-1">
+				<div className="col-span-4 lg:col-span-2">
 					<label htmlFor="MC_TTHC_GV_LinhVuc">
 						<p className="font-semibold mb-2">
 							Lĩnh vực <span className="text-red-500">*</span>

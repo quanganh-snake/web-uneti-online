@@ -48,6 +48,8 @@ import ChiTietThuTuc from "../Pages/Clients/ThuTucHanhChinhGiangVien/ChiTietThuT
 import SoanHoSo from "./../Pages/Clients/ThuTucHanhChinhGiangVien/SoanHoSo/SoanHoSo";
 import HomeAdmin from "../Pages/Admins/Home/HomeAdmin.jsx";
 import AdminTTHCGV from "../Pages/Admins/TTHCGV/AdminTTHCGV.jsx";
+import CanBoNghiepVu from "../Pages/Admins/TTHCGV/CanBoNghiepVu/CanBoNghiepVu.jsx";
+import ChiTietHoSoYeuCau from "../Pages/Admins/TTHCGV/ChiTietHoSoYeuCau/ChiTietHoSoYeuCau.jsx";
 
 const ROLES = ["GV", "SV"];
 
@@ -110,6 +112,10 @@ export const privateRoutes = (
 			<Route element={<RoleMiddleware allowedRoles={["GV"]} />}>
 				<Route path="admin">
 					<Route index element={<HomeAdmin />} />
+					<Route path="canbonghiepvu">
+						<Route index element={<CanBoNghiepVu />} />
+						<Route path=":slug/:id" element={<ChiTietHoSoYeuCau />} />
+					</Route>
 					<Route path="quantriTTHCGV" element={<AdminTTHCGV />} />
 				</Route>
 			</Route>

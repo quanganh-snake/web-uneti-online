@@ -5,6 +5,8 @@ import { toast } from "react-toastify";
 import { tokenGVLogin, tokenSVLogin, userGVLogin, userSVLogin } from "../../Apis/apiLogin.js";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { createAxiosJWT } from "../../Configs/http.js";
+import { tokenSuccess } from "../../Services/Redux/Slice/authSlice.js";
 
 function Login() {
 	const [showPassword, setShowPassword] = useState(false);
@@ -31,9 +33,11 @@ function Login() {
 			TC_SV_MaSinhVien_Pass: password,
 		};
 		const tokenSV = await tokenSVLogin(userSV, dispatch);
+		const axiosJWT = createAxiosJWT(tokenSV, dispatch, tokenSuccess);
+
 		if (tokenSV) {
 			const accessTokenSV = tokenSV.token;
-			const dataSV = await userSVLogin({ TC_SV_MaSinhVien: username }, accessTokenSV, dispatch, navigate);
+			const dataSV = await userSVLogin(axiosJWT, { TC_SV_MaSinhVien: username }, accessTokenSV, dispatch, navigate);
 
 			if (!dataSV) {
 				return null;
@@ -65,9 +69,10 @@ function Login() {
 		};
 		try {
 			const tokenGV = await tokenGVLogin(userGV, dispatch);
+			const axiosJWT = createAxiosJWT(tokenGV, dispatch, tokenSuccess);
 			if (tokenGV) {
 				const accessTokenGV = tokenGV.token;
-				const dataGV = await userGVLogin(userGV, accessTokenGV, dispatch, navigate);
+				const dataGV = await userGVLogin(axiosJWT, userGV, accessTokenGV, dispatch, navigate);
 
 				if (!dataGV) {
 					return null;

@@ -5,8 +5,8 @@ import { MdOutlineLocationOn, MdPhone, MdOutlinePublic } from "react-icons/md";
 import logoUNETI from "../../Assets/Images/LOGO_UNETI.ico";
 function Footer() {
 	return (
-		<footer className="bg-sky-800 p-4">
-			<div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-y-4 justify-between items-center">
+		<footer className="bg-sky-800">
+			<div className="py-3 max-w-7xl mx-auto flex flex-col md:flex-row gap-y-4 justify-between items-center">
 				<div className="uneti-logo mb-5">
 					<Link to="/">
 						<img src={logoUNETI} alt="UNETI Logo" width={120} />
@@ -81,6 +81,12 @@ function Footer() {
 							</Link>
 						</li>
 					</ul>
+				</div>
+			</div>
+			<div className="bg-[#134156]">
+				<div className="max-w-7xl mx-auto text-white flex items-center justify-between font-semibold py-3">
+					<p>&#169; Copyright Trường Đại học Kinh tế - Kỹ thuật Công nghiệp</p>
+					<p>Version: 2.0.0.0</p>
 				</div>
 			</div>
 		</footer>
