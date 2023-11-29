@@ -13,3 +13,11 @@ export const getDataHoTroSuDungPhanMem = (
     },
   })
 }
+
+export const getDataMenu = (axiosJWT, accessToken) => {
+  return axiosJWT.get('/SP_DT_CVNB_TBGD_TLTiepNhanRoutes/LoadMenu_TLHD', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+}
