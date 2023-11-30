@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import clsx from "clsx";
-import { Link } from "react-router-dom";
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 import { homeTaiSan } from "../../../Services/Static/dataStatic.js";
 import icoPhoneHotLine from "../../../assets/Icons/icoPhoneTaiSan.png";
@@ -73,7 +71,7 @@ function HomeTaiSan() {
 
 	useEffect(() => {
 		const getAllYeuCauBaoHong = async () => {
-			getDanhSachYeuCau(axiosJWT, dataToken)
+			getDanhSachYeuCau(axiosJWT, dataToken.token)
 				.then((res) => {
 					setListYeuCauSuCo(res);
 					setLoading(false);

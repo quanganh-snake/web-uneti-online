@@ -5,18 +5,17 @@ import { IoMdCloudUpload } from "react-icons/io";
 import Swal from "sweetalert2";
 
 function ThanhPhanHoSoDeNghi(props) {
-	const { quyTrinh, setQuyTrinh, handleAddQuyTrinh } = props;
+	const { thanhPhanHoSo, setThanhPhanHoSo, handleAddThanhPhanHoSo } = props;
 	const [editRowIndex, setEditRowIndex] = useState(-1);
 	const [editValueRow, setEditValueRow] = useState({});
-	const [dataFileBase64, setDataFileBase64] = useState(null);
 	// event handlers
 	const handleEditRow = (index) => {
 		setEditRowIndex(index);
-		setEditValueRow(quyTrinh[index]);
+		setEditValueRow(thanhPhanHoSo[index]);
 	};
 
 	const handleSaveDataRow = () => {
-		setQuyTrinh((prevDataRow) => {
+		setThanhPhanHoSo((prevDataRow) => {
 			const newDataRow = [...prevDataRow];
 			newDataRow[editRowIndex] = editValueRow;
 			return newDataRow;
@@ -43,7 +42,7 @@ function ThanhPhanHoSoDeNghi(props) {
 					text: "Xóa thành công dữ liệu",
 					icon: "success",
 				});
-				setQuyTrinh((prevDataRow) => {
+				setThanhPhanHoSo((prevDataRow) => {
 					const newData = [...prevDataRow];
 					newData.splice(rowIndex, 1);
 					return newData;
@@ -123,14 +122,14 @@ function ThanhPhanHoSoDeNghi(props) {
 						</tr>
 					</thead>
 					<tbody>
-						{quyTrinh.length === 0 && (
+						{thanhPhanHoSo.length === 0 && (
 							<tr className="text-center">
 								<td colSpan={7}>
 									<p className="px-2 py-2 font-semibold text-red-500">Chưa có thành phần hồ sơ đề nghị nào</p>
 								</td>
 							</tr>
 						)}
-						{quyTrinh.map((row, index) => (
+						{thanhPhanHoSo.map((row, index) => (
 							<tr key={index} className={clsx(editRowIndex === index ? "bg-slate-200" : null)}>
 								{/* Dữ liệu hiển thị */}
 								{editRowIndex === index ? (
@@ -236,7 +235,7 @@ function ThanhPhanHoSoDeNghi(props) {
 				</table>
 			</div>
 
-			<button type="button" className="flex flex-row gap-2 items-center font-semibold text-xl text-white bg-[#245D7C] px-2 py-1 rounded-md hover:opacity-70" onClick={handleAddQuyTrinh}>
+			<button type="button" className="flex flex-row gap-2 items-center font-semibold text-xl text-white bg-[#245D7C] px-2 py-1 rounded-md hover:opacity-70" onClick={handleAddThanhPhanHoSo}>
 				<MdAdd size={24} className="font-bold" />
 				Thêm thành phần hồ sơ
 			</button>

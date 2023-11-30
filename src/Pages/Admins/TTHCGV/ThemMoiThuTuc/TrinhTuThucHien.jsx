@@ -1,7 +1,8 @@
 import React from "react";
 import { MdAdd } from "react-icons/md";
 
-function TrinhTuThucHien() {
+function TrinhTuThucHien(props) {
+	const { quyTrinh, setQuyTrinh, handleAddQuyTrinh } = props;
 	return (
 		<div className="uneti-tthcgv__trinhtuthuchien mb-5">
 			<h2 className="text-2xl font-semibold uppercase mb-4">Thiết lập trình tự thực hiện</h2>

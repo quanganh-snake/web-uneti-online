@@ -99,9 +99,14 @@ export const privateRoutes = (
 
 			{/*  */}
 			<Route element={<RoleMiddleware allowedRoles={["GV"]} />}>
-				<Route path="hotrothietbigiangduong" element={<HomeTBGD />} />
+				<Route index path="hotrothietbigiangduong" element={<HomeTBGD />} />
 			</Route>
-			<Route path="taisan" element={<HomeTaiSan />} />
+			<Route element={<RoleMiddleware allowedRoles={ROLES} />}>
+				<Route path="taisan">
+					<Route index element={<HomeTaiSan />} />
+				</Route>
+			</Route>
+
 			<Route element={<RoleMiddleware allowedRoles={["GV"]} />}>
 				<Route path="tthcgiangvien">
 					<Route index element={<HomeTTHCGV />} />
@@ -114,7 +119,7 @@ export const privateRoutes = (
 					<Route index element={<HomeAdmin />} />
 					<Route path="canbonghiepvu">
 						<Route index element={<CanBoNghiepVu />} />
-						<Route path=":slug/:id" element={<ChiTietHoSoYeuCau />} />
+						<Route path="chitietyeucau/:yeucau/:id" element={<ChiTietHoSoYeuCau />} />
 					</Route>
 					<Route path="quantriTTHCGV" element={<AdminTTHCGV />} />
 				</Route>

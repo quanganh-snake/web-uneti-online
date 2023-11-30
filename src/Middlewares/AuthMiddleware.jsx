@@ -17,7 +17,8 @@ function AuthMiddleware() {
 	}
 
 	const dataAuth = useSelector((state) => state.auth?.login?.currentToken?.token);
-
+	console.log(">>> role: ", role);
+	console.log(">>> dataAuth: ", dataAuth);
 	if (dataAuth == null || dataAuth == undefined || dataAuth == "" || role == null || role == "" || role == undefined) {
 		return <Navigate to={"/dangnhap"} />;
 	} else {

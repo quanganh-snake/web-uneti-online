@@ -31,6 +31,7 @@ function AdminTTHCGVView(props) {
 	const [noiTraKetQua, setNoiTraKetQua] = useState("");
 	const [thuTucLienThong, setThuTucLienThong] = useState(false);
 	const [thuTucKhongApDungMotCua, setThuTucLienThongApDungMotCua] = useState(false);
+	const [thanhPhanHoSo, setThanhPhanHoSo] = useState([]);
 	const [quyTrinh, setQuyTrinh] = useState([]);
 	const [phiLePhi, setPhiLePhi] = useState([]);
 	const [trangThai, setTrangThai] = useState([]);
@@ -156,6 +157,19 @@ function AdminTTHCGVView(props) {
 		}
 	};
 
+	const handleAddThanhPhanHoSo = () => {
+		const newThanhPhanHoSo = {
+			MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo: "",
+			MC_TTHC_GV_ThanhPhanHoSo_DataFile: null,
+			MC_TTHC_GV_ThanhPhanHoSo_TenFile: "",
+			MC_TTHC_GV_ThanhPhanHoSo_BanChinh: false,
+			MC_TTHC_GV_ThanhPhanHoSo_BanSao: false,
+			MC_TTHC_GV_ThanhPhanHoSo_BatBuoc: false,
+		};
+
+		setThanhPhanHoSo([...thanhPhanHoSo, newThanhPhanHoSo]);
+	};
+
 	const handleAddQuyTrinh = () => {
 		const newQuyTrinh = {
 			MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo: "",
@@ -167,6 +181,32 @@ function AdminTTHCGVView(props) {
 		};
 
 		setQuyTrinh([...quyTrinh, newQuyTrinh]);
+	};
+
+	const handleAddLePhi = () => {
+		const newLePhi = {
+			MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo: "",
+			MC_TTHC_GV_ThanhPhanHoSo_DataFile: null,
+			MC_TTHC_GV_ThanhPhanHoSo_TenFile: "",
+			MC_TTHC_GV_ThanhPhanHoSo_BanChinh: false,
+			MC_TTHC_GV_ThanhPhanHoSo_BanSao: false,
+			MC_TTHC_GV_ThanhPhanHoSo_BatBuoc: false,
+		};
+
+		setPhiLePhi([...phiLePhi, newLePhi]);
+	};
+
+	const handleAddTrangThai = () => {
+		const newTrangThai = {
+			MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo: "",
+			MC_TTHC_GV_ThanhPhanHoSo_DataFile: null,
+			MC_TTHC_GV_ThanhPhanHoSo_TenFile: "",
+			MC_TTHC_GV_ThanhPhanHoSo_BanChinh: false,
+			MC_TTHC_GV_ThanhPhanHoSo_BanSao: false,
+			MC_TTHC_GV_ThanhPhanHoSo_BatBuoc: false,
+		};
+
+		setTrangThai([...trangThai, newTrangThai]);
 	};
 
 	const handleOnSubmitForm = (e) => {
@@ -200,7 +240,7 @@ function AdminTTHCGVView(props) {
 	return (
 		<div className="flex gap-4">
 			<SidebarTTHCGV />
-			<div className="p-4 rounded-xl shadow-lg bg-white">
+			<div className="w-full p-4 rounded-xl shadow-lg bg-white">
 				{/* START: Tabs Bar */}
 				<Tabs
 					handleOpenTab={handleOpenTab}
@@ -233,20 +273,19 @@ function AdminTTHCGVView(props) {
 					{/* END: Thông Tin Hồ Sơ */}
 
 					{/* START: Thành phần hồ sơ đề nghị */}
-					{tpHoSoDeNghiActive ? <ThanhPhanHoSoDeNghi quyTrinh={quyTrinh} setQuyTrinh={setQuyTrinh} handleAddQuyTrinh={handleAddQuyTrinh} /> : null}
-
+					{tpHoSoDeNghiActive ? <ThanhPhanHoSoDeNghi thanhPhanHoSo={thanhPhanHoSo} setThanhPhanHoSo={setThanhPhanHoSo} handleAddThanhPhanHoSo={handleAddThanhPhanHoSo} /> : null}
 					{/* END: Thành phần hồ sơ đề nghị */}
 
 					{/* START: Thiết lập trình tự thực hiện */}
-					{trinhTuThucHienActive ? <TrinhTuThucHien /> : null}
+					{trinhTuThucHienActive ? <TrinhTuThucHien quyTrinh={quyTrinh} setQuyTrinh={setQuyTrinh} handleAddQuyTrinh={handleAddQuyTrinh} /> : null}
 					{/* END: Thiết lập trình tự thực hiện */}
 
 					{/* START: Phí, lệ phí */}
-					{phiActive ? <PhiLePhi /> : null}
+					{phiActive ? <PhiLePhi phiLePhi={phiLePhi} setPhiLePhi={setPhiLePhi} handleAddLePhi={handleAddLePhi} /> : null}
 					{/* END: Phí, lệ phí */}
 
 					{/* START: Trạng thái */}
-					{trangThaiActive ? <TrangThaiHoSo /> : null}
+					{trangThaiActive ? <TrangThaiHoSo trangThai={trangThai} setTrangThai={setTrangThai} handleAddTrangThai={handleAddQuyTrinh} /> : null}
 					{/* END: Trạng thái */}
 
 					{/* START: Phân quyền */}

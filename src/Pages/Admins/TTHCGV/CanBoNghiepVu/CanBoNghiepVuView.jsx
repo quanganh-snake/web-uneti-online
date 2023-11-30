@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import SidebarTTHCGV from "../Sidebar/SidebarTTHCGV";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
 import { changeSlug } from "../../../../Services/Utils/stringUtils";
-
+import ReactPaginate from "react-paginate";
+import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 function CanBoNghiepVuView(props) {
 	const fakeDataHSYeuCau = [
 		{
@@ -21,9 +22,9 @@ function CanBoNghiepVuView(props) {
 		},
 		{
 			id: 2,
-			tenHS: "Quy trình đề nghị cấp tài khoản: email, LMS, phân quyền: EDU, EGOV",
+			tenHS: "Quy trình đề nghị cấp lại mật khẩu tài khoản Email",
 			soBienNhan: 2,
-			nguoiNop: "Tống Bá Quang Anh",
+			nguoiNop: "Nguyễn Thị Thanh Tâm",
 			nguoiNhan: "Phòng Đào Tạo",
 			ngayTiepNhan: "22/11/2023",
 			ngayHenTra: "30/11/2023",
@@ -33,9 +34,9 @@ function CanBoNghiepVuView(props) {
 		},
 		{
 			id: 3,
-			tenHS: "Quy trình đề nghị cấp tài khoản: email, LMS, phân quyền: EDU, EGOV",
+			tenHS: "Quy trình đề nghị cấp lại mật khẩu tài khoản LMS",
 			soBienNhan: 3,
-			nguoiNop: "Tống Bá Quang Anh",
+			nguoiNop: "Nguyễn Thị Thanh Tâm",
 			nguoiNhan: "Phòng Đào Tạo",
 			ngayTiepNhan: "22/11/2023",
 			ngayHenTra: "30/11/2023",
@@ -45,9 +46,9 @@ function CanBoNghiepVuView(props) {
 		},
 		{
 			id: 4,
-			tenHS: "Quy trình đề nghị cấp tài khoản: email, LMS, phân quyền: EDU, EGOV",
+			tenHS: "Quy trình đề nghị cấp tên miền và hệ quản trị nội dung website",
 			soBienNhan: 4,
-			nguoiNop: "Tống Bá Quang Anh",
+			nguoiNop: "Nguyễn Thành Trung",
 			nguoiNhan: "Phòng Đào Tạo",
 			ngayTiepNhan: "22/11/2023",
 			ngayHenTra: "30/11/2023",
@@ -57,9 +58,9 @@ function CanBoNghiepVuView(props) {
 		},
 		{
 			id: 5,
-			tenHS: "Quy trình đề nghị cấp tài khoản: email, LMS, phân quyền: EDU, EGOV",
+			tenHS: "Quy trình đề nghị cấp tên miền và trỏ tên miền ra máy chủ bên ngoài",
 			soBienNhan: 5,
-			nguoiNop: "Tống Bá Quang Anh",
+			nguoiNop: "Nguyễn Mạnh Cường",
 			nguoiNhan: "Phòng Đào Tạo",
 			ngayTiepNhan: "22/11/2023",
 			ngayHenTra: "30/11/2023",
@@ -69,9 +70,9 @@ function CanBoNghiepVuView(props) {
 		},
 		{
 			id: 6,
-			tenHS: "Quy trình đề nghị cấp tài khoản: email, LMS, phân quyền: EDU, EGOV",
+			tenHS: "Quy trình đề nghị nghỉ phép năm",
 			soBienNhan: 6,
-			nguoiNop: "Tống Bá Quang Anh",
+			nguoiNop: "Lê Văn Hiến",
 			nguoiNhan: "Phòng Đào Tạo",
 			ngayTiepNhan: "22/11/2023",
 			ngayHenTra: "30/11/2023",
@@ -81,9 +82,9 @@ function CanBoNghiepVuView(props) {
 		},
 		{
 			id: 7,
-			tenHS: "Quy trình đề nghị cấp tài khoản: email, LMS, phân quyền: EDU, EGOV",
+			tenHS: "Quy trình đề nghị thanh toán hạng mục lắt đặt hệ thống controller mạng",
 			soBienNhan: 7,
-			nguoiNop: "Tống Bá Quang Anh",
+			nguoiNop: "Tô Thành Công",
 			nguoiNhan: "Phòng Đào Tạo",
 			ngayTiepNhan: "22/11/2023",
 			ngayHenTra: "30/11/2023",
@@ -129,6 +130,26 @@ function CanBoNghiepVuView(props) {
 		},
 	];
 
+	const [dataSearch, setDataSearch] = useState(fakeDataHSYeuCau);
+	const [keywordSearch, setKeywordSearch] = useState("");
+
+	const [currentPage, setCurrentPage] = useState(0);
+	const itemsPerPage = 5;
+	const pageCount = Math.ceil(dataSearch.length / itemsPerPage);
+	const displayData = dataSearch.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+	const handleSearch = (e) => {
+		e.preventDefault();
+		const { value } = e.target;
+		setKeywordSearch(value);
+
+		const newDataSearch = fakeDataHSYeuCau.filter((itemYeuCau) => itemYeuCau.tenHS.toLowerCase().includes(value.toLowerCase()));
+		setDataSearch(newDataSearch);
+	};
+
+	const handlePageChange = ({ selected }) => {
+		setCurrentPage(selected);
+	};
+
 	return (
 		<div className="flex flex-row gap-4">
 			<SidebarTTHCGV />
@@ -136,7 +157,13 @@ function CanBoNghiepVuView(props) {
 			<div className="bg-white w-full rounded-xl px-2 py-4">
 				<div className="grid grid-cols-4 gap-4 mb-4">
 					<div className="uneti-tthc__timkiem col-span-4 lg:col-span-2">
-						<input type="text" placeholder="Nhập nội dung tìm kiếm..." className="w-full px-3 py-1 rounded-full border border-slate-200 focus:outline-slate-300" />
+						<input
+							type="text"
+							value={keywordSearch}
+							placeholder="Nhập nội dung tìm kiếm..."
+							className="w-full px-3 py-1 rounded-full border border-slate-200 focus:outline-slate-300"
+							onChange={handleSearch}
+						/>
 					</div>
 					<div className="uneti-tthc__timkiem col-span-4 lg:col-span-1">
 						<button type="button" className="w-full text-[#336699] px-3 py-1 rounded-lg font-semibold border border-[#336699] hover:bg-[#336699] hover:text-white">
@@ -155,7 +182,7 @@ function CanBoNghiepVuView(props) {
 				</div>
 				{/* END: Bộ lọc */}
 
-				<div className="w-full">
+				<div className="w-full mb-4">
 					<table className="w-full">
 						<thead className="bg-[#336699] text-white">
 							<tr>
@@ -168,7 +195,7 @@ function CanBoNghiepVuView(props) {
 							</tr>
 						</thead>
 						<tbody>
-							{fakeDataHSYeuCau.map((itemYeuCau, index) => {
+							{displayData.map((itemYeuCau, index) => {
 								const titleSlug = changeSlug(itemYeuCau.tenHS);
 								return (
 									<tr className="border" key={itemYeuCau.id}>
@@ -201,7 +228,7 @@ function CanBoNghiepVuView(props) {
 												)}
 												<div className="flex items-center gap-4">
 													<Link
-														to={`/admin/canbonghiepvu/${titleSlug}/${itemYeuCau.id}`}
+														to={`/admin/canbonghiepvu/chitietyeucau/${titleSlug}/${itemYeuCau.id}`}
 														className="text-white font-semibold bg-[#336699] px-3 py-1 rounded-full hover:opacity-70"
 													>
 														Xử lý/Xem chi tiết
@@ -229,6 +256,20 @@ function CanBoNghiepVuView(props) {
 						</tbody>
 					</table>
 				</div>
+
+				{/* Phân trang */}
+				<ReactPaginate
+					previousLabel={<FaCaretLeft color="#336699" size={32} />}
+					nextLabel={<FaCaretRight color="#336699" size={32} />}
+					pageCount={pageCount}
+					marginPagesDisplayed={2}
+					pageRangeDisplayed={5}
+					onPageChange={handlePageChange}
+					containerClassName={"pagination"}
+					pageClassName={"px-2 py-1 hover:text-white hover:font-semibold hover:bg-[#336699]"}
+					activeClassName={"px-2 py-1 text-white font-semibold bg-[#336699]"}
+					className="w-full flex items-center justify-end gap-1"
+				/>
 			</div>
 			{/* END: Danh sách các thủ tục/yêu cầu hỗ trợ */}
 		</div>
