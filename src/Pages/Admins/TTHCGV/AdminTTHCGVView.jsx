@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { FaFileInvoice } from "react-icons/fa";
-import { MdAdd, MdOutlineMenu } from "react-icons/md";
-import clsx from "clsx";
 import Tabs from "./Tabs/Tabs";
 import ThongTinHoSo from "./ThemMoiThuTuc/ThongTinHoSo";
 import ThanhPhanHoSoDeNghi from "./ThemMoiThuTuc/ThanhPhanHoSoDeNghi";
@@ -11,7 +8,16 @@ import PhiLePhi from "./ThemMoiThuTuc/PhiLePhi";
 import TrangThaiHoSo from "./ThemMoiThuTuc/TrangThaiHoSo";
 import PhanQuyen from "./ThemMoiThuTuc/PhanQuyen";
 import SidebarTTHCGV from "./Sidebar/SidebarTTHCGV";
+import { postThuTucHanhChinh } from "../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
+import { createAxiosJWT } from "./../../../Configs/http";
+import { DataSinhVien } from "../../../Services/Utils/dataSinhVien";
+import { DataCanBoGV } from "../../../Services/Utils/dataCanBoGV";
+import { useDispatch } from "react-redux";
+import { tokenSuccess } from "../../../Services/Redux/Slice/authSlice";
+import { NguonTiepNhan_WEB } from "../../../Services/Static/dataStatic";
+import Swal from "sweetalert2";
 function AdminTTHCGVView(props) {
+	const { listMucDo } = props;
 	// variables
 	// var: active Tabs
 	const [thongTinActive, setThongTinActive] = useState(false);
@@ -22,10 +28,13 @@ function AdminTTHCGVView(props) {
 	const [trangThaiActive, setTrangThaiActive] = useState(false);
 	// var: dataForm - thongtinhoso
 	const [tenThuTuc, setTenThuTuc] = useState("");
-	const [viTri, setViTri] = useState(1);
+	const [canCuPhapLyCuaTTHC, setCanCuPhapLyCuaTTHC] = useState("");
+	const [dieuKienThucHien, setDieuKienThucHien] = useState("");
+	const [viTri, setViTri] = useState("");
 	const [maThuTuc, setMaThuTuc] = useState("");
-	const [mucDo, setMucDo] = useState(1);
+	const [mucDo, setMucDo] = useState("");
 	const [tongThoiGianGiaiQuyet, setTongThoiGianGiaiQuyet] = useState("");
+	const [soBoHoSo, setSoBoHoSo] = useState("");
 	const [linhVuc, setLinhVuc] = useState("");
 	const [donViTiepNhan, setDonViTiepNhan] = useState("");
 	const [noiTraKetQua, setNoiTraKetQua] = useState("");
@@ -35,7 +44,7 @@ function AdminTTHCGVView(props) {
 	const [quyTrinh, setQuyTrinh] = useState([]);
 	const [phiLePhi, setPhiLePhi] = useState([]);
 	const [trangThai, setTrangThai] = useState([]);
-	const [phanQuyen, setPhanQuyen] = useState({});
+	const [phanQuyen, setPhanQuyen] = useState([]);
 	// const [formData, setFormData] = useState({
 	// 	thongTinHoSo: {
 	// 		tenThuTuc: "",
@@ -53,8 +62,14 @@ function AdminTTHCGVView(props) {
 	// 	quyTrinh: [],
 	// 	phiLePhi: [],
 	// 	trangThai: [],
-	// 	phanQuyen: {},
+	// 	phanQuyen: [],
 	// });
+
+	const dataTokenSV = DataSinhVien();
+	const dataTokenCBGV = DataCanBoGV();
+	const dataToken = dataTokenSV.dataToken ?? dataTokenCBGV.dataToken;
+	const dispatch = useDispatch();
+	const axiosJWT = createAxiosJWT(dataToken, dispatch, tokenSuccess);
 
 	// event handlers
 	const handleOpenTab = (e) => {
@@ -155,6 +170,18 @@ function AdminTTHCGVView(props) {
 		if (id === "MC_TTHC_GV_ThuTucKhongApDungMC") {
 			setThuTucLienThongApDungMotCua(checked);
 		}
+
+		if (id === "MC_TTHC_GV_SoBoHoSo") {
+			setSoBoHoSo(value);
+		}
+
+		if (id === "MC_TTHC_GV_CanCuPhapLyCuaTTHC") {
+			setCanCuPhapLyCuaTTHC(value);
+		}
+
+		if (id === "MC_TTHC_GV_DieuKienThucHien") {
+			setDieuKienThucHien(value);
+		}
 	};
 
 	const handleAddThanhPhanHoSo = () => {
@@ -172,12 +199,13 @@ function AdminTTHCGVView(props) {
 
 	const handleAddQuyTrinh = () => {
 		const newQuyTrinh = {
-			MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo: "",
-			MC_TTHC_GV_ThanhPhanHoSo_DataFile: null,
-			MC_TTHC_GV_ThanhPhanHoSo_TenFile: "",
-			MC_TTHC_GV_ThanhPhanHoSo_BanChinh: false,
-			MC_TTHC_GV_ThanhPhanHoSo_BanSao: false,
-			MC_TTHC_GV_ThanhPhanHoSo_BatBuoc: false,
+			MC_TTHC_GV_TrinhTuThucHien_TenCongViec: "",
+			MC_TTHC_GV_TrinhTuThucHien_CacThucThucHien: "",
+			MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra: "",
+			MC_TTHC_GV_TrinhTuThucHien_DonViThucHien: "",
+			MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop: "",
+			MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay: 0,
+			MC_TTHC_GV_TrinhTuThucHien_KetQua: "",
 		};
 
 		setQuyTrinh([...quyTrinh, newQuyTrinh]);
@@ -209,21 +237,43 @@ function AdminTTHCGVView(props) {
 		setTrangThai([...trangThai, newTrangThai]);
 	};
 
-	const handleOnSubmitForm = (e) => {
+	const handleOnSubmitForm = async (e) => {
 		e.preventDefault();
 		const dataForms = {
-			MC_TTHC_GV_TenThuTuc: tenThuTuc,
 			MC_TTHC_GV_ThuTu: viTri,
 			MC_TTHC_GV_MaThuTuc: maThuTuc,
+			MC_TTHC_GV_TenThuTuc: tenThuTuc,
+			MC_TTHC_GV_GhiChu: "",
 			MC_TTHC_GV_IDMucDo: mucDo,
-			MC_TTHC_GV_TongThoiGianGiaiQuyet: tongThoiGianGiaiQuyet,
 			MC_TTHC_GV_LinhVuc: linhVuc,
-			MC_TTHC_GV_NoiTiepNhan: donViTiepNhan,
-			MC_TTHC_GV_NoiTraKetQua: noiTraKetQua,
 			MC_TTHC_GV_ThuTucLienThong: thuTucLienThong,
 			MC_TTHC_GV_ThuTucKhongApDungMC: thuTucKhongApDungMotCua,
+			MC_TTHC_GV_SoBoHoSo: soBoHoSo,
+			MC_TTHC_GV_TongThoiGianGiaiQuyet: tongThoiGianGiaiQuyet,
+			MC_TTHC_GV_CanCuPhapLyCuaTTHC: canCuPhapLyCuaTTHC,
+			MC_TTHC_GV_DieuKienThucHien: dieuKienThucHien,
+			MC_TTHC_GV_NguonTiepNhan: NguonTiepNhan_WEB,
+			MC_TTHC_GV_NoiTiepNhan: donViTiepNhan,
+			MC_TTHC_GV_NoiTraKetQua: noiTraKetQua,
+			images: [
+				{
+					urlTemp: "",
+					lastModified: "",
+					MC_TTHC_GV_TepThuTuc_DataFileFile: "",
+					MC_TTHC_GV_TepThuTuc_TenFile: "hinhanh-quanganh-test",
+				},
+			],
 		};
-		console.log(">>>data forms checked: ", dataForms);
+		if (quyTrinh.length <= 0) {
+			Swal.fire();
+		}
+		postThuTucHanhChinh(axiosJWT, dataForms)
+			.then((res) => {
+				console.log(res);
+			})
+			.catch((error) => {
+				console.log("ERROR: ", [error]);
+			});
 	};
 
 	useEffect(() => {
@@ -238,7 +288,7 @@ function AdminTTHCGVView(props) {
 	useEffect(() => {}, [thongTinActive, tpHoSoDeNghiActive, trinhTuThucHienActive, phiActive, phanQuyenActive, trangThaiActive]);
 
 	return (
-		<div className="flex gap-4">
+		<div className="px-5 lg:px-0 flex gap-4">
 			<SidebarTTHCGV />
 			<div className="w-full p-4 rounded-xl shadow-lg bg-white">
 				{/* START: Tabs Bar */}
@@ -257,11 +307,13 @@ function AdminTTHCGVView(props) {
 					{/* START: Thông Tin Hồ Sơ */}
 					{thongTinActive ? (
 						<ThongTinHoSo
+							listMucDo={listMucDo}
 							tenThuTuc={tenThuTuc}
 							viTri={viTri}
 							maThuTuc={maThuTuc}
 							mucDo={mucDo}
 							tongThoiGianGiaiQuyet={tongThoiGianGiaiQuyet}
+							soBoHoSo={soBoHoSo}
 							linhVuc={linhVuc}
 							donViTiepNhan={donViTiepNhan}
 							noiTraKetQua={noiTraKetQua}
@@ -285,7 +337,7 @@ function AdminTTHCGVView(props) {
 					{/* END: Phí, lệ phí */}
 
 					{/* START: Trạng thái */}
-					{trangThaiActive ? <TrangThaiHoSo trangThai={trangThai} setTrangThai={setTrangThai} handleAddTrangThai={handleAddQuyTrinh} /> : null}
+					{trangThaiActive ? <TrangThaiHoSo trangThai={trangThai} setTrangThai={setTrangThai} handleAddTrangThai={handleAddTrangThai} /> : null}
 					{/* END: Trạng thái */}
 
 					{/* START: Phân quyền */}

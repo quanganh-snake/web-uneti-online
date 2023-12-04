@@ -1,11 +1,10 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import { useNavigate } from "react-router-dom";
-
-export const API_URL = "https://apiv2.uneti.edu.vn/api";
+import { DataSinhVien } from "../Services/Utils/dataSinhVien";
+import { DataCanBoGV } from "../Services/Utils/dataCanBoGV";
 
 const http = axios.create({
-	baseURL: `${API_URL}`,
+	baseURL: `${import.meta.env.VITE_API_URL}`,
 	timeout: 10000,
 	headers: {
 		"Content-Type": "application/json",
@@ -78,7 +77,8 @@ export const createAxiosJWT = (dataToken, dispatch, stateSuccess) => {
 	// console.log("🚀 ~ file: http.js:78 ~ createAxiosJWT ~ dispatch:", dispatch);
 	// console.log("🚀 ~ file: http.js:78 ~ createAxiosJWT ~ dataToken:", dataToken);
 	const newAxios = axios.create({
-		baseURL: `${API_URL}`,
+		baseURL: `${import.meta.env.VITE_API_URL}`,
+		timeout: 10000,
 		headers: {
 			"Content-Type": "application/json",
 		},
@@ -88,22 +88,22 @@ export const createAxiosJWT = (dataToken, dispatch, stateSuccess) => {
 		async (config) => {
 			let date = new Date();
 			const { token: accessToken, refreshToken } = dataToken;
-
 			if (accessToken && refreshToken) {
+				config.headers.Authorization = `Bearer ${accessToken}`;
 				const decodedToken = jwtDecode(accessToken);
-				console.log(
-					"🚀 ~ file: http.js:92 ~ check accessToken expire: ",
-					decodedToken.exp < date.getTime() / 1000,
-					"  - time detail: ",
-					date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "s"
-				);
+				// console.log(
+				// 	"🚀 ~ file: http.js:92 ~ check accessToken expire: ",
+				// 	decodedToken.exp < date.getTime() / 1000,
+				// 	"  - time detail: ",
+				// 	date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "s"
+				// );
 				const decodedRefreshToken = jwtDecode(refreshToken);
-				console.log(
-					"🚀 ~ file: http.js:92 ~ check refreshToken expire: ",
-					decodedRefreshToken.exp < date.getTime() / 1000,
-					"  - time detail: ",
-					date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "s"
-				);
+				// console.log(
+				// 	"🚀 ~ file: http.js:92 ~ check refreshToken expire: ",
+				// 	decodedRefreshToken.exp < date.getTime() / 1000,
+				// 	"  - time detail: ",
+				// 	date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "s"
+				// );
 
 				if (decodedRefreshToken.exp < date.getTime() / 1000) {
 					window.location.href = "/dangnhap";
@@ -111,7 +111,7 @@ export const createAxiosJWT = (dataToken, dispatch, stateSuccess) => {
 				}
 
 				if (decodedToken.exp < date.getTime() / 1000) {
-					const resNewDataToken = await axios.post(`${API_URL}/jwt/RefreshToken`, { refreshToken });
+					const resNewDataToken = await axios.post(`${import.meta.env.VITE_API_URL}/jwt/RefreshToken`, { refreshToken });
 					const refreshUser = {
 						...dataToken,
 						token: resNewDataToken.data.token,
@@ -130,11 +130,11 @@ export const createAxiosJWT = (dataToken, dispatch, stateSuccess) => {
 
 	newAxios.interceptors.response.use(
 		(response) => {
-			console.log(response);
+			// console.log(response);
 			return response;
 		},
 		(error) => {
-			console.log("🚀 ~ file: http.js:138 ~ createAxiosJWT ~ error:", error);
+			// console.log("🚀 ~ file: http.js:138 ~ createAxiosJWT ~ error:", error);
 			const status = error.response ? error.response.status : null;
 
 			if (status === 401 || status === 403) {

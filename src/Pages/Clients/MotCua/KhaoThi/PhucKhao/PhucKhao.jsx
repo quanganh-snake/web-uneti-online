@@ -222,7 +222,7 @@ function PhucKhao() {
 	};
 
 	useEffect(() => {
-		getTenDot(axiosJWT, accessToken).then((res) => {
+		getTenDot(axiosJWT).then((res) => {
 			setListHocKy(res?.data?.body);
 		});
 

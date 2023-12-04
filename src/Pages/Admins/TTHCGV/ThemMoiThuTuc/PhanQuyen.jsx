@@ -4,7 +4,13 @@ function PhanQuyen() {
 	const [listDonViThucHien, setListDonViThucHien] = useState([]);
 	const [listToNghiepVu, setListToNghiepVu] = useState([]);
 	const [listNhomThucHien, setListNhomThucHien] = useState([]);
-	const [listNhanSuThucHien, setListNhanSuThucHien] = useState([]);
+	const [listNhanSuThucHien, setListNhanSuThucHien] = useState([
+		{
+			name: "Tống Bá Quang Anh",
+			maNhanSu: "",
+			phanQuyen: [],
+		},
+	]);
 
 	const dataRoles = [
 		{
@@ -31,6 +37,8 @@ function PhanQuyen() {
 
 	const handleSelectData = () => {};
 
+	const handleDeleteItem = (listData, index) => {};
+
 	return (
 		<div className="uneti-tthcgv__phanquyen mb-5">
 			<h2 className="text-2xl font-semibold uppercase mb-4">Thiết lập phân quyền thực hiện</h2>
@@ -47,20 +55,22 @@ function PhanQuyen() {
 								<option value="">Phòng tài chính - kế toán</option>
 							</select>
 						</label>
-						<div className="w-full px-3 py-2 border rounded-lg bg-slate-50 min-h-[60px] max-h-[140px] overflow-y-auto">
-							<p className="px-2 py-1 font-semibold flex flex-row items-center justify-between hover:bg-slate-100 rounded-md cursor-pointer border mb-1">
-								<span>- Phòng Tổ chức cán bộ</span>
-								<TiDeleteOutline className="cursor-pointer text-red-500 hover:opacity-70" size={24} />
-							</p>
-							<p className="px-2 py-1 font-semibold flex flex-row items-center justify-between hover:bg-slate-100 rounded-md cursor-pointer border mb-1">
-								<span>- Phòng Đào tạo</span>
-								<TiDeleteOutline className="cursor-pointer text-red-500 hover:opacity-70" size={24} />
-							</p>
-							<p className="px-2 py-1 font-semibold flex flex-row items-center justify-between hover:bg-slate-100 rounded-md cursor-pointer border mb-1">
-								<span>- Phòng Tài chính - Kế toán</span>
-								<TiDeleteOutline className="cursor-pointer text-red-500 hover:opacity-70" size={24} />
-							</p>
-						</div>
+						{listDonViThucHien && listDonViThucHien.length > 0 && (
+							<div className="w-full px-3 py-2 border rounded-lg bg-slate-50 min-h-[60px] max-h-[140px] overflow-y-auto">
+								{listDonViThucHien.map((itemDVThucHien, index) => (
+									<p key={index} className="px-2 py-1 font-semibold flex flex-row items-center justify-between hover:bg-slate-100 rounded-md cursor-pointer border mb-1">
+										<span>- {itemDVThucHien.name}</span>
+										<TiDeleteOutline
+											className="cursor-pointer text-red-500 hover:opacity-70"
+											size={24}
+											onClick={() => {
+												handleDeleteItem(listDonViThucHien, index);
+											}}
+										/>
+									</p>
+								))}
+							</div>
+						)}
 					</div>
 				</div>
 				{/* END: Select Đơn Vị Thực Hiện */}
@@ -77,20 +87,22 @@ function PhanQuyen() {
 								<option value="">Tổ 3</option>
 							</select>
 						</label>
-						<div className="w-full px-3 py-2 border rounded-lg bg-slate-50 min-h-[60px] max-h-[140px] overflow-y-auto">
-							<p className="px-2 py-1 font-semibold flex flex-row items-center justify-between hover:bg-slate-100 rounded-md cursor-pointer border mb-1">
-								<span>- Tổ 1</span>
-								<TiDeleteOutline className="cursor-pointer text-red-500 hover:opacity-70" size={24} />
-							</p>
-							<p className="px-2 py-1 font-semibold flex flex-row items-center justify-between hover:bg-slate-100 rounded-md cursor-pointer border mb-1">
-								<span>- Tổ 2</span>
-								<TiDeleteOutline className="cursor-pointer text-red-500 hover:opacity-70" size={24} />
-							</p>
-							<p className="px-2 py-1 font-semibold flex flex-row items-center justify-between hover:bg-slate-100 rounded-md cursor-pointer border mb-1">
-								<span>- Tổ 3</span>
-								<TiDeleteOutline className="cursor-pointer text-red-500 hover:opacity-70" size={24} />
-							</p>
-						</div>
+						{listToNghiepVu && listToNghiepVu.length > 0 && (
+							<div className="w-full px-3 py-2 border rounded-lg bg-slate-50 min-h-[60px] max-h-[140px] overflow-y-auto">
+								{listToNghiepVu.map((itemDVThucHien, index) => (
+									<p key={index} className="px-2 py-1 font-semibold flex flex-row items-center justify-between hover:bg-slate-100 rounded-md cursor-pointer border mb-1">
+										<span>- {itemDVThucHien.name}</span>
+										<TiDeleteOutline
+											className="cursor-pointer text-red-500 hover:opacity-70"
+											size={24}
+											onClick={() => {
+												handleDeleteItem(listToNghiepVu, index);
+											}}
+										/>
+									</p>
+								))}
+							</div>
+						)}
 					</div>
 				</div>
 				{/* END: Select Tổ nghiệp vụ */}
@@ -107,20 +119,22 @@ function PhanQuyen() {
 								<option value="">Nhóm 3</option>
 							</select>
 						</label>
-						<div className="w-full px-3 py-2 border rounded-lg bg-slate-50 min-h-[60px] max-h-[140px] overflow-y-auto">
-							<p className="px-2 py-1 font-semibold flex flex-row items-center justify-between hover:bg-slate-100 rounded-md cursor-pointer border mb-1">
-								<span>- Nhóm 1</span>
-								<TiDeleteOutline className="cursor-pointer text-red-500 hover:opacity-70" size={24} />
-							</p>
-							<p className="px-2 py-1 font-semibold flex flex-row items-center justify-between hover:bg-slate-100 rounded-md cursor-pointer border mb-1">
-								<span>- Nhóm 2</span>
-								<TiDeleteOutline className="cursor-pointer text-red-500 hover:opacity-70" size={24} />
-							</p>
-							<p className="px-2 py-1 font-semibold flex flex-row items-center justify-between hover:bg-slate-100 rounded-md cursor-pointer border mb-1">
-								<span>- Nhóm 3</span>
-								<TiDeleteOutline className="cursor-pointer text-red-500 hover:opacity-70" size={24} />
-							</p>
-						</div>
+						{listNhomThucHien && listNhomThucHien.length > 0 && (
+							<div className="w-full px-3 py-2 border rounded-lg bg-slate-50 min-h-[60px] max-h-[140px] overflow-y-auto">
+								{listNhomThucHien.map((itemDVThucHien, index) => (
+									<p key={index} className="px-2 py-1 font-semibold flex flex-row items-center justify-between hover:bg-slate-100 rounded-md cursor-pointer border mb-1">
+										<span>- {itemDVThucHien.name}</span>
+										<TiDeleteOutline
+											className="cursor-pointer text-red-500 hover:opacity-70"
+											size={24}
+											onClick={() => {
+												handleDeleteItem(listNhomThucHien, index);
+											}}
+										/>
+									</p>
+								))}
+							</div>
+						)}
 					</div>
 				</div>
 				{/* END: Select Nhóm thực hiện */}
@@ -141,84 +155,82 @@ function PhanQuyen() {
 								<option value="">Nguyễn Mạnh Cường - QTM</option>
 							</select>
 						</label>
-						<div className="w-full px-3 py-2 border rounded-lg bg-slate-50 min-h-[60px] max-h-[140px] overflow-y-auto">
-							<div className="px-2 py-1 font-semibold flex flex-row items-center justify-between hover:bg-slate-100 rounded-md cursor-pointer border mb-1">
-								<p>
-									<span>- Tống Bá Quang Anh - PĐT</span>
-									<span className="ml-2">(Tất cả quyền)</span>
-								</p>
-								<TiDeleteOutline className="cursor-pointer text-red-500 hover:opacity-70" size={24} />
+						{listNhanSuThucHien && listNhanSuThucHien.length > 0 && (
+							<div className="w-full px-3 py-2 border rounded-lg bg-slate-50 min-h-[60px] max-h-[140px] overflow-y-auto">
+								{listNhanSuThucHien.map((itemDVThucHien, index) => (
+									<p key={index} className="px-2 py-1 font-semibold flex flex-row items-center justify-between hover:bg-slate-100 rounded-md cursor-pointer border mb-1">
+										<span>- {itemDVThucHien.name}</span>
+										<TiDeleteOutline
+											className="cursor-pointer text-red-500 hover:opacity-70"
+											size={24}
+											onClick={() => {
+												handleDeleteItem(listNhanSuThucHien, index);
+											}}
+										/>
+									</p>
+								))}
 							</div>
-							<div className="px-2 py-1 font-semibold flex flex-row items-center justify-between hover:bg-slate-100 rounded-md cursor-pointer border mb-1">
-								<p>
-									<span>- Nguyễn Mạnh Quân - PĐT</span>
-									<span className="ml-2">(Tất cả quyền)</span>
-								</p>
-								<TiDeleteOutline className="cursor-pointer text-red-500 hover:opacity-70" size={24} />
-							</div>
-							<div className="px-2 py-1 font-semibold flex flex-row items-center justify-between hover:bg-slate-100 rounded-md cursor-pointer border mb-1">
-								<p>
-									<span>- Vũ Xuân Tuấn - STU</span>
-									<span className="ml-2">(Xem)</span>
-								</p>
-								<TiDeleteOutline className="cursor-pointer text-red-500 hover:opacity-70" size={24} />
-							</div>
-						</div>
+						)}
 					</div>
 				</div>
 				{/* END: Select Nhân sự thực hiện */}
 
 				{/* START: Select Quyền thao tác */}
-				<div className="col-span-4">
-					<h3 className="font-semibold mb-2">Chọn quyền thực hiện</h3>
-					<div className="flex flex-row items-center gap-10">
-						<div className="flex flex-row items-center gap-2">
-							<input
-								type="checkbox"
-								className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-								name="MC_TTHC_GV_PhanQuyen_QuyenFull"
-								id="MC_TTHC_GV_PhanQuyen_QuyenFull"
-							/>
-							<label htmlFor="MC_TTHC_GV_PhanQuyen_QuyenFull">Tất cả quyền</label>
+				{listNhanSuThucHien && listNhanSuThucHien.length > 0 && (
+					<div className="col-span-4">
+						<h3 className="font-semibold mb-2">Chọn quyền thực hiện</h3>
+						<div className="flex flex-col lg:flex-row items-center gap-10 mb-2">
+							<div className="flex flex-row items-center gap-2">
+								<input
+									type="checkbox"
+									className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+									name="MC_TTHC_GV_PhanQuyen_QuyenFull"
+									id="MC_TTHC_GV_PhanQuyen_QuyenFull"
+								/>
+								<label htmlFor="MC_TTHC_GV_PhanQuyen_QuyenFull">Tất cả quyền</label>
+							</div>
+							<div className="flex flex-row items-center gap-2">
+								<input
+									type="checkbox"
+									className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+									name="MC_TTHC_GV_PhanQuyen_QuyenXem"
+									id="MC_TTHC_GV_PhanQuyen_QuyenXem"
+								/>
+								<label htmlFor="MC_TTHC_GV_PhanQuyen_QuyenXem">Quyền xem</label>
+							</div>
+							<div className="flex flex-row items-center gap-2">
+								<input
+									type="checkbox"
+									className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+									name="MC_TTHC_GV_PhanQuyen_QuyenThem"
+									id="MC_TTHC_GV_PhanQuyen_QuyenThem"
+								/>
+								<label htmlFor="MC_TTHC_GV_PhanQuyen_QuyenThem">Quyền thêm</label>
+							</div>
+							<div className="flex flex-row items-center gap-2">
+								<input
+									type="checkbox"
+									className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+									name="MC_TTHC_GV_PhanQuyen_QuyenSua"
+									id="MC_TTHC_GV_PhanQuyen_QuyenSua"
+								/>
+								<label htmlFor="MC_TTHC_GV_PhanQuyen_QuyenSua">Quyền sửa</label>
+							</div>
+							<div className="flex flex-row items-center gap-2">
+								<input
+									type="checkbox"
+									className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+									name="MC_TTHC_GV_PhanQuyen_QuyenXoa"
+									id="MC_TTHC_GV_PhanQuyen_QuyenXoa"
+								/>
+								<label htmlFor="MC_TTHC_GV_PhanQuyen_QuyenXoa">Quyền xóa</label>
+							</div>
 						</div>
-						<div className="flex flex-row items-center gap-2">
-							<input
-								type="checkbox"
-								className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-								name="MC_TTHC_GV_PhanQuyen_QuyenXem"
-								id="MC_TTHC_GV_PhanQuyen_QuyenXem"
-							/>
-							<label htmlFor="MC_TTHC_GV_PhanQuyen_QuyenXem">Quyền xem</label>
-						</div>
-						<div className="flex flex-row items-center gap-2">
-							<input
-								type="checkbox"
-								className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-								name="MC_TTHC_GV_PhanQuyen_QuyenThem"
-								id="MC_TTHC_GV_PhanQuyen_QuyenThem"
-							/>
-							<label htmlFor="MC_TTHC_GV_PhanQuyen_QuyenThem">Quyền thêm</label>
-						</div>
-						<div className="flex flex-row items-center gap-2">
-							<input
-								type="checkbox"
-								className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-								name="MC_TTHC_GV_PhanQuyen_QuyenSua"
-								id="MC_TTHC_GV_PhanQuyen_QuyenSua"
-							/>
-							<label htmlFor="MC_TTHC_GV_PhanQuyen_QuyenSua">Quyền sửa</label>
-						</div>
-						<div className="flex flex-row items-center gap-2">
-							<input
-								type="checkbox"
-								className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-								name="MC_TTHC_GV_PhanQuyen_QuyenXoa"
-								id="MC_TTHC_GV_PhanQuyen_QuyenXoa"
-							/>
-							<label htmlFor="MC_TTHC_GV_PhanQuyen_QuyenXoa">Quyền xóa</label>
-						</div>
+						<button type="button" className="px-3 py-1 bg-[#336699] text-white rounded-md hover:opacity-70">
+							Lưu quyền nhân sự
+						</button>
 					</div>
-				</div>
+				)}
 				{/* END: Select Quyền thao tác */}
 			</div>
 		</div>

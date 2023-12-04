@@ -10,12 +10,12 @@ function MainCommon() {
 
 	return (
 		<>
-			{pathname === "/dangnhap" ? null : <Header />}
+			{pathname === "/" || pathname === "/dangnhap" ? null : <Header />}
 
 			<main className="mt-[140px] mb-[50px] max-w-7xl mx-auto">
 				<RouterCore />
 			</main>
-			{pathname === "/dangnhap" ? null : <Footer />}
+			{pathname === "/" || pathname === "/dangnhap" ? null : <Footer />}
 		</>
 	);
 }

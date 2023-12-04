@@ -2,7 +2,23 @@ import React from "react";
 import PropTypes from "prop-types";
 
 function ThongTinHoSo(props) {
-	const { tenThuTuc, viTri, maThuTuc, mucDo, tongThoiGianGiaiQuyet, linhVuc, donViTiepNhan, noiTraKetQua, thuTucLienThong, thuTucKhongApDungMotCua, handleChangeValue } = props;
+	const {
+		listMucDo,
+		tenThuTuc,
+		viTri,
+		maThuTuc,
+		mucDo,
+		tongThoiGianGiaiQuyet,
+		soBoHoSo,
+		linhVuc,
+		donViTiepNhan,
+		noiTraKetQua,
+		thuTucLienThong,
+		thuTucKhongApDungMotCua,
+		canCuPhapLyCuaTTHC,
+		dieuKienThucHien,
+		handleChangeValue,
+	} = props;
 	return (
 		<div className="uneti-tthcgv__thongtinhoso mb-5">
 			<h2 className="text-2xl font-semibold uppercase mb-4">Thiết lập thông tin hồ sơ</h2>
@@ -65,20 +81,51 @@ function ThongTinHoSo(props) {
 							className="px-3 py-2 w-full rounded-full border border-slate-300 focus:outline-slate-300"
 							name="MC_TTHC_GV_IDMucDo"
 							id="MC_TTHC_GV_IDMucDo"
-							value={mucDo}
 							onChange={handleChangeValue}
 						>
 							<option value="">Chọn mức độ</option>
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
+							{listMucDo &&
+								listMucDo.map((iMucDo, index) => {
+									return (
+										<option key={iMucDo.MC_TTHC_GV_MucDo_ID} value={iMucDo.MC_TTHC_GV_MucDo_ID}>
+											{iMucDo.MC_TTHC_GV_MucDo_ID + " - " + iMucDo.MC_TTHC_GV_MucDo_MoTa}
+										</option>
+									);
+								})}
 						</select>
 					</label>
 				</div>
 				<div className="col-span-4 lg:col-span-2">
+					<label htmlFor="MC_TTHC_GV_CanCuPhapLyCuaTTHC">
+						<p className="font-semibold mb-2">Căn cứ pháp lý của TTHC</p>
+						<input
+							type="text"
+							placeholder="Nhập căn cứ pháp lý của TTHC..."
+							className="px-3 py-2 w-full rounded-full border border-slate-300 focus:outline-slate-300"
+							name="MC_TTHC_GV_CanCuPhapLyCuaTTHC"
+							id="MC_TTHC_GV_CanCuPhapLyCuaTTHC"
+							value={canCuPhapLyCuaTTHC}
+							onChange={handleChangeValue}
+						/>
+					</label>
+				</div>
+				<div className="col-span-4 lg:col-span-2">
+					<label htmlFor="MC_TTHC_GV_DieuKienThucHien">
+						<p className="font-semibold mb-2">Điều kiện thực hiện của TTHC</p>
+						<input
+							type="text"
+							placeholder="Nhập điều kiện thực hiện của TTHC..."
+							className="px-3 py-2 w-full rounded-full border border-slate-300 focus:outline-slate-300"
+							name="MC_TTHC_GV_DieuKienThucHien"
+							id="MC_TTHC_GV_DieuKienThucHien"
+							value={dieuKienThucHien}
+							onChange={handleChangeValue}
+						/>
+					</label>
+				</div>
+				<div className="col-span-4 lg:col-span-2">
 					<label htmlFor="MC_TTHC_GV_TongThoiGianGiaiQuyet" className="flex flex-col">
-						<p className="font-semibold mb-2 whitespace-nowrap">
+						<p className="font-semibold mb-2 lg:whitespace-nowrap">
 							Tổng thời gian giải quyết (trong giờ HC) <span className="text-red-500">*</span>
 						</p>
 						<div className="flex flex-row items-center justify-between w-full gap-2">
@@ -97,6 +144,23 @@ function ThongTinHoSo(props) {
 					</label>
 				</div>
 				<div className="col-span-4 lg:col-span-2">
+					<label htmlFor="MC_TTHC_GV_SoBoHoSo">
+						<p className="font-semibold mb-2">
+							Số bộ hồ sơ kèm theo <span className="text-red-500">*</span>
+						</p>
+						<input
+							type="number"
+							placeholder="Số bộ hồ sơ"
+							min={0}
+							className="px-3 py-2 rounded-full w-full border border-slate-300 focus:outline-slate-300"
+							name="MC_TTHC_GV_SoBoHoSo"
+							id="MC_TTHC_GV_SoBoHoSo"
+							value={soBoHoSo}
+							onChange={handleChangeValue}
+						/>
+					</label>
+				</div>
+				<div className="col-span-4 lg:col-span-2">
 					<label htmlFor="MC_TTHC_GV_LinhVuc">
 						<p className="font-semibold mb-2">
 							Lĩnh vực <span className="text-red-500">*</span>
@@ -109,13 +173,8 @@ function ThongTinHoSo(props) {
 							onChange={handleChangeValue}
 						>
 							<option value="">Chọn lĩnh vực</option>
-							<option value="Chính trị & CTSV">Chính trị & CTSV</option>
-							<option value="Hợp tác quốc tế">Hợp tác quốc tế</option>
-							<option value="Khảo thí và Đảm bảo chất lượng">Khảo thí và Đảm bảo chất lượng</option>
-							<option value="Tài chính - kế toán">Tài chính - kế toán</option>
-							<option value="Truyền thông">Truyền thông</option>
-							<option value="Tổ chức cán bộ">Tổ chức cán bộ</option>
-							<option value="Quản lý Đào tạo">Quản lý Đào tạo</option>
+							<option value="CNTT">CNTT</option>
+							<option value="TCCB">TCCB</option>
 						</select>
 					</label>
 				</div>
@@ -188,11 +247,32 @@ function ThongTinHoSo(props) {
 						<span className="font-semibold">Thủ tục không áp dụng Một cửa</span>
 					</label>
 				</div>
+				{thuTucLienThong || thuTucKhongApDungMotCua ? (
+					<div className="col-span-4 lg:col-span-2 my-4">
+						<label className="p-4 bg-[#336699] text-white rounded-lg cursor-pointer hover:opacity-70" htmlFor="file_input">
+							Tải lên file thủ tục (.pdf, .docx, .doc)
+						</label>
+						<input className="hidden" id="file_input" type="file" />
+					</div>
+				) : null}
 			</div>
 		</div>
 	);
 }
 
-ThongTinHoSo.propTypes = {};
+ThongTinHoSo.propTypes = {
+	listMucDo: PropTypes.array,
+	tenThuTuc: PropTypes.string,
+	viTri: PropTypes.string,
+	maThuTuc: PropTypes.string,
+	mucDo: PropTypes.string,
+	tongThoiGianGiaiQuyet: PropTypes.string,
+	linhVuc: PropTypes.string,
+	donViTiepNhan: PropTypes.string,
+	noiTraKetQua: PropTypes.string,
+	thuTucLienThong: PropTypes.bool,
+	thuTucKhongApDungMotCua: PropTypes.bool,
+	handleChangeValue: PropTypes.func,
+};
 
 export default ThongTinHoSo;

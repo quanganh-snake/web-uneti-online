@@ -55,8 +55,36 @@ const ROLES = ["GV", "SV"];
 
 export const privateRoutes = (
 	<>
-		<Route path="/" element={<AuthMiddleware />}>
-			<Route path="" element={<Home />} />
+		<Route element={<AuthMiddleware />}>
+			<Route path="/uneti">
+				<Route index element={<Home />} />
+			</Route>
+			{/* ADMIN */}
+			<Route element={<RoleMiddleware allowedRoles={["GV"]} />}>
+				<Route path="admin">
+					<Route index element={<HomeAdmin />} />
+					<Route path="canbonghiepvu">
+						<Route index element={<CanBoNghiepVu />} />
+						<Route path="chitietyeucau/:yeucau/:id" element={<ChiTietHoSoYeuCau />} />
+					</Route>
+					<Route path="quantriTTHCGV" element={<AdminTTHCGV />} />
+				</Route>
+			</Route>
+			{/* Thủ tục hành chính giảng viên */}
+			<Route element={<RoleMiddleware allowedRoles={["GV"]} />}>
+				<Route path="tthcgiangvien">
+					<Route index element={<HomeTTHCGV />} />
+					<Route path="chitiet/:tieude/:id" element={<ChiTietThuTuc />} />
+					<Route path="soanhoso/:tieude/:id/submit" element={<SoanHoSo />} />
+				</Route>
+			</Route>
+			{/* Tài sản */}
+			<Route element={<RoleMiddleware allowedRoles={ROLES} />}>
+				<Route path="taisan">
+					<Route index element={<HomeTaiSan />} />
+				</Route>
+			</Route>
+			{/* Một cửa */}
 			<Route element={<RoleMiddleware allowedRoles={["SV"]} />}>
 				<Route path="motcua">
 					<Route index element={<HomeMotCua />} />
@@ -96,33 +124,9 @@ export const privateRoutes = (
 					</Route>
 				</Route>
 			</Route>
-
-			{/*  */}
+			{/* Hỗ trợ TBGD */}
 			<Route element={<RoleMiddleware allowedRoles={["GV"]} />}>
 				<Route index path="hotrothietbigiangduong" element={<HomeTBGD />} />
-			</Route>
-			<Route element={<RoleMiddleware allowedRoles={ROLES} />}>
-				<Route path="taisan">
-					<Route index element={<HomeTaiSan />} />
-				</Route>
-			</Route>
-
-			<Route element={<RoleMiddleware allowedRoles={["GV"]} />}>
-				<Route path="tthcgiangvien">
-					<Route index element={<HomeTTHCGV />} />
-					<Route path="chitiet/:tieude/:id" element={<ChiTietThuTuc />} />
-					<Route path="soanhoso/:tieude/:id/submit" element={<SoanHoSo />} />
-				</Route>
-			</Route>
-			<Route element={<RoleMiddleware allowedRoles={["GV"]} />}>
-				<Route path="admin">
-					<Route index element={<HomeAdmin />} />
-					<Route path="canbonghiepvu">
-						<Route index element={<CanBoNghiepVu />} />
-						<Route path="chitietyeucau/:yeucau/:id" element={<ChiTietHoSoYeuCau />} />
-					</Route>
-					<Route path="quantriTTHCGV" element={<AdminTTHCGV />} />
-				</Route>
 			</Route>
 		</Route>
 	</>

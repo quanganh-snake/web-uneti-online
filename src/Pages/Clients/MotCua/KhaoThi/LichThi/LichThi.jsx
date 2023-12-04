@@ -80,7 +80,7 @@ function LichThi() {
 	const handlePostData = () => {};
 
 	useEffect(() => {
-		getTenDot(axiosJWT, accessToken).then((res) => {
+		getTenDot(axiosJWT).then((res) => {
 			setListHocKy(res?.data?.body);
 		});
 

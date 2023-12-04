@@ -26,7 +26,7 @@ function Home() {
 						module.moduleActive &&
 						module.roleActive.includes(role) && (
 							<Link
-								to={module.path}
+								to={`${module.path}`}
 								key={index}
 								className="uneti-module flex flex-col items-center p-10 bg-white hover:bg-[#ebf4f9] cursor-pointer shadow-[12px_12px_12px_#bfbfbf] hover:shadow-[3px_3px_3px_#bfbfbf] rounded-xl"
 							>

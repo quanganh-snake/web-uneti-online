@@ -6,10 +6,6 @@ import icoHTSDPM from "../../assets/Icons/icoHTSDPM.png";
 import icoTCTTTS from "../../assets/Icons/icoTCTTTS.png";
 import icoQLCTCV from "../../assets/Icons/icoQLCTCV.png";
 
-import icoAlert from "../../assets/Icons/icoAlert.png";
-import icoFileThuTuc from "../../assets/Icons/icoFileThuTuc.png";
-import icoList from "../../assets/Icons/icoList.png";
-import icoYoutube from "../../assets/Icons/icoYoutube.png";
 // icons - thumbnails homeMotCua
 import icoKhaoThi from "../../assets/Icons/icoKhaoThi.png";
 import icoDaoTao from "../../assets/Icons/icoDaoTao.png";
@@ -22,10 +18,12 @@ import thumbnailHanhChinh from "../../assets/Icons/icoThumbnailHanhChinh.png";
 import thumbnailCTSV from "../../assets/Icons/icoThumbnailCTSV.png";
 
 // icons - homeTaSan
-import icoTeamViewe from "../../assets/Icons/icoTeamViewer.png";
+import icoTeamView from "../../assets/Icons/icoTeamviewer.png";
 import icoUltraView from "../../assets/Icons/icoUltraview.png";
 import icoZalo from "../../assets/Icons/icoZalo.png";
 
+// data Static NguonTiepNhan
+export const NguonTiepNhan_WEB = "1";
 // data Static homeMain
 export const homeMain = [
 	{
@@ -411,7 +409,7 @@ export const homeTaiSan = {
 		{
 			id: 1,
 			name: "Teamviewer",
-			logo: icoTeamViewe,
+			logo: icoTeamView,
 			link: "",
 		},
 		{
@@ -434,21 +432,21 @@ export const homeTTHCGV = [
 		id: 1,
 		title: "Trang chủ",
 		name: "Trang chủ",
-		path: "",
+		path: "/tthcgiangvien",
 		roleActive: ["Admin", "GV", "CBNV"],
 	},
 	{
 		id: 2,
 		title: "Cán bộ nghiệp vụ",
 		name: "Cán bộ nghiệp vụ",
-		path: "/canbonghiepvu",
+		path: "/admin/canbonghiepvu",
 		roleActive: ["Admin", "CBNV"],
 	},
 	{
 		id: 3,
 		title: "Quản trị hệ thống",
 		name: "Quản trị hệ thống",
-		path: "/quantriTTHCGV",
+		path: "/admin/quantriTTHCGV",
 		roleActive: ["Admin"],
 	},
 ];

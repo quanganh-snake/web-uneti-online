@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdKeyboardArrowDown } from "react-icons/md";
 // data
-import noAvatar from "../../Assets/Images/noavatar.png";
-import logoUNETI from "../../Assets/Images/LOGO_UNETI.ico";
+import noAvatar from "../../assets/Images/noavatar.png";
+import logoUNETI from "../../assets/Images/LOGO_UNETI.ico";
 
 // styles
 import "./Header.scss";
@@ -46,7 +46,7 @@ function Header() {
 		<header className="shadow-md fixed left-0 right-0 top-0 w-[100%] z-10">
 			<nav className="bg-white border-gray-200 dark:bg-gray-900">
 				<div className="max-w-7xl flex flex-wrap items-center justify-between mx-auto">
-					<Link to="/" className="flex items-center p-2">
+					<Link to="/uneti" className="flex items-center p-2">
 						<img src={logoUNETI} className="h-20 mr-3" alt="UNETI Logo" />
 					</Link>
 					<div className="flex items-center md:order-2 relative py-4" id="control-dropdown">
@@ -68,7 +68,7 @@ function Header() {
 							className={`min-w-[220px] z-50 absolute top-[80%] my-4 right-0 text-base list-none bg-white divide-y divide-gray-100 rounded-b-lg shadow dark:bg-gray-700 dark:divide-gray-600`}
 							id="user-dropdown"
 						>
-							{role === "CB" ? <DropdownProfileTeacher handleLogout={handleLogout} /> : <DropdownProfileStudent handleLogout={handleLogout} />}
+							{role === "GV" ? <DropdownProfileTeacher handleLogout={handleLogout} /> : <DropdownProfileStudent handleLogout={handleLogout} />}
 						</div>
 					</div>
 					{/* START: Navbar Pages */}

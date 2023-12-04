@@ -26,9 +26,30 @@ export const changeSlug = (dataString = "") => {
 		//In slug ra textbox có id “slug”
 		return slug;
 	} else {
-        return {
-            errorCode: "UNETI_404",
+		return {
+			errorCode: "UNETI_404",
 			message: "ERROR: Invalid data string provided!",
 		};
 	}
+};
+
+export const convertDataFileToBase64 = (dataFile) => {
+	return new Promise((resolve, reject) => {
+		const reader = new FileReader();
+
+		reader.onload = () => {
+			const base64String = reader.result.split(",")[1];
+			resolve(base64String);
+		};
+
+		reader.onerror = (error) => {
+			reject(error);
+		};
+
+		if (dataFile) {
+			reader.readAsDataURL(dataFile);
+		} else {
+			reject(new Error("File not provided."));
+		}
+	});
 };

@@ -62,6 +62,8 @@ function DropdownProfileTeacher(props) {
 	);
 }
 
-DropdownProfileTeacher.propTypes = {};
+DropdownProfileTeacher.propTypes = {
+	handleLogout: PropTypes.func.isRequired,
+};
 
 export default DropdownProfileTeacher;

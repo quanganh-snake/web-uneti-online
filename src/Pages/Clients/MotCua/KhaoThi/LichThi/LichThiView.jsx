@@ -157,30 +157,31 @@ function LichThiView(props) {
 																</div>
 															</td>
 															<th scope="row" className="px-6 py-4 text-center font-medium text-gray-900 whitespace-nowrap dark:text-white">
-																{hocphan.MaLopHocPhan}
+																{hocphan.MaLopHocPhan ? hocphan.MaLopHocPhan : hocphan.KhongCoLich_MaHocPhan ? hocphan.KhongCoLich_MaHocPhan : ""}
 															</th>
 															<td className="px-6 py-4 whitespace-nowrap">
-																<p>{hocphan.TenMonHoc}</p>
+																<p>{hocphan.TenMonHoc ? hocphan.TenMonHoc : hocphan.KhongCoLich_TenMonHoc}</p>
 															</td>
 															<td className="px-6 py-4">
-																<p>{hocphan.TenHinhThucThi}</p>
+																<p>{hocphan.TenHinhThucThi ? hocphan.TenHinhThucThi : ""}</p>
 															</td>
 															<td className="px-6 py-4 whitespace-nowrap">
 																<p>
-																	{hocphan.Thu == 8 ? "Chủ nhật" : "Thứ " + hocphan.Thu} {", "}
-																	{moment(hocphan.NgayThi).format("DD/MM/YYYY")}
+																	{hocphan.Thu && hocphan.NgayThi
+																		? hocphan.Thu == 8
+																			? "Chủ nhật"
+																			: "Thứ " + hocphan.Thu + ", " + moment(hocphan.NgayThi).format("DD/MM/YYYY")
+																		: ""}
 																</p>
 															</td>
 															<td className="px-6 py-4">
 																<p className="text-center">{hocphan.Nhom}</p>
 															</td>
 															<td className="px-6 py-4 whitespace-nowrap">
-																<p>
-																	{hocphan.TuTiet} {" - "} {hocphan.DenTiet}
-																</p>
+																<p>{hocphan.TuTiet && hocphan.DenTiet ? hocphan.TuTiet + " - " + hocphan.DenTiet : ""}</p>
 															</td>
 															<td className="px-6 py-4 whitespace-nowrap">
-																<p>{hocphan.TenPhong}</p>
+																<p>{hocphan.TenPhong ? hocphan.TenPhong : ""}</p>
 															</td>
 															<td className="px-6 py-4 whitespace-nowrap">
 																<p className="text-center">{hocphan.SBD ? hocphan.SBD : ""}</p>

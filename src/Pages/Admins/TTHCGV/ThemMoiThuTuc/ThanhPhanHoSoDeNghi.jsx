@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { MdAdd } from "react-icons/md";
 import { IoMdCloudUpload } from "react-icons/io";
 import Swal from "sweetalert2";
+import { convertDataFileToBase64 } from "../../../../Services/Utils/stringUtils";
 
 function ThanhPhanHoSoDeNghi(props) {
 	const { thanhPhanHoSo, setThanhPhanHoSo, handleAddThanhPhanHoSo } = props;
@@ -51,29 +52,7 @@ function ThanhPhanHoSoDeNghi(props) {
 		});
 	};
 
-	const getDataFileToBase64 = (dataFile) => {
-		return new Promise((resolve, reject) => {
-			const reader = new FileReader();
-
-			reader.onload = () => {
-				const base64String = reader.result.split(",")[1];
-				resolve(base64String);
-			};
-
-			reader.onerror = (error) => {
-				reject(error);
-			};
-
-			if (dataFile) {
-				reader.readAsDataURL(dataFile);
-			} else {
-				reject(new Error("File not provided."));
-			}
-		});
-	};
-
 	const handleChangeValue = (e, fieldName) => {
-		console.log("🚀 ~ file: ThanhPhanHoSoDeNghi.jsx:56 ~ handleChangeValue ~ fieldName:", fieldName);
 		const { value, checked, type, files } = e.target;
 		let fieldValue;
 		if (type === "checkbox") {
@@ -88,7 +67,7 @@ function ThanhPhanHoSoDeNghi(props) {
 					...prevEditValueRow,
 					MC_TTHC_GV_ThanhPhanHoSo_TenFile: files[0].name,
 				}));
-				getDataFileToBase64(files[0]).then((dataFileBase64) => {
+				convertDataFileToBase64(files[0]).then((dataFileBase64) => {
 					setEditValueRow((prevEditValueRow) => ({
 						...prevEditValueRow,
 						MC_TTHC_GV_ThanhPhanHoSo_DataFile: dataFileBase64,

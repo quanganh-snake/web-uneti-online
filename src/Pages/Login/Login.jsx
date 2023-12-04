@@ -36,8 +36,7 @@ function Login() {
 		const axiosJWT = createAxiosJWT(tokenSV, dispatch, tokenSuccess);
 
 		if (tokenSV) {
-			const accessTokenSV = tokenSV.token;
-			const dataSV = await userSVLogin(axiosJWT, { TC_SV_MaSinhVien: username }, accessTokenSV, dispatch, navigate);
+			const dataSV = await userSVLogin(axiosJWT, { TC_SV_MaSinhVien: username }, dispatch, navigate);
 
 			if (!dataSV) {
 				return null;
@@ -71,8 +70,7 @@ function Login() {
 			const tokenGV = await tokenGVLogin(userGV, dispatch);
 			const axiosJWT = createAxiosJWT(tokenGV, dispatch, tokenSuccess);
 			if (tokenGV) {
-				const accessTokenGV = tokenGV.token;
-				const dataGV = await userGVLogin(axiosJWT, userGV, accessTokenGV, dispatch, navigate);
+				const dataGV = await userGVLogin(axiosJWT, userGV, dispatch, navigate);
 
 				if (!dataGV) {
 					return null;
@@ -179,10 +177,11 @@ function Login() {
 			handleLogin();
 		}
 	};
+
 	return (
 		<section
 			className={`absolute right-0 left-0 top-0 bottom-0 w-full h-full flex justify-center items-center bg-center bg-no-repeat  bg-gray-400 bg-blend-multiply px-4 lg:px-0`}
-			style={{ backgroundImage: `url("/src/assets/Images/uneti-banner.png")` }}
+			style={{ backgroundImage: `url("/src/assets/Images/uneti-banner.png")`, backgroundPositionY: `86%` }}
 		>
 			<div className="w-[600px] p-10 bg-white rounded-xl">
 				<h3 className="font-bold uppercase text-3xl text-sky-700 mb-10 text-center">Đăng nhập hệ thống UNETI</h3>
