@@ -116,8 +116,8 @@ function TrangThaiHoSo(props) {
 												type="text"
 												className="w-full border border-slate-300 rounded-md px-2 focus:outline-slate-300"
 												placeholder="Nhập tên trạng thái..."
-												value={editValueRow.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo || ""}
-												onChange={(e) => handleChangeValue(e, "MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo")}
+												value={editValueRow.MC_TTHC_GV_TrangThai_TenTrangThai || ""}
+												onChange={(e) => handleChangeValue(e, "MC_TTHC_GV_TrangThai_TenTrangThai")}
 											/>
 										</td>
 										<td className="border-r px-2 py-1">
@@ -125,8 +125,8 @@ function TrangThaiHoSo(props) {
 												type="text"
 												className="w-full border border-slate-300 rounded-md px-2 focus:outline-slate-300"
 												placeholder="Nhập mô tả..."
-												value={editValueRow.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo || ""}
-												onChange={(e) => handleChangeValue(e, "MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo")}
+												value={editValueRow.MC_TTHC_GV_TrangThai_MoTa || ""}
+												onChange={(e) => handleChangeValue(e, "MC_TTHC_GV_TrangThai_MoTa")}
 											></textarea>
 										</td>
 
@@ -145,8 +145,8 @@ function TrangThaiHoSo(props) {
 								) : (
 									<>
 										<td className="text-center border-r px-2 py-1">{index + 1}</td>
-										<td className="text-center border-r px-2 py-1">{row.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo ?? ""}</td>
-										<td className="text-center border-r px-2 py-1">{row.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo ?? ""}</td>
+										<td className="text-center border-r px-2 py-1">{row.MC_TTHC_GV_TrangThai_TenTrangThai ?? ""}</td>
+										<td className="text-center border-r px-2 py-1">{row.MC_TTHC_GV_TrangThai_MoTa ?? ""}</td>
 										<td className="text-center border-r px-2 py-1">
 											<div className="flex flex-col lg:flex-row items-center justify-center gap-2">
 												<button type="button" className="px-3 py-1 bg-[#336699] text-white hover:opacity-70" onClick={() => handleEditRow(index)}>

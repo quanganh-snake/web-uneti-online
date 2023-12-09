@@ -17,7 +17,7 @@ function TrinhTuThucHien(props) {
 	const handleSaveDataRow = () => {
 		setQuyTrinh((prevDataRow) => {
 			const newDataRow = [...prevDataRow];
-			newDataRow[editRowIndex] = editValueRow;
+			newDataRow[editRowIndex] = { ...editValueRow, MC_TTHC_GV_TrinhTuThucHien_Buoc: editRowIndex + 1 };
 			return newDataRow;
 		});
 

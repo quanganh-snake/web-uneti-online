@@ -2,6 +2,7 @@ import clsx from "clsx";
 import React, { useEffect, useMemo, useState } from "react";
 import { MdAdd } from "react-icons/md";
 import { IoMdCloudUpload } from "react-icons/io";
+import { TiDeleteOutline } from "react-icons/ti";
 import Swal from "sweetalert2";
 import { convertDataFileToBase64 } from "../../../../Services/Utils/stringUtils";
 
@@ -18,7 +19,7 @@ function ThanhPhanHoSoDeNghi(props) {
 	const handleSaveDataRow = () => {
 		setThanhPhanHoSo((prevDataRow) => {
 			const newDataRow = [...prevDataRow];
-			newDataRow[editRowIndex] = editValueRow;
+			newDataRow[editRowIndex] = { ...editValueRow, MC_TTHC_GV_ThanhPhanHoSo_STT: editRowIndex + 1 };
 			return newDataRow;
 		});
 
@@ -83,6 +84,14 @@ function ThanhPhanHoSoDeNghi(props) {
 		}
 	};
 
+	const handleDeleteFile = (index) => {
+		setEditValueRow((prevEditValueRow) => ({
+			...prevEditValueRow,
+			MC_TTHC_GV_ThanhPhanHoSo_TenFile: "",
+			MC_TTHC_GV_ThanhPhanHoSo_DataFile: null,
+		}));
+	};
+
 	return (
 		<div className="uneti-tthcgv__tphosodenghi mb-5 w-full">
 			<h2 className="text-2xl font-semibold uppercase mb-4">Thiết lập thành phần hồ sơ đề nghị</h2>
@@ -124,15 +133,36 @@ function ThanhPhanHoSoDeNghi(props) {
 												onChange={(e) => handleChangeValue(e, "MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo")}
 											/>
 										</td>
-										<td className="border-r px-2 py-1 text-center">
-											<label
-												htmlFor="MC_TTHC_GV_ThanhPhanHoSo_DataFile"
-												className="flex flex-row items-center rounded-full gap-2 px-2 py-1 border border-[#336699] text-[#336699] hover:cursor-pointer hover:opacity-70"
-											>
-												<IoMdCloudUpload size={24} />
-												<span>Chọn tệp mẫu/hướng dẫn</span>
-											</label>
-											<input className="hidden" id="MC_TTHC_GV_ThanhPhanHoSo_DataFile" type="file" onChange={(e) => handleChangeValue(e, "MC_TTHC_GV_ThanhPhanHoSo_DataFile")} />
+										<td className="border-r px-2 py-1">
+											{editValueRow.MC_TTHC_GV_ThanhPhanHoSo_DataFile ? (
+												<p className="flex items-center">
+													<span>{editValueRow.MC_TTHC_GV_ThanhPhanHoSo_TenFile}</span>
+													<TiDeleteOutline
+														size={32}
+														onClick={() => {
+															handleDeleteFile(index);
+														}}
+														color="red"
+														className="cursor-pointer hover:opacity-60"
+													/>
+												</p>
+											) : (
+												<>
+													<label
+														htmlFor="MC_TTHC_GV_ThanhPhanHoSo_DataFile"
+														className="flex flex-row items-center rounded-full gap-2 px-2 py-1 border border-[#336699] text-[#336699] hover:cursor-pointer hover:opacity-70"
+													>
+														<IoMdCloudUpload size={24} />
+														<span>Chọn tệp mẫu/hướng dẫn</span>
+													</label>
+													<input
+														className="hidden"
+														id="MC_TTHC_GV_ThanhPhanHoSo_DataFile"
+														type="file"
+														onChange={(e) => handleChangeValue(e, "MC_TTHC_GV_ThanhPhanHoSo_DataFile")}
+													/>
+												</>
+											)}
 										</td>
 										<td className="border-r px-2 py-1 text-center">
 											<input

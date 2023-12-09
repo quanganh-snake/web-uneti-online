@@ -20,7 +20,7 @@ function AdminTTHCGV() {
 
 	useEffect(() => {
 		const getListMucDoThuTuc = () => {
-			getAllMucDoThuTuc(axiosJWT, dataToken.token).then(async (res) => {
+			getAllMucDoThuTuc(axiosJWT).then(async (res) => {
 				if (res.status === 200) {
 					const data = await res.data;
 					setListMucDo(data.body);

@@ -90,7 +90,6 @@ function PhiLePhi(props) {
 					<thead className="bg-[#075985] text-white rounded-t-xl">
 						<tr>
 							<th className="border-r px-2 py-1 rounded-tl-xl">STT</th>
-							<th className="border-r px-2 py-1">Vị trí</th>
 							<th className="border-r px-2 py-1">Mức phí</th>
 							<th className="border-r px-2 py-1">Mô tả</th>
 							<th className="px-2 py-1 rounded-tr-xl">Actions</th>
@@ -115,18 +114,9 @@ function PhiLePhi(props) {
 											<input
 												type="number"
 												className="w-full border border-slate-300 rounded-md px-2 focus:outline-slate-300"
-												placeholder="Nhập vị trí..."
-												value={editValueRow.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo || ""}
-												onChange={(e) => handleChangeValue(e, "MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo")}
-											/>
-										</td>
-										<td className="border-r px-2 py-1">
-											<input
-												type="number"
-												className="w-full border border-slate-300 rounded-md px-2 focus:outline-slate-300"
 												placeholder="Nhập mức phí..."
-												value={editValueRow.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo || ""}
-												onChange={(e) => handleChangeValue(e, "MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo")}
+												value={editValueRow.MC_TTHC_GV_LePhi_MucPhi || ""}
+												onChange={(e) => handleChangeValue(e, "MC_TTHC_GV_LePhi_MucPhi")}
 											/>
 										</td>
 										<td className="border-r px-2 py-1">
@@ -134,8 +124,8 @@ function PhiLePhi(props) {
 												type="text"
 												className="w-full border border-slate-300 rounded-md px-2 focus:outline-slate-300"
 												placeholder="Nhập mô tả..."
-												value={editValueRow.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo || ""}
-												onChange={(e) => handleChangeValue(e, "MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo")}
+												value={editValueRow.MC_TTHC_GV_LePhi_MoTa || ""}
+												onChange={(e) => handleChangeValue(e, "MC_TTHC_GV_LePhi_MoTa")}
 											></textarea>
 										</td>
 
@@ -154,9 +144,8 @@ function PhiLePhi(props) {
 								) : (
 									<>
 										<td className="text-center border-r px-2 py-1">{index + 1}</td>
-										<td className="text-center border-r px-2 py-1">{row.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo ?? ""}</td>
-										<td className="text-center border-r px-2 py-1">{row.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo ?? ""}</td>
-										<td className="text-center border-r px-2 py-1">{row.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo ?? ""}</td>
+										<td className="text-center border-r px-2 py-1">{row.MC_TTHC_GV_LePhi_MucPhi ?? ""}</td>
+										<td className="text-center border-r px-2 py-1">{row.MC_TTHC_GV_LePhi_MoTa ?? ""}</td>
 										<td className="text-center border-r px-2 py-1">
 											<div className="flex flex-col lg:flex-row items-center justify-center gap-2">
 												<button type="button" className="px-3 py-1 bg-[#336699] text-white hover:opacity-70" onClick={() => handleEditRow(index)}>

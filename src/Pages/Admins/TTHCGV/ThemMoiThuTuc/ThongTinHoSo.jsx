@@ -17,8 +17,10 @@ function ThongTinHoSo(props) {
 		thuTucKhongApDungMotCua,
 		canCuPhapLyCuaTTHC,
 		dieuKienThucHien,
+		errorThongTinHoSo,
 		handleChangeValue,
 	} = props;
+
 	return (
 		<div className="uneti-tthcgv__thongtinhoso mb-5">
 			<h2 className="text-2xl font-semibold uppercase mb-4">Thiết lập thông tin hồ sơ</h2>
@@ -37,6 +39,7 @@ function ThongTinHoSo(props) {
 							value={tenThuTuc}
 							onChange={handleChangeValue}
 						/>
+						<p className="text-red-600">{errorThongTinHoSo?.MC_TTHC_GV_TenThuTuc}</p>
 					</label>
 				</div>
 				<div className="col-span-4 lg:col-span-2">
@@ -54,6 +57,7 @@ function ThongTinHoSo(props) {
 							value={viTri}
 							onChange={handleChangeValue}
 						/>
+						<p className="text-red-600">{errorThongTinHoSo?.MC_TTHC_GV_ThuTu}</p>
 					</label>
 				</div>
 				<div className="col-span-4 lg:col-span-2">
@@ -70,6 +74,7 @@ function ThongTinHoSo(props) {
 							value={maThuTuc}
 							onChange={handleChangeValue}
 						/>
+						<p className="text-red-600">{errorThongTinHoSo?.MC_TTHC_GV_MaThuTuc}</p>
 					</label>
 				</div>
 				<div className="col-span-4 lg:col-span-2">
@@ -88,11 +93,12 @@ function ThongTinHoSo(props) {
 								listMucDo.map((iMucDo, index) => {
 									return (
 										<option key={iMucDo.MC_TTHC_GV_MucDo_ID} value={iMucDo.MC_TTHC_GV_MucDo_ID}>
-											{iMucDo.MC_TTHC_GV_MucDo_ID + " - " + iMucDo.MC_TTHC_GV_MucDo_MoTa}
+											{index + 1 + " - " + iMucDo.MC_TTHC_GV_MucDo_MoTa}
 										</option>
 									);
 								})}
 						</select>
+						<p className="text-red-600">{errorThongTinHoSo?.MC_TTHC_GV_IDMucDo}</p>
 					</label>
 				</div>
 				<div className="col-span-4 lg:col-span-2">
@@ -141,6 +147,7 @@ function ThongTinHoSo(props) {
 							/>
 							<span className="font-bold">Ngày</span>
 						</div>
+						<p className="text-red-600">{errorThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet}</p>
 					</label>
 				</div>
 				<div className="col-span-4 lg:col-span-2">
@@ -162,20 +169,16 @@ function ThongTinHoSo(props) {
 				</div>
 				<div className="col-span-4 lg:col-span-2">
 					<label htmlFor="MC_TTHC_GV_LinhVuc">
-						<p className="font-semibold mb-2">
-							Lĩnh vực <span className="text-red-500">*</span>
-						</p>
-						<select
+						<p className="font-semibold mb-2">Lĩnh vực</p>
+						<input
+							type="text"
+							placeholder="Nhập lĩnh vực..."
 							className="px-3 py-2 w-full rounded-full border border-slate-300 focus:outline-slate-300"
 							name="MC_TTHC_GV_LinhVuc"
 							id="MC_TTHC_GV_LinhVuc"
 							value={linhVuc}
 							onChange={handleChangeValue}
-						>
-							<option value="">Chọn lĩnh vực</option>
-							<option value="CNTT">CNTT</option>
-							<option value="TCCB">TCCB</option>
-						</select>
+						/>
 					</label>
 				</div>
 				<div className="col-span-4 md:col-span-2">
@@ -199,6 +202,7 @@ function ThongTinHoSo(props) {
 							<option value="Tổ chức cán bộ">Tổ chức cán bộ</option>
 							<option value="Quản lý Đào tạo">Quản lý Đào tạo</option>
 						</select>
+						<p className="text-red-600">{errorThongTinHoSo?.MC_TTHC_GV_NoiTiepNhan}</p>
 					</label>
 				</div>
 				<div className="col-span-4 md:col-span-2">
@@ -219,6 +223,7 @@ function ThongTinHoSo(props) {
 							<option value="2 - Lĩnh Nam">2 - Lĩnh Nam</option>
 							<option value="3 - Nam Định">3 - Nam Định</option>
 						</select>
+						<p className="text-red-600">{errorThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua}</p>
 					</label>
 				</div>
 				<div className="col-span-4 flex flex-row gap-3 items-center">

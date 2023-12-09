@@ -8,7 +8,7 @@ import PhiLePhi from "./ThemMoiThuTuc/PhiLePhi";
 import TrangThaiHoSo from "./ThemMoiThuTuc/TrangThaiHoSo";
 import PhanQuyen from "./ThemMoiThuTuc/PhanQuyen";
 import SidebarTTHCGV from "./Sidebar/SidebarTTHCGV";
-import { postThuTucHanhChinh } from "../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
+import { getAllPhongBan, postThuTucHanhChinh } from "../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
 import { createAxiosJWT } from "./../../../Configs/http";
 import { DataSinhVien } from "../../../Services/Utils/dataSinhVien";
 import { DataCanBoGV } from "../../../Services/Utils/dataCanBoGV";
@@ -16,9 +16,39 @@ import { useDispatch } from "react-redux";
 import { tokenSuccess } from "../../../Services/Redux/Slice/authSlice";
 import { NguonTiepNhan_WEB } from "../../../Services/Static/dataStatic";
 import Swal from "sweetalert2";
+import { postThanhPhanHoSoTTHCGV } from "./../../../Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo";
+import { postTrinhTuThucHienTTHCGV } from "./../../../Apis/ThuTucHanhChinhGiangVien/apiTrinhTuThucHien";
+import { postLePhi } from "./../../../Apis/ThuTucHanhChinhGiangVien/apiLePhi";
+import { postTrangThaiTTHCGV } from "./../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai";
+import { getThuTucHanhChinhByMaThuTuc } from "./../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
+
+const checkValidateTepThuTuc = (thuTucLienThong = false, thuThucKhongApDungMC = false, images = []) => {
+	if ((thuTucLienThong || thuThucKhongApDungMC) && images.length === 1) {
+		return true;
+	} else if (thuTucLienThong && thuThucKhongApDungMC && images.length === 2) {
+		return true;
+	} else if (!thuTucLienThong && !thuThucKhongApDungMC && images.length === 0) {
+		return true;
+	} else {
+		return false;
+	}
+};
+
+const errorMessageFieldThongTinHoSo = {
+	MC_TTHC_GV_MaThuTuc: "Vui lòng nhập mã thủ tục!",
+	MC_TTHC_GV_TenThuTuc: "Vui lòng nhập tên thủ tục!",
+	MC_TTHC_GV_IDMucDo: "Vui lòng chọn mức độ!",
+	MC_TTHC_GV_LinhVuc: "Vui lòng nhập lĩnh vực!",
+	MC_TTHC_GV_TongThoiGianGiaiQuyet: "Vui lòng nhập tổng thời gian giải quyết!",
+	MC_TTHC_GV_NoiTiepNhan: "Vui lòng chọn nơi tiếp nhận hồ sơ!",
+	MC_TTHC_GV_NoiTraKetQua: "Vui lòng chọn nơi trả kết quả!",
+};
+
 function AdminTTHCGVView(props) {
 	const { listMucDo } = props;
 	// variables
+	// error
+	const [errorThongTinHoSo, setErrorThongTinHoSo] = useState({});
 	// var: active Tabs
 	const [thongTinActive, setThongTinActive] = useState(false);
 	const [tpHoSoDeNghiActive, setTPHoSoDeNghiActive] = useState(false);
@@ -36,6 +66,7 @@ function AdminTTHCGVView(props) {
 	const [tongThoiGianGiaiQuyet, setTongThoiGianGiaiQuyet] = useState("");
 	const [soBoHoSo, setSoBoHoSo] = useState("");
 	const [linhVuc, setLinhVuc] = useState("");
+	const [listDonVi, setListDonVi] = useState(null);
 	const [donViTiepNhan, setDonViTiepNhan] = useState("");
 	const [noiTraKetQua, setNoiTraKetQua] = useState("");
 	const [thuTucLienThong, setThuTucLienThong] = useState(false);
@@ -45,31 +76,13 @@ function AdminTTHCGVView(props) {
 	const [phiLePhi, setPhiLePhi] = useState([]);
 	const [trangThai, setTrangThai] = useState([]);
 	const [phanQuyen, setPhanQuyen] = useState([]);
-	// const [formData, setFormData] = useState({
-	// 	thongTinHoSo: {
-	// 		tenThuTuc: "",
-	// 		viTri: 1,
-	// 		maThuTuc: "",
-	// 		mucDo: 1,
-	// 		tongThoiGianGiaiQuyet: "3",
-	// 		linhVuc: "",
-	// 		donViTiepNhan: "",
-	// 		noiTraKetQua: "",
-	// 		thuTucLienThong: false,
-	// 		thuTucKhongApDungMotCua: false,
-	// 	},
-	// 	thanhPhanHoSoDeNghi: [],
-	// 	quyTrinh: [],
-	// 	phiLePhi: [],
-	// 	trangThai: [],
-	// 	phanQuyen: [],
-	// });
 
 	const dataTokenSV = DataSinhVien();
 	const dataTokenCBGV = DataCanBoGV();
 	const dataToken = dataTokenSV.dataToken ?? dataTokenCBGV.dataToken;
 	const dispatch = useDispatch();
-	const axiosJWT = createAxiosJWT(dataToken, dispatch, tokenSuccess);
+
+	const axiosJWT = createAxiosJWT(dataToken, dispatch);
 
 	// event handlers
 	const handleOpenTab = (e) => {
@@ -186,12 +199,14 @@ function AdminTTHCGVView(props) {
 
 	const handleAddThanhPhanHoSo = () => {
 		const newThanhPhanHoSo = {
+			MC_TTHC_GV_ThanhPhanHoSo_IDTTHC: "",
+			MC_TTHC_GV_ThanhPhanHoSo_STT: "",
 			MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo: "",
-			MC_TTHC_GV_ThanhPhanHoSo_DataFile: null,
-			MC_TTHC_GV_ThanhPhanHoSo_TenFile: "",
 			MC_TTHC_GV_ThanhPhanHoSo_BanChinh: false,
 			MC_TTHC_GV_ThanhPhanHoSo_BanSao: false,
 			MC_TTHC_GV_ThanhPhanHoSo_BatBuoc: false,
+			MC_TTHC_GV_ThanhPhanHoSo_DataFile: null,
+			MC_TTHC_GV_ThanhPhanHoSo_TenFile: "",
 		};
 
 		setThanhPhanHoSo([...thanhPhanHoSo, newThanhPhanHoSo]);
@@ -199,6 +214,8 @@ function AdminTTHCGVView(props) {
 
 	const handleAddQuyTrinh = () => {
 		const newQuyTrinh = {
+			MC_TTHC_GV_TrinhTuThucHien_IDTTHC: "",
+			MC_TTHC_GV_TrinhTuThucHien_Buoc: "",
 			MC_TTHC_GV_TrinhTuThucHien_TenCongViec: "",
 			MC_TTHC_GV_TrinhTuThucHien_CacThucThucHien: "",
 			MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra: "",
@@ -213,12 +230,9 @@ function AdminTTHCGVView(props) {
 
 	const handleAddLePhi = () => {
 		const newLePhi = {
-			MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo: "",
-			MC_TTHC_GV_ThanhPhanHoSo_DataFile: null,
-			MC_TTHC_GV_ThanhPhanHoSo_TenFile: "",
-			MC_TTHC_GV_ThanhPhanHoSo_BanChinh: false,
-			MC_TTHC_GV_ThanhPhanHoSo_BanSao: false,
-			MC_TTHC_GV_ThanhPhanHoSo_BatBuoc: false,
+			MC_TTHC_GV_LePhi_STT: null,
+			MC_TTHC_GV_LePhi_MucPhi: null,
+			MC_TTHC_GV_LePhi_MoTa: "",
 		};
 
 		setPhiLePhi([...phiLePhi, newLePhi]);
@@ -226,12 +240,9 @@ function AdminTTHCGVView(props) {
 
 	const handleAddTrangThai = () => {
 		const newTrangThai = {
-			MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo: "",
-			MC_TTHC_GV_ThanhPhanHoSo_DataFile: null,
-			MC_TTHC_GV_ThanhPhanHoSo_TenFile: "",
-			MC_TTHC_GV_ThanhPhanHoSo_BanChinh: false,
-			MC_TTHC_GV_ThanhPhanHoSo_BanSao: false,
-			MC_TTHC_GV_ThanhPhanHoSo_BatBuoc: false,
+			MC_TTHC_GV_TrangThai_IDTTHC: "",
+			MC_TTHC_GV_TrangThai_TenTrangThai: "",
+			MC_TTHC_GV_TrangThai_MoTa: "",
 		};
 
 		setTrangThai([...trangThai, newTrangThai]);
@@ -239,7 +250,7 @@ function AdminTTHCGVView(props) {
 
 	const handleOnSubmitForm = async (e) => {
 		e.preventDefault();
-		const dataForms = {
+		const dataThongTinHoSo = {
 			MC_TTHC_GV_ThuTu: viTri,
 			MC_TTHC_GV_MaThuTuc: maThuTuc,
 			MC_TTHC_GV_TenThuTuc: tenThuTuc,
@@ -255,28 +266,115 @@ function AdminTTHCGVView(props) {
 			MC_TTHC_GV_NguonTiepNhan: NguonTiepNhan_WEB,
 			MC_TTHC_GV_NoiTiepNhan: donViTiepNhan,
 			MC_TTHC_GV_NoiTraKetQua: noiTraKetQua,
-			images: [
-				{
-					urlTemp: "",
-					lastModified: "",
-					MC_TTHC_GV_TepThuTuc_DataFileFile: "",
-					MC_TTHC_GV_TepThuTuc_TenFile: "hinhanh-quanganh-test",
-				},
-			],
+			images: [],
 		};
-		if (quyTrinh.length <= 0) {
-			Swal.fire();
-		}
-		postThuTucHanhChinh(axiosJWT, dataForms)
-			.then((res) => {
-				console.log(res);
-			})
-			.catch((error) => {
-				console.log("ERROR: ", [error]);
+
+		let idTTHCGV;
+
+		const errorObject = {};
+		Object.keys(dataThongTinHoSo).forEach((key) => {
+			if (!dataThongTinHoSo[key]) {
+				errorObject[key] = errorMessageFieldThongTinHoSo[key];
+			}
+		});
+		setErrorThongTinHoSo(errorObject);
+
+		const checkDataTepThuTuc = checkValidateTepThuTuc(dataThongTinHoSo.MC_TTHC_GV_ThuTucLienThong, dataThongTinHoSo.MC_TTHC_GV_ThuTucKhongApDungMC, dataThongTinHoSo.images);
+		if (checkDataTepThuTuc == false) {
+			Swal.fire({
+				icon: "error",
+				title: "Thiếu thông tin bắt buộc",
+				text: `Vui lòng tải lên tệp thủ tục ${dataThongTinHoSo.MC_TTHC_GV_ThuTucLienThong ? "liên thông" : "không áp dụng Một cửa"} !`,
 			});
+			return;
+		}
+
+		try {
+			const resultPostThongTinTTHC = await postThuTucHanhChinh(axiosJWT, dataThongTinHoSo);
+			if (resultPostThongTinTTHC.status === 200) {
+				const dataPostThongTinHoSo = await resultPostThongTinTTHC.data;
+				if (dataPostThongTinHoSo.message === "Bản ghi bị trùng.") {
+					Swal.fire({
+						icon: "error",
+						title: "Hồ sơ đã tồn tại",
+						text: `Thông tin hồ sơ ${dataThongTinHoSo.MC_TTHC_GV_TenThuTuc} - mã hồ sơ ${dataThongTinHoSo.MC_TTHC_GV_MaThuTuc} đã tồn tại. Vui lòng chỉnh sửa hoặc xóa hồ sơ để tạo mới!`,
+					});
+					return;
+				} else {
+					const dataTTHCGVGetID = await getThuTucHanhChinhByMaThuTuc(axiosJWT, maThuTuc);
+					if (dataTTHCGVGetID.status === 200) {
+						const dataTTHCGVID = await dataTTHCGVGetID.data;
+						idTTHCGV = dataTTHCGVID.body[0].MC_TTHC_GV_ID;
+					}
+				}
+			}
+
+			// UI-POST: Thanh Phan Ho So
+			for (let i = 0; i < thanhPhanHoSo.length; i++) {
+				thanhPhanHoSo[i].MC_TTHC_GV_ThanhPhanHoSo_IDTTHC = idTTHCGV;
+			}
+			const resultPostThanhPhanHoSo = await postThanhPhanHoSoTTHCGV(axiosJWT, thanhPhanHoSo);
+
+			// UI-POST: TrinhTuThucHien
+			for (let i = 0; i < quyTrinh.length; i++) {
+				quyTrinh[i].MC_TTHC_GV_TrinhTuThucHien_IDTTHC = idTTHCGV;
+			}
+			const resultPostTrinhTuThucHien = await postTrinhTuThucHienTTHCGV(axiosJWT, quyTrinh);
+
+			// UI-POST: Lệ phí
+			for (let i = 0; i < phiLePhi.length; i++) {
+				phiLePhi[i].MC_TTHC_GV_LePhi_IDTTHC = idTTHCGV;
+			}
+			const resultPostLePhi = await postLePhi(axiosJWT, phiLePhi);
+
+			// UI-POST: Trạng thái
+			for (let i = 0; i < trangThai.length; i++) {
+				trangThai[i].MC_TTHC_GV_TrangThai_IDTTHC = idTTHCGV;
+			}
+			const resultPostTrangThai = await postTrangThaiTTHCGV(axiosJWT, trangThai);
+
+			try {
+				if (resultPostThanhPhanHoSo.status === 200 && resultPostTrinhTuThucHien.status === 200 && resultPostLePhi.status === 200 && resultPostTrangThai.status === 200) {
+					const dataPostThanhPhanHoSo = await resultPostThanhPhanHoSo.data;
+					const dataPostTrinhTuThucHien = await resultPostTrinhTuThucHien.data;
+					const dataPostLePhi = await resultPostLePhi.data;
+					const dataPostTrangThai = await resultPostTrangThai.data;
+
+					if (dataPostThanhPhanHoSo && dataPostTrinhTuThucHien && dataPostLePhi && dataPostTrangThai) {
+						return Swal.fire({
+							position: "center",
+							icon: "success",
+							title: "Thêm mới hồ sơ/thủ tục thành công!",
+							showConfirmButton: false,
+							timer: 1500,
+						});
+					} else {
+						return Swal.fire({
+							icon: "error",
+							title: "Lỗi",
+							text: `Vui lòng kiểm tra lại thông tin hồ sơ!`,
+						});
+					}
+				}
+			} catch (error) {
+				console.log(">>> Error: " + error);
+			}
+		} catch (error) {
+			console.log(">>> Error: " + [error]);
+		}
 	};
 
 	useEffect(() => {
+		const getDanhSachPhongBan = async () => {
+			const resultGetAllPhongBan = await getAllPhongBan(axiosJWT);
+			if (resultGetAllPhongBan.status === 200) {
+				const dataPhongBan = await resultGetAllPhongBan.data;
+				setListDonVi(dataPhongBan);
+			}
+		};
+
+		getDanhSachPhongBan();
+
 		setThongTinActive(true);
 		setTPHoSoDeNghiActive(false);
 		setTrinhTuThucHienActive(false);
@@ -320,6 +418,7 @@ function AdminTTHCGVView(props) {
 							thuTucLienThong={thuTucLienThong}
 							thuTucKhongApDungMotCua={thuTucKhongApDungMotCua}
 							handleChangeValue={handleChangeValue}
+							errorThongTinHoSo={errorThongTinHoSo}
 						/>
 					) : null}
 					{/* END: Thông Tin Hồ Sơ */}

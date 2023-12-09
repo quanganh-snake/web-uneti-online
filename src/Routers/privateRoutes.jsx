@@ -50,6 +50,9 @@ import HomeAdmin from "../Pages/Admins/Home/HomeAdmin.jsx";
 import AdminTTHCGV from "../Pages/Admins/TTHCGV/AdminTTHCGV.jsx";
 import CanBoNghiepVu from "../Pages/Admins/TTHCGV/CanBoNghiepVu/CanBoNghiepVu.jsx";
 import ChiTietHoSoYeuCau from "../Pages/Admins/TTHCGV/ChiTietHoSoYeuCau/ChiTietHoSoYeuCau.jsx";
+import ChiTietHoSoYeuCauEdit from "../Pages/Admins/TTHCGV/ChiTietHoSoYeuCau/ChiTietHoSoYeuCauEdit.jsx";
+import ThongTinChiTietHoSo from "../Pages/Admins/TTHCGV/DanhSachHoSo/ThongTinChiTietHoSo/ThongTinChiTietHoSo.jsx";
+import DanhSachHoSo from "../Pages/Admins/TTHCGV/DanhSachHoSo/DanhSachHoSo.jsx";
 
 const ROLES = ["GV", "SV"];
 
@@ -67,7 +70,12 @@ export const privateRoutes = (
 						<Route index element={<CanBoNghiepVu />} />
 						<Route path="chitietyeucau/:yeucau/:id" element={<ChiTietHoSoYeuCau />} />
 					</Route>
-					<Route path="quantriTTHCGV" element={<AdminTTHCGV />} />
+					<Route path="quantriTTHCGV">
+						<Route index element={<DanhSachHoSo />} />
+						<Route path="hosothutuc/xem/tatca" element={<DanhSachHoSo />} />
+						<Route path="hosothutuc/them" element={<AdminTTHCGV />} />
+						<Route path="hosothutuc/xem/chitiet/:title/:id" element={<ThongTinChiTietHoSo />} />
+					</Route>
 				</Route>
 			</Route>
 			{/* Thủ tục hành chính giảng viên */}

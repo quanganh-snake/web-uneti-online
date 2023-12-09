@@ -10,6 +10,8 @@ import { IoCloseCircleOutline, IoClose } from "react-icons/io5";
 import { GiHamburgerMenu } from "react-icons/gi";
 import clsx from "clsx";
 
+const PATH_TTHCGV = "/admin/quantriTTHCGV/hosothutuc";
+
 function SidebarTTHCGV() {
 	const [openMenuQuanTri, setOpenMenuQuanTri] = useState(true);
 
@@ -31,13 +33,13 @@ function SidebarTTHCGV() {
 					<h4 className="text-md font-bold uppercase mb-4">Quy trình/Hồ sơ</h4>
 					<ul>
 						<li>
-							<Link className="flex flex-row items-center  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white">
+							<Link to={`${PATH_TTHCGV}/them`} className="flex flex-row items-center  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white">
 								<MdAddCircle size={24} />
 								<span>Thêm quy trình hồ sơ</span>
 							</Link>
 						</li>
 						<li>
-							<Link className="flex flex-row items-center  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white">
+							<Link to={`${PATH_TTHCGV}/xem/tatca`} className="flex flex-row items-center  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white">
 								<CiViewList size={24} />
 								<span>Danh sách quy trình hồ sơ</span>
 							</Link>
