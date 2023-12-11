@@ -5,8 +5,6 @@ import { toast } from "react-toastify";
 import { tokenGVLogin, tokenSVLogin, userGVLogin, userSVLogin } from "../../Apis/apiLogin.js";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { createAxiosJWT } from "../../Configs/http.js";
-import { tokenSuccess } from "../../Services/Redux/Slice/authSlice.js";
 
 function Login() {
 	const [showPassword, setShowPassword] = useState(false);
@@ -33,10 +31,9 @@ function Login() {
 			TC_SV_MaSinhVien_Pass: password,
 		};
 		const tokenSV = await tokenSVLogin(userSV, dispatch);
-		const axiosJWT = createAxiosJWT(tokenSV, dispatch, tokenSuccess);
 
 		if (tokenSV) {
-			const dataSV = await userSVLogin(axiosJWT, { TC_SV_MaSinhVien: username }, dispatch, navigate);
+			const dataSV = await userSVLogin({ TC_SV_MaSinhVien: username }, dispatch);
 
 			if (!dataSV) {
 				return null;
@@ -68,9 +65,8 @@ function Login() {
 		};
 		try {
 			const tokenGV = await tokenGVLogin(userGV, dispatch);
-			const axiosJWT = createAxiosJWT(tokenGV, dispatch, tokenSuccess);
 			if (tokenGV) {
-				const dataGV = await userGVLogin(axiosJWT, userGV, dispatch, navigate);
+				const dataGV = await userGVLogin(userGV, dispatch, navigate);
 
 				if (!dataGV) {
 					return null;
@@ -119,9 +115,7 @@ function Login() {
 		}
 
 		const sinhvien = await checkedSinhVien(username, password);
-		// console.log("🚀 ~ file: Login.jsx:135 ~ handleLogin ~ sinhvien:", sinhvien);
 		const giangvien = await checkedGiangVien(username, password);
-		// console.log("🚀 ~ file: Login.jsx:123 ~ handleLogin ~ giangvien:", giangvien);
 
 		if (!sinhvien && !giangvien) {
 			return toast.error("Thông tin đăng nhập không chính xác. Vui lòng kiểm tra lại!", {
@@ -170,6 +164,8 @@ function Login() {
 				theme: "light",
 			});
 		}
+
+		navigate("/uneti");
 	};
 
 	const handleEnterPressKey = (e) => {

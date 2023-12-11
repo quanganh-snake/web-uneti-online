@@ -1,58 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Breadcrumb from "../../../Components/Breadcumb/Breadcrumb";
 import { FiSearch } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import SidebarTTHCGV from "./SidebarTTHCGV/SidebarTTHCGV";
 import { changeSlug } from "../../../Services/Utils/stringUtils";
+import ReactPaginate from "react-paginate";
+import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
+import clsx from "clsx";
 function HomeTTHCGVView(props) {
-	const { home } = props;
+	const { home, dataListHoSoThuTuc } = props;
 
-	const fakeDataTables = [
-		{
-			id: 1,
-			name: "Quy trình đề nghị cấp lại mật khẩu tài khoản email",
-			level: 4,
-			type: "Nộp hồ sơ",
-			linhVuc: "CNTT",
-		},
-		{
-			id: 2,
-			name: "Quy trình đề nghị cấp tài khoản: Email, LMS, phân quyền: EDU, EGOV",
-			level: 4,
-			type: "Nộp hồ sơ",
-			linhVuc: "CNTT",
-		},
-		{
-			id: 3,
-			name: "Quy trình đề nghị cấp lại mật khẩu tài khoản LMS",
-			level: 4,
-			type: "Nộp hồ sơ",
-			linhVuc: "CNTT",
-		},
-		{
-			id: 4,
-			name: "Quy trình đề nghị cấp lại tên miền và hệ quản trị nội dung website",
-			level: 3,
-			type: "Nộp hồ sơ",
-			linhVuc: "CNTT",
-		},
-		{
-			id: 5,
-			name: "Quy trình đề nghị cấp tên miền và trỏ tên miền ra máy chủ bên ngoài",
-			level: 3,
-			type: "Nộp hồ sơ",
-			linhVuc: "TCCB",
-		},
-	];
+	// paginates
+	const [currentPage, setCurrentPage] = useState(0);
+	const [itemsPerPage, setItemsPerPage] = useState(10);
+	const pageCount = Math.ceil(dataListHoSoThuTuc.length / itemsPerPage);
+	const displayData = dataListHoSoThuTuc.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
 
 	// events handlers
+	const handlePageChange = ({ selected }) => {
+		setCurrentPage(selected);
+	};
+	const handleChangeValue = (e) => {
+		const { id, name, value } = e.target;
+		if (id == "records-number" || name == "records-number") {
+			setItemsPerPage(parseInt(value));
+		}
+	};
+
 	const handleSearch = (e) => {
 		e.preventDefault();
 	};
+
 	return (
 		<div className="flex flex-col md:flex-row gap-2">
-			<div className="bg-white p-4">
+			<div className="bg-white p-4 animate__animated">
 				<SidebarTTHCGV />
 			</div>
 			<div className="grow bg-white w-full p-4">
@@ -72,9 +54,9 @@ function HomeTTHCGVView(props) {
 						</form>
 						<select className="w-full md:w-auto px-3 py-2 border rounded-full font-semibold text-white bg-[#0484AC] focus:outline-none" name="" id="">
 							<option value="">Số thủ tục hiển thị</option>
-							<option value="">5</option>
-							<option value="">10</option>
-							<option value="">15</option>
+							<option value="5">5</option>
+							<option value="10">10</option>
+							<option value="15">15</option>
 						</select>
 					</div>
 				</div>
@@ -90,40 +72,69 @@ function HomeTTHCGVView(props) {
 							</tr>
 						</thead>
 						<tbody>
-							{fakeDataTables &&
-								fakeDataTables.map((iData, index) => {
-									const nameSlug = changeSlug(iData.name);
+							{displayData &&
+								displayData.map((iData, index) => {
+									const nameSlug = changeSlug(iData.MC_TTHC_GV_TenThuTuc);
 									return (
-										<tr key={iData.id}>
+										<tr key={index}>
 											<td className="border border-slate-300 text-center">{index + 1}</td>
 											<td className="border border-slate-300">
 												<div className="px-2">
 													<ul>
 														<li>
-															<Link to={`/tthcgiangvien/chitiet/${nameSlug}/${iData.id}`} className="uppercase font-semibold text-[#0C4A6E]">
-																{iData.name}
+															<Link to={`/tthcgiangvien/chitiet/${nameSlug}/${iData.MC_TTHC_GV_ID}`} className="uppercase font-semibold text-[#0C4A6E]">
+																{iData.MC_TTHC_GV_TenThuTuc}
 															</Link>
 														</li>
 														<li>
 															<span className="flex items-center gap-2">
 																Mức độ:{" "}
-																<span className="inline-block w-4 h-4 bg-[#075985] rounded-full text-center text-white font-semibold text-xs">{iData.level}</span>
+																<span
+																	className={clsx(
+																		"inline-block w-4 h-4 rounded-full text-center font-semibold text-white text-xs",
+																		parseInt(iData.MC_TTHC_GV_IDMucDo) == 0 ? "bg-red-300" : "",
+																		parseInt(iData.MC_TTHC_GV_IDMucDo) == 1 ? "bg-red-400" : "",
+																		parseInt(iData.MC_TTHC_GV_IDMucDo) == 2 ? "bg-red-500" : "",
+																		parseInt(iData.MC_TTHC_GV_IDMucDo) >= 3 ? "bg-red-600" : ""
+																	)}
+																>
+																	{iData.MC_TTHC_GV_IDMucDo + 1}
+																</span>
 															</span>
 														</li>
 														<li>
-															<span className="font-semibold italic text-red-600">{iData.type}</span>
+															<span className="font-semibold italic text-red-600">{"Nộp hồ sơ"}</span>
 														</li>
 													</ul>
 												</div>
 											</td>
 											<td className="border border-slate-300">
-												<p className="px-2 text-center">{iData.linhVuc}</p>
+												<p className="px-2 text-center">{iData.MC_TTHC_GV_LinhVuc}</p>
 											</td>
 										</tr>
 									);
 								})}
 						</tbody>
 					</table>
+					<div className="grid grid-cols-2 mt-5 items-center justify-between">
+						<div className="flex flex-row items-center">
+							<p className="font-bold text-[#336699]">
+								Tổng số: <span>{dataListHoSoThuTuc?.length} hồ sơ/thủ tục</span>
+							</p>
+						</div>
+						<ReactPaginate
+							previousLabel={<FaCaretLeft color="#336699" size={32} />}
+							nextLabel={<FaCaretRight color="#336699" size={32} />}
+							pageCount={pageCount}
+							marginPagesDisplayed={2}
+							pageRangeDisplayed={5}
+							onPageChange={handlePageChange}
+							containerClassName={"pagination"}
+							pageClassName={"px-2 py-1 hover:text-white hover:font-semibold hover:bg-[#336699]"}
+							activeClassName={"px-2 py-1 text-white font-semibold bg-[#336699]"}
+							className="w-full flex items-center justify-end gap-1"
+						/>
+					</div>
 				</div>
 				{/* END: Table DS Thủ tục */}
 			</div>

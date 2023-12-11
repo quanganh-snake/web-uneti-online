@@ -1,3 +1,5 @@
-export const postTrinhTuThucHienTTHCGV = (axiosJWT, data = []) => {
-	return axiosJWT.post("SP_MC_TTHC_GV_TrinhTuThucHienTiepNhan/Add_Para", data);
+import http from "../../Configs/http";
+
+export const postTrinhTuThucHienTTHCGV = (data = []) => {
+	return http.post("SP_MC_TTHC_GV_TrinhTuThucHienTiepNhan/Add_Para", data);
 };

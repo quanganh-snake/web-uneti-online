@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-
+import { MdClose } from "react-icons/md";
+import { convertDataFileToBase64 } from "../../../../Services/Utils/stringUtils";
 function ThongTinHoSo(props) {
 	const {
 		listMucDo,
@@ -17,10 +18,21 @@ function ThongTinHoSo(props) {
 		thuTucKhongApDungMotCua,
 		canCuPhapLyCuaTTHC,
 		dieuKienThucHien,
+		dataFilesTepThuTuc,
+		setDataFilesTepThuTuc,
 		errorThongTinHoSo,
 		handleChangeValue,
 	} = props;
 
+	const [inputDataFilesThuTuc, setInputDataFilesThuTuc] = useState(null);
+
+	// Event handlers
+	const handleDeleteFileThuTuc = (index) => {
+		if (index) {
+			dataFilesTepThuTuc.splice(index, 1);
+			setDataFilesTepThuTuc([...dataFilesTepThuTuc]);
+		}
+	};
 	return (
 		<div className="uneti-tthcgv__thongtinhoso mb-5">
 			<h2 className="text-2xl font-semibold uppercase mb-4">Thiết lập thông tin hồ sơ</h2>
@@ -252,14 +264,42 @@ function ThongTinHoSo(props) {
 						<span className="font-semibold">Thủ tục không áp dụng Một cửa</span>
 					</label>
 				</div>
-				{thuTucLienThong || thuTucKhongApDungMotCua ? (
-					<div className="col-span-4 lg:col-span-2 my-4">
-						<label className="p-4 bg-[#336699] text-white rounded-lg cursor-pointer hover:opacity-70" htmlFor="file_input">
-							Tải lên file thủ tục (.pdf, .docx, .doc)
-						</label>
-						<input className="hidden" id="file_input" type="file" />
+
+				<div className="col-span-4 my-4">
+					<label className="p-4 bg-[#336699] text-white rounded-lg cursor-pointer hover:opacity-70" htmlFor="MC_TTHC_GV_TepThuTuc_DataFileFile">
+						Tải lên file thủ tục (.pdf, .docx, .doc)
+					</label>
+					<input
+						className="hidden"
+						id="MC_TTHC_GV_TepThuTuc_DataFileFile"
+						type="file"
+						disabled={dataFilesTepThuTuc?.length > 2 ? true : false}
+						onChange={async (e) => {
+							const { files } = e.target;
+							let dataFilesInput = await convertDataFileToBase64(files[0]).then((res) => res);
+
+							setDataFilesTepThuTuc({
+								MC_TTHC_GV_TepThuTuc_TenFile: files[0]?.name,
+								MC_TTHC_GV_TepThuTuc_DataFileFile: dataFilesInput,
+							});
+						}}
+					/>
+				</div>
+				{dataFilesTepThuTuc && (
+					<div className="col-span-4">
+						<div className="flex items-center gap-4 p-2 border border-slate-200 rounded-md mb-2">
+							<p className="w-full">{dataFilesTepThuTuc.MC_TTHC_GV_TepThuTuc_TenFile}</p>
+							<MdClose
+								size={24}
+								color="red"
+								className="font-semibold cursor-pointer hover:opacity-70"
+								onClick={() => {
+									setDataFilesTepThuTuc(null);
+								}}
+							/>
+						</div>
 					</div>
-				) : null}
+				)}
 			</div>
 		</div>
 	);

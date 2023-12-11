@@ -2,6 +2,7 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { tokenSuccess } from "../Services/Redux/Slice/authSlice";
 import { store } from "../Services/Redux/store";
+import { refreshDataToken } from "../Apis/apiLogin";
 
 const http = axios.create({
 	baseURL: `${import.meta.env.VITE_API_URL}`,
@@ -11,87 +12,91 @@ const http = axios.create({
 	},
 });
 
-const state = store.getState();
+const requestToRefreshToken = async () => {
+	const dataCurrentToken = store.getState()?.auth?.login?.currentToken;
+	return dataCurrentToken;
+};
+
 // Add a request interceptor
 http.interceptors.request.use(
-	(config) => {
-		let accessToken = state?.auth?.login?.currentToken?.token;
-		if (accessToken) {
-			config.headers.Authorization = `Bearer ${accessToken}`;
+	async (config) => {
+		const dataToken = store.getState()?.auth?.login?.currentToken;
+
+		let currentDate = new Date();
+		if (dataToken) {
+			const { token: accessToken, refreshToken } = dataToken;
+			config.headers["Authorization"] = `Bearer ${accessToken}`;
+
+			// Check expire
+			const decodedToken = jwtDecode(accessToken);
+			// console.log("🚀 ~ file: http.js:92 ~ check accessToken expire: ", {
+			// 	expire: decodedToken.exp < currentDate.getTime() / 1000,
+			// 	timeout: currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds() + "s",
+			// });
+
+			const decodedRefreshToken = jwtDecode(refreshToken);
+			// console.log("🚀 ~ file: http.js:92 ~ check refreshToken expire: ", {
+			// 	expire: decodedRefreshToken.exp < currentDate.getTime() / 1000,
+			// 	timeout: currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds() + "s",
+			// });
+
+			if (decodedRefreshToken.exp < currentDate.getTime() / 1000) {
+				window.location.href = "/";
+				return;
+			}
+
+			if (decodedToken.exp < currentDate.getTime() / 1000) {
+				// const resNewDataToken = await axios.post(`${import.meta.env.VITE_API_URL}/jwt/RefreshToken`, { refreshToken });
+				const resNewDataToken = await requestToRefreshToken();
+				console.log("🚀 ~ file: http.js:52 ~ resNewDataToken:", resNewDataToken);
+				const refreshUser = {
+					...dataToken,
+					token: resNewDataToken.token,
+				};
+				store.dispatch(tokenSuccess(refreshUser));
+				config.headers.Authorization = `Bearer ${resNewDataToken.token}`;
+			}
 		}
 		return config;
 	},
-	(error) => Promise.reject(error)
+	(error) => {
+		localStorage.setItem(">>>Error http.js", error.message);
+		Promise.reject(error);
+	}
 );
 
-// Request api check tokens
-export const createAxiosJWT = (dispatch) => {
-	const dataToken = state?.auth?.login?.currentToken ? state?.auth?.login?.currentToken : null;
-	const newAxios = axios.create({
-		baseURL: `${import.meta.env.VITE_API_URL}`,
-		timeout: 10000,
-		headers: {
-			"Content-Type": "application/json",
-		},
-	});
-	// Add a request interceptor
-	newAxios.interceptors.request.use(
-		async (config) => {
-			let date = new Date();
-			const { token: accessToken, refreshToken } = dataToken;
-			if (accessToken && refreshToken) {
-				config.headers.Authorization = `Bearer ${accessToken}`;
-				const decodedToken = jwtDecode(accessToken);
-				console.log("🚀 ~ file: http.js:92 ~ check accessToken expire: ", {
-					expire: decodedToken.exp < date.getTime() / 1000,
-					timeout: date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "s",
-				});
-				const decodedRefreshToken = jwtDecode(refreshToken);
-				console.log("🚀 ~ file: http.js:92 ~ check refreshToken expire: ", {
-					expire: decodedRefreshToken.exp < date.getTime() / 1000,
-					timeout: date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "s",
-				});
+http.interceptors.response.use(
+	async (response) => {
+		return response;
+	},
+	async (error) => {
+		const { response, config } = error;
+		const status = error.response ? error.response.status : null;
 
-				if (decodedRefreshToken.exp < date.getTime() / 1000) {
-					window.location.href = "/dangnhap";
-					return;
-				}
+		if (status === 401 || status === 403) {
+			const resNewDataToken = await requestToRefreshToken();
 
-				if (decodedToken.exp < date.getTime() / 1000) {
-					const resNewDataToken = await axios.post(`${import.meta.env.VITE_API_URL}/jwt/RefreshToken`, { refreshToken });
-					const refreshUser = {
-						...dataToken,
-						token: resNewDataToken.data.token,
-					};
-					dispatch(tokenSuccess(refreshUser));
-					config.headers.Authorization = `Bearer ${resNewDataToken.data.token}`;
-				}
+			const { refreshToken } = resNewDataToken;
+			const decodedRefreshToken = jwtDecode(refreshToken);
+			console.log("🚀 ~ file: http.js:81 ~ check refreshToken expire: ", {
+				expire: decodedRefreshToken.exp < currentDate.getTime() / 1000,
+				timeout: currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds() + "s",
+			});
+
+			if (decodedRefreshToken.exp < currentDate.getTime() / 1000) {
+				window.location.href = "/";
+			} else {
+				const refreshUser = {
+					...dataToken,
+					token: resNewDataToken.token,
+				};
+				store.dispatch(tokenSuccess(refreshUser));
+				config.headers.Authorization = `Bearer ${resNewDataToken.token}`;
 			}
-			return config;
-		},
-		(error) => {
-			console.log(error);
-			Promise.reject(error);
 		}
-	);
 
-	newAxios.interceptors.response.use(
-		(response) => {
-			// console.log(response);
-			return response;
-		},
-		(error) => {
-			// console.log("🚀 ~ file: http.js:138 ~ createAxiosJWT ~ error:", error);
-			const status = error.response ? error.response.status : null;
-
-			if (status === 401 || status === 403) {
-				window.location.href = "/dangnhap";
-			}
-
-			return Promise.reject(error);
-		}
-	);
-	return newAxios;
-};
+		return Promise.reject(error);
+	}
+);
 
 export default http;

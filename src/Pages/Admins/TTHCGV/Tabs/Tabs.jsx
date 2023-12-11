@@ -53,7 +53,7 @@ function Tabs(props) {
 						Thiết lập trình tự thực hiện
 					</button>
 				</li>
-				<li className="me-2">
+				{/* <li className="me-2">
 					<button
 						type="button"
 						id="btnPhiLePhi"
@@ -67,7 +67,7 @@ function Tabs(props) {
 					>
 						Phí, lệ phí
 					</button>
-				</li>
+				</li> */}
 				<li className="me-2">
 					<button
 						type="button"

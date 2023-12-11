@@ -3,7 +3,6 @@ import SidebarTTHCGV from "../Sidebar/SidebarTTHCGV";
 import { getAllThuTucHanhChinhGV } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
 import { DataCanBoGV } from "../../../../Services/Utils/dataCanBoGV";
 import { useDispatch } from "react-redux";
-import { createAxiosJWT } from "../../../../Configs/http";
 import { useState } from "react";
 import { useEffect } from "react";
 import ReactPaginate from "react-paginate";
@@ -18,11 +17,6 @@ const PATH_TTHCGV = "/admin/quantriTTHCGV/hosothutuc";
 function DanhSachHoSo() {
 	// variables
 	const [listHoSoThuTuc, setListHoSoThuTuc] = useState([]);
-	const dataCanBoGV = DataCanBoGV();
-	const { dataToken } = dataCanBoGV;
-
-	const dispatch = useDispatch();
-	const axiosJWT = createAxiosJWT(dataToken, dispatch);
 
 	// paginates
 	const [currentPage, setCurrentPage] = useState(0);
@@ -47,7 +41,7 @@ function DanhSachHoSo() {
 
 	useEffect(() => {
 		const getAllHoSoThuTuc = async () => {
-			const resultGetAllHoSoThuTuc = await getAllThuTucHanhChinhGV(axiosJWT);
+			const resultGetAllHoSoThuTuc = await getAllThuTucHanhChinhGV();
 			if (resultGetAllHoSoThuTuc.status === 200) {
 				const dataHoSoThuTuc = await resultGetAllHoSoThuTuc.data?.body;
 				if (dataHoSoThuTuc) {

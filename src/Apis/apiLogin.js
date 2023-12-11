@@ -1,6 +1,7 @@
 import axios from "axios";
 import { tokenFailure, tokenStart, tokenSuccess } from "../Services/Redux/Slice/authSlice.js";
 import { userFailure, userStart, userSuccess } from "../Services/Redux/Slice/userSlice.js";
+import http from "../Configs/http.js";
 
 // data token
 export const tokenSVLogin = async (user, dispatch) => {
@@ -32,10 +33,10 @@ export const tokenGVLogin = async (user, dispatch) => {
 };
 
 // data user
-export const userSVLogin = async (axiosJWT, username, dispatch, navigate) => {
+export const userSVLogin = async (username, dispatch, navigate) => {
 	dispatch(userStart());
 	try {
-		const res = await axiosJWT.post(`${import.meta.env.VITE_API_URL}/SP_MC_MaSinhVien/Load_Web_App_Para`, username);
+		const res = await http.post(`/SP_MC_MaSinhVien/Load_Web_App_Para`, username);
 		if (res.status === 200) {
 			dispatch(userSuccess(res.data?.body[0]));
 			navigate("/uneti");
@@ -46,10 +47,10 @@ export const userSVLogin = async (axiosJWT, username, dispatch, navigate) => {
 	}
 };
 
-export const userGVLogin = async (axiosJWT, user, dispatch, navigate) => {
+export const userGVLogin = async (user, dispatch, navigate) => {
 	dispatch(userStart());
 	try {
-		const res = await axiosJWT.post(`${import.meta.env.VITE_API_URL}/SP_HT_USER_GIANGVIEN/Load_MaND_HRM`, user);
+		const res = await http.post(`/SP_HT_USER_GIANGVIEN/Load_MaND_HRM`, user);
 		if (res.status === 200) {
 			dispatch(userSuccess(res.data?.body[0]));
 			navigate("/uneti");
@@ -57,5 +58,16 @@ export const userGVLogin = async (axiosJWT, user, dispatch, navigate) => {
 		}
 	} catch (error) {
 		dispatch(userFailure());
+	}
+};
+
+export const refreshDataToken = async (refreshToken = "") => {
+	try {
+		const res = await axios.post(`${import.meta.env.VITE_API_URL}/jwt/RefreshToken`, { refreshToken });
+		if (res.status === 200) {
+			return res.data;
+		}
+	} catch (error) {
+		console.log(error);
 	}
 };

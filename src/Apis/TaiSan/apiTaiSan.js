@@ -1,12 +1,8 @@
-export const getDanhSachYeuCau = async (axiosJWT, token) => {
+import http from "../../Configs/http";
+
+export const getDanhSachYeuCau = async () => {
 	try {
-		const response = await axiosJWT.get(`/SP_DT_QLTS_TiepNhan/Load`, {
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-		});
-		// console.log("12-response-apiTaiSan: ", response);
+		const response = await http.get(`/SP_DT_QLTS_TiepNhan/Load`);
 		const data = await response.data;
 		const listData = data.body;
 		return listData;

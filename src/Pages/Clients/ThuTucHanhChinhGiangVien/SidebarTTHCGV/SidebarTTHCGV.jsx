@@ -4,57 +4,57 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { MdMenu, MdClose } from "react-icons/md";
 import { Link } from "react-router-dom";
-function SidebarTTHCGV() {
-	const fakeDataDonVi = [{ id: 1, name: "Trường Đại học Kinh tế - Kỹ thuật Công nghiệp" }];
+import { getAllPhongBan } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
+function SidebarTTHCGV({ listDepartments }) {
 	const fakeDataLinhVuc = [
 		{
 			id: 1,
-			name: "Chính trị và Công tác Sinh viên",
+			TenPhongBan: "Chính trị và Công tác Sinh viên",
 		},
 		{
 			id: 2,
-			name: "Phòng Đào tạo",
+			TenPhongBan: "Phòng Đào tạo",
 		},
 		{
 			id: 3,
-			name: "Phòng Tổ chức Cán bộ",
+			TenPhongBan: "Phòng Tổ chức Cán bộ",
 		},
 		{
 			id: 4,
-			name: "Tài chính - Kế toán",
+			TenPhongBan: "Tài chính - Kế toán",
 		},
 		{
 			id: 5,
-			name: "Quản trị mạng",
+			TenPhongBan: "Quản trị mạng",
 		},
 		{
 			id: 6,
-			name: "Quản trị kinh doanh",
+			TenPhongBan: "Quản trị kinh doanh",
 		},
 		{
 			id: 7,
-			name: "Đào tạo từ xa",
+			TenPhongBan: "Đào tạo từ xa",
 		},
 		{
 			id: 8,
-			name: "Quản lý thiết bị, tài sản",
+			TenPhongBan: "Quản lý thiết bị, tài sản",
 		},
 		{
 			id: 9,
-			name: "Đại học tại chức",
+			TenPhongBan: "Đại học tại chức",
 		},
 		{
 			id: 10,
-			name: "Đào tạo sau đại học",
+			TenPhongBan: "Đào tạo sau đại học",
 		},
 		{
 			id: 11,
-			name: "Đào tạo Quốc tế",
+			TenPhongBan: "Đào tạo Quốc tế",
 		},
 	];
 
 	const [openMenu, setOpenMenu] = useState(true);
-	const [dataSelect, setDataSelect] = useState(fakeDataDonVi);
+	const [dataSelect, setDataSelect] = useState(null);
 
 	const handleOpenMenu = () => {
 		setOpenMenu(!openMenu);
@@ -68,15 +68,27 @@ function SidebarTTHCGV() {
 		}
 
 		if (id === "donvi") {
-			setDataSelect(fakeDataDonVi);
+			setDataSelect(listDepartments);
 		}
 	};
 
-	useEffect(() => {}, [dataSelect]);
+	useEffect(() => {
+		const getAllDepartments = async () => {
+			const resultAllDepartments = await getAllPhongBan();
+			if (resultAllDepartments.status === 200) {
+				const dataDepartments = await resultAllDepartments?.data?.body;
+				if (dataDepartments) {
+					setDataSelect(dataDepartments);
+				}
+			}
+		};
+
+		getAllDepartments();
+	}, [dataSelect]);
 
 	return (
 		<div className="w-full md:max-w-[220px]">
-			<div className={clsx("uneti__menu mb-2 flex", openMenu ? "justify-end" : "justify-start")}>
+			<div className={clsx("uneti__menu mb-2 flex", openMenu ? "justify-end" : "justify-start ")}>
 				{openMenu ? (
 					<MdClose size={24} className="cursor-pointer hover:text-red-600" onClick={handleOpenMenu} />
 				) : (
@@ -93,14 +105,14 @@ function SidebarTTHCGV() {
 					<span>Lĩnh vực</span>
 				</label>
 			</div>
-			<div className={clsx("uneti__luachon--list my-4", openMenu ? "" : "hidden")}>
+			<div className={clsx("uneti__luachon--list my-4  max-h-[500px] overflow-y-auto", openMenu ? "" : "hidden")}>
 				{dataSelect &&
 					dataSelect.length > 0 &&
 					dataSelect.map((iData, index) => {
 						return (
-							<div className="uneti__luachon--item px-2 py-1 border hover:bg-[#336699] hover:text-white hover:font-semibold" key={iData.id}>
+							<div className="uneti__luachon--item px-2 py-1 border hover:bg-[#336699] hover:text-white hover:font-semibold" key={index}>
 								<Link>
-									<p className="truncate">{iData.name}</p>
+									<p className="truncate">{iData.TenPhongBan}</p>
 								</Link>
 							</div>
 						);

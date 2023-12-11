@@ -9,11 +9,9 @@ import TrangThaiHoSo from "./ThemMoiThuTuc/TrangThaiHoSo";
 import PhanQuyen from "./ThemMoiThuTuc/PhanQuyen";
 import SidebarTTHCGV from "./Sidebar/SidebarTTHCGV";
 import { getAllPhongBan, postThuTucHanhChinh } from "../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
-import { createAxiosJWT } from "./../../../Configs/http";
 import { DataSinhVien } from "../../../Services/Utils/dataSinhVien";
 import { DataCanBoGV } from "../../../Services/Utils/dataCanBoGV";
 import { useDispatch } from "react-redux";
-import { tokenSuccess } from "../../../Services/Redux/Slice/authSlice";
 import { NguonTiepNhan_WEB } from "../../../Services/Static/dataStatic";
 import Swal from "sweetalert2";
 import { postThanhPhanHoSoTTHCGV } from "./../../../Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo";
@@ -21,18 +19,8 @@ import { postTrinhTuThucHienTTHCGV } from "./../../../Apis/ThuTucHanhChinhGiangV
 import { postLePhi } from "./../../../Apis/ThuTucHanhChinhGiangVien/apiLePhi";
 import { postTrangThaiTTHCGV } from "./../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai";
 import { getThuTucHanhChinhByMaThuTuc } from "./../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
-
-const checkValidateTepThuTuc = (thuTucLienThong = false, thuThucKhongApDungMC = false, images = []) => {
-	if ((thuTucLienThong || thuThucKhongApDungMC) && images.length === 1) {
-		return true;
-	} else if (thuTucLienThong && thuThucKhongApDungMC && images.length === 2) {
-		return true;
-	} else if (!thuTucLienThong && !thuThucKhongApDungMC && images.length === 0) {
-		return true;
-	} else {
-		return false;
-	}
-};
+import { convertDataFileToBase64 } from "../../../Services/Utils/stringUtils";
+import { postPhanQuyenTTHCGV } from "../../../Apis/ThuTucHanhChinhGiangVien/apiPhanQuyen";
 
 const errorMessageFieldThongTinHoSo = {
 	MC_TTHC_GV_MaThuTuc: "Vui lòng nhập mã thủ tục!",
@@ -76,13 +64,7 @@ function AdminTTHCGVView(props) {
 	const [phiLePhi, setPhiLePhi] = useState([]);
 	const [trangThai, setTrangThai] = useState([]);
 	const [phanQuyen, setPhanQuyen] = useState([]);
-
-	const dataTokenSV = DataSinhVien();
-	const dataTokenCBGV = DataCanBoGV();
-	const dataToken = dataTokenSV.dataToken ?? dataTokenCBGV.dataToken;
-	const dispatch = useDispatch();
-
-	const axiosJWT = createAxiosJWT(dataToken, dispatch);
+	const [dataFilesTepThuTuc, setDataFilesTepThuTuc] = useState({});
 
 	// event handlers
 	const handleOpenTab = (e) => {
@@ -143,7 +125,7 @@ function AdminTTHCGVView(props) {
 	};
 
 	const handleChangeValue = (e) => {
-		const { id, value, checked } = e.target;
+		const { id, value, checked, files } = e.target;
 		if (id === "MC_TTHC_GV_TenThuTuc") {
 			setTenThuTuc(value);
 		}
@@ -194,6 +176,21 @@ function AdminTTHCGVView(props) {
 
 		if (id === "MC_TTHC_GV_DieuKienThucHien") {
 			setDieuKienThucHien(value);
+		}
+
+		if (id === "MC_TTHC_GV_TepThuTuc_DataFileFile") {
+			let dataFiles = {
+				urlTemp: "",
+				lastModified: files[0]?.lastModified,
+				MC_TTHC_GV_TepThuTuc_TenFile: files[0]?.name,
+				MC_TTHC_GV_TepThuTuc_DataFileFile: "",
+			};
+			setDataFilesTepThuTuc([...dataFilesTepThuTuc, dataFiles]);
+			convertDataFileToBase64(files[0])
+				.then((res) => {
+					setDataFilesTepThuTuc([...dataFilesTepThuTuc, MC_TTHC_GV_TepThuTuc_DataFileFile]);
+				})
+				.catch((err) => {});
 		}
 	};
 
@@ -266,7 +263,7 @@ function AdminTTHCGVView(props) {
 			MC_TTHC_GV_NguonTiepNhan: NguonTiepNhan_WEB,
 			MC_TTHC_GV_NoiTiepNhan: donViTiepNhan,
 			MC_TTHC_GV_NoiTraKetQua: noiTraKetQua,
-			images: [],
+			...dataFilesTepThuTuc,
 		};
 
 		let idTTHCGV;
@@ -279,18 +276,8 @@ function AdminTTHCGVView(props) {
 		});
 		setErrorThongTinHoSo(errorObject);
 
-		const checkDataTepThuTuc = checkValidateTepThuTuc(dataThongTinHoSo.MC_TTHC_GV_ThuTucLienThong, dataThongTinHoSo.MC_TTHC_GV_ThuTucKhongApDungMC, dataThongTinHoSo.images);
-		if (checkDataTepThuTuc == false) {
-			Swal.fire({
-				icon: "error",
-				title: "Thiếu thông tin bắt buộc",
-				text: `Vui lòng tải lên tệp thủ tục ${dataThongTinHoSo.MC_TTHC_GV_ThuTucLienThong ? "liên thông" : "không áp dụng Một cửa"} !`,
-			});
-			return;
-		}
-
 		try {
-			const resultPostThongTinTTHC = await postThuTucHanhChinh(axiosJWT, dataThongTinHoSo);
+			const resultPostThongTinTTHC = await postThuTucHanhChinh(dataThongTinHoSo);
 			if (resultPostThongTinTTHC.status === 200) {
 				const dataPostThongTinHoSo = await resultPostThongTinTTHC.data;
 				if (dataPostThongTinHoSo.message === "Bản ghi bị trùng.") {
@@ -301,7 +288,7 @@ function AdminTTHCGVView(props) {
 					});
 					return;
 				} else {
-					const dataTTHCGVGetID = await getThuTucHanhChinhByMaThuTuc(axiosJWT, maThuTuc);
+					const dataTTHCGVGetID = await getThuTucHanhChinhByMaThuTuc(maThuTuc);
 					if (dataTTHCGVGetID.status === 200) {
 						const dataTTHCGVID = await dataTTHCGVGetID.data;
 						idTTHCGV = dataTTHCGVID.body[0].MC_TTHC_GV_ID;
@@ -313,34 +300,40 @@ function AdminTTHCGVView(props) {
 			for (let i = 0; i < thanhPhanHoSo.length; i++) {
 				thanhPhanHoSo[i].MC_TTHC_GV_ThanhPhanHoSo_IDTTHC = idTTHCGV;
 			}
-			const resultPostThanhPhanHoSo = await postThanhPhanHoSoTTHCGV(axiosJWT, thanhPhanHoSo);
+			const resultPostThanhPhanHoSo = await postThanhPhanHoSoTTHCGV(thanhPhanHoSo);
 
 			// UI-POST: TrinhTuThucHien
 			for (let i = 0; i < quyTrinh.length; i++) {
 				quyTrinh[i].MC_TTHC_GV_TrinhTuThucHien_IDTTHC = idTTHCGV;
 			}
-			const resultPostTrinhTuThucHien = await postTrinhTuThucHienTTHCGV(axiosJWT, quyTrinh);
+			const resultPostTrinhTuThucHien = await postTrinhTuThucHienTTHCGV(quyTrinh);
 
 			// UI-POST: Lệ phí
-			for (let i = 0; i < phiLePhi.length; i++) {
-				phiLePhi[i].MC_TTHC_GV_LePhi_IDTTHC = idTTHCGV;
+			// for (let i = 0; i < phiLePhi.length; i++) {
+			// 	phiLePhi[i].MC_TTHC_GV_LePhi_IDTTHC = idTTHCGV;
+			// }
+			// const resultPostLePhi = await postLePhi(phiLePhi);
+
+			// UI-POST: Phân quyền
+			for (let i = 0; i < phanQuyen.length; i++) {
+				phanQuyen[i].MC_TTHC_GV_PhanQuyen_IDTTHC = idTTHCGV;
 			}
-			const resultPostLePhi = await postLePhi(axiosJWT, phiLePhi);
+			const resultPostPhanQuyen = await postPhanQuyenTTHCGV(phanQuyen);
 
 			// UI-POST: Trạng thái
 			for (let i = 0; i < trangThai.length; i++) {
 				trangThai[i].MC_TTHC_GV_TrangThai_IDTTHC = idTTHCGV;
 			}
-			const resultPostTrangThai = await postTrangThaiTTHCGV(axiosJWT, trangThai);
+			const resultPostTrangThai = await postTrangThaiTTHCGV(trangThai);
 
 			try {
-				if (resultPostThanhPhanHoSo.status === 200 && resultPostTrinhTuThucHien.status === 200 && resultPostLePhi.status === 200 && resultPostTrangThai.status === 200) {
+				if (resultPostThanhPhanHoSo.status === 200 && resultPostTrinhTuThucHien.status === 200 && resultPostPhanQuyen.status === 200 && resultPostTrangThai.status === 200) {
 					const dataPostThanhPhanHoSo = await resultPostThanhPhanHoSo.data;
 					const dataPostTrinhTuThucHien = await resultPostTrinhTuThucHien.data;
-					const dataPostLePhi = await resultPostLePhi.data;
+					const dataPostPhanQuyen = await resultPostPhanQuyen.data;
 					const dataPostTrangThai = await resultPostTrangThai.data;
 
-					if (dataPostThanhPhanHoSo && dataPostTrinhTuThucHien && dataPostLePhi && dataPostTrangThai) {
+					if (dataPostThanhPhanHoSo && dataPostTrinhTuThucHien && dataPostPhanQuyen && dataPostTrangThai) {
 						return Swal.fire({
 							position: "center",
 							icon: "success",
@@ -366,7 +359,7 @@ function AdminTTHCGVView(props) {
 
 	useEffect(() => {
 		const getDanhSachPhongBan = async () => {
-			const resultGetAllPhongBan = await getAllPhongBan(axiosJWT);
+			const resultGetAllPhongBan = await getAllPhongBan();
 			if (resultGetAllPhongBan.status === 200) {
 				const dataPhongBan = await resultGetAllPhongBan.data;
 				setListDonVi(dataPhongBan);
@@ -417,6 +410,8 @@ function AdminTTHCGVView(props) {
 							noiTraKetQua={noiTraKetQua}
 							thuTucLienThong={thuTucLienThong}
 							thuTucKhongApDungMotCua={thuTucKhongApDungMotCua}
+							dataFilesTepThuTuc={dataFilesTepThuTuc}
+							setDataFilesTepThuTuc={setDataFilesTepThuTuc}
 							handleChangeValue={handleChangeValue}
 							errorThongTinHoSo={errorThongTinHoSo}
 						/>
@@ -432,7 +427,7 @@ function AdminTTHCGVView(props) {
 					{/* END: Thiết lập trình tự thực hiện */}
 
 					{/* START: Phí, lệ phí */}
-					{phiActive ? <PhiLePhi phiLePhi={phiLePhi} setPhiLePhi={setPhiLePhi} handleAddLePhi={handleAddLePhi} /> : null}
+					{/* {phiActive ? <PhiLePhi phiLePhi={phiLePhi} setPhiLePhi={setPhiLePhi} handleAddLePhi={handleAddLePhi} /> : null} */}
 					{/* END: Phí, lệ phí */}
 
 					{/* START: Trạng thái */}
@@ -440,7 +435,7 @@ function AdminTTHCGVView(props) {
 					{/* END: Trạng thái */}
 
 					{/* START: Phân quyền */}
-					{phanQuyenActive ? <PhanQuyen /> : null}
+					{phanQuyenActive ? <PhanQuyen phanQuyen={phanQuyen} setPhanQuyen={setPhanQuyen} /> : null}
 					{/* END: Phân quyền */}
 
 					<div className="uneti-tthcgv__add-form">
