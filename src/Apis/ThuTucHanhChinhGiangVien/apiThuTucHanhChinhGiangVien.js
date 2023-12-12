@@ -12,6 +12,16 @@ export const postThuTucHanhChinh = (data = {}) => {
 	return http.post("SP_MC_TTHC_GV_TiepNhan/Add_Para", data);
 };
 
+// POST: Gửi yêu cầu xử lý Hồ sơ, thủ tục
+export const postThuTucHanhChinhGuiYeuCau = (data = {}) => {
+	return http.post("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Add_Para", data);
+};
+
+// POST: Gửi yêu cầu thành phần hồ sơ
+export const postThanhgPhanHoSoGuiYeuCau = (data = []) => {
+	return http.post("SP_MC_TTHC_GV_ThanhPhanHoSoTiepNhan/GuiYeuCau_Add_Para", data);
+};
+
 // GET DATA
 // GET: Tất cả hồ sơ thủ tục hành chính Giảng Viên
 export const getAllThuTucHanhChinhGV = () => {
@@ -38,11 +48,15 @@ export const getThuTucHanhChinhByMaThuTuc = (maThuTuc) => {
 
 // GET: Tìm kiếm hồ sơ thủ tục hành chính Giảng Viên
 export const getThuTucHanhChinhByKeyWords = (keywords) => {
-	return http.get("SP_MC_TTHC_GV_TiepNhan/TimKiemThuTuc", {
-		params: {
-			TuKhoaTimKiem: keywords,
-		},
-	});
+	try {
+		return http.get("SP_MC_TTHC_GV_TiepNhan/TimKiemThuTuc", {
+			params: {
+				TuKhoaTimKiem: keywords,
+			},
+		});
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 // GET: Danh sách Phòng Ban
@@ -57,4 +71,19 @@ export const getAllNhanSuByIDPhongBan = (idPhongBan) => {
 			IDPhongBan: idPhongBan,
 		},
 	});
+};
+
+// GET: Danh sách lĩnh vực
+export const getAllLinhVuc = () => {
+	return http.get("SP_MC_TTHC_GV_TiepNhan/Load_LinhVuc");
+};
+
+// GET: Danh sách hồ sơ, thủ tục đã gửi lên
+export const getAllHoSoGuiYeuCau = () => {
+	return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Load");
+};
+
+// GET: Danh sách thành phần hồ sơ - hồ sơ đã gửi
+export const getAllThanhPhanHoSoGuiYeuCau = () => {
+	return http.get("SP_MC_TTHC_GV_ThanhPhanHoSoTiepNhan/GuiYeuCau_Load");
 };

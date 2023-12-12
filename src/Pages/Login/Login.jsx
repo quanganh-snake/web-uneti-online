@@ -195,6 +195,7 @@ function Login() {
 						<div className="relative">
 							<input
 								id="matkhau"
+								autoComplete="current-password"
 								type={showPassword ? "text" : "password"}
 								className="px-4 py-2 border border-slate-300 w-full rounded-full outline-none valid:bg-white"
 								placeholder="Mật khẩu"

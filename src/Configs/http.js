@@ -70,29 +70,40 @@ http.interceptors.response.use(
 		return response;
 	},
 	async (error) => {
-		const { response, config } = error;
-		const status = error.response ? error.response.status : null;
+		const originalRequest = error.config;
+		console.log("🚀 ~ file: http.js:74 ~ error:", [error]);
 
-		if (status === 401 || status === 403) {
-			const resNewDataToken = await requestToRefreshToken();
+		if (error.response?.status === 401 && !originalRequest._retry) {
+			originalRequest._retry = true;
+			try {
+				const resNewDataToken = await requestToRefreshToken();
 
-			const { refreshToken } = resNewDataToken;
-			const decodedRefreshToken = jwtDecode(refreshToken);
-			console.log("🚀 ~ file: http.js:81 ~ check refreshToken expire: ", {
-				expire: decodedRefreshToken.exp < currentDate.getTime() / 1000,
-				timeout: currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds() + "s",
-			});
+				const { refreshToken } = resNewDataToken;
+				const decodedRefreshToken = jwtDecode(refreshToken);
+				console.log("🚀 ~ file: http.js:81 ~ check refreshToken expire: ", {
+					expire: decodedRefreshToken.exp < currentDate.getTime() / 1000,
+					timeout: currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds() + "s",
+				});
 
-			if (decodedRefreshToken.exp < currentDate.getTime() / 1000) {
+				if (decodedRefreshToken.exp < currentDate.getTime() / 1000) {
+					window.location.href = "/";
+				} else {
+					const refreshUser = {
+						...dataToken,
+						token: resNewDataToken.token,
+					};
+					store.dispatch(tokenSuccess(refreshUser));
+					config.headers.Authorization = `Bearer ${resNewDataToken.token}`;
+					originalRequest.headers.Authorization = `Bearer ${resNewDataToken.token}`;
+					return axios(originalRequest);
+				}
+			} catch (error) {
 				window.location.href = "/";
-			} else {
-				const refreshUser = {
-					...dataToken,
-					token: resNewDataToken.token,
-				};
-				store.dispatch(tokenSuccess(refreshUser));
-				config.headers.Authorization = `Bearer ${resNewDataToken.token}`;
 			}
+		}
+
+		if (error.response?.status === 403) {
+			window.location.href = "/";
 		}
 
 		return Promise.reject(error);

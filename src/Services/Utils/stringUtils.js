@@ -38,7 +38,7 @@ export const convertDataFileToBase64 = (dataFile) => {
 		const reader = new FileReader();
 
 		reader.onload = () => {
-			const base64String = reader.result.split(",")[1];
+			const base64String = reader.result;
 			resolve(base64String);
 		};
 

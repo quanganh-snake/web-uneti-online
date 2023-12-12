@@ -9,9 +9,6 @@ import TrangThaiHoSo from "./ThemMoiThuTuc/TrangThaiHoSo";
 import PhanQuyen from "./ThemMoiThuTuc/PhanQuyen";
 import SidebarTTHCGV from "./Sidebar/SidebarTTHCGV";
 import { getAllPhongBan, postThuTucHanhChinh } from "../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
-import { DataSinhVien } from "../../../Services/Utils/dataSinhVien";
-import { DataCanBoGV } from "../../../Services/Utils/dataCanBoGV";
-import { useDispatch } from "react-redux";
 import { NguonTiepNhan_WEB } from "../../../Services/Static/dataStatic";
 import Swal from "sweetalert2";
 import { postThanhPhanHoSoTTHCGV } from "./../../../Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo";
@@ -32,8 +29,7 @@ const errorMessageFieldThongTinHoSo = {
 	MC_TTHC_GV_NoiTraKetQua: "Vui lòng chọn nơi trả kết quả!",
 };
 
-function AdminTTHCGVView(props) {
-	const { listMucDo } = props;
+function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 	// variables
 	// error
 	const [errorThongTinHoSo, setErrorThongTinHoSo] = useState({});
@@ -64,7 +60,7 @@ function AdminTTHCGVView(props) {
 	const [phiLePhi, setPhiLePhi] = useState([]);
 	const [trangThai, setTrangThai] = useState([]);
 	const [phanQuyen, setPhanQuyen] = useState([]);
-	const [dataFilesTepThuTuc, setDataFilesTepThuTuc] = useState({});
+	const [dataFilesTepThuTuc, setDataFilesTepThuTuc] = useState(null);
 
 	// event handlers
 	const handleOpenTab = (e) => {
@@ -399,6 +395,7 @@ function AdminTTHCGVView(props) {
 					{thongTinActive ? (
 						<ThongTinHoSo
 							listMucDo={listMucDo}
+							listDonViTiepNhan={listDonViTiepNhan}
 							tenThuTuc={tenThuTuc}
 							viTri={viTri}
 							maThuTuc={maThuTuc}
@@ -406,7 +403,7 @@ function AdminTTHCGVView(props) {
 							tongThoiGianGiaiQuyet={tongThoiGianGiaiQuyet}
 							soBoHoSo={soBoHoSo}
 							linhVuc={linhVuc}
-							donViTiepNhan={donViTiepNhan}
+							setDonViTiepNhan={setDonViTiepNhan}
 							noiTraKetQua={noiTraKetQua}
 							thuTucLienThong={thuTucLienThong}
 							thuTucKhongApDungMotCua={thuTucKhongApDungMotCua}

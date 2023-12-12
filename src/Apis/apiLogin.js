@@ -33,13 +33,12 @@ export const tokenGVLogin = async (user, dispatch) => {
 };
 
 // data user
-export const userSVLogin = async (username, dispatch, navigate) => {
+export const userSVLogin = async (username, dispatch) => {
 	dispatch(userStart());
 	try {
 		const res = await http.post(`/SP_MC_MaSinhVien/Load_Web_App_Para`, username);
 		if (res.status === 200) {
 			dispatch(userSuccess(res.data?.body[0]));
-			navigate("/uneti");
 			return res.data?.body[0];
 		}
 	} catch (error) {

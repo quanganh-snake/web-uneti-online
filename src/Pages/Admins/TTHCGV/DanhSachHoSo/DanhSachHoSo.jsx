@@ -1,6 +1,6 @@
 import React from "react";
 import SidebarTTHCGV from "../Sidebar/SidebarTTHCGV";
-import { getAllThuTucHanhChinhGV } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
+import { getAllThuTucHanhChinhGV, getThuTucHanhChinhByKeyWords } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
 import { DataCanBoGV } from "../../../../Services/Utils/dataCanBoGV";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
@@ -11,18 +11,19 @@ import { FiSearch } from "react-icons/fi";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { changeSlug } from "../../../../Services/Utils/stringUtils";
+import { DebounceInput } from "react-debounce-input";
 
 const PATH_TTHCGV = "/admin/quantriTTHCGV/hosothutuc";
 
 function DanhSachHoSo() {
 	// variables
 	const [listHoSoThuTuc, setListHoSoThuTuc] = useState([]);
-
+	const [keywords, setKeywords] = useState("");
 	// paginates
 	const [currentPage, setCurrentPage] = useState(0);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
 	const pageCount = Math.ceil(listHoSoThuTuc.length / itemsPerPage);
-	const displayData = listHoSoThuTuc.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+	const displayData = listHoSoThuTuc?.reverse()?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
 
 	// event handlers
 	const handlePageChange = ({ selected }) => {
@@ -49,8 +50,25 @@ function DanhSachHoSo() {
 				}
 			}
 		};
-		getAllHoSoThuTuc();
-	}, []);
+
+		const getListHoSoThuTuc = async () => {
+			try {
+				const resultGetSearchThuTuc = await getThuTucHanhChinhByKeyWords(keywords);
+				console.log("🚀 ~ file: DanhSachHoSo.jsx:56 ~ getListHoSoThuTuc ~ resultGetSearchThuTuc:", resultGetSearchThuTuc);
+				if (resultGetSearchThuTuc.status === 200) {
+					const dataSearchThuTuc = await resultGetSearchThuTuc?.data?.body;
+					if (dataSearchThuTuc.length) {
+						setListHoSoThuTuc(dataSearchThuTuc);
+					}
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		};
+
+		// getAllHoSoThuTuc();
+		getListHoSoThuTuc();
+	}, [keywords]);
 	return (
 		<div className="px-5 lg:px-0 flex gap-4">
 			<SidebarTTHCGV />
@@ -61,13 +79,20 @@ function DanhSachHoSo() {
 							<h3 className="text-lg font-bold uppercase underline">Danh sách quy trình hồ sơ</h3>
 						</div>
 						<form className="col-span-2">
-							<div className=" flex items-center gap-2 border px-2 rounded-full">
-								<input type="search" placeholder="Nhập từ khóa tìm kiếm" className="px-3 py-1 bg-transparent w-full focus:outline-none" name="" id="" />
-								<label htmlFor="search-file" className="">
-									<FiSearch size={22} className="text-[#336699] cursor-pointer hover:opacity-70" />
+							<div className="flex items-center gap-2 border px-2 rounded-full">
+								<DebounceInput
+									type="search"
+									placeholder="Nhập từ khóa tìm kiếm"
+									className="px-3 py-1 bg-transparent w-full focus:outline-none"
+									onChange={(e) => {
+										setKeywords(e.target.value.toLowerCase());
+									}}
+								/>
+
+								<label className="">
+									<FiSearch size={22} className="text-[#336699]" />
 								</label>
 							</div>
-							<input type="submit" id="search-file" className="hidden" value="Tìm kiếm" />
 						</form>
 						<select className="col-span-1 rounded-full px-3 py-1 border focus:outline-slate-300" onChange={handleChangeValue} name="records-number" id="records-number">
 							<option value="">Số bản ghi</option>

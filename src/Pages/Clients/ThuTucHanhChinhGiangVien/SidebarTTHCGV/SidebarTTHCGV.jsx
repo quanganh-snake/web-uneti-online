@@ -4,57 +4,12 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { MdMenu, MdClose } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { getAllPhongBan } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
-function SidebarTTHCGV({ listDepartments }) {
-	const fakeDataLinhVuc = [
-		{
-			id: 1,
-			TenPhongBan: "Chính trị và Công tác Sinh viên",
-		},
-		{
-			id: 2,
-			TenPhongBan: "Phòng Đào tạo",
-		},
-		{
-			id: 3,
-			TenPhongBan: "Phòng Tổ chức Cán bộ",
-		},
-		{
-			id: 4,
-			TenPhongBan: "Tài chính - Kế toán",
-		},
-		{
-			id: 5,
-			TenPhongBan: "Quản trị mạng",
-		},
-		{
-			id: 6,
-			TenPhongBan: "Quản trị kinh doanh",
-		},
-		{
-			id: 7,
-			TenPhongBan: "Đào tạo từ xa",
-		},
-		{
-			id: 8,
-			TenPhongBan: "Quản lý thiết bị, tài sản",
-		},
-		{
-			id: 9,
-			TenPhongBan: "Đại học tại chức",
-		},
-		{
-			id: 10,
-			TenPhongBan: "Đào tạo sau đại học",
-		},
-		{
-			id: 11,
-			TenPhongBan: "Đào tạo Quốc tế",
-		},
-	];
-
+import { getAllLinhVuc, getAllPhongBan } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
+function SidebarTTHCGV({ setKeywords }) {
 	const [openMenu, setOpenMenu] = useState(true);
-	const [dataSelect, setDataSelect] = useState(null);
+	const [dataSelect, setDataSelect] = useState("donvi");
+	const [listDepartments, setListDepartments] = useState([]);
+	const [listArea, setListArea] = useState([]);
 
 	const handleOpenMenu = () => {
 		setOpenMenu(!openMenu);
@@ -62,29 +17,41 @@ function SidebarTTHCGV({ listDepartments }) {
 
 	const handleChangeSelectionData = (e) => {
 		const { id } = e.target;
-
-		if (id === "linhvuc") {
-			setDataSelect(fakeDataLinhVuc);
-		}
-
-		if (id === "donvi") {
-			setDataSelect(listDepartments);
-		}
+		setDataSelect(id);
 	};
 
 	useEffect(() => {
 		const getAllDepartments = async () => {
-			const resultAllDepartments = await getAllPhongBan();
-			if (resultAllDepartments.status === 200) {
-				const dataDepartments = await resultAllDepartments?.data?.body;
-				if (dataDepartments) {
-					setDataSelect(dataDepartments);
+			try {
+				const resultAllDepartments = await getAllPhongBan();
+				if (resultAllDepartments.status === 200) {
+					const dataDepartments = await resultAllDepartments?.data?.body;
+					if (dataDepartments) {
+						setListDepartments([...dataDepartments]);
+					}
 				}
+			} catch (error) {
+				console.log(">>> Error Get List Departments: ", error);
+			}
+		};
+
+		const getAllAreas = async () => {
+			try {
+				const resultAllAreas = await getAllLinhVuc();
+				if (resultAllAreas.status === 200) {
+					const dataLinhnVuc = await resultAllAreas?.data?.body;
+					if (dataLinhnVuc.length) {
+						setListArea([...dataLinhnVuc]);
+					}
+				}
+			} catch (error) {
+				// console.log(">>> Error Get List Areas: ", error);
 			}
 		};
 
 		getAllDepartments();
-	}, [dataSelect]);
+		getAllAreas();
+	}, []);
 
 	return (
 		<div className="w-full md:max-w-[220px]">
@@ -105,14 +72,33 @@ function SidebarTTHCGV({ listDepartments }) {
 					<span>Lĩnh vực</span>
 				</label>
 			</div>
-			<div className={clsx("uneti__luachon--list my-4  max-h-[500px] overflow-y-auto", openMenu ? "" : "hidden")}>
+			<div className={clsx("uneti__luachon--list my-4  max-h-[700px] overflow-y-auto", openMenu ? "" : "hidden")}>
 				{dataSelect &&
-					dataSelect.length > 0 &&
-					dataSelect.map((iData, index) => {
+					dataSelect === "donvi" &&
+					listDepartments?.map((iData, index) => {
 						return (
 							<div className="uneti__luachon--item px-2 py-1 border hover:bg-[#336699] hover:text-white hover:font-semibold" key={index}>
-								<Link>
+								<Link
+									onClick={() => {
+										setKeywords(iData.TenPhongBan);
+									}}
+								>
 									<p className="truncate">{iData.TenPhongBan}</p>
+								</Link>
+							</div>
+						);
+					})}
+				{dataSelect &&
+					dataSelect === "linhvuc" &&
+					listArea?.map((iData, index) => {
+						return (
+							<div className="uneti__luachon--item px-2 py-1 border hover:bg-[#336699] hover:text-white hover:font-semibold" key={index}>
+								<Link
+									onClick={() => {
+										setKeywords(iData.MC_TTHC_GV_LinhVuc);
+									}}
+								>
+									<p className="truncate">{iData.MC_TTHC_GV_LinhVuc}</p>
 								</Link>
 							</div>
 						);

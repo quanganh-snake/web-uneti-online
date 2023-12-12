@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { MdClose } from "react-icons/md";
 import { convertDataFileToBase64 } from "../../../../Services/Utils/stringUtils";
+import clsx from "clsx";
+import { BiChevronDown } from "react-icons/bi";
+import { AiOutlineSearch } from "react-icons/ai";
 function ThongTinHoSo(props) {
 	const {
 		listMucDo,
+		listDonViTiepNhan,
 		tenThuTuc,
 		viTri,
 		maThuTuc,
@@ -12,7 +16,7 @@ function ThongTinHoSo(props) {
 		tongThoiGianGiaiQuyet,
 		soBoHoSo,
 		linhVuc,
-		donViTiepNhan,
+		setDonViTiepNhan,
 		noiTraKetQua,
 		thuTucLienThong,
 		thuTucKhongApDungMotCua,
@@ -24,15 +28,10 @@ function ThongTinHoSo(props) {
 		handleChangeValue,
 	} = props;
 
-	const [inputDataFilesThuTuc, setInputDataFilesThuTuc] = useState(null);
+	const [donViSelected, setDonViSelected] = useState("");
+	const [searchDonVi, setSearchDonVi] = useState("");
+	const [openSelectDonVi, setOpenSelectDonVi] = useState(false);
 
-	// Event handlers
-	const handleDeleteFileThuTuc = (index) => {
-		if (index) {
-			dataFilesTepThuTuc.splice(index, 1);
-			setDataFilesTepThuTuc([...dataFilesTepThuTuc]);
-		}
-	};
 	return (
 		<div className="uneti-tthcgv__thongtinhoso mb-5">
 			<h2 className="text-2xl font-semibold uppercase mb-4">Thiết lập thông tin hồ sơ</h2>
@@ -198,22 +197,52 @@ function ThongTinHoSo(props) {
 						<p className="font-semibold mb-2">
 							Đơn vị tiếp nhận <span className="text-red-500">*</span>
 						</p>
-						<select
-							className="px-3 py-2 w-full rounded-full border border-slate-300 focus:outline-slate-300"
-							name="MC_TTHC_GV_NoiTiepNhan"
-							id="MC_TTHC_GV_NoiTiepNhan"
-							value={donViTiepNhan}
-							onChange={handleChangeValue}
-						>
-							<option value="">Chọn đơn vị tiếp nhận</option>
-							<option value="Chính trị & CTSV">Chính trị & CTSV</option>
-							<option value="Hợp tác quốc tế">Hợp tác quốc tế</option>
-							<option value="Khảo thí và Đảm bảo chất lượng">Khảo thí và Đảm bảo chất lượng</option>
-							<option value="Tài chính - kế toán">Tài chính - kế toán</option>
-							<option value="Truyền thông">Truyền thông</option>
-							<option value="Tổ chức cán bộ">Tổ chức cán bộ</option>
-							<option value="Quản lý Đào tạo">Quản lý Đào tạo</option>
-						</select>
+						<div className="col-span-4 md:col-span-2 relative">
+							<div
+								id="MC_TTHC_GV_PhanQuyen_DonVi"
+								onClick={() => {
+									setOpenSelectDonVi(!openSelectDonVi);
+								}}
+								className="bg-white w-full p-2 flex items-center justify-between rounded-md border border-slate-300 cursor-pointer"
+							>
+								<span className={clsx(donViSelected && "text-gray-700 font-semibold")}>{donViSelected ? donViSelected : "Chọn đơn vị tiếp nhận"}</span>
+								<BiChevronDown size={20} className={clsx(openSelectDonVi && "rotate-180")} />
+							</div>
+							<ul className={clsx("bg-white mt-2 border shadow-sm overflow-y-auto absolute right-0 left-0 top-full", openSelectDonVi ? "max-h-60" : "hidden")}>
+								<div className="flex items-center px-2 sticky top-0 bg-white shadow-md">
+									<AiOutlineSearch size={18} className="text-gray-700" />
+									<input
+										type="text"
+										value={searchDonVi}
+										onChange={(e) => {
+											setSearchDonVi(e.target.value.toLowerCase());
+										}}
+										placeholder="Nhập tên nhân sự"
+										className="w-full placeholder:text-gray-500 p-2 outline-none"
+									/>
+								</div>
+								{listDonViTiepNhan &&
+									listDonViTiepNhan?.map((iDonVi, index) => {
+										return (
+											<li
+												key={index}
+												className={clsx(
+													"p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white",
+													iDonVi?.TenPhongBan.toLowerCase().includes(searchDonVi) ? "block" : "hidden"
+												)}
+												onClick={() => {
+													setDonViTiepNhan(iDonVi?.TenPhongBan);
+													setDonViSelected(iDonVi?.TenPhongBan);
+													setOpenSelectDonVi(false);
+													setSearchDonVi("");
+												}}
+											>
+												{iDonVi?.TenPhongBan}
+											</li>
+										);
+									})}
+							</ul>
+						</div>
 						<p className="text-red-600">{errorThongTinHoSo?.MC_TTHC_GV_NoiTiepNhan}</p>
 					</label>
 				</div>
@@ -277,6 +306,7 @@ function ThongTinHoSo(props) {
 						onChange={async (e) => {
 							const { files } = e.target;
 							let dataFilesInput = await convertDataFileToBase64(files[0]).then((res) => res);
+							console.log("🚀 ~ file: ThongTinHoSo.jsx:309 ~ onChange={ ~ dataFilesInput:", dataFilesInput)
 
 							setDataFilesTepThuTuc({
 								MC_TTHC_GV_TepThuTuc_TenFile: files[0]?.name,

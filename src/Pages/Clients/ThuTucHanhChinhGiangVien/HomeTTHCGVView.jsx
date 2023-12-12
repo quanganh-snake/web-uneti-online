@@ -8,8 +8,9 @@ import { changeSlug } from "../../../Services/Utils/stringUtils";
 import ReactPaginate from "react-paginate";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 import clsx from "clsx";
+import { DebounceInput } from "react-debounce-input";
 function HomeTTHCGVView(props) {
-	const { home, dataListHoSoThuTuc } = props;
+	const { home, dataListHoSoThuTuc, setKeywords } = props;
 
 	// paginates
 	const [currentPage, setCurrentPage] = useState(0);
@@ -34,8 +35,8 @@ function HomeTTHCGVView(props) {
 
 	return (
 		<div className="flex flex-col md:flex-row gap-2">
-			<div className="bg-white p-4 animate__animated">
-				<SidebarTTHCGV />
+			<div className="bg-white p-4">
+				<SidebarTTHCGV setKeywords={setKeywords} />
 			</div>
 			<div className="grow bg-white w-full p-4">
 				<Breadcrumb home={home} breadcrumbs={[]} />
@@ -43,14 +44,16 @@ function HomeTTHCGVView(props) {
 				<div className="mt-5">
 					<div className="flex flex-col md:flex-row items-center gap-4">
 						<button className="w-full md:w-auto px-3 py-2 rounded-full bg-[#0484AC] text-white font-semibold hover:opacity-70 md:whitespace-nowrap">Tìm kiếm nâng cao</button>
-						<form className="w-full relative" onSubmit={handleSearch}>
-							<input type="text" className="w-full rounded-full px-3 py-2 border focus:outline-none" placeholder="Nhập nội dung tìm kiếm" name="" id="" />
-							<span className="absolute px-4 py-2 right-0 top-0 font-semibold cursor-pointer">
-								<FiSearch size={24} className="font-semibold" />
-							</span>
-							<button type="submit" className="hidden">
-								Tìm kiếm
-							</button>
+						<form className="w-full flex items-center gap-2 border px-2 rounded-full">
+							<DebounceInput
+								type="search"
+								placeholder="Nhập từ khóa tìm kiếm"
+								className="px-3 py-1 bg-transparent w-full focus:outline-none"
+								onChange={(e) => {
+									setKeywords(e.target.value.toLowerCase());
+								}}
+							/>
+							<FiSearch size={24} className="font-semibold" />
 						</form>
 						<select className="w-full md:w-auto px-3 py-2 border rounded-full font-semibold text-white bg-[#0484AC] focus:outline-none" name="" id="">
 							<option value="">Số thủ tục hiển thị</option>

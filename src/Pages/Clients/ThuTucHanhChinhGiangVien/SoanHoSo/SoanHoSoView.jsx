@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import SidebarTTHCGV from "../SidebarTTHCGV/SidebarTTHCGV";
 import Breadcrumb from "../../../../Components/Breadcumb/Breadcrumb";
@@ -7,48 +7,29 @@ import { FaUpload, FaSave } from "react-icons/fa";
 import { FcCancel } from "react-icons/fc";
 import { BsSend } from "react-icons/bs";
 import { MdCancel } from "react-icons/md";
+import { getThuTucHanhChinhByID } from "./../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
 function SoanHoSoView(props) {
 	const { tieude, id } = useParams();
 
 	const { home, breadcrumbs } = props;
 
-	const fakeDataTables = [
-		{
-			id: 1,
-			name: "Quy trình đề nghị cấp lại mật khẩu tài khoản email",
-			level: 4,
-			type: "Nộp hồ sơ",
-			linhVuc: "CNTT",
-		},
-		{
-			id: 2,
-			name: "Quy trình đề nghị cấp tài khoản: Email, LMS, phân quyền: EDU, EGOV",
-			level: 4,
-			type: "Nộp hồ sơ",
-			linhVuc: "CNTT",
-		},
-		{
-			id: 3,
-			name: "Quy trình đề nghị cấp lại mật khẩu tài khoản LMS",
-			level: 4,
-			type: "Nộp hồ sơ",
-			linhVuc: "CNTT",
-		},
-		{
-			id: 4,
-			name: "Quy trình đề nghị cấp lại tên miền và hệ quản trị nội dung website",
-			level: 3,
-			type: "Nộp hồ sơ",
-			linhVuc: "CNTT",
-		},
-		{
-			id: 5,
-			name: "Quy trình đề nghị cấp tên miền và trỏ tên miền ra máy chủ bên ngoài",
-			level: 3,
-			type: "Nộp hồ sơ",
-			linhVuc: "TCCB",
-		},
-	];
+	const [dataThuTuc, setDataThuTuc] = useState(null);
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		const getHoSoThuTucByID = async () => {
+			const resultGetThuTucByID = await getThuTucHanhChinhByID(id);
+			if (resultGetThuTucByID.status === 200) {
+				const dataGetThuTucByID = await resultGetThuTucByID.data;
+				if (dataGetThuTucByID) {
+					setDataThuTuc(dataGetThuTucByID);
+					setLoading(false);
+				}
+			}
+		};
+		getHoSoThuTucByID();
+	}, [id]);
+
 
 	return (
 		<div className="flex flex-col md:flex-row gap-2">
@@ -60,22 +41,13 @@ function SoanHoSoView(props) {
 				<div className="grid grid-cols-2 gap-4 mt-5">
 					<h2 className="text-lg mb-4 col-span-2">
 						<span className="font-semibold">Tên thủ tục: </span>
-						<span className="uppercase font-bold">Quy trình đề nghị cấp tài khoản: Email, LMS, phân quyền: EDU, EGOV</span>
+						<span className="uppercase font-bold">{dataThuTuc?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc}</span>
 						<Link to={`/tthcgiangvien/chitiet/${tieude}/${id}`} className="font-semibold text-[#245D7C] hover:opacity-70 mx-3">
 							(Xem chi tiết)
 						</Link>
 					</h2>
-					<div className="flex flex-col form-group mb-4 col-span-2 md:col-span-1">
-						<label htmlFor="coquantiepnhan" className="font-semibold mb-2">
-							Đơn vị tiếp nhận <span className="font-bold text-red-500">*</span>
-						</label>
-						<select className="px-2 py-1 border rounded-full focus:outline-[0.2px] focus:outline-slate-300" name="" id="coquantiepnhan">
-							<option value="">Chọn đơn vị tiếp nhận</option>
-							<option value="">Phòng Tổ chức Cán bộ</option>
-							<option value="">Phòng Đào tạo</option>
-							<option value="">Phòng Tài chính - Kế toán</option>
-							<option value="">Phòng Chính trị & CTSV</option>
-						</select>
+					<div className="flex items-center form-group mb-4 col-span-2 md:col-span-1">
+						<p className="font-semibold">Đơn vị tiếp nhận: {dataThuTuc?.ThongTinHoSo?.MC_TTHC_GV_NoiTiepNhan}</p>
 					</div>
 					<div className="flex flex-col form-group mb-4 col-span-2">
 						<label htmlFor="noidungyc" className="font-semibold mb-2">
@@ -90,40 +62,10 @@ function SoanHoSoView(props) {
 						></textarea>
 					</div>
 					<div className="flex flex-col form-group mb-4 col-span-2 md:col-span-1">
-						<label htmlFor="coquantiepnhan" className="font-semibold mb-2">
-							Hình thức nhận kết quả <span className="font-bold text-red-500">*</span>
-						</label>
-						<select className="px-2 py-1 border rounded-full focus:outline-[0.2px] focus:outline-slate-300" name="" id="coquantiepnhan">
-							<option value="">Chọn hình thức nhận kết quả</option>
-							<option value="">Trực tiếp</option>
-							<option value="">Trực tuyến</option>
-							<option value="">Bưu điện</option>
-						</select>
-					</div>
-					<div className="flex flex-col form-group mb-4 col-span-2 md:col-span-1">
-						<label htmlFor="detail-price" className="font-semibold mb-2">
-							Thông tin nộp phí giải quyết hồ sơ
-						</label>
-						<input
-							type="text"
-							className="px-2 py-1 border rounded-full focus:outline-[0.2px] focus:outline-slate-300"
-							placeholder="30000 VNĐ/Tài khoản"
-							disabled
-							name="detail-price"
-							id="detail-price"
-						/>
-					</div>
-					<div className="flex flex-col form-group mb-4 col-span-2 md:col-span-1">
 						<label htmlFor="quantity" className="font-semibold mb-2">
 							Nhập số lượng bản <span className="font-bold text-red-500">*</span>
 						</label>
-						<input type="number" className="px-2 py-1 border rounded-full focus:outline-[0.2px] focus:outline-slate-300" min={1} value={1} name="quantity" id="quantity" />
-					</div>
-					<div className="flex flex-col form-group mb-4 col-span-2 md:col-span-1">
-						<label htmlFor="price" className="font-semibold mb-2">
-							Số tiền cần thanh toán
-						</label>
-						<input type="number" className="px-2 py-1 border rounded-full focus:outline-[0.2px] focus:outline-slate-300" value={30000} disabled name="price" id="price" />
+						<input type="number" className="px-2 py-1 border rounded-full focus:outline-[0.2px] focus:outline-slate-300" min={1} name="quantity" id="quantity" />
 					</div>
 					<div className="flex flex-col form-group mb-4 col-span-2">
 						<label htmlFor="price" className="font-semibold mb-2">
@@ -211,10 +153,6 @@ function SoanHoSoView(props) {
 						</table>
 					</div>
 					<div className="flex flex-row gap-4 col-span-2">
-						<p className="flex flex-row gap-2 items-center cursor-pointer hover:opacity-70 bg-[#336699] text-white border border-slate-100 px-2 py-1 rounded-xl">
-							<FaSave />
-							<span>Lưu</span>
-						</p>
 						<p className="flex flex-row gap-2 items-center cursor-pointer hover:opacity-70 bg-green-700 text-white border border-slate-100 px-2 py-1 rounded-xl">
 							<BsSend />
 							<span>Nộp hồ sơ</span>

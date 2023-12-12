@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import HomeTTHCGVView from "./HomeTTHCGVView";
-import { getAllPhongBan, getAllThuTucHanhChinhGV } from "../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
+import { getAllThuTucHanhChinhGV, getThuTucHanhChinhByKeyWords } from "../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
 
 function HomeTTHCGV() {
 	const home = {
@@ -11,22 +11,26 @@ function HomeTTHCGV() {
 	const breadcrumbs = [];
 
 	const [listHoSoThuTuc, setListHoSoThuTuc] = useState([]);
-
+	const [keywords, setKeywords] = useState("");
 	useEffect(() => {
 		const getListHoSoThuTuc = async () => {
-			const resultListHoSoThuTuc = await getAllThuTucHanhChinhGV();
-			console.log("🚀 ~ file: HomeTTHCGV.jsx:18 ~ getListHoSoThuTuc ~ resultListHoSoThuTuc:", resultListHoSoThuTuc);
-			if (resultListHoSoThuTuc.status === 200) {
-				const dataListHoSoThuTuc = await resultListHoSoThuTuc?.data?.body;
-				if (dataListHoSoThuTuc && dataListHoSoThuTuc.length) {
-					setListHoSoThuTuc([...dataListHoSoThuTuc]);
+			try {
+				const resultListHoSoThuTuc = await getThuTucHanhChinhByKeyWords(keywords);
+				console.log("🚀 ~ file: HomeTTHCGV.jsx:19 ~ getListHoSoThuTuc ~ resultListHoSoThuTuc:", resultListHoSoThuTuc)
+				if (resultListHoSoThuTuc.status === 200) {
+					const dataListHoSoThuTuc = await resultListHoSoThuTuc?.data?.body;
+					if (dataListHoSoThuTuc && dataListHoSoThuTuc.length) {
+						setListHoSoThuTuc([...dataListHoSoThuTuc]);
+					}
 				}
+			} catch (error) {
+				// console.log(error);
 			}
 		};
 		getListHoSoThuTuc();
-	}, []);
+	}, [keywords]);
 
-	return <HomeTTHCGVView home={home} dataListHoSoThuTuc={listHoSoThuTuc} />;
+	return <HomeTTHCGVView home={home} dataListHoSoThuTuc={listHoSoThuTuc} setKeywords={setKeywords} />;
 }
 
 export default HomeTTHCGV;
