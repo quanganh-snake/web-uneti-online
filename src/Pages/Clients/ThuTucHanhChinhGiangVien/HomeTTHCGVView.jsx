@@ -10,7 +10,7 @@ import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 import clsx from "clsx";
 import { DebounceInput } from "react-debounce-input";
 function HomeTTHCGVView(props) {
-	const { home, dataListHoSoThuTuc, setKeywords } = props;
+	const { home, dataListHoSoThuTuc, setKeywords, setDieuKienLoc } = props;
 
 	// paginates
 	const [currentPage, setCurrentPage] = useState(0);
@@ -36,7 +36,7 @@ function HomeTTHCGVView(props) {
 	return (
 		<div className="flex flex-col md:flex-row gap-2">
 			<div className="bg-white p-4">
-				<SidebarTTHCGV setKeywords={setKeywords} />
+				<SidebarTTHCGV setKeywords={setKeywords} setDieuKienLoc={setDieuKienLoc} />
 			</div>
 			<div className="grow bg-white w-full p-4">
 				<Breadcrumb home={home} breadcrumbs={[]} />

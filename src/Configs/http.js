@@ -73,7 +73,7 @@ http.interceptors.response.use(
 		const originalRequest = error.config;
 		console.log("🚀 ~ file: http.js:74 ~ error:", [error]);
 
-		if (error.response?.status === 401 && !originalRequest._retry) {
+		if (error.response?.status === 401 || error.response?.status === 403) {
 			originalRequest._retry = true;
 			try {
 				const resNewDataToken = await requestToRefreshToken();
@@ -102,9 +102,9 @@ http.interceptors.response.use(
 			}
 		}
 
-		if (error.response?.status === 403) {
-			window.location.href = "/";
-		}
+		// if (error.response?.status === 403) {
+		// 	window.location.href = "/";
+		// }
 
 		return Promise.reject(error);
 	}

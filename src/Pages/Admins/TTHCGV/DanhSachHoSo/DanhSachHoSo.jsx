@@ -19,6 +19,7 @@ function DanhSachHoSo() {
 	// variables
 	const [listHoSoThuTuc, setListHoSoThuTuc] = useState([]);
 	const [keywords, setKeywords] = useState("");
+	const [dieuKienLoc, setDieuKienLoc] = useState("");
 	// paginates
 	const [currentPage, setCurrentPage] = useState(0);
 	const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -41,20 +42,9 @@ function DanhSachHoSo() {
 	}, [itemsPerPage]);
 
 	useEffect(() => {
-		const getAllHoSoThuTuc = async () => {
-			const resultGetAllHoSoThuTuc = await getAllThuTucHanhChinhGV();
-			if (resultGetAllHoSoThuTuc.status === 200) {
-				const dataHoSoThuTuc = await resultGetAllHoSoThuTuc.data?.body;
-				if (dataHoSoThuTuc) {
-					setListHoSoThuTuc(dataHoSoThuTuc);
-				}
-			}
-		};
-
 		const getListHoSoThuTuc = async () => {
 			try {
-				const resultGetSearchThuTuc = await getThuTucHanhChinhByKeyWords(keywords);
-				console.log("🚀 ~ file: DanhSachHoSo.jsx:56 ~ getListHoSoThuTuc ~ resultGetSearchThuTuc:", resultGetSearchThuTuc);
+				const resultGetSearchThuTuc = await getThuTucHanhChinhByKeyWords(dieuKienLoc, keywords);
 				if (resultGetSearchThuTuc.status === 200) {
 					const dataSearchThuTuc = await resultGetSearchThuTuc?.data?.body;
 					if (dataSearchThuTuc.length) {
@@ -66,9 +56,12 @@ function DanhSachHoSo() {
 			}
 		};
 
-		// getAllHoSoThuTuc();
 		getListHoSoThuTuc();
-	}, [keywords]);
+		return () => {
+			setKeywords("");
+			setDieuKienLoc("");
+		};
+	}, [keywords, dieuKienLoc]);
 	return (
 		<div className="px-5 lg:px-0 flex gap-4">
 			<SidebarTTHCGV />

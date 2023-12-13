@@ -12,11 +12,11 @@ function HomeTTHCGV() {
 
 	const [listHoSoThuTuc, setListHoSoThuTuc] = useState([]);
 	const [keywords, setKeywords] = useState("");
+	const [dieuKienLoc, setDieuKienLoc] = useState("");
 	useEffect(() => {
 		const getListHoSoThuTuc = async () => {
 			try {
-				const resultListHoSoThuTuc = await getThuTucHanhChinhByKeyWords(keywords);
-				console.log("🚀 ~ file: HomeTTHCGV.jsx:19 ~ getListHoSoThuTuc ~ resultListHoSoThuTuc:", resultListHoSoThuTuc)
+				const resultListHoSoThuTuc = await getThuTucHanhChinhByKeyWords(dieuKienLoc, keywords);
 				if (resultListHoSoThuTuc.status === 200) {
 					const dataListHoSoThuTuc = await resultListHoSoThuTuc?.data?.body;
 					if (dataListHoSoThuTuc && dataListHoSoThuTuc.length) {
@@ -28,9 +28,9 @@ function HomeTTHCGV() {
 			}
 		};
 		getListHoSoThuTuc();
-	}, [keywords]);
+	}, [keywords, dieuKienLoc]);
 
-	return <HomeTTHCGVView home={home} dataListHoSoThuTuc={listHoSoThuTuc} setKeywords={setKeywords} />;
+	return <HomeTTHCGVView home={home} dataListHoSoThuTuc={listHoSoThuTuc} setKeywords={setKeywords} setDieuKienLoc={setDieuKienLoc} />;
 }
 
 export default HomeTTHCGV;

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { MdMenu, MdClose } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { getAllLinhVuc, getAllPhongBan } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
-function SidebarTTHCGV({ setKeywords }) {
+function SidebarTTHCGV({ setKeywords, setDieuKienLoc }) {
 	const [openMenu, setOpenMenu] = useState(true);
 	const [dataSelect, setDataSelect] = useState("donvi");
 	const [listDepartments, setListDepartments] = useState([]);
@@ -21,6 +21,19 @@ function SidebarTTHCGV({ setKeywords }) {
 	};
 
 	useEffect(() => {
+		// const fetchData = async () => {
+		// 	try {
+		// 		const [data1, data2] = await Promise.all([getAllPhongBan().then((response) => response), getAllLinhVuc().then((response) => response)]);
+
+		// 		// Do something with the data
+		// 		console.log(data1, data2);
+		// 	} catch (error) {
+		// 		console.error("Error fetching data:", error);
+		// 		// Handle errors
+		// 	}
+		// };
+		// fetchData();
+
 		const getAllDepartments = async () => {
 			try {
 				const resultAllDepartments = await getAllPhongBan();
@@ -31,7 +44,7 @@ function SidebarTTHCGV({ setKeywords }) {
 					}
 				}
 			} catch (error) {
-				console.log(">>> Error Get List Departments: ", error);
+				console.info(error);
 			}
 		};
 
@@ -45,7 +58,7 @@ function SidebarTTHCGV({ setKeywords }) {
 					}
 				}
 			} catch (error) {
-				// console.log(">>> Error Get List Areas: ", error);
+				console.info(error);
 			}
 		};
 
@@ -64,11 +77,28 @@ function SidebarTTHCGV({ setKeywords }) {
 			</div>
 			<div className={clsx("uneti__luachon border p-2", openMenu ? "flex justify-between items-center gap-4" : "hidden")}>
 				<label onChange={handleChangeSelectionData} htmlFor="donvi" className="flex items-center gap-2 whitespace-nowrap">
-					<input type="radio" defaultChecked name="luachon" id="donvi" />
+					<input
+						type="radio"
+						defaultChecked
+						name="luachon"
+						id="donvi"
+						onChange={() => {
+							setDieuKienLoc("NoiTiepNhan");
+							setKeywords("");
+						}}
+					/>
 					<span>Đơn vị</span>
 				</label>
 				<label onChange={handleChangeSelectionData} htmlFor="linhvuc" className="flex items-center gap-2 whitespace-nowrap">
-					<input type="radio" name="luachon" id="linhvuc" />
+					<input
+						type="radio"
+						name="luachon"
+						id="linhvuc"
+						onChange={() => {
+							setDieuKienLoc("LinhVuc");
+							setKeywords("");
+						}}
+					/>
 					<span>Lĩnh vực</span>
 				</label>
 			</div>
@@ -81,6 +111,7 @@ function SidebarTTHCGV({ setKeywords }) {
 								<Link
 									onClick={() => {
 										setKeywords(iData.TenPhongBan);
+										setDieuKienLoc("NoiTiepNhan");
 									}}
 								>
 									<p className="truncate">{iData.TenPhongBan}</p>
@@ -96,6 +127,7 @@ function SidebarTTHCGV({ setKeywords }) {
 								<Link
 									onClick={() => {
 										setKeywords(iData.MC_TTHC_GV_LinhVuc);
+										setDieuKienLoc("LinhVuc");
 									}}
 								>
 									<p className="truncate">{iData.MC_TTHC_GV_LinhVuc}</p>

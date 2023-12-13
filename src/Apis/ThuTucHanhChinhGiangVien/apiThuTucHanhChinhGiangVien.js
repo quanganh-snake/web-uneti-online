@@ -18,7 +18,7 @@ export const postThuTucHanhChinhGuiYeuCau = (data = {}) => {
 };
 
 // POST: Gửi yêu cầu thành phần hồ sơ
-export const postThanhgPhanHoSoGuiYeuCau = (data = []) => {
+export const postThanhPhanHoSoGuiYeuCau = (data = []) => {
 	return http.post("SP_MC_TTHC_GV_ThanhPhanHoSoTiepNhan/GuiYeuCau_Add_Para", data);
 };
 
@@ -47,10 +47,11 @@ export const getThuTucHanhChinhByMaThuTuc = (maThuTuc) => {
 };
 
 // GET: Tìm kiếm hồ sơ thủ tục hành chính Giảng Viên
-export const getThuTucHanhChinhByKeyWords = (keywords) => {
+export const getThuTucHanhChinhByKeyWords = (dieuKienLoc, keywords) => {
 	try {
 		return http.get("SP_MC_TTHC_GV_TiepNhan/TimKiemThuTuc", {
 			params: {
+				MC_TTHC_GV_DieuKienLoc: dieuKienLoc,
 				TuKhoaTimKiem: keywords,
 			},
 		});
@@ -86,4 +87,22 @@ export const getAllHoSoGuiYeuCau = () => {
 // GET: Danh sách thành phần hồ sơ - hồ sơ đã gửi
 export const getAllThanhPhanHoSoGuiYeuCau = () => {
 	return http.get("SP_MC_TTHC_GV_ThanhPhanHoSoTiepNhan/GuiYeuCau_Load");
+};
+
+// GET: Danh sách TTHCGV_GuiYeuCau theo trạng thái
+export const getAllTTHCGVGuiYeuCauByTrangThai = (tenTrangThai = "") => {
+	return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Load_ByTrangThai", {
+		params: {
+			MC_TTHC_GV_TrangThai_TenTrangThai: tenTrangThai,
+		},
+	});
+};
+
+// GET: Danh sách TTHCGV_GuiYeuCau theo id
+export const getAllHoSoGuiYeuCauById = (id = "") => {
+	return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Load_R_Para_File", {
+		params: {
+			MC_TTHC_GV_GuiYeuCau_ID: id,
+		},
+	});
 };
