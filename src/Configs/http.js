@@ -9,6 +9,8 @@ const http = axios.create({
 	timeout: 10000,
 	headers: {
 		"Content-Type": "application/json",
+		"Access-Control-Allow-Origin": "https://uneti.edu.vn",
+		"Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
 	},
 });
 
@@ -21,6 +23,7 @@ const requestToRefreshToken = async () => {
 http.interceptors.request.use(
 	async (config) => {
 		const dataToken = store.getState()?.auth?.login?.currentToken;
+		console.log("🚀 ~ file: http.js:26 ~ dataToken:", dataToken);
 
 		let currentDate = new Date();
 		if (dataToken) {
@@ -72,39 +75,40 @@ http.interceptors.response.use(
 	async (error) => {
 		const originalRequest = error.config;
 		console.log("🚀 ~ file: http.js:74 ~ error:", [error]);
-
 		if (error.response?.status === 401 || error.response?.status === 403) {
-			originalRequest._retry = true;
-			try {
-				const resNewDataToken = await requestToRefreshToken();
+			if (!originalRequest._retry) {
+				originalRequest._retry = true;
+				let currentDate = new Date();
+				try {
+					const resNewDataToken = await requestToRefreshToken();
 
-				const { refreshToken } = resNewDataToken;
-				const decodedRefreshToken = jwtDecode(refreshToken);
-				console.log("🚀 ~ file: http.js:81 ~ check refreshToken expire: ", {
-					expire: decodedRefreshToken.exp < currentDate.getTime() / 1000,
-					timeout: currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds() + "s",
-				});
+					const { refreshToken } = resNewDataToken;
+					const decodedRefreshToken = jwtDecode(refreshToken);
+					console.log("🚀 ~ file: http.js:81 ~ check refreshToken expire: ", {
+						expire: decodedRefreshToken.exp < currentDate.getTime() / 1000,
+						timeout: currentDate.getHours() + ":" + currentDate.getMinutes() + ":" + currentDate.getSeconds() + "s",
+					});
 
-				if (decodedRefreshToken.exp < currentDate.getTime() / 1000) {
+					if (decodedRefreshToken.exp < currentDate.getTime() / 1000) {
+						window.location.href = "/";
+					} else {
+						const refreshUser = {
+							...dataToken,
+							token: resNewDataToken.token,
+						};
+						store.dispatch(tokenSuccess(refreshUser));
+						config.headers.Authorization = `Bearer ${resNewDataToken.token}`;
+						originalRequest.headers.Authorization = `Bearer ${resNewDataToken.token}`;
+						return http(originalRequest);
+					}
+				} catch (refreshError) {
 					window.location.href = "/";
-				} else {
-					const refreshUser = {
-						...dataToken,
-						token: resNewDataToken.token,
-					};
-					store.dispatch(tokenSuccess(refreshUser));
-					config.headers.Authorization = `Bearer ${resNewDataToken.token}`;
-					originalRequest.headers.Authorization = `Bearer ${resNewDataToken.token}`;
-					return axios(originalRequest);
+					return Promise.reject(refreshError);
 				}
-			} catch (error) {
+			} else {
 				window.location.href = "/";
 			}
 		}
-
-		// if (error.response?.status === 403) {
-		// 	window.location.href = "/";
-		// }
 
 		return Promise.reject(error);
 	}

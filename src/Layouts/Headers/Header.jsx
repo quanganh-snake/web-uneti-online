@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { IoMdMenu } from "react-icons/io";
 // data
 import noAvatar from "../../assets/Images/noavatar.png";
 import logoUNETI from "../../assets/Images/LOGO_UNETI.ico";
@@ -17,6 +18,8 @@ import localStorage from "redux-persist/es/storage";
 import DropdownProfileTeacher from "./DropdownProfileTeacher.jsx";
 import DropdownProfileStudent from "./DropdownProfileStudent.jsx";
 import NavbarTTHCGV from "../../Components/Navbars/NavbarTTHCGV.jsx";
+import MenuMobileMotCua from "../../Components/MenuMobiles/MenuMobileMotCua.jsx";
+import MenuMobileTTHCGV from "../../Components/MenuMobiles/MenuMobileTTHCGV.jsx";
 
 function Header() {
 	const dispatch = useDispatch();
@@ -45,10 +48,21 @@ function Header() {
 	return (
 		<header className="shadow-md fixed left-0 right-0 top-0 w-[100%] z-10">
 			<nav className="bg-white border-gray-200 dark:bg-gray-900">
-				<div className="max-w-7xl flex flex-wrap items-center justify-between mx-auto">
+				<div className="max-w-7xl flex flex-wrap items-center justify-between mx-auto relative">
+					{/* START: MENU - Mobile */}
+					<div className="menu-mobile w-12 h-12 flex justify-center items-center lg:hidden">
+						{listPath && listPath.includes("/motcua") ? <MenuMobileMotCua /> : null}
+						{listPath.includes("/admin") ? <MenuMobileTTHCGV /> : null}
+					</div>
+					{/* END: MENU - Mobile */}
+
+					{/* STARTL Logo */}
 					<Link to="/uneti" className="flex items-center p-2">
 						<img src={logoUNETI} className="h-20 mr-3" alt="UNETI Logo" />
 					</Link>
+					{/* END: Logo */}
+
+					{/* START: USER - Profile */}
 					<div className="flex items-center md:order-2 relative py-4" id="control-dropdown">
 						<button
 							type="button"
@@ -71,6 +85,8 @@ function Header() {
 							{role === "GV" ? <DropdownProfileTeacher handleLogout={handleLogout} /> : <DropdownProfileStudent handleLogout={handleLogout} />}
 						</div>
 					</div>
+					{/* END: USER - Profile */}
+
 					{/* START: Navbar Pages */}
 					{listPath && listPath.includes("/motcua") ? <NavbarMotCua /> : null}
 					{listPath.includes("/tthcgiangvien") ? <NavbarTTHCGV /> : listPath.includes("/admin") ? <NavbarTTHCGV /> : null}

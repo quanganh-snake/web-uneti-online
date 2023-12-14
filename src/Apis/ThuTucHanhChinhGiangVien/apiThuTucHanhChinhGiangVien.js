@@ -89,6 +89,11 @@ export const getAllThanhPhanHoSoGuiYeuCau = () => {
 	return http.get("SP_MC_TTHC_GV_ThanhPhanHoSoTiepNhan/GuiYeuCau_Load");
 };
 
+// GET: Danh sách trạng thái hồ sơ yêu cầu
+export const getAllTrangThaiHoSoYeuCau = () => {
+	return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Load_All_TrangThai");
+};
+
 // GET: Danh sách TTHCGV_GuiYeuCau theo trạng thái
 export const getAllTTHCGVGuiYeuCauByTrangThai = (tenTrangThai = "") => {
 	return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Load_ByTrangThai", {

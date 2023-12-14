@@ -120,7 +120,7 @@ function HomeTTHCGVView(props) {
 						</tbody>
 					</table>
 					<div className="grid grid-cols-2 mt-5 items-center justify-between">
-						<div className="flex flex-row items-center">
+						<div className="col-span-2 lg:col-span-1 flex flex-row items-center mb-6">
 							<p className="font-bold text-[#336699]">
 								Tổng số: <span>{dataListHoSoThuTuc?.length} hồ sơ/thủ tục</span>
 							</p>
@@ -135,7 +135,7 @@ function HomeTTHCGVView(props) {
 							containerClassName={"pagination"}
 							pageClassName={"px-2 py-1 hover:text-white hover:font-semibold hover:bg-[#336699]"}
 							activeClassName={"px-2 py-1 text-white font-semibold bg-[#336699]"}
-							className="w-full flex items-center justify-end gap-1"
+							className="col-span-2 lg:col-span-1 w-full flex items-center justify-center lg:justify-end gap-1"
 						/>
 					</div>
 				</div>

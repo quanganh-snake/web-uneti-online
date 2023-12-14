@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MdAddCircle, MdOutlineDownloading, MdPause, MdCheckBox } from "react-icons/md";
 import { CiViewList, CiClock2 } from "react-icons/ci";
@@ -9,15 +9,24 @@ import { FiCheckSquare } from "react-icons/fi";
 import { IoCloseCircleOutline, IoClose } from "react-icons/io5";
 import { GiHamburgerMenu } from "react-icons/gi";
 import clsx from "clsx";
+import { getAllTrangThaiHoSoYeuCau } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
 
 const PATH_TTHCGV = "/admin/quantriTTHCGV/hosothutuc";
 
 function SidebarTTHCGV() {
 	const [openMenuQuanTri, setOpenMenuQuanTri] = useState(true);
-
+	const [listTrangThaiXuLy, setListTrangThaiXuLy] = useState(null);
 	const handleOpenMenuQuanTri = () => {
 		setOpenMenuQuanTri(!openMenuQuanTri);
 	};
+
+	useEffect(() => {
+		getAllTrangThaiHoSoYeuCau().then((res) => {
+			if (res.status === 200) {
+				setListTrangThaiXuLy(res.data?.body);
+			}
+		});
+	}, []);
 
 	return (
 		<div className={clsx("bg-white p-4 rounded-xl shadow-xl", openMenuQuanTri ? "min-w-[308px] flex flex-col" : "")}>
@@ -71,9 +80,23 @@ function SidebarTTHCGV() {
 				</div>
 				{/* END: Danh sách công việc */}
 				<div className="mb-4">
-					<h4 className="text-md font-bold uppercase mb-4">Danh sách hồ sơ</h4>
+					<h4 className="text-md font-bold uppercase mb-4">Danh sách hồ sơ theo trạng thái</h4>
 					<ul>
-						<li>
+						{listTrangThaiXuLy &&
+							listTrangThaiXuLy?.map((iTrangThaiXuLy, index) => {
+								return (
+									<li key={index}>
+										<Link className="flex flex-row items-center justify-between  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white">
+											<div className="flex flex-row items-center  gap-2">
+												<MdOutlineDownloading size={24} />
+												<span>{iTrangThaiXuLy?.MC_TTHC_GV_TrangThai_TenTrangThai}</span>
+											</div>
+											<p className="px-1 py-[0.5] bg-red-500 rounded-md text-white">120</p>
+										</Link>
+									</li>
+								);
+							})}
+						{/* <li>
 							<Link className="flex flex-row items-center justify-between  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white">
 								<div className="flex flex-row items-center  gap-2">
 									<HiMiniBellAlert color="red" size={16} />
@@ -83,7 +106,7 @@ function SidebarTTHCGV() {
 							</Link>
 						</li>
 						<li>
-							<Link className="flex flex-row items-center justify-between  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white">
+							<Link to="/admin/canbonghiepvu" className="flex flex-row items-center justify-between  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white">
 								<div className="flex flex-row items-center  gap-2">
 									<FaFile color="#0484AC" size={16} />
 									<span>Đã nộp - chờ tiếp nhận</span>
@@ -162,7 +185,7 @@ function SidebarTTHCGV() {
 								</div>
 								<p className="px-1 py-[0.5] bg-red-500 rounded-md text-white">120</p>
 							</Link>
-						</li>
+						</li> */}
 					</ul>
 				</div>
 			</div>

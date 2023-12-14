@@ -6,144 +6,20 @@ import clsx from "clsx";
 import { changeSlug } from "../../../../Services/Utils/stringUtils";
 import ReactPaginate from "react-paginate";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
-function CanBoNghiepVuView(props) {
-	const fakeDataHSYeuCau = [
-		{
-			id: 1,
-			tenHS: "Quy trình đề nghị cấp tài khoản: email, LMS, phân quyền: EDU, EGOV",
-			soBienNhan: 1,
-			nguoiNop: "Tống Bá Quang Anh",
-			nguoiNhan: "Phòng Đào Tạo",
-			ngayTiepNhan: "22/11/2023",
-			ngayHenTra: "30/11/2023",
-			lePhi: 210000,
-			dongTien: true,
-			trangThai: "Chờ tiếp nhận",
-		},
-		{
-			id: 2,
-			tenHS: "Quy trình đề nghị cấp lại mật khẩu tài khoản Email",
-			soBienNhan: 2,
-			nguoiNop: "Nguyễn Thị Thanh Tâm",
-			nguoiNhan: "Phòng Đào Tạo",
-			ngayTiepNhan: "22/11/2023",
-			ngayHenTra: "30/11/2023",
-			lePhi: 210000,
-			dongTien: true,
-			trangThai: "Chờ tiếp nhận",
-		},
-		{
-			id: 3,
-			tenHS: "Quy trình đề nghị cấp lại mật khẩu tài khoản LMS",
-			soBienNhan: 3,
-			nguoiNop: "Nguyễn Thị Thanh Tâm",
-			nguoiNhan: "Phòng Đào Tạo",
-			ngayTiepNhan: "22/11/2023",
-			ngayHenTra: "30/11/2023",
-			lePhi: 0,
-			dongTien: false,
-			trangThai: "Chờ tiếp nhận",
-		},
-		{
-			id: 4,
-			tenHS: "Quy trình đề nghị cấp tên miền và hệ quản trị nội dung website",
-			soBienNhan: 4,
-			nguoiNop: "Nguyễn Thành Trung",
-			nguoiNhan: "Phòng Đào Tạo",
-			ngayTiepNhan: "22/11/2023",
-			ngayHenTra: "30/11/2023",
-			lePhi: 210000,
-			dongTien: false,
-			trangThai: "Chờ tiếp nhận",
-		},
-		{
-			id: 5,
-			tenHS: "Quy trình đề nghị cấp tên miền và trỏ tên miền ra máy chủ bên ngoài",
-			soBienNhan: 5,
-			nguoiNop: "Nguyễn Mạnh Cường",
-			nguoiNhan: "Phòng Đào Tạo",
-			ngayTiepNhan: "22/11/2023",
-			ngayHenTra: "30/11/2023",
-			lePhi: 210000,
-			dongTien: true,
-			trangThai: "Chờ tiếp nhận",
-		},
-		{
-			id: 6,
-			tenHS: "Quy trình đề nghị nghỉ phép năm",
-			soBienNhan: 6,
-			nguoiNop: "Lê Văn Hiến",
-			nguoiNhan: "Phòng Đào Tạo",
-			ngayTiepNhan: "22/11/2023",
-			ngayHenTra: "30/11/2023",
-			lePhi: 210000,
-			dongTien: true,
-			trangThai: "Chờ tiếp nhận",
-		},
-		{
-			id: 7,
-			tenHS: "Quy trình đề nghị thanh toán hạng mục lắt đặt hệ thống controller mạng",
-			soBienNhan: 7,
-			nguoiNop: "Tô Thành Công",
-			nguoiNhan: "Phòng Đào Tạo",
-			ngayTiepNhan: "22/11/2023",
-			ngayHenTra: "30/11/2023",
-			lePhi: 210000,
-			dongTien: true,
-			trangThai: "Chờ tiếp nhận",
-		},
-		{
-			id: 8,
-			tenHS: "Quy trình đề nghị cấp tài khoản: email, LMS, phân quyền: EDU, EGOV",
-			soBienNhan: 8,
-			nguoiNop: "Tống Bá Quang Anh",
-			nguoiNhan: "Phòng Đào Tạo",
-			ngayTiepNhan: "22/11/2023",
-			ngayHenTra: "30/11/2023",
-			lePhi: 210000,
-			dongTien: true,
-			trangThai: "Chờ tiếp nhận",
-		},
-		{
-			id: 9,
-			tenHS: "Quy trình đề nghị cấp tài khoản: email, LMS, phân quyền: EDU, EGOV",
-			soBienNhan: 9,
-			nguoiNop: "Tống Bá Quang Anh",
-			nguoiNhan: "Phòng Đào Tạo",
-			ngayTiepNhan: "22/11/2023",
-			ngayHenTra: "30/11/2023",
-			lePhi: 210000,
-			dongTien: true,
-			trangThai: "Chờ tiếp nhận",
-		},
-		{
-			id: 10,
-			tenHS: "Quy trình đề nghị cấp tài khoản: email, LMS, phân quyền: EDU, EGOV",
-			soBienNhan: 10,
-			nguoiNop: "Tống Bá Quang Anh",
-			nguoiNhan: "Phòng Đào Tạo",
-			ngayTiepNhan: "22/11/2023",
-			ngayHenTra: "30/11/2023",
-			lePhi: 210000,
-			dongTien: true,
-			trangThai: "Chờ tiếp nhận",
-		},
-	];
-
-	const [dataSearch, setDataSearch] = useState(fakeDataHSYeuCau);
+import moment from "moment";
+function CanBoNghiepVuView({ listHoSoYeuCau }) {
 	const [keywordSearch, setKeywordSearch] = useState("");
-
 	const [currentPage, setCurrentPage] = useState(0);
 	const itemsPerPage = 5;
-	const pageCount = Math.ceil(dataSearch.length / itemsPerPage);
-	const displayData = dataSearch.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+	const pageCount = Math.ceil(listHoSoYeuCau?.length / itemsPerPage);
+	const displayData = listHoSoYeuCau?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
 	const handleSearch = (e) => {
 		e.preventDefault();
 		const { value } = e.target;
 		setKeywordSearch(value);
 
-		const newDataSearch = fakeDataHSYeuCau.filter((itemYeuCau) => itemYeuCau.tenHS.toLowerCase().includes(value.toLowerCase()));
-		setDataSearch(newDataSearch);
+		const newDataSearch = listHoSoYeuCau.filter((itemYeuCau) => itemYeuCau?.MC_TTHC_GV_TenThuTuc.toLowerCase().includes(value.toLowerCase()));
+		listHoSoYeuCau = [...newDataSearch];
 	};
 
 	const handlePageChange = ({ selected }) => {
@@ -195,40 +71,28 @@ function CanBoNghiepVuView(props) {
 							</tr>
 						</thead>
 						<tbody>
-							{displayData.map((itemYeuCau, index) => {
-								const titleSlug = changeSlug(itemYeuCau.tenHS);
+							{displayData?.map((itemYeuCau, index) => {
+								const titleSlug = changeSlug(itemYeuCau.MC_TTHC_GV_TenThuTuc);
 								return (
-									<tr className="border" key={itemYeuCau.id}>
+									<tr className="border" key={index}>
 										<td className="px-2 py-1 text-center border-r">{index + 1}</td>
 										<td className="px-2 py-1 text-center border-r">
 											<input type="checkbox" name="" id="" />
 										</td>
 										<td className="px-2 py-1 border-r">
 											<div className="flex flex-col gap-3 p-2">
-												<p className="font-semibold uppercase">{itemYeuCau.tenHS}</p>
+												<p className="font-semibold uppercase">{itemYeuCau.MC_TTHC_GV_TenThuTuc}</p>
 												<ul>
-													<li>- Số biên tiếp nhận: {itemYeuCau.soBienNhan}</li>
+													<li>- Số biên tiếp nhận: {itemYeuCau?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong}</li>
 													<li>
-														- Tổ chức/Cá nhân nộp HS: <span className="font-semibold capitalize">{itemYeuCau.nguoiNop}</span>
+														- Tổ chức/Cá nhân nộp HS: <span className="font-semibold capitalize">{itemYeuCau?.HoTen}</span>
 													</li>
-													<li>- Ngày tiếp nhận: {itemYeuCau.ngayTiepNhan}</li>
-													<li>- Ngày hẹn trả: {itemYeuCau.ngayHenTra}</li>
+													<li>- Ngày tiếp nhận: {moment(itemYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayGui).format("DD/MM/YYYY")}</li>
+													<li>- Ngày hẹn trả: {itemYeuCau.ngayHenTra ? itemYeuCau.ngayHenTra : "Chưa thực hiện"}</li>
 												</ul>
-												{itemYeuCau.lePhi > 0 ? (
-													<div className="flex flex-col lg:flex-row items-center">
-														<div className="text-white bg-[#336699] px-2 py-1">
-															Lệ phí: <span className="font-semibold">{itemYeuCau.lePhi.toLocaleString()} VNĐ</span>
-														</div>
-														<div className={clsx("text-white  px-2 py-1", itemYeuCau.dongTien ? "bg-[#109435]" : "bg-red-500")}>
-															{itemYeuCau.dongTien ? "Đã đóng " + itemYeuCau.ngayTiepNhan : "Chưa đóng " + itemYeuCau.ngayTiepNhan}
-														</div>
-													</div>
-												) : (
-													""
-												)}
 												<div className="flex items-center gap-4">
 													<Link
-														to={`/admin/canbonghiepvu/chitietyeucau/${titleSlug}/${itemYeuCau.id}`}
+														to={`/admin/canbonghiepvu/chitietyeucau/${titleSlug}/${itemYeuCau.MC_TTHC_GV_GuiYeuCau_ID}`}
 														className="text-white font-semibold bg-[#336699] px-3 py-1 rounded-full hover:opacity-70"
 													>
 														Xử lý/Xem chi tiết
@@ -239,15 +103,14 @@ function CanBoNghiepVuView(props) {
 											</div>
 										</td>
 										<td className="px-2 py-1 text-center border-r">
-											<p className="font-semibold">{itemYeuCau.nguoiNop}</p>
+											<p className="font-semibold">{itemYeuCau?.HoTen}</p>
 										</td>
 										<td className="px-2 py-1 text-center border-r">
-											<p className="font-semibold">{itemYeuCau.nguoiNhan}</p>
+											<p className="font-semibold">{itemYeuCau?.MC_TTHC_GV_NoiTiepNhan}</p>
 										</td>
 										<td className="px-2 py-1">
 											<p className="font-semibold flex flex-col">
-												<span className="text-center">{itemYeuCau.trangThai}</span>
-												{itemYeuCau.lePhi > 0 ? itemYeuCau.dongTien ? "" : <span className="text-red-500 italic">(Chưa được tiếp nhận do chưa đóng phí)</span> : null}
+												<span className="text-center">{itemYeuCau?.MC_TTHC_GV_TrangThai_TenTrangThai}</span>
 											</p>
 										</td>
 									</tr>

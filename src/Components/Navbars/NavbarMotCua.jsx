@@ -6,7 +6,7 @@ import clsx from "clsx";
 function NavbarMotCua() {
 	const [activeIndex, setActiveIndex] = useState(0);
 	return (
-		<div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
+		<div className="items-center justify-between hidden w-full lg:flex md:w-auto md:order-1" id="navbar-user">
 			<ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
 				{homeMotCua &&
 					homeMotCua.map((module, index) => {

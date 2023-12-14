@@ -177,7 +177,7 @@ function Login() {
 	return (
 		<section
 			className={`absolute right-0 left-0 top-0 bottom-0 w-full h-full flex justify-center items-center bg-center bg-no-repeat  bg-gray-400 bg-blend-multiply px-4 lg:px-0`}
-			style={{ backgroundImage: `url("/src/assets/Images/uneti-banner.png")`, backgroundPositionY: `86%` }}
+			style={{ backgroundImage: `url("images/uneti-banner.png")`, backgroundPositionY: `86%` }}
 		>
 			<div className="w-[600px] p-10 bg-white rounded-xl">
 				<h3 className="font-bold uppercase text-3xl text-sky-700 mb-10 text-center">Đăng nhập hệ thống UNETI</h3>

@@ -59,8 +59,7 @@ function ThongTinChiTietHoSo(props) {
 		getDataDetailHoSoThuTuc();
 	}, []);
 
-	const { ThongTinHoSo, ThanhPhanHoSo, TrinhTuThucHien, LePhi, PhanQuyen, TrangThai } = detailHoSoThuTuc ?? null;
-	console.log("🚀 ~ file: ThongTinChiTietHoSo.jsx:47 ~ ThongTinChiTietHoSo ~ ThanhPhanHoSo:", ThanhPhanHoSo);
+	const { ThongTinHoSo, ThanhPhanHoSo } = detailHoSoThuTuc ?? null;
 	return (
 		<div className="px-5 lg:px-0 flex gap-4">
 			<SidebarTTHCGV />
@@ -139,7 +138,7 @@ function ThongTinChiTietHoSo(props) {
 													min={1}
 													max={4}
 													className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-none"
-													defaultValue={ThongTinHoSo?.MC_TTHC_GV_IDMucDo + 1}
+													defaultValue={ThongTinHoSo?.MC_TTHC_GV_IDMucDo ? ThongTinHoSo?.MC_TTHC_GV_IDMucDo + 1 : ""}
 													placeholder="Nhập tên thủ tục"
 													name="MC_TTHC_GV_IDMucDo"
 													id="MC_TTHC_GV_IDMucDo"
