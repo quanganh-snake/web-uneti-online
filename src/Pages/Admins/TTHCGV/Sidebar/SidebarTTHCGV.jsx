@@ -56,7 +56,7 @@ function SidebarTTHCGV() {
 					</ul>
 				</div>
 				<div className="mb-4">
-					<h4 className="text-md font-bold uppercase mb-4">Danh sách công việc</h4>
+					<h4 className="text-md font-bold uppercase mb-4">Danh sách hồ sơ</h4>
 					<ul>
 						<li>
 							<Link className="flex flex-row items-center justify-between  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white">
@@ -68,10 +68,10 @@ function SidebarTTHCGV() {
 							</Link>
 						</li>
 						<li>
-							<Link className="flex flex-row items-center justify-between  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white">
+							<Link to={"/admin/canbonghiepvu"} className="flex flex-row items-center justify-between  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white">
 								<div className="flex flex-row items-center  gap-2">
 									<MdCheckBox size={24} />
-									<span>Đã chuyển</span>
+									<span>Đang chờ</span>
 								</div>
 								<p className="px-1 py-[0.5] bg-red-500 rounded-md text-white">1252</p>
 							</Link>
@@ -91,7 +91,7 @@ function SidebarTTHCGV() {
 												<MdOutlineDownloading size={24} />
 												<span>{iTrangThaiXuLy?.MC_TTHC_GV_TrangThai_TenTrangThai}</span>
 											</div>
-											<p className="px-1 py-[0.5] bg-red-500 rounded-md text-white">120</p>
+											{/* <p className="px-1 py-[0.5] bg-red-500 rounded-md text-white">120</p> */}
 										</Link>
 									</li>
 								);

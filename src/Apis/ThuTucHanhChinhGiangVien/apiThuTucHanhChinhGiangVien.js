@@ -46,6 +46,17 @@ export const getThuTucHanhChinhByMaThuTuc = (maThuTuc) => {
 	});
 };
 
+// GET: Hồ sơ thủ tục hành chính Giảng Viên - Gửi yêu cầu Trùng
+export const getGuiYeuCauHoSoThuTucKiemTraTrung = (maNhanSu, yeuCauIDGoc, trangThaiYeuCauID) => {
+	return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Add_Para_KiemTraTrung", {
+		params: {
+			MC_TTHC_GV_GuiYeuCau_NhanSuGui_MaNhanSu: maNhanSu,
+			MC_TTHC_GV_GuiYeuCau_YeuCau_ID: yeuCauIDGoc,
+			MC_TTHC_GV_GuiYeuCau_TrangThai_ID: trangThaiYeuCauID,
+		},
+	});
+};
+
 // GET: Tìm kiếm hồ sơ thủ tục hành chính Giảng Viên
 export const getThuTucHanhChinhByKeyWords = (dieuKienLoc, keywords) => {
 	try {

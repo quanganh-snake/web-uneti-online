@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { IoMdMenu } from "react-icons/io";
 // data
 import noAvatar from "../../assets/Images/noavatar.png";
 import logoUNETI from "../../assets/Images/LOGO_UNETI.ico";

@@ -1,3 +1,5 @@
+import mammoth from "mammoth";
+
 export const changeSlug = (dataString = "") => {
 	if (dataString !== "") {
 		//Đổi chữ hoa thành chữ thường
@@ -51,5 +53,28 @@ export const convertDataFileToBase64 = (dataFile) => {
 		} else {
 			reject(new Error("File not provided."));
 		}
+	});
+};
+
+export const convertDocxToText = (arrayBuffer) => {
+	return new Promise((resolve, reject) => {
+		const options = {
+			convertImage: mammoth.images.inline((element) => {
+				return element.read("base64").then((image) => {
+					return {
+						src: `data:${element.contentType};base64,${image}`,
+					};
+				});
+			}),
+		};
+
+		mammoth
+			.extractRawText({ arrayBuffer: arrayBuffer }, options)
+			.then((result) => {
+				resolve(result.value);
+			})
+			.catch((error) => {
+				reject(error);
+			});
 	});
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import Tabs from "./Tabs/Tabs";
 import ThongTinHoSo from "./ThemMoiThuTuc/ThongTinHoSo";
@@ -8,7 +8,7 @@ import PhiLePhi from "./ThemMoiThuTuc/PhiLePhi";
 import TrangThaiHoSo from "./ThemMoiThuTuc/TrangThaiHoSo";
 import PhanQuyen from "./ThemMoiThuTuc/PhanQuyen";
 import SidebarTTHCGV from "./Sidebar/SidebarTTHCGV";
-import { getAllPhongBan, postThuTucHanhChinh } from "../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
+import { postThuTucHanhChinh } from "../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
 import { NguonTiepNhan_WEB } from "../../../Services/Static/dataStatic";
 import Swal from "sweetalert2";
 import { postThanhPhanHoSoTTHCGV } from "./../../../Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo";
@@ -16,23 +16,19 @@ import { postTrinhTuThucHienTTHCGV } from "./../../../Apis/ThuTucHanhChinhGiangV
 import { postLePhi } from "./../../../Apis/ThuTucHanhChinhGiangVien/apiLePhi";
 import { postTrangThaiTTHCGV } from "./../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai";
 import { getThuTucHanhChinhByMaThuTuc } from "./../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
-import { convertDataFileToBase64 } from "../../../Services/Utils/stringUtils";
 import { postPhanQuyenTTHCGV } from "../../../Apis/ThuTucHanhChinhGiangVien/apiPhanQuyen";
-
-const errorMessageFieldThongTinHoSo = {
-	MC_TTHC_GV_MaThuTuc: "Vui lòng nhập mã thủ tục!",
-	MC_TTHC_GV_TenThuTuc: "Vui lòng nhập tên thủ tục!",
-	MC_TTHC_GV_IDMucDo: "Vui lòng chọn mức độ!",
-	MC_TTHC_GV_LinhVuc: "Vui lòng nhập lĩnh vực!",
-	MC_TTHC_GV_TongThoiGianGiaiQuyet: "Vui lòng nhập tổng thời gian giải quyết!",
-	MC_TTHC_GV_NoiTiepNhan: "Vui lòng chọn nơi tiếp nhận hồ sơ!",
-	MC_TTHC_GV_NoiTraKetQua: "Vui lòng chọn nơi trả kết quả!",
-};
+import { toast } from "react-toastify";
 
 function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
+	// ref
+	const inputTenThuTucRef = useRef(null);
+	const inputMaThuTucRef = useRef(null);
+	const inputMucDoRef = useRef(null);
+	const inputTongThoiGianRef = useRef(null);
+	const inputDonViTiepNhanRef = useRef(null);
+	const inputNoiTraKetQuaRef = useRef(null);
+
 	// variables
-	// error
-	const [errorThongTinHoSo, setErrorThongTinHoSo] = useState({});
 	// var: active Tabs
 	const [thongTinActive, setThongTinActive] = useState(false);
 	const [tpHoSoDeNghiActive, setTPHoSoDeNghiActive] = useState(false);
@@ -50,7 +46,6 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 	const [tongThoiGianGiaiQuyet, setTongThoiGianGiaiQuyet] = useState("");
 	const [soBoHoSo, setSoBoHoSo] = useState("");
 	const [linhVuc, setLinhVuc] = useState("");
-	const [listDonVi, setListDonVi] = useState(null);
 	const [donViTiepNhan, setDonViTiepNhan] = useState("");
 	const [noiTraKetQua, setNoiTraKetQua] = useState("");
 	const [thuTucLienThong, setThuTucLienThong] = useState(false);
@@ -175,18 +170,6 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 		}
 
 		if (id === "MC_TTHC_GV_TepThuTuc_DataFileFile") {
-			let dataFiles = {
-				urlTemp: "",
-				lastModified: files[0]?.lastModified,
-				MC_TTHC_GV_TepThuTuc_TenFile: files[0]?.name,
-				MC_TTHC_GV_TepThuTuc_DataFileFile: "",
-			};
-			setDataFilesTepThuTuc([...dataFilesTepThuTuc, dataFiles]);
-			convertDataFileToBase64(files[0])
-				.then((res) => {
-					setDataFilesTepThuTuc([...dataFilesTepThuTuc, MC_TTHC_GV_TepThuTuc_DataFileFile]);
-				})
-				.catch((err) => {});
 		}
 	};
 
@@ -262,15 +245,43 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 			...dataFilesTepThuTuc,
 		};
 
-		let idTTHCGV;
+		if (dataThongTinHoSo?.MC_TTHC_GV_TenThuTuc == "" || dataThongTinHoSo?.MC_TTHC_GV_TenThuTuc == null || dataThongTinHoSo?.MC_TTHC_GV_TenThuTuc == undefined) {
+			toast.error("Vui lòng nhập tên thủ tục!");
+			inputTenThuTucRef.current.focus();
+			return;
+		}
 
-		const errorObject = {};
-		Object.keys(dataThongTinHoSo).forEach((key) => {
-			if (!dataThongTinHoSo[key]) {
-				errorObject[key] = errorMessageFieldThongTinHoSo[key];
-			}
-		});
-		setErrorThongTinHoSo(errorObject);
+		if (dataThongTinHoSo?.MC_TTHC_GV_MaThuTuc == "" || dataThongTinHoSo?.MC_TTHC_GV_MaThuTuc == null || dataThongTinHoSo?.MC_TTHC_GV_MaThuTuc == undefined) {
+			toast.error("Vui lòng nhập mã thủ tục!");
+			inputMaThuTucRef.current.focus();
+			return;
+		}
+
+		if (dataThongTinHoSo?.MC_TTHC_GV_IDMucDo == "" || dataThongTinHoSo?.MC_TTHC_GV_IDMucDo == null || dataThongTinHoSo?.MC_TTHC_GV_IDMucDo == undefined) {
+			toast.error("Vui lòng chọn mức độ thủ tục!");
+			inputMucDoRef.current.focus();
+			return;
+		}
+
+		if (dataThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet == "" || dataThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet == null || dataThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet == undefined) {
+			toast.error("Vui lòng nhập tổng thời gian giải quyết!");
+			inputTongThoiGianRef.current.focus();
+			return;
+		}
+
+		if (dataThongTinHoSo?.MC_TTHC_GV_NoiTiepNhan == "" || dataThongTinHoSo?.MC_TTHC_GV_NoiTiepNhan == null || dataThongTinHoSo?.MC_TTHC_GV_NoiTiepNhan == undefined) {
+			toast.error("Vui lòng chọn đơn vị tiếp nhận!");
+			inputDonViTiepNhanRef.current.focus();
+			return;
+		}
+
+		if (dataThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua == "" || dataThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua == null || dataThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua == undefined) {
+			toast.error("Vui lòng chọn nơi trả kết quả!");
+			inputNoiTraKetQuaRef.current.focus();
+			return;
+		}
+
+		let idTTHCGV;
 
 		try {
 			const resultPostThongTinTTHC = await postThuTucHanhChinh(dataThongTinHoSo);
@@ -354,16 +365,6 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 	};
 
 	useEffect(() => {
-		const getDanhSachPhongBan = async () => {
-			const resultGetAllPhongBan = await getAllPhongBan();
-			if (resultGetAllPhongBan.status === 200) {
-				const dataPhongBan = await resultGetAllPhongBan.data;
-				setListDonVi(dataPhongBan);
-			}
-		};
-
-		getDanhSachPhongBan();
-
 		setThongTinActive(true);
 		setTPHoSoDeNghiActive(false);
 		setTrinhTuThucHienActive(false);
@@ -394,12 +395,20 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 					{/* START: Thông Tin Hồ Sơ */}
 					{thongTinActive ? (
 						<ThongTinHoSo
+							inputTenThuTucRef={inputTenThuTucRef}
+							inputMaThuTucRef={inputMaThuTucRef}
+							inputMucDoRef={inputMucDoRef}
+							inputTongThoiGianRef={inputTongThoiGianRef}
+							inputDonViTiepNhanRef={inputDonViTiepNhanRef}
+							inputNoiTraKetQuaRef={inputNoiTraKetQuaRef}
 							listMucDo={listMucDo}
 							listDonViTiepNhan={listDonViTiepNhan}
 							tenThuTuc={tenThuTuc}
 							viTri={viTri}
 							maThuTuc={maThuTuc}
 							mucDo={mucDo}
+							canCuPhapLyCuaTTHC={canCuPhapLyCuaTTHC}
+							dieuKienThucHien={dieuKienThucHien}
 							tongThoiGianGiaiQuyet={tongThoiGianGiaiQuyet}
 							soBoHoSo={soBoHoSo}
 							linhVuc={linhVuc}
@@ -410,7 +419,6 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 							dataFilesTepThuTuc={dataFilesTepThuTuc}
 							setDataFilesTepThuTuc={setDataFilesTepThuTuc}
 							handleChangeValue={handleChangeValue}
-							errorThongTinHoSo={errorThongTinHoSo}
 						/>
 					) : null}
 					{/* END: Thông Tin Hồ Sơ */}

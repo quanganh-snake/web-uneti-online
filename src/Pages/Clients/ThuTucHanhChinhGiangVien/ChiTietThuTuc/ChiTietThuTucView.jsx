@@ -4,7 +4,7 @@ import SidebarTTHCGV from "../SidebarTTHCGV/SidebarTTHCGV";
 import Breadcrumb from "../../../../Components/Breadcumb/Breadcrumb";
 import { Link, useParams } from "react-router-dom";
 import Loading from "./../../../../Components/Loading/Loading";
-import jsPDF from "jspdf";
+import mammoth from "mammoth";
 
 function ChiTietThuTucView({ idThuTuc, home, breadcrumbs, loading, dataThuTuc }) {
 	const { tieude, id } = useParams();
@@ -14,21 +14,18 @@ function ChiTietThuTucView({ idThuTuc, home, breadcrumbs, loading, dataThuTuc })
 
 	const { ThongTinHoSo, ThanhPhanHoSo, TrinhTuThucHien } = dataThuTuc;
 
-	const handleDownloadFile = (fileName, dataFile) => {
-		console.log("🚀 ~ file: ChiTietThuTucView.jsx:18 ~ handleDownloadFile ~ dataFile:", dataFile);
-		const blob = new Blob([dataFile?.data], { type: "application/octet-stream" });
-		console.log("🚀 ~ file: ChiTietThuTucView.jsx:19 ~ handleDownloadFile ~ blob:", blob);
-		const url = window.URL.createObjectURL(blob);
-		// Tạo một liên kết và bấm vào nó để tải xuống
-		const link = document.createElement("a");
-		link.href = url;
-		link.download = fileName; // Tên file bạn muốn đặt
-		document.body.appendChild(link);
-		link.click();
+	const arrayBufferToBase64 = (buffer) => {
+		let binary = "";
+		const bytes = new Uint8Array(buffer);
+		const len = bytes.byteLength;
 
-		// Giải phóng tài nguyên
-		window.URL.revokeObjectURL(url);
+		for (let i = 0; i < len; i++) {
+			binary += String.fromCharCode(bytes[i]);
+		}
+
+		return btoa(binary);
 	};
+	const handleDownloadFile = (fileName, dataFile) => {};
 
 	const readFile = (dataFile) => {
 		const fr = new FileReader();
@@ -61,7 +58,9 @@ function ChiTietThuTucView({ idThuTuc, home, breadcrumbs, loading, dataThuTuc })
 								<table className="w-full">
 									<tbody>
 										<tr>
-											<td className="px-4 py-1 border border-slate-500 font-semibold">Lĩnh vực</td>
+											<td className="px-4 py-1 border border-slate-500 font-semibold">
+												<p className="min-w-[120px]">Lĩnh vực</p>
+											</td>
 											<td className="px-4 py-1 border border-slate-500">{ThongTinHoSo?.MC_TTHC_GV_LinhVuc}</td>
 										</tr>
 										<tr>
@@ -107,23 +106,23 @@ function ChiTietThuTucView({ idThuTuc, home, breadcrumbs, loading, dataThuTuc })
 																	<tr key={index}>
 																		<td className="border border-slate-300 text-center">{index + 1}</td>
 																		<td className="border border-slate-300">
-																			<p className="px-2">{iThanhPhanHoSo.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo}</p>
+																			<p className="px-2 min-w-[180px]">{iThanhPhanHoSo.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo}</p>
 																		</td>
 																		<td className="border border-slate-300">
 																			<div className="px-2">
 																				<ol>
 																					<li>
-																						<div
-																							className="text-[#0C4A6E] font-semibold cursor-pointer hover:opacity-70"
-																							onClick={() => {
-																								handleDownloadFile(
-																									iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenFile,
-																									iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_DataFile
-																								);
-																							}}
-																						>
-																							{index + 1}. {iThanhPhanHoSo.MC_TTHC_GV_ThanhPhanHoSo_TenFile}
-																						</div>
+																						<p>
+																							Xem mẫu/hướng dẫn: (
+																							<Link
+																								to={iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenFile}
+																								target="_uneti"
+																								className="text-[#336699] font-medium hover:opacity-70"
+																							>
+																								{iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo}
+																							</Link>
+																							)
+																						</p>
 																					</li>
 																				</ol>
 																			</div>
@@ -150,17 +149,13 @@ function ChiTietThuTucView({ idThuTuc, home, breadcrumbs, loading, dataThuTuc })
 										<tr>
 											<td className="px-4 py-1 border border-slate-500 font-semibold">Số bộ hồ sơ</td>
 											<td className="px-4 py-1 border border-slate-500">
-												<p>
-													{ThongTinHoSo?.MC_TTHC_GV_SoBoHoSo} <span>bộ</span>
-												</p>
+												<p>{ThongTinHoSo?.MC_TTHC_GV_SoBoHoSo ? ThongTinHoSo?.MC_TTHC_GV_SoBoHoSo + " bộ" : "0"}</p>
 											</td>
 										</tr>
 										<tr>
 											<td className="px-4 py-1 border border-slate-500 font-semibold">Tổng thời gian giải quyết</td>
 											<td className="px-4 py-1 border border-slate-500">
-												<p>
-													{ThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet} <span>ngày kể từ khi nhận đủ hồ sơ hợp lệ</span>
-												</p>
+												<p>{ThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet ? ThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet + " ngày kể từ khi nhận đủ hồ sơ hợp lệ" : "0"}</p>
 											</td>
 										</tr>
 										<tr>
@@ -186,13 +181,19 @@ function ChiTietThuTucView({ idThuTuc, home, breadcrumbs, loading, dataThuTuc })
 																	<tr key={index}>
 																		<td className="border border-slate-300 text-center">{index + 1}</td>
 																		<td className="border border-slate-300">
-																			<div className="px-2 text-[#245D7C] font-semibold">{iTrinhTu?.MC_TTHC_GV_TrinhTuThucHien_TenCongViec}</div>
+																			<div className="px-2 text-[#245D7C] font-semibold">
+																				<p className="min-w-[100px]">{iTrinhTu?.MC_TTHC_GV_TrinhTuThucHien_TenCongViec}</p>
+																			</div>
 																		</td>
 																		<td className="border border-slate-300">
-																			<div className="px-2">{iTrinhTu?.MC_TTHC_GV_TrinhTuThucHien_CacThucThucHien}</div>
+																			<div className="px-2">
+																				<p className="min-w-[140px]">{iTrinhTu?.MC_TTHC_GV_TrinhTuThucHien_CacThucThucHien}</p>
+																			</div>
 																		</td>
 																		<td className="border border-slate-300">
-																			<div className="text-center">{iTrinhTu?.MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra}</div>
+																			<div className="text-center">
+																				<p className="min-w-[120px]">{iTrinhTu?.MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra}</p>
+																			</div>
 																		</td>
 																		<td className="border border-slate-300">
 																			<div className="text-center">{iTrinhTu?.MC_TTHC_GV_TrinhTuThucHien_DonViThucHien}</div>
@@ -264,14 +265,9 @@ function ChiTietThuTucView({ idThuTuc, home, breadcrumbs, loading, dataThuTuc })
 											<td className="px-4 py-1 border border-slate-500 font-semibold">Tệp thủ tục</td>
 											<td className="px-4 py-1 border border-slate-500">
 												<div>
-													<p
-														className="font-semibold text-[#336699] cursor-pointer hover:opacity-70"
-														onClick={() => {
-															handleDownloadFile(ThongTinHoSo?.MC_TTHC_GV_TepThuTuc_TenFile, ThongTinHoSo?.MC_TTHC_GV_TepThuTuc_DataFileFile);
-														}}
-													>
+													<Link to={ThongTinHoSo?.MC_TTHC_GV_TepThuTuc_TenFile} target="_blank" className="font-semibold text-[#336699] cursor-pointer hover:opacity-70">
 														{ThongTinHoSo?.MC_TTHC_GV_TepThuTuc_TenFile}
-													</p>
+													</Link>
 												</div>
 											</td>
 										</tr>

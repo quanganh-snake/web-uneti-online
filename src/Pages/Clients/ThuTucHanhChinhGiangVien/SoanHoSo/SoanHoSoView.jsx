@@ -111,6 +111,7 @@ function SoanHoSoView({
 										className="px-2 py-1 w-full rounded-full border border-slate-300 focus:outline-slate-300"
 										name="MC_TTHC_GV_NoiTraKetQua"
 										id="MC_TTHC_GV_NoiTraKetQua"
+										required={true}
 										onChange={(e) => {
 											setDataHoSoYeuCau({ ...dataHoSoYeuCau, MC_TTHC_GV_GuiYeuCau_NoiTraKetQua: e.target.value });
 										}}
@@ -144,46 +145,40 @@ function SoanHoSoView({
 													<tr className="border border-slate-300" key={index}>
 														<td className="px-2 py-1 border border-slate-300 text-center">1</td>
 														<td className="px-2 py-1 border border-slate-300">
-															<p>{iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo}</p>
-															{iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenFile && iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_DataFile ? (
-																<p className="text-sm text-[#336699]">
-																	<span className="font-medium">Mẫu/hướng dẫn: </span>
-																	<span className=" cursor-pointer hover:opacity-70">{iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenFile}</span>
+															<p className="w-[320px]">{iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo}</p>
+															{iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenFile ? (
+																<p className="w-[320px] text-sm text-[#336699]">
+																	<span className="font-medium">Xem/tải mẫu: </span>
+																	<Link to={iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenFile} target="_blank" className="cursor-pointer hover:opacity-70">
+																		{iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo}
+																	</Link>
 																</p>
 															) : null}
 														</td>
 														<td className="px-2 py-1 border border-slate-300">
-															{iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BanChinh && <p className="text-center text-[#0C4A6E] font-semibold">1 Bản chính</p>}
-															{iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BanSao && <p className="text-center text-[#0C4A6E] font-semibold">1 Bản sao</p>}
+															{iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BanChinh && iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BanSao && (
+																<p className="text-center text-[#0C4A6E] font-semibold">2</p>
+															)}
+															{iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BanChinh && <p className="text-center text-[#0C4A6E] font-semibold">1</p>}
+															{iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BatBuoc && <p className="text-center text-[#0C4A6E] font-semibold">1</p>}
+															{iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BanSao && <p className="text-center text-[#0C4A6E] font-semibold">1</p>}
 														</td>
 														<td className="px-2 py-1 border border-slate-300 text-center">
 															<input type="checkbox" defaultChecked={iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BatBuoc} disabled name="" id="" />
 														</td>
 														<td className="px-2 py-1 border border-slate-300">
 															<div className="flex flex-col gap-2">
-																<label
-																	htmlFor="MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_DataFile"
-																	className="flex flex-row gap-2 items-center text-[#0C4A6E] md:justify-center font-semibold border border-[#0C4A6E] rounded-xl px-2 py-1 hover:opacity-70 cursor-pointer"
-																>
-																	<FaUpload />
-																	<span className="md:whitespace-nowrap hidden lg:inline-block">Chọn file đính kèm</span>
-																</label>
-
-																<input
-																	type="file"
-																	accept="image/,.docx,.doc,.pdf,.jpg,.jpeg,.png"
-																	name="MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_DataFile"
-																	className="hidden"
-																	id="MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_DataFile"
+																<textarea
+																	type="text"
+																	className="p-2 border border-slate-300 rounded-lg focus:outline-slate-500"
+																	placeholder="Chèn link file..."
+																	name=""
+																	id=""
 																	onChange={(e) => {
-																		handleChangeInputFileTPHS(iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_IDTTHC, iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_ID, e);
+																		handleChangeInputFileTPHS(iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_ID, e);
 																	}}
+																	required={iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BatBuoc ? true : false}
 																/>
-																{listThanhPhanHoSoFiles?.length > 0 ? (
-																	<p className="flex items-center justify-between border p-1 rounded-lg gap-2 bg-slate-300 font-medium">
-																		<span>{listThanhPhanHoSoFiles[index]?.MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_TenFile}</span>
-																	</p>
-																) : null}
 															</div>
 														</td>
 													</tr>

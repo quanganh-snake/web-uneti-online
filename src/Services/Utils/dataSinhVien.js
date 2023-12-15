@@ -3,9 +3,7 @@ import { useSelector } from "react-redux";
 
 export const DataSinhVien = () => {
 	const student = useSelector((state) => state.user?.currentUser);
-    const dataToken = useSelector((state) => state.auth?.login?.currentToken);
-    //user la gi : thong tin
-    // auth laf token
+	const dataToken = useSelector((state) => state.auth?.login?.currentToken);
 
 	const {
 		HoDem,
@@ -34,8 +32,6 @@ export const DataSinhVien = () => {
 		TrangThaiHocTap,
 		Role,
 	} = student ?? "";
-    let formatDate = NgayCapCMND ? NgayCapCMND?.slice(8, 10) + "/" + NgayCapCMND?.slice(5, 7) + "/" + NgayCapCMND?.slice(0, 4) : "";
-    // ngay nay sau dung moment nhe
 	return {
 		HoDem,
 		Ten,
@@ -51,7 +47,7 @@ export const DataSinhVien = () => {
 		SoDienThoai,
 		SoDienThoai2,
 		SoDienThoai3,
-		NgayCapCMND: formatDate,
+		NgayCapCMND: NgayCapCMND ? moment(NgayCapCMND).format("DD/MM/YYYY").toString() : "",
 		NoiCapCMND,
 		IdSinhVien,
 		ChuyenNganh,

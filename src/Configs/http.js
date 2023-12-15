@@ -16,6 +16,23 @@ const http = axios.create({
 
 const requestToRefreshToken = async () => {
 	const dataCurrentToken = store.getState()?.auth?.login?.currentToken;
+	console.log("🚀 ~ file: http.js:19 ~ requestToRefreshToken ~ dataCurrentToken:", dataCurrentToken)
+	if (dataCurrentToken) {
+		const { token: accessToken, refreshToken } = dataCurrentToken;
+		let currentDate = new Date();
+		const decodedToken = jwtDecode(accessToken);
+		const decodedRefreshToken = jwtDecode(refreshToken);
+
+		if (decodedRefreshToken.exp < currentDate.getTime() / 1000) {
+			return null;
+		}
+
+		if (decodedToken.exp < currentDate.getTime() / 1000) {
+			const newDataToken = await refreshDataToken(refreshToken).then((res) => res);
+			console.log("🚀 ~ file: http.js:31 ~ requestToRefreshToken ~ newDataToken:", newDataToken);
+			return newDataToken;
+		}
+	}
 	return dataCurrentToken;
 };
 
@@ -23,8 +40,6 @@ const requestToRefreshToken = async () => {
 http.interceptors.request.use(
 	async (config) => {
 		const dataToken = store.getState()?.auth?.login?.currentToken;
-		console.log("🚀 ~ file: http.js:26 ~ dataToken:", dataToken);
-
 		let currentDate = new Date();
 		if (dataToken) {
 			const { token: accessToken, refreshToken } = dataToken;
@@ -73,8 +88,9 @@ http.interceptors.response.use(
 		return response;
 	},
 	async (error) => {
+		const dataToken = store.getState()?.auth?.login?.currentToken;
 		const originalRequest = error.config;
-		console.log("🚀 ~ file: http.js:74 ~ error:", [error]);
+		// console.log("🚀 ~ file: http.js:74 ~ error:", [error]);
 		if (error.response?.status === 401 || error.response?.status === 403) {
 			if (!originalRequest._retry) {
 				originalRequest._retry = true;
@@ -97,7 +113,6 @@ http.interceptors.response.use(
 							token: resNewDataToken.token,
 						};
 						store.dispatch(tokenSuccess(refreshUser));
-						config.headers.Authorization = `Bearer ${resNewDataToken.token}`;
 						originalRequest.headers.Authorization = `Bearer ${resNewDataToken.token}`;
 						return http(originalRequest);
 					}

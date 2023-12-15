@@ -134,35 +134,13 @@ function ThanhPhanHoSoDeNghi(props) {
 											/>
 										</td>
 										<td className="border-r px-2 py-1">
-											{editValueRow.MC_TTHC_GV_ThanhPhanHoSo_DataFile ? (
-												<p className="flex items-center">
-													<span>{editValueRow.MC_TTHC_GV_ThanhPhanHoSo_TenFile}</span>
-													<TiDeleteOutline
-														size={32}
-														onClick={() => {
-															handleDeleteFile(index);
-														}}
-														color="red"
-														className="cursor-pointer hover:opacity-60"
-													/>
-												</p>
-											) : (
-												<>
-													<label
-														htmlFor="MC_TTHC_GV_ThanhPhanHoSo_DataFile"
-														className="flex flex-row items-center rounded-full gap-2 px-2 py-1 border border-[#336699] text-[#336699] hover:cursor-pointer hover:opacity-70"
-													>
-														<IoMdCloudUpload size={24} />
-														<span>Chọn tệp mẫu/hướng dẫn</span>
-													</label>
-													<input
-														className="hidden"
-														id="MC_TTHC_GV_ThanhPhanHoSo_DataFile"
-														type="file"
-														onChange={(e) => handleChangeValue(e, "MC_TTHC_GV_ThanhPhanHoSo_DataFile")}
-													/>
-												</>
-											)}
+											<input
+												type="text"
+												className="w-full border border-slate-300 rounded-md px-2 focus:outline-slate-300"
+												placeholder="Chèn link mẫu hồ sơ, hướng dẫn..."
+												value={editValueRow.MC_TTHC_GV_ThanhPhanHoSo_TenFile || ""}
+												onChange={(e) => handleChangeValue(e, "MC_TTHC_GV_ThanhPhanHoSo_TenFile")}
+											/>
 										</td>
 										<td className="border-r px-2 py-1 text-center">
 											<input
@@ -200,9 +178,11 @@ function ThanhPhanHoSoDeNghi(props) {
 								) : (
 									<>
 										<td className="text-center border-r px-2 py-1">{index + 1}</td>
-										<td className="text-center border-r px-2 py-1">{row.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo ?? ""}</td>
 										<td className="text-center border-r px-2 py-1">
-											<p>{row.MC_TTHC_GV_ThanhPhanHoSo_TenFile ?? ""}</p>
+											<p className="min-w-[160px] text-left">{row.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo ?? ""}</p>
+										</td>
+										<td className="text-center border-r px-2 py-1">
+											<p className="min-w-[160px] text-left">{row.MC_TTHC_GV_ThanhPhanHoSo_TenFile ?? ""}</p>
 											<p className="hidden">{row.MC_TTHC_GV_ThanhPhanHoSo_DataFile ?? ""}</p>
 										</td>
 										<td className="text-center border-r px-2 py-1">

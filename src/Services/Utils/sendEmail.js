@@ -1,33 +1,32 @@
 import emailjs from "emailjs-com";
 import Swal from "sweetalert2";
 
-const SERVICE_ID = "service_y6b50h6";
+// Using emailjs with devteam-UNETI
+const SERVICE_ID = "service_uneti01";
 const TEMPLATE_ID = {
-	T_D_TCCB: {
-		id: "template_tccbtest",
+	TTHC_GV: {
+		id: "template_tthcgv",
 		params: {
 			title: "",
-			to_name: "",
+			userSend: "",
 			emailSend: "",
 			emailRecive: "",
-			message: "",
+			emailMessage: "",
 		},
 	},
-	T_D_DaoTao: "",
-	T_D_BanGiamHieu: "",
 };
-const USERID = "NKyk98d-TdMsBRW7N";
+const USERID = "3tG_gPzga9PpJz8WP"; //Public Key
 
-export const sendEmailConfig = (department = "", title = "", name = "", emailSend = "", emailRecive = "", contents = "") => {
+export const sendEmailConfig = (title = "", userSend = "", emailSend = "", emailRecive = "", emailMessage = "") => {
 	let templateParams = {
-		...TEMPLATE_ID.T_D_TCCB.params,
+		...TEMPLATE_ID.TTHC_GV.params,
 		title: title,
-		to_name: name ?? emailSend,
+		userSend: userSend ? userSend : emailSend,
 		emailRecive: emailRecive,
-		message: contents,
+		emailMessage: emailMessage,
 	};
 	emailjs
-		.send(SERVICE_ID, TEMPLATE_ID.T_D_TCCB.id, templateParams, USERID)
+		.send(SERVICE_ID, TEMPLATE_ID.TTHC_GV.id, templateParams, USERID)
 		.then(
 			(response) => {
 				Swal.fire({

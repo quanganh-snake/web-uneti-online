@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import SoanHoSoView from "./SoanHoSoView";
 import { useParams } from "react-router-dom";
-import { getThuTucHanhChinhByID, postThanhPhanHoSoGuiYeuCau, postThuTucHanhChinhGuiYeuCau } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
+import {
+	getGuiYeuCauHoSoThuTucKiemTraTrung,
+	getThuTucHanhChinhByID,
+	postThanhPhanHoSoGuiYeuCau,
+	postThuTucHanhChinhGuiYeuCau,
+} from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
 import { NguonTiepNhan_WEB } from "../../../../Services/Static/dataStatic";
 import moment from "moment-timezone";
 import { DataCanBoGV } from "../../../../Services/Utils/dataCanBoGV";
-import { convertDataFileToBase64 } from "../../../../Services/Utils/stringUtils";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 function SoanHoSo() {
@@ -50,16 +54,15 @@ function SoanHoSo() {
 
 	// event handlers
 
-	const handleChangeInputFileTPHS = async (idGoc, idTPHS, e) => {
-		const file = e.target.files[0];
-		if (file) {
-			let encodeFile = await convertDataFileToBase64(file).then((res) => res);
+	const handleChangeInputFileTPHS = async (idTPHS, e) => {
+		const { id, name, value, files } = e.target;
+		if (value) {
 			let newItemThanhPhanHoSoFile = {
 				...itemThanhPhanHoSoFile,
-				MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_IDGoc: idGoc,
+				MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_IDGoc: "",
 				MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_IDThanhPhanHoSo: idTPHS,
-				MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_TenFile: file?.name,
-				MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_DataFile: encodeFile,
+				MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_TenFile: value,
+				MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_DataFile: "",
 			};
 			setItemThanhPhanHoSoFile(newItemThanhPhanHoSoFile);
 
@@ -75,9 +78,9 @@ function SoanHoSo() {
 			let newListTPHSFiles = [...listThanhPhanHoSoFiles, newItemThanhPhanHoSoFile];
 			setListThanhPhanHoSoFiles(newListTPHSFiles);
 		} else {
-			setItemThanhPhanHoSoFile((previewData) => {
+			setItemThanhPhanHoSoFile((previousData) => {
 				return {
-					...previewData,
+					...previousData,
 				};
 			});
 		}
@@ -88,8 +91,8 @@ function SoanHoSo() {
 		const newDataHoSoYeuCau = {
 			...dataHoSoYeuCau,
 			MC_TTHC_GV_GuiYeuCau_YeuCau_ID: dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_ID ? dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_ID.toString() : "",
-			MC_TTHC_GV_GuiYeuCau_TrangThai_ID: dataChiTietThuTuc?.TrangThai?.[0]?.MC_TTHC_GV_TrangThai_ID ? dataChiTietThuTuc?.TrangThai?.[0]?.MC_TTHC_GV_TrangThai_ID.toString() : "",
-			MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu: dataChiTietThuTuc?.TrangThai?.[0]?.MC_TTHC_GV_TrangThai_TenTrangThai ? dataChiTietThuTuc?.TrangThai?.[0]?.MC_TTHC_GV_TrangThai_TenTrangThai : "",
+			MC_TTHC_GV_GuiYeuCau_TrangThai_ID: "0",
+			MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu: "",
 			MC_TTHC_GV_GuiYeuCau_NgayGui: moment().tz("Asia/Ho_Chi_Minh").format("YYYY-MM-DD HH:mm:ss"),
 		};
 
@@ -98,8 +101,64 @@ function SoanHoSo() {
 				toast.error("Vui lòng chọn nơi trả kết quả!");
 				return;
 			}
-			const resultPostTTHCYeuCau = await postThuTucHanhChinhGuiYeuCau(newDataHoSoYeuCau);
+			let idGuiYeuCau;
+			try {
+				const resultKiemTraHoSoThuTucTrung = await getGuiYeuCauHoSoThuTucKiemTraTrung(
+					dataCBGV.MaNhanSu,
+					newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
+					newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID
+				);
+				if (resultKiemTraHoSoThuTucTrung.status === 200) {
+					const resultCountKiemTra = await resultKiemTraHoSoThuTucTrung?.data?.body?.length;
+
+					if (resultCountKiemTra > 0) {
+						Swal.fire({
+							icon: "info",
+							title: "Thông báo",
+							html: `Yêu cầu cho hồ sơ <p class="font-semibold text-[#336699]">${dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc}</p> đã được gửi lên trước đó. Vui lòng chờ kết quả phản hồi qua email. `,
+						});
+						return;
+					} else {
+						const resultPostTTHCYeuCau = await postThuTucHanhChinhGuiYeuCau(newDataHoSoYeuCau);
+
+						if (resultPostTTHCYeuCau.status === 200) {
+							const dataPostTTHCYeuCau = await resultPostTTHCYeuCau.data;
+							console.log("🚀 ~ file: SoanHoSo.jsx:127 ~ handleSubmitForm ~ dataPostTTHCYeuCau:", dataPostTTHCYeuCau);
+							const getIDGuiYeuCau = await getGuiYeuCauHoSoThuTucKiemTraTrung(
+								dataCBGV.MaNhanSu,
+								newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
+								newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID
+							);
+							const dataIDGuiYeuCau = await getIDGuiYeuCau.data?.body[0];
+							console.log("🚀 ~ file: SoanHoSo.jsx:128 ~ handleSubmitForm ~ dataKiemTraHoSoThuTucTrung:", dataIDGuiYeuCau);
+							idGuiYeuCau = await dataIDGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_ID;
+							console.log("🚀 ~ file: SoanHoSo.jsx:129 ~ handleSubmitForm ~ idGuiYeuCau:", idGuiYeuCau);
+
+							// UI-POST: Thanh Phan Ho So
+							for (let i = 0; i < listThanhPhanHoSoFiles.length; i++) {
+								listThanhPhanHoSoFiles[i].MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_IDGoc = idGuiYeuCau;
+							}
+							console.log(listThanhPhanHoSoFiles);
+							// const resultPostTPHSGuiYeuCau = await postThanhPhanHoSoGuiYeuCau(listThanhPhanHoSoFiles);
+						} else {
+							Swal.fire({
+								icon: "error",
+								title: "Lỗi",
+								text: "Đã có lỗi xảy ra!",
+							});
+							return;
+						}
+					}
+				}
+			} catch (error) {
+				Swal.fire({
+					title: "Đã có lỗi xảy ra",
+					text: `${error.message}`,
+				});
+			}
+			return;
 			const resultPostThanhPhanHoSoYeuCau = await postThanhPhanHoSoGuiYeuCau(listThanhPhanHoSoFiles);
+			console.log("🚀 ~ file: SoanHoSo.jsx:104 ~ handleSubmitForm ~ resultPostThanhPhanHoSoYeuCau:", resultPostThanhPhanHoSoYeuCau);
 
 			if (resultPostTTHCYeuCau.status === 200 && resultPostThanhPhanHoSoYeuCau.status === 200) {
 				Swal.fire({
@@ -110,6 +169,12 @@ function SoanHoSo() {
 					timer: 1500,
 				});
 			}
+		} else {
+			Swal.fire({
+				icon: "error",
+				title: "Lỗi",
+				text: "Đã có lỗi xảy ra! Vui lòng kiểm tra thông tin nhập liệu.",
+			});
 		}
 	};
 

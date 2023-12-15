@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import React, { useState } from "react";
 import { IoMdMenu, IoMdClose } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 function MenuMobileMotCua() {
 	const [showMenu, setShowMenu] = useState(false);
@@ -26,22 +27,62 @@ function MenuMobileMotCua() {
 				/>
 			)}
 
-			<div className={clsx("absolute left-0 right-0 top-[100%] w-full bg-[#336699]", showMenu ? "block" : "hidden")}>
+			<div className={clsx("absolute left-0 right-0 top-[100%] w-full bg-[#336699]", showMenu ? "block animate__animated animate__fadeInLeft" : "animate__animated animate__fadeOutLeft")}>
 				<ul>
 					<li>
-						<Link className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600">Trang chủ</Link>
+						<Link
+							to={"/motcua"}
+							onClick={() => {
+								setShowMenu(false);
+							}}
+							className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
+						>
+							Trang chủ
+						</Link>
 					</li>
 					<li>
-						<Link className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600">Khảo thí</Link>
+						<Link
+							to={"/motcua/khaothi"}
+							onClick={() => {
+								setShowMenu(false);
+							}}
+							className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
+						>
+							Khảo thí
+						</Link>
 					</li>
 					<li>
-						<Link className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600">Đào tạo</Link>
+						<Link
+							to={"/motcua/daotao"}
+							onClick={() => {
+								setShowMenu(false);
+							}}
+							className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
+						>
+							Đào tạo
+						</Link>
 					</li>
 					<li>
-						<Link className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600">CT&CTSV</Link>
+						<Link
+							to={"/motcua/ct&ctsv"}
+							onClick={() => {
+								setShowMenu(false);
+							}}
+							className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
+						>
+							CT&CTSV
+						</Link>
 					</li>
 					<li>
-						<Link className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600">Hàn chính</Link>
+						<Link
+							to={"/motcua/hanhchinh"}
+							onClick={() => {
+								setShowMenu(false);
+							}}
+							className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
+						>
+							Hành chính
+						</Link>
 					</li>
 				</ul>
 			</div>

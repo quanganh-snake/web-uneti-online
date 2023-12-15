@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { IoMdMenu, IoMdClose } from "react-icons/io";
 import { Link } from "react-router-dom";
 
-function MenuMobileTTHCGV() {
+function MenuMobile() {
 	const [showMenu, setShowMenu] = useState(false);
 
 	return (
@@ -31,35 +31,17 @@ function MenuMobileTTHCGV() {
 			<div className={clsx("absolute left-0 right-0 top-[100%] w-full bg-[#336699]", showMenu ? "block animate__animated animate__fadeInLeft" : "animate__animated animate__fadeOutLeft")}>
 				<ul>
 					<li>
-						<Link
-							to={"/uneti"}
-							onClick={() => {
-								setShowMenu(false);
-							}}
-							className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
-						>
+						<Link to={"/uneti"} className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600">
 							Trang chủ
 						</Link>
 					</li>
 					<li>
-						<Link
-							to={"/admin/canbonghiepvu"}
-							onClick={() => {
-								setShowMenu(false);
-							}}
-							className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
-						>
+						<Link to={"/admin/canbonghiepvu"} className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600">
 							Cán bộ nghiệp vụ
 						</Link>
 					</li>
 					<li>
-						<Link
-							to={"/admin/quantriTTHCGV"}
-							onClick={() => {
-								setShowMenu(false);
-							}}
-							className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
-						>
+						<Link to={"/admin/quantriTTHCGV"} className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600">
 							Quản trị hệ thống
 						</Link>
 					</li>
@@ -69,4 +51,4 @@ function MenuMobileTTHCGV() {
 	);
 }
 
-export default MenuMobileTTHCGV;
+export default MenuMobile;

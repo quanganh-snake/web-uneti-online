@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { MdClose } from "react-icons/md";
-import { convertDataFileToBase64 } from "../../../../Services/Utils/stringUtils";
 import clsx from "clsx";
 import { BiChevronDown } from "react-icons/bi";
 import { AiOutlineSearch } from "react-icons/ai";
 function ThongTinHoSo(props) {
 	const {
+		inputTenThuTucRef,
+		inputMaThuTucRef,
+		inputMucDoRef,
+		inputTongThoiGianRef,
+		inputDonViTiepNhanRef,
+		inputNoiTraKetQuaRef,
 		listMucDo,
 		listDonViTiepNhan,
 		tenThuTuc,
@@ -24,7 +28,6 @@ function ThongTinHoSo(props) {
 		dieuKienThucHien,
 		dataFilesTepThuTuc,
 		setDataFilesTepThuTuc,
-		errorThongTinHoSo,
 		handleChangeValue,
 	} = props;
 
@@ -47,17 +50,15 @@ function ThongTinHoSo(props) {
 							className="px-3 py-2 w-full rounded-full border border-slate-300 focus:outline-slate-300"
 							name="MC_TTHC_GV_TenThuTuc"
 							id="MC_TTHC_GV_TenThuTuc"
+							ref={inputTenThuTucRef}
 							value={tenThuTuc}
 							onChange={handleChangeValue}
 						/>
-						<p className="text-red-600">{errorThongTinHoSo?.MC_TTHC_GV_TenThuTuc}</p>
 					</label>
 				</div>
 				<div className="col-span-4 lg:col-span-2">
 					<label htmlFor="MC_TTHC_GV_ThuTu">
-						<p className="font-semibold mb-2">
-							Vị trí <span className="text-red-500">*</span>
-						</p>
+						<p className="font-semibold mb-2">Vị trí</p>
 						<input
 							type="number"
 							placeholder="Nhập vị trí sắp xếp hồ sơ..."
@@ -68,7 +69,6 @@ function ThongTinHoSo(props) {
 							value={viTri}
 							onChange={handleChangeValue}
 						/>
-						<p className="text-red-600">{errorThongTinHoSo?.MC_TTHC_GV_ThuTu}</p>
 					</label>
 				</div>
 				<div className="col-span-4 lg:col-span-2">
@@ -82,10 +82,10 @@ function ThongTinHoSo(props) {
 							className="px-3 py-2 w-full rounded-full border border-slate-300 focus:outline-slate-300"
 							name="MC_TTHC_GV_MaThuTuc"
 							id="MC_TTHC_GV_MaThuTuc"
+							ref={inputMaThuTucRef}
 							value={maThuTuc}
 							onChange={handleChangeValue}
 						/>
-						<p className="text-red-600">{errorThongTinHoSo?.MC_TTHC_GV_MaThuTuc}</p>
 					</label>
 				</div>
 				<div className="col-span-4 lg:col-span-2">
@@ -97,6 +97,8 @@ function ThongTinHoSo(props) {
 							className="px-3 py-2 w-full rounded-full border border-slate-300 focus:outline-slate-300"
 							name="MC_TTHC_GV_IDMucDo"
 							id="MC_TTHC_GV_IDMucDo"
+							ref={inputMucDoRef}
+							defaultValue={mucDo}
 							onChange={handleChangeValue}
 						>
 							<option value="">Chọn mức độ</option>
@@ -109,7 +111,6 @@ function ThongTinHoSo(props) {
 									);
 								})}
 						</select>
-						<p className="text-red-600">{errorThongTinHoSo?.MC_TTHC_GV_IDMucDo}</p>
 					</label>
 				</div>
 				<div className="col-span-4 lg:col-span-2">
@@ -153,19 +154,17 @@ function ThongTinHoSo(props) {
 								className="px-3 py-2 rounded-full w-full border border-slate-300 focus:outline-slate-300"
 								name="MC_TTHC_GV_TongThoiGianGiaiQuyet"
 								id="MC_TTHC_GV_TongThoiGianGiaiQuyet"
+								ref={inputTongThoiGianRef}
 								value={tongThoiGianGiaiQuyet}
 								onChange={handleChangeValue}
 							/>
 							<span className="font-bold">Ngày</span>
 						</div>
-						<p className="text-red-600">{errorThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet}</p>
 					</label>
 				</div>
 				<div className="col-span-4 lg:col-span-2">
 					<label htmlFor="MC_TTHC_GV_SoBoHoSo">
-						<p className="font-semibold mb-2">
-							Số bộ hồ sơ kèm theo <span className="text-red-500">*</span>
-						</p>
+						<p className="font-semibold mb-2">Số bộ hồ sơ kèm theo</p>
 						<input
 							type="number"
 							placeholder="Số bộ hồ sơ"
@@ -200,6 +199,7 @@ function ThongTinHoSo(props) {
 						<div className="col-span-4 md:col-span-2 relative">
 							<div
 								id="MC_TTHC_GV_PhanQuyen_DonVi"
+								ref={inputDonViTiepNhanRef}
 								onClick={() => {
 									setOpenSelectDonVi(!openSelectDonVi);
 								}}
@@ -243,7 +243,6 @@ function ThongTinHoSo(props) {
 									})}
 							</ul>
 						</div>
-						<p className="text-red-600">{errorThongTinHoSo?.MC_TTHC_GV_NoiTiepNhan}</p>
 					</label>
 				</div>
 				<div className="col-span-4 md:col-span-2">
@@ -255,6 +254,7 @@ function ThongTinHoSo(props) {
 							className="px-3 py-2 w-full rounded-full border border-slate-300 focus:outline-slate-300"
 							name="MC_TTHC_GV_NoiTraKetQua"
 							id="MC_TTHC_GV_NoiTraKetQua"
+							ref={inputNoiTraKetQuaRef}
 							value={noiTraKetQua}
 							onChange={handleChangeValue}
 						>
@@ -264,7 +264,6 @@ function ThongTinHoSo(props) {
 							<option value="2 - Lĩnh Nam">2 - Lĩnh Nam</option>
 							<option value="3 - Nam Định">3 - Nam Định</option>
 						</select>
-						<p className="text-red-600">{errorThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua}</p>
 					</label>
 				</div>
 				<div className="col-span-4 flex flex-row gap-3 items-center">
@@ -295,41 +294,23 @@ function ThongTinHoSo(props) {
 				</div>
 
 				<div className="col-span-4 my-4">
-					<label className="p-4 bg-[#336699] text-white rounded-lg cursor-pointer hover:opacity-70" htmlFor="MC_TTHC_GV_TepThuTuc_DataFileFile">
-						Tải lên file thủ tục (.pdf, .docx, .doc)
+					<label className="" htmlFor="MC_TTHC_GV_TepThuTuc_DataFileFile">
+						<p className="font-semibold mb-2">Đính kèm tệp thủ tục</p>
 					</label>
 					<input
-						className="hidden"
+						className="p-2 border border-slate-200 w-full focus:outline-slate-400"
 						id="MC_TTHC_GV_TepThuTuc_DataFileFile"
-						type="file"
+						type="text"
+						placeholder="Chèn link tệp thủ tục"
 						disabled={dataFilesTepThuTuc?.length > 2 ? true : false}
-						onChange={async (e) => {
-							const { files } = e.target;
-							let dataFilesInput = await convertDataFileToBase64(files[0]).then((res) => res);
-							console.log("🚀 ~ file: ThongTinHoSo.jsx:309 ~ onChange={ ~ dataFilesInput:", dataFilesInput)
-
+						onChange={(e) => {
 							setDataFilesTepThuTuc({
-								MC_TTHC_GV_TepThuTuc_TenFile: files[0]?.name,
-								MC_TTHC_GV_TepThuTuc_DataFileFile: dataFilesInput,
+								MC_TTHC_GV_TepThuTuc_TenFile: e.target.value,
+								MC_TTHC_GV_TepThuTuc_DataFileFile: "",
 							});
 						}}
 					/>
 				</div>
-				{dataFilesTepThuTuc && (
-					<div className="col-span-4">
-						<div className="flex items-center gap-4 p-2 border border-slate-200 rounded-md mb-2">
-							<p className="w-full">{dataFilesTepThuTuc.MC_TTHC_GV_TepThuTuc_TenFile}</p>
-							<MdClose
-								size={24}
-								color="red"
-								className="font-semibold cursor-pointer hover:opacity-70"
-								onClick={() => {
-									setDataFilesTepThuTuc(null);
-								}}
-							/>
-						</div>
-					</div>
-				)}
 			</div>
 		</div>
 	);

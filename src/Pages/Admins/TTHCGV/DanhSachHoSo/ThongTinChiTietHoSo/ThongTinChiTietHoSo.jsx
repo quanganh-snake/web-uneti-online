@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import SidebarTTHCGV from "../../Sidebar/SidebarTTHCGV";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
 import { getThuTucHanhChinhByID } from "../../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
@@ -230,26 +230,25 @@ function ThongTinChiTietHoSo(props) {
 										</div>
 									</div>
 
-									{ThongTinHoSo.MC_TTHC_GV_ThuTucLienThong || ThongTinHoSo.MC_TTHC_GV_ThuTucKhongApDungMC ? (
-										<div className="">
-											{ThongTinHoSo.MC_TTHC_GV_TepThuTuc_DataFileFile ? (
-												<>
-													<div className="flex flex-col gap-1">
-														<label htmlFor="MC_TTHC_GV_DoiTuongThucHien" className="font-semibold">
-															Tệp thủ tục kèm theo <span className="text-red-600 font-bold">*</span>
-														</label>
-														<input
-															type="text"
-															className="px-3 py-1 w-full bg-slate-300 border border-slate-200 rounded-md focus:outline-none"
-															defaultValue={ThongTinHoSo?.MC_TTHC_GV_DoiTuongThucHien}
-															disabled={true}
-															name="MC_TTHC_GV_DoiTuongThucHien"
-															id="MC_TTHC_GV_DoiTuongThucHien"
-														/>
-													</div>
-												</>
-											) : null}
-										</div>
+									{ThongTinHoSo.MC_TTHC_GV_TepThuTuc_TenFile ? (
+										<>
+											<div className="flex flex-col gap-1">
+												<label htmlFor="MC_TTHC_GV_TepThuTuc_TenFile" className="font-semibold">
+													Tệp thủ tục kèm theo (
+													<Link to={ThongTinHoSo?.MC_TTHC_GV_TepThuTuc_TenFile} target="_blank" className="text-[#336699] cursor-pointer hover:opacity-70">
+														Xem chi tiết
+													</Link>
+													)
+												</label>
+												<input
+													type="text"
+													className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-slate-400"
+													defaultValue={ThongTinHoSo?.MC_TTHC_GV_TepThuTuc_TenFile}
+													name="MC_TTHC_GV_TepThuTuc_TenFile"
+													id="MC_TTHC_GV_TepThuTuc_TenFile"
+												/>
+											</div>
+										</>
 									) : null}
 									<div className="flex flex-col md:flex-row items-center gap-4">
 										<div className="w-full">
@@ -330,13 +329,11 @@ function ThongTinChiTietHoSo(props) {
 														<td className="border-r border-l px-2 py-1 text-center">{index + 1}</td>
 														<td className="border-r px-2 py-1 text-center">{iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo}</td>
 														<td className="border-r px-2 py-1 text-center">
-															<p
-																className="font-semibold text-[#336699] cursor-pointer hover:opacity-70"
-																onClick={() => {
-																	handleOpenPreviewFile(iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_DataFile, iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_TenFile);
-																}}
-															>
-																{iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_TenFile}
+															<p className="font-semibold ">
+																Xem mẫu hồ sơ/hướng dẫn:{" "}
+																<Link to={iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_TenFile} target="_blank" className="text-[#336699] cursor-pointer hover:opacity-70">
+																	{iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo}
+																</Link>
 															</p>
 														</td>
 														<td className="border-r px-2 py-1 text-center">
