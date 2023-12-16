@@ -8,35 +8,57 @@ const TEMPLATE_ID = {
 		id: "template_tthcgv",
 		params: {
 			title: "",
-			userSend: "",
-			emailSend: "",
+			nameRecive: "",
+			contentSuggest: "",
+			maNhanSu: "",
+			nameRecive: "",
+			department: "",
+			contentUserSubmit: "",
+			quantityFile: "",
+
+			usernameSend: "",
+			emailUserSend: "",
+			phoneUserSend: "",
+
 			emailRecive: "",
-			emailMessage: "",
 		},
 	},
 };
 const USERID = "3tG_gPzga9PpJz8WP"; //Public Key
 
-export const sendEmailConfig = (title = "", userSend = "", emailSend = "", emailRecive = "", emailMessage = "") => {
+export const sendEmailUserSubmit = (
+	title = "",
+	nameRecive = "",
+	contentSuggest = "",
+	maNhanSu = "",
+	department = "",
+	contentUserSubmit = "",
+	quantityFile = "",
+	usernameSend = "",
+	emailUserSend = "",
+	phoneUserSend = "",
+	emailRecive = ""
+) => {
 	let templateParams = {
 		...TEMPLATE_ID.TTHC_GV.params,
 		title: title,
-		userSend: userSend ? userSend : emailSend,
+		nameRecive: nameRecive,
+		contentSuggest: contentSuggest,
+		maNhanSu: maNhanSu,
+		department: department,
+		contentUserSubmit: contentUserSubmit,
+		quantityFile: quantityFile,
+
+		usernameSend: usernameSend,
+		emailUserSend: emailUserSend,
+		phoneUserSend: phoneUserSend,
+
 		emailRecive: emailRecive,
-		emailMessage: emailMessage,
 	};
 	emailjs
 		.send(SERVICE_ID, TEMPLATE_ID.TTHC_GV.id, templateParams, USERID)
 		.then(
 			(response) => {
-				Swal.fire({
-					position: "center",
-					icon: "success",
-					title: `Đã gửi email thông báo đến ${emailRecive}`,
-					showConfirmButton: false,
-					timer: 1500,
-				});
-
 				console.log("SEND MAIL SUCCESS...: ", response);
 			},
 			(error) => {

@@ -17,7 +17,7 @@ function TrangThaiHoSo(props) {
 	const handleSaveDataRow = () => {
 		setTrangThai((prevDataRow) => {
 			const newDataRow = [...prevDataRow];
-			newDataRow[editRowIndex] = editValueRow;
+            newDataRow[editRowIndex] = { ...editValueRow, MC_TTHC_GV_TrangThai_STT: editRowIndex + 1 };
 			return newDataRow;
 		});
 

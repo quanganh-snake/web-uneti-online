@@ -187,7 +187,7 @@ function ChiTietThuTucView({ idThuTuc, home, breadcrumbs, loading, dataThuTuc })
 																		</td>
 																		<td className="border border-slate-300">
 																			<div className="px-2">
-																				<p className="min-w-[140px]">{iTrinhTu?.MC_TTHC_GV_TrinhTuThucHien_CacThucThucHien}</p>
+																				<p className="min-w-[140px]">{iTrinhTu?.MC_TTHC_GV_TrinhTuThucHien_CachThucThucHien}</p>
 																			</div>
 																		</td>
 																		<td className="border border-slate-300">

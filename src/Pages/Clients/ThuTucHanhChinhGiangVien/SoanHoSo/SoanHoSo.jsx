@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SoanHoSoView from "./SoanHoSoView";
 import { useParams } from "react-router-dom";
 import {
@@ -12,6 +12,7 @@ import moment from "moment-timezone";
 import { DataCanBoGV } from "../../../../Services/Utils/dataCanBoGV";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { sendEmailUserSubmit } from "../../../../Services/Utils/sendEmail";
 function SoanHoSo() {
 	const home = {
 		path: "/tthcgiangvien",
@@ -27,6 +28,7 @@ function SoanHoSo() {
 
 	const dataCBGV = DataCanBoGV();
 	const { tieude, id } = useParams();
+	const inputTextRef = useRef(null);
 	const [dataChiTietThuTuc, setDataChiTietThuTuc] = useState(null);
 	const [dataHoSoYeuCau, setDataHoSoYeuCau] = useState({
 		MC_TTHC_GV_GuiYeuCau_NhanSuGui_MaNhanSu: dataCBGV.MaNhanSu,
@@ -38,6 +40,7 @@ function SoanHoSo() {
 		MC_TTHC_GV_GuiYeuCau_TrangThai_ID: "",
 		MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu: "",
 		MC_TTHC_GV_GuiYeuCau_NgayGui: "",
+		MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong: "",
 		MC_TTHC_GV_GuiYeuCau_DaNop: "",
 		MC_TTHC_GV_GuiYeuCau_NgayHenTra: "",
 		MC_TTHC_GV_GuiYeuCau_NoiTraKetQua: "",
@@ -55,7 +58,7 @@ function SoanHoSo() {
 	// event handlers
 
 	const handleChangeInputFileTPHS = async (idTPHS, e) => {
-		const { id, name, value, files } = e.target;
+		const { value } = e.target;
 		if (value) {
 			let newItemThanhPhanHoSoFile = {
 				...itemThanhPhanHoSoFile,
@@ -66,28 +69,21 @@ function SoanHoSo() {
 			};
 			setItemThanhPhanHoSoFile(newItemThanhPhanHoSoFile);
 
-			listThanhPhanHoSoFiles.forEach((item, index) => {
-				if (
-					item.MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_IDGoc == newItemThanhPhanHoSoFile.MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_IDGoc &&
-					item.MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_IDThanhPhanHoSo == newItemThanhPhanHoSoFile.MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_IDThanhPhanHoSo
-				) {
-					listThanhPhanHoSoFiles.splice(index, 1);
-				}
-			});
+			let existFileIndex = listThanhPhanHoSoFiles.findIndex((itemFile) => itemFile?.MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_IDThanhPhanHoSo === idTPHS);
 
-			let newListTPHSFiles = [...listThanhPhanHoSoFiles, newItemThanhPhanHoSoFile];
-			setListThanhPhanHoSoFiles(newListTPHSFiles);
-		} else {
-			setItemThanhPhanHoSoFile((previousData) => {
-				return {
-					...previousData,
-				};
-			});
+			if (existFileIndex !== -1) {
+				// Nếu tồn tại, thay đổi nội dung của phần tử đó
+				listThanhPhanHoSoFiles[existFileIndex] = newItemThanhPhanHoSoFile;
+			} else {
+				// Nếu không tồn tại, thêm một phần tử mới vào mảng
+				listThanhPhanHoSoFiles.push(newItemThanhPhanHoSoFile);
+			}
 		}
 	};
 
 	const handleSubmitForm = async (e) => {
 		e.preventDefault();
+
 		const newDataHoSoYeuCau = {
 			...dataHoSoYeuCau,
 			MC_TTHC_GV_GuiYeuCau_YeuCau_ID: dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_ID ? dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_ID.toString() : "",
@@ -96,86 +92,109 @@ function SoanHoSo() {
 			MC_TTHC_GV_GuiYeuCau_NgayGui: moment().tz("Asia/Ho_Chi_Minh").format("YYYY-MM-DD HH:mm:ss"),
 		};
 
-		if (Object.keys(newDataHoSoYeuCau).length > 0) {
-			if (newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_NoiTraKetQua == "") {
-				toast.error("Vui lòng chọn nơi trả kết quả!");
-				return;
-			}
-			let idGuiYeuCau;
-			try {
-				const resultKiemTraHoSoThuTucTrung = await getGuiYeuCauHoSoThuTucKiemTraTrung(
-					dataCBGV.MaNhanSu,
-					newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
-					newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID
-				);
-				if (resultKiemTraHoSoThuTucTrung.status === 200) {
-					const resultCountKiemTra = await resultKiemTraHoSoThuTucTrung?.data?.body?.length;
+		let idGuiYeuCau;
+		try {
+			const resultKiemTraHoSoThuTucTrung = await getGuiYeuCauHoSoThuTucKiemTraTrung(
+				dataCBGV.MaNhanSu,
+				newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
+				newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID
+			);
+			if (resultKiemTraHoSoThuTucTrung.status === 200) {
+				const resultCountKiemTra = await resultKiemTraHoSoThuTucTrung?.data?.body?.length;
 
-					if (resultCountKiemTra > 0) {
-						Swal.fire({
-							icon: "info",
-							title: "Thông báo",
-							html: `Yêu cầu cho hồ sơ <p class="font-semibold text-[#336699]">${dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc}</p> đã được gửi lên trước đó. Vui lòng chờ kết quả phản hồi qua email. `,
-						});
-						return;
-					} else {
-						const resultPostTTHCYeuCau = await postThuTucHanhChinhGuiYeuCau(newDataHoSoYeuCau);
+				if (resultCountKiemTra > 0) {
+					Swal.fire({
+						icon: "info",
+						title: "Thông báo",
+						html: `Yêu cầu cho hồ sơ <p class="font-semibold text-[#336699]">${dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc}</p> đã được gửi lên trước đó. Vui lòng chờ kết quả phản hồi qua email. `,
+					});
+					return;
+				} else {
+					const resultPostTTHCYeuCau = await postThuTucHanhChinhGuiYeuCau(newDataHoSoYeuCau);
 
-						if (resultPostTTHCYeuCau.status === 200) {
-							const dataPostTTHCYeuCau = await resultPostTTHCYeuCau.data;
-							console.log("🚀 ~ file: SoanHoSo.jsx:127 ~ handleSubmitForm ~ dataPostTTHCYeuCau:", dataPostTTHCYeuCau);
-							const getIDGuiYeuCau = await getGuiYeuCauHoSoThuTucKiemTraTrung(
-								dataCBGV.MaNhanSu,
-								newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
-								newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID
+					if (resultPostTTHCYeuCau.status === 200) {
+						const getIDGuiYeuCau = await getGuiYeuCauHoSoThuTucKiemTraTrung(
+							dataCBGV.MaNhanSu,
+							newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
+							newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID
+						);
+						const dataIDGuiYeuCau = await getIDGuiYeuCau.data?.body[0];
+						idGuiYeuCau = await dataIDGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_ID;
+						let khoaGiangVien = await dataIDGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Khoa;
+
+                        console.log(listThanhPhanHoSoFiles)
+						if (listThanhPhanHoSoFiles?.length < dataChiTietThuTuc?.ThanhPhanHoSo.length) {
+							Swal.fire({
+								icon: "error",
+								title: "Lỗi",
+								text: "Thiếu dữ liệu!",
+								footer: "Vui lòng chèn đường link cho giấy tờ kèn theo!",
+							});
+							return;
+						}
+						// UI-POST: Thanh Phan Ho So
+						for (let i = 0; i < listThanhPhanHoSoFiles.length; i++) {
+							listThanhPhanHoSoFiles[i].MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_IDGoc = idGuiYeuCau;
+						}
+						const resultPostTPHSGuiYeuCau = await postThanhPhanHoSoGuiYeuCau(listThanhPhanHoSoFiles);
+
+						if (resultPostTPHSGuiYeuCau.status === 200 && resultPostTTHCYeuCau.status === 200) {
+							Swal.fire({
+								position: "center",
+								icon: "success",
+								html: `Gửi yêu cầu thành công! <br/> Vui lòng chờ kết quả xử lý thông báo qua Email hoặc Số điện thoại của bạn.`,
+								showConfirmButton: false,
+								timer: 2000,
+							});
+
+							sendEmailUserSubmit(
+								`Thông báo trả lời đề nghị ${dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`,
+								dataCBGV?.HoDem + " " + dataCBGV?.Ten,
+								dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc.toUpperCase(),
+								dataCBGV?.MaNhanSu,
+								khoaGiangVien,
+								newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu,
+								newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong,
+								"Tống Bá Quang Anh",
+								"tbquanganh@gmail.com",
+								"0334350166",
+								newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email
 							);
-							const dataIDGuiYeuCau = await getIDGuiYeuCau.data?.body[0];
-							console.log("🚀 ~ file: SoanHoSo.jsx:128 ~ handleSubmitForm ~ dataKiemTraHoSoThuTucTrung:", dataIDGuiYeuCau);
-							idGuiYeuCau = await dataIDGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_ID;
-							console.log("🚀 ~ file: SoanHoSo.jsx:129 ~ handleSubmitForm ~ idGuiYeuCau:", idGuiYeuCau);
-
-							// UI-POST: Thanh Phan Ho So
-							for (let i = 0; i < listThanhPhanHoSoFiles.length; i++) {
-								listThanhPhanHoSoFiles[i].MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_IDGoc = idGuiYeuCau;
-							}
-							console.log(listThanhPhanHoSoFiles);
-							// const resultPostTPHSGuiYeuCau = await postThanhPhanHoSoGuiYeuCau(listThanhPhanHoSoFiles);
+							return;
 						} else {
 							Swal.fire({
 								icon: "error",
 								title: "Lỗi",
 								text: "Đã có lỗi xảy ra!",
+								footer: "Vui lòng thử lại hoặc liên hệ cho bộ phận kỹ thuật để khắc phục sự cố!",
 							});
-							return;
 						}
+					} else {
+						Swal.fire({
+							icon: "error",
+							title: "Lỗi",
+							text: "Đã có lỗi xảy ra!",
+							footer: "Vui lòng thử lại hoặc liên hệ cho bộ phận kỹ thuật để khắc phục sự cố!",
+						});
 					}
 				}
-			} catch (error) {
-				Swal.fire({
-					title: "Đã có lỗi xảy ra",
-					text: `${error.message}`,
-				});
 			}
-			return;
-			const resultPostThanhPhanHoSoYeuCau = await postThanhPhanHoSoGuiYeuCau(listThanhPhanHoSoFiles);
-			console.log("🚀 ~ file: SoanHoSo.jsx:104 ~ handleSubmitForm ~ resultPostThanhPhanHoSoYeuCau:", resultPostThanhPhanHoSoYeuCau);
-
-			if (resultPostTTHCYeuCau.status === 200 && resultPostThanhPhanHoSoYeuCau.status === 200) {
-				Swal.fire({
-					position: "center",
-					icon: "success",
-					title: "Gửi yêu cầu thành công!",
-					showConfirmButton: false,
-					timer: 1500,
-				});
-			}
-		} else {
+		} catch (error) {
 			Swal.fire({
 				icon: "error",
-				title: "Lỗi",
-				text: "Đã có lỗi xảy ra! Vui lòng kiểm tra thông tin nhập liệu.",
+				title: "Đã có lỗi xảy ra",
+				text: `${error.message}`,
+				footer: "Vui lòng liên hệ lại bộ phận kỹ thuật để khắc phục sự cố!",
 			});
 		}
+
+		setItemThanhPhanHoSoFile({
+			MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_IDGoc: "",
+			MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_IDThanhPhanHoSo: "",
+			MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_DataFile: "",
+			MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_TenFile: "",
+		});
+		setListThanhPhanHoSoFiles([]);
 	};
 
 	const handleCancelSubmit = () => {
@@ -227,6 +246,7 @@ function SoanHoSo() {
 			setItemThanhPhanHoSoFile={setItemThanhPhanHoSoFile}
 			listThanhPhanHoSoFiles={listThanhPhanHoSoFiles}
 			setListThanhPhanHoSoFiles={setListThanhPhanHoSoFiles}
+			inputTextRef={inputTextRef}
 			handleChangeInputFileTPHS={handleChangeInputFileTPHS}
 			handleSubmitForm={handleSubmitForm}
 		/>

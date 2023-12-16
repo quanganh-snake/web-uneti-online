@@ -95,13 +95,13 @@ function HomeTTHCGVView(props) {
 																<span
 																	className={clsx(
 																		"inline-block w-4 h-4 rounded-full text-center font-semibold text-white text-xs",
-																		parseInt(iData.MC_TTHC_GV_IDMucDo) == 0 ? "bg-red-300" : "",
-																		parseInt(iData.MC_TTHC_GV_IDMucDo) == 1 ? "bg-red-400" : "",
-																		parseInt(iData.MC_TTHC_GV_IDMucDo) == 2 ? "bg-red-500" : "",
-																		parseInt(iData.MC_TTHC_GV_IDMucDo) >= 3 ? "bg-red-600" : ""
+																		parseInt(iData.MC_TTHC_GV_IDMucDo) == 1 ? "bg-red-300" : "",
+																		parseInt(iData.MC_TTHC_GV_IDMucDo) == 2 ? "bg-red-400" : "",
+																		parseInt(iData.MC_TTHC_GV_IDMucDo) == 3 ? "bg-red-500" : "",
+																		parseInt(iData.MC_TTHC_GV_IDMucDo) >= 4 ? "bg-red-600" : ""
 																	)}
 																>
-																	{iData.MC_TTHC_GV_IDMucDo + 1}
+																	{iData.MC_TTHC_GV_IDMucDo}
 																</span>
 															</span>
 														</li>

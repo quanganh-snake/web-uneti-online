@@ -28,6 +28,7 @@ function ThongTinHoSo(props) {
 		dieuKienThucHien,
 		dataFilesTepThuTuc,
 		setDataFilesTepThuTuc,
+		tenTepThuTuc,
 		handleChangeValue,
 	} = props;
 
@@ -217,7 +218,7 @@ function ThongTinHoSo(props) {
 										onChange={(e) => {
 											setSearchDonVi(e.target.value.toLowerCase());
 										}}
-										placeholder="Nhập tên nhân sự"
+										placeholder="Nhập tên đơn vị"
 										className="w-full placeholder:text-gray-500 p-2 outline-none"
 									/>
 								</div>
@@ -302,13 +303,8 @@ function ThongTinHoSo(props) {
 						id="MC_TTHC_GV_TepThuTuc_DataFileFile"
 						type="text"
 						placeholder="Chèn link tệp thủ tục"
-						disabled={dataFilesTepThuTuc?.length > 2 ? true : false}
-						onChange={(e) => {
-							setDataFilesTepThuTuc({
-								MC_TTHC_GV_TepThuTuc_TenFile: e.target.value,
-								MC_TTHC_GV_TepThuTuc_DataFileFile: "",
-							});
-						}}
+						value={tenTepThuTuc ? tenTepThuTuc : ""}
+						onChange={handleChangeValue}
 					/>
 				</div>
 			</div>

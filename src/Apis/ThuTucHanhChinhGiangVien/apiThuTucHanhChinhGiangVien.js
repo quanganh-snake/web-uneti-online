@@ -22,6 +22,11 @@ export const postThanhPhanHoSoGuiYeuCau = (data = []) => {
 	return http.post("SP_MC_TTHC_GV_ThanhPhanHoSoTiepNhan/GuiYeuCau_Add_Para", data);
 };
 
+// PUT
+export const putHoSoThuTucGuiYeuCauById = (data = {}) => {
+	return http.put("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Edit_Para", data);
+};
+
 // GET DATA
 // GET: Tất cả hồ sơ thủ tục hành chính Giảng Viên
 export const getAllThuTucHanhChinhGV = () => {
@@ -115,7 +120,7 @@ export const getAllTTHCGVGuiYeuCauByTrangThai = (tenTrangThai = "") => {
 };
 
 // GET: Danh sách TTHCGV_GuiYeuCau theo id
-export const getAllHoSoGuiYeuCauById = (id = "") => {
+export const getHoSoGuiYeuCauById = (id = "") => {
 	return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Load_R_Para_File", {
 		params: {
 			MC_TTHC_GV_GuiYeuCau_ID: id,

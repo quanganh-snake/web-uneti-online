@@ -105,10 +105,10 @@ function DanhSachHoSo() {
 							</tr>
 						</thead>
 						<tbody>
-							{!displayData ? (
+							{displayData?.length <= 0 ? (
 								<tr>
 									<td colSpan={4}>
-										<p className="font-bold text-[#336699] text-center border">Không có dữ liệu</p>
+										<p className="font-bold text-[#336699] text-center border">Chưa có hồ sơ/thủ tục nào được tạo.</p>
 									</td>
 								</tr>
 							) : null}
@@ -128,13 +128,13 @@ function DanhSachHoSo() {
 														<span
 															className={clsx(
 																"w-4 h-4 text-center text-white rounded-full text-xs font-semibold",
-																parseInt(itemThuTuc.MC_TTHC_GV_IDMucDo) == 0 ? "bg-red-300" : "",
-																parseInt(itemThuTuc.MC_TTHC_GV_IDMucDo) == 1 ? "bg-red-400" : "",
-																parseInt(itemThuTuc.MC_TTHC_GV_IDMucDo) == 2 ? "bg-red-500" : "",
-																parseInt(itemThuTuc.MC_TTHC_GV_IDMucDo) == 3 ? "bg-red-600" : ""
+																parseInt(itemThuTuc.MC_TTHC_GV_IDMucDo) == 1 ? "bg-red-300" : "",
+																parseInt(itemThuTuc.MC_TTHC_GV_IDMucDo) == 2 ? "bg-red-400" : "",
+																parseInt(itemThuTuc.MC_TTHC_GV_IDMucDo) == 3 ? "bg-red-500" : "",
+																parseInt(itemThuTuc.MC_TTHC_GV_IDMucDo) == 4 ? "bg-red-600" : ""
 															)}
 														>
-															{parseInt(itemThuTuc.MC_TTHC_GV_IDMucDo) + 1}
+															{parseInt(itemThuTuc.MC_TTHC_GV_IDMucDo)}
 														</span>
 													</p>
 												</div>
@@ -148,9 +148,6 @@ function DanhSachHoSo() {
 													>
 														Xem
 													</Link>
-													<button type="button" className="bg-orange-500 text-white font-semibold px-2 py-1 rounded-md hover:opacity-70">
-														Sửa
-													</button>
 													<button type="button" className="bg-red-500 text-white font-semibold px-2 py-1 rounded-md hover:opacity-70">
 														Xóa
 													</button>
@@ -160,27 +157,30 @@ function DanhSachHoSo() {
 									);
 								})}
 						</tbody>
-						<tfoot></tfoot>
 					</table>
 					{/* Phân trang */}
-					<div className="grid grid-cols-2 items-center justify-between">
-						<div className="flex flex-row items-center">
-							<p className="font-bold text-[#336699]">
-								Tổng số: <span>{listHoSoThuTuc?.length} hồ sơ/thủ tục</span>
-							</p>
-						</div>
-						<ReactPaginate
-							previousLabel={<FaCaretLeft color="#336699" size={32} />}
-							nextLabel={<FaCaretRight color="#336699" size={32} />}
-							pageCount={pageCount}
-							marginPagesDisplayed={2}
-							pageRangeDisplayed={5}
-							onPageChange={handlePageChange}
-							containerClassName={"pagination"}
-							pageClassName={"px-2 py-1 hover:text-white hover:font-semibold hover:bg-[#336699]"}
-							activeClassName={"px-2 py-1 text-white font-semibold bg-[#336699]"}
-							className="w-full flex items-center justify-end gap-1"
-						/>
+					<div className={clsx("grid grid-cols-2 items-center justify-between", listHoSoThuTuc?.length <= 0 && "hidden")}>
+						{listHoSoThuTuc?.length == 0 ? null : (
+							<div className="flex flex-row items-center">
+								<p className="font-bold text-[#336699]">
+									Tổng số: <span>{listHoSoThuTuc?.length} hồ sơ/thủ tục</span>
+								</p>
+							</div>
+						)}
+						{listHoSoThuTuc?.length >= 5 ? (
+							<ReactPaginate
+								previousLabel={<FaCaretLeft color="#336699" size={32} />}
+								nextLabel={<FaCaretRight color="#336699" size={32} />}
+								pageCount={pageCount}
+								marginPagesDisplayed={2}
+								pageRangeDisplayed={5}
+								onPageChange={handlePageChange}
+								containerClassName={"pagination"}
+								pageClassName={"px-2 py-1 hover:text-white hover:font-semibold hover:bg-[#336699]"}
+								activeClassName={"px-2 py-1 text-white font-semibold bg-[#336699]"}
+								className="w-full flex items-center justify-end gap-1"
+							/>
+						) : null}
 					</div>
 				</div>
 			</div>

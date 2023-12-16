@@ -18,8 +18,8 @@ function SoanHoSoView({
 	dataChiTietThuTuc,
 	dataHoSoYeuCau,
 	setDataHoSoYeuCau,
-	listThanhPhanHoSoFiles,
-	setListThanhPhanHoSoFiles,
+	itemThanhPhanHoSoFile,
+	inputTextRef,
 	handleChangeInputFileTPHS,
 	handleSubmitForm,
 }) {
@@ -100,7 +100,17 @@ function SoanHoSoView({
 								<label htmlFor="quantity" className="font-semibold mb-2">
 									Nhập số lượng bản
 								</label>
-								<input type="number" className="px-2 py-1 border rounded-full focus:outline-[0.2px] focus:outline-slate-300" min={1} defaultValue={1} name="quantity" id="quantity" />
+								<input
+									type="number"
+									className="px-2 py-1 border rounded-full focus:outline-[0.2px] focus:outline-slate-300"
+									min={1}
+									defaultValue={1}
+									name="quantity"
+									id="quantity"
+									onChange={(e) => {
+										setDataHoSoYeuCau({ ...dataHoSoYeuCau, MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong: e.target.value });
+									}}
+								/>
 							</div>
 							<div className="flex flex-col form-group mb-4 col-span-2 md:col-span-1">
 								<label htmlFor="MC_TTHC_GV_NoiTraKetQua">
@@ -134,7 +144,8 @@ function SoanHoSoView({
 											<tr className=" rounded-xl">
 												<th className="px-2 py-1 md:whitespace-nowrap rounded-tl-lg">STT</th>
 												<th className="px-2 py-1 md:whitespace-nowrap ">Tên giấy tờ</th>
-												<th className="px-2 py-1 md:whitespace-nowrap ">Số lượng</th>
+												<th className="px-2 py-1 md:whitespace-nowrap ">Bản chính</th>
+												<th className="px-2 py-1 md:whitespace-nowrap ">Bản sao</th>
 												<th className="px-2 py-1 md:whitespace-nowrap ">Bắt buộc</th>
 												<th className="px-2 py-1 md:whitespace-nowrap rounded-tr-lg">Tệp đính kèm</th>
 											</tr>
@@ -143,7 +154,7 @@ function SoanHoSoView({
 											{dataChiTietThuTuc?.ThanhPhanHoSo?.map((iThanhPhanHoSo, index) => {
 												return (
 													<tr className="border border-slate-300" key={index}>
-														<td className="px-2 py-1 border border-slate-300 text-center">1</td>
+														<td className="px-2 py-1 border border-slate-300 text-center">{index + 1}</td>
 														<td className="px-2 py-1 border border-slate-300">
 															<p className="w-[320px]">{iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo}</p>
 															{iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenFile ? (
@@ -155,13 +166,11 @@ function SoanHoSoView({
 																</p>
 															) : null}
 														</td>
-														<td className="px-2 py-1 border border-slate-300">
-															{iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BanChinh && iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BanSao && (
-																<p className="text-center text-[#0C4A6E] font-semibold">2</p>
-															)}
-															{iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BanChinh && <p className="text-center text-[#0C4A6E] font-semibold">1</p>}
-															{iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BatBuoc && <p className="text-center text-[#0C4A6E] font-semibold">1</p>}
-															{iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BanSao && <p className="text-center text-[#0C4A6E] font-semibold">1</p>}
+														<td className="px-2 py-1 border border-slate-300 text-center">
+															<input type="checkbox" defaultChecked={iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BanChinh} disabled name="" id="" />
+														</td>
+														<td className="px-2 py-1 border border-slate-300 text-center">
+															<input type="checkbox" defaultChecked={iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BanSao} disabled name="" id="" />
 														</td>
 														<td className="px-2 py-1 border border-slate-300 text-center">
 															<input type="checkbox" defaultChecked={iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BatBuoc} disabled name="" id="" />
@@ -174,6 +183,8 @@ function SoanHoSoView({
 																	placeholder="Chèn link file..."
 																	name=""
 																	id=""
+																	ref={inputTextRef}
+																	value={itemThanhPhanHoSoFile?.MC_TTHC_GV_ThanhPhanHoSo_TenFile}
 																	onChange={(e) => {
 																		handleChangeInputFileTPHS(iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_ID, e);
 																	}}

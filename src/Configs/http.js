@@ -16,7 +16,6 @@ const http = axios.create({
 
 const requestToRefreshToken = async () => {
 	const dataCurrentToken = store.getState()?.auth?.login?.currentToken;
-	console.log("🚀 ~ file: http.js:19 ~ requestToRefreshToken ~ dataCurrentToken:", dataCurrentToken)
 	if (dataCurrentToken) {
 		const { token: accessToken, refreshToken } = dataCurrentToken;
 		let currentDate = new Date();
@@ -29,11 +28,9 @@ const requestToRefreshToken = async () => {
 
 		if (decodedToken.exp < currentDate.getTime() / 1000) {
 			const newDataToken = await refreshDataToken(refreshToken).then((res) => res);
-			console.log("🚀 ~ file: http.js:31 ~ requestToRefreshToken ~ newDataToken:", newDataToken);
 			return newDataToken;
 		}
 	}
-	return dataCurrentToken;
 };
 
 // Add a request interceptor
@@ -66,7 +63,6 @@ http.interceptors.request.use(
 			if (decodedToken.exp < currentDate.getTime() / 1000) {
 				// const resNewDataToken = await axios.post(`${import.meta.env.VITE_API_URL}/jwt/RefreshToken`, { refreshToken });
 				const resNewDataToken = await requestToRefreshToken();
-				console.log("🚀 ~ file: http.js:52 ~ resNewDataToken:", resNewDataToken);
 				const refreshUser = {
 					...dataToken,
 					token: resNewDataToken.token,

@@ -125,22 +125,22 @@ function ThanhPhanHoSoDeNghi(props) {
 										{/* Hiển thị dữ liệu cho phép chỉnh sửa */}
 										<td className="border-r px-2 py-1 text-center">{index + 1}</td>
 										<td className="border-r px-2 py-1">
-											<input
+											<textarea
 												type="text"
 												className="w-full border border-slate-300 rounded-md px-2 focus:outline-slate-300"
 												placeholder="Nhập tên giấy tờ..."
 												value={editValueRow.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo || ""}
 												onChange={(e) => handleChangeValue(e, "MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo")}
-											/>
+											></textarea>
 										</td>
 										<td className="border-r px-2 py-1">
-											<input
+											<textarea
 												type="text"
 												className="w-full border border-slate-300 rounded-md px-2 focus:outline-slate-300"
 												placeholder="Chèn link mẫu hồ sơ, hướng dẫn..."
 												value={editValueRow.MC_TTHC_GV_ThanhPhanHoSo_TenFile || ""}
 												onChange={(e) => handleChangeValue(e, "MC_TTHC_GV_ThanhPhanHoSo_TenFile")}
-											/>
+											></textarea>
 										</td>
 										<td className="border-r px-2 py-1 text-center">
 											<input

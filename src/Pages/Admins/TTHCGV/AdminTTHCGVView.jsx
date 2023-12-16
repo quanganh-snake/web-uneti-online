@@ -55,6 +55,7 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 	const [phiLePhi, setPhiLePhi] = useState([]);
 	const [trangThai, setTrangThai] = useState([]);
 	const [phanQuyen, setPhanQuyen] = useState([]);
+	const [tenTepThuTuc, setTenTepThuTuc] = useState("");
 	const [dataFilesTepThuTuc, setDataFilesTepThuTuc] = useState(null);
 
 	// event handlers
@@ -170,6 +171,7 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 		}
 
 		if (id === "MC_TTHC_GV_TepThuTuc_DataFileFile") {
+			setTenTepThuTuc(value);
 		}
 	};
 
@@ -193,7 +195,7 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 			MC_TTHC_GV_TrinhTuThucHien_IDTTHC: "",
 			MC_TTHC_GV_TrinhTuThucHien_Buoc: "",
 			MC_TTHC_GV_TrinhTuThucHien_TenCongViec: "",
-			MC_TTHC_GV_TrinhTuThucHien_CacThucThucHien: "",
+			MC_TTHC_GV_TrinhTuThucHien_CachThucThucHien: "",
 			MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra: "",
 			MC_TTHC_GV_TrinhTuThucHien_DonViThucHien: "",
 			MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop: "",
@@ -217,6 +219,7 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 	const handleAddTrangThai = () => {
 		const newTrangThai = {
 			MC_TTHC_GV_TrangThai_IDTTHC: "",
+			MC_TTHC_GV_TrangThai_STT: "",
 			MC_TTHC_GV_TrangThai_TenTrangThai: "",
 			MC_TTHC_GV_TrangThai_MoTa: "",
 		};
@@ -242,7 +245,8 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 			MC_TTHC_GV_NguonTiepNhan: NguonTiepNhan_WEB,
 			MC_TTHC_GV_NoiTiepNhan: donViTiepNhan,
 			MC_TTHC_GV_NoiTraKetQua: noiTraKetQua,
-			...dataFilesTepThuTuc,
+			MC_TTHC_GV_TepThuTuc_TenFile: tenTepThuTuc,
+			MC_TTHC_GV_TepThuTuc_DataFileFile: "",
 		};
 
 		if (dataThongTinHoSo?.MC_TTHC_GV_TenThuTuc == "" || dataThongTinHoSo?.MC_TTHC_GV_TenThuTuc == null || dataThongTinHoSo?.MC_TTHC_GV_TenThuTuc == undefined) {
@@ -418,6 +422,7 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 							thuTucKhongApDungMotCua={thuTucKhongApDungMotCua}
 							dataFilesTepThuTuc={dataFilesTepThuTuc}
 							setDataFilesTepThuTuc={setDataFilesTepThuTuc}
+							tenTepThuTuc={tenTepThuTuc}
 							handleChangeValue={handleChangeValue}
 						/>
 					) : null}
@@ -428,7 +433,7 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 					{/* END: Thành phần hồ sơ đề nghị */}
 
 					{/* START: Thiết lập trình tự thực hiện */}
-					{trinhTuThucHienActive ? <TrinhTuThucHien quyTrinh={quyTrinh} setQuyTrinh={setQuyTrinh} handleAddQuyTrinh={handleAddQuyTrinh} /> : null}
+					{trinhTuThucHienActive ? <TrinhTuThucHien quyTrinh={quyTrinh} donVi={listDonViTiepNhan} setQuyTrinh={setQuyTrinh} handleAddQuyTrinh={handleAddQuyTrinh} /> : null}
 					{/* END: Thiết lập trình tự thực hiện */}
 
 					{/* START: Phí, lệ phí */}
