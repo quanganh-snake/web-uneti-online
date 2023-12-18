@@ -50,9 +50,10 @@ import HomeAdmin from "../Pages/Admins/Home/HomeAdmin.jsx";
 import AdminTTHCGV from "../Pages/Admins/TTHCGV/AdminTTHCGV.jsx";
 import CanBoNghiepVu from "../Pages/Admins/TTHCGV/CanBoNghiepVu/CanBoNghiepVu.jsx";
 import ChiTietHoSoYeuCau from "../Pages/Admins/TTHCGV/ChiTietHoSoYeuCau/ChiTietHoSoYeuCau.jsx";
-import ChiTietHoSoYeuCauEdit from "../Pages/Admins/TTHCGV/ChiTietHoSoYeuCau/ChiTietHoSoYeuCauEdit.jsx";
 import ThongTinChiTietHoSo from "../Pages/Admins/TTHCGV/DanhSachHoSo/ThongTinChiTietHoSo/ThongTinChiTietHoSo.jsx";
 import DanhSachHoSo from "../Pages/Admins/TTHCGV/DanhSachHoSo/DanhSachHoSo.jsx";
+import TheoDoiDeNghiTTHCGV from "../Pages/Clients/ThuTucHanhChinhGiangVien/TheoDoiDeNghiTTHCGV/TheoDoiDeNghiTTHCGV.jsx";
+import TheoDoiDeNghiTTHCGVChiTiet from "../Pages/Clients/ThuTucHanhChinhGiangVien/TheoDoiDeNghiTTHCGV/TheoDoiDeNghiTTHCGVChiTiet.jsx";
 
 const ROLES = ["GV", "SV"];
 
@@ -68,6 +69,7 @@ export const privateRoutes = (
 					<Route index element={<HomeAdmin />} />
 					<Route path="canbonghiepvu">
 						<Route index element={<CanBoNghiepVu />} />
+						<Route path="status/:status" element={<CanBoNghiepVu />} />
 						<Route path="chitietyeucau/:yeucau/:id" element={<ChiTietHoSoYeuCau />} />
 					</Route>
 					<Route path="quantriTTHCGV">
@@ -84,6 +86,10 @@ export const privateRoutes = (
 					<Route index element={<HomeTTHCGV />} />
 					<Route path="chitiet/:tieude/:id" element={<ChiTietThuTuc />} />
 					<Route path="soanhoso/:tieude/:id/submit" element={<SoanHoSo />} />
+					<Route path="theodoiquytrinh">
+						<Route index element={<TheoDoiDeNghiTTHCGV />} />
+						<Route path="chitiet/:tieude/:id" element={<TheoDoiDeNghiTTHCGVChiTiet />} />
+					</Route>
 				</Route>
 			</Route>
 			{/* Tài sản */}

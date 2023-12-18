@@ -122,7 +122,7 @@ function SoanHoSo() {
 						idGuiYeuCau = await dataIDGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_ID;
 						let khoaGiangVien = await dataIDGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Khoa;
 
-                        console.log(listThanhPhanHoSoFiles)
+						console.log(listThanhPhanHoSoFiles);
 						if (listThanhPhanHoSoFiles?.length < dataChiTietThuTuc?.ThanhPhanHoSo.length) {
 							Swal.fire({
 								icon: "error",
@@ -148,12 +148,14 @@ function SoanHoSo() {
 							});
 
 							sendEmailUserSubmit(
+								"tiepnhan",
 								`Thông báo trả lời đề nghị ${dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`,
 								dataCBGV?.HoDem + " " + dataCBGV?.Ten,
-								dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc.toUpperCase(),
+								`${dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc.toUpperCase()}`,
 								dataCBGV?.MaNhanSu,
 								khoaGiangVien,
 								newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu,
+								"",
 								newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong,
 								"Tống Bá Quang Anh",
 								"tbquanganh@gmail.com",

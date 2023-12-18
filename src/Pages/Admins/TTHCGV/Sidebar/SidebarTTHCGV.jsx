@@ -64,7 +64,7 @@ function SidebarTTHCGV() {
 									<MdOutlineDownloading size={24} />
 									<span>Đang xử lý</span>
 								</div>
-								<p className="px-1 py-[0.5] bg-red-500 rounded-md text-white">120</p>
+								{/* <p className="px-1 py-[0.5] bg-red-500 rounded-md text-white">120</p> */}
 							</Link>
 						</li>
 						<li>
@@ -73,7 +73,7 @@ function SidebarTTHCGV() {
 									<MdCheckBox size={24} />
 									<span>Đang chờ</span>
 								</div>
-								<p className="px-1 py-[0.5] bg-red-500 rounded-md text-white">1252</p>
+								{/* <p className="px-1 py-[0.5] bg-red-500 rounded-md text-white">1252</p> */}
 							</Link>
 						</li>
 					</ul>
@@ -89,7 +89,7 @@ function SidebarTTHCGV() {
 										<Link className="flex flex-row items-center justify-between  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white">
 											<div className="flex flex-row items-center  gap-2">
 												<MdOutlineDownloading size={24} />
-												<span>{iTrangThaiXuLy?.MC_TTHC_GV_TrangThai_TenTrangThai}</span>
+												<Link to={`/admin/canbonghiepvu/status/${iTrangThaiXuLy?.MC_TTHC_GV_TrangThai_TenTrangThai}`}>{iTrangThaiXuLy?.MC_TTHC_GV_TrangThai_TenTrangThai}</Link>
 											</div>
 											{/* <p className="px-1 py-[0.5] bg-red-500 rounded-md text-white">120</p> */}
 										</Link>

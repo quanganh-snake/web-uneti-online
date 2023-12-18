@@ -51,6 +51,15 @@ export const getThuTucHanhChinhByMaThuTuc = (maThuTuc) => {
 	});
 };
 
+// GET: list hồ sơ thủ tục hành chính Giảng viên theo Mã nhân sự
+export const getListThuTucYeuCauByMaNhanSu = (maNhanSu) => {
+    return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Load_ByMaNhanSu", {
+		params: {
+			MC_TTHC_GV_GuiYeuCau_MaNhanSu: maNhanSu,
+		},
+	});
+}
+
 // GET: Hồ sơ thủ tục hành chính Giảng Viên - Gửi yêu cầu Trùng
 export const getGuiYeuCauHoSoThuTucKiemTraTrung = (maNhanSu, yeuCauIDGoc, trangThaiYeuCauID) => {
 	return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Add_Para_KiemTraTrung", {
@@ -124,6 +133,15 @@ export const getHoSoGuiYeuCauById = (id = "") => {
 	return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Load_R_Para_File", {
 		params: {
 			MC_TTHC_GV_GuiYeuCau_ID: id,
+		},
+	});
+};
+
+// GET: Theo dõi quy trình chỉnh sửa CBNV
+export const getQuyTrinhXuLyCBNV = (idGuiYeuCau = "") => {
+	return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_CBNV_TheoDoi_QuyTrinhXuLy_Load_Para", {
+		params: {
+			MC_TTHC_GV_GuiYeuCau_ID: idGuiYeuCau,
 		},
 	});
 };
