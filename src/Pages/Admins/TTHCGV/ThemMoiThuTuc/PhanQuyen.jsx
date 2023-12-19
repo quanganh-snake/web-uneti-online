@@ -5,8 +5,9 @@ import { BiChevronDown } from "react-icons/bi";
 import { AiOutlineSearch } from "react-icons/ai";
 import { MdClose } from "react-icons/md";
 import clsx from "clsx";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 
-function PhanQuyen({ phanQuyen, setPhanQuyen }) {
+function PhanQuyen({ phanQuyen, setPhanQuyen, setThongTinActive, setTPHoSoDeNghiActive, setTrinhTuThucHienActive, setPhanQuyenActive, setTrangThaiActive }) {
 	const [listDonViThucHien, setListDonViThucHien] = useState([]);
 	const [listNhanSuThucHien, setListNhanSuThucHien] = useState([]);
 
@@ -71,11 +72,10 @@ function PhanQuyen({ phanQuyen, setPhanQuyen }) {
 		getListPersonnel();
 	}, [donViSelected]);
 
-	console.log(phanQuyen);
 	return (
 		<div className="uneti-tthcgv__phanquyen mb-5">
 			<h2 className="text-2xl font-semibold uppercase mb-4">Thiết lập phân quyền thực hiện</h2>
-			<div className="grid grid-cols-4 gap-5">
+			<div className="grid grid-cols-4 gap-5 mb-4">
 				{/* START: Select Đơn Vị Thực Hiện */}
 				<div className="col-span-4 md:col-span-2">
 					<div className="flex flex-col gap-2">
@@ -259,6 +259,31 @@ function PhanQuyen({ phanQuyen, setPhanQuyen }) {
 						</div>
 					</div>
 				) : null}
+			</div>
+
+			<div className="flex items-center gap-3">
+				<button
+					type="button"
+					onClick={() => {
+						setPhanQuyenActive(false);
+						setTrinhTuThucHienActive(true);
+					}}
+					className="font-semibold text-md flex items-center gap-2 px-3 py-2 bg-teal-600 text-white rounded-lg hover:opacity-70"
+				>
+					<FaArrowLeft />
+					<span className="text-md">Quay lại</span>
+				</button>
+				<button
+					type="button"
+					onClick={() => {
+						setPhanQuyenActive(false);
+						setTrangThaiActive(true);
+					}}
+					className="font-semibold text-md flex items-center gap-2 px-3 py-2 bg-teal-600 text-white rounded-lg hover:opacity-70"
+				>
+					<span className="text-md">Tiếp theo</span>
+					<FaArrowRight />
+				</button>
 			</div>
 		</div>
 	);

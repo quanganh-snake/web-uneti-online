@@ -103,8 +103,8 @@ function SoanHoSoView({
 								<input
 									type="number"
 									className="px-2 py-1 border rounded-full focus:outline-[0.2px] focus:outline-slate-300"
-									min={1}
-									defaultValue={1}
+									min={0}
+									defaultValue={0}
 									name="quantity"
 									id="quantity"
 									onChange={(e) => {

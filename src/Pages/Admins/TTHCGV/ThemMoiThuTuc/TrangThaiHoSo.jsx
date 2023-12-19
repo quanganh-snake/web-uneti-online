@@ -1,11 +1,12 @@
 import clsx from "clsx";
 import React from "react";
 import { useState } from "react";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import { MdAdd } from "react-icons/md";
 import Swal from "sweetalert2";
 
 function TrangThaiHoSo(props) {
-	const { trangThai, setTrangThai, handleAddTrangThai } = props;
+	const { trangThai, setTrangThai, handleAddTrangThai, setThongTinActive, setTPHoSoDeNghiActive, setTrinhTuThucHienActive, setPhanQuyenActive, setTrangThaiActive } = props;
 	const [editRowIndex, setEditRowIndex] = useState(-1);
 	const [editValueRow, setEditValueRow] = useState({});
 	// event handlers
@@ -17,7 +18,7 @@ function TrangThaiHoSo(props) {
 	const handleSaveDataRow = () => {
 		setTrangThai((prevDataRow) => {
 			const newDataRow = [...prevDataRow];
-            newDataRow[editRowIndex] = { ...editValueRow, MC_TTHC_GV_TrangThai_STT: editRowIndex + 1 };
+			newDataRow[editRowIndex] = { ...editValueRow, MC_TTHC_GV_TrangThai_STT: editRowIndex + 1 };
 			return newDataRow;
 		});
 
@@ -165,10 +166,23 @@ function TrangThaiHoSo(props) {
 				</table>
 			</div>
 
-			<button type="button" className="flex flex-row gap-2 items-center font-semibold text-xl text-white bg-[#245D7C] px-2 py-1 rounded-md hover:opacity-70" onClick={handleAddTrangThai}>
-				<MdAdd size={24} className="font-bold" />
-				Thêm trạng thái
-			</button>
+			<div className="flex items-center gap-3">
+				<button
+					type="button"
+					onClick={() => {
+						setTrangThaiActive(false);
+						setPhanQuyenActive(true);
+					}}
+					className="font-semibold text-md flex items-center gap-2 px-3 py-2 bg-teal-600 text-white rounded-lg hover:opacity-70"
+				>
+					<FaArrowLeft />
+					<span className="text-md">Quay lại</span>
+				</button>
+				<button type="button" className="flex flex-row gap-2 items-center font-semibold text-md text-white bg-[#245D7C] px-3 py-2 rounded-md hover:opacity-70" onClick={handleAddTrangThai}>
+					<MdAdd size={24} className="font-bold" />
+					Thêm trạng thái
+				</button>
+			</div>
 		</div>
 	);
 }

@@ -53,12 +53,12 @@ export const getThuTucHanhChinhByMaThuTuc = (maThuTuc) => {
 
 // GET: list hồ sơ thủ tục hành chính Giảng viên theo Mã nhân sự
 export const getListThuTucYeuCauByMaNhanSu = (maNhanSu) => {
-    return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Load_ByMaNhanSu", {
+	return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Load_ByMaNhanSu", {
 		params: {
 			MC_TTHC_GV_GuiYeuCau_MaNhanSu: maNhanSu,
 		},
 	});
-}
+};
 
 // GET: Hồ sơ thủ tục hành chính Giảng Viên - Gửi yêu cầu Trùng
 export const getGuiYeuCauHoSoThuTucKiemTraTrung = (maNhanSu, yeuCauIDGoc, trangThaiYeuCauID) => {
@@ -105,8 +105,12 @@ export const getAllLinhVuc = () => {
 };
 
 // GET: Danh sách hồ sơ, thủ tục đã gửi lên
-export const getAllHoSoGuiYeuCau = () => {
-	return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Load");
+export const getAllHoSoGuiYeuCau = (dieuKienLoc = 0) => {
+	return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Load", {
+		params: {
+			DieuKienLoc: dieuKienLoc,
+		},
+	});
 };
 
 // GET: Danh sách thành phần hồ sơ - hồ sơ đã gửi

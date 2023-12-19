@@ -18,6 +18,7 @@ import { postTrangThaiTTHCGV } from "./../../../Apis/ThuTucHanhChinhGiangVien/ap
 import { getThuTucHanhChinhByMaThuTuc } from "./../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
 import { postPhanQuyenTTHCGV } from "../../../Apis/ThuTucHanhChinhGiangVien/apiPhanQuyen";
 import { toast } from "react-toastify";
+import { FaSave } from "react-icons/fa";
 
 function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 	// ref
@@ -416,6 +417,7 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 							tongThoiGianGiaiQuyet={tongThoiGianGiaiQuyet}
 							soBoHoSo={soBoHoSo}
 							linhVuc={linhVuc}
+							donViTiepNhan={donViTiepNhan}
 							setDonViTiepNhan={setDonViTiepNhan}
 							noiTraKetQua={noiTraKetQua}
 							thuTucLienThong={thuTucLienThong}
@@ -424,16 +426,37 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 							setDataFilesTepThuTuc={setDataFilesTepThuTuc}
 							tenTepThuTuc={tenTepThuTuc}
 							handleChangeValue={handleChangeValue}
+							setThongTinActive={setThongTinActive}
+							setTPHoSoDeNghiActive={setTPHoSoDeNghiActive}
 						/>
 					) : null}
 					{/* END: Thông Tin Hồ Sơ */}
 
 					{/* START: Thành phần hồ sơ đề nghị */}
-					{tpHoSoDeNghiActive ? <ThanhPhanHoSoDeNghi thanhPhanHoSo={thanhPhanHoSo} setThanhPhanHoSo={setThanhPhanHoSo} handleAddThanhPhanHoSo={handleAddThanhPhanHoSo} /> : null}
+					{tpHoSoDeNghiActive ? (
+						<ThanhPhanHoSoDeNghi
+							thanhPhanHoSo={thanhPhanHoSo}
+							setThanhPhanHoSo={setThanhPhanHoSo}
+							handleAddThanhPhanHoSo={handleAddThanhPhanHoSo}
+							setThongTinActive={setThongTinActive}
+							setTPHoSoDeNghiActive={setTPHoSoDeNghiActive}
+							setTrinhTuThucHienActive={setTrinhTuThucHienActive}
+						/>
+					) : null}
 					{/* END: Thành phần hồ sơ đề nghị */}
 
 					{/* START: Thiết lập trình tự thực hiện */}
-					{trinhTuThucHienActive ? <TrinhTuThucHien quyTrinh={quyTrinh} donVi={listDonViTiepNhan} setQuyTrinh={setQuyTrinh} handleAddQuyTrinh={handleAddQuyTrinh} /> : null}
+					{trinhTuThucHienActive ? (
+						<TrinhTuThucHien
+							quyTrinh={quyTrinh}
+							donVi={listDonViTiepNhan}
+							setQuyTrinh={setQuyTrinh}
+							handleAddQuyTrinh={handleAddQuyTrinh}
+							setTPHoSoDeNghiActive={setTPHoSoDeNghiActive}
+							setTrinhTuThucHienActive={setTrinhTuThucHienActive}
+							setPhanQuyenActive={setPhanQuyenActive}
+						/>
+					) : null}
 					{/* END: Thiết lập trình tự thực hiện */}
 
 					{/* START: Phí, lệ phí */}
@@ -441,15 +464,32 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 					{/* END: Phí, lệ phí */}
 
 					{/* START: Trạng thái */}
-					{trangThaiActive ? <TrangThaiHoSo trangThai={trangThai} setTrangThai={setTrangThai} handleAddTrangThai={handleAddTrangThai} /> : null}
+					{trangThaiActive ? (
+						<TrangThaiHoSo
+							trangThai={trangThai}
+							setTrangThai={setTrangThai}
+							handleAddTrangThai={handleAddTrangThai}
+							setPhanQuyenActive={setPhanQuyenActive}
+							setTrangThaiActive={setTrangThaiActive}
+						/>
+					) : null}
 					{/* END: Trạng thái */}
 
 					{/* START: Phân quyền */}
-					{phanQuyenActive ? <PhanQuyen phanQuyen={phanQuyen} setPhanQuyen={setPhanQuyen} /> : null}
+					{phanQuyenActive ? (
+						<PhanQuyen
+							phanQuyen={phanQuyen}
+							setPhanQuyen={setPhanQuyen}
+							setTrinhTuThucHienActive={setTrinhTuThucHienActive}
+							setPhanQuyenActive={setPhanQuyenActive}
+							setTrangThaiActive={setTrangThaiActive}
+						/>
+					) : null}
 					{/* END: Phân quyền */}
 
 					<div className="uneti-tthcgv__add-form">
-						<button type="submit" className="px-3 py-1 bg-[#109435] text-white hover:opacity-70 rounded-md">
+						<button type="submit" className="flex items-center gap-2 font-md text-md px-3 py-2 bg-emerald-600 text-white hover:opacity-70 rounded-md">
+							<FaSave />
 							Lưu hồ sơ
 						</button>
 					</div>

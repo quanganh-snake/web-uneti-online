@@ -1,13 +1,12 @@
 import clsx from "clsx";
-import React, { useEffect, useMemo, useState } from "react";
+import React, {useState } from "react";
 import { MdAdd } from "react-icons/md";
-import { IoMdCloudUpload } from "react-icons/io";
-import { TiDeleteOutline } from "react-icons/ti";
 import Swal from "sweetalert2";
 import { convertDataFileToBase64 } from "../../../../Services/Utils/stringUtils";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 
 function ThanhPhanHoSoDeNghi(props) {
-	const { thanhPhanHoSo, setThanhPhanHoSo, handleAddThanhPhanHoSo } = props;
+	const { thanhPhanHoSo, setThanhPhanHoSo, handleAddThanhPhanHoSo, setThongTinActive, setTPHoSoDeNghiActive, setTrinhTuThucHienActive } = props;
 	const [editRowIndex, setEditRowIndex] = useState(-1);
 	const [editValueRow, setEditValueRow] = useState({});
 	// event handlers
@@ -93,7 +92,7 @@ function ThanhPhanHoSoDeNghi(props) {
 	};
 
 	return (
-		<div className="uneti-tthcgv__tphosodenghi mb-5 w-full">
+		<div id="tphsdenghi" className="uneti-tthcgv__tphosodenghi mb-5 w-full">
 			<h2 className="text-2xl font-semibold uppercase mb-4">Thiết lập thành phần hồ sơ đề nghị</h2>
 
 			<div className="w-full overflow-x-auto mb-4 border border-slate-300 rounded-xl ">
@@ -224,10 +223,34 @@ function ThanhPhanHoSoDeNghi(props) {
 				</table>
 			</div>
 
-			<button type="button" className="flex flex-row gap-2 items-center font-semibold text-xl text-white bg-[#245D7C] px-2 py-1 rounded-md hover:opacity-70" onClick={handleAddThanhPhanHoSo}>
-				<MdAdd size={24} className="font-bold" />
-				Thêm thành phần hồ sơ
-			</button>
+			<div className="flex items-center gap-3">
+				<button
+					type="button"
+					onClick={() => {
+						setThongTinActive(true);
+						setTPHoSoDeNghiActive(false);
+					}}
+					className="font-semibold text-md flex items-center gap-2 px-3 py-2 bg-teal-600 text-white rounded-lg hover:opacity-70"
+				>
+					<FaArrowLeft />
+					<span className="text-md">Quay lại</span>
+				</button>
+				<button type="button" className="flex flex-row gap-2 items-center font-semibold text-md text-white bg-[#245D7C] px-3 py-2 rounded-md hover:opacity-70" onClick={handleAddThanhPhanHoSo}>
+					<MdAdd size={24} className="font-bold" />
+					Thêm thành phần hồ sơ
+				</button>
+				<button
+					type="button"
+					onClick={() => {
+						setTPHoSoDeNghiActive(false);
+						setTrinhTuThucHienActive(true);
+					}}
+					className="font-semibold text-md flex items-center gap-2 px-3 py-2 bg-teal-600 text-white rounded-lg hover:opacity-70"
+				>
+					<span className="text-md">Tiếp theo</span>
+					<FaArrowRight />
+				</button>
+			</div>
 		</div>
 	);
 }

@@ -69,7 +69,7 @@ export const privateRoutes = (
 					<Route index element={<HomeAdmin />} />
 					<Route path="canbonghiepvu">
 						<Route index element={<CanBoNghiepVu />} />
-						<Route path="status/:status" element={<CanBoNghiepVu />} />
+						<Route path="hosoxuly" element={<CanBoNghiepVu />} />
 						<Route path="chitietyeucau/:yeucau/:id" element={<ChiTietHoSoYeuCau />} />
 					</Route>
 					<Route path="quantriTTHCGV">

@@ -66,78 +66,83 @@ function HomeTTHCGVView(props) {
 				{/* END: Form search */}
 				{/* START: Table DS Thủ tục */}
 				<div className="my-5">
-					<table className="w-full table-auto">
-						<thead className="bg-[#075985] text-white rounded-t-xl">
-							<tr>
-								<th className="border-r px-2 py-1 rounded-tl-xl">STT</th>
-								<th className="border-r px-2 py-1">Tên thủ tục</th>
-								<th className="px-2 py-1 rounded-tr-xl">Lĩnh vực</th>
-							</tr>
-						</thead>
-						<tbody>
-							{displayData &&
-								displayData.map((iData, index) => {
-									const nameSlug = changeSlug(iData.MC_TTHC_GV_TenThuTuc);
-									return (
-										<tr key={index}>
-											<td className="border border-slate-300 text-center">{index + 1}</td>
-											<td className="border border-slate-300">
-												<div className="px-2">
-													<ul>
-														<li>
-															<Link to={`/tthcgiangvien/chitiet/${nameSlug}/${iData.MC_TTHC_GV_ID}`} className="uppercase font-semibold text-[#0C4A6E]">
-																{iData.MC_TTHC_GV_TenThuTuc}
-															</Link>
-														</li>
-														<li>
-															<span className="flex items-center gap-2">
-																Mức độ:{" "}
-																<span
-																	className={clsx(
-																		"inline-block w-4 h-4 rounded-full text-center font-semibold text-white text-xs",
-																		parseInt(iData.MC_TTHC_GV_IDMucDo) == 1 ? "bg-red-300" : "",
-																		parseInt(iData.MC_TTHC_GV_IDMucDo) == 2 ? "bg-red-400" : "",
-																		parseInt(iData.MC_TTHC_GV_IDMucDo) == 3 ? "bg-red-500" : "",
-																		parseInt(iData.MC_TTHC_GV_IDMucDo) >= 4 ? "bg-red-600" : ""
-																	)}
-																>
-																	{iData.MC_TTHC_GV_IDMucDo}
-																</span>
-															</span>
-														</li>
-														<li>
-															<span className="font-semibold italic text-red-600">{"Nộp hồ sơ"}</span>
-														</li>
-													</ul>
-												</div>
-											</td>
-											<td className="border border-slate-300">
-												<p className="px-2 text-center">{iData.MC_TTHC_GV_LinhVuc}</p>
-											</td>
-										</tr>
-									);
-								})}
-						</tbody>
-					</table>
-					<div className="grid grid-cols-2 mt-5 items-center justify-between">
-						<div className="col-span-2 lg:col-span-1 flex flex-row items-center mb-6">
-							<p className="font-bold text-[#336699]">
-								Tổng số: <span>{dataListHoSoThuTuc?.length} hồ sơ/thủ tục</span>
-							</p>
-						</div>
-						<ReactPaginate
-							previousLabel={<FaCaretLeft color="#336699" size={32} />}
-							nextLabel={<FaCaretRight color="#336699" size={32} />}
-							pageCount={pageCount}
-							marginPagesDisplayed={2}
-							pageRangeDisplayed={5}
-							onPageChange={handlePageChange}
-							containerClassName={"pagination"}
-							pageClassName={"px-2 py-1 hover:text-white hover:font-semibold hover:bg-[#336699]"}
-							activeClassName={"px-2 py-1 text-white font-semibold bg-[#336699]"}
-							className="col-span-2 lg:col-span-1 w-full flex items-center justify-center lg:justify-end gap-1"
-						/>
-					</div>
+					{displayData?.length <= 0 && <p className="text-center p-2 font-semibold border mb-2">Hiện tại không có thủ tục nào.</p>}
+					{displayData?.length > 0 && (
+						<>
+							<table className="w-full table-auto">
+								<thead className="bg-[#075985] text-white rounded-t-xl">
+									<tr>
+										<th className="border-r px-2 py-1 rounded-tl-xl">STT</th>
+										<th className="border-r px-2 py-1">Tên thủ tục</th>
+										<th className="px-2 py-1 rounded-tr-xl">Lĩnh vực</th>
+									</tr>
+								</thead>
+								<tbody>
+									{displayData &&
+										displayData.map((iData, index) => {
+											const nameSlug = changeSlug(iData.MC_TTHC_GV_TenThuTuc);
+											return (
+												<tr key={index}>
+													<td className="border border-slate-300 text-center">{index + 1}</td>
+													<td className="border border-slate-300">
+														<div className="px-2">
+															<ul>
+																<li>
+																	<Link to={`/tthcgiangvien/chitiet/${nameSlug}/${iData.MC_TTHC_GV_ID}`} className="uppercase font-semibold text-[#0C4A6E]">
+																		{iData.MC_TTHC_GV_TenThuTuc}
+																	</Link>
+																</li>
+																<li>
+																	<span className="flex items-center gap-2">
+																		Mức độ:{" "}
+																		<span
+																			className={clsx(
+																				"inline-block w-4 h-4 rounded-full text-center font-semibold text-white text-xs",
+																				parseInt(iData.MC_TTHC_GV_IDMucDo) == 1 ? "bg-red-300" : "",
+																				parseInt(iData.MC_TTHC_GV_IDMucDo) == 2 ? "bg-red-400" : "",
+																				parseInt(iData.MC_TTHC_GV_IDMucDo) == 3 ? "bg-red-500" : "",
+																				parseInt(iData.MC_TTHC_GV_IDMucDo) >= 4 ? "bg-red-600" : ""
+																			)}
+																		>
+																			{iData.MC_TTHC_GV_IDMucDo}
+																		</span>
+																	</span>
+																</li>
+																<li>
+																	<span className="font-semibold italic text-red-600">{"Nộp hồ sơ"}</span>
+																</li>
+															</ul>
+														</div>
+													</td>
+													<td className="border border-slate-300">
+														<p className="px-2 text-center">{iData.MC_TTHC_GV_LinhVuc}</p>
+													</td>
+												</tr>
+											);
+										})}
+								</tbody>
+							</table>
+							<div className="grid grid-cols-2 mt-5 items-center justify-between">
+								<div className="col-span-2 lg:col-span-1 flex flex-row items-center mb-6">
+									<p className="font-bold text-[#336699]">
+										Tổng số: <span>{dataListHoSoThuTuc?.length} hồ sơ/thủ tục</span>
+									</p>
+								</div>
+								<ReactPaginate
+									previousLabel={<FaCaretLeft color="#336699" size={32} />}
+									nextLabel={<FaCaretRight color="#336699" size={32} />}
+									pageCount={pageCount}
+									marginPagesDisplayed={2}
+									pageRangeDisplayed={5}
+									onPageChange={handlePageChange}
+									containerClassName={"pagination"}
+									pageClassName={"px-2 py-1 hover:text-white hover:font-semibold hover:bg-[#336699]"}
+									activeClassName={"px-2 py-1 text-white font-semibold bg-[#336699]"}
+									className="col-span-2 lg:col-span-1 w-full flex items-center justify-center lg:justify-end gap-1"
+								/>
+							</div>
+						</>
+					)}
 				</div>
 				{/* END: Table DS Thủ tục */}
 			</div>

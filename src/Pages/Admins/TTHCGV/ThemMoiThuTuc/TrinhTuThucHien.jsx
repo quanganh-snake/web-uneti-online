@@ -1,11 +1,12 @@
 import clsx from "clsx";
 import React, { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import { MdAdd } from "react-icons/md";
 import Swal from "sweetalert2";
 
 function TrinhTuThucHien(props) {
-	const { quyTrinh, setQuyTrinh, donVi, handleAddQuyTrinh } = props;
+	const { quyTrinh, setQuyTrinh, donVi, handleAddQuyTrinh, setTPHoSoDeNghiActive, setTrinhTuThucHienActive, setPhanQuyenActive } = props;
 	const [editRowIndex, setEditRowIndex] = useState(-1);
 	const [editValueRow, setEditValueRow] = useState({});
 
@@ -326,10 +327,34 @@ function TrinhTuThucHien(props) {
 				</table>
 			</div>
 
-			<button type="button" className="flex flex-row gap-2 items-center font-semibold text-xl text-white bg-[#245D7C] px-2 py-1 rounded-md hover:opacity-70" onClick={handleAddQuyTrinh}>
-				<MdAdd size={24} className="font-bold" />
-				Thêm trình tự thực hiện
-			</button>
+			<div className="flex items-center gap-3">
+				<button
+					type="button"
+					onClick={() => {
+						setTPHoSoDeNghiActive(true);
+						setTrinhTuThucHienActive(false);
+					}}
+					className="font-semibold text-md flex items-center gap-2 px-3 py-2 bg-teal-600 text-white rounded-lg hover:opacity-70"
+				>
+					<FaArrowLeft />
+					<span className="text-md">Quay lại</span>
+				</button>
+				<button type="button" className="flex flex-row gap-2 items-center font-semibold text-md text-white bg-[#245D7C] px-3 py-2 rounded-md hover:opacity-70" onClick={handleAddQuyTrinh}>
+					<MdAdd size={24} className="font-bold" />
+					Thêm trình tự thực hiện
+				</button>
+				<button
+					type="button"
+					onClick={() => {
+						setPhanQuyenActive(true);
+						setTrinhTuThucHienActive(false);
+					}}
+					className="font-semibold text-md flex items-center gap-2 px-3 py-2 bg-teal-600 text-white rounded-lg hover:opacity-70"
+				>
+					<span className="text-md">Tiếp theo</span>
+					<FaArrowRight />
+				</button>
+			</div>
 		</div>
 	);
 }

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 import { BiChevronDown } from "react-icons/bi";
 import { AiOutlineSearch } from "react-icons/ai";
+import { FaArrowRight } from "react-icons/fa6";
 function ThongTinHoSo(props) {
 	const {
 		inputTenThuTucRef,
@@ -19,7 +20,8 @@ function ThongTinHoSo(props) {
 		mucDo,
 		tongThoiGianGiaiQuyet,
 		soBoHoSo,
-		linhVuc,
+        linhVuc,
+        donViTiepNhan,
 		setDonViTiepNhan,
 		noiTraKetQua,
 		thuTucLienThong,
@@ -30,6 +32,8 @@ function ThongTinHoSo(props) {
 		setDataFilesTepThuTuc,
 		tenTepThuTuc,
 		handleChangeValue,
+		setTPHoSoDeNghiActive,
+		setThongTinActive,
 	} = props;
 
 	const [donViSelected, setDonViSelected] = useState("");
@@ -206,7 +210,7 @@ function ThongTinHoSo(props) {
 								}}
 								className="bg-white w-full p-2 flex items-center justify-between rounded-md border border-slate-300 cursor-pointer"
 							>
-								<span className={clsx(donViSelected && "text-gray-700 font-semibold")}>{donViSelected ? donViSelected : "Chọn đơn vị tiếp nhận"}</span>
+								<span className={clsx(donViTiepNhan && "text-gray-700 font-semibold")}>{donViTiepNhan ? donViTiepNhan : "Chọn đơn vị tiếp nhận"}</span>
 								<BiChevronDown size={20} className={clsx(openSelectDonVi && "rotate-180")} />
 							</div>
 							<ul className={clsx("bg-white mt-2 border shadow-sm overflow-y-auto absolute right-0 left-0 top-full", openSelectDonVi ? "max-h-60" : "hidden")}>
@@ -308,6 +312,17 @@ function ThongTinHoSo(props) {
 					/>
 				</div>
 			</div>
+			<button
+				type="button"
+				onClick={() => {
+					setTPHoSoDeNghiActive(true);
+					setThongTinActive(false);
+				}}
+				className="flex items-center gap-2 px-3 py-2 font-semibold text-md bg-teal-600 text-white rounded-lg hover:opacity-70"
+			>
+				Tiếp tục thiết lập
+				<FaArrowRight />
+			</button>
 		</div>
 	);
 }

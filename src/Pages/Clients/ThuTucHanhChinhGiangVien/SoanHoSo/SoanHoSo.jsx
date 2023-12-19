@@ -12,7 +12,7 @@ import moment from "moment-timezone";
 import { DataCanBoGV } from "../../../../Services/Utils/dataCanBoGV";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-import { sendEmailUserSubmit } from "../../../../Services/Utils/sendEmail";
+import { sendEmailUserSubmit } from "../../../../Services/Utils/emailUtils";
 function SoanHoSo() {
 	const home = {
 		path: "/tthcgiangvien",
@@ -91,6 +91,10 @@ function SoanHoSo() {
 			MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu: "",
 			MC_TTHC_GV_GuiYeuCau_NgayGui: moment().tz("Asia/Ho_Chi_Minh").format("YYYY-MM-DD HH:mm:ss"),
 		};
+
+		if (!newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong || parseInt(newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong) < 1) {
+			return toast.error("Vui lòng nhập số lượng bản ghi nhận tối thiểu là 1");
+		}
 
 		let idGuiYeuCau;
 		try {

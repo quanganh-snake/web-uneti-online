@@ -14,7 +14,7 @@ import Swal from "sweetalert2";
 import { getListTrangThaiTTHCGVByIDGoc, getTrangThaiIDBySTTYeuCauId } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai";
 import { toast } from "react-toastify";
 import { NguonTiepNhan_WEB } from "./../../../../Services/Static/dataStatic";
-import { sendEmailUserSubmit } from "./../../../../Services/Utils/sendEmail";
+import { sendEmailUserSubmit } from "./../../../../Services/Utils/emailUtils";
 import { DataCanBoGV } from "../../../../Services/Utils/dataCanBoGV";
 
 function ChiTietHoSoYeuCau() {
@@ -86,6 +86,7 @@ function ChiTietHoSoYeuCau() {
 			}).then(async (result) => {
 				if (result.isConfirmed) {
 					const resNewTrangThaiID = await getTrangThaiIDBySTTYeuCauId(yeuCauID, 1);
+					console.log("🚀 ~ file: ChiTietHoSoYeuCau.jsx:89 ~ handleUpdateYeuCauGui ~ resNewTrangThaiID:", resNewTrangThaiID)
 					if (resNewTrangThaiID.status === 200) {
 						const dataTrangThaiIDNew = await resNewTrangThaiID.data?.body[0];
 						if (dataTrangThaiIDNew) {
@@ -110,21 +111,22 @@ function ChiTietHoSoYeuCau() {
 								MC_TTHC_GV_GuiYeuCau_NguonTiepNhan: NguonTiepNhan_WEB,
 							};
 							const resPutHoSoThuTuc = await putHoSoThuTucGuiYeuCauById(newDataUpdate);
+							console.log("🚀 ~ file: ChiTietHoSoYeuCau.jsx:113 ~ handleUpdateYeuCauGui ~ resPutHoSoThuTuc:", resPutHoSoThuTuc);
 
 							if (resPutHoSoThuTuc.status === 200) {
 								sendEmailUserSubmit(
 									"tiepnhan",
 									`Thông báo trả lời đề nghị ${dataDetailYeuCau?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`,
 									dataCBGV?.HoDem + " " + dataCBGV?.Ten,
-									dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc.toUpperCase(),
+									dataDetailYeuCau.MC_TTHC_GV_TenThuTuc.toUpperCase(),
 									dataCBGV?.MaNhanSu,
 									khoaGiangVien,
-									newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu,
-									newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong,
+									newDataUpdate?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu,
+									newDataUpdate?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong,
 									"Tống Bá Quang Anh",
 									"tbquanganh@gmail.com",
 									"0334350166",
-									newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email
+									newDataUpdate?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email
 								);
 								Swal.fire({
 									title: "Thông báo",
@@ -134,7 +136,6 @@ function ChiTietHoSoYeuCau() {
 							}
 						}
 					}
-					return;
 				} else {
 					toast.success("Đã huỷ tiếp nhận hồ sơ!");
 					return;
@@ -363,8 +364,8 @@ function ChiTietHoSoYeuCau() {
 					setDataDetailYeuCau(data);
 					setNgayHenTra(moment(data?.MC_TTHC_GV_GuiYeuCau_NgayHenTra).format("DD/MM/YYYY HH:mm:ss"));
 					setNgayGiaoTra(data?.MC_TTHC_GV_GuiYeuCau_NgayHenTra);
-                    setDiaDiemTra(data?.MC_TTHC_GV_GuiYeuCau_NoiTraKetQua);
-                    setTrangThaiGhiChu(data?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu)
+					setDiaDiemTra(data?.MC_TTHC_GV_GuiYeuCau_NoiTraKetQua);
+					setTrangThaiGhiChu(data?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu);
 				}
 			})
 			.catch((err) => {

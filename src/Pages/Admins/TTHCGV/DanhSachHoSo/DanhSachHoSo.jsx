@@ -12,6 +12,8 @@ import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { changeSlug } from "../../../../Services/Utils/stringUtils";
 import { DebounceInput } from "react-debounce-input";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 const PATH_TTHCGV = "/admin/quantriTTHCGV/hosothutuc";
 
@@ -34,6 +36,22 @@ function DanhSachHoSo() {
 		const { id, name, value } = e.target;
 		if (id == "records-number" || name == "records-number") {
 			setItemsPerPage(parseInt(value));
+		}
+	};
+	const handleDeleteThuTuc = async (idThuTuc) => {
+		if (idThuTuc) {
+			Swal.fire({
+				icon: "question",
+				title: "Bạn có chắc chắn muốn xóa thủ tục này không?",
+				showConfirmButton: true,
+				showCancelButton: true,
+				confirmButtonText: "Đồng ý",
+				cancelButtonText: "Hủy",
+			}).then(async (result) => {
+				if (result.isConfirmed) {
+					toast.success("Đã xóa thành công thủ tục!");
+				}
+			});
 		}
 	};
 	// effects
@@ -148,7 +166,13 @@ function DanhSachHoSo() {
 													>
 														Xem
 													</Link>
-													<button type="button" className="bg-red-500 text-white font-semibold px-2 py-1 rounded-md hover:opacity-70">
+													<button
+														type="button"
+														onClick={() => {
+															handleDeleteThuTuc(itemThuTuc.MC_TTHC_GV_ID);
+														}}
+														className="bg-red-500 text-white font-semibold px-2 py-1 rounded-md hover:opacity-70"
+													>
 														Xóa
 													</button>
 												</div>
