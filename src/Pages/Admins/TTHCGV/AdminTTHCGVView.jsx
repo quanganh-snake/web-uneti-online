@@ -19,6 +19,7 @@ import { getThuTucHanhChinhByMaThuTuc } from "./../../../Apis/ThuTucHanhChinhGia
 import { postPhanQuyenTTHCGV } from "../../../Apis/ThuTucHanhChinhGiangVien/apiPhanQuyen";
 import { toast } from "react-toastify";
 import { FaSave } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 	// ref
@@ -59,6 +60,7 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 	const [tenTepThuTuc, setTenTepThuTuc] = useState("");
 	const [dataFilesTepThuTuc, setDataFilesTepThuTuc] = useState(null);
 
+	const navigate = useNavigate();
 	// event handlers
 	const handleOpenTab = (e) => {
 		const { id } = e.target;
@@ -346,13 +348,15 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 					const dataPostTrangThai = await resultPostTrangThai.data;
 
 					if (dataPostThanhPhanHoSo && dataPostTrinhTuThucHien && dataPostPhanQuyen && dataPostTrangThai) {
-						return Swal.fire({
+						Swal.fire({
 							position: "center",
 							icon: "success",
 							title: "Thêm mới hồ sơ/thủ tục thành công!",
 							showConfirmButton: false,
 							timer: 1500,
 						});
+						navigate("/admin/quantriTTHCGV/hosothutuc/xem/tatca");
+						return;
 					} else {
 						return Swal.fire({
 							icon: "error",

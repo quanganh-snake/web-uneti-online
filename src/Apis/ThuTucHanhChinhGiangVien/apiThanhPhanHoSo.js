@@ -1,5 +1,15 @@
 import http from "../../Configs/http";
 
+// DELETE
+export const delThanhPhanHoSoTTHCGV = (id) => {
+	return http.delete("SP_MC_TTHC_GV_ThanhPhanHoSoTiepNhan/Del_Para", {
+		data: {
+			MC_TTHC_GV_ThanhPhanHoSo_ID: id.toString(),
+		},
+	});
+};
+
+// POST
 export const postThanhPhanHoSoTTHCGV = (data = []) => {
 	return http.post("SP_MC_TTHC_GV_ThanhPhanHoSoTiepNhan/Add_Para", data);
 };

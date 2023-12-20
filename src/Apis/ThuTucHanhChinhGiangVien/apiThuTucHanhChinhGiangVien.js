@@ -27,6 +27,11 @@ export const putHoSoThuTucGuiYeuCauById = (data = {}) => {
 	return http.put("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Edit_Para", data);
 };
 
+// PUT: update Thông Tin Hồ Sơ Thủ Tục
+export const putThongTinHoSoThuTuc = (data = {}) => {
+	return http.put("SP_MC_TTHC_GV_TiepNhan/Edit_Para", data);
+};
+
 // GET DATA
 // GET: Tất cả hồ sơ thủ tục hành chính Giảng Viên
 export const getAllThuTucHanhChinhGV = () => {

@@ -23,7 +23,7 @@ import icoUltraView from "../../assets/Icons/icoUltraview.png";
 import icoZalo from "../../assets/Icons/icoZalo.png";
 
 // data Static NguonTiepNhan
-export const NguonTiepNhan_WEB = "1";
+export const NguonTiepNhan_WEB = 1;
 // data Static homeMain
 export const homeMain = [
 	{

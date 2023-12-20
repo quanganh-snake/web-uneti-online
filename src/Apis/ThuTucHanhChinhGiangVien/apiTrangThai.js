@@ -1,5 +1,12 @@
 import http from "../../Configs/http";
 
+// DELETE
+export const deleteTrangThaiTTHCGV = (data = {}) => {
+	return http.delete("SP_MC_TTHC_GV_TrangThaiTiepNhan/TrangThai_Del_Para", {
+		data,
+	});
+};
+
 // POST: Thêm trạng thái hồ sơ
 export const postTrangThaiTTHCGV = (data = []) => {
 	return http.post("SP_MC_TTHC_GV_TrangThaiTiepNhan/Add_Para", data);
