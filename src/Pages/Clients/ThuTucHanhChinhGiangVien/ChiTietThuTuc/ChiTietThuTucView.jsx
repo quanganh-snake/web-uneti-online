@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import SidebarTTHCGV from "../SidebarTTHCGV/SidebarTTHCGV";
 import Breadcrumb from "../../../../Components/Breadcumb/Breadcrumb";
@@ -13,28 +13,11 @@ function ChiTietThuTucView({ idThuTuc, home, breadcrumbs, loading, dataThuTuc })
 	}
 
 	const { ThongTinHoSo, ThanhPhanHoSo, TrinhTuThucHien } = dataThuTuc;
+	let totalTime = 0;
 
-	const arrayBufferToBase64 = (buffer) => {
-		let binary = "";
-		const bytes = new Uint8Array(buffer);
-		const len = bytes.byteLength;
-
-		for (let i = 0; i < len; i++) {
-			binary += String.fromCharCode(bytes[i]);
-		}
-
-		return btoa(binary);
-	};
-	const handleDownloadFile = (fileName, dataFile) => {};
-
-	const readFile = (dataFile) => {
-		const fr = new FileReader();
-		fr.readAsDataURL(dataFile);
-		fr.addEventListener("load", () => {
-			const res = fr.result;
-			console.log(res);
-		});
-	};
+	for (let i = 0; i < TrinhTuThucHien.length; i++) {
+		totalTime = totalTime + parseFloat(TrinhTuThucHien[i]?.MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay);
+	}
 
 	return (
 		<>
@@ -155,7 +138,8 @@ function ChiTietThuTucView({ idThuTuc, home, breadcrumbs, loading, dataThuTuc })
 										<tr>
 											<td className="px-4 py-1 border border-slate-500 font-semibold">Tổng thời gian giải quyết</td>
 											<td className="px-4 py-1 border border-slate-500">
-												<p>{ThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet ? ThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet + " ngày kể từ khi nhận đủ hồ sơ hợp lệ" : "0"}</p>
+												<p>{totalTime ? totalTime + " ngày kể từ khi nhận đủ hồ sơ hợp lệ" : "0"}</p>
+												{/* <p>{ThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet ? ThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet + " ngày kể từ khi nhận đủ hồ sơ hợp lệ" : "0"}</p> */}
 											</td>
 										</tr>
 										<tr>

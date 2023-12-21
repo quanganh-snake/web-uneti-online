@@ -6,6 +6,15 @@
 
 import http from "./../../Configs/http";
 
+// DELETE
+export const delThuTucHanhChinhByID = (id) => {
+	return http.delete("SP_MC_TTHC_GV_TiepNhan/Del_Para", {
+		data: {
+			MC_TTHC_GV_ID: id.toString(),
+		},
+	});
+};
+
 // POST
 // POST: Tạo mới 1 hồ sơ thủ tục hành chính Giảng viên
 export const postThuTucHanhChinh = (data = {}) => {
@@ -88,6 +97,11 @@ export const getThuTucHanhChinhByKeyWords = (dieuKienLoc, keywords) => {
 	} catch (error) {
 		console.log(error);
 	}
+};
+
+// GET: Danh sách đơn vị
+export const getListDonVi = () => {
+	return http.get("SP_MC_TTHC_GV_TiepNhan/Load_DonVi");
 };
 
 // GET: Danh sách Phòng Ban

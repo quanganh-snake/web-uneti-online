@@ -51,6 +51,7 @@ function HomeTTHCGVView(props) {
 								className="px-3 py-1 bg-transparent w-full focus:outline-none"
 								onChange={(e) => {
 									setKeywords(e.target.value.toLowerCase());
+									setDieuKienLoc("");
 								}}
 							/>
 							<FiSearch size={24} className="font-semibold" />

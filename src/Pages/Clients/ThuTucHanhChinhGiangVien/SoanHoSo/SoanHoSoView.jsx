@@ -22,6 +22,7 @@ function SoanHoSoView({
 	inputTextRef,
 	handleChangeInputFileTPHS,
 	handleSubmitForm,
+	handleCancelSubmit,
 }) {
 	return (
 		<>
@@ -177,18 +178,12 @@ function SoanHoSoView({
 														</td>
 														<td className="px-2 py-1 border border-slate-300">
 															<div className="flex flex-col gap-2">
-																<textarea
-																	type="text"
-																	className="p-2 border border-slate-300 rounded-lg focus:outline-slate-500"
-																	placeholder="Chèn link file..."
-																	name=""
-																	id=""
-																	ref={inputTextRef}
-																	value={itemThanhPhanHoSoFile?.MC_TTHC_GV_ThanhPhanHoSo_TenFile}
+																<input
+																	type="file"
+																	accept="*/,.jpg,.jpeg,.pdf,.png"
 																	onChange={(e) => {
 																		handleChangeInputFileTPHS(iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_ID, e);
 																	}}
-																	required={iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BatBuoc ? true : false}
 																/>
 															</div>
 														</td>
@@ -206,7 +201,11 @@ function SoanHoSoView({
 									<BsSend />
 									<span>Nộp hồ sơ</span>
 								</button>
-								<button type="button" className="flex flex-row gap-2 items-center cursor-pointer hover:opacity-70 bg-red-500 text-white border border-slate-100 px-2 py-1 rounded-xl">
+								<button
+									type="reset"
+									onClick={handleCancelSubmit}
+									className="flex flex-row gap-2 items-center cursor-pointer hover:opacity-70 bg-red-500 text-white border border-slate-100 px-2 py-1 rounded-xl"
+								>
 									<MdCancel className="text-white" />
 									<span>Hủy</span>
 								</button>

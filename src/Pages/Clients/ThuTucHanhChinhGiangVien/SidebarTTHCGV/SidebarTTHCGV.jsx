@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { MdMenu, MdClose } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { getAllLinhVuc, getAllPhongBan } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
+import { getAllLinhVuc, getAllPhongBan, getListDonVi } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
 function SidebarTTHCGV({ setKeywords, setDieuKienLoc }) {
 	const [openMenu, setOpenMenu] = useState(true);
 	const [dataSelect, setDataSelect] = useState("donvi");
@@ -21,22 +21,9 @@ function SidebarTTHCGV({ setKeywords, setDieuKienLoc }) {
 	};
 
 	useEffect(() => {
-		// const fetchData = async () => {
-		// 	try {
-		// 		const [data1, data2] = await Promise.all([getAllPhongBan().then((response) => response), getAllLinhVuc().then((response) => response)]);
-
-		// 		// Do something with the data
-		// 		console.log(data1, data2);
-		// 	} catch (error) {
-		// 		console.error("Error fetching data:", error);
-		// 		// Handle errors
-		// 	}
-		// };
-		// fetchData();
-
 		const getAllDepartments = async () => {
 			try {
-				const resultAllDepartments = await getAllPhongBan();
+				const resultAllDepartments = await getListDonVi();
 				if (resultAllDepartments.status === 200) {
 					const dataDepartments = await resultAllDepartments?.data?.body;
 					if (dataDepartments) {
@@ -58,7 +45,7 @@ function SidebarTTHCGV({ setKeywords, setDieuKienLoc }) {
 					}
 				}
 			} catch (error) {
-				console.info(error);
+				console.info(error.message);
 			}
 		};
 
@@ -110,11 +97,11 @@ function SidebarTTHCGV({ setKeywords, setDieuKienLoc }) {
 							<div className="uneti__luachon--item px-2 py-1 border hover:bg-[#336699] hover:text-white hover:font-semibold" key={index}>
 								<Link
 									onClick={() => {
-										setKeywords(iData.TenPhongBan);
+										setKeywords(iData.MC_TTHC_GV_NoiTiepNhan);
 										setDieuKienLoc("NoiTiepNhan");
 									}}
 								>
-									<p className="truncate">{iData.TenPhongBan}</p>
+									<p className="truncate">{iData.MC_TTHC_GV_NoiTiepNhan}</p>
 								</Link>
 							</div>
 						);

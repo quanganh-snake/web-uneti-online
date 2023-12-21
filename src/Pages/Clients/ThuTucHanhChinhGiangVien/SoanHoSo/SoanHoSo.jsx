@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import SoanHoSoView from "./SoanHoSoView";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
 	getGuiYeuCauHoSoThuTucKiemTraTrung,
 	getThuTucHanhChinhByID,
@@ -13,6 +13,7 @@ import { DataCanBoGV } from "../../../../Services/Utils/dataCanBoGV";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { sendEmailUserSubmit } from "../../../../Services/Utils/emailUtils";
+import { convertDataFileToBase64 } from "../../../../Services/Utils/stringUtils";
 function SoanHoSo() {
 	const home = {
 		path: "/tthcgiangvien",
@@ -25,6 +26,7 @@ function SoanHoSo() {
 			title: "Soạn hồ sơ",
 		},
 	];
+	const navigate = useNavigate();
 
 	const dataCBGV = DataCanBoGV();
 	const { tieude, id } = useParams();
@@ -43,6 +45,7 @@ function SoanHoSo() {
 		MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong: "",
 		MC_TTHC_GV_GuiYeuCau_DaNop: "",
 		MC_TTHC_GV_GuiYeuCau_NgayHenTra: "",
+		MC_TTHC_GV_GuiYeuCau_NgayGiaoTra: "",
 		MC_TTHC_GV_GuiYeuCau_NoiTraKetQua: "",
 		MC_TTHC_GV_GuiYeuCau_NguonTiepNhan: NguonTiepNhan_WEB,
 	});
@@ -58,14 +61,15 @@ function SoanHoSo() {
 	// event handlers
 
 	const handleChangeInputFileTPHS = async (idTPHS, e) => {
-		const { value } = e.target;
-		if (value) {
+		const file = e.target.files[0];
+		if (file) {
+			let dataFile = await convertDataFileToBase64(file);
 			let newItemThanhPhanHoSoFile = {
 				...itemThanhPhanHoSoFile,
 				MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_IDGoc: "",
 				MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_IDThanhPhanHoSo: idTPHS,
-				MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_TenFile: value,
-				MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_DataFile: "",
+				MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_TenFile: file.name,
+				MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_DataFile: dataFile.split("base64,")[1],
 			};
 			setItemThanhPhanHoSoFile(newItemThanhPhanHoSoFile);
 
@@ -204,12 +208,24 @@ function SoanHoSo() {
 	};
 
 	const handleCancelSubmit = () => {
-		setDataHoSoYeuCau((previousData) => {
-			return {
-				...previousData,
-			};
+		Swal.fire({
+			icon: "question",
+			title: "Bạn chắc chắn muốn hủy gửi yêu cầu này?",
+			showCancelButton: true,
+			showConfirmButton: true,
+			confirmButtonText: "OK",
+			cancelButtonText: "Không",
+		}).then((result) => {
+			if (result.isConfirmed) {
+				setDataHoSoYeuCau((previousData) => {
+					return {
+						...previousData,
+					};
+				});
+				setListThanhPhanHoSoFiles([]);
+				navigate(-1);
+			}
 		});
-		setListThanhPhanHoSoFiles([]);
 	};
 
 	// effects
@@ -255,6 +271,7 @@ function SoanHoSo() {
 			inputTextRef={inputTextRef}
 			handleChangeInputFileTPHS={handleChangeInputFileTPHS}
 			handleSubmitForm={handleSubmitForm}
+			handleCancelSubmit={handleCancelSubmit}
 		/>
 	);
 }

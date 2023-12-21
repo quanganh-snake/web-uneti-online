@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import HomeTTHCGVView from "./HomeTTHCGVView";
-import { getAllThuTucHanhChinhGV, getThuTucHanhChinhByKeyWords } from "../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
+import { getThuTucHanhChinhByKeyWords } from "../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
 
 function HomeTTHCGV() {
 	const home = {
@@ -19,9 +19,7 @@ function HomeTTHCGV() {
 				const resultListHoSoThuTuc = await getThuTucHanhChinhByKeyWords(dieuKienLoc, keywords);
 				if (resultListHoSoThuTuc.status === 200) {
 					const dataListHoSoThuTuc = await resultListHoSoThuTuc?.data?.body;
-					if (dataListHoSoThuTuc && dataListHoSoThuTuc.length) {
-						setListHoSoThuTuc([...dataListHoSoThuTuc]);
-					}
+					setListHoSoThuTuc(dataListHoSoThuTuc);
 				}
 			} catch (error) {
 				// console.log(error);
