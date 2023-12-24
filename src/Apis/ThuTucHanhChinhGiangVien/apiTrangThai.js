@@ -35,3 +35,14 @@ export const getTrangThaiIDBySTTYeuCauId = (yeuCauId = "", STT = "") => {
 		},
 	});
 };
+
+// GET: get TrangThaiID by IDHoSoGoc, STT, Loai (Prev, Next)
+export const getTrangThaiIDGuiYeuCauXuLySTT = (IDHoSoGoc, STT, Loai) => {
+	return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_XuLySTT", {
+		params: {
+			MC_TTHC_GV_ID: IDHoSoGoc,
+			STT: STT,
+			Loai: Loai,
+		},
+	});
+};

@@ -153,7 +153,7 @@ export const getAllTTHCGVGuiYeuCauByTrangThai = (tenTrangThai = "") => {
 
 // GET: Danh sách TTHCGV_GuiYeuCau theo id
 export const getHoSoGuiYeuCauById = (id = "") => {
-	return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Load_R_Para_File", {
+	return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_TrangThai_TheoDoi_DeNghi_Load_Para", {
 		params: {
 			MC_TTHC_GV_GuiYeuCau_ID: id,
 		},

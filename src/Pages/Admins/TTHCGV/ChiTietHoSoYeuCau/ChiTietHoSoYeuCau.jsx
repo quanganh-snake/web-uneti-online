@@ -1,10 +1,10 @@
 import clsx from "clsx";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useState } from "react";
 
 import { FaCaretRight, FaCaretDown } from "react-icons/fa";
 import { FaFileDownload } from "react-icons/fa";
-import { FaListCheck } from "react-icons/fa6";
+import { FaCaretLeft, FaListCheck } from "react-icons/fa6";
 import { Link, useParams } from "react-router-dom";
 import SidebarTTHCGV from "../Sidebar/SidebarTTHCGV";
 import { getHoSoGuiYeuCauById, getQuyTrinhXuLyCBNV, putHoSoThuTucGuiYeuCauById } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
@@ -12,13 +12,15 @@ import moment from "moment";
 import { format as dateFnsFormat, parseISO as parseDateISO, formatISO as formatDateISO } from "date-fns";
 import { getThanhPhanHoSoGuiYeuCauById } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo";
 import Swal from "sweetalert2";
-import { getListTrangThaiTTHCGVByIDGoc, getTrangThaiIDBySTTYeuCauId } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai";
+import { getListTrangThaiTTHCGVByIDGoc, getTrangThaiIDBySTTYeuCauId, getTrangThaiIDGuiYeuCauXuLySTT } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai";
 import { toast } from "react-toastify";
 import { NguonTiepNhan_WEB } from "./../../../../Services/Static/dataStatic";
 import { sendEmailUserSubmit } from "./../../../../Services/Utils/emailUtils";
 import { DataCanBoGV } from "../../../../Services/Utils/dataCanBoGV";
 import { convertBufferToBase64 } from "../../../../Services/Utils/stringUtils";
 import Loading from "./../../../../Components/Loading/Loading";
+import { DebounceInput } from "react-debounce-input";
+import ReactPaginate from "react-paginate";
 
 function ChiTietHoSoYeuCau() {
 	const { yeucau, id } = useParams();
@@ -38,7 +40,11 @@ function ChiTietHoSoYeuCau() {
 	const [loading, setLoading] = useState(true);
 	let khoaGiangVien = "";
 	const dataCBGV = DataCanBoGV();
-
+    const [currentPage, setCurrentPage] = useState(0);
+    const itemsPerPage = 10;
+    const pageCount = Math.ceil(listQuyTrinhXuLy?.length / parseInt(itemsPerPage));
+    const paginateListQuyTrinhXuLy = listQuyTrinhXuLy?.slice(currentPage * parseInt(itemsPerPage), (currentPage + 1) * parseInt(itemsPerPage));
+    
 	// call data
 	const getDataHoSoYeuCauById = async (id) => {
 		const res = await getHoSoGuiYeuCauById(id);
@@ -48,7 +54,6 @@ function ChiTietHoSoYeuCau() {
 			setDataDetailYeuCau(data);
 			setNgayHenTra(data?.MC_TTHC_GV_GuiYeuCau_NgayHenTra);
 			setNgayGiaoTra(data?.MC_TTHC_GV_GuiYeuCau_NgayGiaoTra);
-			setDiaDiemTra(data?.MC_TTHC_GV_GuiYeuCau_NoiTraKetQua);
 			setTrangThaiGhiChu(data?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu);
 		}
 	};
@@ -95,10 +100,6 @@ function ChiTietHoSoYeuCau() {
 
 		if (id === "MC_TTHC_GV_GuiYeuCau_NoiTraKetQua") {
 			setDiaDiemTra(value);
-		}
-
-		if (id === "MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu") {
-			setTrangThaiGhiChu(value);
 		}
 	};
 
@@ -179,7 +180,7 @@ function ChiTietHoSoYeuCau() {
 				MC_TTHC_GV_GuiYeuCau_YeuCau_ID: dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
 				MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu: dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu,
 				MC_TTHC_GV_GuiYeuCau_TrangThai_ID: dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID,
-				MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu: dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
+				MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu: trangThaiGhiChu,
 				MC_TTHC_GV_GuiYeuCau_NgayGui: dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayGui,
 				MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong: dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong,
 				MC_TTHC_GV_GuiYeuCau_DaNop: false,
@@ -212,13 +213,15 @@ function ChiTietHoSoYeuCau() {
 				}).then(async (result) => {
 					if (result.isConfirmed) {
 						console.log(newDataUpdate);
-						return;
+						// return;
 						const resUpdateYeuCau = await putHoSoThuTucGuiYeuCauById({
 							...newDataUpdate,
 							MC_TTHC_GV_GuiYeuCau_NgayHenTra: moment(ngayHenTra).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
 							MC_TTHC_GV_GuiYeuCau_NgayGiaoTra: moment(ngayGiaoTra).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+							MC_TTHC_GV_GuiYeuCau_NoiTraKetQua: "",
 						});
 
+						console.log("🚀 ~ file: ChiTietHoSoYeuCau.jsx:224 ~ handleUpdateYeuCauGui ~ resUpdateYeuCau:", resUpdateYeuCau);
 						if (resUpdateYeuCau.status === 200) {
 							toast.success("Cập nhật thành công thông tin xử lý hồ sơ.");
 							sendEmailUserSubmit(
@@ -237,6 +240,7 @@ function ChiTietHoSoYeuCau() {
 								newDataUpdate?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email
 							);
 							getDataHoSoYeuCauById(id);
+							getDataTrinhTuThucHienYeuCauByIDGoc(id);
 						}
 					}
 				});
@@ -244,7 +248,7 @@ function ChiTietHoSoYeuCau() {
 			} else if (hinhThucTra == "2") {
 				//Hình thức trả: trực tiếp
 				if (!diaDiemTra) {
-					return toast.error("Vui lòng chọn địa điểm giao trả.");
+					return toast.error("Vui lòng chọn địa điểm giao trả!");
 				} else {
 					Swal.fire({
 						icon: "question",
@@ -256,53 +260,32 @@ function ChiTietHoSoYeuCau() {
 						allowOutsideClick: () => !Swal.isLoading(),
 					}).then(async (result) => {
 						if (result.isConfirmed) {
-							let STTTrangThai;
-							let dataListTrangThai = [];
-							const resListTrangThai = await getListTrangThaiTTHCGVByIDGoc(dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID);
-							if (resListTrangThai.status === 200) {
-								dataListTrangThai = resListTrangThai.data?.body;
-							}
-
-							for (let i = 0; i < dataListTrangThai.length; i++) {
-								if (dataListTrangThai[i].MC_TTHC_GV_TrangThai_ID == trangThaiID) {
-									STTTrangThai = dataListTrangThai[i].MC_TTHC_GV_TrangThai_STT;
-								}
-							}
-
-							if (STTTrangThai && STTTrangThai == 1) {
-								STTTrangThai = 2;
-							}
-							const getNewTrangThai = await getTrangThaiIDBySTTYeuCauId(yeuCauID, STTTrangThai);
-							if (getNewTrangThai.status === 200) {
-								const dataNewTrangThai = await getNewTrangThai?.data?.body[0];
-								newDataUpdate = {
-									...newDataUpdate,
-									MC_TTHC_GV_GuiYeuCau_TrangThai_ID: dataNewTrangThai?.MC_TTHC_GV_TrangThai_ID,
-									MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu: trangThaiGhiChu ? trangThaiGhiChu : dataNewTrangThai?.MC_TTHC_GV_TrangThai_MoTa,
-									MC_TTHC_GV_GuiYeuCau_NgayHenTra: moment(ngayHenTra, "DD/MM/YYYY HH:mm:ss").format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
-									MC_TTHC_GV_GuiYeuCau_NoiTraKetQua: diaDiemTra,
-								};
-								const resUpdateYeuCau = await putHoSoThuTucGuiYeuCauById(newDataUpdate);
-
-								if (resUpdateYeuCau.status === 200) {
-									toast.success("Cập nhật thông tin thành công!");
-									sendEmailUserSubmit(
-										"xuly",
-										`Thông báo xử lý đề nghị ${dataDetailYeuCau?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`,
-										dataCBGV?.HoDem + " " + dataCBGV?.Ten,
-										dataDetailYeuCau?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc.toUpperCase(),
-										dataCBGV?.MaNhanSu,
-										khoaGiangVien,
-										newDataUpdate?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu,
-										`Cập nhật xử lý theo yêu cầu ${result.value}. Vui lòng truy cập website để kiểm tra chi tiết.`,
-										newDataUpdate?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong,
-										"Tống Bá Quang Anh",
-										"tbquanganh@gmail.com",
-										"0334350166",
-										newDataUpdate?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email
-									);
-									return;
-								}
+							const resUpdateYeuCau = await putHoSoThuTucGuiYeuCauById({
+								...newDataUpdate,
+								MC_TTHC_GV_GuiYeuCau_NgayHenTra: moment(ngayHenTra).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+								MC_TTHC_GV_GuiYeuCau_NgayGiaoTra: moment(ngayGiaoTra).format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
+								MC_TTHC_GV_GuiYeuCau_NoiTraKetQua: diaDiemTra,
+							});
+							if (resUpdateYeuCau.status === 200) {
+								toast.success("Cập nhật thông tin thành công!");
+								sendEmailUserSubmit(
+									"xuly",
+									`Thông báo xử lý đề nghị ${dataDetailYeuCau?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`,
+									dataCBGV?.HoDem + " " + dataCBGV?.Ten,
+									dataDetailYeuCau?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc.toUpperCase(),
+									dataCBGV?.MaNhanSu,
+									khoaGiangVien,
+									newDataUpdate?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu,
+									`Cập nhật xử lý theo yêu cầu ${result.value}. Vui lòng truy cập website để kiểm tra chi tiết.`,
+									newDataUpdate?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong,
+									"Tống Bá Quang Anh",
+									"tbquanganh@gmail.com",
+									"0334350166",
+									newDataUpdate?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email
+								);
+								getDataHoSoYeuCauById(id);
+								getDataTrinhTuThucHienYeuCauByIDGoc(id);
+								return;
 							}
 						}
 					});
@@ -338,6 +321,8 @@ function ChiTietHoSoYeuCau() {
 									"0334350166",
 									newDataUpdate?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email
 								);
+								getDataHoSoYeuCauById(id);
+								getDataTrinhTuThucHienYeuCauByIDGoc(id);
 							}
 						}
 					});
@@ -352,37 +337,105 @@ function ChiTietHoSoYeuCau() {
 		}
 	};
 
-	const handlePrevStep = async (yeuCauID, currentTrangThaiID) => {
-		console.log("🚀 ~ file: ChiTietHoSoYeuCau.jsx:356 ~ handlePrevStep ~ currentTrangThaiID:", currentTrangThaiID);
-		let TrangThaiSTT_Update;
-		const resultListTrangThaiByIDGoc = await getListTrangThaiTTHCGVByIDGoc(yeuCauID);
+	const updateStepTrangThaiHoSoYeuCau = async (dataGuiYeuCau, type) => {
+		let currentTrangThaiSTT;
+		const resultListTrangThaiByIDGoc = await getListTrangThaiTTHCGVByIDGoc(dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID);
 		if (resultListTrangThaiByIDGoc.status === 200) {
 			const listTrangThaiHoSo = await resultListTrangThaiByIDGoc.data?.body;
+			console.log("🚀 ~ file: ChiTietHoSoYeuCau.jsx:343 ~ updateStepTrangThaiHoSoYeuCau ~ listTrangThaiHoSo:", listTrangThaiHoSo);
 			if (listTrangThaiHoSo.length > 0) {
 				for (let i = 0; i < listTrangThaiHoSo?.length; i++) {
-					console.log(listTrangThaiHoSo[i]);
-					if (parseInt(listTrangThaiHoSo[i].MC_TTHC_GV_TrangThai_ID) >= parseInt(currentTrangThaiID) && parseInt(listTrangThaiHoSo[i].MC_TTHC_GV_TrangThai_STT) > 1) {
-						TrangThaiSTT_Update = parseInt(listTrangThaiHoSo[i].MC_TTHC_GV_TrangThai_STT) - 1;
-						console.log("🚀 ~ file: ChiTietHoSoYeuCau.jsx:365 ~ handlePrevStep ~ TrangThaiSTT_Update:", TrangThaiSTT_Update);
-						return;
-					} else {
-						return toast.error("Yêu cầu cho hồ sơ này đang ở trạng thái thấp nhất. Không có bước thiết lập khác.");
+					if (parseInt(dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID) === parseInt(listTrangThaiHoSo[i].MC_TTHC_GV_TrangThai_ID)) {
+						currentTrangThaiSTT = parseInt(listTrangThaiHoSo[i].MC_TTHC_GV_TrangThai_STT);
 					}
 				}
-			} else {
-				toast.info("Thủ tục này không có trạng thái xử lý nên không thể thực hiện chức năng này!");
 			}
 		}
-		console.log("🚀 ~ file: ChiTietHoSoYeuCau.jsx:358 ~ handlePrevStep ~ resultListTrangThaiByIDGoc:", resultListTrangThaiByIDGoc);
+
+		const resultTrangThaiIDUpdate = await getTrangThaiIDGuiYeuCauXuLySTT(dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID, currentTrangThaiSTT, type);
+
+		if (resultTrangThaiIDUpdate.status === 200) {
+			const dataTrangThaiIDUpdate = await resultTrangThaiIDUpdate.data?.body[0];
+			if (dataTrangThaiIDUpdate?.MC_TTHC_GV_TrangThai_ID) {
+				const dataUpdateNew = {
+					MC_TTHC_GV_GuiYeuCau_ID: dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_ID,
+					MC_TTHC_GV_GuiYeuCau_NhanSuGui_MaNhanSu: dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_MaNhanSu,
+					MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email: dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
+					MC_TTHC_GV_GuiYeuCau_NhanSuGui_SDT: dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_SDT,
+					MC_TTHC_GV_GuiYeuCau_NhanSuGui_Khoa: dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Khoa,
+					MC_TTHC_GV_GuiYeuCau_YeuCau_ID: dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
+					MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu: dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu,
+					MC_TTHC_GV_GuiYeuCau_TrangThai_ID: dataTrangThaiIDUpdate?.MC_TTHC_GV_TrangThai_ID,
+					MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu: dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
+					MC_TTHC_GV_GuiYeuCau_NgayGui: dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayGui,
+					MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong: dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong,
+					MC_TTHC_GV_GuiYeuCau_DaNop: dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_DaNop,
+					MC_TTHC_GV_GuiYeuCau_NgayHenTra: dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayHenTra,
+					MC_TTHC_GV_GuiYeuCau_NgayGiaoTra: dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayGiaoTra,
+					MC_TTHC_GV_GuiYeuCau_NoiTraKetQua: dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NoiTraKetQua,
+					MC_TTHC_GV_GuiYeuCau_NguonTiepNhan: dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NguonTiepNhan,
+				};
+				const responseUpdateSTTTrangThaiHoSo = await putHoSoThuTucGuiYeuCauById(dataUpdateNew);
+				if (responseUpdateSTTTrangThaiHoSo.status === 200) {
+					setLoading(false);
+					getDataHoSoYeuCauById(id);
+					getDataTPHSDeNghiYeuCauByIDGoc(id);
+					getDataTrinhTuThucHienYeuCauByIDGoc(id);
+					getDtaTrangThaiYeuCauByIDGoc(id);
+					return {
+						status: 1,
+						message: "Đã chuyển trạng thái hồ sơ thành công!",
+					};
+				}
+			} else {
+				if (type == "next") {
+					return {
+						status: -1,
+						message: "Đã chuyển trạng thái hồ sơ đến bước tiếp theo thất bại! Do hồ sơ đang ở trạng thái cuối cùng.",
+					};
+				}
+
+				if (type == "prev") {
+					return {
+						status: -1,
+						message: "Đã chuyển trạng thái hồ sơ về bước trước thất bại! Do hồ sơ đang ở trạng thái mặc định được khởi tạo.",
+					};
+				}
+			}
+		}
 	};
 
-	const handleNextStep = async () => {};
+	const handlePrevStep = async (dataGuiYeuCau) => {
+		const dataUpdate = await updateStepTrangThaiHoSoYeuCau(dataGuiYeuCau, "prev");
+		if (dataUpdate?.status == 1) {
+			return toast.success(dataUpdate?.message);
+		}
+
+		if (dataUpdate?.status == -1) {
+			return toast.error(dataUpdate?.message);
+		}
+	};
+
+	const handleNextStep = async (dataGuiYeuCau) => {
+		const dataUpdate = await updateStepTrangThaiHoSoYeuCau(dataGuiYeuCau, "next");
+		if (dataUpdate?.status == 1) {
+			return toast.success(dataUpdate?.message);
+		}
+
+		if (dataUpdate?.status == -1) {
+			return toast.error(dataUpdate?.message);
+		}
+	};
 
 	const handleCancelHoSo = async () => {
 		return Swal.fire({
 			icon: "info",
 			title: "Chức năng này đang phát triển.",
 		});
+	};
+
+	const handlePageChange = ({ selected }) => {
+		setCurrentPage(selected);
 	};
 
 	// effects
@@ -392,6 +445,13 @@ function ChiTietHoSoYeuCau() {
 		getDataTrinhTuThucHienYeuCauByIDGoc(id);
 		getDtaTrangThaiYeuCauByIDGoc(id);
 	}, [id, loading]);
+
+	const displayedListQuyTrinhXuLy = useMemo(() => {
+		if (!showXuLyHoSo) {
+			return paginateListQuyTrinhXuLy;
+		}
+		return [];
+	}, [paginateListQuyTrinhXuLy, showXuLyHoSo]);
 
 	if (dataDetailYeuCau) {
 		return (
@@ -403,7 +463,7 @@ function ChiTietHoSoYeuCau() {
 				) : (
 					<div className="flex gap-4">
 						<SidebarTTHCGV />
-						<div className="p-4 bg-white rounded-xl">
+						<div className="w-full p-4 bg-white rounded-xl">
 							{/* START: Thông tin người nộp */}
 							<div className="mb-4">
 								<div className="flex flex-row items-center gap-2 bg-[#0484AC] text-white font-semibold px-3 py-1 rounded-md mb-4">
@@ -522,7 +582,7 @@ function ChiTietHoSoYeuCau() {
 														className="p-2 border focus:outline-slate-400"
 														name="MC_TTHC_GV_GuiYeuCau_NoiTraKetQua"
 														id="MC_TTHC_GV_GuiYeuCau_NoiTraKetQua"
-														value={diaDiemTra ? diaDiemTra : ""}
+														value={diaDiemTra}
 														onChange={handleChangeValue}
 													>
 														<option value="">Chọn địa điểm giao trả</option>
@@ -535,17 +595,16 @@ function ChiTietHoSoYeuCau() {
 
 											<div className="flex flex-col gap-2 col-span-2">
 												<p>Ghi chú:</p>
-												<textarea
+												<DebounceInput
+													element="textarea"
 													className="border border-slate-400 focus:outline-slate-500 p-2"
 													placeholder="Nhập mô tả cập nhật/thay đổi"
 													minLength={2}
-													name="MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu"
-													id="MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu"
-													rows={4}
 													required={true}
+													debounceTimeout={300}
 													value={trangThaiGhiChu}
-													onChange={handleChangeValue}
-												></textarea>
+													onChange={(e) => setTrangThaiGhiChu(e.target.value)}
+												/>
 											</div>
 											<div className="col-span-1 flex flex-col gap-2">
 												<button
@@ -576,10 +635,8 @@ function ChiTietHoSoYeuCau() {
 											{dataDetailTPHSYeuCau &&
 												dataDetailTPHSYeuCau?.map((iTPHSYeuCau, index) => {
 													const base64String = convertBufferToBase64(iTPHSYeuCau?.MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_DataFile?.data);
-													const fullBase64String = `data:application/pdf;base64,${base64String.split("dataapplication/pdfbase64")[1]}`;
-
-													function openPreviewNewTab(byteArray) {
-														var file = new Blob([byteArray], { type: "application/pdf" });
+													function openPreviewNewTab() {
+														var file = new Blob([base64String], { type: "application/pdf" });
 														var fileURL = URL.createObjectURL(file);
 														var a = document.createElement("a");
 														a.href = fileURL;
@@ -601,12 +658,9 @@ function ChiTietHoSoYeuCau() {
 																	type="button"
 																	className="text-[#336699] font-medium"
 																	onClick={() => {
-																		openPreviewNewTab(iTPHSYeuCau?.MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_DataFile?.data);
+																		openPreviewNewTab();
 																	}}
 																>
-																	{/* <Link to={iTPHSYeuCau?.MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_DataFile} target="_blank" className="text-[#336699] font-medium">
-																Xem
-															</Link> */}
 																	Xem
 																</button>
 															</td>
@@ -651,7 +705,7 @@ function ChiTietHoSoYeuCau() {
 											type="button"
 											className="px-3 py-1 text-white rounded-lg font-semibold hover:opacity-70 bg-[#D85D17]"
 											onClick={() => {
-												handlePrevStep(dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID, dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID);
+												handlePrevStep(dataDetailYeuCau);
 											}}
 										>
 											Chuyển bước trước
@@ -660,7 +714,7 @@ function ChiTietHoSoYeuCau() {
 											type="button"
 											className="px-3 py-1 text-white rounded-lg font-semibold hover:opacity-70 bg-[#70C788]"
 											onClick={() => {
-												handleNextStep();
+												handleNextStep(dataDetailYeuCau);
 											}}
 										>
 											Chuyển bước tiếp
@@ -677,23 +731,31 @@ function ChiTietHoSoYeuCau() {
 									</div>
 								) : (
 									<div className="w-full">
-										<table className="relative w-full left-0 right-0 border">
+										<table className="relative w-full left-0 right-0 border mb-4">
 											<thead className="bg-[#336699] text-white">
 												<tr className="border">
-													<th>STT</th>
-													<th>Nhân sự xử lý</th>
-													<th>Hình thức xử lý</th>
-													<th>Thời gian xử lý</th>
+													<th className="border-r px-2">STT</th>
+													<th className="border-r px-2">Nhân sự xử lý</th>
+													<th className="border-r px-2">Hình thức xử lý</th>
+													<th className="border-r px-2">Ngày hẹn trả hồ sơ</th>
+													<th className="border-r px-2">Nơi trả kết quả</th>
+													<th className="border-r px-2">Thời gian xử lý</th>
 												</tr>
 											</thead>
 											<tbody>
-												{listQuyTrinhXuLy.length > 0 &&
-													listQuyTrinhXuLy?.map((iQTXuLy, index) => {
+												{displayedListQuyTrinhXuLy?.length > 0 &&
+													displayedListQuyTrinhXuLy?.map((iQTXuLy, index) => {
 														return (
 															<tr className="border-b" key={index}>
 																<td className="border-r p-2 text-center">{index + 1}</td>
 																<td className="border-r p-2 text-center">{iQTXuLy?.HoTen}</td>
 																<td className="border-r p-2 text-center">{iQTXuLy?.MC_TTHC_GV_TrangThai_TenTrangThai}</td>
+																<td className="border-r p-2 text-center">
+																	{iQTXuLy?.MC_TTHC_GV_GuiYeuCau_NgayHenTra
+																		? moment(iQTXuLy?.MC_TTHC_GV_GuiYeuCau_NgayHenTra, "YYYY-MM-DDTHH:mm:ss.SSS[Z]").format("DD/MM/YYYY HH:mm:ss")
+																		: null}
+																</td>
+																<td className="border-r p-2 text-center">{iQTXuLy?.MC_TTHC_GV_GuiYeuCau_NoiTraKetQua}</td>
 																<td className="p-2 text-center">
 																	{moment(iQTXuLy?.MC_TTHC_GV_GuiYeuCau_DateEditor, "YYYY-MM-DDTHH:mm:ss.SSS[Z]").format("DD/MM/YYYY HH:mm:ss")}
 																</td>
@@ -702,6 +764,18 @@ function ChiTietHoSoYeuCau() {
 													})}
 											</tbody>
 										</table>
+										<ReactPaginate
+											previousLabel={<FaCaretLeft color="#336699" size={32} />}
+											nextLabel={<FaCaretRight color="#336699" size={32} />}
+											pageCount={pageCount}
+											marginPagesDisplayed={2}
+											pageRangeDisplayed={5}
+											onPageChange={handlePageChange}
+											containerClassName={"pagination"}
+											pageClassName={"px-2 py-1 hover:text-white hover:font-semibold hover:bg-[#336699]"}
+											activeClassName={"px-2 py-1 text-white font-semibold bg-[#336699]"}
+											className="w-full flex items-center justify-end gap-1"
+										/>
 									</div>
 								)}
 							</div>

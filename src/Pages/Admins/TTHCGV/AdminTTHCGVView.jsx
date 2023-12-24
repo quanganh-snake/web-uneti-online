@@ -248,8 +248,9 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 			MC_TTHC_GV_NguonTiepNhan: NguonTiepNhan_WEB,
 			MC_TTHC_GV_NoiTiepNhan: donViTiepNhan,
 			MC_TTHC_GV_NoiTraKetQua: noiTraKetQua,
-			MC_TTHC_GV_TepThuTuc_TenFile: tenTepThuTuc,
-			MC_TTHC_GV_TepThuTuc_DataFileFile: "",
+			// MC_TTHC_GV_TepThuTuc_TenFile: tenTepThuTuc,
+			MC_TTHC_GV_TepThuTuc_TenFile: dataFilesTepThuTuc?.MC_TTHC_GV_TepThuTuc_TenFile,
+			MC_TTHC_GV_TepThuTuc_DataFileFile: dataFilesTepThuTuc?.MC_TTHC_GV_TepThuTuc_DataFileFile,
 		};
 
 		if (dataThongTinHoSo?.MC_TTHC_GV_TenThuTuc == "" || dataThongTinHoSo?.MC_TTHC_GV_TenThuTuc == null || dataThongTinHoSo?.MC_TTHC_GV_TenThuTuc == undefined) {

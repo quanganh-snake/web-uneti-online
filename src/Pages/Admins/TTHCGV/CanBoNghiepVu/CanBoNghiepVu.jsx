@@ -6,25 +6,25 @@ import Swal from "sweetalert2";
 import { sendEmailUserSubmit } from "../../../../Services/Utils/emailUtils";
 import { DataCanBoGV } from "../../../../Services/Utils/dataCanBoGV";
 import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
 
 function CanBoNghiepVu() {
 	const [listHoSoYeuCau, setListHoSoYeuCau] = useState(null);
 	const [listTrangThaiHoSo, setListTrangThaiHoSo] = useState(null);
-	const [trangThaiSelected, setTrangThaiSelected] = useState("");
+
+	const [keywordSearch, setKeywordSearch] = useState("");
+	const [selectedTrangThai, setSelectedTrangThai] = useState("");
+	const [currentPage, setCurrentPage] = useState(0);
+	const [itemsPerPage, setItemsPerPage] = useState(5);
+	const [paginatedData, setPaginatedData] = useState([]);
+
 	const [loading, setLoading] = useState(true);
 	const dataCBGV = DataCanBoGV();
+
+	const { pathname } = useLocation();
 	// event handlers
-
-	const getListHoSoYeuCau = async () => {
-		const res = await getAllHoSoGuiYeuCau();
-		if (res.status === 200) {
-			setLoading(false);
-			setListHoSoYeuCau(res?.data?.body);
-		}
-	};
-
 	const handleTiepNhanHoSo = async (itemYeuCau) => {
-		if (itemYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID == 0) {
+		if (itemYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID == 0 || !itemYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID) {
 			Swal.fire({
 				title: "Hồ sơ yêu cầu chưa được tiếp nhận!",
 				text: "Bạn có muốn tiếp nhận hồ sơ để tiếp tục xử lý yêu cầu?",
@@ -35,8 +35,8 @@ function CanBoNghiepVu() {
 				confirmButtonText: "Đồng ý",
 				cancelButtonText: "Hủy",
 			}).then(async (result) => {
-                if (result.isConfirmed) {
-                    setLoading(true);
+				if (result.isConfirmed) {
+					setLoading(true);
 					const resNewTrangThaiID = await getTrangThaiIDBySTTYeuCauId(itemYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID, 1);
 					if (resNewTrangThaiID.status === 200) {
 						const dataTrangThaiIDNew = await resNewTrangThaiID.data?.body[0];
@@ -82,27 +82,68 @@ function CanBoNghiepVu() {
 
 	// effects
 	useEffect(() => {
-		getListTrangThaiTTHCGV()
-			.then((res) => {
-				if (res.status === 200) {
-					const data = res.data?.body;
-					setLoading(false);
-					setListTrangThaiHoSo(data);
+		const fetchData = async () => {
+			try {
+				setLoading(true);
+				const resTrangThai = await getListTrangThaiTTHCGV();
+				if (resTrangThai.status === 200) {
+					setListTrangThaiHoSo(resTrangThai.data?.body);
 				}
-			})
-			.catch((err) => {
+
+				const resHoSoYeuCau = await getAllHoSoGuiYeuCau(pathname.includes("hosoxuly") ? 1 : 0);
+				if (resHoSoYeuCau.status === 200) {
+					setListHoSoYeuCau(resHoSoYeuCau.data?.body);
+				}
+			} catch (err) {
 				console.log(err.message);
-			});
-		getListHoSoYeuCau();
-	}, [trangThaiSelected, loading]);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchData();
+	}, [pathname]);
+
+	useEffect(() => {
+		// Lọc và phân trang dữ liệu
+		let filteredData = listHoSoYeuCau;
+
+		if (keywordSearch) {
+			filteredData = filteredData.filter((item) => item?.MC_TTHC_GV_TenThuTuc.toLowerCase().includes(keywordSearch.toLowerCase()));
+		}
+
+		if (selectedTrangThai) {
+			filteredData = filteredData.filter((item) => item?.MC_TTHC_GV_TrangThai_TenTrangThai === selectedTrangThai);
+		}
+
+		const startIndex = currentPage * itemsPerPage;
+		const endIndex = startIndex + itemsPerPage;
+		setPaginatedData(filteredData?.slice(startIndex, endIndex));
+	}, [listHoSoYeuCau, keywordSearch, selectedTrangThai, currentPage, itemsPerPage]);
+
+	const handleSearch = (value) => {
+		setKeywordSearch(value);
+		setCurrentPage(0);
+	};
+
+	const handlePageChange = (selectedPage) => {
+		setCurrentPage(selectedPage);
+	};
 
 	return (
 		<CanBoNghiepVuView
 			loading={loading}
 			listHoSoYeuCau={listHoSoYeuCau}
 			listTrangThaiHoSo={listTrangThaiHoSo}
-			setTrangThaiSelected={setTrangThaiSelected}
 			handleTiepNhanHoSo={handleTiepNhanHoSo}
+			paginatedData={paginatedData}
+			currentPage={currentPage}
+			itemsPerPage={itemsPerPage}
+			setPage={handlePageChange}
+			setItemsPerPage={setItemsPerPage}
+			keywordSearch={keywordSearch}
+			onSearch={handleSearch}
+			setSelectedTrangThai={setSelectedTrangThai}
 		/>
 	);
 }

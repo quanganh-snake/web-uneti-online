@@ -54,7 +54,7 @@ function SidebarTTHCGV({ setKeywords, setDieuKienLoc }) {
 	}, []);
 
 	return (
-		<div className="w-full md:max-w-[220px]">
+		<div className={clsx("w-full", openMenu ? " md:min-w-[220px]" : "")}>
 			<div className={clsx("uneti__menu mb-2 flex", openMenu ? "justify-end" : "justify-start ")}>
 				{openMenu ? (
 					<MdClose size={24} className="cursor-pointer hover:text-red-600" onClick={handleOpenMenu} />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import SidebarTTHCGV from "../Sidebar/SidebarTTHCGV";
 import { Link } from "react-router-dom";
@@ -6,30 +6,22 @@ import { changeSlug } from "../../../../Services/Utils/stringUtils";
 import ReactPaginate from "react-paginate";
 import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
 import moment from "moment";
-import Loading from './../../../../Components/Loading/Loading';
-function CanBoNghiepVuView({ loading, listHoSoYeuCau, listTrangThaiHoSo, setTrangThaiSelected, handleTiepNhanHoSo }) {
-	const [keywordSearch, setKeywordSearch] = useState("");
-	const [currentPage, setCurrentPage] = useState(0);
-	const [itemsPerPage, setItemsPerPage] = useState(5);
-
-	let dataListHoSoGuiYeuCau = listHoSoYeuCau;
-	const pageCount = Math.ceil(dataListHoSoGuiYeuCau?.length / parseInt(itemsPerPage));
-	const displayData = dataListHoSoGuiYeuCau?.slice(currentPage * parseInt(itemsPerPage), (currentPage + 1) * parseInt(itemsPerPage));
-
-	// const dataCBGV = DataCanBoGV();
-	// event handlers
-	const handleSearch = (e) => {
-		e.preventDefault();
-		const { value } = e.target;
-		setKeywordSearch(value);
-
-		const newDataSearch = dataListHoSoGuiYeuCau.filter((itemYeuCau) => itemYeuCau?.MC_TTHC_GV_TenThuTuc.toLowerCase().includes(value.toLowerCase()));
-		dataListHoSoGuiYeuCau = [...newDataSearch];
-	};
-
-	const handlePageChange = ({ selected }) => {
-		setCurrentPage(selected);
-	};
+import Loading from "./../../../../Components/Loading/Loading";
+import { DebounceInput } from "react-debounce-input";
+function CanBoNghiepVuView({
+	loading,
+	listHoSoYeuCau,
+	listTrangThaiHoSo,
+	handleTiepNhanHoSo,
+	paginatedData,
+	itemsPerPage,
+	setPage,
+	setItemsPerPage,
+	keywordSearch,
+	onSearch,
+	setSelectedTrangThai,
+}) {
+	const pageCount = Math.ceil(listHoSoYeuCau?.length / itemsPerPage);
 
 	return (
 		<>
@@ -44,18 +36,19 @@ function CanBoNghiepVuView({ loading, listHoSoYeuCau, listTrangThaiHoSo, setTran
 					<div className="bg-white w-full rounded-xl px-2 py-4">
 						<div className="grid grid-cols-4 gap-4 mb-4">
 							<div className="uneti-tthc__timkiem col-span-4 lg:col-span-2">
-								<input
-									type="text"
+								<DebounceInput
 									value={keywordSearch}
 									placeholder="Nhập nội dung tìm kiếm..."
-									className="w-full px-3 py-1 rounded-full border border-slate-300 focus:outline-none"
-									onChange={handleSearch}
+									className="block w-full h-full px-3 py-1 rounded-full border border-slate-300 focus:outline-none"
+									onChange={(e) => {
+										onSearch(e.target.value);
+									}}
 								/>
 							</div>
 							<div className="uneti-tthc__timkiem col-span-4 lg:col-span-1">
 								<select
 									onChange={(e) => {
-										setTrangThaiSelected(e.target.value);
+										setSelectedTrangThai(e.target.value);
 									}}
 									className="w-full border border-[#336699] rounded-lg px-3 py-1 focus:outline-slate-300"
 									name=""
@@ -64,7 +57,7 @@ function CanBoNghiepVuView({ loading, listHoSoYeuCau, listTrangThaiHoSo, setTran
 									<option value="">Tất cả hồ sơ</option>
 									{listTrangThaiHoSo?.map((iTrangThai, index) => {
 										return (
-											<option value="iTrangThai.MC_TTHC_GV_TrangThai_TenTrangThai" key={iTrangThai.MC_TTHC_GV_TrangThai_TenTrangThai}>
+											<option value={iTrangThai.MC_TTHC_GV_TrangThai_TenTrangThai} key={iTrangThai.MC_TTHC_GV_TrangThai_TenTrangThai}>
 												{iTrangThai.MC_TTHC_GV_TrangThai_TenTrangThai}
 											</option>
 										);
@@ -77,8 +70,6 @@ function CanBoNghiepVuView({ loading, listHoSoYeuCau, listTrangThaiHoSo, setTran
 										setItemsPerPage(e.target.value);
 									}}
 									className="w-full border border-[#336699] rounded-lg px-3 py-1 focus:outline-slate-300"
-									name=""
-									id=""
 								>
 									<option value="">Số lượng hồ sơ hiển thị</option>
 									<option value="5">5</option>
@@ -102,8 +93,8 @@ function CanBoNghiepVuView({ loading, listHoSoYeuCau, listTrangThaiHoSo, setTran
 									</tr>
 								</thead>
 								<tbody>
-									{displayData?.length ? (
-										displayData?.map((itemYeuCau, index) => {
+									{paginatedData?.length > 0 ? (
+										paginatedData?.map((itemYeuCau, index) => {
 											const titleSlug = changeSlug(itemYeuCau.MC_TTHC_GV_TenThuTuc);
 											return (
 												<tr className="border" key={index}>
@@ -126,7 +117,7 @@ function CanBoNghiepVuView({ loading, listHoSoYeuCau, listTrangThaiHoSo, setTran
 																>
 																	Xử lý/Xem chi tiết
 																</Link>
-																{itemYeuCau.MC_TTHC_GV_GuiYeuCau_TrangThai_ID == 0 ? (
+																{itemYeuCau.MC_TTHC_GV_GuiYeuCau_TrangThai_ID == 0 || !itemYeuCau.MC_TTHC_GV_GuiYeuCau_TrangThai_ID ? (
 																	<button
 																		type="button"
 																		onClick={() => {
@@ -168,21 +159,20 @@ function CanBoNghiepVuView({ loading, listHoSoYeuCau, listTrangThaiHoSo, setTran
 						</div>
 
 						{/* Phân trang */}
-						{displayData?.length > 0 ? (
+						{paginatedData?.length > 0 ? (
 							<div className="flex items-center justify-between">
-								{displayData?.length > 0 && (
+								{paginatedData?.length > 0 && (
 									<div className="">
 										<p className="text-[#336699] font-medium whitespace-nowrap">Tổng số: {listHoSoYeuCau?.length} yêu cầu</p>
 									</div>
 								)}
-
 								<ReactPaginate
 									previousLabel={<FaCaretLeft color="#336699" size={32} />}
 									nextLabel={<FaCaretRight color="#336699" size={32} />}
 									pageCount={pageCount}
 									marginPagesDisplayed={2}
 									pageRangeDisplayed={5}
-									onPageChange={handlePageChange}
+									onPageChange={setPage}
 									containerClassName={"pagination"}
 									pageClassName={"px-2 py-1 hover:text-white hover:font-semibold hover:bg-[#336699]"}
 									activeClassName={"px-2 py-1 text-white font-semibold bg-[#336699]"}

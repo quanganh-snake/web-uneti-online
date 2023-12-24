@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { BiChevronDown } from "react-icons/bi";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaArrowRight } from "react-icons/fa6";
+import { convertDataFileToBase64 } from "../../../../Services/Utils/stringUtils";
 function ThongTinHoSo(props) {
 	const {
 		inputTenThuTucRef,
@@ -20,8 +21,8 @@ function ThongTinHoSo(props) {
 		mucDo,
 		tongThoiGianGiaiQuyet,
 		soBoHoSo,
-        linhVuc,
-        donViTiepNhan,
+		linhVuc,
+		donViTiepNhan,
 		setDonViTiepNhan,
 		noiTraKetQua,
 		thuTucLienThong,
@@ -309,6 +310,19 @@ function ThongTinHoSo(props) {
 						placeholder="Chèn link tệp thủ tục"
 						value={tenTepThuTuc ? tenTepThuTuc : ""}
 						onChange={handleChangeValue}
+					/>
+					<input
+						type="file"
+						onChange={async (e) => {
+							const file = e.target.files[0];
+							const dataFile = await convertDataFileToBase64(file);
+							setDataFilesTepThuTuc({
+								MC_TTHC_GV_TepThuTuc_TenFile: file.name,
+								MC_TTHC_GV_TepThuTuc_DataFileFile: dataFile,
+							});
+						}}
+						name=""
+						id=""
 					/>
 				</div>
 			</div>
