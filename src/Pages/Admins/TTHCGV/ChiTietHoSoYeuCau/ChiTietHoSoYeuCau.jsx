@@ -9,7 +9,6 @@ import { Link, useParams } from "react-router-dom";
 import SidebarTTHCGV from "../Sidebar/SidebarTTHCGV";
 import { getHoSoGuiYeuCauById, getQuyTrinhXuLyCBNV, putHoSoThuTucGuiYeuCauById } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
 import moment from "moment";
-import { format as dateFnsFormat, parseISO as parseDateISO, formatISO as formatDateISO } from "date-fns";
 import { getThanhPhanHoSoGuiYeuCauById } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo";
 import Swal from "sweetalert2";
 import { getListTrangThaiTTHCGVByIDGoc, getTrangThaiIDBySTTYeuCauId, getTrangThaiIDGuiYeuCauXuLySTT } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai";

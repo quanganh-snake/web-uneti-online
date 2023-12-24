@@ -44,8 +44,8 @@ function TheoDoiDeNghiTTHCGV() {
 								</tr>
 							</thead>
 							<tbody>
-                                {listHoSoYeuCau?.map((iHoSo, index) => {
-                                    let titleSlug = changeSlug(iHoSo?.MC_TTHC_GV_TenThuTuc);
+								{listHoSoYeuCau?.map((iHoSo, index) => {
+									let titleSlug = changeSlug(iHoSo?.MC_TTHC_GV_TenThuTuc);
 									return (
 										<tr className="border-b hover:bg-slate-300" key={index}>
 											<td className="border-r text-center">{index + 1}</td>
@@ -58,7 +58,7 @@ function TheoDoiDeNghiTTHCGV() {
 											<td className="border-r text-center">
 												<p>{iHoSo?.MC_TTHC_GV_TrangThai_TenTrangThai}</p>
 											</td>
-											<td className="border-r text-center">
+											<td className="border-r text-center flex items-center justify-center py-2">
 												<Link
 													to={`/tthcgiangvien/theodoiquytrinh/chitiet/${titleSlug}/${iHoSo?.MC_TTHC_GV_GuiYeuCau_ID}`}
 													className="p-2 bg-[#336699] text-white rounded-full hover:opacity-70"

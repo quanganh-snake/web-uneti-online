@@ -151,11 +151,30 @@ export const getAllTTHCGVGuiYeuCauByTrangThai = (tenTrangThai = "") => {
 	});
 };
 
-// GET: Danh sách TTHCGV_GuiYeuCau theo id
+// GET: Lấy Hồ sơ TTHCGV_GuiYeuCau theo id
 export const getHoSoGuiYeuCauById = (id = "") => {
+	return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Load_R_Para_File", {
+		params: {
+			MC_TTHC_GV_GuiYeuCau_ID: id,
+		},
+	});
+};
+
+// GET: Chi tiết theo dõi đề nghị cho người dùng
+export const getTrangThaiXuLyYeuCauById = (id = "") => {
 	return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_TrangThai_TheoDoi_DeNghi_Load_Para", {
 		params: {
 			MC_TTHC_GV_GuiYeuCau_ID: id,
+		},
+	});
+};
+
+// GET: List chi tiết chỉnh sửa/update theo từng trạng thái cho người dùng
+export const getDetailEditStatusYeuCau = (id = "", tenTrangThai = "") => {
+	return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_NguoiDung_TheoDoi_QuyTrinhXuLy_Load_Para", {
+		params: {
+			MC_TTHC_GV_GuiYeuCau_ID: id,
+			MC_TTHC_GV_TrangThai_TenTrangThai: tenTrangThai,
 		},
 	});
 };
