@@ -1,8 +1,5 @@
-export const getTenDot = (axiosJWT, accesToken) => {
-	// console.log(`>>> Check log axios prototype: `,[axiosJWT]);
-	return axiosJWT.get("/SP_EDU/Load_TenDot", {
-		headers: {
-			Authorization: `Bearer ${accesToken}`,
-		},
-	});
+import http from "../../Configs/http";
+
+export const getTenDot = () => {
+	return http.get("/SP_EDU/Load_TenDot");
 };

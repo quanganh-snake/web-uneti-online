@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import DangKyThiLaiView from "./DangKyThiLaiView";
 
 function DangKyThiLai() {
-  return (
-    <div>DangKyThiLai</div>
-  )
+	return <DangKyThiLaiView />;
 }
 
-export default DangKyThiLai
+export default DangKyThiLai;

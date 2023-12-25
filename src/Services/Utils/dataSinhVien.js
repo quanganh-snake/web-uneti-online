@@ -32,7 +32,6 @@ export const DataSinhVien = () => {
 		TrangThaiHocTap,
 		Role,
 	} = student ?? "";
-	let formatDate = NgayCapCMND ? NgayCapCMND?.slice(8, 10) + "/" + NgayCapCMND?.slice(5, 7) + "/" + NgayCapCMND?.slice(0, 4) : "";
 	return {
 		HoDem,
 		Ten,
@@ -48,7 +47,7 @@ export const DataSinhVien = () => {
 		SoDienThoai,
 		SoDienThoai2,
 		SoDienThoai3,
-		NgayCapCMND: formatDate,
+		NgayCapCMND: NgayCapCMND ? moment(NgayCapCMND).format("DD/MM/YYYY").toString() : "",
 		NoiCapCMND,
 		IdSinhVien,
 		ChuyenNganh,
