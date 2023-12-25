@@ -1,4 +1,4 @@
-import { useBem } from '@/Hooks'
+import { useBem } from '@/Services/Hooks'
 import PropTypes from 'prop-types'
 
 import './SearchBox.scss'
