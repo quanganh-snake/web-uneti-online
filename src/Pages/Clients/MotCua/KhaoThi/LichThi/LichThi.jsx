@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import LichThiView from "./LichThiView";
 import { DataSinhVien } from "../../../../../Services/Utils/dataSinhVien";
 import { useDispatch } from "react-redux";
-import { createAxiosJWT } from "../../../../../Configs/http";
 import { tokenSuccess } from "../../../../../Services/Redux/Slice/authSlice";
 import { dataLoaiThi } from "../../../../../Services/Static/dataStatic";
 import { useEffect } from "react";
@@ -53,10 +52,6 @@ function LichThi() {
 	const [selectedRows, setSelectedRows] = useState([]);
 
 	const dataSV = DataSinhVien();
-	const accessToken = dataSV.dataToken.token;
-
-	const dispatch = useDispatch();
-	let axiosJWT = createAxiosJWT(dataSV.dataToken, dispatch, tokenSuccess);
 
 	// event handlers
 	const handleChangeValue = (e) => {
@@ -80,13 +75,13 @@ function LichThi() {
 	const handlePostData = () => {};
 
 	useEffect(() => {
-		getTenDot(axiosJWT, accessToken).then((res) => {
+		getTenDot().then((res) => {
 			setListHocKy(res?.data?.body);
 		});
 
 		if (tenDot !== "" && loaiThi !== "" && lyDo !== "") {
 			setLoading(true);
-			getAllHocPhanLichThi(axiosJWT, dataSV.MaSinhVien, tenDot, loaiThi, lyDo, accessToken).then((res) => {
+			getAllHocPhanLichThi(dataSV.MaSinhVien, tenDot, loaiThi, lyDo).then((res) => {
 				setLoading(false);
 				setListHocPhan(res?.data?.body);
 			});

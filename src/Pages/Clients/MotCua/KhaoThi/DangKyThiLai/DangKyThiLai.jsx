@@ -29,4 +29,4 @@ function DangKyThiLai() {
 	);
 }
 
-export default DangKyThiLai
+export default DangKyThiLai;

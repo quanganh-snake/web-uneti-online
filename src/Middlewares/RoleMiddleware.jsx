@@ -17,7 +17,7 @@ function RoleMiddleware(props) {
 	} else {
 		role = null;
 	}
-	return allowedRoles?.includes(role) ? <Outlet /> : <Navigate to="/dangnhap" replace={true} />;
+	return allowedRoles?.includes(role) ? <Outlet /> : <Navigate to="/dangnhap" />;
 }
 
 RoleMiddleware.propTypes = {

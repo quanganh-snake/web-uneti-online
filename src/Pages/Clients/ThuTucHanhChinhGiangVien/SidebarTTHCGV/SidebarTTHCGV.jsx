@@ -4,57 +4,12 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { MdMenu, MdClose } from "react-icons/md";
 import { Link } from "react-router-dom";
-function SidebarTTHCGV() {
-	const fakeDataDonVi = [{ id: 1, name: "Trường Đại học Kinh tế - Kỹ thuật Công nghiệp" }];
-	const fakeDataLinhVuc = [
-		{
-			id: 1,
-			name: "Chính trị và Công tác Sinh viên",
-		},
-		{
-			id: 2,
-			name: "Phòng Đào tạo",
-		},
-		{
-			id: 3,
-			name: "Phòng Tổ chức Cán bộ",
-		},
-		{
-			id: 4,
-			name: "Tài chính - Kế toán",
-		},
-		{
-			id: 5,
-			name: "Quản trị mạng",
-		},
-		{
-			id: 6,
-			name: "Quản trị kinh doanh",
-		},
-		{
-			id: 7,
-			name: "Đào tạo từ xa",
-		},
-		{
-			id: 8,
-			name: "Quản lý thiết bị, tài sản",
-		},
-		{
-			id: 9,
-			name: "Đại học tại chức",
-		},
-		{
-			id: 10,
-			name: "Đào tạo sau đại học",
-		},
-		{
-			id: 11,
-			name: "Đào tạo Quốc tế",
-		},
-	];
-
+import { getAllLinhVuc, getAllPhongBan, getListDonVi } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
+function SidebarTTHCGV({ setKeywords, setDieuKienLoc }) {
 	const [openMenu, setOpenMenu] = useState(true);
-	const [dataSelect, setDataSelect] = useState(fakeDataDonVi);
+	const [dataSelect, setDataSelect] = useState("donvi");
+	const [listDepartments, setListDepartments] = useState([]);
+	const [listArea, setListArea] = useState([]);
 
 	const handleOpenMenu = () => {
 		setOpenMenu(!openMenu);
@@ -62,21 +17,45 @@ function SidebarTTHCGV() {
 
 	const handleChangeSelectionData = (e) => {
 		const { id } = e.target;
-
-		if (id === "linhvuc") {
-			setDataSelect(fakeDataLinhVuc);
-		}
-
-		if (id === "donvi") {
-			setDataSelect(fakeDataDonVi);
-		}
+		setDataSelect(id);
 	};
 
-	useEffect(() => {}, [dataSelect]);
+	useEffect(() => {
+		const getAllDepartments = async () => {
+			try {
+				const resultAllDepartments = await getListDonVi();
+				if (resultAllDepartments.status === 200) {
+					const dataDepartments = await resultAllDepartments?.data?.body;
+					if (dataDepartments) {
+						setListDepartments([...dataDepartments]);
+					}
+				}
+			} catch (error) {
+				console.info(error);
+			}
+		};
+
+		const getAllAreas = async () => {
+			try {
+				const resultAllAreas = await getAllLinhVuc();
+				if (resultAllAreas.status === 200) {
+					const dataLinhnVuc = await resultAllAreas?.data?.body;
+					if (dataLinhnVuc.length) {
+						setListArea([...dataLinhnVuc]);
+					}
+				}
+			} catch (error) {
+				console.info(error.message);
+			}
+		};
+
+		getAllDepartments();
+		getAllAreas();
+	}, []);
 
 	return (
-		<div className="w-full md:max-w-[220px]">
-			<div className={clsx("uneti__menu mb-2 flex", openMenu ? "justify-end" : "justify-start")}>
+		<div className={clsx("w-full", openMenu ? " md:min-w-[220px]" : "")}>
+			<div className={clsx("uneti__menu mb-2 flex", openMenu ? "justify-end" : "justify-start ")}>
 				{openMenu ? (
 					<MdClose size={24} className="cursor-pointer hover:text-red-600" onClick={handleOpenMenu} />
 				) : (
@@ -85,22 +64,60 @@ function SidebarTTHCGV() {
 			</div>
 			<div className={clsx("uneti__luachon border p-2", openMenu ? "flex justify-between items-center gap-4" : "hidden")}>
 				<label onChange={handleChangeSelectionData} htmlFor="donvi" className="flex items-center gap-2 whitespace-nowrap">
-					<input type="radio" defaultChecked name="luachon" id="donvi" />
+					<input
+						type="radio"
+						defaultChecked
+						name="luachon"
+						id="donvi"
+						onChange={() => {
+							setDieuKienLoc("NoiTiepNhan");
+							setKeywords("");
+						}}
+					/>
 					<span>Đơn vị</span>
 				</label>
 				<label onChange={handleChangeSelectionData} htmlFor="linhvuc" className="flex items-center gap-2 whitespace-nowrap">
-					<input type="radio" name="luachon" id="linhvuc" />
+					<input
+						type="radio"
+						name="luachon"
+						id="linhvuc"
+						onChange={() => {
+							setDieuKienLoc("LinhVuc");
+							setKeywords("");
+						}}
+					/>
 					<span>Lĩnh vực</span>
 				</label>
 			</div>
-			<div className={clsx("uneti__luachon--list my-4", openMenu ? "" : "hidden")}>
+			<div className={clsx("uneti__luachon--list my-4  max-h-[700px] overflow-y-auto", openMenu ? "" : "hidden")}>
 				{dataSelect &&
-					dataSelect.length > 0 &&
-					dataSelect.map((iData, index) => {
+					dataSelect === "donvi" &&
+					listDepartments?.map((iData, index) => {
 						return (
-							<div className="uneti__luachon--item px-2 py-1 border hover:bg-[#336699] hover:text-white hover:font-semibold" key={iData.id}>
-								<Link>
-									<p className="truncate">{iData.name}</p>
+							<div className="uneti__luachon--item px-2 py-1 border hover:bg-[#336699] hover:text-white hover:font-semibold" key={index}>
+								<Link
+									onClick={() => {
+										setKeywords(iData.MC_TTHC_GV_NoiTiepNhan);
+										setDieuKienLoc("NoiTiepNhan");
+									}}
+								>
+									<p className="truncate">{iData.MC_TTHC_GV_NoiTiepNhan}</p>
+								</Link>
+							</div>
+						);
+					})}
+				{dataSelect &&
+					dataSelect === "linhvuc" &&
+					listArea?.map((iData, index) => {
+						return (
+							<div className="uneti__luachon--item px-2 py-1 border hover:bg-[#336699] hover:text-white hover:font-semibold" key={index}>
+								<Link
+									onClick={() => {
+										setKeywords(iData.MC_TTHC_GV_LinhVuc);
+										setDieuKienLoc("LinhVuc");
+									}}
+								>
+									<p className="truncate">{iData.MC_TTHC_GV_LinhVuc}</p>
 								</Link>
 							</div>
 						);

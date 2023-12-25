@@ -4,14 +4,13 @@ import { userSuccess } from "../Services/Redux/Slice/userSlice";
 
 export const logOut = async (role, dispatch, navigate, refreshToken) => {
 	dispatch(logOutStart());
-	console.log(`role:`, role);
 	try {
 		const dataRefresh = {
 			refreshToken: refreshToken,
 		};
 		if (role === "SV") {
 			await http.post(`/jwt/Logout`, dataRefresh);
-		} else if (role === "CB") {
+		} else if (role === "GV") {
 			await http.post(`/jwtGV/LogoutGV`, dataRefresh);
 		} else {
 			navigate("/dangnhap");

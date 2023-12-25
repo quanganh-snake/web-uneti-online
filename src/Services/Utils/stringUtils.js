@@ -1,3 +1,5 @@
+import mammoth from "mammoth";
+
 export const changeSlug = (dataString = "") => {
 	if (dataString !== "") {
 		//Đổi chữ hoa thành chữ thường
@@ -26,9 +28,63 @@ export const changeSlug = (dataString = "") => {
 		//In slug ra textbox có id “slug”
 		return slug;
 	} else {
-        return {
-            errorCode: "UNETI_404",
+		return {
+			errorCode: "UNETI_404",
 			message: "ERROR: Invalid data string provided!",
 		};
 	}
+};
+
+export const convertDataFileToBase64 = (dataFile) => {
+	return new Promise((resolve, reject) => {
+		const reader = new FileReader();
+
+		reader.onload = () => {
+			const base64String = reader.result;
+			resolve(base64String);
+		};
+
+		reader.onerror = (error) => {
+			reject(error);
+		};
+
+		if (dataFile) {
+			reader.readAsDataURL(dataFile);
+		} else {
+			reject(new Error("File not provided."));
+		}
+	});
+};
+
+export const convertBufferToBase64 = (buffer) => {
+	let binary = "";
+	let bytes = new Uint8Array(buffer);
+	let len = bytes.byteLength;
+	for (let i = 0; i < len; i++) {
+		binary += String.fromCharCode(bytes[i]);
+	}
+	return window.btoa(binary);
+};
+
+export const convertDocxToText = (arrayBuffer) => {
+	return new Promise((resolve, reject) => {
+		const options = {
+			convertImage: mammoth.images.inline((element) => {
+				return element.read("base64").then((image) => {
+					return {
+						src: `data:${element.contentType};base64,${image}`,
+					};
+				});
+			}),
+		};
+
+		mammoth
+			.extractRawText({ arrayBuffer: arrayBuffer }, options)
+			.then((result) => {
+				resolve(result.value);
+			})
+			.catch((error) => {
+				reject(error);
+			});
+	});
 };

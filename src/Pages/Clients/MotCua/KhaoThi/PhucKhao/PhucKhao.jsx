@@ -1,14 +1,11 @@
 import React from "react";
 import PhucKhaoView from "./PhucKhaoView";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import { useEffect } from "react";
 import { getTenDot } from "../../../../../Apis/MotCua/apiTenDot";
 import { checkExpiredPhucKhao, getAllHocPhanPhucKhao, postYeuCauPhucKhao } from "../../../../../Apis/MotCua/KhaoThi/apiPhucKhao";
 import { DataSinhVien } from "../../../../../Services/Utils/dataSinhVien";
-import { createAxiosJWT } from "../../../../../Configs/http";
-import { tokenSuccess } from "../../../../../Services/Redux/Slice/authSlice";
 import moment from "moment";
 import { dataLoaiThi } from "../../../../../Services/Static/dataStatic";
 function PhucKhao() {
@@ -36,10 +33,7 @@ function PhucKhao() {
 	const [selectedRows, setSelectedRows] = useState([]);
 
 	const dataSV = DataSinhVien();
-	const accessToken = dataSV.dataToken.token;
 
-	const dispatch = useDispatch();
-	let axiosJWT = createAxiosJWT(dataSV.dataToken, dispatch, tokenSuccess);
 	// event handlers
 	const handleChangeValue = (e) => {
 		if (e.target.id === "MC_KT_PhucKhao_TenDot") {
@@ -159,11 +153,9 @@ function PhucKhao() {
 		console.log("🚀 ~ file: PhucKhao.jsx:158 ~ handlePostData ~ dataHocPhan:", dataHocPhan);
 		// Kiểm tra học phần đã quá hạn phúc khảo chưa
 		try {
-			console.log(`item.NgayThi: `, dataHocPhan.MC_KT_PhucKhao_NgayThi);
-			const checkQuaHanPhucKhao = await checkExpiredPhucKhao(axiosJWT, moment(dataHocPhan.MC_KT_PhucKhao_NgayThi).format("DD/MM/YYYY"), accessToken);
+			const checkQuaHanPhucKhao = await checkExpiredPhucKhao(moment(dataHocPhan.MC_KT_PhucKhao_NgayThi).format("DD/MM/YYYY"));
 			if (checkQuaHanPhucKhao.status === 200) {
 				const { KetQua } = checkQuaHanPhucKhao.data?.body[0];
-				console.log("🚀 ~ file: PhucKhao.jsx:151 ~ selectedRows.forEach ~ KetQua:", KetQua, " - môn", dataHocPhan.MC_KT_PhucKhao_TenMonHoc);
 				if (KetQua === 0) {
 					Swal.fire({
 						icon: "error",
@@ -172,10 +164,9 @@ function PhucKhao() {
 					});
 					return;
 				}
-				const resPostData = await postYeuCauPhucKhao(axiosJWT, dataHocPhan, accessToken);
-				console.log("🚀 ~ file: PhucKhao.jsx:200 ~ data.forEach ~ resPostData:", resPostData);
+				const resPostData = await postYeuCauPhucKhao(dataHocPhan);
 
-				if ((await resPostData) == "ERR_BAD_REQUEST") {
+				if (resPostData == "ERR_BAD_REQUEST") {
 					Swal.fire({
 						icon: "error",
 						title: "Lỗi hệ thống",
@@ -183,7 +174,7 @@ function PhucKhao() {
 					});
 					return;
 				}
-				if ((await resPostData.status) === 200) {
+				if (resPostData.status === 200) {
 					const data = await resPostData.data;
 
 					// Check bản ghi trùng
@@ -222,7 +213,7 @@ function PhucKhao() {
 	};
 
 	useEffect(() => {
-		getTenDot(axiosJWT, accessToken).then((res) => {
+		getTenDot().then((res) => {
 			setListHocKy(res?.data?.body);
 		});
 
@@ -230,7 +221,7 @@ function PhucKhao() {
 
 		if (tenDot !== "" && loaiThi !== "") {
 			setLoading(true);
-			getAllHocPhanPhucKhao(axiosJWT, dataSV.MaSinhVien, tenDot, loaiThi, accessToken).then((res) => {
+			getAllHocPhanPhucKhao(dataSV.MaSinhVien, tenDot, loaiThi).then((res) => {
 				setLoading(false);
 				setListHocPhan(res?.data?.body);
 			});

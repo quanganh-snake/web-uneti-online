@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import clsx from "clsx";
-import { Link } from "react-router-dom";
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 import { homeTaiSan } from "../../../Services/Static/dataStatic.js";
 import icoPhoneHotLine from "../../../assets/Icons/icoPhoneTaiSan.png";
@@ -13,8 +11,6 @@ import { DataCanBoGV } from "../../../Services/Utils/dataCanBoGV.js";
 import { getDanhSachYeuCau } from "../../../Apis/TaiSan/apiTaiSan.js";
 import { tokenSuccess } from "../../../Services/Redux/Slice/authSlice.js";
 import { useDispatch } from "react-redux";
-import { BASE_URL } from "../../../Configs/config.js";
-import axios from "axios";
 
 function HomeTaiSan() {
 	const [loading, setLoading] = useState(true);
@@ -26,11 +22,6 @@ function HomeTaiSan() {
 	const [currentPage, setCurrentPage] = useState(0);
 	const [selectedRows, setSelectedRows] = useState([]);
 	const [selectAll, setSelectAll] = useState(false);
-
-	const dataSV = DataSinhVien();
-	const dataCBGV = DataCanBoGV();
-
-	const role = localStorage.getItem("role") ?? localStorage.getItem("role");
 
 	// event handlers
 	const handlePageChange = ({ selected }) => {
@@ -73,7 +64,7 @@ function HomeTaiSan() {
 
 	useEffect(() => {
 		const getAllYeuCauBaoHong = async () => {
-			getDanhSachYeuCau(dataSV.dataToken.token)
+			getDanhSachYeuCau()
 				.then((res) => {
 					setListYeuCauSuCo(res);
 					setLoading(false);
