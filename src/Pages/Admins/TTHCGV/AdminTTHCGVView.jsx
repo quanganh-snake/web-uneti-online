@@ -248,9 +248,8 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 			MC_TTHC_GV_NguonTiepNhan: NguonTiepNhan_WEB,
 			MC_TTHC_GV_NoiTiepNhan: donViTiepNhan,
 			MC_TTHC_GV_NoiTraKetQua: noiTraKetQua,
-			// MC_TTHC_GV_TepThuTuc_TenFile: tenTepThuTuc,
 			MC_TTHC_GV_TepThuTuc_TenFile: dataFilesTepThuTuc?.MC_TTHC_GV_TepThuTuc_TenFile,
-			MC_TTHC_GV_TepThuTuc_DataFileFile: dataFilesTepThuTuc?.MC_TTHC_GV_TepThuTuc_DataFileFile,
+			MC_TTHC_GV_TepThuTuc_DataFileFile: dataFilesTepThuTuc?.MC_TTHC_GV_TepThuTuc_DataFileFile?.split(",")[1],
 		};
 
 		if (dataThongTinHoSo?.MC_TTHC_GV_TenThuTuc == "" || dataThongTinHoSo?.MC_TTHC_GV_TenThuTuc == null || dataThongTinHoSo?.MC_TTHC_GV_TenThuTuc == undefined) {
@@ -290,7 +289,6 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 		}
 
 		let idTTHCGV;
-
 		try {
 			const resultPostThongTinTTHC = await postThuTucHanhChinh(dataThongTinHoSo);
 			if (resultPostThongTinTTHC.status === 200) {
@@ -374,6 +372,13 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 		}
 	};
 
+	const handleDeleteTepThuTuc = () => {
+		if (dataFilesTepThuTuc?.MC_TTHC_GV_TepThuTuc_TenFile) {
+			setDataFilesTepThuTuc(null);
+		}
+	};
+
+	// effect
 	useEffect(() => {
 		setThongTinActive(true);
 		setTPHoSoDeNghiActive(false);
@@ -431,6 +436,7 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 							setDataFilesTepThuTuc={setDataFilesTepThuTuc}
 							tenTepThuTuc={tenTepThuTuc}
 							handleChangeValue={handleChangeValue}
+							handleDeleteTepThuTuc={handleDeleteTepThuTuc}
 							setThongTinActive={setThongTinActive}
 							setTPHoSoDeNghiActive={setTPHoSoDeNghiActive}
 						/>

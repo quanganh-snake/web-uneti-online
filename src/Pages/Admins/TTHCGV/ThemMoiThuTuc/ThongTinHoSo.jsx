@@ -5,6 +5,9 @@ import { BiChevronDown } from "react-icons/bi";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaArrowRight } from "react-icons/fa6";
 import { convertDataFileToBase64 } from "../../../../Services/Utils/stringUtils";
+import { MdDelete } from "react-icons/md";
+import { handleOpenFileBase64 } from "../../../../Services/Utils/fileUtils";
+import Swal from "sweetalert2";
 function ThongTinHoSo(props) {
 	const {
 		inputTenThuTucRef,
@@ -33,6 +36,7 @@ function ThongTinHoSo(props) {
 		setDataFilesTepThuTuc,
 		tenTepThuTuc,
 		handleChangeValue,
+		handleDeleteTepThuTuc,
 		setTPHoSoDeNghiActive,
 		setThongTinActive,
 	} = props;
@@ -303,27 +307,71 @@ function ThongTinHoSo(props) {
 					<label className="" htmlFor="MC_TTHC_GV_TepThuTuc_DataFileFile">
 						<p className="font-semibold mb-2">Đính kèm tệp thủ tục</p>
 					</label>
-					<input
-						className="p-2 border border-slate-200 w-full focus:outline-slate-400"
-						id="MC_TTHC_GV_TepThuTuc_DataFileFile"
-						type="text"
-						placeholder="Chèn link tệp thủ tục"
-						value={tenTepThuTuc ? tenTepThuTuc : ""}
-						onChange={handleChangeValue}
-					/>
-					<input
-						type="file"
-						onChange={async (e) => {
-							const file = e.target.files[0];
-							const dataFile = await convertDataFileToBase64(file);
-							setDataFilesTepThuTuc({
-								MC_TTHC_GV_TepThuTuc_TenFile: file.name,
-								MC_TTHC_GV_TepThuTuc_DataFileFile: dataFile,
-							});
-						}}
-						name=""
-						id=""
-					/>
+
+					{dataFilesTepThuTuc?.MC_TTHC_GV_TepThuTuc_TenFile ? (
+						<div className="my-4 p-2 border">
+							<p className="flex items-center justify-between gap-2">
+								<span
+									className="text-sky-800 font-semibold hover:opacity-70 cursor-pointer"
+									onClick={() => {
+										handleOpenFileBase64(dataFilesTepThuTuc?.MC_TTHC_GV_TepThuTuc_DataFileFile);
+									}}
+								>
+									{dataFilesTepThuTuc?.MC_TTHC_GV_TepThuTuc_TenFile}
+								</span>
+								<span>
+									<MdDelete className="cursor-pointer hover:text-red-600" onClick={handleDeleteTepThuTuc} />
+								</span>
+							</p>
+						</div>
+					) : (
+						<>
+							<label htmlFor="MC_TTHC_GV_TepThuTuc" className="block w-full cursor-pointer hover:bg-slate-600 hover:text-white p-2 border border-gray-600 hover:border-gray-600">
+								<span className="font-semibold p-1 border">Chọn tệp</span> <span className="text-sm ml-2">Chưa có tệp nào được tải lên</span>
+							</label>
+							<input
+								type="file"
+								className="hidden w-full text-sm text-gray-900 border border-gray-300 p-2 cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 hover:bg-sky-800 hover:text-white"
+								onChange={async (e) => {
+									const file = e.target.files[0];
+									const dataFile = await convertDataFileToBase64(file);
+									const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+									if (!file.name.match(/\.(pdf|docx|doc|jpeg|jpg|png|gif)$/i)) {
+										Swal.fire({
+											icon: "error",
+											title: "Tệp tải lên không đúng định dạng yêu cầu. Vui lòng kiểm tra lại.",
+											text: "Các loại file tải lên phải có dạng PDF, DOC, DOCX, PNG, JPG, JPEG hoặc GIF(Kích thước tối đa 5MB)",
+										});
+										setDataFilesTepThuTuc(null);
+										return;
+									} else {
+										if (file.size > maxSizeInBytes) {
+											Swal.fire({
+												icon: "error",
+												title: "Tệp tải lên vượt quá kích thước cho phép!",
+												text: "Kích thước tối đa 5MB.",
+											});
+											setDataFilesTepThuTuc(null);
+											return;
+										} else {
+											setDataFilesTepThuTuc({
+												MC_TTHC_GV_TepThuTuc_TenFile: file.name,
+												MC_TTHC_GV_TepThuTuc_DataFileFile: dataFile,
+											});
+										}
+									}
+								}}
+								name=""
+								id="MC_TTHC_GV_TepThuTuc"
+							/>
+							<p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
+								Các loại file tải lên phải có dạng <span className="font-medium">PDF</span>, <span className="font-medium">DOC</span>, <span className="font-medium">DOCX</span>,{" "}
+								<span className="font-medium">PNG</span>, <span className="font-medium">JPG</span>, <span className="font-medium">JPEG</span> hoặc{" "}
+								<span className="font-medium">GIF</span>
+								<span className="ml-1 font-medium text-red-600">(Kích thước tối đa 5MB)</span>
+							</p>
+						</>
+					)}
 				</div>
 			</div>
 			<button
