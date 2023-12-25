@@ -46,7 +46,7 @@ function Header() {
 	return (
 		<header className="shadow-md fixed left-0 right-0 top-0 w-[100%] z-10">
 			<nav className="bg-white border-gray-200 dark:bg-gray-900">
-				<div className="max-w-7xl flex flex-wrap items-center justify-between mx-auto">
+				<div className="max-w-7xl flex flex-wrap items-center justify-between mx-auto text-white">
 					<Link to="/" className="flex items-center p-2">
 						<img src={logoUNETI} className="h-20 mr-3" alt="UNETI Logo" />
 					</Link>

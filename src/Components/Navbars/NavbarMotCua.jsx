@@ -12,7 +12,7 @@ function NavbarMotCua() {
 							<li key={index}>
 								<Link
 									to={"/motcua" + module.path}
-									className="block hover:bg-sky-800 hover:text-white px-4 py-2 text-white rounded-[99px] md:bg-transparent md:text-black"
+									className="block hover:bg-sky-800 hover:text-white px-4 py-2 text-white rounded-[99px] md:bg-transparent"
 									aria-current="page"
 								>
 									{module.name}

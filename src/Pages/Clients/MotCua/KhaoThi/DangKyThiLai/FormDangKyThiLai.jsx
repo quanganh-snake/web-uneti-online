@@ -1,0 +1,53 @@
+import { useState } from "react";
+import DanhSachLichThi from "./DanhSachLichThi";
+
+function FormDangKyThiLai(){
+
+    const [lichThi, setLichThi] = useState([])
+    const [hocKy, setHocKy] = useState('')
+    const [lyDo, setLyDo] = useState('')
+
+    return (
+        <div className="border-[#336699] border border-solid mt-5 rounded-md">
+            <form className="py-8 flex flex-col justify-center items-center gap-4">
+                <h2 className="text-2xl font-bold pb-8 text-center px-2">TIẾP NHẬN YÊU CẦU ĐĂNG KÝ THI LẠI</h2>
+                <div className="w-[75%] flex justify-between items-center">
+                    <span className="block pr-10">Học kỳ (*)</span>
+                    <select className="flex-1 max-w-[75%] p-2 rounded-md border border-solid border-gray-300" value={hocKy} onChange={e => setHocKy(e.target.value)}>
+                        <option value="">Chọn học kỳ</option>
+                        <option>test</option>
+                    </select>
+                </div>
+                <div className="w-[75%] flex justify-between items-center">
+                    <span className="block pr-10">Loại thi</span>
+                    <select disabled className="flex-1 max-w-[75%] p-2 rounded-md border border-solid border-gray-300">
+                        <option>Thi Lại</option>
+                    </select>
+                </div>
+                <div className="w-[75%] flex justify-between items-center" value={lyDo} onChange={e => setLyDo(e.target.value)}>
+                    <span className="block pr-10">Lý do (*)</span>
+                    <select className="flex-1 max-w-[75%] p-2 rounded-md border border-solid border-gray-300">
+                        <option value="">Chọn lý do</option>
+                        <option value="test">test</option>
+                    </select>
+                </div>
+            </form>
+
+            {(hocKy === '' && lyDo != '') || (hocKy != '' && lyDo === '') ? (
+            <div className="flex justify-center items-center pb-4">
+                <span className="w-[75%] text-center font-bold block text-red-900 bg-red-200 p-3 rounded-md">
+                    Vui lòng chọn đầy đủ thông tin học kỳ và lý do để xem lịch thi cần đăng ký!
+                </span>
+            </div>) : null}
+
+            {(hocKy != '' && lyDo != '') && (
+            <div className="flex flex-col justify-center items-center pb-4">
+                <DanhSachLichThi lichThi={[]}/>
+                <button className="mt-8 px-5 py-3 border-2 border-solid text-[#245D7C] border-[#245D7C] rounded-md font-bold transition-all duration-200 hover:bg-[#245D7C] hover:text-white">Gửi Yêu Cầu</button>
+            </div >
+            )}
+        </div>
+    )
+}
+
+export default FormDangKyThiLai;
