@@ -114,9 +114,9 @@ function PhanQuyen({ phanQuyen, setPhanQuyen, setThongTinActive, setTPHoSoDeNghi
 									/>
 								</div>
 								{listDonViThucHien?.length &&
-									listDonViThucHien?.map((iDonVi) => (
+									listDonViThucHien?.map((iDonVi, index) => (
 										<li
-											key={iDonVi?.IDPhongBan}
+											key={index}
 											className={clsx(
 												"p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white",
 												iDonVi?.TenPhongBan.toLowerCase().includes(searchDonVi) ? "block" : "hidden",

@@ -28,13 +28,14 @@ function ThongTinHoSo(props) {
 		donViTiepNhan,
 		setDonViTiepNhan,
 		noiTraKetQua,
+		setNoiTraKetQua,
+		diaChiNhanTraHoSo,
 		thuTucLienThong,
 		thuTucKhongApDungMotCua,
 		canCuPhapLyCuaTTHC,
 		dieuKienThucHien,
 		dataFilesTepThuTuc,
 		setDataFilesTepThuTuc,
-		tenTepThuTuc,
 		handleChangeValue,
 		handleDeleteTepThuTuc,
 		setTPHoSoDeNghiActive,
@@ -43,7 +44,9 @@ function ThongTinHoSo(props) {
 
 	const [donViSelected, setDonViSelected] = useState("");
 	const [searchDonVi, setSearchDonVi] = useState("");
+	const [searchNoiTraKetQua, setSearchNoiTraKetQua] = useState("");
 	const [openSelectDonVi, setOpenSelectDonVi] = useState(false);
+	const [openSelectNoiTraKetQua, setOpenSelectNoiTraKetQua] = useState(false);
 
 	return (
 		<div className="uneti-tthcgv__thongtinhoso mb-5">
@@ -260,20 +263,64 @@ function ThongTinHoSo(props) {
 						<p className="font-semibold mb-2">
 							Nơi trả kết quả <span className="text-red-500">*</span>
 						</p>
-						<select
-							className="px-3 py-2 w-full rounded-full border border-slate-300 focus:outline-slate-300"
-							name="MC_TTHC_GV_NoiTraKetQua"
-							id="MC_TTHC_GV_NoiTraKetQua"
-							ref={inputNoiTraKetQuaRef}
-							value={noiTraKetQua}
-							onChange={handleChangeValue}
-						>
-							<option value="">Chọn nơi trả kết quả</option>
-							<option value="Trả online - Email">Trả online - Email</option>
-							<option value="1 - Minh Khai">1 - Minh Khai</option>
-							<option value="2 - Lĩnh Nam">2 - Lĩnh Nam</option>
-							<option value="3 - Nam Định">3 - Nam Định</option>
-						</select>
+						<div className="col-span-4 md:col-span-2 relative">
+							<div
+								id="MC_TTHC_GV_NoiTraKetQua"
+								ref={inputNoiTraKetQuaRef}
+								onClick={() => {
+									setOpenSelectNoiTraKetQua(!openSelectNoiTraKetQua);
+								}}
+								className="bg-white w-full p-2 flex items-center justify-between rounded-md border border-slate-300 cursor-pointer"
+							>
+								<span className={clsx(noiTraKetQua && "text-gray-700 font-semibold")}>{noiTraKetQua ? noiTraKetQua : "Chọn nơi trả kết quả"}</span>
+								<BiChevronDown size={20} className={clsx(openSelectNoiTraKetQua && "rotate-180")} />
+							</div>
+							<ul className={clsx("bg-white mt-2 border shadow-sm overflow-y-auto absolute right-0 left-0 top-full", openSelectNoiTraKetQua ? "max-h-60" : "hidden")}>
+								<div className="flex items-center px-2 sticky top-0 bg-white shadow-md">
+									<AiOutlineSearch size={18} className="text-gray-700" />
+									<input
+										type="text"
+										value={searchNoiTraKetQua}
+										onChange={(e) => {
+											setSearchNoiTraKetQua(e.target.value);
+										}}
+										placeholder="Nhập nơi trả kết quả..."
+										className="w-full placeholder:text-gray-500 p-2 outline-none"
+									/>
+								</div>
+								{searchNoiTraKetQua ? (
+									<li
+										className={clsx("font-semibold px-2 py-3 text-sm cursor-pointer hover:bg-sky-600 hover:text-white")}
+										onClick={() => {
+											setNoiTraKetQua(searchNoiTraKetQua);
+											setOpenSelectNoiTraKetQua(false);
+											setSearchNoiTraKetQua("");
+										}}
+									>
+										{searchNoiTraKetQua}
+									</li>
+								) : null}
+								{diaChiNhanTraHoSo &&
+									diaChiNhanTraHoSo?.map((iDiaChi, index) => {
+										return (
+											<li
+												key={index}
+												className={clsx(
+													"p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white",
+													iDiaChi?.MC_TTHC_GV_NoiTraKetQua.toLowerCase().includes(searchNoiTraKetQua) ? "block" : "hidden"
+												)}
+												onClick={() => {
+													setNoiTraKetQua(iDiaChi?.MC_TTHC_GV_NoiTraKetQua);
+													setOpenSelectNoiTraKetQua(false);
+													setSearchNoiTraKetQua("");
+												}}
+											>
+												{iDiaChi?.MC_TTHC_GV_NoiTraKetQua}
+											</li>
+										);
+									})}
+							</ul>
+						</div>
 					</label>
 				</div>
 				<div className="col-span-4 flex flex-row gap-3 items-center">

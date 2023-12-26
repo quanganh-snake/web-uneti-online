@@ -12,6 +12,11 @@ export const postTrangThaiTTHCGV = (data = []) => {
 	return http.post("SP_MC_TTHC_GV_TrangThaiTiepNhan/Add_Para", data);
 };
 
+// PUT
+export const putTrangthaiTTHCGV = (data = {}) => {
+	return http.put("SP_MC_TTHC_GV_TrangThaiTiepNhan/TrangThai_Edit_Para", data);
+};
+
 // GET: load danh sách trạng thái
 export const getListTrangThaiTTHCGV = () => {
 	return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Load_All_TrangThai");

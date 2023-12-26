@@ -7,21 +7,21 @@ import { getThuTucHanhChinhByID, putThongTinHoSoThuTuc } from "../../../../../Ap
 import Swal from "sweetalert2";
 import clsx from "clsx";
 import Loading from "./../../../../../Components/Loading/Loading";
-import { saveAs } from "file-saver";
 
 // icons
 import { FaAngleRight } from "react-icons/fa";
-import { MdOutlineZoomInMap, MdOutlineZoomOutMap } from "react-icons/md";
+import { MdDelete, MdOutlineZoomInMap, MdOutlineZoomOutMap } from "react-icons/md";
 import { TfiReload } from "react-icons/tfi";
 import { NguonTiepNhan_WEB } from "../../../../../Services/Static/dataStatic";
 import { toast } from "react-toastify";
 import { checkConditionObject } from "../../../../../Services/Utils/commonUtils";
-import { delTrinhTuThucHienTTHCGV } from "../../../../../Apis/ThuTucHanhChinhGiangVien/apiTrinhTuThucHien";
-import { deleteTrangThaiTTHCGV } from "../../../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai";
-import { delThanhPhanHoSoTTHCGV } from "../../../../../Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo";
+import { delTrinhTuThucHienTTHCGV, putTrinhTuThucHienTTHCGV } from "../../../../../Apis/ThuTucHanhChinhGiangVien/apiTrinhTuThucHien";
+import { deleteTrangThaiTTHCGV, putTrangthaiTTHCGV } from "../../../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai";
+import { delThanhPhanHoSoTTHCGV, putThanhPhanHoSoTTHCGV } from "../../../../../Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo";
 import { delPhanQuyenTTHCGV } from "../../../../../Apis/ThuTucHanhChinhGiangVien/apiPhanQuyen";
 import { convertBufferToBase64, convertDataFileToBase64 } from "../../../../../Services/Utils/stringUtils";
-import { handleOpenFileBase64, handlePreviewFileBase64 } from "../../../../../Services/Utils/fileUtils";
+import { handlePreviewFileBase64 } from "../../../../../Services/Utils/fileUtils";
+import { DebounceInput } from "react-debounce-input";
 
 function ThongTinChiTietHoSo() {
 	const { id } = useParams();
@@ -39,7 +39,7 @@ function ThongTinChiTietHoSo() {
 
 	const [editRowIndex, setEditRowIndex] = useState(-1);
 	const [editValueRow, setEditValueRow] = useState({});
-
+	const [editType, setEditType] = useState("");
 	const [editThongTinChung, setEditThongTinChung] = useState({});
 
 	const TABS = {
@@ -49,6 +49,25 @@ function ThongTinChiTietHoSo() {
 		tabPhanQuyen: "PhanQuyen",
 		tabTrangThai: "TrangThai",
 	};
+
+	const getDataDetailHoSoThuTuc = async () => {
+		try {
+			const resultDataHoSoThuTuc = await getThuTucHanhChinhByID(id);
+			setLoading(true);
+			if (resultDataHoSoThuTuc.status === 200) {
+				const dataDetailHoSoThuTuc = await resultDataHoSoThuTuc.data;
+				if (dataDetailHoSoThuTuc) {
+					const { ThongTinHoSo } = dataDetailHoSoThuTuc;
+					setDetailHoSoThuTuc(dataDetailHoSoThuTuc);
+					setEditThongTinChung(ThongTinHoSo);
+					setLoading(false);
+				}
+			}
+		} catch (error) {
+			console.log(error.message);
+		}
+	};
+
 	// Events handlers
 	const handleShowView = (tab) => {
 		if (tab === TABS.tabThongTinHoSo) {
@@ -64,7 +83,6 @@ function ThongTinChiTietHoSo() {
 			setShowPhanQuyen(!showPhanQuyen);
 		}
 		if (tab === TABS.tabTrangThai) {
-			console.log("a");
 			setShowTrangThai(!showTrangThai);
 		}
 	};
@@ -178,20 +196,13 @@ function ThongTinChiTietHoSo() {
 	};
 
 	const handleEditRow = async (index, type, valueRow) => {
-		if (type === TABS.tabTPHSDeNghi) {
-			setEditRowIndex(index);
-			setEditValueRow(valueRow);
-		}
-
-		if (type === TABS.tabTrangThai) {
-			setEditRowIndex(index);
-			setEditValueRow(valueRow);
-		}
+		setEditType(type);
+		setEditRowIndex(index);
+		setEditValueRow(valueRow);
 	};
 
-	const handleUpdateRow = async (index, type, valueRow) => {};
-
 	const handleCancelUpdateRow = () => {
+		setEditType("");
 		setEditRowIndex(-1);
 		setEditValueRow({});
 	};
@@ -204,9 +215,7 @@ function ThongTinChiTietHoSo() {
 				...prevObject,
 				[name]: value,
 			}));
-		}
-
-		if (tab === TABS.tabTPHSDeNghi) {
+		} else {
 			if (type === "checkbox") {
 				console.log(name, checked);
 				setEditValueRow((prevEditValueRow) => ({
@@ -215,16 +224,18 @@ function ThongTinChiTietHoSo() {
 				}));
 			} else if (type === "file") {
 				if (files && files.length > 0) {
-					setEditValueRow((prevEditValueRow) => ({
-						...prevEditValueRow,
-						MC_TTHC_GV_ThanhPhanHoSo_TenFile: files[0].name,
-					}));
-					convertDataFileToBase64(files[0]).then((dataFileBase64) => {
+					if (tab === TABS.tabTPHSDeNghi) {
 						setEditValueRow((prevEditValueRow) => ({
 							...prevEditValueRow,
-							MC_TTHC_GV_ThanhPhanHoSo_DataFile: dataFileBase64,
+							MC_TTHC_GV_ThanhPhanHoSo_TenFile: files[0].name,
 						}));
-					});
+						convertDataFileToBase64(files[0]).then((dataFileBase64) => {
+							setEditValueRow((prevEditValueRow) => ({
+								...prevEditValueRow,
+								MC_TTHC_GV_ThanhPhanHoSo_DataFile: dataFileBase64.split(",")[1],
+							}));
+						});
+					}
 				}
 			} else {
 				setEditValueRow((prevEditValueRow) => ({
@@ -235,7 +246,7 @@ function ThongTinChiTietHoSo() {
 		}
 	};
 
-	const handleUpdate = async (type) => {
+	const handleUpdate = async (type, valueRow) => {
 		if (type === TABS.tabThongTinHoSo) {
 			const newDataUpdateThongTinHoSo = {
 				MC_TTHC_GV_ID: editThongTinChung?.MC_TTHC_GV_ID,
@@ -273,7 +284,12 @@ function ThongTinChiTietHoSo() {
 							const resUpdateThongTinHoSo = await putThongTinHoSoThuTuc(newDataUpdateThongTinHoSo);
 							if (resUpdateThongTinHoSo.status === 200) {
 								setLoading(false);
-								toast.success("Cập nhật thông tin hồ sơ thành công!");
+								setEditType("");
+								getDataDetailHoSoThuTuc();
+								Swal.fire({
+									icon: "success",
+									title: "Cập nhật thông tin hồ sơ thành công!",
+								});
 								return;
 							}
 						} catch (error) {
@@ -285,31 +301,149 @@ function ThongTinChiTietHoSo() {
 				return toast.warning("Không có thay đổi nào để cập nhật thông tin hồ sơ!");
 			}
 		}
+
+		if (type === TABS.tabTPHSDeNghi) {
+			let dataTPHPUpdate = {
+				MC_TTHC_GV_ThanhPhanHoSo_ID: valueRow?.MC_TTHC_GV_ThanhPhanHoSo_ID,
+				MC_TTHC_GV_ThanhPhanHoSo_IDTTHC: valueRow?.MC_TTHC_GV_ThanhPhanHoSo_IDTTHC,
+				MC_TTHC_GV_ThanhPhanHoSo_STT: valueRow?.MC_TTHC_GV_ThanhPhanHoSo_STT,
+				MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo: valueRow?.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo,
+				MC_TTHC_GV_ThanhPhanHoSo_TenFile: valueRow?.MC_TTHC_GV_ThanhPhanHoSo_TenFile,
+				MC_TTHC_GV_ThanhPhanHoSo_DataFile: valueRow?.MC_TTHC_GV_ThanhPhanHoSo_DataFile,
+				MC_TTHC_GV_ThanhPhanHoSo_BanChinh: valueRow?.MC_TTHC_GV_ThanhPhanHoSo_BanChinh,
+				MC_TTHC_GV_ThanhPhanHoSo_BanSao: valueRow?.MC_TTHC_GV_ThanhPhanHoSo_BanSao,
+				MC_TTHC_GV_ThanhPhanHoSo_BatBuoc: valueRow?.MC_TTHC_GV_ThanhPhanHoSo_BatBuoc,
+			};
+
+			try {
+				Swal.fire({
+					icon: "question",
+					title: "Bạn chắc chắn muốn cập nhật thông tin mẫu hồ sơ/hướng dẫn này chứ?",
+					showConfirmButton: true,
+					showCancelButton: true,
+					confirmButtonText: "Đồng ý",
+					cancelButtonText: "Hủy",
+				}).then(async (result) => {
+					if (result.isConfirmed) {
+						try {
+							const resUpdateTPHSDeNghi = await putThanhPhanHoSoTTHCGV(dataTPHPUpdate);
+							if (resUpdateTPHSDeNghi.status === 200) {
+								getDataDetailHoSoThuTuc();
+								setEditRowIndex(-1);
+								setEditValueRow({});
+								Swal.fire({
+									icon: "success",
+									title: `Cập nhật thông tin thành phần hồ sơ ${valueRow?.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo} thành công!`,
+								});
+							}
+						} catch (error) {
+							console.log(error.message);
+						}
+					}
+				});
+			} catch (error) {
+				console.log(error.message);
+			}
+		}
+
+		if (type === TABS.tabTrinhTuThucHien) {
+			let dataTrinhTuUpdate = {
+				MC_TTHC_GV_TrinhTuThucHien_ID: valueRow?.MC_TTHC_GV_TrinhTuThucHien_ID,
+				MC_TTHC_GV_TrinhTuThucHien_IDTTHC: valueRow?.MC_TTHC_GV_TrinhTuThucHien_IDTTHC,
+				MC_TTHC_GV_TrinhTuThucHien_Buoc: valueRow?.MC_TTHC_GV_TrinhTuThucHien_Buoc,
+				MC_TTHC_GV_TrinhTuThucHien_TenCongViec: valueRow?.MC_TTHC_GV_TrinhTuThucHien_TenCongViec,
+				MC_TTHC_GV_TrinhTuThucHien_CachThucThucHien: valueRow?.MC_TTHC_GV_TrinhTuThucHien_CachThucThucHien,
+				MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra: valueRow?.MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra,
+				MC_TTHC_GV_TrinhTuThucHien_DonViThucHien: valueRow?.MC_TTHC_GV_TrinhTuThucHien_DonViThucHien,
+				MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop: valueRow?.MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop,
+				MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay: valueRow?.MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay,
+				MC_TTHC_GV_TrinhTuThucHien_KetQua: valueRow?.MC_TTHC_GV_TrinhTuThucHien_KetQua,
+			};
+			// console.log("🚀 ~ file: ThongTinChiTietHoSo.jsx:357 ~ handleUpdate ~ dataTrinhTuUpdate:", dataTrinhTuUpdate);
+			// return;
+
+			try {
+				Swal.fire({
+					icon: "question",
+					title: "Bạn chắc chắn muốn cập nhật thông tin trình tự thực hiện này chứ?",
+					showConfirmButton: true,
+					showCancelButton: true,
+					confirmButtonText: "Đồng ý",
+					cancelButtonText: "Hủy",
+				}).then(async (result) => {
+					if (result.isConfirmed) {
+						try {
+							const resUpdateTrinhTuThucHien = await putTrinhTuThucHienTTHCGV(dataTrinhTuUpdate);
+							if (resUpdateTrinhTuThucHien.status === 200) {
+								getDataDetailHoSoThuTuc();
+								setEditType("");
+								setEditRowIndex(-1);
+								setEditValueRow({});
+								Swal.fire({
+									icon: "success",
+									title: `Cập nhật thông tin trình tự thực hiện ${valueRow?.MC_TTHC_GV_TrinhTuThucHien_TenCongViec} thành công!`,
+								});
+							}
+						} catch (error) {
+							console.log(error.message);
+						}
+					}
+				});
+			} catch (error) {
+				console.log(error.message);
+			}
+		}
+
+		if (type === TABS.tabTrangThai) {
+			let dataTrangThaiUpdate = {
+				MC_TTHC_GV_TrangThai_ID: valueRow?.MC_TTHC_GV_TrangThai_ID,
+				MC_TTHC_GV_TrangThai_IDTTHC: valueRow?.MC_TTHC_GV_TrangThai_IDTTHC,
+				MC_TTHC_GV_TrangThai_STT: valueRow?.MC_TTHC_GV_TrangThai_STT,
+				MC_TTHC_GV_TrangThai_TenTrangThai: valueRow?.MC_TTHC_GV_TrangThai_TenTrangThai,
+				MC_TTHC_GV_TrangThai_MoTa: valueRow?.MC_TTHC_GV_TrangThai_MoTa,
+			};
+			try {
+				Swal.fire({
+					icon: "question",
+					title: "Bạn chắc chắn muốn cập nhật thông tin trạng thái này chứ?",
+					showConfirmButton: true,
+					showCancelButton: true,
+					confirmButtonText: "Đồng ý",
+					cancelButtonText: "Hủy",
+				}).then(async (result) => {
+					if (result.isConfirmed) {
+						try {
+							const resUpdateTPHSDeNghi = await putTrangthaiTTHCGV(dataTrangThaiUpdate);
+							if (resUpdateTPHSDeNghi.status === 200) {
+								getDataDetailHoSoThuTuc();
+								setEditRowIndex(-1);
+								setEditValueRow({});
+								Swal.fire({
+									icon: "success",
+									title: `Cập nhật thông tin trạng thái ${valueRow?.MC_TTHC_GV_TrangThai_TenTrangThai} thành công!`,
+								});
+							}
+						} catch (error) {
+							console.log(error.message);
+						}
+					}
+				});
+			} catch (error) {
+				console.log(error.message);
+			}
+		}
 	};
 
 	// Effects
 	useEffect(() => {
-		const getDataDetailHoSoThuTuc = async () => {
-			const resultDataHoSoThuTuc = await getThuTucHanhChinhByID(id);
-			setLoading(true);
-			if (resultDataHoSoThuTuc.status === 200) {
-				const dataDetailHoSoThuTuc = await resultDataHoSoThuTuc.data;
-				if (dataDetailHoSoThuTuc) {
-					const { ThongTinHoSo } = dataDetailHoSoThuTuc;
-					setDetailHoSoThuTuc(dataDetailHoSoThuTuc);
-					setEditThongTinChung(ThongTinHoSo);
-					setLoading(false);
-				}
-			}
-		};
 		getDataDetailHoSoThuTuc();
 	}, [loading]);
 
 	const { ThongTinHoSo, ThanhPhanHoSo, TrinhTuThucHien, PhanQuyen, TrangThai } = detailHoSoThuTuc ?? null;
 	return (
-		<div className="px-5 lg:px-0 flex gap-4">
+		<div className="px-5 lg:px-0 grid grid-cols-12 flex-row gap-4">
 			<SidebarTTHCGV />
-			<div className={clsx("w-full p-4 rounded-xl shadow-lg bg-white", zoomView ? "absolute left-0 right-0" : "")}>
+			<div className={clsx("col-span-10 w-full p-4 rounded-xl shadow-lg bg-white", zoomView ? "absolute left-0 right-0" : "")}>
 				<div className="flex flex-col">
 					<div className="flex justify-between">
 						<h3 className="font-bold text-2xl uppercase mb-6 text-[#336699] underline">Chi tiết quy trình hồ sơ - thủ tục</h3>
@@ -562,6 +696,32 @@ function ThongTinChiTietHoSo() {
 												{updatetepThuTuc ? "(Hủy)" : "(Thay đổi)"}
 											</button>
 										</label>
+										{editThongTinChung?.MC_TTHC_GV_TepThuTuc_DataFileFile ? (
+											<p className="flex items-center justify-between gap-2 p-2 border">
+												<span
+													className="text-sky-800 font-semibold hover:opacity-70 cursor-pointer"
+													onClick={() => {
+														handlePreviewFileBase64(editThongTinChung?.MC_TTHC_GV_TepThuTuc_TenFile, editThongTinChung?.MC_TTHC_GV_TepThuTuc_DataFileFile);
+													}}
+												>
+													{editThongTinChung?.MC_TTHC_GV_TepThuTuc_TenFile}
+												</span>
+												<span>
+													<MdDelete
+														className="cursor-pointer hover:text-red-600"
+														onClick={() => {
+															setEditThongTinChung((prevState) => {
+																return {
+																	...prevState,
+																	MC_TTHC_GV_TepThuTuc_DataFileFile: null,
+																	MC_TTHC_GV_TepThuTuc_TenFile: null,
+																};
+															});
+														}}
+													/>
+												</span>
+											</p>
+										) : null}
 										{updatetepThuTuc ? (
 											<>
 												<label
@@ -596,7 +756,7 @@ function ThongTinChiTietHoSo() {
 																setEditThongTinChung({
 																	...editThongTinChung,
 																	MC_TTHC_GV_TepThuTuc_TenFile: file.name,
-																	MC_TTHC_GV_TepThuTuc_DataFileFile: dataFile,
+																	MC_TTHC_GV_TepThuTuc_DataFileFile: dataFile.split(",")[1],
 																});
 															}
 														}
@@ -618,7 +778,7 @@ function ThongTinChiTietHoSo() {
 												<button
 													type="button"
 													onClick={async () => {
-														const dataFileBase64WithoutPrefix = await convertBufferToBase64(editThongTinChung?.MC_TTHC_GV_TepThuTuc_DataFileFile?.data);
+														const dataFileBase64WithoutPrefix = convertBufferToBase64(editThongTinChung?.MC_TTHC_GV_TepThuTuc_DataFileFile?.data);
 														handlePreviewFileBase64(editThongTinChung?.MC_TTHC_GV_TepThuTuc_TenFile, dataFileBase64WithoutPrefix);
 													}}
 													className="text-red-700 hover:opacity-70 font-semibold"
@@ -626,19 +786,7 @@ function ThongTinChiTietHoSo() {
 													(Xem chi tiết file)
 												</button>
 											</div>
-										) : (
-											<input
-												type="file"
-												className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-slate-400"
-												defaultValue={editThongTinChung?.MC_TTHC_GV_TepThuTuc_TenFile}
-												name="MC_TTHC_GV_TepThuTuc_TenFile"
-												id="MC_TTHC_GV_TepThuTuc_TenFile"
-												placeholder="Tệp thủ tục hồ sơ"
-												onChange={(e) => {
-													handleChangeValue(TABS.tabThongTinHoSo, e);
-												}}
-											/>
-										)}
+										) : null}
 									</div>
 									<div className="flex flex-col md:flex-row items-center gap-4">
 										<div className="w-full">
@@ -721,7 +869,7 @@ function ThongTinChiTietHoSo() {
 											<tbody>
 												{ThanhPhanHoSo.map((iThanhPhan, index) => (
 													<tr className="border-b" key={iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_ID}>
-														{editRowIndex === index ? (
+														{editType === TABS.tabTPHSDeNghi && editRowIndex === index ? (
 															<>
 																<td className="border-r border-l px-2 py-1 text-center">{index + 1}</td>
 																<td className="border-r px-2 py-1 text-center">
@@ -731,54 +879,133 @@ function ThongTinChiTietHoSo() {
 																		placeholder="Nhập tên giấy tờ..."
 																		value={editValueRow.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo || ""}
 																		name="MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo"
-																		onChange={(e) => handleChangeValue(TABS.tabTPHSDeNghi, e)}
+																		onChange={(e) => {
+																			handleChangeValue(TABS.tabTPHSDeNghi, e);
+																		}}
 																	></textarea>
 																</td>
 																<td className="border-r px-2 py-1 text-center">
-																	<p className="font-semibold ">
-																		Xem mẫu hồ sơ/hướng dẫn:{" "}
-																		<Link
-																			to={iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_TenFile}
-																			target="_blank"
-																			className="text-[#336699] cursor-pointer hover:opacity-70"
-																		>
-																			{iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo}
-																		</Link>
-																	</p>
+																	<div className="">
+																		<p className="font-semibold ">
+																			Xem mẫu hồ sơ/hướng dẫn (trước đấy):{" "}
+																			<Link
+																				to={iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_TenFile}
+																				target="_blank"
+																				className="text-[#336699] cursor-pointer hover:opacity-70"
+																			>
+																				{iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo}
+																			</Link>
+																		</p>
+																		{editValueRow?.MC_TTHC_GV_ThanhPhanHoSo_DataFile ? (
+																			<p className="border p-1 flex items-center justify-between gap-2 my-2">
+																				<span className="text-left">{editValueRow?.MC_TTHC_GV_ThanhPhanHoSo_TenFile}</span>
+																				<MdDelete
+																					className="hover:text-red-600 cursor-pointer"
+																					onClick={() => {
+																						setEditValueRow({
+																							...editValueRow,
+																							MC_TTHC_GV_ThanhPhanHoSo_TenFile: null,
+																							MC_TTHC_GV_ThanhPhanHoSo_DataFile: null,
+																						});
+																					}}
+																				/>
+																			</p>
+																		) : (
+																			<label
+																				htmlFor="MC_TTHC_GV_ThanhPhanHoSo_TenFile_Update"
+																				className="block my-4 text-left border bg-slate-200 hover:opacity-70 cursor-pointer"
+																			>
+																				<input
+																					type="file"
+																					name="MC_TTHC_GV_ThanhPhanHoSo_TenFile_Update"
+																					id="MC_TTHC_GV_ThanhPhanHoSo_TenFile_Update"
+																					onChange={async (e) => {
+																						const file = e.target.files[0];
+																						const base64String = await convertDataFileToBase64(file);
+
+																						const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+																						if (!file.name.match(/\.(pdf|docx|doc|jpeg|jpg|png|gif)$/i)) {
+																							Swal.fire({
+																								icon: "error",
+																								title: "Tệp tải lên không đúng định dạng yêu cầu. Vui lòng kiểm tra lại.",
+																								text: "Các loại file tải lên phải có dạng PDF, DOC, DOCX, PNG, JPG, JPEG hoặc GIF(Kích thước tối đa 5MB)",
+																							});
+																							return;
+																						} else {
+																							if (file.size > maxSizeInBytes) {
+																								Swal.fire({
+																									icon: "error",
+																									title: "Tệp tải lên vượt quá kích thước cho phép!",
+																									text: "Kích thước tối đa 5MB.",
+																								});
+																								return;
+																							} else {
+																								setEditValueRow({
+																									...editValueRow,
+																									MC_TTHC_GV_ThanhPhanHoSo_TenFile: file.name,
+																									MC_TTHC_GV_ThanhPhanHoSo_DataFile: base64String.split(",")[1],
+																								});
+																							}
+																						}
+																					}}
+																				/>
+																			</label>
+																		)}
+
+																		<p className="text-sm text-left text-slate-500">
+																			Các loại file tải lên phải có dạng <span className="font-medium">PDF</span>, <span className="font-medium">DOC</span>,{" "}
+																			<span className="font-medium">DOCX</span>, <span className="font-medium">PNG</span>,{" "}
+																			<span className="font-medium">JPG</span>, <span className="font-medium">JPEG</span> hoặc{" "}
+																			<span className="font-medium">GIF</span>
+																			<span className="ml-1 font-medium text-red-600">(Kích thước tối đa 5MB)</span>
+																		</p>
+																	</div>
 																</td>
 																<td className="border-r px-2 py-1 text-center">
-																	<input
-																		type="checkbox"
-																		checked={editValueRow.MC_TTHC_GV_ThanhPhanHoSo_BanChinh || false}
-																		name="MC_TTHC_GV_ThanhPhanHoSo_BanChinh"
-																		id="MC_TTHC_GV_ThanhPhanHoSo_BanChinh"
-																		onChange={(e) => handleChangeValue(TABS.tabTPHSDeNghi, e)}
-																	/>
+																	<div className="">
+																		<input
+																			type="checkbox"
+																			checked={editValueRow.MC_TTHC_GV_ThanhPhanHoSo_BanChinh || false}
+																			name="MC_TTHC_GV_ThanhPhanHoSo_BanChinh"
+																			id="MC_TTHC_GV_ThanhPhanHoSo_BanChinh"
+																			onChange={(e) => {
+																				handleChangeValue(TABS.tabTPHSDeNghi, e);
+																			}}
+																		/>
+																	</div>
 																</td>
 																<td className="border-r px-2 py-1 text-center">
-																	<input
-																		type="checkbox"
-																		defaultChecked={editValueRow.MC_TTHC_GV_ThanhPhanHoSo_BanSao}
-																		name="MC_TTHC_GV_ThanhPhanHoSo_BanSao"
-																		id="MC_TTHC_GV_ThanhPhanHoSo_BanSao"
-																		onChange={(e) => handleChangeValue(TABS.tabTPHSDeNghi, e)}
-																	/>
+																	<div className="">
+																		<input
+																			type="checkbox"
+																			defaultChecked={editValueRow.MC_TTHC_GV_ThanhPhanHoSo_BanSao}
+																			name="MC_TTHC_GV_ThanhPhanHoSo_BanSao"
+																			id="MC_TTHC_GV_ThanhPhanHoSo_BanSao"
+																			onChange={(e) => {
+																				handleChangeValue(TABS.tabTPHSDeNghi, e);
+																			}}
+																		/>
+																	</div>
 																</td>
 																<td className="border-r px-2 py-1 text-center">
-																	<input
-																		type="checkbox"
-																		defaultChecked={editValueRow.MC_TTHC_GV_ThanhPhanHoSo_BatBuoc}
-																		name="MC_TTHC_GV_ThanhPhanHoSo_BatBuoc"
-																		id="MC_TTHC_GV_ThanhPhanHoSo_BatBuoc"
-																		onChange={(e) => handleChangeValue(TABS.tabTPHSDeNghi, e)}
-																	/>
+																	<div className="">
+																		<input
+																			type="checkbox"
+																			defaultChecked={editValueRow.MC_TTHC_GV_ThanhPhanHoSo_BatBuoc}
+																			name="MC_TTHC_GV_ThanhPhanHoSo_BatBuoc"
+																			id="MC_TTHC_GV_ThanhPhanHoSo_BatBuoc"
+																			onChange={(e) => {
+																				handleChangeValue(TABS.tabTPHSDeNghi, e);
+																			}}
+																		/>
+																	</div>
 																</td>
 																<td className="border-r px-2 py-1 text-center">
 																	<div className="flex flex-col items-center justify-center gap-2">
 																		<button
 																			type="button"
 																			className="px-3 py-1 w-full bg-[#336699] text-white hover:opacity-70"
-																			onClick={() => handleUpdateRow(index)}
+																			onClick={() => handleUpdate(TABS.tabTPHSDeNghi, editValueRow)}
 																		>
 																			Lưu
 																		</button>
@@ -802,13 +1029,15 @@ function ThongTinChiTietHoSo() {
 																<td className="border-r px-2 py-1 text-center">
 																	<p className="font-semibold ">
 																		Xem mẫu hồ sơ/hướng dẫn:{" "}
-																		<Link
-																			to={iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_TenFile}
-																			target="_blank"
+																		<span
+																			onClick={() => {
+																				const dataFileBase64WithoutPrefix = convertBufferToBase64(iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_DataFile?.data);
+																				handlePreviewFileBase64(iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_TenFile, dataFileBase64WithoutPrefix);
+																			}}
 																			className="text-[#336699] cursor-pointer hover:opacity-70"
 																		>
-																			{iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo}
-																		</Link>
+																			{iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_TenFile}
+																		</span>
 																	</p>
 																</td>
 																<td className="border-r px-2 py-1 text-center">
@@ -875,57 +1104,197 @@ function ThongTinChiTietHoSo() {
 									</div>
 									{/* contents */}
 									<div className={clsx(showTrinhTuThucHien ? "flex flex-col gap-4" : "hidden")}>
-										<table className="w-full">
-											<thead className="bg-[#075985] text-white rounded-t-xl">
-												<tr>
-													<th className="border-r px-2 py-1 rounded-tl-xl w-[40px]">
-														<p className=" w-[40px]">Bước</p>
-													</th>
-													<th className="border-r px-2 py-1">
-														<p className="w-[100px]">Tên công việc</p>
-													</th>
-													<th className="border-r px-2 py-1">
-														<p className="w-[120px]">Cách thức thực hiện</p>
-													</th>
-													<th className="border-r px-2 py-1">Địa chỉ nhận/trả hồ sơ</th>
-													<th className="border-r px-2 py-1">Đơn vị thực hiện</th>
-													<th className="border-r px-2 py-1">Đơn vị phối hợp</th>
-													<th className="border-r px-2 py-1">Thời gian thực hiện</th>
-													<th className="border-r px-2 py-1">
-														<p className="w-[140px]">Kết quả</p>
-													</th>
-													<th className="px-2 py-1 rounded-tr-xl"></th>
-												</tr>
-											</thead>
-											<tbody>
-												{TrinhTuThucHien?.map((iTrinhTu, index) => (
-													<tr className="border-b" key={iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_ID}>
-														<td className="border-r border-l px-2 py-1 text-center">{index + 1}</td>
-														<td className="border-r px-2 py-1 text-left">{iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_TenCongViec}</td>
-														<td className="border-r px-2 py-1 text-left">{iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_CachThucThucHien}</td>
-														<td className="border-r px-2 py-1 text-left">{iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra}</td>
-														<td className="border-r px-2 py-1 text-left">{iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_DonViThucHien}</td>
-														<td className="border-r px-2 py-1 text-center">{iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop}</td>
-														<td className="border-r px-2 py-1 text-center">{iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay}</td>
-														<td className="border-r px-2 py-1 text-left">{iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_KetQua}</td>
-														<td className="border-r px-2 py-1 text-center">
-															<div className="flex flex-col lg:flex-row items-center justify-center gap-2">
-																<button type="button" className="px-3 py-1 bg-[#336699] text-white hover:opacity-70" onClick={() => handleEditRow(index)}>
-																	Sửa
-																</button>
-																<button
-																	type="button"
-																	className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
-																	onClick={() => handleDeleteRow(TABS.tabTrinhTuThucHien, iTrinhTu)}
-																>
-																	Xóa
-																</button>
-															</div>
-														</td>
+										<div className="max-w-full overflow-x-scroll">
+											<table className="w-full">
+												<thead className="bg-[#075985] text-white rounded-t-xl">
+													<tr>
+														<th className="border-r px-2 py-1 rounded-tl-xl w-[40px]">
+															<p className=" w-[40px]">Bước</p>
+														</th>
+														<th className="border-r px-2 py-1">
+															<p className="w-[100px]">Tên công việc</p>
+														</th>
+														<th className="border-r px-2 py-1">
+															<p className="w-[120px]">Cách thức thực hiện</p>
+														</th>
+														<th className="border-r px-2 py-1">Địa chỉ nhận/trả hồ sơ</th>
+														<th className="border-r px-2 py-1">Đơn vị thực hiện</th>
+														<th className="border-r px-2 py-1">Đơn vị phối hợp</th>
+														<th className="border-r px-2 py-1">
+															<p className="w-[120px]">Thời gian thực hiện</p>
+														</th>
+														<th className="border-r px-2 py-1">
+															<p className="w-[140px]">Kết quả</p>
+														</th>
+														<th className="px-2 py-1 rounded-tr-xl"></th>
 													</tr>
-												))}
-											</tbody>
-										</table>
+												</thead>
+												<tbody>
+													{TrinhTuThucHien?.map((iTrinhTu, index) => (
+														<tr className="border-b" key={iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_ID}>
+															{editType === TABS.tabTrinhTuThucHien && editRowIndex === index ? (
+																<>
+																	<td className="border-r border-l px-2 py-1 text-center">{index + 1}</td>
+																	<td className="border-r px-2 py-1 text-left">
+																		<div className="">
+																			<DebounceInput
+																				className="block border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
+																				minLength={2}
+																				debounceTimeout={300}
+																				value={iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_TenCongViec}
+																				name="MC_TTHC_GV_TrinhTuThucHien_TenCongViec"
+																				onChange={(e) => {
+																					handleChangeValue(TABS.tabTrinhTuThucHien, e);
+																				}}
+																			/>
+																		</div>
+																	</td>
+																	<td className="border-r px-2 py-1 text-left">
+																		<div className="">
+																			<DebounceInput
+																				element={"textarea"}
+																				className="block w-full max-h-full border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
+																				style={{ minHeight: "200px" }}
+																				minLength={2}
+																				debounceTimeout={300}
+																				value={iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_CachThucThucHien}
+																				name="MC_TTHC_GV_TrinhTuThucHien_CachThucThucHien"
+																				onChange={(e) => {
+																					handleChangeValue(TABS.tabTrinhTuThucHien, e);
+																				}}
+																			/>
+																		</div>
+																	</td>
+																	<td className="border-r px-2 py-1 text-left">
+																		<div className="">
+																			<DebounceInput
+																				className="block border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
+																				minLength={2}
+																				debounceTimeout={300}
+																				value={iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra}
+																				name="MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra"
+																				onChange={(e) => {
+																					handleChangeValue(TABS.tabTrinhTuThucHien, e);
+																				}}
+																			/>
+																		</div>
+																	</td>
+																	<td className="border-r px-2 py-1 text-left">
+																		<div className="">
+																			<DebounceInput
+																				className="block border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
+																				minLength={2}
+																				debounceTimeout={300}
+																				value={iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_DonViThucHien}
+																				name="MC_TTHC_GV_TrinhTuThucHien_DonViThucHien"
+																				onChange={(e) => {
+																					handleChangeValue(TABS.tabTrinhTuThucHien, e);
+																				}}
+																			/>
+																		</div>
+																	</td>
+																	<td className="border-r px-2 py-1 text-center">
+																		<div className="">
+																			<DebounceInput
+																				className="block border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
+																				minLength={2}
+																				debounceTimeout={300}
+																				value={iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop}
+																				name="MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop"
+																				onChange={(e) => {
+																					handleChangeValue(TABS.tabTrinhTuThucHien, e);
+																				}}
+																			/>
+																		</div>
+																	</td>
+																	<td className="border-r px-2 py-1 text-center">
+																		<div className="">
+																			<DebounceInput
+																				type={"number"}
+																				className="block w-full border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
+																				min={0}
+																				step={0.1}
+																				value={iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay}
+																				name="MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay"
+																				onChange={(e) => {
+																					handleChangeValue(TABS.tabTrinhTuThucHien, e);
+																				}}
+																			/>
+																		</div>
+																	</td>
+																	<td className="border-r px-2 py-1 text-left">
+																		<div className="">
+																			<DebounceInput
+																				element={"textarea"}
+																				className="block w-full border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
+																				style={{ minHeight: "200px" }}
+																				minLength={2}
+																				debounceTimeout={300}
+																				value={iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_KetQua}
+																				name="MC_TTHC_GV_TrinhTuThucHien_KetQua"
+																				onChange={(e) => {
+																					handleChangeValue(TABS.tabTrinhTuThucHien, e);
+																				}}
+																			/>
+																		</div>
+																	</td>
+																	<td className="border-r px-2 py-1 text-center">
+																		<div className="flex flex-col lg:flex-row items-center justify-center gap-2">
+																			<button
+																				type="button"
+																				className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
+																				onClick={() => handleUpdate(TABS.tabTrinhTuThucHien, editValueRow)}
+																			>
+																				Lưu
+																			</button>
+																			<button type="button" className="px-3 py-1 bg-[#336699] text-white hover:opacity-70" onClick={handleCancelUpdateRow}>
+																				Hủy
+																			</button>
+																			<button
+																				type="button"
+																				className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
+																				onClick={() => handleDeleteRow(TABS.tabTrinhTuThucHien, iTrinhTu)}
+																			>
+																				Xóa
+																			</button>
+																		</div>
+																	</td>
+																</>
+															) : (
+																<>
+																	<td className="border-r border-l px-2 py-1 text-center">{index + 1}</td>
+																	<td className="border-r px-2 py-1 text-left">{iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_TenCongViec}</td>
+																	<td className="border-r px-2 py-1 text-left">{iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_CachThucThucHien}</td>
+																	<td className="border-r px-2 py-1 text-left">{iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra}</td>
+																	<td className="border-r px-2 py-1 text-left">{iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_DonViThucHien}</td>
+																	<td className="border-r px-2 py-1 text-center">{iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop}</td>
+																	<td className="border-r px-2 py-1 text-center">{iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay}</td>
+																	<td className="border-r px-2 py-1 text-left">{iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_KetQua}</td>
+																	<td className="border-r px-2 py-1 text-center">
+																		<div className="flex flex-col lg:flex-row items-center justify-center gap-2">
+																			<button
+																				type="button"
+																				className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
+																				onClick={() => handleEditRow(index, TABS.tabTrinhTuThucHien, iTrinhTu)}
+																			>
+																				Sửa
+																			</button>
+																			<button
+																				type="button"
+																				className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
+																				onClick={() => handleDeleteRow(TABS.tabTrinhTuThucHien, iTrinhTu)}
+																			>
+																				Xóa
+																			</button>
+																		</div>
+																	</td>
+																</>
+															)}
+														</tr>
+													))}
+												</tbody>
+											</table>
+										</div>
 									</div>
 								</div>
 							) : null}
@@ -980,9 +1349,6 @@ function ThongTinChiTietHoSo() {
 														<td className="border-r px-2 py-1 text-center">{iPhanQuyen.MC_TTHC_GV_PhanQuyen_Nhom}</td>
 														<td className="border-r px-2 py-1 text-center">
 															<div className="flex flex-col lg:flex-row items-center justify-center gap-2">
-																<button type="button" className="px-3 py-1 bg-[#336699] text-white hover:opacity-70" onClick={() => handleEditRow(index)}>
-																	Sửa
-																</button>
 																<button
 																	type="button"
 																	className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
@@ -1039,23 +1405,84 @@ function ThongTinChiTietHoSo() {
 											<tbody>
 												{TrangThai.map((iTrangThai, index) => (
 													<tr className="border-b" key={iTrangThai.MC_TTHC_GV_TrangThai_ID}>
-														<td className="border-r border-l px-2 py-1 text-center">{index + 1}</td>
-														<td className="border-r px-2 py-1 text-center">{iTrangThai.MC_TTHC_GV_TrangThai_TenTrangThai}</td>
-														<td className="border-r px-2 py-1 text-center">{iTrangThai.MC_TTHC_GV_TrangThai_MoTa}</td>
-														<td className="border-r px-2 py-1 text-center">
-															<div className="flex flex-col lg:flex-row items-center justify-center gap-2">
-																<button type="button" className="px-3 py-1 bg-[#336699] text-white hover:opacity-70" onClick={() => handleEditRow(index)}>
-																	Sửa
-																</button>
-																<button
-																	type="button"
-																	className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
-																	onClick={() => handleDeleteRow(TABS.tabTrangThai, iTrangThai)}
-																>
-																	Xóa
-																</button>
-															</div>
-														</td>
+														{editType === TABS.tabTrangThai && editRowIndex === index ? (
+															<>
+																<td className="border-r border-l px-2 py-1 text-center">{index + 1}</td>
+																<td className="border-r px-2 py-1 text-center">
+																	<div className="">
+																		<input
+																			type="text"
+																			className="w-full focus:outline-slate-400 px-3 py-2 border-2 border-gray-400 bg-gray-50"
+																			value={editValueRow.MC_TTHC_GV_TrangThai_TenTrangThai || ""}
+																			name="MC_TTHC_GV_TrangThai_TenTrangThai"
+																			id="MC_TTHC_GV_TrangThai_TenTrangThai"
+																			onChange={(e) => {
+																				handleChangeValue(TABS.tabTrangThai, e);
+																			}}
+																		/>
+																	</div>
+																</td>
+																<td className="border-r px-2 py-1 text-center">
+																	<div className="">
+																		<input
+																			type="text"
+																			className="w-full focus:outline-slate-400 px-3 py-2 border-2 border-gray-400 bg-gray-50"
+																			value={editValueRow.MC_TTHC_GV_TrangThai_MoTa || ""}
+																			name="MC_TTHC_GV_TrangThai_MoTa"
+																			id="MC_TTHC_GV_TrangThai_MoTa"
+																			onChange={(e) => {
+																				handleChangeValue(TABS.tabTrangThai, e);
+																			}}
+																		/>
+																	</div>
+																</td>
+																<td className="border-r px-2 py-1 text-center">
+																	<div className="flex flex-col lg:flex-row items-center justify-center gap-2">
+																		<button
+																			type="button"
+																			className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
+																			onClick={() => handleUpdate(TABS.tabTrangThai, editValueRow)}
+																		>
+																			Lưu
+																		</button>
+																		<button type="button" className="px-3 py-1 bg-[#336699] text-white hover:opacity-70" onClick={handleCancelUpdateRow}>
+																			Hủy
+																		</button>
+																		<button
+																			type="button"
+																			className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
+																			onClick={() => handleDeleteRow(TABS.tabTrangThai, iTrangThai)}
+																		>
+																			Xóa
+																		</button>
+																	</div>
+																</td>
+															</>
+														) : (
+															<>
+																<td className="border-r border-l px-2 py-1 text-center">{index + 1}</td>
+																<td className="border-r px-2 py-1 text-center">{iTrangThai.MC_TTHC_GV_TrangThai_TenTrangThai}</td>
+																<td className="border-r px-2 py-1 text-center">{iTrangThai.MC_TTHC_GV_TrangThai_MoTa}</td>
+																<td className="border-r px-2 py-1 text-center">
+																	<div className="flex flex-col lg:flex-row items-center justify-center gap-2">
+																		<button
+																			type="button"
+																			className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
+																			onClick={() => handleEditRow(index, TABS.tabTrangThai, iTrangThai)}
+																		>
+																			Sửa
+																		</button>
+																		<button
+																			type="button"
+																			className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
+																			onClick={() => handleDeleteRow(TABS.tabTrangThai, iTrangThai)}
+																		>
+																			Xóa
+																		</button>
+																	</div>
+																</td>
+															</>
+														)}
 													</tr>
 												))}
 											</tbody>

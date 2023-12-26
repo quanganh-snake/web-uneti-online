@@ -18,7 +18,7 @@ function SidebarTTHCGV() {
 	};
 
 	return (
-		<div className={clsx("bg-white p-4 rounded-xl shadow-xl", openMenuQuanTri ? "min-w-[308px] flex flex-col" : "")}>
+		<div className={clsx("bg-white p-2 rounded-xl shadow-xl", openMenuQuanTri ? " col-span-2 flex flex-col" : "flex justify-center")}>
 			<div className="mb-4">
 				{openMenuQuanTri ? (
 					<IoClose size={32} className="hover:text-red-500 cursor-pointer float-right" onClick={handleOpenMenuQuanTri} />
@@ -31,13 +31,13 @@ function SidebarTTHCGV() {
 					<h4 className="text-md font-bold uppercase mb-4">Quy trình/Hồ sơ</h4>
 					<ul>
 						<li>
-							<Link to={`${PATH_TTHCGV}/them`} className="flex flex-row items-center  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white">
+							<Link to={`${PATH_TTHCGV}/them`} className="flex flex-row items-center gap-2 mb-4 bg-slate-200 p-1 rounded-md hover:bg-slate-500 hover:text-white">
 								<MdAddCircle size={24} />
 								<span>Thêm quy trình hồ sơ</span>
 							</Link>
 						</li>
 						<li>
-							<Link to={`${PATH_TTHCGV}/xem/tatca`} className="flex flex-row items-center  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white">
+							<Link to={`${PATH_TTHCGV}/xem/tatca`} className="flex flex-row items-center  gap-2 mb-4 bg-slate-200 p-1 rounded-md hover:bg-slate-500 hover:text-white">
 								<CiViewList size={24} />
 								<span>Danh sách quy trình hồ sơ</span>
 							</Link>
@@ -57,7 +57,10 @@ function SidebarTTHCGV() {
 							</Link>
 						</li>
 						<li>
-							<Link to={"/admin/canbonghiepvu/hosoxuly"} className="flex flex-row items-center justify-between  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white">
+							<Link
+								to={"/admin/canbonghiepvu/hosoxuly"}
+								className="flex flex-row items-center justify-between  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white"
+							>
 								<div className="flex flex-row items-center  gap-2">
 									<FaFileSignature size={24} />
 									<span>Hồ sơ cần xử lý</span>

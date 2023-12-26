@@ -123,6 +123,11 @@ export const getAllLinhVuc = () => {
 	return http.get("SP_MC_TTHC_GV_TiepNhan/Load_LinhVuc");
 };
 
+// GET: Danh sách nơi tiếp nhận
+export const getListNoiTraKetQua = () => {
+	return http.get("SP_MC_TTHC_GV_TiepNhan/NoiTraKetQua_Load_Para");
+};
+
 // GET: Danh sách hồ sơ, thủ tục đã gửi lên
 export const getAllHoSoGuiYeuCau = (dieuKienLoc = 0) => {
 	return http.get("SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Load", {

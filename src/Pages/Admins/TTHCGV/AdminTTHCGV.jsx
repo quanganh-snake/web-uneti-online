@@ -3,43 +3,63 @@ import AdminTTHCGVView from "./AdminTTHCGVView";
 import { useState } from "react";
 import { useEffect } from "react";
 import { getAllMucDoThuTuc } from "./../../../Apis/ThuTucHanhChinhGiangVien/apiMucDo";
-import { getAllPhongBan } from "../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
+import { getAllLinhVuc, getAllPhongBan, getListNoiTraKetQua } from "../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
 function AdminTTHCGV() {
 	const [listMucDo, setListMucDo] = useState(null);
 	const [listDonViTiepNhan, setListDonViTiepNhan] = useState(null);
+	const [listNoiTraKetQua, setListNoiTraKetQua] = useState(null);
+	const [listLinhVuc, setListLinhVuc] = useState(null);
 	useEffect(() => {
-		const getListMucDoThuTuc = () => {
-			getAllMucDoThuTuc()
-				.then(async (res) => {
-					if (res.status === 200) {
-						const data = await res.data;
-						setListMucDo(data.body);
-					}
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-		};
-
-		const getListDonViTiepNhan = async () => {
+		const fetchData = async () => {
 			try {
-				const resultGetDonVi = await getAllPhongBan();
-				if (resultGetDonVi.status === 200) {
-					const dataDonVi = await resultGetDonVi?.data?.body;
-					if (dataDonVi.length) {
-						setListDonViTiepNhan(dataDonVi);
+				// List Noi Tra Ket Qua
+				getListNoiTraKetQua().then(async (res) => {
+					if (res.status === 200) {
+						const data = await res.data?.body;
+						setListNoiTraKetQua(data);
 					}
-				}
+				});
+
+				// List Muc Do Thu Tuc
+				getAllMucDoThuTuc()
+					.then(async (res) => {
+						if (res.status === 200) {
+							const data = await res.data?.body;
+							setListMucDo(data);
+						}
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+
+				// List Don Vi TiepNhan
+				getAllPhongBan()
+					.then(async (res) => {
+						const data = await res.data?.body;
+						setListDonViTiepNhan(data);
+					})
+					.catch((err) => {
+						console.log(err.message);
+					});
+
+				// List Linh Vuc
+				getAllLinhVuc()
+					.then(async (res) => {
+						const data = await res.data?.body;
+						setListLinhVuc(data);
+					})
+					.catch((err) => {
+						console.log(err.message);
+					});
 			} catch (error) {
-				console.log(error);
+				console.log(error.message);
+			} finally {
 			}
 		};
-
-		getListMucDoThuTuc();
-		getListDonViTiepNhan();
+		fetchData();
 	}, []);
 
-	return <AdminTTHCGVView listMucDo={listMucDo} listDonViTiepNhan={listDonViTiepNhan} />;
+	return <AdminTTHCGVView listMucDo={listMucDo} listDonViTiepNhan={listDonViTiepNhan} listNoiTraKetQua={listNoiTraKetQua} listLinhVuc={listLinhVuc} />;
 }
 
 export default AdminTTHCGV;

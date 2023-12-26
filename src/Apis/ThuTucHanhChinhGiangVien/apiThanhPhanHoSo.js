@@ -14,6 +14,11 @@ export const postThanhPhanHoSoTTHCGV = (data = []) => {
 	return http.post("SP_MC_TTHC_GV_ThanhPhanHoSoTiepNhan/Add_Para", data);
 };
 
+// PUT
+export const putThanhPhanHoSoTTHCGV = (data = {}) => {
+	return http.put("SP_MC_TTHC_GV_ThanhPhanHoSoTiepNhan/Edit_Para", data);
+};
+
 // GET: Lấy DS Thành phần hồ sơ - Gửi yêu cầu theo Hồ Sơ Gửi yêu Cầu
 export const getThanhPhanHoSoGuiYeuCauById = (id = "") => {
 	return http.get("SP_MC_TTHC_GV_ThanhPhanHoSoTiepNhan/GuiYeuCau_Load_ByIDGuiYeuCau", {

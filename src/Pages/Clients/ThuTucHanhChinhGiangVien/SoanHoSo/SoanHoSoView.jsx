@@ -48,7 +48,7 @@ function SoanHoSoView({
 									<span className="underline">Đơn vị tiếp nhận</span>: {dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_NoiTiepNhan}
 								</p>
 							</div>
-							<div className="flex flex-col form-group mb-4 col-span-1">
+							<div className="flex flex-col form-group mb-4 col-span-1 border">
 								<label htmlFor="MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email" className="font-semibold mb-2">
 									Email liên hệ <span className="font-bold text-red-500">*</span>
 								</label>

@@ -6,8 +6,8 @@ import { MdAdd } from "react-icons/md";
 import Swal from "sweetalert2";
 
 function TrangThaiHoSo(props) {
-	const { trangThai, setTrangThai, handleAddTrangThai, setThongTinActive, setTPHoSoDeNghiActive, setTrinhTuThucHienActive, setPhanQuyenActive, setTrangThaiActive } = props;
-	const [editRowIndex, setEditRowIndex] = useState(-1);
+	const { trangThai, setTrangThai, handleAddTrangThai, setPhanQuyenActive, setTrangThaiActive, editRowIndex, setEditRowIndex } =
+		props;
 	const [editValueRow, setEditValueRow] = useState({});
 	// event handlers
 	const handleEditRow = (index) => {

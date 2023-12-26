@@ -6,8 +6,7 @@ import { convertDataFileToBase64 } from "../../../../Services/Utils/stringUtils"
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 
 function ThanhPhanHoSoDeNghi(props) {
-	const { thanhPhanHoSo, setThanhPhanHoSo, handleAddThanhPhanHoSo, setThongTinActive, setTPHoSoDeNghiActive, setTrinhTuThucHienActive } = props;
-	const [editRowIndex, setEditRowIndex] = useState(-1);
+	const { thanhPhanHoSo, setThanhPhanHoSo, handleAddThanhPhanHoSo, setThongTinActive, setTPHoSoDeNghiActive, setTrinhTuThucHienActive, editRowIndex, setEditRowIndex } = props;
 	const [editValueRow, setEditValueRow] = useState({});
 	// event handlers
 	const handleEditRow = (index) => {

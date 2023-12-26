@@ -12,7 +12,7 @@ import moment from "moment-timezone";
 import { DataCanBoGV } from "../../../../Services/Utils/dataCanBoGV";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-import { sendEmailUserSubmit } from "../../../../Services/Utils/emailUtils";
+import { isValidEmail, sendEmailUserSubmit } from "../../../../Services/Utils/emailUtils";
 import { convertDataFileToBase64 } from "../../../../Services/Utils/stringUtils";
 function SoanHoSo() {
 	const home = {
@@ -98,7 +98,12 @@ function SoanHoSo() {
 
 		if (!newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong || parseInt(newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong) < 1) {
 			return toast.error("Vui lòng nhập số lượng bản ghi nhận tối thiểu là 1");
-		}
+        }
+        
+        const checkIsValidEmail = isValidEmail(newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email);
+        if (!checkIsValidEmail) {
+            console.log(newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email);
+        }
 
 		let idGuiYeuCau;
 		try {
