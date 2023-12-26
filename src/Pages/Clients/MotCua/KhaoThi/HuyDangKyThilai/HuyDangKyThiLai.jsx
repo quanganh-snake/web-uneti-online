@@ -131,10 +131,10 @@ function HuyDangKyThiLai() {
 
   const handlePostData = async (dataHocPhan) => {
 		try {
-			const checkHDKThiTrung = await getKiemTraTrungHDKThi(dataHocPhan.MC_KT_HDKThiLai_MaSinhVien, dataHocPhan.MC_KT_HDKThiLai_TenCoSo, dataHocPhan.tenDot, dataHocPhan.MC_KT_HDKThiLai_MaLopHocPhan, dataHocPhan.MC_KT_HDKThiLai_LoaiThi);
+			const checkHDKThiTrung = await getKiemTraTrungHDKThi(dataHocPhan.MC_KT_HDKThiLai_MaSinhVien, dataHocPhan.MC_KT_HDKThiLai_TenCoSo, dataHocPhan.MC_KT_HDKThiLai_TenDot, dataHocPhan.MC_KT_HDKThiLai_MaLopHocPhan, dataHocPhan.MC_KT_HDKThiLai_LoaiThi);
 			if (checkHDKThiTrung.status === 200) {
         // kiểm tra trùng yêu cầu
-				if (checkQuaHanPhucKhao.data?.body[0]) {
+				if (checkHDKThiTrung.data?.body[0]) {
 					Swal.fire({
 						icon: "error",
 						title: "Thông báo trùng",
