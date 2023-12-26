@@ -17,7 +17,7 @@ export const getAllHocPhanDKThiLai = (MaSinhVien = "", tenDot = "", loaiThi = ""
 };
 
 // kiểm tra trùng
-export const getKiemTraTrung = (MaSinhVien = "", TenDot="", TenMonHoc="", MaMonHoc="", YeuCau) => {
+export const getKiemTraTrung = (MaSinhVien = "", TenDot="", TenMonHoc="", MaMonHoc="", YeuCau = 0) => {
 	return http.get(`SP_MC_KT_DangKyThi_TiepNhan/KiemTraTrung`, {
 		params: {
 			MC_KT_DangKyThi_MaSinhVien: MaSinhVien,

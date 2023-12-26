@@ -7,7 +7,7 @@ function FormDangKyThiLai(props){
     return (
         <div className="border-[#336699] border border-solid mt-5 rounded-md">
             <form className="py-8 flex flex-col justify-center items-center gap-4">
-                <h2 className="text-2xl font-bold pb-8 text-center px-2">TIẾP NHẬN YÊU CẦU ĐĂNG KÝ THI LẠI</h2>
+                <h2 className="text-center uppercase text-2xl font-bold text-sky-800 mb-6">TIẾP NHẬN YÊU CẦU ĐĂNG KÝ THI LẠI</h2>
                 <div className="w-[75%] flex justify-between items-center">
                     <span className="block pr-10">Học kỳ (*)</span>
                     <select className="flex-1 max-w-[75%] p-2 rounded-md border border-solid border-gray-300" value={hocKy} onChange={e => setHocKy(e.target.value)}>

@@ -45,6 +45,10 @@ function DangKyThiLai() {
 				console.log(res?.data?.body);
 			})
 		}
+
+		return () => {
+			setListHocPhan([]);
+		};
 	}, [hocKy])
 
 
@@ -77,21 +81,21 @@ function DangKyThiLai() {
 			dataHocPhan.MC_KT_DangKyThi_TenNghe= dataSV.ChuyenNganh ? dataSV.ChuyenNganh : "null"
 			dataHocPhan.MC_KT_DangKyThi_TenLop= dataSV.LopHoc ? dataSV.LopHoc : "null"
 			dataHocPhan.MC_KT_DangKyThi_DienThoai= dataSV.SoDienThoai ? dataSV.SoDienThoai : dataSV.SoDienThoai2 ? dataSV.SoDienThoai2 : dataSV.SoDienThoai3 ? dataSV.SoDienThoai3 : ""
-			dataHocPhan.MC_KT_DangKyThi_YeuCau= lyDo,
+			dataHocPhan.MC_KT_DangKyThi_YeuCau= +lyDo,
 			dataHocPhan.MC_KT_DangKyThi_Email= dataSV.Email_TruongCap ? dataSV.Email_TruongCap : "null"
 			dataHocPhan.MC_KT_DangKyThi_NgaySinh2= dataSV.NgaySinh
 				? new Date(`${dataSV.NgaySinh.split("/")[2]}-${dataSV.NgaySinh.split("/")[1]}-${dataSV.NgaySinh.split("/")[0]}`).toISOString()
 				: "null"
-			dataHocPhan.MC_KT_DangKyThi_IDSinhVien= dataSV.IdSinhVien ? dataSV.IdSinhVien.toString() : "null",
-			dataHocPhan.MC_KT_DangKyThi_MaLopHocPhan= itemHocPhan.MaLopHocPhan ? itemHocPhan.MaLopHocPhan : "null",
-			dataHocPhan.MC_KT_DangKyThi_TenMonHoc= itemHocPhan.TenMonHoc ? itemHocPhan.TenMonHoc : "null",
-			dataHocPhan.MC_KT_DangKyThi_TenHinhThucThi= itemHocPhan.TenHinhThucThi ? itemHocPhan.TenHinhThucThi : "null",
-			dataHocPhan.MC_KT_DangKyThi_DiemThi= itemHocPhan.DiemThi ? itemHocPhan.DiemThi : "null",
-			dataHocPhan.MC_KT_DangKyThi_DiemThi1= itemHocPhan.DiemThi1 ? itemHocPhan.DiemThi1 : "null",
-			dataHocPhan.MC_KT_DangKyThi_DiemThi2= itemHocPhan.DiemThi2 ? itemHocPhan.DiemThi2 : "null",
-			dataHocPhan.MC_KT_DangKyThi_DiemTongKet= itemHocPhan.DiemTongKet ? itemHocPhan.DiemTongKet : "null",
-			dataHocPhan.MC_KT_DangKyThi_DiemTongKet1= itemHocPhan.DiemTongKet1 ? itemHocPhan.DiemTongKet1 : "null",
-			dataHocPhan.MC_KT_DangKyThi_DiemTongKet2= itemHocPhan.DiemTongKet2 ? itemHocPhan.DiemTongKet2 : "null",
+			dataHocPhan.MC_KT_DangKyThi_IDSinhVien= dataSV.IdSinhVien ? dataSV.IdSinhVien.toString() : "null"
+			dataHocPhan.MC_KT_DangKyThi_MaLopHocPhan= itemHocPhan.MaLopHocPhan ? itemHocPhan.MaLopHocPhan : "null"
+			dataHocPhan.MC_KT_DangKyThi_TenMonHoc= itemHocPhan.TenMonHoc ? itemHocPhan.TenMonHoc : "null"
+			dataHocPhan.MC_KT_DangKyThi_TenHinhThucThi= itemHocPhan.TenHinhThucThi ? itemHocPhan.TenHinhThucThi : "null"
+			dataHocPhan.MC_KT_DangKyThi_DiemThi= itemHocPhan.DiemThi ? itemHocPhan.DiemThi : "null"
+			dataHocPhan.MC_KT_DangKyThi_DiemThi1= itemHocPhan.DiemThi1 ? itemHocPhan.DiemThi1 : "null"
+			dataHocPhan.MC_KT_DangKyThi_DiemThi2= itemHocPhan.DiemThi2 ? itemHocPhan.DiemThi2 : "null"
+			dataHocPhan.MC_KT_DangKyThi_DiemTongKet= itemHocPhan.DiemTongKet ? itemHocPhan.DiemTongKet : "null"
+			dataHocPhan.MC_KT_DangKyThi_DiemTongKet1= itemHocPhan.DiemTongKet1 ? itemHocPhan.DiemTongKet1 : "null"
+			dataHocPhan.MC_KT_DangKyThi_DiemTongKet2= itemHocPhan.DiemTongKet2 ? itemHocPhan.DiemTongKet2 : "null"
 			dataHocPhan.MC_KT_DangKyThi_YeuCau_LyDoKhacChiTiet= lyDoKhac
 		}
 
@@ -112,7 +116,6 @@ function DangKyThiLai() {
 	};
 
 	const handlePostData = async (dataHocPhan) => {
-		// Kiểm tra học phần đã quá hạn phúc khảo chưa
 		try {
 			const CheckDangKyTrung = await getKiemTraTrung(dataHocPhan.MC_KT_DangKyThi_MaSinhVien, dataHocPhan.MC_KT_DangKyThi_TenDot, dataHocPhan.MC_KT_DangKyThi_TenMonHoc, dataHocPhan.MC_KT_DangKyThi_MaLopHocPhan, dataHocPhan.MC_KT_DangKyThi_YeuCau);
 			if (CheckDangKyTrung.status === 200) {
