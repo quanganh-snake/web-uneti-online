@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function CapBangDiem() {
-  return (
-    <div>CapBangDiem</div>
-  )
+  return <div>CapBangDiem</div>;
 }
 
-export default CapBangDiem
+export default CapBangDiem;

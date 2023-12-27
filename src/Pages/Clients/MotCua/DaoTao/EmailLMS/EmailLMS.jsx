@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function EmailLMS() {
-  return (
-    <div>EmailLMS</div>
-  )
+  return <div>EmailLMS</div>;
 }
 
-export default EmailLMS
+export default EmailLMS;

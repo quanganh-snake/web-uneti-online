@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function HomeCTSV() {
-  return (
-    <div>HomeCTSV</div>
-  )
+  return <div>HomeCTSV</div>;
 }
 
-export default HomeCTSV
+export default HomeCTSV;

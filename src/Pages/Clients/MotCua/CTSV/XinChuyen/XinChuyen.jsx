@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function XinChuyen() {
-  return (
-    <div>XinChuyen</div>
-  )
+  return <div>XinChuyen</div>;
 }
 
-export default XinChuyen
+export default XinChuyen;

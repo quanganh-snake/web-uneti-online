@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function GiayGioiThieu() {
-  return (
-    <div>GiayGioiThieu</div>
-  )
+  return <div>GiayGioiThieu</div>;
 }
 
-export default GiayGioiThieu
+export default GiayGioiThieu;

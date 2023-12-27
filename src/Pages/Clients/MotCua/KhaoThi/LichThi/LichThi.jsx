@@ -9,103 +9,105 @@ import { getTenDot } from "../../../../../Apis/MotCua/apiTenDot";
 import { getAllHocPhanLichThi } from "../../../../../Apis/MotCua/KhaoThi/apiLichThi";
 
 function LichThi() {
-	const home = {
-		path: "/motcua",
-		title: "Bộ phận một cửa",
-	};
+  const home = {
+    path: "/motcua",
+    title: "Bộ phận một cửa",
+  };
 
-	const breadcrumbs = [
-		{
-			path: "/motcua/khaothi",
-			title: "Khảo thí",
-		},
-		{
-			path: "/motcua/khaothi/lichthi",
-			title: "Lịch thi",
-		},
-	];
+  const breadcrumbs = [
+    {
+      path: "/motcua/khaothi",
+      title: "Khảo thí",
+    },
+    {
+      path: "/motcua/khaothi/lichthi",
+      title: "Lịch thi",
+    },
+  ];
 
-	const listLyDo = [
-		{
-			id: 1,
-			title: "Xem lịch thi",
-			value: 0,
-		},
-		{
-			id: 2,
-			title: "Trùng lịch thi",
-			value: 1,
-		},
-		{
-			id: 3,
-			title: "Không có lịch thi",
-			value: 2,
-		},
-	];
+  const listLyDo = [
+    {
+      id: 1,
+      title: "Xem lịch thi",
+      value: 0,
+    },
+    {
+      id: 2,
+      title: "Trùng lịch thi",
+      value: 1,
+    },
+    {
+      id: 3,
+      title: "Không có lịch thi",
+      value: 2,
+    },
+  ];
 
-	const [loading, setLoading] = useState(true);
-	const [listHocKy, setListHocKy] = useState([]);
-	const [tenDot, setTenDot] = useState("");
-	const [loaiThi, setLoaiThi] = useState("");
-	const [lyDo, setLyDo] = useState("");
-	const [listHocPhan, setListHocPhan] = useState([]);
-	const [selectedRows, setSelectedRows] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [listHocKy, setListHocKy] = useState([]);
+  const [tenDot, setTenDot] = useState("");
+  const [loaiThi, setLoaiThi] = useState("");
+  const [lyDo, setLyDo] = useState("");
+  const [listHocPhan, setListHocPhan] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]);
 
-	const dataSV = DataSinhVien();
+  const dataSV = DataSinhVien();
 
-	// event handlers
-	const handleChangeValue = (e) => {
-		if (e.target.id === "MC_KT_LichThi_TenDot") {
-			setTenDot(e.target.value);
-		}
+  // event handlers
+  const handleChangeValue = (e) => {
+    if (e.target.id === "MC_KT_LichThi_TenDot") {
+      setTenDot(e.target.value);
+    }
 
-		if (e.target.id === "MC_KT_LichThi_LoaiThi") {
-			setLoaiThi(e.target.value);
-		}
+    if (e.target.id === "MC_KT_LichThi_LoaiThi") {
+      setLoaiThi(e.target.value);
+    }
 
-		if (e.target.id === "MC_KT_LichThi_YeuCau") {
-			setLyDo(e.target.value);
-		}
-	};
+    if (e.target.id === "MC_KT_LichThi_YeuCau") {
+      setLyDo(e.target.value);
+    }
+  };
 
-	const handleRowSelection = () => {};
+  const handleRowSelection = () => {};
 
-	const handleSubmitData = () => {};
+  const handleSubmitData = () => {};
 
-	const handlePostData = () => {};
+  const handlePostData = () => {};
 
-	useEffect(() => {
-		getTenDot().then((res) => {
-			setListHocKy(res?.data?.body);
-		});
+  useEffect(() => {
+    getTenDot().then((res) => {
+      setListHocKy(res?.data?.body);
+    });
 
-		if (tenDot !== "" && loaiThi !== "" && lyDo !== "") {
-			setLoading(true);
-			getAllHocPhanLichThi(dataSV.MaSinhVien, tenDot, loaiThi, lyDo).then((res) => {
-				setLoading(false);
-				setListHocPhan(res?.data?.body);
-			});
-		}
-		setLoading(false);
-	}, [tenDot, loaiThi, lyDo]);
-	return (
-		<LichThiView
-			home={home}
-			breadcrumbs={breadcrumbs}
-			loading={loading}
-			listHocKy={listHocKy}
-			listLyDo={listLyDo}
-			tenDot={tenDot}
-			dataLoaiThi={dataLoaiThi}
-			loaiThi={loaiThi}
-			lyDo={lyDo}
-			listHocPhan={listHocPhan}
-			handleChangeValue={handleChangeValue}
-			handleRowSelection={handleRowSelection}
-			handleSubmitData={handleSubmitData}
-			handlePostData={handlePostData}
-		/>
-	);
+    if (tenDot !== "" && loaiThi !== "" && lyDo !== "") {
+      setLoading(true);
+      getAllHocPhanLichThi(dataSV.MaSinhVien, tenDot, loaiThi, lyDo).then(
+        (res) => {
+          setLoading(false);
+          setListHocPhan(res?.data?.body);
+        },
+      );
+    }
+    setLoading(false);
+  }, [tenDot, loaiThi, lyDo]);
+  return (
+    <LichThiView
+      home={home}
+      breadcrumbs={breadcrumbs}
+      loading={loading}
+      listHocKy={listHocKy}
+      listLyDo={listLyDo}
+      tenDot={tenDot}
+      dataLoaiThi={dataLoaiThi}
+      loaiThi={loaiThi}
+      lyDo={lyDo}
+      listHocPhan={listHocPhan}
+      handleChangeValue={handleChangeValue}
+      handleRowSelection={handleRowSelection}
+      handleSubmitData={handleSubmitData}
+      handlePostData={handlePostData}
+    />
+  );
 }
 
 export default LichThi;

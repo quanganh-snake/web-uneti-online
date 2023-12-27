@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function DangKyLopChatLuong() {
-  return (
-    <div>DangKyLopChatLuong</div>
-  )
+  return <div>DangKyLopChatLuong</div>;
 }
 
-export default DangKyLopChatLuong
+export default DangKyLopChatLuong;
