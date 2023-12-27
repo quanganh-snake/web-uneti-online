@@ -4,6 +4,8 @@ import { useEffect, useRef } from 'react'
 import './FileSelect.scss'
 import { store } from '@/Services/Redux/store'
 import Resumable from 'resumablejs'
+import { FaPlus } from 'react-icons/fa6'
+import Swal from 'sweetalert2'
 
 export const FileSelect = (props) => {
   const {
@@ -11,7 +13,7 @@ export const FileSelect = (props) => {
     handleFilesChange,
     width = 40,
     height = 40,
-    icon,
+    icon = <FaPlus />,
   } = props
 
   const fileId = `file-${Math.random(1111, 9999) * 1000}`
@@ -46,7 +48,11 @@ export const FileSelect = (props) => {
         console.log({ file, errorCount })
       },
       maxFilesErrorCallback(files, errorCount) {
-        console.log({ files, errorCount })
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: 'Chỉ được chọn tối đa 5 ảnh!',
+        })
       },
       maxFileSizeErrorCallback(file, errorCount) {
         console.log({ file, errorCount })

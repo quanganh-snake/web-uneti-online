@@ -1,23 +1,19 @@
 /* eslint-disable no-extra-semi */
-import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
-import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
-import { useState } from 'react'
-import { useEffect } from 'react'
 import {
-  getTenDot,
+  getAllHocPhanHoanThi,
   hoanThikiemTraTrung,
   postHoanThi
 } from '@/Apis/MotCua/KhaoThi/apiHoanThi'
-import { getAllHocPhanHoanThi } from '@/Apis/MotCua/KhaoThi/apiHoanThi'
-import Swal from 'sweetalert2'
+import { getTenDot } from '@/Apis/MotCua/apiTenDot'
+import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { isEqual, isNil } from 'lodash-unified'
+import { useEffect } from 'react'
+import { useState } from 'react'
+import Swal from 'sweetalert2'
+import { LY_DO_KHAC } from './constants'
 import { convertDataFileToBase64 } from '@/Services/Utils/stringUtils'
-import { LY_DO_KHAC, breadcrumbs, home } from './constants'
-import { HoanThiForm } from './HoanThiForm'
-import { HoanThiTable } from './HoanThiTable'
-import { usePrevious } from '@/Services/Hooks/usePrevious'
 
-function HoanThi() {
+export const useHoanThiHandler = () => {
   const [loading, setLoading] = useState(false)
   const [listHocKy, setListHocKy] = useState([])
   const [tenDot, setTenDot] = useState(null)
@@ -27,12 +23,6 @@ function HoanThi() {
   const [listHocPhan, setListHocPhan] = useState([])
   const [files, setFiles] = useState([])
   const [selectedRow, setSelectedRow] = useState(null)
-
-  const prevState = usePrevious({
-    tenDot
-  })
-
-  const dataSV = DataSinhVien()
 
   const handleChangeValue = (e) => {
     if (e.target.id === 'MC_KT_HoanThi_TenDot') {
@@ -72,7 +62,7 @@ function HoanThi() {
   const handleSubmitData = async (event) => {
     event.preventDefault()
 
-    if (!tenDot) {
+    if (isNil(tenDot)) {
       Swal.fire({
         icon: 'error',
         title: 'Lỗi',
@@ -81,7 +71,7 @@ function HoanThi() {
       return
     }
 
-    if (!loaiThi) {
+    if (isNil(loaiThi)) {
       Swal.fire({
         icon: 'error',
         title: 'Lỗi',
@@ -90,7 +80,7 @@ function HoanThi() {
       return
     }
 
-    if (!lyDo) {
+    if (isNil(lyDo)) {
       Swal.fire({
         icon: 'error',
         title: 'Lỗi',
@@ -109,11 +99,6 @@ function HoanThi() {
     }
 
     const itemHocPhan = selectedRow
-
-    console.log(
-      '🚀 ~ file: HoanThi.jsx ~ handleSubmitData ~ itemHocPhan:',
-      itemHocPhan
-    )
 
     let dataHocPhan = {}
     if (itemHocPhan) {
@@ -326,12 +311,7 @@ function HoanThi() {
     ;(async () => {
       if (lyDo == LY_DO_KHAC) return
 
-      if (!tenDot || !loaiThi || !lyDo) {
-        setListHocPhan([])
-        setSelectedRow(null)
-
-        return
-      }
+      if (isNil(tenDot) || isNil(loaiThi) || isNil(lyDo)) return
 
       setLoading(true)
       const res = await getAllHocPhanHoanThi(
@@ -343,48 +323,38 @@ function HoanThi() {
 
       setLoading(false)
       setListHocPhan(res?.data?.body)
-
-      if (prevState.tenDot != tenDot) {
-        setSelectedRow(null)
-      }
     })()
   }, [tenDot, loaiThi, lyDo])
 
-  return (
-    <div className='bg-white shadow-md rounded-md mx-4 lg:mx-0'>
-      <div className='p-4 flex flex-col gap-4'>
-        <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
+  return {
+    handleChangeValue,
+    handleRowSelection,
+    handleFilesChange,
+    handleSubmitData,
+    handlePostData,
 
-        <div className='form-submit flex flex-col w-full justify-center'>
-          <h2 className='text-center uppercase text-2xl font-bold text-sky-800 mb-6'>
-            Tiếp nhận yêu cầu hoãn thi
-          </h2>
-          <div className='lg:px-36'>
-            <HoanThiForm
-              listHocKy={listHocKy}
-              handleChangeValue={handleChangeValue}
-              lyDo={lyDo}
-            />
+    listHocPhan,
+    setListHocPhan,
 
-            {/* START: Table học phần */}
-            <HoanThiTable
-              loading={loading}
-              tenDot={tenDot}
-              loaiThi={loaiThi}
-              lyDo={lyDo}
-              listHocPhan={listHocPhan}
-              selectedRow={selectedRow}
-              files={files}
-              handleRowSelection={handleRowSelection}
-              handleFilesChange={handleFilesChange}
-              handleSubmitData={handleSubmitData}
-            />
-            {/* END: Table học phần */}
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+    listHocKy,
+    setListHocKy,
+
+    loading,
+    setLoading,
+
+    tenDot,
+    setTenDot,
+
+    lyDo,
+    setLyDo,
+
+    loaiThi,
+    setLoaiThi,
+
+    selectedRow,
+    setSelectedRow,
+
+    files,
+    setFiles
+  }
 }
-
-export default HoanThi

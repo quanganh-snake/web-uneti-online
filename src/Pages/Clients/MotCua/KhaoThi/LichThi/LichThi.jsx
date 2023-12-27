@@ -231,7 +231,7 @@ function LichThi() {
         })
 
         // URL temp chỉ tồn tại trên client, nên revoke
-        // URL.revokeObjectURL(fileURL)
+        URL.revokeObjectURL(fileURL)
       }
     }
 
