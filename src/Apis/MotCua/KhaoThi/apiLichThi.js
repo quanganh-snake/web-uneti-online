@@ -20,7 +20,5 @@ export const getAllHocPhanLichThi = (
 }
 
 export const postYeuCauLichThi = (data) => {
-  return http.post('SP_MC_KT_LichThi_TiepNhan/Add_Para', {
-    ...data,
-  })
+  return http.post('SP_MC_KT_LichThi_TiepNhan/Add_Para', data)
 }

@@ -5,10 +5,12 @@ import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { dataLoaiThi } from '@/Services/Static/dataStatic'
 import { useEffect } from 'react'
 import { getTenDot } from '@/Apis/MotCua/apiTenDot'
+import { includes } from 'lodash-unified'
 import {
   getAllHocPhanLichThi,
   postYeuCauLichThi,
 } from '@/Apis/MotCua/KhaoThi/apiLichThi'
+import { convertDataFileToBase64 } from '@/Services/Utils/stringUtils'
 
 function LichThi() {
   const home = {
@@ -71,16 +73,11 @@ function LichThi() {
     }
   }
 
-  const handleRowSelection = async (event, item) => {
-    if (event.target.checked) {
-      // Thêm vào mảng yeucau
-      setSelectedRows([...selectedRows, item])
+  const handleRowSelection = (item) => {
+    if (!includes(selectedRows, item)) {
+      setSelectedRows((rows) => [...rows, item])
     } else {
-      // Xóa khỏi mảng yeucau
-      const updatedYeucau = selectedRows.filter(
-        (yeucauItem) => yeucauItem !== item
-      )
-      setSelectedRows(updatedYeucau)
+      setSelectedRows((rows) => rows.filter((row) => row != item))
     }
   }
 
@@ -88,7 +85,7 @@ function LichThi() {
     setFiles((_files) => [..._files, file])
   }
 
-  const handleSubmitData = (event) => {
+  const handleSubmitData = async (event) => {
     event.preventDefault()
 
     if (tenDot === '') {
@@ -143,7 +140,7 @@ function LichThi() {
         : 'null'
       dataHocPhan.MC_KT_LichThi_HoDem = dataSV.HoDem ? dataSV.HoDem : 'null'
       dataHocPhan.MC_KT_LichThi_Ten = dataSV.Ten ? dataSV.Ten : 'null'
-      dataHocPhan.MC_KT_LichThi_GioiTinh = dataSV.GioiTinh ?? 'null'
+      dataHocPhan.MC_KT_LichThi_GioiTinh = `${dataSV.GioiTinh}` ?? 'null'
       dataHocPhan.MC_KT_LichThi_TenHeDaoTao = dataSV.BacDaoTao
         ? dataSV.BacDaoTao
         : 'null'
@@ -185,6 +182,7 @@ function LichThi() {
       dataHocPhan.MC_KT_LichThi_MaLopHocPhan = itemHocPhan.MaLopHocPhan
         ? itemHocPhan.MaLopHocPhan
         : 'null'
+      dataHocPhan.MC_KT_LichThi_MaMonHoc = itemHocPhan.MaMonHoc || 'null'
       dataHocPhan.MC_KT_LichThi_TenMonHoc = itemHocPhan.TenMonHoc
         ? itemHocPhan.TenMonHoc
         : 'null'
@@ -243,14 +241,36 @@ function LichThi() {
         ? itemHocPhan.SoPhach.toString()
         : 'null'
 
-      dataHocPhan.MC_KT_LichThi_LyDo = listLyDo.find(
-        (e) => e.value == lyDo
-      ).title
+      dataHocPhan.MC_KT_LichThi_YeuCau = lyDo.toString()
+
+      dataHocPhan.MC_KT_LichThi_YeuCau_KhongCoLich_MaLopHP = 'null'
+      dataHocPhan.MC_KT_LichThi_YeuCau_KhongCoLich_TenLopHP = 'null'
+      dataHocPhan.MC_KT_LichThi_YeuCau_KhongCoLich_TenPhong = 'null'
+
+      // images
+      dataHocPhan.images = []
+      for (let i = 0; i < files.length; i++) {
+        const fileBase64 = await convertDataFileToBase64(files[i])
+        const fileURL = URL.createObjectURL(files[i])
+
+        const fileName = fileURL.split('/').at(-1)
+
+        dataHocPhan.images.push({
+          MC_KT_LichThi_YeuCau_DataFile: fileBase64,
+          MC_KT_LichThi_YeuCau_TenFile: fileName,
+          urlTemp: fileURL,
+          lastModified: '',
+        })
+
+        // URL temp chỉ tồn tại trên client, nên revoke
+        // URL.revokeObjectURL(fileURL)
+      }
     }
 
+    const yeuCauTitle = listLyDo.find((e) => e.value == lyDo).title
     // handle post
     Swal.fire({
-      title: `Bạn chắc chắn muốn gửi yêu cầu ${dataHocPhan.MC_KT_LichThi_LyDo}?`,
+      title: `Bạn chắc chắn muốn gửi yêu cầu ${yeuCauTitle}?`,
       showDenyButton: true,
       showCancelButton: false,
       confirmButtonText: 'Gửi',
@@ -259,11 +279,7 @@ function LichThi() {
       if (result.isConfirmed) {
         await handlePostData(dataHocPhan)
       } else if (result.isDenied) {
-        Swal.fire(
-          `Đã hủy gửi yêu cầu ${dataHocPhan.MC_KT_LichThi_LyDo}`,
-          '',
-          'info'
-        )
+        Swal.fire(`Đã hủy gửi yêu cầu ${yeuCauTitle}`, '', 'info')
       }
     })
   }
