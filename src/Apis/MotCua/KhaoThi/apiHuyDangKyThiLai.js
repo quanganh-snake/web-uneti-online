@@ -5,7 +5,7 @@ export const getTenDotHDKThiLai = () => {
 	return http.get("/SP_MC_KT_HDKThiLai_TiepNhan/EDU_Load_TenDot");
 };
 
-// lấy danh sách học phần có thể đăng ký
+// lấy danh sách học phần có thể hủy đăng ký
 export const getAllHocPhanHDKThiLai = (MaSinhVien = "", tenDot = "", loaiThi = "", yeuCau = 0) => {
 	return http.get(`SP_MC_KT_HDKThiLai_TiepNhan/EDU_Load_Para_MaSinhVien_DKThi`, {
 		params: {

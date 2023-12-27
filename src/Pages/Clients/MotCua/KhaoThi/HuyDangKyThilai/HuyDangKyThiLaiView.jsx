@@ -1,4 +1,5 @@
 import Breadcrumb from "@/Components/Breadcumb/Breadcrumb";
+import { Checkbox, MenuItem, Select, TextareaAutosize } from "@mui/material";
 
 function HuyDangKyThiLaiView(props){
 
@@ -10,37 +11,46 @@ function HuyDangKyThiLaiView(props){
 				<Breadcrumb home={home} breadcrumbs={breadcrumbs} />
 				<div className="border-[#336699] border border-solid mt-5 rounded-md">
                     <form className="py-8 flex flex-col justify-center items-center gap-4">
-                        <h2 className="text-center uppercase text-2xl font-bold text-sky-800 mb-6">TIẾP NHẬN YÊU CẦU HOÃN THI</h2>
+                        <h2 className="text-center uppercase text-2xl font-bold text-sky-800 mb-6">TIẾP NHẬN YÊU CẦU ĐĂNG KÝ HỦY THI LẠI</h2>
                         <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
                             <span className="block pr-10">Học kỳ (*)</span>
-                            <select className="flex-1 md:max-w-[75%] p-2 rounded-md border border-solid border-gray-300" value={tenDot} onChange={e => setTenDot(e.target.value)}>
-                                <option value="">Chọn học kỳ</option>
-                                {listHocKy.map((e, index) => (
-                                    <option key={index} value={e.TenDot}>{e.TenDot}</option>
-                                ))}
-                            </select>
+                            <Select
+								value={tenDot}
+								onChange={e => setTenDot(e.target.value)}
+								className="flex-1 max-w-[75%] rounded-md border border-solid border-gray-300"
+							>
+								{listHocKy.map((e, index) => (
+									<MenuItem key={index} value={e.TenDot}>{e.TenDot}</MenuItem>
+								))}
+							</Select>
                         </div>
                         <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
                             <span className="block pr-10">Loại thi</span>
-                            <select disabled className="flex-1 md:max-w-[75%] p-2 rounded-md border border-solid border-gray-300">
-                                <option value="Thi lại">Thi lại</option>
-                            </select>
+                            <Select
+								inputProps={{ readOnly: true }}
+								defaultValue="Thi Lại"
+								className="flex-1 max-w-[75%] rounded-md border border-solid border-gray-300"
+							>
+								<MenuItem value="Thi Lại">Thi Lại</MenuItem>
+							</Select>
                         </div>
                         <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
                             <span className="block pr-10">Lý do (*)</span>
-                            <select className="flex-1 md:max-w-[75%] p-2 rounded-md border border-solid border-gray-300" value={lyDo} onChange={e => {setLyDo(e.target.value); setLyDoKhac('')}}>
-                                <option value="">Chọn lý do</option>
-                                {listLyDo.map((e, index) => (
-                                    <option key={index} value={e.value}>{e.name}</option>
-                                ))}
-                            </select>
+							<Select
+								value={lyDo} 
+								onChange={e => {setLyDo(e.target.value); setLyDoKhac('')}}
+								className="flex-1 max-w-[75%] rounded-md border border-solid border-gray-300"
+							>
+								{listLyDo.map((e, index) => (
+									<MenuItem key={index} value={e.value}>{e.name}</MenuItem>
+								))}
+							</Select>
                         </div>
                         {
                             lyDo === 3 && (
                             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-start gap-2">
                                 <span className="block pr-10">Lý do khác (*)</span>
-                                <textarea value={lyDoKhac} onChange={e => setLyDoKhac(e.target.value)} className="flex-1 md:max-w-[75%] p-2 rounded-md border border-solid border-gray-300">
-                                </textarea>
+								<TextareaAutosize className="flex-1 md:max-w-[75%] p-2 rounded-md border border-solid border-gray-300" value={lyDoKhac} onChange={e => setLyDoKhac(e.target.value)} minRows="3" />
                             </div>
                             )
                         }
@@ -90,11 +100,10 @@ function HuyDangKyThiLaiView(props){
 											<tr key={index}>
 												<td className="text-center p-3 border border-solid border-[#dee2e6]">{index + 1}</td>
 												<td className="text-center p-3 border border-solid border-[#dee2e6]">
-													<input 
+													<Checkbox 
 														onChange={(e) => {
 															handleRowSelection(e, hocphan);
 														}} 
-														type="checkbox" 
 													/>
 												</td>
 												<td className="text-center p-3 border border-solid border-[#dee2e6]">{hocphan.MaLopHocPhan}</td>

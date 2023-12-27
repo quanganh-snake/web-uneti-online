@@ -48,8 +48,9 @@ function DangKyThiLai() {
 
 		return () => {
 			setListHocPhan([]);
+			setSelectedRows([]);
 		};
-	}, [hocKy])
+	}, [hocKy, loaiThi, lyDo])
 
 
 	const handleSubmitData = async () => {
@@ -96,7 +97,7 @@ function DangKyThiLai() {
 			dataHocPhan.MC_KT_DangKyThi_DiemTongKet= itemHocPhan.DiemTongKet ? itemHocPhan.DiemTongKet : "null"
 			dataHocPhan.MC_KT_DangKyThi_DiemTongKet1= itemHocPhan.DiemTongKet1 ? itemHocPhan.DiemTongKet1 : "null"
 			dataHocPhan.MC_KT_DangKyThi_DiemTongKet2= itemHocPhan.DiemTongKet2 ? itemHocPhan.DiemTongKet2 : "null"
-			dataHocPhan.MC_KT_DangKyThi_YeuCau_LyDoKhacChiTiet= lyDoKhac
+			dataHocPhan.MC_KT_DangKyThi_YeuCau_LyDoKhacChiTiet= lyDoKhac.length ? lyDoKhac : "null"
 		}
 
 		// handle post

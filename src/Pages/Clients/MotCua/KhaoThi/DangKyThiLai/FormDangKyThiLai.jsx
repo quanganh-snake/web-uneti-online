@@ -1,5 +1,6 @@
 import { useState } from "react";
 import DanhSachHocPhan from "./DanhSachHocPhan";
+import { MenuItem, Select, TextareaAutosize } from "@mui/material";
 
 function FormDangKyThiLai(props){
     const {listHocPhan, hocKy, setHocKy, lyDo, setLyDo, listHocKy, lyDoKhac, setLyDoKhac, handleRowSelection, handleSubmitData} = props;
@@ -10,36 +11,46 @@ function FormDangKyThiLai(props){
                 <h2 className="text-center uppercase text-2xl font-bold text-sky-800 mb-6">TIẾP NHẬN YÊU CẦU ĐĂNG KÝ THI LẠI</h2>
                 <div className="w-[75%] flex justify-between items-center">
                     <span className="block pr-10">Học kỳ (*)</span>
-                    <select className="flex-1 max-w-[75%] p-2 rounded-md border border-solid border-gray-300" value={hocKy} onChange={e => setHocKy(e.target.value)}>
-                        <option value="">Chọn học kỳ</option>
+                    <Select
+                        value={hocKy}
+                        onChange={e => setHocKy(e.target.value)}
+                        className="flex-1 max-w-[75%] rounded-md border border-solid border-gray-300"
+                    >
                         {listHocKy.map((e, index) => (
-                            <option key={index} value={e.TenDot}>{e.TenDot}</option>
+                            <MenuItem key={index} value={e.TenDot}>{e.TenDot}</MenuItem>
                         ))}
-                    </select>
+                    </Select>
                 </div>
                 <div className="w-[75%] flex justify-between items-center">
                     <span className="block pr-10">Loại thi</span>
-                    <select disabled className="flex-1 max-w-[75%] p-2 rounded-md border border-solid border-gray-300">
-                        <option value="Thi Lại">Thi Lại</option>
-                    </select>
+                    <Select
+                        inputProps={{ readOnly: true }}
+                        defaultValue="Thi Lại"
+                        className="flex-1 max-w-[75%] rounded-md border border-solid border-gray-300"
+                    >
+                        <MenuItem value="Thi Lại">Thi Lại</MenuItem>
+                    </Select>
                 </div>
                 <div className="w-[75%] flex justify-between items-center">
                     <span className="block pr-10">Lý do (*)</span>
-                    <select className="flex-1 max-w-[75%] p-2 rounded-md border border-solid border-gray-300" value={lyDo} onChange={e => {setLyDo(e.target.value); setLyDoKhac('')}}>
-                        <option value="">Chọn lý do</option>
-                        <option value='0'>Trùng lịch thi</option>
-                        <option value='1'>Lỗi Website</option>
-                        <option value='2'>Khác hệ, loại hình đào tạo</option>
-                        <option value='3'>Thi không theo kế hoạch</option>
-                        <option value='4'>Lý do khác</option>
-                    </select>
+                    <Select
+                        defaultValue=""
+                        value={lyDo} 
+                        onChange={e => {setLyDo(e.target.value); setLyDoKhac('')}}
+                        className="flex-1 max-w-[75%] rounded-md border border-solid border-gray-300"
+                    >
+                        <MenuItem value='0'>Trùng lịch thi</MenuItem>
+                        <MenuItem value='1'>Lỗi Website</MenuItem>
+                        <MenuItem value='2'>Khác hệ, loại hình đào tạo</MenuItem>
+                        <MenuItem value='3'>Thi không theo kế hoạch</MenuItem>
+                        <MenuItem value='4'>Lý do khác</MenuItem>
+                    </Select>
                 </div>
                 {
                     lyDo === '4' && (
                     <div className="w-[75%] flex justify-between items-start">
                         <span className="block pr-10">Chi tiết lý do (*)</span>
-                        <textarea value={lyDoKhac} onChange={e => setLyDoKhac(e.target.value)} className="flex-1 max-w-[75%] p-2 rounded-md border border-solid border-gray-300">
-                        </textarea>
+                        <TextareaAutosize className="flex-1 md:max-w-[75%] p-2 rounded-md border border-solid border-gray-300" value={lyDoKhac} onChange={e => setLyDoKhac(e.target.value)} minRows="3" />
                     </div>
                     )
                 }

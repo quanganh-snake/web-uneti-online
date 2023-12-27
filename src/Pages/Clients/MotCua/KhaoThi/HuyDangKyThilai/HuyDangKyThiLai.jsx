@@ -83,7 +83,7 @@ function HuyDangKyThiLai() {
       dataHocPhan.MC_KT_HDKThiLai_MaSinhVien = dataSV.MaSinhVien ? dataSV.MaSinhVien : "null"
       dataHocPhan.MC_KT_HDKThiLai_HoDem = dataSV.HoDem ? dataSV.HoDem : "null"
       dataHocPhan.MC_KT_HDKThiLai_Ten = dataSV.Ten ? dataSV.Ten : "null"
-      dataHocPhan.MC_KT_HDKThiLai_GioiTinh = dataSV.GioiTinh ?? "null"
+      dataHocPhan.MC_KT_HDKThiLai_GioiTinh = dataSV.GioiTinh !== null ? dataSV.GioiTinh.toString() : "null";
       dataHocPhan.MC_KT_HDKThiLai_TenHeDaoTao = dataSV.BacDaoTao ? dataSV.BacDaoTao : "null"
       dataHocPhan.MC_KT_HDKThiLai_TenLoaiHinhDT = dataSV.LoaiHinhDaoTao ? dataSV.LoaiHinhDaoTao : "null"
       dataHocPhan.MC_KT_HDKThiLai_TenKhoaHoc = dataSV.KhoaHoc ? dataSV.KhoaHoc : "null"
@@ -91,7 +91,7 @@ function HuyDangKyThiLai() {
       dataHocPhan.MC_KT_HDKThiLai_TenLop = dataSV.LopHoc ? dataSV.LopHoc : "null"
       dataHocPhan.MC_KT_HDKThiLai_DienThoai = dataSV.SoDienThoai ? dataSV.SoDienThoai : dataSV.SoDienThoai2 ? dataSV.SoDienThoai2 : dataSV.SoDienThoai3 ? dataSV.SoDienThoai3 : ""
       dataHocPhan.MC_KT_HDKThiLai_Email = dataSV.Email_TruongCap ? dataSV.Email_TruongCap : "null"
-      dataHocPhan.MC_KT_HDKThiLai_YeuCau = +lyDo
+      dataHocPhan.MC_KT_HDKThiLai_YeuCau = lyDo
       dataHocPhan.MC_KT_HDKThiLai_NgaySinh2 = dataSV.NgaySinh ? new Date(`${dataSV.NgaySinh.split("/")[2]}-${dataSV.NgaySinh.split("/")[1]}-${dataSV.NgaySinh.split("/")[0]}`).toISOString() : "null";
       dataHocPhan.MC_KT_HDKThiLai_IDSinhVien = dataSV.IdSinhVien ? dataSV.IdSinhVien.toString() : "null"
       //data trong bảng
@@ -99,18 +99,18 @@ function HuyDangKyThiLai() {
       dataHocPhan.MC_KT_HDKThiLai_TenHinhThucThi = itemHocPhan.TenHinhThucThi ? itemHocPhan.TenHinhThucThi : "null"
       dataHocPhan.MC_KT_HDKThiLai_MaLopHocPhan = itemHocPhan.MaLopHocPhan ? itemHocPhan.MaLopHocPhan : "null"
       dataHocPhan.MC_KT_HDKThiLai_TenMonHoc = itemHocPhan.TenMonHoc ? itemHocPhan.TenMonHoc : "null"
-      dataHocPhan.MC_KT_HDKThiLai_DiemThuongKy1 = itemHocPhan.DiemTBThuongKy ? itemHocPhan.DiemTBThuongKy : "null"
-      dataHocPhan.MC_KT_HDKThiLai_DiemThi = itemHocPhan.DiemThi ? itemHocPhan.DiemThi : "null"
-      dataHocPhan.MC_KT_HDKThiLai_DiemThi1 = itemHocPhan.DiemThi1 ? itemHocPhan.DiemThi1 : "null"
-      dataHocPhan.MC_KT_HDKThiLai_DiemThi2 = itemHocPhan.DiemThi2 ? itemHocPhan.DiemThi2 : "null"
-      dataHocPhan.MC_KT_HDKThiLai_DiemTongKet = itemHocPhan.DiemTongKet ? itemHocPhan.DiemTongKet : "null"
-      dataHocPhan.MC_KT_HDKThiLai_DiemTongKet1 = itemHocPhan.DiemTongKet1 ? itemHocPhan.DiemTongKet1 : "null"
-      dataHocPhan.MC_KT_HDKThiLai_DiemTongKet2 = itemHocPhan.DiemTongKet2 ? itemHocPhan.DiemTongKet2 : "null"
-      dataHocPhan.MC_KT_HDKThiLai_DiemTinChi = itemHocPhan.DiemTinChi ? itemHocPhan.DiemTinChi : "null"
+      dataHocPhan.MC_KT_HDKThiLai_DiemThuongKy1 = itemHocPhan.DiemTBThuongKy ? itemHocPhan.DiemTBThuongKy.toString() : "null"
+      dataHocPhan.MC_KT_HDKThiLai_DiemThi = itemHocPhan.DiemThi ? itemHocPhan.DiemThi.toString() : "null"
+      dataHocPhan.MC_KT_HDKThiLai_DiemThi1 = itemHocPhan.DiemThi1 ? itemHocPhan.DiemThi1.toString() : "null"
+      dataHocPhan.MC_KT_HDKThiLai_DiemThi2 = itemHocPhan.DiemThi2 ? itemHocPhan.DiemThi2.toString() : "null"
+      dataHocPhan.MC_KT_HDKThiLai_DiemTongKet = itemHocPhan.DiemTongKet ? itemHocPhan.DiemTongKet.toString() : "null"
+      dataHocPhan.MC_KT_HDKThiLai_DiemTongKet1 = itemHocPhan.DiemTongKet1 ? itemHocPhan.DiemTongKet1.toString() : "null"
+      dataHocPhan.MC_KT_HDKThiLai_DiemTongKet2 = itemHocPhan.DiemTongKet2 ? itemHocPhan.DiemTongKet2.toString() : "null"
+      dataHocPhan.MC_KT_HDKThiLai_DiemTinChi = itemHocPhan.DiemTinChi ? itemHocPhan.DiemTinChi.toString() : "null"
       dataHocPhan.MC_KT_HDKThiLai_DiemChu = itemHocPhan.DiemChu ? itemHocPhan.DiemChu : "null"
-      dataHocPhan.MC_KT_HDKThiLai_IsDat = itemHocPhan.IsDat ? itemHocPhan.IsDat : "null"
+      dataHocPhan.MC_KT_HDKThiLai_IsDat = itemHocPhan.IsDat !== null ? itemHocPhan.IsDat.toString() : 'null'
       dataHocPhan.MC_KT_HDKThiLai_KhoaChuQuanMon = itemHocPhan.KhoaChuQuanMon ? itemHocPhan.KhoaChuQuanMon : "null"
-      dataHocPhan.MC_KT_HDKThiLai_YeuCau_LyDoKhac_LyDoChiTiet = lyDoKhac
+      dataHocPhan.MC_KT_HDKThiLai_YeuCau_LyDoKhac_LyDoChiTiet = lyDoKhac.length ? lyDoKhac : "null"
 		}
 
 		// handle post
@@ -153,8 +153,18 @@ function HuyDangKyThiLai() {
 					return;
 				}
 				if (resPostData.status === 200) {
+
 					const data = await resPostData.data;
-            Swal.fire({
+
+          // Check bản ghi trùng
+					if (data.message === "Bản ghi bị trùng.") {
+						Swal.fire({
+              icon: "error",
+              title: "Thông báo trùng",
+              text: `Học phần ${dataHocPhan.MC_KT_HDKThiLai_TenMonHoc} đã hết được gửi yêu cầu hủy đăng ký thi lại trước đây. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+            });
+					} else {
+						Swal.fire({
               position: "center",
               icon: "success",
               title: `Học phần ${dataHocPhan.MC_KT_HDKThiLai_TenMonHoc} đã được gửi yêu cầu hủy đăng ký thi lại. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
@@ -162,9 +172,10 @@ function HuyDangKyThiLai() {
               timer: 1500,
             });
 
-            setTimeout(() => {
-              window.location.reload();
-            }, 1000);
+						setTimeout(() => {
+							window.location.reload();
+						}, 1000);
+					}
 				}
 			}
 		} catch (error) {
@@ -193,6 +204,7 @@ function HuyDangKyThiLai() {
 
     return () => {
 			setListHocPhan([]);
+      		setSelectedRows([]);
 		};
 
 	}, [tenDot, lyDo])

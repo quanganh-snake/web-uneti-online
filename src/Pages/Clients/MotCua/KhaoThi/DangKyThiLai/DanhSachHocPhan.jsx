@@ -1,3 +1,5 @@
+import { Checkbox } from "@mui/material";
+
 function DanhSachHocPhan({listHocPhan, handleRowSelection}){
     return (
         <div className="w-[75%] overflow-x-auto">
@@ -35,11 +37,11 @@ function DanhSachHocPhan({listHocPhan, handleRowSelection}){
                         <tr key={index}>
                             <td className="text-center p-3 border border-solid border-[#dee2e6]">{index + 1}</td>
                             <td className="text-center p-3 border border-solid border-[#dee2e6]">
-                                <input
+                            <Checkbox 
                                 onChange={(e) => {
                                     handleRowSelection(e, hocphan);
-                                }}
-                                 type="checkbox" />
+                                }} 
+                            />
                             </td>
                             <td className="text-center p-3 border border-solid border-[#dee2e6]">{hocphan.MaLopHocPhan}</td>
                             <td className="text-center p-3 border border-solid border-[#dee2e6]">{hocphan.TenMonHoc}</td>
