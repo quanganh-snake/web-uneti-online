@@ -53,7 +53,6 @@ function LichThi() {
   const [loaiThi, setLoaiThi] = useState('')
   const [lyDo, setLyDo] = useState('')
   const [listHocPhan, setListHocPhan] = useState([])
-  const [files, setFiles] = useState([])
   const [selectedRows, setSelectedRows] = useState([])
 
   const dataSV = DataSinhVien()
@@ -75,17 +74,13 @@ function LichThi() {
 
   const handleRowSelection = (item) => {
     if (!includes(selectedRows, item)) {
-      setSelectedRows((rows) => [...rows, item])
+      setSelectedRows([item])
     } else {
-      setSelectedRows((rows) => rows.filter((row) => row != item))
+      setSelectedRows([])
     }
   }
 
-  const handleFilesChange = (file) => {
-    setFiles((_files) => [..._files, file])
-  }
-
-  const handleSubmitData = async (event) => {
+  const handleSubmitData = async (event, files) => {
     event.preventDefault()
 
     if (tenDot === '') {
@@ -212,33 +207,6 @@ function LichThi() {
         : 'null'
       dataHocPhan.MC_KT_LichThi_TenPhong = itemHocPhan.TenPhong
         ? itemHocPhan.TenPhong
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_SBD = itemHocPhan.SBD
-        ? itemHocPhan.SBD.toString()
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_DiemThi = itemHocPhan.DiemThi
-        ? itemHocPhan.DiemThi.toString()
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_DiemThi1 = itemHocPhan.DiemThi1
-        ? itemHocPhan.DiemThi1.toString()
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_DiemThi2 = itemHocPhan.DiemThi2
-        ? itemHocPhan.DiemThi2.toString()
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_DiemTongKet = itemHocPhan.DiemTongKet
-        ? itemHocPhan.DiemTongKet.toString()
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_DiemTongKet1 = itemHocPhan.DiemTongKet1
-        ? itemHocPhan.DiemTongKet1.toString()
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_DiemTongKet2 = itemHocPhan.DiemTongKet2
-        ? itemHocPhan.DiemTongKet2.toString()
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_TuiBaiThi = itemHocPhan.TuiBaiThi
-        ? itemHocPhan.TuiBaiThi.toString()
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_SoPhach = itemHocPhan.SoPhach
-        ? itemHocPhan.SoPhach.toString()
         : 'null'
 
       dataHocPhan.MC_KT_LichThi_YeuCau = lyDo.toString()
@@ -370,10 +338,8 @@ function LichThi() {
       dataLoaiThi={dataLoaiThi}
       loaiThi={loaiThi}
       lyDo={lyDo}
-      files={files}
       listHocPhan={listHocPhan}
       handleChangeValue={handleChangeValue}
-      handleFilesChange={handleFilesChange}
       handleRowSelection={handleRowSelection}
       handleSubmitData={handleSubmitData}
       handlePostData={handlePostData}
