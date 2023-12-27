@@ -5,6 +5,7 @@ import { Checkbox } from '@mui/material'
 import FileSelect from '@/Components/FileSelect/FileSelect'
 import dayjs from 'dayjs'
 import { FaPlus } from 'react-icons/fa6'
+// import { includes } from 'lodash-unified'
 
 export const LichThiViewTrungLichThi = (props) => {
   const {
@@ -13,6 +14,7 @@ export const LichThiViewTrungLichThi = (props) => {
     handleFilesChange,
     files,
     listHocPhan,
+    // selectedRows,
   } = props
 
   const bem = useBem('lich-thi')
@@ -43,7 +45,10 @@ export const LichThiViewTrungLichThi = (props) => {
               <tr key={index}>
                 <td className={bem.is('sticky')}>{index}</td>
                 <td>
-                  <Checkbox onClick={(e) => handleRowSelection(e, hocphan)} />
+                  <Checkbox
+                    // checked={!!includes(selectedRows, hocphan)}
+                    onChange={() => handleRowSelection(hocphan)}
+                  />
                 </td>
                 <td>
                   {hocphan.MaLopHocPhan
