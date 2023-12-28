@@ -25,6 +25,7 @@ function DangKyThiLai() {
 		},
 	];
 
+	const [loading, setLoading] = useState(true)
 	const [lichThi, setLichThi] = useState([])
 	const [listHocKy, setListHocKy] = useState([])
     const [hocKy, setHocKy] = useState('')
@@ -39,10 +40,13 @@ function DangKyThiLai() {
 			setListHocKy(res?.data?.body);
 		});
 
+		setLoading(false);
+
 		if(hocKy !== ""){
+			setLoading(true);
 			getAllHocPhanDKThiLai(dataSV.MaSinhVien, hocKy, loaiThi).then((res) => {
 				setListHocPhan(res?.data?.body);
-				console.log(res?.data?.body);
+				setLoading(false)
 			})
 		}
 
@@ -192,6 +196,7 @@ function DangKyThiLai() {
 			setLyDoKhac={setLyDoKhac}
 			handleRowSelection={handleRowSelection}
 			handleSubmitData={handleSubmitData}
+			loading={loading}
 		/>
 	);
 }

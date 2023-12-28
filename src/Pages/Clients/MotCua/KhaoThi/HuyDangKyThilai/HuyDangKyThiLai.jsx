@@ -21,7 +21,7 @@ function HuyDangKyThiLai() {
 			title: "Hủy đăng ký thi lại",
 		},
 	];
-  
+
   const [listHocKy, setListHocKy] = useState([])
   const [tenDot, setTenDot] = useState('')
   const loaiThi = "Thi lại"
@@ -196,8 +196,12 @@ function HuyDangKyThiLai() {
 			setListHocKy(res?.data?.body);
 		});
 
+		setLoading(false)
+
 		if(tenDot !== "" && lyDo !== ""){
+			setLoading(true)
 			getAllHocPhanHDKThiLai(dataSV.MaSinhVien, tenDot, loaiThi, lyDo).then((res) => {
+				setLoading(false)
 				setListHocPhan(res?.data?.body);
 			})
 		}
@@ -225,6 +229,7 @@ function HuyDangKyThiLai() {
       listLyDo={listLyDo}
       handleRowSelection={handleRowSelection}
       handleSubmitData={handleSubmitData}
+	  loading={loading}
     />
   )
 }

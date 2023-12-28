@@ -5,7 +5,7 @@ import FormDangKyThiLai from './FormDangKyThiLai';
 
 function DangKyThiLaiView(props) {
 
-  const {home, breadcrumbs, listHocPhan, hocKy, setHocKy, lyDo, setLyDo, listHocKy, lyDoKhac, setLyDoKhac, handleRowSelection, handleSubmitData} = props
+  const {loading, home, breadcrumbs, listHocPhan, hocKy, setHocKy, lyDo, setLyDo, listHocKy, lyDoKhac, setLyDoKhac, handleRowSelection, handleSubmitData} = props
 
   return (
     <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
@@ -22,6 +22,7 @@ function DangKyThiLaiView(props) {
           setLyDoKhac={setLyDoKhac}
           handleRowSelection={handleRowSelection}
           handleSubmitData={handleSubmitData}
+          loading={loading}
         />
 			</div>
 		</div>

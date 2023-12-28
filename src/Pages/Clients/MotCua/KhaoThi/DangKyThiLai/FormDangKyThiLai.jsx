@@ -1,9 +1,10 @@
 import { useState } from "react";
 import DanhSachHocPhan from "./DanhSachHocPhan";
 import { MenuItem, Select, TextareaAutosize } from "@mui/material";
+import Loading from "@/Components/Loading/Loading";
 
 function FormDangKyThiLai(props){
-    const {listHocPhan, hocKy, setHocKy, lyDo, setLyDo, listHocKy, lyDoKhac, setLyDoKhac, handleRowSelection, handleSubmitData} = props;
+    const {loading, listHocPhan, hocKy, setHocKy, lyDo, setLyDo, listHocKy, lyDoKhac, setLyDoKhac, handleRowSelection, handleSubmitData} = props;
 
     return (
         <div className="border-[#336699] border border-solid mt-5 rounded-md">
@@ -63,7 +64,11 @@ function FormDangKyThiLai(props){
                 </span>
             </div>) : null}
 
-            {(hocKy != '' && lyDo != '') && (
+            {loading ? (
+                <div className="w-full flex justify-center">
+                    <Loading />
+                </div>
+            ) : (hocKy != '' && lyDo != '') && (
             <div className="flex flex-col justify-center items-center pb-4">
                 <DanhSachHocPhan listHocPhan={listHocPhan} handleRowSelection={handleRowSelection}/>
                 <button onClick={handleSubmitData} className="mt-8 px-5 py-3 border-2 border-solid text-[#245D7C] border-[#245D7C] rounded-md font-bold transition-all duration-200 hover:bg-[#245D7C] hover:text-white">Gửi Yêu Cầu</button>

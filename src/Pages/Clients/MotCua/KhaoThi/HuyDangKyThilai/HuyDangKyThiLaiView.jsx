@@ -1,9 +1,10 @@
 import Breadcrumb from "@/Components/Breadcumb/Breadcrumb";
+import Loading from "@/Components/Loading/Loading";
 import { Checkbox, MenuItem, Select, TextareaAutosize } from "@mui/material";
 
 function HuyDangKyThiLaiView(props){
 
-    const {home, breadcrumbs, tenDot, setTenDot,loaiThi, setLoaiThi, lyDo, setLyDo, lyDoKhac, setLyDoKhac, listHocKy, listLyDo, listHocPhan, handleRowSelection, handleSubmitData } = props
+    const {loading, home, breadcrumbs, tenDot, setTenDot,loaiThi, setLoaiThi, lyDo, setLyDo, lyDoKhac, setLyDoKhac, listHocKy, listLyDo, listHocPhan, handleRowSelection, handleSubmitData } = props
 
     return (
         <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
@@ -17,7 +18,7 @@ function HuyDangKyThiLaiView(props){
                             <Select
 								value={tenDot}
 								onChange={e => setTenDot(e.target.value)}
-								className="flex-1 max-w-[75%] rounded-md border border-solid border-gray-300"
+								className="flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
 							>
 								{listHocKy.map((e, index) => (
 									<MenuItem key={index} value={e.TenDot}>{e.TenDot}</MenuItem>
@@ -29,7 +30,7 @@ function HuyDangKyThiLaiView(props){
                             <Select
 								inputProps={{ readOnly: true }}
 								defaultValue="Thi Lại"
-								className="flex-1 max-w-[75%] rounded-md border border-solid border-gray-300"
+								className="flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
 							>
 								<MenuItem value="Thi Lại">Thi Lại</MenuItem>
 							</Select>
@@ -39,7 +40,7 @@ function HuyDangKyThiLaiView(props){
 							<Select
 								value={lyDo} 
 								onChange={e => {setLyDo(e.target.value); setLyDoKhac('')}}
-								className="flex-1 max-w-[75%] rounded-md border border-solid border-gray-300"
+								className="flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
 							>
 								{listLyDo.map((e, index) => (
 									<MenuItem key={index} value={e.value}>{e.name}</MenuItem>
@@ -63,7 +64,11 @@ function HuyDangKyThiLaiView(props){
 						</span>
 					</div>) : null}
 
-					{(tenDot !== '' && lyDo !== '') && (
+					{loading ? (
+						<div className="w-full flex justify-center">
+							<Loading />
+						</div>
+					) : (tenDot !== '' && lyDo !== '') && (
 						<div className="flex flex-col justify-center items-center pb-4">
 							<div className="w-[75%] overflow-x-auto">
 								<table className="w-full min-w-[800px]">
