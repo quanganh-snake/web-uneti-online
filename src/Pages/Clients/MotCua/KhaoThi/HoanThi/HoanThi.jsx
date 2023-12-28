@@ -72,7 +72,7 @@ function HoanThi() {
   const handleSubmitData = async (event) => {
     event.preventDefault()
 
-    if (!tenDot) {
+    if (tenDot == '') {
       Swal.fire({
         icon: 'error',
         title: 'Lỗi',
@@ -81,7 +81,7 @@ function HoanThi() {
       return
     }
 
-    if (!loaiThi) {
+    if (loaiThi == '') {
       Swal.fire({
         icon: 'error',
         title: 'Lỗi',
@@ -90,7 +90,7 @@ function HoanThi() {
       return
     }
 
-    if (!lyDo) {
+    if (lyDo == '') {
       Swal.fire({
         icon: 'error',
         title: 'Lỗi',

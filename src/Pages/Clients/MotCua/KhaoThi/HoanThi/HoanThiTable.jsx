@@ -135,7 +135,7 @@ export const HoanThiTable = (props) => {
 
             <div className='pb-10 uneti-action flex justify-center'>
               <button
-                onClick={(e) => handleSubmitData(e)}
+                onClick={handleSubmitData}
                 className='px-3 py-2 bg-white text-sky-800 font-semibold border border-sky-800 rounded-full hover:bg-sky-800 hover:text-white'
               >
                 Gửi yêu cầu
