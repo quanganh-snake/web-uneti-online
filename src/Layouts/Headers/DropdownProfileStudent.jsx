@@ -12,7 +12,7 @@ function DropdownProfileStudent(props) {
 				<li>
 					<Link
 						to="theodoidenghi"
-						className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white hover:font-bold hover:text-white hover:bg-sky-800"
+						className="flex items-center gap-3 px-4 py-2 text-sm text-white dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white hover:font-bold hover:text-white hover:bg-sky-800"
 					>
 						<MdNotificationImportant className="text-xl" />
 						<span>Theo dõi đề nghị</span>
@@ -22,7 +22,7 @@ function DropdownProfileStudent(props) {
 					<Link
 						to="https://uneti.edu.vn/bieu-mau-bo-phan-hanh-chinh-mot-cua/"
 						target="_blank"
-						className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white hover:font-bold hover:text-white hover:bg-sky-800"
+						className="flex items-center gap-3 px-4 py-2 text-sm text-white dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white hover:font-bold hover:text-white hover:bg-sky-800"
 					>
 						<MdInsertDriveFile className="text-xl" />
 						<span>Biểu mẫu tham khảo</span>
@@ -32,7 +32,7 @@ function DropdownProfileStudent(props) {
 					<Link
 						to="https://uneti.edu.vn/category/quy-trinh-bo-phan-mot-cua/"
 						target="_blank"
-						className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white  hover:font-bold hover:text-white hover:bg-sky-800"
+						className="flex items-center gap-3 px-4 py-2 text-sm text-white dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white  hover:font-bold hover:text-white hover:bg-sky-800"
 					>
 						<MdFormatListNumbered className="text-xl" />
 						Quy trình thủ tục
@@ -42,7 +42,7 @@ function DropdownProfileStudent(props) {
 					<Link
 						to="https://www.youtube.com/playlist?list=PLtaZam4oqTqBgIrLn2LBviw4nQArnNYqJ"
 						target="_blank"
-						className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white hover:font-bold hover:text-white hover:bg-sky-800"
+						className="flex items-center gap-3 px-4 py-2 text-sm text-white dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white hover:font-bold hover:text-white hover:bg-sky-800"
 					>
 						<FaYoutube className="text-xl" />
 						Hướng dẫn sử dụng
@@ -51,7 +51,7 @@ function DropdownProfileStudent(props) {
 				<li>
 					<Link
 						onClick={handleLogout}
-						className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white  hover:font-bold hover:text-white hover:bg-sky-800"
+						className="flex items-center gap-3 px-4 py-2 text-sm text-white dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white  hover:font-bold hover:text-white hover:bg-sky-800"
 					>
 						<MdLogout className="text-xl" />
 						Đăng xuất
