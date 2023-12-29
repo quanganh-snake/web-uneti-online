@@ -16,6 +16,7 @@ function EmailLMSView(props) {
     lyDo,
     setLyDo,
     listChiTietDeNghi,
+    handleSubmitData,
   } = props;
 
   return (
@@ -23,7 +24,10 @@ function EmailLMSView(props) {
       <div className="p-4 flex flex-col">
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
         <div className="border-[#336699] border border-solid mt-5 rounded-md">
-          <form className="py-8 flex flex-col justify-center items-center gap-4">
+          <form
+            onSubmit={handleSubmitData}
+            className="py-8 flex flex-col justify-center items-center gap-4"
+          >
             <h2 className="text-center uppercase text-2xl font-bold text-sky-800 mb-6">
               TIẾP NHẬN XỬ LÝ CÁC VẤN ĐỀ EMAIL/LMS
             </h2>
@@ -53,25 +57,28 @@ function EmailLMSView(props) {
                 className="flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
               >
                 {listChiTietDeNghi.map((e, index) => (
-                  <MenuItem key={index} value={e}>
-                    {e}
+                  <MenuItem key={index} value={e.value}>
+                    {e.text}
                   </MenuItem>
                 ))}
               </Select>
             </div>
 
-            <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
-              <span className="block pr-10 w-[200px]">
-                Email cá nhân _ Ví dụ: @gmail.com (*)
-              </span>
-              <TextField
-                value={emailCaNhan}
-                onChange={(e) => setEmailCaNhan(e.target.value)}
-                type="email"
-                variant="filled"
-                className="flex-1 md:max-w-[75%] p-2 rounded-md border border-solid border-gray-300"
-              />
-            </div>
+            {deNghi === "Tài khoản Email UNETI" && (
+              <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+                <span className="block pr-10 w-[200px]">
+                  Email cá nhân _ Ví dụ: @gmail.com (*)
+                </span>
+                <TextField
+                  required
+                  value={emailCaNhan}
+                  onChange={(e) => setEmailCaNhan(e.target.value)}
+                  type="email"
+                  variant="filled"
+                  className="flex-1 md:max-w-[75%] px-2 rounded-md border border-solid border-gray-300"
+                />
+              </div>
+            )}
 
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-start gap-2">
               <span className="block pr-10 w-[200px]">Lý do (*)</span>
@@ -103,6 +110,7 @@ EmailLMSView.propTypes = {
   setLyDo: PropTypes.func,
   listDeNghi: PropTypes.array,
   listChiTietDeNghi: PropTypes.array,
+  handleSubmitData: PropTypes.func,
 };
 
 export default EmailLMSView;
