@@ -120,6 +120,7 @@ function XacNhanCTSV() {
     data.MC_HSSV_XacNhan_YeuCau_KemTheo = giayToKemTheo
     data.MC_HSSV_XacNhan_YeuCau = yeuCau
     data.MC_HSSV_XacNhan_YeuCau_LyDo = lyDo
+    data.MC_HSSV_XacNhan_DangKyNoiNhanKetQua = noiNhanKetQua
 
     // images
     data.images = []

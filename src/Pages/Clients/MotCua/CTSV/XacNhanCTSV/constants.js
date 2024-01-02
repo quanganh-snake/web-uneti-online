@@ -17,18 +17,38 @@ export const breadcrumbs = [
 export const listDeNghiYeuCau = [
   {
     id: 0,
-    title: 'Đang học tại trường',
+    title: 'Làm vé tháng xe bus',
     value: 0
   },
   {
     id: 1,
-    title: 'Đối tượng chính sách',
+    title: 'Cấp lại thẻ BHYT',
     value: 1
   },
   {
     id: 2,
-    title: 'Vay vốn',
+    title: 'Sổ ưu đãi',
     value: 2
+  },
+  {
+    id: 3,
+    title: 'Đang học tại trường',
+    value: 3
+  },
+  {
+    id: 4,
+    title: 'Đối tượng chính sách',
+    value: 4
+  },
+  {
+    id: 5,
+    title: 'Vay vốn',
+    value: 5
+  },
+  {
+    id: 6,
+    title: 'Thuê nhà ở sinh viên',
+    value: 6
   }
 ]
 
