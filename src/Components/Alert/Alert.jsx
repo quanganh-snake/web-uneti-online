@@ -11,7 +11,7 @@ export const Alert = (props) => {
     <>
       <div className={[bem.b(), bem.is(type)].join(' ')}>
         <p className={bem.e('title')}>{title}</p>
-        <p className={bem.e('content')}>{content}</p>
+        <div className={bem.e('content')}>{content}</div>
       </div>
     </>
   )
