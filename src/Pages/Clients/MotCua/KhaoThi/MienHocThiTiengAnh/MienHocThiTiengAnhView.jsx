@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
 import { VanBanMauId } from '@/Configs/constants'
 
-function QuaTrinhHocView(props) {
+function MienHocThiTiengAnhView(props) {
   const { home, breadcrumbs } = props
 
   return (
@@ -22,31 +22,17 @@ function QuaTrinhHocView(props) {
         </div>
 
         <GiayToKemTheoAlert
-          download={[
-            {
-              id: VanBanMauId.MotCua.CTSV.QuaTrinhHoc.QuayLaiHoc,
-              text: 'Mẫu xin trở lại học'
-            },
-            {
-              id: VanBanMauId.MotCua.CTSV.QuaTrinhHoc.ThoiHoc,
-              text: 'Mẫu thôi học'
-            },
-            {
-              id: VanBanMauId.MotCua.CTSV.QuaTrinhHoc.XinBaoLuu,
-              text: 'Mẫu xin bảo lưu'
-            }
-          ]}
-          downloadId={VanBanMauId.MotCua.CTSV.QuaTrinhHoc.MauThongTin}
-          downloadText='Quá trình học'
+          downloadId={VanBanMauId.MotCua.KhaoThi.MienHocMienThiTiengAnh}
+          downloadText='Miễn học, miễn thi'
         />
       </div>
     </div>
   )
 }
 
-QuaTrinhHocView.propTypes = {
+MienHocThiTiengAnhView.propTypes = {
   home: PropTypes.object,
   breadcrumbs: PropTypes.array
 }
 
-export default QuaTrinhHocView
+export default MienHocThiTiengAnhView

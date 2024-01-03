@@ -9,6 +9,8 @@ import {
   postYeuCauXacNhan,
   xacNhanKiemTraTrung
 } from '@/Apis/MotCua/CTSV/apiXacNhan'
+import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
+import { VanBanMauId } from '@/Configs/constants'
 
 function XacNhanCTSV() {
   const [lyDo, setLyDo] = useState('')
@@ -258,6 +260,11 @@ function XacNhanCTSV() {
               </div>
             </div>
           </div>
+
+          <GiayToKemTheoAlert
+            downloadId={VanBanMauId.MotCua.CTSV.XacNhan}
+            downloadText='Xác nhận'
+          />
         </div>
       </div>
     </div>

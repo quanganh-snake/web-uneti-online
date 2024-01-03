@@ -2,6 +2,7 @@ import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import { DangKyTotNghiepForm } from './DangKyTotNghiepForm'
 import { home, breadcrumbs } from './constants'
 import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
+import { VanBanMauId } from '@/Configs/constants'
 
 export const DangKyTotNghiepView = (props) => {
   const { handleSubmitData } = props
@@ -31,7 +32,10 @@ export const DangKyTotNghiepView = (props) => {
           </div>
 
           <div className='lg:px-36'>
-            <GiayToKemTheoAlert downloadText='Xét, thi, hoãn tốt nghiệp' />
+            <GiayToKemTheoAlert
+              downloadId={VanBanMauId.MotCua.DaoTao.DangKyTotNghiep.MauThongTin}
+              downloadText='Xét, thi, hoãn tốt nghiệp'
+            />
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@ import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import { CapBangDiemForm } from './CapBangDiemForm'
 import { home, breadcrumbs } from './constants'
 import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
+import { VanBanMauId } from '@/Configs/constants'
 
 export const CapBangDiemView = (props) => {
   const { handleSubmitData } = props
@@ -31,7 +32,10 @@ export const CapBangDiemView = (props) => {
           </div>
 
           <div className='lg:px-36'>
-            <GiayToKemTheoAlert downloadText='Bảng điểm tốt nghiệp' />
+            <GiayToKemTheoAlert
+              downloadId={VanBanMauId.MotCua.DaoTao.CapBangDiem}
+              downloadText='Bảng điểm tốt nghiệp'
+            />
           </div>
         </div>
       </div>
