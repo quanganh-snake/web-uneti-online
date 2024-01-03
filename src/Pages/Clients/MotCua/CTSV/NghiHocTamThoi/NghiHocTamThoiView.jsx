@@ -1,10 +1,10 @@
-import Breadcrumb from "@/Components/Breadcumb/Breadcrumb";
-import PropTypes from "prop-types";
-import { GiayToKemTheoAlert } from "@/Components/MotCua/GiayToKemTheoAlert";
-import { VanBanMauId } from "@/Configs/constants";
+import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
+import PropTypes from 'prop-types'
+import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
+import { VanBanMauId } from '@/Configs/constants'
 
 function NghiHocTamThoiView(props) {
-  const { home, breadcrumbs } = props;
+  const { home, breadcrumbs } = props
 
   return (
     <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
@@ -25,7 +25,7 @@ function NghiHocTamThoiView(props) {
           download={[
             {
               id: VanBanMauId.MotCua.CTSV.NghiHocTamThoi.DonXinNghi,
-              text: "Mẫu đơn xin nghỉ",
+              text: 'Mẫu đơn xin nghỉ',
             },
           ]}
           downloadId={VanBanMauId.MotCua.CTSV.NghiHocTamThoi.MauThongTin}
@@ -33,12 +33,12 @@ function NghiHocTamThoiView(props) {
         />
       </div>
     </div>
-  );
+  )
 }
 
 NghiHocTamThoiView.propTypes = {
   home: PropTypes.object,
   breadcrumbs: PropTypes.array,
-};
+}
 
-export default NghiHocTamThoiView;
+export default NghiHocTamThoiView

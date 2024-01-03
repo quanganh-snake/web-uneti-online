@@ -1,63 +1,63 @@
-import { downloadFileById } from "@/Apis/MotCua/apiTaiFileMau";
-import { Alert } from "@/Components/Alert/Alert";
-import Swal from "sweetalert2";
-import { convertBufferToBase64 } from "@/Services/Utils/stringUtils";
-import { useMemo } from "react";
+import { downloadFileById } from '@/Apis/MotCua/apiTaiFileMau'
+import { Alert } from '@/Components/Alert/Alert'
+import Swal from 'sweetalert2'
+import { convertBufferToBase64 } from '@/Services/Utils/stringUtils'
+import { useMemo } from 'react'
 
 export const GiayToKemTheoAlert = (props) => {
-  const { download = [], downloadId, downloadText } = props;
+  const { download = [], downloadId, downloadText } = props
 
   const list = useMemo(() => {
-    if (!downloadId || !downloadText) return download;
+    if (!downloadId || !downloadText) return download
 
-    return [...download, { id: downloadId, text: downloadText }];
-  }, [download, downloadId, downloadText]);
+    return [...download, { id: downloadId, text: downloadText }]
+  }, [download, downloadId, downloadText])
 
   const handleDownloadFileFromBase64 = (base64Data, filename) => {
-    const mimeType = "application/pdf";
+    const mimeType = 'application/pdf'
 
-    const link = document.createElement("a");
-    link.href = `data:${mimeType};base64,${base64Data}`;
-    link.download = filename;
-    link.click();
-  };
+    const link = document.createElement('a')
+    link.href = `data:${mimeType};base64,${base64Data}`
+    link.download = filename
+    link.click()
+  }
 
   const handleFileFromArrayBuffer = (arrBuffer, filename) => {
-    const base64Data = convertBufferToBase64(arrBuffer);
+    const base64Data = convertBufferToBase64(arrBuffer)
 
-    handleDownloadFileFromBase64(base64Data, filename);
-  };
+    handleDownloadFileFromBase64(base64Data, filename)
+  }
 
   const handleDownloadFile = async (downloadId) => {
     try {
-      const res = await downloadFileById(downloadId);
-      const data = res.data.body[0];
+      const res = await downloadFileById(downloadId)
+      const data = res.data.body[0]
 
-      const filename = data.VBM_FileNameUpload;
+      const filename = data.VBM_FileNameUpload
 
       switch (data.VBM_DataFileUpload.type) {
-        case "Buffer": {
-          handleFileFromArrayBuffer(data.VBM_DataFileUpload.data, filename);
-          break;
+        case 'Buffer': {
+          handleFileFromArrayBuffer(data.VBM_DataFileUpload.data, filename)
+          break
         }
 
         default:
           Swal.fire({
-            icon: "error",
-            title: "Lỗi hệ thống",
+            icon: 'error',
+            title: 'Lỗi hệ thống',
             text: `Vui lòng thử lại và gửi thông báo lỗi cho bộ phận hỗ trợ phần mềm! Lỗi: FileType`,
-          });
-          break;
+          })
+          break
       }
     } catch (error) {
-      console.log("Download file error, FileID: " + downloadId, error);
+      console.log('Download file error, FileID: ' + downloadId, error)
       Swal.fire({
-        icon: "error",
-        title: "Lỗi hệ thống",
+        icon: 'error',
+        title: 'Lỗi hệ thống',
         text: `Vui lòng thử lại và gửi thông báo lỗi cho bộ phận hỗ trợ phần mềm!`,
-      });
+      })
     }
-  };
+  }
 
   return (
     <>
@@ -85,7 +85,7 @@ export const GiayToKemTheoAlert = (props) => {
             </p>
             <p>
               2. Mẫu giấy tờ kèm theo đề nghị (nếu trong đề nghị yêu cầu), người
-              học tải file mẫu tại địa chỉ sau{" "}
+              học tải file mẫu tại địa chỉ sau{' '}
               <a
                 className="text-[#245D7C] hover:text-[#0056b3] duration-200"
                 href="https://uneti.edu.vn/bieu-mau-bo-phan-hanh-chinh-mot-cua/"
@@ -97,5 +97,5 @@ export const GiayToKemTheoAlert = (props) => {
         }
       />
     </>
-  );
-};
+  )
+}

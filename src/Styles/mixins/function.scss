@@ -1,6 +1,6 @@
-@use "sass:color";
-@use "sass:string";
-@use "config";
+@use 'sass:color';
+@use 'sass:string';
+@use 'config';
 
 // BEM support Func
 @function selectorToString($selector) {
@@ -22,7 +22,7 @@
 @function containWhenFlag($selector) {
   $selector: selectorToString($selector);
 
-  @if str-index($selector, "." + config.$state-prefix) {
+  @if str-index($selector, '.' + config.$state-prefix) {
     @return true;
   } @else {
     @return false;
@@ -32,7 +32,7 @@
 @function containPseudoClass($selector) {
   $selector: selectorToString($selector);
 
-  @if str-index($selector, ":") {
+  @if str-index($selector, ':') {
     @return true;
   } @else {
     @return false;
@@ -47,10 +47,10 @@
 // join var name
 // joinVarName(('button', 'text-color')) => '--vs-button-text-color'
 @function joinVarName($list) {
-  $name: "-";
+  $name: '-';
   @each $item in $list {
-    @if $item != "" {
-      $name: $name + "-" + $item;
+    @if $item != '' {
+      $name: $name + '-' + $item;
     }
   }
   @return $name;
@@ -72,14 +72,14 @@
 }
 
 // bem('block', 'element', 'modifier') => 'vs-block__element--modifier'
-@function bem($block, $element: "", $modifier: "") {
+@function bem($block, $element: '', $modifier: '') {
   $name: $block;
 
-  @if $element != "" {
+  @if $element != '' {
     $name: $name + config.$element-separator + $element;
   }
 
-  @if $modifier != "" {
+  @if $modifier != '' {
     $name: $name + config.$modifier-separator + $modifier;
   }
 
@@ -89,7 +89,7 @@
 
 @function getColor($var, $alpha: 1) {
   $color: getCssVar($var);
-  @if $color == "inherit" {
+  @if $color == 'inherit' {
     @return $color;
   } @else {
     @return #{rgba($color, $alpha)};

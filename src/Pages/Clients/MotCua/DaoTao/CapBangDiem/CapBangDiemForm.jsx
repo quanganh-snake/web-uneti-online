@@ -1,5 +1,5 @@
-import FileSelect from "@/Components/FileSelect/FileSelect";
-import { listNoiNhanKetQua, listLoaiBangDiem } from "./constants";
+import FileSelect from '@/Components/FileSelect/FileSelect'
+import { listNoiNhanKetQua, listLoaiBangDiem } from './constants'
 
 export const CapBangDiemForm = (props) => {
   const {
@@ -9,20 +9,20 @@ export const CapBangDiemForm = (props) => {
     giayToKemTheo,
     noiNhanKetQua,
     files,
-  } = props;
+  } = props
 
   return (
     <>
       <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
         <label
-          htmlFor={"MC_DT_CapBangDiem_YeuCau"}
+          htmlFor={'MC_DT_CapBangDiem_YeuCau'}
           className="md:w-[30%] mb-2 md:mb-0"
         >
           Bảng điểm
         </label>
 
         <select
-          id={"MC_DT_CapBangDiem_YeuCau"}
+          id={'MC_DT_CapBangDiem_YeuCau'}
           className="md:w-[70%] border px-2 py-1 rounded-lg outline-sky-800 cursor-default disabled"
           disabled
         >
@@ -32,18 +32,18 @@ export const CapBangDiemForm = (props) => {
 
       <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
         <label
-          htmlFor={"MC_DT_CapBangDiem_LoaiBangDiem"}
+          htmlFor={'MC_DT_CapBangDiem_LoaiBangDiem'}
           className="md:w-[30%] mb-2 md:mb-0"
         >
           Loại bảng điểm (*)
         </label>
 
         <select
-          id={"MC_DT_CapBangDiem_LoaiBangDiem"}
+          id={'MC_DT_CapBangDiem_LoaiBangDiem'}
           onChange={handleChangeValue}
           className="md:w-[70%] border px-2 py-1 rounded-lg outline-sky-800"
         >
-          <option value={""}>Chọn loại bảng điểm</option>
+          <option value={''}>Chọn loại bảng điểm</option>
           {listLoaiBangDiem?.map((option) => (
             <option value={option.title} key={option.id}>
               {option.title}
@@ -54,7 +54,7 @@ export const CapBangDiemForm = (props) => {
 
       <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
         <label
-          htmlFor={"MC_DT_CapBangDiem_YeuCau_LyDo"}
+          htmlFor={'MC_DT_CapBangDiem_YeuCau_LyDo'}
           className="md:w-[30%] mb-2 md:mb-0"
         >
           Lý do (*)
@@ -72,7 +72,7 @@ export const CapBangDiemForm = (props) => {
 
       <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
         <label
-          htmlFor={"MC_DT_CapBangDiem_YeuCau_KemTheo"}
+          htmlFor={'MC_DT_CapBangDiem_YeuCau_KemTheo'}
           className="md:w-[30%] mb-2 md:mb-0"
         >
           Giấy tờ kèm theo
@@ -115,18 +115,18 @@ export const CapBangDiemForm = (props) => {
 
       <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
         <label
-          htmlFor={"MC_DT_CapBangDiem_NoiNhan"}
+          htmlFor={'MC_DT_CapBangDiem_NoiNhan'}
           className="md:w-[30%] mb-2 md:mb-0"
         >
           Đăng ký nơi nhận kết quả (*)
         </label>
         <select
-          id={"MC_DT_CapBangDiem_NoiNhan"}
+          id={'MC_DT_CapBangDiem_NoiNhan'}
           onChange={handleChangeValue}
           value={noiNhanKetQua}
           className="md:w-[70%] border px-2 py-1 rounded-lg outline-sky-800"
         >
-          <option value={""}>Chọn nơi nhận kết quả</option>
+          <option value={''}>Chọn nơi nhận kết quả</option>
           {listNoiNhanKetQua?.map((option) => (
             <option value={option.title} key={option.id}>
               {option.title}
@@ -135,5 +135,5 @@ export const CapBangDiemForm = (props) => {
         </select>
       </div>
     </>
-  );
-};
+  )
+}

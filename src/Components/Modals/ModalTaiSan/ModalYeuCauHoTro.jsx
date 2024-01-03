@@ -1,7 +1,7 @@
-import React from "react";
-import { AiFillFileAdd } from "react-icons/ai";
+import React from 'react'
+import { AiFillFileAdd } from 'react-icons/ai'
 function ModalYeuCauHoTro(props) {
-  const { isShow, onShowModal } = props;
+  const { isShow, onShowModal } = props
 
   return (
     <>
@@ -84,7 +84,7 @@ function ModalYeuCauHoTro(props) {
                         htmlFor="DT_QLTS_TS_SDT"
                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                       >
-                        Số điện thoại liên hệ{" "}
+                        Số điện thoại liên hệ{' '}
                         <span className="text-red-700">*</span>
                       </label>
                       <input
@@ -123,16 +123,16 @@ function ModalYeuCauHoTro(props) {
                         Cơ sở <span className="text-red-700">*</span>
                       </label>
                       <select
-                        defaultValue={"Chọn cơ sở"}
+                        defaultValue={'Chọn cơ sở'}
                         name="selectCoSo"
                         id="selectCoSo"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-3 py-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                       >
-                        <option selected="" defaultValue={""}>
+                        <option selected="" defaultValue={''}>
                           Chọn cơ sở
                         </option>
-                        <option value={"Hà Nội"}>Hà Nội</option>
-                        <option value={"Nam Định"}>Nam Định</option>
+                        <option value={'Hà Nội'}>Hà Nội</option>
+                        <option value={'Nam Định'}>Nam Định</option>
                       </select>
                     </div>
                     {/* END: Cơ sở - selectCoSo */}
@@ -144,16 +144,16 @@ function ModalYeuCauHoTro(props) {
                         Địa điểm <span className="text-red-700">*</span>
                       </label>
                       <select
-                        defaultValue={"Chọn địa điểm"}
+                        defaultValue={'Chọn địa điểm'}
                         name="ddlDiaDiem"
                         id="ddlDiaDiem"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-3 py-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                       >
-                        <option selected="" defaultValue={""}>
+                        <option selected="" defaultValue={''}>
                           Chọn địa điểm
                         </option>
-                        <option value={"Minh Khai"}>Minh Khai</option>
-                        <option value={"Lĩnh Nam"}>Lĩnh Nam</option>
+                        <option value={'Minh Khai'}>Minh Khai</option>
+                        <option value={'Lĩnh Nam'}>Lĩnh Nam</option>
                       </select>
                     </div>
                     {/* END: Địa điểm - ddlDiaDiem */}
@@ -167,14 +167,14 @@ function ModalYeuCauHoTro(props) {
                       <select
                         name="ddlToaNha"
                         id="ddlToaNha"
-                        defaultValue={"Chọn tòa nhà"}
+                        defaultValue={'Chọn tòa nhà'}
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-3 py-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                       >
-                        <option selected="" defaultValue={""}>
+                        <option selected="" defaultValue={''}>
                           Chọn tòa nhà
                         </option>
-                        <option value={"Tòa nhà 1"}>Tòa nhà 1</option>
-                        <option value={"Tòa nhà 2"}>Tòa nhà 2</option>
+                        <option value={'Tòa nhà 1'}>Tòa nhà 1</option>
+                        <option value={'Tòa nhà 2'}>Tòa nhà 2</option>
                       </select>
                     </div>
                     {/* END: Tòa nhà - ddlToaNha */}
@@ -186,16 +186,16 @@ function ModalYeuCauHoTro(props) {
                         Tầng <span className="text-red-700">*</span>
                       </label>
                       <select
-                        defaultValue={"Chọn tầng"}
+                        defaultValue={'Chọn tầng'}
                         name="ddlTang"
                         id="ddlTang"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-3 py-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                       >
-                        <option selected="" defaultValue={""}>
+                        <option selected="" defaultValue={''}>
                           Chọn tầng
                         </option>
-                        <option value={"Tầng 1"}>Tầng 1</option>
-                        <option value={"Tầng 2"}>Tầng 2</option>
+                        <option value={'Tầng 1'}>Tầng 1</option>
+                        <option value={'Tầng 2'}>Tầng 2</option>
                       </select>
                     </div>
                     {/* END: Tầng - ddlTang */}
@@ -207,16 +207,16 @@ function ModalYeuCauHoTro(props) {
                         Phòng <span className="text-red-700">*</span>
                       </label>
                       <select
-                        defaultValue={"Chọn phòng"}
+                        defaultValue={'Chọn phòng'}
                         name="ddlPhong"
                         id="ddlPhong"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-3 py-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                       >
-                        <option value={""} selected defaultValue={""}>
+                        <option value={''} selected defaultValue={''}>
                           Chọn Phòng
                         </option>
-                        <option value={"Phòng 1"}>Phòng 1</option>
-                        <option value={"Phòng 2"}>Phòng 2</option>
+                        <option value={'Phòng 1'}>Phòng 1</option>
+                        <option value={'Phòng 2'}>Phòng 2</option>
                       </select>
                     </div>
                     {/* END: Cơ sở - ddlPhong */}
@@ -259,7 +259,7 @@ function ModalYeuCauHoTro(props) {
         </div>
       ) : null}
     </>
-  );
+  )
 }
 
-export default ModalYeuCauHoTro;
+export default ModalYeuCauHoTro

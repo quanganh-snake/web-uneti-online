@@ -1,251 +1,251 @@
-import React from "react";
-import SidebarTTHCGV from "../../Sidebar/SidebarTTHCGV";
-import { Link, useParams } from "react-router-dom";
-import { useState } from "react";
-import { useEffect } from "react";
+import React from 'react'
+import SidebarTTHCGV from '../../Sidebar/SidebarTTHCGV'
+import { Link, useParams } from 'react-router-dom'
+import { useState } from 'react'
+import { useEffect } from 'react'
 import {
   getThuTucHanhChinhByID,
   putThongTinHoSoThuTuc,
-} from "../../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
-import Swal from "sweetalert2";
-import clsx from "clsx";
-import Loading from "./../../../../../Components/Loading/Loading";
+} from '../../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
+import Swal from 'sweetalert2'
+import clsx from 'clsx'
+import Loading from './../../../../../Components/Loading/Loading'
 
 // icons
-import { FaAngleRight } from "react-icons/fa";
-import { MdOutlineZoomInMap, MdOutlineZoomOutMap } from "react-icons/md";
-import { TfiReload } from "react-icons/tfi";
-import { NguonTiepNhan_WEB } from "../../../../../Services/Static/dataStatic";
-import { toast } from "react-toastify";
-import { checkConditionObject } from "../../../../../Services/Utils/commonUtils";
-import { delTrinhTuThucHienTTHCGV } from "../../../../../Apis/ThuTucHanhChinhGiangVien/apiTrinhTuThucHien";
-import { deleteTrangThaiTTHCGV } from "../../../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai";
-import { delThanhPhanHoSoTTHCGV } from "../../../../../Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo";
-import { delPhanQuyenTTHCGV } from "../../../../../Apis/ThuTucHanhChinhGiangVien/apiPhanQuyen";
-import { convertDataFileToBase64 } from "../../../../../Services/Utils/stringUtils";
+import { FaAngleRight } from 'react-icons/fa'
+import { MdOutlineZoomInMap, MdOutlineZoomOutMap } from 'react-icons/md'
+import { TfiReload } from 'react-icons/tfi'
+import { NguonTiepNhan_WEB } from '../../../../../Services/Static/dataStatic'
+import { toast } from 'react-toastify'
+import { checkConditionObject } from '../../../../../Services/Utils/commonUtils'
+import { delTrinhTuThucHienTTHCGV } from '../../../../../Apis/ThuTucHanhChinhGiangVien/apiTrinhTuThucHien'
+import { deleteTrangThaiTTHCGV } from '../../../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai'
+import { delThanhPhanHoSoTTHCGV } from '../../../../../Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo'
+import { delPhanQuyenTTHCGV } from '../../../../../Apis/ThuTucHanhChinhGiangVien/apiPhanQuyen'
+import { convertDataFileToBase64 } from '../../../../../Services/Utils/stringUtils'
 
 function ThongTinChiTietHoSo() {
-  const { id } = useParams();
-  const [detailHoSoThuTuc, setDetailHoSoThuTuc] = useState({});
-  const [loading, setLoading] = useState(true);
+  const { id } = useParams()
+  const [detailHoSoThuTuc, setDetailHoSoThuTuc] = useState({})
+  const [loading, setLoading] = useState(true)
 
-  const [showThongTinHoSo, setShowThongTinHoSo] = useState(true);
-  const [showTPHSDeNghi, setShowTPHSDeNghi] = useState(false);
-  const [showTrinhTuThucHien, setShowTrinhTuThucHien] = useState(false);
-  const [showPhanQuyen, setShowPhanQuyen] = useState(false);
-  const [showTrangThai, setShowTrangThai] = useState(false);
+  const [showThongTinHoSo, setShowThongTinHoSo] = useState(true)
+  const [showTPHSDeNghi, setShowTPHSDeNghi] = useState(false)
+  const [showTrinhTuThucHien, setShowTrinhTuThucHien] = useState(false)
+  const [showPhanQuyen, setShowPhanQuyen] = useState(false)
+  const [showTrangThai, setShowTrangThai] = useState(false)
 
-  const [zoomView, setZoomView] = useState(false);
+  const [zoomView, setZoomView] = useState(false)
 
-  const [editRowIndex, setEditRowIndex] = useState(-1);
-  const [editValueRow, setEditValueRow] = useState({});
+  const [editRowIndex, setEditRowIndex] = useState(-1)
+  const [editValueRow, setEditValueRow] = useState({})
 
-  const [editThongTinChung, setEditThongTinChung] = useState({});
+  const [editThongTinChung, setEditThongTinChung] = useState({})
 
   const TABS = {
-    tabThongTinHoSo: "ThongTinHoSo",
-    tabTPHSDeNghi: "ThanhPhanHoSoDeNghi",
-    tabTrinhTuThucHien: "TrinhTuThucHien",
-    tabPhanQuyen: "PhanQuyen",
-    tabTrangThai: "TrangThai",
-  };
+    tabThongTinHoSo: 'ThongTinHoSo',
+    tabTPHSDeNghi: 'ThanhPhanHoSoDeNghi',
+    tabTrinhTuThucHien: 'TrinhTuThucHien',
+    tabPhanQuyen: 'PhanQuyen',
+    tabTrangThai: 'TrangThai',
+  }
   // Events handlers
   const handleShowView = (tab) => {
     if (tab === TABS.tabThongTinHoSo) {
-      setShowThongTinHoSo(!showThongTinHoSo);
+      setShowThongTinHoSo(!showThongTinHoSo)
     }
     if (tab === TABS.tabTPHSDeNghi) {
-      setShowTPHSDeNghi(!showTPHSDeNghi);
+      setShowTPHSDeNghi(!showTPHSDeNghi)
     }
     if (tab === TABS.tabTrinhTuThucHien) {
-      setShowTrinhTuThucHien(!showTrinhTuThucHien);
+      setShowTrinhTuThucHien(!showTrinhTuThucHien)
     }
     if (tab === TABS.tabPhanQuyen) {
-      setShowPhanQuyen(!showPhanQuyen);
+      setShowPhanQuyen(!showPhanQuyen)
     }
     if (tab === TABS.tabTrangThai) {
-      console.log("a");
-      setShowTrangThai(!showTrangThai);
+      console.log('a')
+      setShowTrangThai(!showTrangThai)
     }
-  };
+  }
 
   const handleDeleteRow = async (type, valueRow) => {
     // DELETE TrangThai
     if (type === TABS.tabTrangThai) {
       Swal.fire({
-        icon: "question",
+        icon: 'question',
         html: `Bạn chắc chắn muốn xóa trạng thái <p class="font-bold uppercase text-red-600">${valueRow?.MC_TTHC_GV_TrangThai_TenTrangThai}</p> không?`,
         showConfirmButton: true,
         showCancelButton: true,
-        confirmButtonText: "Đồng ý",
-        cancelButtonText: "Hủy",
+        confirmButtonText: 'Đồng ý',
+        cancelButtonText: 'Hủy',
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
             const dataIDDelete = {
               MC_TTHC_GV_TrangThai_ID:
                 valueRow?.MC_TTHC_GV_TrangThai_ID.toString(),
-            };
-            setLoading(true);
-            const resDelete = await deleteTrangThaiTTHCGV(dataIDDelete);
+            }
+            setLoading(true)
+            const resDelete = await deleteTrangThaiTTHCGV(dataIDDelete)
             if (resDelete.status === 200) {
-              setLoading(false);
+              setLoading(false)
               return toast.success(
                 `Xóa thành công công việc ${valueRow?.MC_TTHC_GV_TrangThai_TenTrangThai}!`,
-              );
+              )
             }
           } catch (error) {
-            console.log(error.message);
+            console.log(error.message)
           }
         }
-      });
+      })
     }
 
     // DELETE TrinhTuThucHien
     if (type === TABS.tabTrinhTuThucHien) {
       Swal.fire({
-        icon: "question",
+        icon: 'question',
         html: `Bạn chắc chắn muốn xóa công việc <p class="font-bold uppercase text-red-600">${valueRow?.MC_TTHC_GV_TrinhTuThucHien_TenCongViec}</p> không?`,
         showConfirmButton: true,
         showCancelButton: true,
-        confirmButtonText: "Đồng ý",
-        cancelButtonText: "Hủy",
+        confirmButtonText: 'Đồng ý',
+        cancelButtonText: 'Hủy',
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
             const dataIDDelete = {
               MC_TTHC_GV_TrinhTuThucHien_ID:
                 valueRow?.MC_TTHC_GV_TrinhTuThucHien_ID.toString(),
-            };
-            setLoading(true);
-            const resDelete = await delTrinhTuThucHienTTHCGV(dataIDDelete);
+            }
+            setLoading(true)
+            const resDelete = await delTrinhTuThucHienTTHCGV(dataIDDelete)
             if (resDelete.status === 200) {
-              setLoading(false);
+              setLoading(false)
               return toast.success(
                 `Xóa thành công công việc ${valueRow?.MC_TTHC_GV_TrinhTuThucHien_TenCongViec}!`,
-              );
+              )
             }
           } catch (error) {
-            console.log(error.message);
+            console.log(error.message)
           }
         }
-      });
+      })
     }
 
     // DELETE TPHSDeNghi
     if (type === TABS.tabTPHSDeNghi) {
       Swal.fire({
-        icon: "question",
+        icon: 'question',
         html: `Bạn chắc chắn muốn xóa mẫu giấy tờ kèm theo <p class="font-bold uppercase text-red-600">${valueRow?.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo}</p> không?`,
         showConfirmButton: true,
         showCancelButton: true,
-        confirmButtonText: "Đồng ý",
-        cancelButtonText: "Hủy",
+        confirmButtonText: 'Đồng ý',
+        cancelButtonText: 'Hủy',
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
-            setLoading(true);
+            setLoading(true)
             const resDelete = await delThanhPhanHoSoTTHCGV(
               valueRow?.MC_TTHC_GV_ThanhPhanHoSo_ID.toString(),
-            );
+            )
             if (resDelete.status === 200) {
-              setLoading(false);
-              return toast.success(`Xóa thành công mẫu giấy tờ kèm theo!`);
+              setLoading(false)
+              return toast.success(`Xóa thành công mẫu giấy tờ kèm theo!`)
             }
           } catch (error) {
-            console.log(error.message);
+            console.log(error.message)
           }
         }
-      });
+      })
     }
 
     // DELETE PhanQuyen
     if (type === TABS.tabPhanQuyen) {
       Swal.fire({
-        icon: "question",
+        icon: 'question',
         html: `Bạn chắc chắn muốn xóa quyền của nhân sự <p class="font-bold uppercase text-red-600">${valueRow?.MC_TTHC_GV_PhanQuyen_HoTen}</p> không?`,
         showConfirmButton: true,
         showCancelButton: true,
-        confirmButtonText: "Đồng ý",
-        cancelButtonText: "Hủy",
+        confirmButtonText: 'Đồng ý',
+        cancelButtonText: 'Hủy',
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
-            setLoading(true);
+            setLoading(true)
             const resDelete = await delPhanQuyenTTHCGV(
               valueRow?.MC_TTHC_GV_PhanQuyen_ID.toString(),
-            );
+            )
             if (resDelete.status === 200) {
-              setLoading(false);
+              setLoading(false)
               return toast.success(
                 `Xóa thành công phân quyền của nhân sự ${valueRow?.MC_TTHC_GV_PhanQuyen_HoTen} khỏi hồ sơ!`,
-              );
+              )
             }
           } catch (error) {
-            console.log(error.message);
+            console.log(error.message)
           }
         }
-      });
+      })
     }
-  };
+  }
 
   const handleEditRow = async (index, type, valueRow) => {
     if (type === TABS.tabTPHSDeNghi) {
-      setEditRowIndex(index);
-      setEditValueRow(valueRow);
+      setEditRowIndex(index)
+      setEditValueRow(valueRow)
     }
 
     if (type === TABS.tabTrangThai) {
-      setEditRowIndex(index);
-      setEditValueRow(valueRow);
+      setEditRowIndex(index)
+      setEditValueRow(valueRow)
     }
-  };
+  }
 
-  const handleUpdateRow = async (index, type, valueRow) => {};
+  const handleUpdateRow = async (index, type, valueRow) => {}
 
   const handleCancelUpdateRow = () => {
-    setEditRowIndex(-1);
-    setEditValueRow({});
-  };
+    setEditRowIndex(-1)
+    setEditValueRow({})
+  }
 
   const handleChangeValue = (tab, e) => {
-    const { id, value, checked, type, files, name } = e.target;
+    const { id, value, checked, type, files, name } = e.target
 
     if (tab === TABS.tabThongTinHoSo) {
       setEditThongTinChung((prevObject) => ({
         ...prevObject,
         [name]: value,
-      }));
+      }))
     }
 
     if (tab === TABS.tabTPHSDeNghi) {
-      if (type === "checkbox") {
-        console.log(name, checked);
+      if (type === 'checkbox') {
+        console.log(name, checked)
         setEditValueRow((prevEditValueRow) => ({
           ...prevEditValueRow,
           [name]: checked,
-        }));
-      } else if (type === "file") {
+        }))
+      } else if (type === 'file') {
         if (files && files.length > 0) {
           setEditValueRow((prevEditValueRow) => ({
             ...prevEditValueRow,
             MC_TTHC_GV_ThanhPhanHoSo_TenFile: files[0].name,
-          }));
+          }))
           convertDataFileToBase64(files[0]).then((dataFileBase64) => {
             setEditValueRow((prevEditValueRow) => ({
               ...prevEditValueRow,
               MC_TTHC_GV_ThanhPhanHoSo_DataFile: dataFileBase64,
-            }));
-          });
+            }))
+          })
         }
       } else {
         setEditValueRow((prevEditValueRow) => ({
           ...prevEditValueRow,
           [name]: value,
-        }));
+        }))
       }
     }
-  };
+  }
 
   const handleUpdate = async (type) => {
     if (type === TABS.tabThongTinHoSo) {
@@ -277,39 +277,39 @@ function ThongTinChiTietHoSo() {
         MC_TTHC_GV_NguonTiepNhan: NguonTiepNhan_WEB,
         MC_TTHC_GV_NoiTiepNhan: editThongTinChung?.MC_TTHC_GV_NoiTiepNhan,
         MC_TTHC_GV_NoiTraKetQua: editThongTinChung?.MC_TTHC_GV_NoiTraKetQua,
-      };
+      }
       const isEqualValue = checkConditionObject(
         detailHoSoThuTuc?.ThongTinHoSo,
         newDataUpdateThongTinHoSo,
-      );
+      )
       if (isEqualValue == true) {
         try {
           const resUpdateThongTinHoSo = await putThongTinHoSoThuTuc(
             newDataUpdateThongTinHoSo,
-          );
+          )
           if (resUpdateThongTinHoSo.status === 200) {
-            setLoading(false);
-            toast.success("Cập nhật thông tin hồ sơ thành công!");
-            return;
+            setLoading(false)
+            toast.success('Cập nhật thông tin hồ sơ thành công!')
+            return
           }
         } catch (error) {
-          console.log(error.message);
+          console.log(error.message)
         }
       } else {
         return toast.warning(
-          "Không có thay đổi nào để cập nhật thông tin hồ sơ!",
-        );
+          'Không có thay đổi nào để cập nhật thông tin hồ sơ!',
+        )
       }
     }
-  };
+  }
 
   // Effects
   useEffect(() => {
     const getDataDetailHoSoThuTuc = async () => {
-      const resultDataHoSoThuTuc = await getThuTucHanhChinhByID(id);
-      setLoading(true);
+      const resultDataHoSoThuTuc = await getThuTucHanhChinhByID(id)
+      setLoading(true)
       if (resultDataHoSoThuTuc.status === 200) {
-        const dataDetailHoSoThuTuc = await resultDataHoSoThuTuc.data;
+        const dataDetailHoSoThuTuc = await resultDataHoSoThuTuc.data
         if (dataDetailHoSoThuTuc) {
           const {
             ThongTinHoSo,
@@ -317,25 +317,25 @@ function ThongTinChiTietHoSo() {
             TrinhTuThucHien,
             PhanQuyen,
             TrangThai,
-          } = dataDetailHoSoThuTuc;
-          setDetailHoSoThuTuc(dataDetailHoSoThuTuc);
-          setEditThongTinChung(ThongTinHoSo);
-          setLoading(false);
+          } = dataDetailHoSoThuTuc
+          setDetailHoSoThuTuc(dataDetailHoSoThuTuc)
+          setEditThongTinChung(ThongTinHoSo)
+          setLoading(false)
         }
       }
-    };
-    getDataDetailHoSoThuTuc();
-  }, [loading]);
+    }
+    getDataDetailHoSoThuTuc()
+  }, [loading])
 
   const { ThongTinHoSo, ThanhPhanHoSo, TrinhTuThucHien, PhanQuyen, TrangThai } =
-    detailHoSoThuTuc ?? null;
+    detailHoSoThuTuc ?? null
   return (
     <div className="px-5 lg:px-0 flex gap-4">
       <SidebarTTHCGV />
       <div
         className={clsx(
-          "w-full p-4 rounded-xl shadow-lg bg-white",
-          zoomView ? "absolute left-0 right-0" : "",
+          'w-full p-4 rounded-xl shadow-lg bg-white',
+          zoomView ? 'absolute left-0 right-0' : '',
         )}
       >
         <div className="flex flex-col">
@@ -347,7 +347,7 @@ function ThongTinChiTietHoSo() {
               <MdOutlineZoomInMap
                 size={24}
                 onClick={() => {
-                  setZoomView(false);
+                  setZoomView(false)
                 }}
                 className="text-sky-800 cursor-pointer"
               />
@@ -355,7 +355,7 @@ function ThongTinChiTietHoSo() {
               <MdOutlineZoomOutMap
                 size={24}
                 onClick={() => {
-                  setZoomView(true);
+                  setZoomView(true)
                 }}
                 className="text-sky-800 cursor-pointer"
               />
@@ -376,7 +376,7 @@ function ThongTinChiTietHoSo() {
                         size={20}
                         className="cursor-pointer hover:opacity-70 mt-1 rotate-90"
                         onClick={() => {
-                          handleShowView(TABS.tabThongTinHoSo);
+                          handleShowView(TABS.tabThongTinHoSo)
                         }}
                       />
                     ) : (
@@ -384,7 +384,7 @@ function ThongTinChiTietHoSo() {
                         size={20}
                         className="cursor-pointer hover:opacity-70 mt-1"
                         onClick={() => {
-                          handleShowView(TABS.tabThongTinHoSo);
+                          handleShowView(TABS.tabThongTinHoSo)
                         }}
                       />
                     )}
@@ -396,7 +396,7 @@ function ThongTinChiTietHoSo() {
                     type="button"
                     className="text-white bg-[#1da1f2] hover:bg-[#1da1f2]/90 focus:ring-4 focus:outline-none focus:ring-[#1da1f2]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#1da1f2]/55 me-2 mb-2"
                     onClick={() => {
-                      handleUpdate(TABS.tabThongTinHoSo, ThongTinHoSo);
+                      handleUpdate(TABS.tabThongTinHoSo, ThongTinHoSo)
                     }}
                   >
                     <TfiReload className="mx-2 font-bold" />
@@ -405,12 +405,12 @@ function ThongTinChiTietHoSo() {
                 </div>
                 <div
                   className={clsx(
-                    showThongTinHoSo ? "flex flex-col gap-4" : "hidden",
+                    showThongTinHoSo ? 'flex flex-col gap-4' : 'hidden',
                   )}
                 >
                   <div className="flex flex-col gap-1">
                     <label htmlFor="MC_TTHC_GV_TenThuTuc">
-                      Tên thủ tục{" "}
+                      Tên thủ tục{' '}
                       <span className="text-red-600 font-bold">*</span>
                     </label>
                     <input
@@ -421,7 +421,7 @@ function ThongTinChiTietHoSo() {
                       name="MC_TTHC_GV_TenThuTuc"
                       id="MC_TTHC_GV_TenThuTuc"
                       onChange={(e) => {
-                        handleChangeValue(TABS.tabThongTinHoSo, e);
+                        handleChangeValue(TABS.tabThongTinHoSo, e)
                       }}
                     />
                   </div>
@@ -429,7 +429,7 @@ function ThongTinChiTietHoSo() {
                     <div className="w-full">
                       <div className="flex flex-col gap-1">
                         <label htmlFor="MC_TTHC_GV_MaThuTuc">
-                          Mã thủ tục{" "}
+                          Mã thủ tục{' '}
                           <span className="text-red-600 font-bold">*</span>
                         </label>
                         <input
@@ -440,7 +440,7 @@ function ThongTinChiTietHoSo() {
                           name="MC_TTHC_GV_MaThuTuc"
                           id="MC_TTHC_GV_MaThuTuc"
                           onChange={(e) => {
-                            handleChangeValue(TABS.tabThongTinHoSo, e);
+                            handleChangeValue(TABS.tabThongTinHoSo, e)
                           }}
                         />
                       </div>
@@ -448,7 +448,7 @@ function ThongTinChiTietHoSo() {
                     <div className="w-full">
                       <div className="flex flex-col gap-1">
                         <label htmlFor="MC_TTHC_GV_IDMucDo">
-                          Mức độ{" "}
+                          Mức độ{' '}
                           <span className="text-red-600 font-bold">*</span>
                         </label>
                         <input
@@ -459,13 +459,13 @@ function ThongTinChiTietHoSo() {
                           defaultValue={
                             ThongTinHoSo?.MC_TTHC_GV_IDMucDo
                               ? ThongTinHoSo?.MC_TTHC_GV_IDMucDo
-                              : ""
+                              : ''
                           }
                           placeholder="Nhập tên thủ tục"
                           name="MC_TTHC_GV_IDMucDo"
                           id="MC_TTHC_GV_IDMucDo"
                           onChange={(e) => {
-                            handleChangeValue(TABS.tabThongTinHoSo, e);
+                            handleChangeValue(TABS.tabThongTinHoSo, e)
                           }}
                         />
                       </div>
@@ -473,7 +473,7 @@ function ThongTinChiTietHoSo() {
                     <div className="w-full">
                       <div className="flex flex-col gap-1">
                         <label htmlFor="MC_TTHC_GV_TongThoiGianGiaiQuyet">
-                          Tổng thời gian giải quyết{" "}
+                          Tổng thời gian giải quyết{' '}
                           <span className="text-red-600 font-bold">*</span>
                         </label>
                         <div className="flex items-center gap-2">
@@ -487,7 +487,7 @@ function ThongTinChiTietHoSo() {
                             name="MC_TTHC_GV_TongThoiGianGiaiQuyet"
                             id="MC_TTHC_GV_TongThoiGianGiaiQuyet"
                             onChange={(e) => {
-                              handleChangeValue(TABS.tabThongTinHoSo, e);
+                              handleChangeValue(TABS.tabThongTinHoSo, e)
                             }}
                           />
                           <span className="font-medium">Ngày</span>
@@ -497,7 +497,7 @@ function ThongTinChiTietHoSo() {
                     <div className="w-full">
                       <div className="flex flex-col gap-1">
                         <label htmlFor="MC_TTHC_GV_LinhVuc">
-                          Lĩnh vực{" "}
+                          Lĩnh vực{' '}
                           <span className="text-red-600 font-bold">*</span>
                         </label>
                         <input
@@ -508,7 +508,7 @@ function ThongTinChiTietHoSo() {
                           name="MC_TTHC_GV_LinhVuc"
                           id="MC_TTHC_GV_LinhVuc"
                           onChange={(e) => {
-                            handleChangeValue(TABS.tabThongTinHoSo, e);
+                            handleChangeValue(TABS.tabThongTinHoSo, e)
                           }}
                         />
                       </div>
@@ -549,7 +549,7 @@ function ThongTinChiTietHoSo() {
                           name="MC_TTHC_GV_CanCuPhapLyCuaTTHC"
                           id="MC_TTHC_GV_CanCuPhapLyCuaTTHC"
                           onChange={(e) => {
-                            handleChangeValue(TABS.tabThongTinHoSo, e);
+                            handleChangeValue(TABS.tabThongTinHoSo, e)
                           }}
                         />
                       </div>
@@ -571,7 +571,7 @@ function ThongTinChiTietHoSo() {
                           name="MC_TTHC_GV_DieuKienThucHien"
                           id="MC_TTHC_GV_DieuKienThucHien"
                           onChange={(e) => {
-                            handleChangeValue(TABS.tabThongTinHoSo, e);
+                            handleChangeValue(TABS.tabThongTinHoSo, e)
                           }}
                         />
                       </div>
@@ -591,7 +591,7 @@ function ThongTinChiTietHoSo() {
                           setEditThongTinChung({
                             ...editThongTinChung,
                             MC_TTHC_GV_ThuTucLienThong: e.target.checked,
-                          });
+                          })
                         }}
                       />
                       <label htmlFor="MC_TTHC_GV_ThuTucLienThong">
@@ -611,7 +611,7 @@ function ThongTinChiTietHoSo() {
                           setEditThongTinChung({
                             ...editThongTinChung,
                             MC_TTHC_GV_ThuTucKhongApDungMC: e.target.checked,
-                          });
+                          })
                         }}
                       />
                       <label htmlFor="MC_TTHC_GV_ThuTucKhongApDungMC">
@@ -625,7 +625,7 @@ function ThongTinChiTietHoSo() {
                       htmlFor="MC_TTHC_GV_TepThuTuc_TenFile"
                       className="font-semibold"
                     >
-                      Tệp thủ tục kèm theo{" "}
+                      Tệp thủ tục kèm theo{' '}
                       {ThongTinHoSo?.MC_TTHC_GV_TepThuTuc_TenFile ? (
                         <Link
                           to={ThongTinHoSo?.MC_TTHC_GV_TepThuTuc_TenFile}
@@ -644,7 +644,7 @@ function ThongTinChiTietHoSo() {
                       id="MC_TTHC_GV_TepThuTuc_TenFile"
                       placeholder="Tệp thủ tục hồ sơ"
                       onChange={(e) => {
-                        handleChangeValue(TABS.tabThongTinHoSo, e);
+                        handleChangeValue(TABS.tabThongTinHoSo, e)
                       }}
                     />
                   </div>
@@ -655,7 +655,7 @@ function ThongTinChiTietHoSo() {
                           htmlFor="MC_TTHC_GV_NoiTiepNhan"
                           className="font-semibold"
                         >
-                          Đơn vị tiếp nhận{" "}
+                          Đơn vị tiếp nhận{' '}
                           <span className="text-red-600 font-bold">*</span>
                         </label>
                         <input
@@ -665,7 +665,7 @@ function ThongTinChiTietHoSo() {
                           name="MC_TTHC_GV_NoiTiepNhan"
                           id="MC_TTHC_GV_NoiTiepNhan"
                           onChange={(e) => {
-                            handleChangeValue(TABS.tabThongTinHoSo, e);
+                            handleChangeValue(TABS.tabThongTinHoSo, e)
                           }}
                         />
                       </div>
@@ -676,7 +676,7 @@ function ThongTinChiTietHoSo() {
                           htmlFor="MC_TTHC_GV_NoiTraKetQua"
                           className="font-semibold"
                         >
-                          Nơi trả kết quả{" "}
+                          Nơi trả kết quả{' '}
                           <span className="text-red-600 font-bold">*</span>
                         </label>
                         <input
@@ -686,7 +686,7 @@ function ThongTinChiTietHoSo() {
                           name="MC_TTHC_GV_NoiTraKetQua"
                           id="MC_TTHC_GV_NoiTraKetQua"
                           onChange={(e) => {
-                            handleChangeValue(TABS.tabThongTinHoSo, e);
+                            handleChangeValue(TABS.tabThongTinHoSo, e)
                           }}
                         />
                       </div>
@@ -703,7 +703,7 @@ function ThongTinChiTietHoSo() {
                       {showTPHSDeNghi ? (
                         <FaAngleRight
                           onClick={() => {
-                            handleShowView(TABS.tabTPHSDeNghi);
+                            handleShowView(TABS.tabTPHSDeNghi)
                           }}
                           size={20}
                           className="cursor-pointer hover:opacity-70 mt-1 rotate-90"
@@ -711,7 +711,7 @@ function ThongTinChiTietHoSo() {
                       ) : (
                         <FaAngleRight
                           onClick={() => {
-                            handleShowView(TABS.tabTPHSDeNghi);
+                            handleShowView(TABS.tabTPHSDeNghi)
                           }}
                           size={20}
                           className="cursor-pointer hover:opacity-70 mt-1"
@@ -725,7 +725,7 @@ function ThongTinChiTietHoSo() {
                   {/* content */}
                   <div
                     className={clsx(
-                      showTPHSDeNghi ? "flex flex-col gap-4" : "hidden",
+                      showTPHSDeNghi ? 'flex flex-col gap-4' : 'hidden',
                     )}
                   >
                     <table className="w-full">
@@ -762,7 +762,7 @@ function ThongTinChiTietHoSo() {
                                     placeholder="Nhập tên giấy tờ..."
                                     value={
                                       editValueRow.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo ||
-                                      ""
+                                      ''
                                     }
                                     name="MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo"
                                     onChange={(e) =>
@@ -772,7 +772,7 @@ function ThongTinChiTietHoSo() {
                                 </td>
                                 <td className="border-r px-2 py-1 text-center">
                                   <p className="font-semibold ">
-                                    Xem mẫu hồ sơ/hướng dẫn:{" "}
+                                    Xem mẫu hồ sơ/hướng dẫn:{' '}
                                     <Link
                                       to={
                                         iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_TenFile
@@ -869,7 +869,7 @@ function ThongTinChiTietHoSo() {
                                 </td>
                                 <td className="border-r px-2 py-1 text-center">
                                   <p className="font-semibold ">
-                                    Xem mẫu hồ sơ/hướng dẫn:{" "}
+                                    Xem mẫu hồ sơ/hướng dẫn:{' '}
                                     <Link
                                       to={
                                         iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_TenFile
@@ -963,7 +963,7 @@ function ThongTinChiTietHoSo() {
                       {showTrinhTuThucHien ? (
                         <FaAngleRight
                           onClick={() => {
-                            handleShowView(TABS.tabTrinhTuThucHien);
+                            handleShowView(TABS.tabTrinhTuThucHien)
                           }}
                           size={20}
                           className="cursor-pointer hover:opacity-70 mt-1 rotate-90"
@@ -971,7 +971,7 @@ function ThongTinChiTietHoSo() {
                       ) : (
                         <FaAngleRight
                           onClick={() => {
-                            handleShowView(TABS.tabTrinhTuThucHien);
+                            handleShowView(TABS.tabTrinhTuThucHien)
                           }}
                           size={20}
                           className="cursor-pointer hover:opacity-70 mt-1"
@@ -985,7 +985,7 @@ function ThongTinChiTietHoSo() {
                   {/* contents */}
                   <div
                     className={clsx(
-                      showTrinhTuThucHien ? "flex flex-col gap-4" : "hidden",
+                      showTrinhTuThucHien ? 'flex flex-col gap-4' : 'hidden',
                     )}
                   >
                     <table className="w-full">
@@ -1093,7 +1093,7 @@ function ThongTinChiTietHoSo() {
                       {showPhanQuyen ? (
                         <FaAngleRight
                           onClick={() => {
-                            handleShowView(TABS.tabPhanQuyen);
+                            handleShowView(TABS.tabPhanQuyen)
                           }}
                           size={20}
                           className="cursor-pointer hover:opacity-70 mt-1 rotate-90"
@@ -1101,7 +1101,7 @@ function ThongTinChiTietHoSo() {
                       ) : (
                         <FaAngleRight
                           onClick={() => {
-                            handleShowView(TABS.tabPhanQuyen);
+                            handleShowView(TABS.tabPhanQuyen)
                           }}
                           size={20}
                           className="cursor-pointer hover:opacity-70 mt-1"
@@ -1115,7 +1115,7 @@ function ThongTinChiTietHoSo() {
                   {/* contents */}
                   <div
                     className={clsx(
-                      showPhanQuyen ? "flex flex-col gap-4" : "hidden",
+                      showPhanQuyen ? 'flex flex-col gap-4' : 'hidden',
                     )}
                   >
                     <table className="w-full">
@@ -1195,7 +1195,7 @@ function ThongTinChiTietHoSo() {
                       {showTrangThai ? (
                         <FaAngleRight
                           onClick={() => {
-                            handleShowView(TABS.tabTrangThai);
+                            handleShowView(TABS.tabTrangThai)
                           }}
                           size={20}
                           className="cursor-pointer hover:opacity-70 mt-1 rotate-90"
@@ -1203,7 +1203,7 @@ function ThongTinChiTietHoSo() {
                       ) : (
                         <FaAngleRight
                           onClick={() => {
-                            handleShowView(TABS.tabTrangThai);
+                            handleShowView(TABS.tabTrangThai)
                           }}
                           size={20}
                           className="cursor-pointer hover:opacity-70 mt-1"
@@ -1217,7 +1217,7 @@ function ThongTinChiTietHoSo() {
                   {/* contents */}
                   <div
                     className={clsx(
-                      showTrangThai ? "flex flex-col gap-4" : "hidden",
+                      showTrangThai ? 'flex flex-col gap-4' : 'hidden',
                     )}
                   >
                     <table className="w-full">
@@ -1281,7 +1281,7 @@ function ThongTinChiTietHoSo() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default ThongTinChiTietHoSo;
+export default ThongTinChiTietHoSo

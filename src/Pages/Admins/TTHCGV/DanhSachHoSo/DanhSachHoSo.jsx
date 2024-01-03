@@ -1,104 +1,104 @@
-import React from "react";
-import SidebarTTHCGV from "../Sidebar/SidebarTTHCGV";
+import React from 'react'
+import SidebarTTHCGV from '../Sidebar/SidebarTTHCGV'
 import {
   delThuTucHanhChinhByID,
   getAllThuTucHanhChinhGV,
   getThuTucHanhChinhByKeyWords,
-} from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
-import { DataCanBoGV } from "../../../../Services/Utils/dataCanBoGV";
-import { useDispatch } from "react-redux";
-import { useState } from "react";
-import { useEffect } from "react";
-import ReactPaginate from "react-paginate";
-import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
-import { FiSearch } from "react-icons/fi";
-import clsx from "clsx";
-import { Link } from "react-router-dom";
-import { changeSlug } from "../../../../Services/Utils/stringUtils";
-import { DebounceInput } from "react-debounce-input";
-import Swal from "sweetalert2";
-import { toast } from "react-toastify";
-import Loading from "../../../../Components/Loading/Loading";
+} from '../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
+import { DataCanBoGV } from '../../../../Services/Utils/dataCanBoGV'
+import { useDispatch } from 'react-redux'
+import { useState } from 'react'
+import { useEffect } from 'react'
+import ReactPaginate from 'react-paginate'
+import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
+import { FiSearch } from 'react-icons/fi'
+import clsx from 'clsx'
+import { Link } from 'react-router-dom'
+import { changeSlug } from '../../../../Services/Utils/stringUtils'
+import { DebounceInput } from 'react-debounce-input'
+import Swal from 'sweetalert2'
+import { toast } from 'react-toastify'
+import Loading from '../../../../Components/Loading/Loading'
 
-const PATH_TTHCGV = "/admin/quantriTTHCGV/hosothutuc";
+const PATH_TTHCGV = '/admin/quantriTTHCGV/hosothutuc'
 
 function DanhSachHoSo() {
   // variables
-  const [listHoSoThuTuc, setListHoSoThuTuc] = useState([]);
-  const [keywords, setKeywords] = useState("");
-  const [dieuKienLoc, setDieuKienLoc] = useState("");
+  const [listHoSoThuTuc, setListHoSoThuTuc] = useState([])
+  const [keywords, setKeywords] = useState('')
+  const [dieuKienLoc, setDieuKienLoc] = useState('')
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true)
   // paginates
-  const [currentPage, setCurrentPage] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const pageCount = Math.ceil(listHoSoThuTuc.length / itemsPerPage);
+  const [currentPage, setCurrentPage] = useState(0)
+  const [itemsPerPage, setItemsPerPage] = useState(10)
+  const pageCount = Math.ceil(listHoSoThuTuc.length / itemsPerPage)
   const displayData = listHoSoThuTuc
     ?.reverse()
-    ?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+    ?.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
 
   const getListHoSoThuTuc = async () => {
     try {
       const resultGetSearchThuTuc = await getThuTucHanhChinhByKeyWords(
         dieuKienLoc,
         keywords,
-      );
+      )
       if (resultGetSearchThuTuc.status === 200) {
-        const dataSearchThuTuc = await resultGetSearchThuTuc?.data?.body;
+        const dataSearchThuTuc = await resultGetSearchThuTuc?.data?.body
         if (dataSearchThuTuc.length) {
-          setListHoSoThuTuc(dataSearchThuTuc);
-          setLoading(false);
+          setListHoSoThuTuc(dataSearchThuTuc)
+          setLoading(false)
         }
       }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   // event handlers
   const handlePageChange = ({ selected }) => {
-    setCurrentPage(selected);
-  };
+    setCurrentPage(selected)
+  }
   const handleChangeValue = (e) => {
-    const { id, name, value } = e.target;
-    if (id == "records-number" || name == "records-number") {
-      setItemsPerPage(parseInt(value));
+    const { id, name, value } = e.target
+    if (id == 'records-number' || name == 'records-number') {
+      setItemsPerPage(parseInt(value))
     }
-  };
+  }
   const handleDeleteThuTuc = async (idThuTuc) => {
     if (idThuTuc) {
       Swal.fire({
-        icon: "question",
-        title: "Bạn có chắc chắn muốn xóa thủ tục này không?",
+        icon: 'question',
+        title: 'Bạn có chắc chắn muốn xóa thủ tục này không?',
         showConfirmButton: true,
         showCancelButton: true,
-        confirmButtonText: "Đồng ý",
-        cancelButtonText: "Hủy",
+        confirmButtonText: 'Đồng ý',
+        cancelButtonText: 'Hủy',
       }).then(async (result) => {
         if (result.isConfirmed) {
-          setLoading(true);
-          const res = await delThuTucHanhChinhByID(idThuTuc);
+          setLoading(true)
+          const res = await delThuTucHanhChinhByID(idThuTuc)
           if (res.status === 200) {
-            setLoading(false);
-            getListHoSoThuTuc();
-            toast.success("Đã xóa thành công thủ tục!");
+            setLoading(false)
+            getListHoSoThuTuc()
+            toast.success('Đã xóa thành công thủ tục!')
           }
         }
-      });
+      })
     }
-  };
+  }
   // effects
   useEffect(() => {
-    setCurrentPage(0);
-  }, [itemsPerPage, loading]);
+    setCurrentPage(0)
+  }, [itemsPerPage, loading])
 
   useEffect(() => {
-    getListHoSoThuTuc();
+    getListHoSoThuTuc()
     return () => {
-      setKeywords("");
-      setDieuKienLoc("");
-    };
-  }, [keywords, dieuKienLoc]);
+      setKeywords('')
+      setDieuKienLoc('')
+    }
+  }, [keywords, dieuKienLoc])
 
   return (
     <>
@@ -124,7 +124,7 @@ function DanhSachHoSo() {
                       placeholder="Nhập từ khóa tìm kiếm"
                       className="px-3 py-1 bg-transparent w-full focus:outline-none"
                       onChange={(e) => {
-                        setKeywords(e.target.value.toLowerCase());
+                        setKeywords(e.target.value.toLowerCase())
                       }}
                     />
 
@@ -169,7 +169,7 @@ function DanhSachHoSo() {
                     displayData.map((itemThuTuc, index) => {
                       const titleSlug = changeSlug(
                         itemThuTuc.MC_TTHC_GV_TenThuTuc,
-                      );
+                      )
                       return (
                         <tr className="border-b" key={itemThuTuc.MC_TTHC_GV_ID}>
                           <td className="px-2 py-1 border-r border-l border-slate-300 text-center font-semibold">
@@ -187,19 +187,19 @@ function DanhSachHoSo() {
                                 <span className="text-sm">Mức độ:</span>
                                 <span
                                   className={clsx(
-                                    "w-4 h-4 text-center text-white rounded-full text-xs font-semibold",
+                                    'w-4 h-4 text-center text-white rounded-full text-xs font-semibold',
                                     parseInt(itemThuTuc.MC_TTHC_GV_IDMucDo) == 1
-                                      ? "bg-red-300"
-                                      : "",
+                                      ? 'bg-red-300'
+                                      : '',
                                     parseInt(itemThuTuc.MC_TTHC_GV_IDMucDo) == 2
-                                      ? "bg-red-400"
-                                      : "",
+                                      ? 'bg-red-400'
+                                      : '',
                                     parseInt(itemThuTuc.MC_TTHC_GV_IDMucDo) == 3
-                                      ? "bg-red-500"
-                                      : "",
+                                      ? 'bg-red-500'
+                                      : '',
                                     parseInt(itemThuTuc.MC_TTHC_GV_IDMucDo) == 4
-                                      ? "bg-red-600"
-                                      : "",
+                                      ? 'bg-red-600'
+                                      : '',
                                   )}
                                 >
                                   {parseInt(itemThuTuc.MC_TTHC_GV_IDMucDo)}
@@ -221,7 +221,7 @@ function DanhSachHoSo() {
                               <button
                                 type="button"
                                 onClick={() => {
-                                  handleDeleteThuTuc(itemThuTuc.MC_TTHC_GV_ID);
+                                  handleDeleteThuTuc(itemThuTuc.MC_TTHC_GV_ID)
                                 }}
                                 className="bg-red-500 text-white font-semibold px-2 py-1 rounded-md hover:opacity-70"
                               >
@@ -230,21 +230,21 @@ function DanhSachHoSo() {
                             </div>
                           </td>
                         </tr>
-                      );
+                      )
                     })}
                 </tbody>
               </table>
               {/* Phân trang */}
               <div
                 className={clsx(
-                  "grid grid-cols-2 items-center justify-between",
-                  listHoSoThuTuc?.length <= 0 && "hidden",
+                  'grid grid-cols-2 items-center justify-between',
+                  listHoSoThuTuc?.length <= 0 && 'hidden',
                 )}
               >
                 {listHoSoThuTuc?.length == 0 ? null : (
                   <div className="flex flex-row items-center">
                     <p className="font-bold text-[#336699]">
-                      Tổng số:{" "}
+                      Tổng số:{' '}
                       <span>{listHoSoThuTuc?.length} hồ sơ/thủ tục</span>
                     </p>
                   </div>
@@ -257,12 +257,12 @@ function DanhSachHoSo() {
                     marginPagesDisplayed={2}
                     pageRangeDisplayed={5}
                     onPageChange={handlePageChange}
-                    containerClassName={"pagination"}
+                    containerClassName={'pagination'}
                     pageClassName={
-                      "px-2 py-1 hover:text-white hover:font-semibold hover:bg-[#336699]"
+                      'px-2 py-1 hover:text-white hover:font-semibold hover:bg-[#336699]'
                     }
                     activeClassName={
-                      "px-2 py-1 text-white font-semibold bg-[#336699]"
+                      'px-2 py-1 text-white font-semibold bg-[#336699]'
                     }
                     className="w-full flex items-center justify-end gap-1"
                   />
@@ -273,7 +273,7 @@ function DanhSachHoSo() {
         </div>
       )}
     </>
-  );
+  )
 }
 
-export default DanhSachHoSo;
+export default DanhSachHoSo

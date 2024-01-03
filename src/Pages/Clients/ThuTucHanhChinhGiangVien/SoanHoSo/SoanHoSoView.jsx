@@ -1,14 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
-import SidebarTTHCGV from "../SidebarTTHCGV/SidebarTTHCGV";
-import Breadcrumb from "../../../../Components/Breadcumb/Breadcrumb";
-import { Link } from "react-router-dom";
-import { FaUpload, FaSave } from "react-icons/fa";
-import { FcCancel } from "react-icons/fc";
-import { BsSend } from "react-icons/bs";
-import { MdCancel } from "react-icons/md";
-import Loading from "../../../../Components/Loading/Loading";
-import { IoMdClose } from "react-icons/io";
+import React from 'react'
+import PropTypes from 'prop-types'
+import SidebarTTHCGV from '../SidebarTTHCGV/SidebarTTHCGV'
+import Breadcrumb from '../../../../Components/Breadcumb/Breadcrumb'
+import { Link } from 'react-router-dom'
+import { FaUpload, FaSave } from 'react-icons/fa'
+import { FcCancel } from 'react-icons/fc'
+import { BsSend } from 'react-icons/bs'
+import { MdCancel } from 'react-icons/md'
+import Loading from '../../../../Components/Loading/Loading'
+import { IoMdClose } from 'react-icons/io'
 function SoanHoSoView({
   home,
   breadcrumbs,
@@ -53,7 +53,7 @@ function SoanHoSoView({
               </h2>
               <div className="flex items-center form-group mb-4 col-span-2 md:col-span-2">
                 <p className="font-semibold">
-                  <span className="underline">Đơn vị tiếp nhận</span>:{" "}
+                  <span className="underline">Đơn vị tiếp nhận</span>:{' '}
                   {dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_NoiTiepNhan}
                 </p>
               </div>
@@ -62,7 +62,7 @@ function SoanHoSoView({
                   htmlFor="MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email"
                   className="font-semibold mb-2"
                 >
-                  Email liên hệ{" "}
+                  Email liên hệ{' '}
                   <span className="font-bold text-red-500">*</span>
                 </label>
                 <input
@@ -77,7 +77,7 @@ function SoanHoSoView({
                     setDataHoSoYeuCau({
                       ...dataHoSoYeuCau,
                       MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email: e.target.value,
-                    });
+                    })
                   }}
                 />
               </div>
@@ -86,7 +86,7 @@ function SoanHoSoView({
                   htmlFor="MC_TTHC_GV_GuiYeuCau_NhanSuGui_SDT"
                   className="font-semibold mb-2"
                 >
-                  Số điện thoại liên hệ{" "}
+                  Số điện thoại liên hệ{' '}
                   <span className="font-bold text-red-500">*</span>
                 </label>
                 <input
@@ -101,7 +101,7 @@ function SoanHoSoView({
                     setDataHoSoYeuCau({
                       ...dataHoSoYeuCau,
                       MC_TTHC_GV_GuiYeuCau_NhanSuGui_SDT: e.target.value,
-                    });
+                    })
                   }}
                 />
               </div>
@@ -119,7 +119,7 @@ function SoanHoSoView({
                     setDataHoSoYeuCau({
                       ...dataHoSoYeuCau,
                       MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu: e.target.value,
-                    });
+                    })
                   }}
                 ></textarea>
               </div>
@@ -138,7 +138,7 @@ function SoanHoSoView({
                     setDataHoSoYeuCau({
                       ...dataHoSoYeuCau,
                       MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong: e.target.value,
-                    });
+                    })
                   }}
                 />
               </div>
@@ -156,7 +156,7 @@ function SoanHoSoView({
                       setDataHoSoYeuCau({
                         ...dataHoSoYeuCau,
                         MC_TTHC_GV_GuiYeuCau_NoiTraKetQua: e.target.value,
-                      });
+                      })
                     }}
                   >
                     <option value="">Chọn nơi trả kết quả</option>
@@ -214,7 +214,7 @@ function SoanHoSoView({
                                 {iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenFile ? (
                                   <p className="w-[320px] text-sm text-[#336699]">
                                     <span className="font-medium">
-                                      Xem/tải mẫu:{" "}
+                                      Xem/tải mẫu:{' '}
                                     </span>
                                     <Link
                                       to={
@@ -272,13 +272,13 @@ function SoanHoSoView({
                                       handleChangeInputFileTPHS(
                                         iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_ID,
                                         e,
-                                      );
+                                      )
                                     }}
                                   />
                                 </div>
                               </td>
                             </tr>
-                          );
+                          )
                         },
                       )}
                     </tbody>
@@ -311,7 +311,7 @@ function SoanHoSoView({
         </div>
       )}
     </>
-  );
+  )
 }
 
 SoanHoSoView.propTypes = {
@@ -326,6 +326,6 @@ SoanHoSoView.propTypes = {
   listThanhPhanHoSoFiles: PropTypes.array,
   setListThanhPhanHoSoFiles: PropTypes.func,
   handleSubmitForm: PropTypes.func,
-};
+}
 
-export default SoanHoSoView;
+export default SoanHoSoView

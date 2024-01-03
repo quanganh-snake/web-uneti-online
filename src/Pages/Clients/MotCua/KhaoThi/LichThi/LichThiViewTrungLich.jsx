@@ -1,24 +1,24 @@
-import { useBem } from "@/Services/Hooks";
-import DataTable from "@/Components/DataTable/DataTable";
-import moment from "moment";
-import { Checkbox } from "@mui/material";
-import FileSelect from "@/Components/FileSelect/FileSelect";
-import dayjs from "dayjs";
-import { FaPlus } from "react-icons/fa6";
-import { isEqual } from "lodash-unified";
-import { useState } from "react";
+import { useBem } from '@/Services/Hooks'
+import DataTable from '@/Components/DataTable/DataTable'
+import moment from 'moment'
+import { Checkbox } from '@mui/material'
+import FileSelect from '@/Components/FileSelect/FileSelect'
+import dayjs from 'dayjs'
+import { FaPlus } from 'react-icons/fa6'
+import { isEqual } from 'lodash-unified'
+import { useState } from 'react'
 
 export const LichThiViewTrungLichThi = (props) => {
   const { handleSubmitData, handleRowSelection, listHocPhan, selectedRows } =
-    props;
+    props
 
-  const bem = useBem("lich-thi");
+  const bem = useBem('lich-thi')
 
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState([])
 
   const handleFilesChange = (file) => {
-    setFiles((_files) => [..._files, file]);
-  };
+    setFiles((_files) => [..._files, file])
+  }
 
   return (
     <>
@@ -28,10 +28,10 @@ export const LichThiViewTrungLichThi = (props) => {
         scrollY
         thead={
           <tr>
-            <th className={bem.is("sticky")}>STT</th>
+            <th className={bem.is('sticky')}>STT</th>
             <th>Chọn</th>
             <th>Mã lớp học phần</th>
-            <th className={bem.is("sticky")}>Tên môn học</th>
+            <th className={bem.is('sticky')}>Tên môn học</th>
             <th>Hình thức thi</th>
             <th>Ngày thi</th>
             <th>Thứ</th>
@@ -44,7 +44,7 @@ export const LichThiViewTrungLichThi = (props) => {
           <>
             {listHocPhan?.map((hocphan, index) => (
               <tr key={index}>
-                <td className={bem.is("sticky")}>{index}</td>
+                <td className={bem.is('sticky')}>{index}</td>
                 <td>
                   <Checkbox
                     checked={selectedRows?.includes((row) =>
@@ -58,10 +58,10 @@ export const LichThiViewTrungLichThi = (props) => {
                     ? hocphan.MaLopHocPhan
                     : hocphan.KhongCoLich_MaHocPhan
                       ? hocphan.KhongCoLich_MaHocPhan
-                      : ""}
+                      : ''}
                 </td>
 
-                <td className={bem.is("sticky")}>
+                <td className={bem.is('sticky')}>
                   <p>
                     {hocphan.TenMonHoc
                       ? hocphan.TenMonHoc
@@ -70,21 +70,21 @@ export const LichThiViewTrungLichThi = (props) => {
                 </td>
 
                 <td className="px-6 py-4">
-                  <p>{hocphan.TenHinhThucThi ? hocphan.TenHinhThucThi : ""}</p>
+                  <p>{hocphan.TenHinhThucThi ? hocphan.TenHinhThucThi : ''}</p>
                 </td>
 
-                <td>{dayjs(hocphan.NgayThi).format("DD/MM/YYYY")}</td>
+                <td>{dayjs(hocphan.NgayThi).format('DD/MM/YYYY')}</td>
 
                 <td>
                   <p>
                     {hocphan.Thu && hocphan.NgayThi
                       ? hocphan.Thu == 8
-                        ? "Chủ nhật"
-                        : "Thứ " +
+                        ? 'Chủ nhật'
+                        : 'Thứ ' +
                           hocphan.Thu +
-                          ", " +
-                          moment(hocphan.NgayThi).format("DD/MM/YYYY")
-                      : ""}
+                          ', ' +
+                          moment(hocphan.NgayThi).format('DD/MM/YYYY')
+                      : ''}
                   </p>
                 </td>
                 <td className="px-6 py-4">
@@ -93,12 +93,12 @@ export const LichThiViewTrungLichThi = (props) => {
                 <td>
                   <p>
                     {hocphan.TuTiet && hocphan.DenTiet
-                      ? hocphan.TuTiet + " - " + hocphan.DenTiet
-                      : ""}
+                      ? hocphan.TuTiet + ' - ' + hocphan.DenTiet
+                      : ''}
                   </p>
                 </td>
                 <td>
-                  <p>{hocphan.TenPhong ? hocphan.TenPhong : ""}</p>
+                  <p>{hocphan.TenPhong ? hocphan.TenPhong : ''}</p>
                 </td>
               </tr>
             ))}
@@ -153,7 +153,7 @@ export const LichThiViewTrungLichThi = (props) => {
         </button>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default LichThiViewTrungLichThi;
+export default LichThiViewTrungLichThi

@@ -1,6 +1,6 @@
-import Breadcrumb from "@/Components/Breadcumb/Breadcrumb";
-import Loading from "@/Components/Loading/Loading";
-import { Checkbox, MenuItem, Select, TextareaAutosize } from "@mui/material";
+import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
+import Loading from '@/Components/Loading/Loading'
+import { Checkbox, MenuItem, Select, TextareaAutosize } from '@mui/material'
 
 function HuyDangKyThiLaiView(props) {
   const {
@@ -20,7 +20,7 @@ function HuyDangKyThiLaiView(props) {
     listHocPhan,
     handleRowSelection,
     handleSubmitData,
-  } = props;
+  } = props
 
   return (
     <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
@@ -60,8 +60,8 @@ function HuyDangKyThiLaiView(props) {
               <Select
                 value={lyDo}
                 onChange={(e) => {
-                  setLyDo(e.target.value);
-                  setLyDoKhac("");
+                  setLyDo(e.target.value)
+                  setLyDoKhac('')
                 }}
                 className="flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
               >
@@ -85,7 +85,7 @@ function HuyDangKyThiLaiView(props) {
             )}
           </form>
 
-          {(tenDot === "" && lyDo != "") || (tenDot != "" && lyDo === "") ? (
+          {(tenDot === '' && lyDo != '') || (tenDot != '' && lyDo === '') ? (
             <div className="flex justify-center items-center pb-4">
               <span className="w-[75%] text-center font-bold block text-red-900 bg-red-200 p-3 rounded-md">
                 Vui lòng chọn đầy đủ thông tin học kỳ và lý do để xem lịch thi
@@ -99,8 +99,8 @@ function HuyDangKyThiLaiView(props) {
               <Loading />
             </div>
           ) : (
-            tenDot !== "" &&
-            lyDo !== "" && (
+            tenDot !== '' &&
+            lyDo !== '' && (
               <div className="flex flex-col justify-center items-center pb-4">
                 <div className="w-[75%] overflow-x-auto">
                   <table className="w-full min-w-[800px]">
@@ -142,7 +142,7 @@ function HuyDangKyThiLaiView(props) {
                             <td className="text-center p-3 border border-solid border-[#dee2e6]">
                               <Checkbox
                                 onChange={(e) => {
-                                  handleRowSelection(e, hocphan);
+                                  handleRowSelection(e, hocphan)
                                 }}
                               />
                             </td>
@@ -191,7 +191,7 @@ function HuyDangKyThiLaiView(props) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default HuyDangKyThiLaiView;
+export default HuyDangKyThiLaiView

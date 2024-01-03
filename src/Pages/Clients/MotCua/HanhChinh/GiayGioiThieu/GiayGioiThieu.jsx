@@ -1,23 +1,23 @@
-import GiayGioiThieuView from "./GiayGioiThieuView";
+import GiayGioiThieuView from './GiayGioiThieuView'
 
 function GiayGioiThieu() {
   const home = {
-    path: "/motcua",
-    title: "Bộ phận một cửa",
-  };
+    path: '/motcua',
+    title: 'Bộ phận một cửa',
+  }
 
   const breadcrumbs = [
     {
-      path: "/motcua/hanhchinh",
-      title: "Hành chính",
+      path: '/motcua/hanhchinh',
+      title: 'Hành chính',
     },
     {
-      path: "/motcua/hanhchinh/GiayGioiThieu",
-      title: "Nghỉ học tạm thời",
+      path: '/motcua/hanhchinh/GiayGioiThieu',
+      title: 'Nghỉ học tạm thời',
     },
-  ];
+  ]
 
-  return <GiayGioiThieuView home={home} breadcrumbs={breadcrumbs} />;
+  return <GiayGioiThieuView home={home} breadcrumbs={breadcrumbs} />
 }
 
-export default GiayGioiThieu;
+export default GiayGioiThieu

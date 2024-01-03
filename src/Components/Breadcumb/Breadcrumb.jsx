@@ -1,13 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Link, useLocation } from "react-router-dom";
-import clsx from "clsx";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Link, useLocation } from 'react-router-dom'
+import clsx from 'clsx'
 
 function Breadcrumb(props) {
-  const { home, breadcrumbs } = props;
+  const { home, breadcrumbs } = props
 
-  const location = useLocation();
-  const { pathname } = location;
+  const location = useLocation()
+  const { pathname } = location
 
   return (
     <nav
@@ -56,23 +56,23 @@ function Breadcrumb(props) {
                 <Link
                   to={breadcrumb.path}
                   className={clsx(
-                    "ms-1 text-sm font-medium hover:opacity-60 md:ms-2",
+                    'ms-1 text-sm font-medium hover:opacity-60 md:ms-2',
                     pathname === breadcrumb.path
-                      ? "text-blue-600"
-                      : "text-gray-700",
+                      ? 'text-blue-600'
+                      : 'text-gray-700',
                   )}
                 >
                   {breadcrumb.title}
                 </Link>
               </div>
             </li>
-          );
+          )
         })}
       </ol>
     </nav>
-  );
+  )
 }
 
-Breadcrumb.propTypes = {};
+Breadcrumb.propTypes = {}
 
-export default Breadcrumb;
+export default Breadcrumb

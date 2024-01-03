@@ -1,6 +1,6 @@
-import Breadcrumb from "@/Components/Breadcumb/Breadcrumb";
-import { Select, MenuItem, TextareaAutosize, Checkbox } from "@mui/material";
-import PropTypes from "prop-types";
+import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
+import { Select, MenuItem, TextareaAutosize, Checkbox } from '@mui/material'
+import PropTypes from 'prop-types'
 
 function DangKyLopChatLuongView(props) {
   const {
@@ -19,7 +19,7 @@ function DangKyLopChatLuongView(props) {
     setHocPhan,
     handleSelectHocPhan,
     handleSubmitData,
-  } = props;
+  } = props
   return (
     <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
       <div className="p-4 flex flex-col">
@@ -64,7 +64,7 @@ function DangKyLopChatLuongView(props) {
               </Select>
             </div>
 
-            {lyDo === "1" && (
+            {lyDo === '1' && (
               <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-start gap-2">
                 <span className="block pr-10 w-[175px]">Lý do khác (*)</span>
                 <TextareaAutosize
@@ -75,7 +75,7 @@ function DangKyLopChatLuongView(props) {
                 />
               </div>
             )}
-            {hocKy !== "" && (
+            {hocKy !== '' && (
               <div className="w-[75%] overflow-x-auto">
                 <table className="w-full min-w-[800px]">
                   <thead>
@@ -110,7 +110,7 @@ function DangKyLopChatLuongView(props) {
                           <td className="text-center p-3 border border-solid border-[#dee2e6]">
                             <Checkbox
                               onChange={(e) => {
-                                handleSelectHocPhan(e, hp);
+                                handleSelectHocPhan(e, hp)
                               }}
                               checked={
                                 hp.MC_DT_DKHocChatLuong_MaLopHoc ===
@@ -153,7 +153,7 @@ function DangKyLopChatLuongView(props) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 DangKyLopChatLuongView.propTypes = {
@@ -172,6 +172,6 @@ DangKyLopChatLuongView.propTypes = {
   setHocPhan: PropTypes.func,
   handleSelectHocPhan: PropTypes.func,
   handleSubmitData: PropTypes.func,
-};
+}
 
-export default DangKyLopChatLuongView;
+export default DangKyLopChatLuongView

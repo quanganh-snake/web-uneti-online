@@ -1,151 +1,149 @@
-import clsx from "clsx";
-import React, { useEffect, useMemo } from "react";
-import { useState } from "react";
+import clsx from 'clsx'
+import React, { useEffect, useMemo } from 'react'
+import { useState } from 'react'
 
-import { FaCaretRight, FaCaretDown } from "react-icons/fa";
-import { FaFileDownload } from "react-icons/fa";
-import { FaCaretLeft, FaListCheck } from "react-icons/fa6";
-import { Link, useParams } from "react-router-dom";
-import SidebarTTHCGV from "../Sidebar/SidebarTTHCGV";
+import { FaCaretRight, FaCaretDown } from 'react-icons/fa'
+import { FaFileDownload } from 'react-icons/fa'
+import { FaCaretLeft, FaListCheck } from 'react-icons/fa6'
+import { Link, useParams } from 'react-router-dom'
+import SidebarTTHCGV from '../Sidebar/SidebarTTHCGV'
 import {
   getHoSoGuiYeuCauById,
   getQuyTrinhXuLyCBNV,
   putHoSoThuTucGuiYeuCauById,
-} from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
-import moment from "moment";
-import { getThanhPhanHoSoGuiYeuCauById } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo";
-import Swal from "sweetalert2";
+} from '../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
+import moment from 'moment'
+import { getThanhPhanHoSoGuiYeuCauById } from '../../../../Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo'
+import Swal from 'sweetalert2'
 import {
   getListTrangThaiTTHCGVByIDGoc,
   getTrangThaiIDBySTTYeuCauId,
   getTrangThaiIDGuiYeuCauXuLySTT,
-} from "../../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai";
-import { toast } from "react-toastify";
-import { NguonTiepNhan_WEB } from "./../../../../Services/Static/dataStatic";
-import { sendEmailUserSubmit } from "./../../../../Services/Utils/emailUtils";
-import { DataCanBoGV } from "../../../../Services/Utils/dataCanBoGV";
-import { convertBufferToBase64 } from "../../../../Services/Utils/stringUtils";
-import Loading from "./../../../../Components/Loading/Loading";
-import { DebounceInput } from "react-debounce-input";
-import ReactPaginate from "react-paginate";
+} from '../../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai'
+import { toast } from 'react-toastify'
+import { NguonTiepNhan_WEB } from './../../../../Services/Static/dataStatic'
+import { sendEmailUserSubmit } from './../../../../Services/Utils/emailUtils'
+import { DataCanBoGV } from '../../../../Services/Utils/dataCanBoGV'
+import { convertBufferToBase64 } from '../../../../Services/Utils/stringUtils'
+import Loading from './../../../../Components/Loading/Loading'
+import { DebounceInput } from 'react-debounce-input'
+import ReactPaginate from 'react-paginate'
 
 function ChiTietHoSoYeuCau() {
-  const { yeucau, id } = useParams();
+  const { yeucau, id } = useParams()
 
-  const [showThongTinNguoiNop, setShowThongTinNguoiNop] = useState(true);
-  const [showThongTinHoSo, setShowThongTinHoSo] = useState(true);
-  const [showXuLyHoSo, setShowXuLyHoSo] = useState(true);
-  const [dataDetailYeuCau, setDataDetailYeuCau] = useState(null);
-  const [dataDetailTPHSYeuCau, setDataDetailTPHSYeuCauYeuCau] = useState(null);
-  const [ngayHenTra, setNgayHenTra] = useState(null);
-  const [ngayGiaoTra, setNgayGiaoTra] = useState(null);
-  const [hinhThucTra, setHinhThucTra] = useState("");
-  const [diaDiemTra, setDiaDiemTra] = useState("");
-  const [listQuyTrinhXuLy, setListQuyTrinhXuLy] = useState([]);
-  const [trangThaiGhiChu, setTrangThaiGhiChu] = useState("");
-  const [listTrangThaiYeuCau, setListTrangThaiYeuCau] = useState([]);
-  const [loading, setLoading] = useState(true);
-  let khoaGiangVien = "";
-  const dataCBGV = DataCanBoGV();
-  const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 10;
-  const pageCount = Math.ceil(
-    listQuyTrinhXuLy?.length / parseInt(itemsPerPage),
-  );
+  const [showThongTinNguoiNop, setShowThongTinNguoiNop] = useState(true)
+  const [showThongTinHoSo, setShowThongTinHoSo] = useState(true)
+  const [showXuLyHoSo, setShowXuLyHoSo] = useState(true)
+  const [dataDetailYeuCau, setDataDetailYeuCau] = useState(null)
+  const [dataDetailTPHSYeuCau, setDataDetailTPHSYeuCauYeuCau] = useState(null)
+  const [ngayHenTra, setNgayHenTra] = useState(null)
+  const [ngayGiaoTra, setNgayGiaoTra] = useState(null)
+  const [hinhThucTra, setHinhThucTra] = useState('')
+  const [diaDiemTra, setDiaDiemTra] = useState('')
+  const [listQuyTrinhXuLy, setListQuyTrinhXuLy] = useState([])
+  const [trangThaiGhiChu, setTrangThaiGhiChu] = useState('')
+  const [listTrangThaiYeuCau, setListTrangThaiYeuCau] = useState([])
+  const [loading, setLoading] = useState(true)
+  let khoaGiangVien = ''
+  const dataCBGV = DataCanBoGV()
+  const [currentPage, setCurrentPage] = useState(0)
+  const itemsPerPage = 10
+  const pageCount = Math.ceil(listQuyTrinhXuLy?.length / parseInt(itemsPerPage))
   const paginateListQuyTrinhXuLy = listQuyTrinhXuLy?.slice(
     currentPage * parseInt(itemsPerPage),
     (currentPage + 1) * parseInt(itemsPerPage),
-  );
+  )
 
   // call data
   const getDataHoSoYeuCauById = async (id) => {
-    const res = await getHoSoGuiYeuCauById(id);
+    const res = await getHoSoGuiYeuCauById(id)
     if (res.status === 200) {
-      const data = await res.data?.body[0];
-      setLoading(false);
-      setDataDetailYeuCau(data);
-      setNgayHenTra(data?.MC_TTHC_GV_GuiYeuCau_NgayHenTra);
-      setNgayGiaoTra(data?.MC_TTHC_GV_GuiYeuCau_NgayGiaoTra);
-      setTrangThaiGhiChu(data?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu);
+      const data = await res.data?.body[0]
+      setLoading(false)
+      setDataDetailYeuCau(data)
+      setNgayHenTra(data?.MC_TTHC_GV_GuiYeuCau_NgayHenTra)
+      setNgayGiaoTra(data?.MC_TTHC_GV_GuiYeuCau_NgayGiaoTra)
+      setTrangThaiGhiChu(data?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu)
     }
-  };
+  }
   const getDataTPHSDeNghiYeuCauByIDGoc = async (id) => {
-    const res = await getThanhPhanHoSoGuiYeuCauById(id);
+    const res = await getThanhPhanHoSoGuiYeuCauById(id)
     if (res.status === 200) {
-      setDataDetailTPHSYeuCauYeuCau(res.data?.body);
-      setLoading(false);
+      setDataDetailTPHSYeuCauYeuCau(res.data?.body)
+      setLoading(false)
     }
-  };
+  }
   const getDataTrinhTuThucHienYeuCauByIDGoc = async (id) => {
-    const res = await getQuyTrinhXuLyCBNV(id);
+    const res = await getQuyTrinhXuLyCBNV(id)
     if (res.status === 200) {
-      const data = await res.data?.body;
-      setListQuyTrinhXuLy(data);
-      setLoading(false);
+      const data = await res.data?.body
+      setListQuyTrinhXuLy(data)
+      setLoading(false)
     }
-  };
+  }
   const getDtaTrangThaiYeuCauByIDGoc = async (id) => {
-    const res = await getListTrangThaiTTHCGVByIDGoc(id);
+    const res = await getListTrangThaiTTHCGVByIDGoc(id)
     if (res.status === 200) {
-      const data = await res.data?.body;
-      setListTrangThaiYeuCau(data);
-      setLoading(false);
+      const data = await res.data?.body
+      setListTrangThaiYeuCau(data)
+      setLoading(false)
     }
-  };
+  }
 
   // event handlers
   const handleChangeValue = (e) => {
-    const { id, name, value } = e.target;
+    const { id, name, value } = e.target
 
-    if (id == "MC_TTHC_GV_GuiYeuCau_NgayHenTra") {
-      setNgayHenTra(moment(value).format("DD/MM/YYYY HH:mm:ss"));
+    if (id == 'MC_TTHC_GV_GuiYeuCau_NgayHenTra') {
+      setNgayHenTra(moment(value).format('DD/MM/YYYY HH:mm:ss'))
     }
 
-    if (id == "NgayGiaoTra") {
-      let strNgayGiaoTra = moment(value).format("DD/MM/YYYY HH:mm:ss");
-      setNgayGiaoTra(strNgayGiaoTra);
+    if (id == 'NgayGiaoTra') {
+      let strNgayGiaoTra = moment(value).format('DD/MM/YYYY HH:mm:ss')
+      setNgayGiaoTra(strNgayGiaoTra)
     }
 
-    if (id == "HinhThucTra") {
-      setHinhThucTra(value);
+    if (id == 'HinhThucTra') {
+      setHinhThucTra(value)
     }
 
-    if (id === "MC_TTHC_GV_GuiYeuCau_NoiTraKetQua") {
-      setDiaDiemTra(value);
+    if (id === 'MC_TTHC_GV_GuiYeuCau_NoiTraKetQua') {
+      setDiaDiemTra(value)
     }
-  };
+  }
 
   const handleShowThongTinNguoiNop = () => {
-    setShowThongTinNguoiNop(!showThongTinNguoiNop);
-  };
+    setShowThongTinNguoiNop(!showThongTinNguoiNop)
+  }
 
   const handleShowThongTinHoSo = () => {
-    setShowThongTinHoSo(!showThongTinHoSo);
-  };
+    setShowThongTinHoSo(!showThongTinHoSo)
+  }
 
   const handleShowXuLyHoSo = () => {
-    setShowXuLyHoSo(!showXuLyHoSo);
-  };
+    setShowXuLyHoSo(!showXuLyHoSo)
+  }
 
   const handleUpdateYeuCauGui = async (yeuCauID, trangThaiID) => {
     if (trangThaiID == 0) {
       Swal.fire({
-        title: "Hồ sơ yêu cầu chưa được tiếp nhận!",
-        text: "Bạn có muốn tiếp nhận hồ sơ để tiếp tục xử lý yêu cầu?",
-        icon: "question",
+        title: 'Hồ sơ yêu cầu chưa được tiếp nhận!',
+        text: 'Bạn có muốn tiếp nhận hồ sơ để tiếp tục xử lý yêu cầu?',
+        icon: 'question',
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Đồng ý",
-        cancelButtonText: "Hủy",
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Đồng ý',
+        cancelButtonText: 'Hủy',
       }).then(async (result) => {
         if (result.isConfirmed) {
           const resNewTrangThaiID = await getTrangThaiIDBySTTYeuCauId(
             yeuCauID,
             1,
-          );
+          )
           if (resNewTrangThaiID.status === 200) {
-            const dataTrangThaiIDNew = await resNewTrangThaiID.data?.body[0];
+            const dataTrangThaiIDNew = await resNewTrangThaiID.data?.body[0]
             if (dataTrangThaiIDNew) {
               const newDataUpdate = {
                 ...dataDetailYeuCau,
@@ -155,39 +153,39 @@ function ChiTietHoSoYeuCau() {
                   dataTrangThaiIDNew?.MC_TTHC_GV_TrangThai_MoTa
                     ? dataTrangThaiIDNew?.MC_TTHC_GV_TrangThai_MoTa
                     : dataTrangThaiIDNew?.MC_TTHC_GV_TrangThai_TenTrangThai,
-              };
+              }
 
               const resPutHoSoThuTuc =
-                await putHoSoThuTucGuiYeuCauById(newDataUpdate);
+                await putHoSoThuTucGuiYeuCauById(newDataUpdate)
 
               if (resPutHoSoThuTuc.status === 200) {
                 sendEmailUserSubmit(
-                  "tiepnhan",
+                  'tiepnhan',
                   `Thông báo trả lời đề nghị ${dataDetailYeuCau?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`,
-                  dataCBGV?.HoDem + " " + dataCBGV?.Ten,
+                  dataCBGV?.HoDem + ' ' + dataCBGV?.Ten,
                   dataDetailYeuCau.MC_TTHC_GV_TenThuTuc.toUpperCase(),
                   dataCBGV?.MaNhanSu,
                   khoaGiangVien,
                   newDataUpdate?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu,
                   newDataUpdate?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong,
-                  "Tống Bá Quang Anh",
-                  "tbquanganh@gmail.com",
-                  "0334350166",
+                  'Tống Bá Quang Anh',
+                  'tbquanganh@gmail.com',
+                  '0334350166',
                   newDataUpdate?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
-                );
+                )
                 Swal.fire({
-                  title: "Thông báo",
-                  text: "Đã tiếp nhận hồ sơ! Tiếp tục xử lý yêu cầu!",
-                  icon: "success",
-                });
+                  title: 'Thông báo',
+                  text: 'Đã tiếp nhận hồ sơ! Tiếp tục xử lý yêu cầu!',
+                  icon: 'success',
+                })
               }
             }
           }
         } else {
-          toast.success("Đã huỷ tiếp nhận hồ sơ!");
-          return;
+          toast.success('Đã huỷ tiếp nhận hồ sơ!')
+          return
         }
-      });
+      })
     } else {
       let newDataUpdate = {
         MC_TTHC_GV_GuiYeuCau_ID: dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_ID,
@@ -215,93 +213,93 @@ function ChiTietHoSoYeuCau() {
         MC_TTHC_GV_GuiYeuCau_NgayGiaoTra: ngayGiaoTra,
         MC_TTHC_GV_GuiYeuCau_NoiTraKetQua: diaDiemTra,
         MC_TTHC_GV_GuiYeuCau_NguonTiepNhan: NguonTiepNhan_WEB,
-      };
+      }
 
       // Ngày update
       let strCurrentDateHenTra = moment(
         dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayHenTra,
       )
-        .format("DD/MM/YYYY HH:mm")
-        .toString();
+        .format('DD/MM/YYYY HH:mm')
+        .toString()
       let strCurrentDateGiaoTra = moment(
         dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayGiaoTra,
       )
-        .format("DD/MM/YYYY HH:mm")
-        .toString();
+        .format('DD/MM/YYYY HH:mm')
+        .toString()
       let strNewDateHenTra = moment(ngayHenTra)
-        .format("DD/MM/YYYY HH:mm")
-        .toString();
+        .format('DD/MM/YYYY HH:mm')
+        .toString()
       let strNewDateGiaoTra = moment(ngayGiaoTra)
-        .format("DD/MM/YYYY HH:mm")
-        .toString();
+        .format('DD/MM/YYYY HH:mm')
+        .toString()
 
       // Hình thức trả: Email
-      if (hinhThucTra == "1") {
+      if (hinhThucTra == '1') {
         Swal.fire({
-          title: "Hãy chèn link file đính kèm",
-          input: "text",
+          title: 'Hãy chèn link file đính kèm',
+          input: 'text',
           inputAttributes: {
-            autocapitalize: "off",
+            autocapitalize: 'off',
             require: true,
           },
           showCancelButton: true,
-          confirmButtonText: "Lưu cập nhật",
-          cancelButtonText: "Hủy",
+          confirmButtonText: 'Lưu cập nhật',
+          cancelButtonText: 'Hủy',
           showLoaderOnConfirm: true,
           allowOutsideClick: () => !Swal.isLoading(),
         }).then(async (result) => {
           if (result.isConfirmed) {
-            console.log(newDataUpdate);
+            console.log(newDataUpdate)
             // return;
             const resUpdateYeuCau = await putHoSoThuTucGuiYeuCauById({
               ...newDataUpdate,
               MC_TTHC_GV_GuiYeuCau_NgayHenTra: moment(ngayHenTra).format(
-                "YYYY-MM-DDTHH:mm:ss.SSS[Z]",
+                'YYYY-MM-DDTHH:mm:ss.SSS[Z]',
               ),
               MC_TTHC_GV_GuiYeuCau_NgayGiaoTra: moment(ngayGiaoTra).format(
-                "YYYY-MM-DDTHH:mm:ss.SSS[Z]",
+                'YYYY-MM-DDTHH:mm:ss.SSS[Z]',
               ),
-              MC_TTHC_GV_GuiYeuCau_NoiTraKetQua: "",
-            });
+              MC_TTHC_GV_GuiYeuCau_NoiTraKetQua: '',
+            })
 
             console.log(
-              "🚀 ~ file: ChiTietHoSoYeuCau.jsx:224 ~ handleUpdateYeuCauGui ~ resUpdateYeuCau:",
+              '🚀 ~ file: ChiTietHoSoYeuCau.jsx:224 ~ handleUpdateYeuCauGui ~ resUpdateYeuCau:',
               resUpdateYeuCau,
-            );
+            )
             if (resUpdateYeuCau.status === 200) {
-              toast.success("Cập nhật thành công thông tin xử lý hồ sơ.");
+              toast.success('Cập nhật thành công thông tin xử lý hồ sơ.')
               sendEmailUserSubmit(
-                "xuly",
+                'xuly',
                 `Thông báo xử lý đề nghị ${dataDetailYeuCau?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`,
-                dataCBGV?.HoDem + " " + dataCBGV?.Ten,
+                dataCBGV?.HoDem + ' ' + dataCBGV?.Ten,
                 dataDetailYeuCau?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc.toUpperCase(),
                 dataCBGV?.MaNhanSu,
                 khoaGiangVien,
                 newDataUpdate?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu,
                 `Cập nhật xử lý theo yêu cầu ${result.value}. Vui lòng truy cập website để kiểm tra chi tiết.`,
                 newDataUpdate?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong,
-                "Tống Bá Quang Anh",
-                "tbquanganh@gmail.com",
-                "0334350166",
+                'Tống Bá Quang Anh',
+                'tbquanganh@gmail.com',
+                '0334350166',
                 newDataUpdate?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
-              );
-              getDataHoSoYeuCauById(id);
-              getDataTrinhTuThucHienYeuCauByIDGoc(id);
+              )
+              getDataHoSoYeuCauById(id)
+              getDataTrinhTuThucHienYeuCauByIDGoc(id)
             }
           }
-        });
-        return;
-      } else if (hinhThucTra == "2") {
+        })
+        return
+      } else if (hinhThucTra == '2') {
         //Hình thức trả: trực tiếp
         if (!diaDiemTra) {
-          return toast.error("Vui lòng chọn địa điểm giao trả!");
+          return toast.error('Vui lòng chọn địa điểm giao trả!')
         } else {
           Swal.fire({
-            icon: "question",
-            title: "Bạn chắc chắn muốn cập nhật thông tin yêu cầu này?",
+            icon: 'question',
+            title: 'Bạn chắc chắn muốn cập nhật thông tin yêu cầu này?',
             showCancelButton: true,
-            confirmButtonText: "Lưu cập nhật",
-            cancelButtonText: "Hủy",
+            confirmButtonText: 'Lưu cập nhật',
+            cancelButtonText: 'Hủy',
             showLoaderOnConfirm: true,
             allowOutsideClick: () => !Swal.isLoading(),
           }).then(async (result) => {
@@ -309,37 +307,37 @@ function ChiTietHoSoYeuCau() {
               const resUpdateYeuCau = await putHoSoThuTucGuiYeuCauById({
                 ...newDataUpdate,
                 MC_TTHC_GV_GuiYeuCau_NgayHenTra: moment(ngayHenTra).format(
-                  "YYYY-MM-DDTHH:mm:ss.SSS[Z]",
+                  'YYYY-MM-DDTHH:mm:ss.SSS[Z]',
                 ),
                 MC_TTHC_GV_GuiYeuCau_NgayGiaoTra: moment(ngayGiaoTra).format(
-                  "YYYY-MM-DDTHH:mm:ss.SSS[Z]",
+                  'YYYY-MM-DDTHH:mm:ss.SSS[Z]',
                 ),
                 MC_TTHC_GV_GuiYeuCau_NoiTraKetQua: diaDiemTra,
-              });
+              })
               if (resUpdateYeuCau.status === 200) {
-                toast.success("Cập nhật thông tin thành công!");
+                toast.success('Cập nhật thông tin thành công!')
                 sendEmailUserSubmit(
-                  "xuly",
+                  'xuly',
                   `Thông báo xử lý đề nghị ${dataDetailYeuCau?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`,
-                  dataCBGV?.HoDem + " " + dataCBGV?.Ten,
+                  dataCBGV?.HoDem + ' ' + dataCBGV?.Ten,
                   dataDetailYeuCau?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc.toUpperCase(),
                   dataCBGV?.MaNhanSu,
                   khoaGiangVien,
                   newDataUpdate?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu,
                   `Cập nhật xử lý theo yêu cầu ${result.value}. Vui lòng truy cập website để kiểm tra chi tiết.`,
                   newDataUpdate?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong,
-                  "Tống Bá Quang Anh",
-                  "tbquanganh@gmail.com",
-                  "0334350166",
+                  'Tống Bá Quang Anh',
+                  'tbquanganh@gmail.com',
+                  '0334350166',
                   newDataUpdate?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
-                );
-                getDataHoSoYeuCauById(id);
-                getDataTrinhTuThucHienYeuCauByIDGoc(id);
-                return;
+                )
+                getDataHoSoYeuCauById(id)
+                getDataTrinhTuThucHienYeuCauByIDGoc(id)
+                return
               }
             }
-          });
-          return;
+          })
+          return
         }
       } else {
         if (
@@ -347,60 +345,60 @@ function ChiTietHoSoYeuCau() {
           strNewDateGiaoTra != strCurrentDateGiaoTra
         ) {
           Swal.fire({
-            icon: "question",
-            title: "Bạn có muốn cập nhật thông tin này?",
-            text: "Sau khi cập nhật, hệ thống sẽ tự động gửi mail thông báo cho người gửi!",
+            icon: 'question',
+            title: 'Bạn có muốn cập nhật thông tin này?',
+            text: 'Sau khi cập nhật, hệ thống sẽ tự động gửi mail thông báo cho người gửi!',
             showConfirmButton: true,
             showCancelButton: true,
-            confirmButtonText: "Đồng ý",
-            cancelButtonText: "Huỷ",
+            confirmButtonText: 'Đồng ý',
+            cancelButtonText: 'Huỷ',
           }).then(async (result) => {
             if (result.isConfirmed) {
-              const res = await putHoSoThuTucGuiYeuCauById(newDataUpdate);
+              const res = await putHoSoThuTucGuiYeuCauById(newDataUpdate)
               if (res.status === 200) {
-                toast.success("Cập nhật thành công thông tin yêu cầu!");
+                toast.success('Cập nhật thành công thông tin yêu cầu!')
                 sendEmailUserSubmit(
-                  "xuly",
+                  'xuly',
                   `Thông báo xử lý đề nghị ${dataDetailYeuCau?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`,
-                  dataCBGV?.HoDem + " " + dataCBGV?.Ten,
+                  dataCBGV?.HoDem + ' ' + dataCBGV?.Ten,
                   dataDetailYeuCau?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc.toUpperCase(),
                   dataCBGV?.MaNhanSu,
                   khoaGiangVien,
                   newDataUpdate?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu,
                   `Cập nhật xử lý theo yêu cầu. Vui lòng truy cập website để kiểm tra chi tiết.`,
                   newDataUpdate?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong,
-                  "Tống Bá Quang Anh",
-                  "tbquanganh@gmail.com",
-                  "0334350166",
+                  'Tống Bá Quang Anh',
+                  'tbquanganh@gmail.com',
+                  '0334350166',
                   newDataUpdate?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
-                );
-                getDataHoSoYeuCauById(id);
-                getDataTrinhTuThucHienYeuCauByIDGoc(id);
+                )
+                getDataHoSoYeuCauById(id)
+                getDataTrinhTuThucHienYeuCauByIDGoc(id)
               }
             }
-          });
+          })
         } else {
           Swal.fire({
-            icon: "info",
-            title: "Không có thông tin nào được thay đổi để cập nhật",
-            text: "Vui lòng thay đổi thông tin để thực hiện cập nhật mới!",
-          });
+            icon: 'info',
+            title: 'Không có thông tin nào được thay đổi để cập nhật',
+            text: 'Vui lòng thay đổi thông tin để thực hiện cập nhật mới!',
+          })
         }
       }
     }
-  };
+  }
 
   const updateStepTrangThaiHoSoYeuCau = async (dataGuiYeuCau, type) => {
-    let currentTrangThaiSTT;
+    let currentTrangThaiSTT
     const resultListTrangThaiByIDGoc = await getListTrangThaiTTHCGVByIDGoc(
       dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
-    );
+    )
     if (resultListTrangThaiByIDGoc.status === 200) {
-      const listTrangThaiHoSo = await resultListTrangThaiByIDGoc.data?.body;
+      const listTrangThaiHoSo = await resultListTrangThaiByIDGoc.data?.body
       console.log(
-        "🚀 ~ file: ChiTietHoSoYeuCau.jsx:343 ~ updateStepTrangThaiHoSoYeuCau ~ listTrangThaiHoSo:",
+        '🚀 ~ file: ChiTietHoSoYeuCau.jsx:343 ~ updateStepTrangThaiHoSoYeuCau ~ listTrangThaiHoSo:',
         listTrangThaiHoSo,
-      );
+      )
       if (listTrangThaiHoSo.length > 0) {
         for (let i = 0; i < listTrangThaiHoSo?.length; i++) {
           if (
@@ -409,7 +407,7 @@ function ChiTietHoSoYeuCau() {
           ) {
             currentTrangThaiSTT = parseInt(
               listTrangThaiHoSo[i].MC_TTHC_GV_TrangThai_STT,
-            );
+            )
           }
         }
       }
@@ -419,10 +417,10 @@ function ChiTietHoSoYeuCau() {
       dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
       currentTrangThaiSTT,
       type,
-    );
+    )
 
     if (resultTrangThaiIDUpdate.status === 200) {
-      const dataTrangThaiIDUpdate = await resultTrangThaiIDUpdate.data?.body[0];
+      const dataTrangThaiIDUpdate = await resultTrangThaiIDUpdate.data?.body[0]
       if (dataTrangThaiIDUpdate?.MC_TTHC_GV_TrangThai_ID) {
         const dataUpdateNew = {
           MC_TTHC_GV_GuiYeuCau_ID: dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_ID,
@@ -455,93 +453,93 @@ function ChiTietHoSoYeuCau() {
             dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NoiTraKetQua,
           MC_TTHC_GV_GuiYeuCau_NguonTiepNhan:
             dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NguonTiepNhan,
-        };
+        }
         const responseUpdateSTTTrangThaiHoSo =
-          await putHoSoThuTucGuiYeuCauById(dataUpdateNew);
+          await putHoSoThuTucGuiYeuCauById(dataUpdateNew)
         if (responseUpdateSTTTrangThaiHoSo.status === 200) {
-          setLoading(false);
-          getDataHoSoYeuCauById(id);
-          getDataTPHSDeNghiYeuCauByIDGoc(id);
-          getDataTrinhTuThucHienYeuCauByIDGoc(id);
-          getDtaTrangThaiYeuCauByIDGoc(id);
+          setLoading(false)
+          getDataHoSoYeuCauById(id)
+          getDataTPHSDeNghiYeuCauByIDGoc(id)
+          getDataTrinhTuThucHienYeuCauByIDGoc(id)
+          getDtaTrangThaiYeuCauByIDGoc(id)
           return {
             status: 1,
-            message: "Đã chuyển trạng thái hồ sơ thành công!",
-          };
+            message: 'Đã chuyển trạng thái hồ sơ thành công!',
+          }
         }
       } else {
-        if (type == "next") {
+        if (type == 'next') {
           return {
             status: -1,
             message:
-              "Đã chuyển trạng thái hồ sơ đến bước tiếp theo thất bại! Do hồ sơ đang ở trạng thái cuối cùng.",
-          };
+              'Đã chuyển trạng thái hồ sơ đến bước tiếp theo thất bại! Do hồ sơ đang ở trạng thái cuối cùng.',
+          }
         }
 
-        if (type == "prev") {
+        if (type == 'prev') {
           return {
             status: -1,
             message:
-              "Đã chuyển trạng thái hồ sơ về bước trước thất bại! Do hồ sơ đang ở trạng thái mặc định được khởi tạo.",
-          };
+              'Đã chuyển trạng thái hồ sơ về bước trước thất bại! Do hồ sơ đang ở trạng thái mặc định được khởi tạo.',
+          }
         }
       }
     }
-  };
+  }
 
   const handlePrevStep = async (dataGuiYeuCau) => {
     const dataUpdate = await updateStepTrangThaiHoSoYeuCau(
       dataGuiYeuCau,
-      "prev",
-    );
+      'prev',
+    )
     if (dataUpdate?.status == 1) {
-      return toast.success(dataUpdate?.message);
+      return toast.success(dataUpdate?.message)
     }
 
     if (dataUpdate?.status == -1) {
-      return toast.error(dataUpdate?.message);
+      return toast.error(dataUpdate?.message)
     }
-  };
+  }
 
   const handleNextStep = async (dataGuiYeuCau) => {
     const dataUpdate = await updateStepTrangThaiHoSoYeuCau(
       dataGuiYeuCau,
-      "next",
-    );
+      'next',
+    )
     if (dataUpdate?.status == 1) {
-      return toast.success(dataUpdate?.message);
+      return toast.success(dataUpdate?.message)
     }
 
     if (dataUpdate?.status == -1) {
-      return toast.error(dataUpdate?.message);
+      return toast.error(dataUpdate?.message)
     }
-  };
+  }
 
   const handleCancelHoSo = async () => {
     return Swal.fire({
-      icon: "info",
-      title: "Chức năng này đang phát triển.",
-    });
-  };
+      icon: 'info',
+      title: 'Chức năng này đang phát triển.',
+    })
+  }
 
   const handlePageChange = ({ selected }) => {
-    setCurrentPage(selected);
-  };
+    setCurrentPage(selected)
+  }
 
   // effects
   useEffect(() => {
-    getDataHoSoYeuCauById(id);
-    getDataTPHSDeNghiYeuCauByIDGoc(id);
-    getDataTrinhTuThucHienYeuCauByIDGoc(id);
-    getDtaTrangThaiYeuCauByIDGoc(id);
-  }, [id, loading]);
+    getDataHoSoYeuCauById(id)
+    getDataTPHSDeNghiYeuCauByIDGoc(id)
+    getDataTrinhTuThucHienYeuCauByIDGoc(id)
+    getDtaTrangThaiYeuCauByIDGoc(id)
+  }, [id, loading])
 
   const displayedListQuyTrinhXuLy = useMemo(() => {
     if (!showXuLyHoSo) {
-      return paginateListQuyTrinhXuLy;
+      return paginateListQuyTrinhXuLy
     }
-    return [];
-  }, [paginateListQuyTrinhXuLy, showXuLyHoSo]);
+    return []
+  }, [paginateListQuyTrinhXuLy, showXuLyHoSo])
 
   if (dataDetailYeuCau) {
     return (
@@ -573,52 +571,52 @@ function ChiTietHoSoYeuCau() {
 
                 <div
                   className={clsx(
-                    "grid grid-cols-2 items-center justify-between",
-                    showThongTinNguoiNop ? null : "hidden",
+                    'grid grid-cols-2 items-center justify-between',
+                    showThongTinNguoiNop ? null : 'hidden',
                   )}
                 >
                   <p className="col-span-1 mb-3">
-                    Họ và tên:{" "}
+                    Họ và tên:{' '}
                     <span className="font-semibold">
                       {dataDetailYeuCau?.HoTen}
                     </span>
                   </p>
                   <p className="col-span-1 mb-3">
-                    Địa chỉ hiện tại:{" "}
+                    Địa chỉ hiện tại:{' '}
                     <span className="font-semibold">
                       {dataDetailYeuCau?.NoiOHienTai}
                     </span>
                   </p>
                   <p className="col-span-1 mb-3">
-                    Ngày sinh:{" "}
+                    Ngày sinh:{' '}
                     <span className="font-semibold">
                       {dataDetailYeuCau?.NgaySinh
                         ? moment(dataDetailYeuCau?.NgaySinh).format(
-                            "DD/MM/YYYY",
+                            'DD/MM/YYYY',
                           )
-                        : ""}
+                        : ''}
                     </span>
                   </p>
                   <p className="col-span-1 mb-3">
-                    CMTND/CCCD:{" "}
+                    CMTND/CCCD:{' '}
                     <span className="font-semibold">
                       {dataDetailYeuCau?.SoCMND}
                     </span>
                   </p>
                   <p className="col-span-1 mb-3">
-                    Số điện thoại:{" "}
+                    Số điện thoại:{' '}
                     <span className="font-semibold">
                       {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_SDT}
                     </span>
                   </p>
                   <p className="col-span-1 mb-3">
-                    Email liên hệ:{" "}
+                    Email liên hệ:{' '}
                     <span className="font-semibold">
                       {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email}
                     </span>
                   </p>
                   <p className="col-span-1 mb-3">
-                    Quê quán:{" "}
+                    Quê quán:{' '}
                     <span className="font-semibold">
                       {dataDetailYeuCau?.QueQuan}
                     </span>
@@ -647,49 +645,49 @@ function ChiTietHoSoYeuCau() {
                 {/* START: Thông tin */}
                 <div
                   className={clsx(
-                    "grid grid-cols-2 gap-x-4 items-center justify-between mb-4",
-                    showThongTinHoSo ? null : "hidden",
+                    'grid grid-cols-2 gap-x-4 items-center justify-between mb-4',
+                    showThongTinHoSo ? null : 'hidden',
                   )}
                 >
                   <p className="col-span-1 mb-3">
-                    Tên thủ tục:{" "}
+                    Tên thủ tục:{' '}
                     <span className="font-semibold">
                       {dataDetailYeuCau?.MC_TTHC_GV_TenThuTuc}
                     </span>
                   </p>
                   <p className="col-span-1 mb-3">
-                    Mã thủ tục:{" "}
+                    Mã thủ tục:{' '}
                     <span className="font-semibold">
                       {dataDetailYeuCau?.MC_TTHC_GV_MaThuTuc}
                     </span>
                   </p>
                   <p className="col-span-1 mb-3">
-                    Ngày nộp hồ sơ:{" "}
+                    Ngày nộp hồ sơ:{' '}
                     <span className="font-semibold">
                       {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayGui &&
                         moment(
                           dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayGui,
-                        ).format("DD/MM/YYYY")}
+                        ).format('DD/MM/YYYY')}
                     </span>
                   </p>
 
                   <p className="col-span-1 mb-3">
-                    Ngày tiếp nhận:{" "}
+                    Ngày tiếp nhận:{' '}
                     <span className="font-semibold">
                       {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayGui &&
                         moment(
                           dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayGui,
-                        ).format("DD/MM/YYYY")}
+                        ).format('DD/MM/YYYY')}
                     </span>
                   </p>
                   <p className="col-span-1 mb-3">
-                    Đơn vị tiếp nhận:{" "}
+                    Đơn vị tiếp nhận:{' '}
                     <span className="font-semibold">
                       {dataDetailYeuCau?.MC_TTHC_GV_NoiTiepNhan}
                     </span>
                   </p>
                   <p className="col-span-1 mb-3">
-                    Lĩnh vực:{" "}
+                    Lĩnh vực:{' '}
                     <span className="font-semibold">
                       {dataDetailYeuCau?.MC_TTHC_GV_LinhVuc}
                     </span>
@@ -703,9 +701,9 @@ function ChiTietHoSoYeuCau() {
                           className="p-2 border"
                           name="MC_TTHC_GV_GuiYeuCau_NgayHenTra"
                           id="MC_TTHC_GV_GuiYeuCau_NgayHenTra"
-                          value={moment(ngayHenTra).format("YYYY-MM-DDTHH:mm")}
+                          value={moment(ngayHenTra).format('YYYY-MM-DDTHH:mm')}
                           onChange={(e) => {
-                            setNgayHenTra(e.target.value);
+                            setNgayHenTra(e.target.value)
                           }}
                         />
                       </div>
@@ -716,9 +714,9 @@ function ChiTietHoSoYeuCau() {
                           className="p-2 border"
                           name="NgayGiaoTra"
                           id="NgayGiaoTra"
-                          value={moment(ngayGiaoTra).format("YYYY-MM-DDTHH:mm")}
+                          value={moment(ngayGiaoTra).format('YYYY-MM-DDTHH:mm')}
                           onChange={(e) => {
-                            setNgayGiaoTra(e.target.value);
+                            setNgayGiaoTra(e.target.value)
                           }}
                         />
                       </div>
@@ -735,7 +733,7 @@ function ChiTietHoSoYeuCau() {
                           <option value="2">Trả trực tiếp</option>
                         </select>
                       </div>
-                      {hinhThucTra == "2" ? (
+                      {hinhThucTra == '2' ? (
                         <div className="flex flex-col gap-2">
                           <p>Địa điểm giao trả:</p>
                           <select
@@ -773,7 +771,7 @@ function ChiTietHoSoYeuCau() {
                             handleUpdateYeuCauGui(
                               dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
                               dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID,
-                            );
+                            )
                           }}
                           className="border p-2 rounded-xl font-medium bg-[#336699] text-white hover:opacity-70"
                         >
@@ -805,19 +803,19 @@ function ChiTietHoSoYeuCau() {
                             iTPHSYeuCau
                               ?.MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_DataFile
                               ?.data,
-                          );
+                          )
                           function openPreviewNewTab() {
                             var file = new Blob([base64String], {
-                              type: "application/pdf",
-                            });
-                            var fileURL = URL.createObjectURL(file);
-                            var a = document.createElement("a");
-                            a.href = fileURL;
-                            a.target = "_blank";
-                            document.body.appendChild(a);
-                            a.click();
-                            document.body.removeChild(a);
-                            URL.revokeObjectURL(fileURL);
+                              type: 'application/pdf',
+                            })
+                            var fileURL = URL.createObjectURL(file)
+                            var a = document.createElement('a')
+                            a.href = fileURL
+                            a.target = '_blank'
+                            document.body.appendChild(a)
+                            a.click()
+                            document.body.removeChild(a)
+                            URL.revokeObjectURL(fileURL)
                           }
 
                           return (
@@ -837,14 +835,14 @@ function ChiTietHoSoYeuCau() {
                                   type="button"
                                   className="text-[#336699] font-medium"
                                   onClick={() => {
-                                    openPreviewNewTab();
+                                    openPreviewNewTab()
                                   }}
                                 >
                                   Xem
                                 </button>
                               </td>
                             </tr>
-                          );
+                          )
                         })}
                     </tbody>
                   </table>
@@ -859,10 +857,10 @@ function ChiTietHoSoYeuCau() {
                     type="button"
                     onClick={handleShowXuLyHoSo}
                     className={clsx(
-                      "px-3 py-1 rounded-md flex flex-row items-center gap-2 cursor-pointer hover:opacity-70",
+                      'px-3 py-1 rounded-md flex flex-row items-center gap-2 cursor-pointer hover:opacity-70',
                       showXuLyHoSo
-                        ? "bg-[#0484AC] text-white"
-                        : "border border-[#0484AC] text-[#336699]",
+                        ? 'bg-[#0484AC] text-white'
+                        : 'border border-[#0484AC] text-[#336699]',
                     )}
                   >
                     <FaFileDownload />
@@ -872,10 +870,10 @@ function ChiTietHoSoYeuCau() {
                     type="button"
                     onClick={handleShowXuLyHoSo}
                     className={clsx(
-                      "px-3 py-1 rounded-md flex flex-row items-center gap-2 cursor-pointer hover:opacity-70",
+                      'px-3 py-1 rounded-md flex flex-row items-center gap-2 cursor-pointer hover:opacity-70',
                       showXuLyHoSo
-                        ? "border border-[#0484AC] text-[#336699]"
-                        : "bg-[#0484AC] text-white",
+                        ? 'border border-[#0484AC] text-[#336699]'
+                        : 'bg-[#0484AC] text-white',
                     )}
                   >
                     <FaListCheck />
@@ -888,7 +886,7 @@ function ChiTietHoSoYeuCau() {
                       type="button"
                       className="px-3 py-1 text-white rounded-lg font-semibold hover:opacity-70 bg-[#D85D17]"
                       onClick={() => {
-                        handlePrevStep(dataDetailYeuCau);
+                        handlePrevStep(dataDetailYeuCau)
                       }}
                     >
                       Chuyển bước trước
@@ -897,7 +895,7 @@ function ChiTietHoSoYeuCau() {
                       type="button"
                       className="px-3 py-1 text-white rounded-lg font-semibold hover:opacity-70 bg-[#70C788]"
                       onClick={() => {
-                        handleNextStep(dataDetailYeuCau);
+                        handleNextStep(dataDetailYeuCau)
                       }}
                     >
                       Chuyển bước tiếp
@@ -906,7 +904,7 @@ function ChiTietHoSoYeuCau() {
                       type="button"
                       className="px-3 py-1 text-white rounded-lg font-semibold hover:opacity-70 bg-[#FF0000]"
                       onClick={() => {
-                        handleCancelHoSo();
+                        handleCancelHoSo()
                       }}
                     >
                       Hủy/trả hồ sơ
@@ -943,8 +941,8 @@ function ChiTietHoSoYeuCau() {
                                   {iQTXuLy?.MC_TTHC_GV_GuiYeuCau_NgayHenTra
                                     ? moment(
                                         iQTXuLy?.MC_TTHC_GV_GuiYeuCau_NgayHenTra,
-                                        "YYYY-MM-DDTHH:mm:ss.SSS[Z]",
-                                      ).format("DD/MM/YYYY HH:mm:ss")
+                                        'YYYY-MM-DDTHH:mm:ss.SSS[Z]',
+                                      ).format('DD/MM/YYYY HH:mm:ss')
                                     : null}
                                 </td>
                                 <td className="border-r p-2 text-center">
@@ -953,11 +951,11 @@ function ChiTietHoSoYeuCau() {
                                 <td className="p-2 text-center">
                                   {moment(
                                     iQTXuLy?.MC_TTHC_GV_GuiYeuCau_DateEditor,
-                                    "YYYY-MM-DDTHH:mm:ss.SSS[Z]",
-                                  ).format("DD/MM/YYYY HH:mm:ss")}
+                                    'YYYY-MM-DDTHH:mm:ss.SSS[Z]',
+                                  ).format('DD/MM/YYYY HH:mm:ss')}
                                 </td>
                               </tr>
-                            );
+                            )
                           })}
                       </tbody>
                     </table>
@@ -968,12 +966,12 @@ function ChiTietHoSoYeuCau() {
                       marginPagesDisplayed={2}
                       pageRangeDisplayed={5}
                       onPageChange={handlePageChange}
-                      containerClassName={"pagination"}
+                      containerClassName={'pagination'}
                       pageClassName={
-                        "px-2 py-1 hover:text-white hover:font-semibold hover:bg-[#336699]"
+                        'px-2 py-1 hover:text-white hover:font-semibold hover:bg-[#336699]'
                       }
                       activeClassName={
-                        "px-2 py-1 text-white font-semibold bg-[#336699]"
+                        'px-2 py-1 text-white font-semibold bg-[#336699]'
                       }
                       className="w-full flex items-center justify-end gap-1"
                     />
@@ -985,7 +983,7 @@ function ChiTietHoSoYeuCau() {
           </div>
         )}
       </>
-    );
+    )
   } else {
     return (
       <>
@@ -999,8 +997,8 @@ function ChiTietHoSoYeuCau() {
           </p>
         )}
       </>
-    );
+    )
   }
 }
 
-export default ChiTietHoSoYeuCau;
+export default ChiTietHoSoYeuCau

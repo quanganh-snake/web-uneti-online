@@ -1,4 +1,4 @@
-import { Checkbox } from "@mui/material";
+import { Checkbox } from '@mui/material'
 
 function DanhSachHocPhan({ listHocPhan, handleRowSelection }) {
   return (
@@ -42,7 +42,7 @@ function DanhSachHocPhan({ listHocPhan, handleRowSelection }) {
                 <td className="text-center p-3 border border-solid border-[#dee2e6]">
                   <Checkbox
                     onChange={(e) => {
-                      handleRowSelection(e, hocphan);
+                      handleRowSelection(e, hocphan)
                     }}
                   />
                 </td>
@@ -79,7 +79,7 @@ function DanhSachHocPhan({ listHocPhan, handleRowSelection }) {
         </tbody>
       </table>
     </div>
-  );
+  )
 }
 
-export default DanhSachHocPhan;
+export default DanhSachHocPhan

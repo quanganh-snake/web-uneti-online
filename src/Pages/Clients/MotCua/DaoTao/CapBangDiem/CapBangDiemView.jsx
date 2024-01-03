@@ -1,11 +1,11 @@
-import Breadcrumb from "@/Components/Breadcumb/Breadcrumb";
-import { CapBangDiemForm } from "./CapBangDiemForm";
-import { home, breadcrumbs } from "./constants";
-import { GiayToKemTheoAlert } from "@/Components/MotCua/GiayToKemTheoAlert";
-import { VanBanMauId } from "@/Configs/constants";
+import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
+import { CapBangDiemForm } from './CapBangDiemForm'
+import { home, breadcrumbs } from './constants'
+import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
+import { VanBanMauId } from '@/Configs/constants'
 
 export const CapBangDiemView = (props) => {
-  const { handleSubmitData } = props;
+  const { handleSubmitData } = props
 
   return (
     <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
@@ -40,5 +40,5 @@ export const CapBangDiemView = (props) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

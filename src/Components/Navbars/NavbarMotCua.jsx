@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { homeMotCua } from "../../Services/Static/dataStatic.js";
-import { Link } from "react-router-dom";
-import clsx from "clsx";
+import React, { useState } from 'react'
+import { homeMotCua } from '../../Services/Static/dataStatic.js'
+import { Link } from 'react-router-dom'
+import clsx from 'clsx'
 
 function NavbarMotCua() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0)
   return (
     <div
       className="items-center justify-between hidden w-full lg:flex md:w-auto md:order-1"
@@ -15,21 +15,21 @@ function NavbarMotCua() {
           homeMotCua.map((module, index) => {
             const handleActive = () => {
               if (activeIndex === index) {
-                setActiveIndex(null);
+                setActiveIndex(null)
               } else {
-                setActiveIndex(index);
+                setActiveIndex(index)
               }
-            };
-            const isActive = index === activeIndex;
+            }
+            const isActive = index === activeIndex
             return (
               <li key={index}>
                 <Link
-                  to={"/motcua" + module.path}
+                  to={'/motcua' + module.path}
                   className={clsx(
-                    "block hover:bg-sky-800 hover:text-white px-4 py-2 rounded-[99px]",
+                    'block hover:bg-sky-800 hover:text-white px-4 py-2 rounded-[99px]',
                     isActive
-                      ? "bg-sky-800 text-white"
-                      : "bg-transparent text-black",
+                      ? 'bg-sky-800 text-white'
+                      : 'bg-transparent text-black',
                   )}
                   aria-current="page"
                   onClick={handleActive}
@@ -37,11 +37,11 @@ function NavbarMotCua() {
                   {module.name}
                 </Link>
               </li>
-            );
+            )
           })}
       </ul>
     </div>
-  );
+  )
 }
 
-export default NavbarMotCua;
+export default NavbarMotCua

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import clsx from "clsx";
-import { BiChevronDown } from "react-icons/bi";
-import { AiOutlineSearch } from "react-icons/ai";
-import { FaArrowRight } from "react-icons/fa6";
-import { convertDataFileToBase64 } from "../../../../Services/Utils/stringUtils";
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import clsx from 'clsx'
+import { BiChevronDown } from 'react-icons/bi'
+import { AiOutlineSearch } from 'react-icons/ai'
+import { FaArrowRight } from 'react-icons/fa6'
+import { convertDataFileToBase64 } from '../../../../Services/Utils/stringUtils'
 function ThongTinHoSo(props) {
   const {
     inputTenThuTucRef,
@@ -35,11 +35,11 @@ function ThongTinHoSo(props) {
     handleChangeValue,
     setTPHoSoDeNghiActive,
     setThongTinActive,
-  } = props;
+  } = props
 
-  const [donViSelected, setDonViSelected] = useState("");
-  const [searchDonVi, setSearchDonVi] = useState("");
-  const [openSelectDonVi, setOpenSelectDonVi] = useState(false);
+  const [donViSelected, setDonViSelected] = useState('')
+  const [searchDonVi, setSearchDonVi] = useState('')
+  const [openSelectDonVi, setOpenSelectDonVi] = useState(false)
 
   return (
     <div className="uneti-tthcgv__thongtinhoso mb-5">
@@ -117,9 +117,9 @@ function ThongTinHoSo(props) {
                       key={iMucDo.MC_TTHC_GV_MucDo_ID}
                       value={iMucDo.MC_TTHC_GV_MucDo_ID}
                     >
-                      {index + 1 + " - " + iMucDo.MC_TTHC_GV_MucDo_MoTa}
+                      {index + 1 + ' - ' + iMucDo.MC_TTHC_GV_MucDo_MoTa}
                     </option>
-                  );
+                  )
                 })}
             </select>
           </label>
@@ -158,7 +158,7 @@ function ThongTinHoSo(props) {
             className="flex flex-col"
           >
             <p className="font-semibold mb-2 lg:whitespace-nowrap">
-              Tổng thời gian giải quyết (trong giờ HC){" "}
+              Tổng thời gian giải quyết (trong giờ HC){' '}
               <span className="text-red-500">*</span>
             </p>
             <div className="flex flex-row items-center justify-between w-full gap-2">
@@ -216,26 +216,26 @@ function ThongTinHoSo(props) {
                 id="MC_TTHC_GV_PhanQuyen_DonVi"
                 ref={inputDonViTiepNhanRef}
                 onClick={() => {
-                  setOpenSelectDonVi(!openSelectDonVi);
+                  setOpenSelectDonVi(!openSelectDonVi)
                 }}
                 className="bg-white w-full p-2 flex items-center justify-between rounded-md border border-slate-300 cursor-pointer"
               >
                 <span
                   className={clsx(
-                    donViTiepNhan && "text-gray-700 font-semibold",
+                    donViTiepNhan && 'text-gray-700 font-semibold',
                   )}
                 >
-                  {donViTiepNhan ? donViTiepNhan : "Chọn đơn vị tiếp nhận"}
+                  {donViTiepNhan ? donViTiepNhan : 'Chọn đơn vị tiếp nhận'}
                 </span>
                 <BiChevronDown
                   size={20}
-                  className={clsx(openSelectDonVi && "rotate-180")}
+                  className={clsx(openSelectDonVi && 'rotate-180')}
                 />
               </div>
               <ul
                 className={clsx(
-                  "bg-white mt-2 border shadow-sm overflow-y-auto absolute right-0 left-0 top-full",
-                  openSelectDonVi ? "max-h-60" : "hidden",
+                  'bg-white mt-2 border shadow-sm overflow-y-auto absolute right-0 left-0 top-full',
+                  openSelectDonVi ? 'max-h-60' : 'hidden',
                 )}
               >
                 <div className="flex items-center px-2 sticky top-0 bg-white shadow-md">
@@ -244,7 +244,7 @@ function ThongTinHoSo(props) {
                     type="text"
                     value={searchDonVi}
                     onChange={(e) => {
-                      setSearchDonVi(e.target.value.toLowerCase());
+                      setSearchDonVi(e.target.value.toLowerCase())
                     }}
                     placeholder="Nhập tên đơn vị"
                     className="w-full placeholder:text-gray-500 p-2 outline-none"
@@ -256,23 +256,23 @@ function ThongTinHoSo(props) {
                       <li
                         key={index}
                         className={clsx(
-                          "p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white",
+                          'p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
                           iDonVi?.TenPhongBan.toLowerCase().includes(
                             searchDonVi,
                           )
-                            ? "block"
-                            : "hidden",
+                            ? 'block'
+                            : 'hidden',
                         )}
                         onClick={() => {
-                          setDonViTiepNhan(iDonVi?.TenPhongBan);
-                          setDonViSelected(iDonVi?.TenPhongBan);
-                          setOpenSelectDonVi(false);
-                          setSearchDonVi("");
+                          setDonViTiepNhan(iDonVi?.TenPhongBan)
+                          setDonViSelected(iDonVi?.TenPhongBan)
+                          setOpenSelectDonVi(false)
+                          setSearchDonVi('')
                         }}
                       >
                         {iDonVi?.TenPhongBan}
                       </li>
-                    );
+                    )
                   })}
               </ul>
             </div>
@@ -341,18 +341,18 @@ function ThongTinHoSo(props) {
             id="MC_TTHC_GV_TepThuTuc_DataFileFile"
             type="text"
             placeholder="Chèn link tệp thủ tục"
-            value={tenTepThuTuc ? tenTepThuTuc : ""}
+            value={tenTepThuTuc ? tenTepThuTuc : ''}
             onChange={handleChangeValue}
           />
           <input
             type="file"
             onChange={async (e) => {
-              const file = e.target.files[0];
-              const dataFile = await convertDataFileToBase64(file);
+              const file = e.target.files[0]
+              const dataFile = await convertDataFileToBase64(file)
               setDataFilesTepThuTuc({
                 MC_TTHC_GV_TepThuTuc_TenFile: file.name,
                 MC_TTHC_GV_TepThuTuc_DataFileFile: dataFile,
-              });
+              })
             }}
             name=""
             id=""
@@ -362,8 +362,8 @@ function ThongTinHoSo(props) {
       <button
         type="button"
         onClick={() => {
-          setTPHoSoDeNghiActive(true);
-          setThongTinActive(false);
+          setTPHoSoDeNghiActive(true)
+          setThongTinActive(false)
         }}
         className="flex items-center gap-2 px-3 py-2 font-semibold text-md bg-teal-600 text-white rounded-lg hover:opacity-70"
       >
@@ -371,7 +371,7 @@ function ThongTinHoSo(props) {
         <FaArrowRight />
       </button>
     </div>
-  );
+  )
 }
 
 ThongTinHoSo.propTypes = {
@@ -387,6 +387,6 @@ ThongTinHoSo.propTypes = {
   thuTucLienThong: PropTypes.bool,
   thuTucKhongApDungMotCua: PropTypes.bool,
   handleChangeValue: PropTypes.func,
-};
+}
 
-export default ThongTinHoSo;
+export default ThongTinHoSo

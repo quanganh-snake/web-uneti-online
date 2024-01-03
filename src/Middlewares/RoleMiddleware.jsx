@@ -1,31 +1,27 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Navigate, Outlet } from "react-router-dom";
-import { DataSinhVien } from "../Services/Utils/dataSinhVien";
-import { DataCanBoGV } from "../Services/Utils/dataCanBoGV";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Navigate, Outlet } from 'react-router-dom'
+import { DataSinhVien } from '../Services/Utils/dataSinhVien'
+import { DataCanBoGV } from '../Services/Utils/dataCanBoGV'
 
 function RoleMiddleware(props) {
-  const { allowedRoles } = props;
-  const dataSV = DataSinhVien();
-  const dataCBGV = DataCanBoGV();
+  const { allowedRoles } = props
+  const dataSV = DataSinhVien()
+  const dataCBGV = DataCanBoGV()
 
-  let role = null;
+  let role = null
   if (dataSV) {
-    role = dataSV.Role;
+    role = dataSV.Role
   } else if (dataCBGV) {
-    role = dataCBGV.Role;
+    role = dataCBGV.Role
   } else {
-    role = null;
+    role = null
   }
-  return allowedRoles?.includes(role) ? (
-    <Outlet />
-  ) : (
-    <Navigate to="/dangnhap" />
-  );
+  return allowedRoles?.includes(role) ? <Outlet /> : <Navigate to="/dangnhap" />
 }
 
 RoleMiddleware.propTypes = {
   allowedRoles: PropTypes.array,
-};
+}
 
-export default RoleMiddleware;
+export default RoleMiddleware

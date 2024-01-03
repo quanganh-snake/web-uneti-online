@@ -1,7 +1,7 @@
-@use "Styles/Mixins/mixins" as *;
-@use "Styles/Mixins/var" as *;
-@use "Styles/Common/var" as *;
-@use "sass:map";
+@use 'Styles/Mixins/mixins' as *;
+@use 'Styles/Mixins/var' as *;
+@use 'Styles/Common/var' as *;
+@use 'sass:map';
 
 @include b(posts) {
   display: flex;

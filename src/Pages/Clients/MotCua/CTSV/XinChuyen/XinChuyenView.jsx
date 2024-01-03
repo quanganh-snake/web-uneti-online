@@ -1,10 +1,10 @@
-import Breadcrumb from "@/Components/Breadcumb/Breadcrumb";
-import PropTypes from "prop-types";
-import { GiayToKemTheoAlert } from "@/Components/MotCua/GiayToKemTheoAlert";
-import { VanBanMauId } from "@/Configs/constants";
+import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
+import PropTypes from 'prop-types'
+import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
+import { VanBanMauId } from '@/Configs/constants'
 
 function XinChuyenView(props) {
-  const { home, breadcrumbs } = props;
+  const { home, breadcrumbs } = props
 
   return (
     <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
@@ -25,7 +25,7 @@ function XinChuyenView(props) {
           download={[
             {
               id: VanBanMauId.MotCua.CTSV.XinChuyen.DonXinChuyen,
-              text: "Mẫu đơn xin chuyển",
+              text: 'Mẫu đơn xin chuyển',
             },
           ]}
           downloadId={VanBanMauId.MotCua.CTSV.XinChuyen.MauThongTin}
@@ -33,12 +33,12 @@ function XinChuyenView(props) {
         />
       </div>
     </div>
-  );
+  )
 }
 
 XinChuyenView.propTypes = {
   home: PropTypes.object,
   breadcrumbs: PropTypes.array,
-};
+}
 
-export default XinChuyenView;
+export default XinChuyenView

@@ -1,27 +1,27 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
-import { homeMotCua } from "@/Services/Static/dataStatic.js";
-import Breadcrumb from "@/Components/Breadcumb/Breadcrumb";
-import FeatureItemMotCua from "@/Components/FeatureItemMotCua/FeatureItemMotCua";
+import React from 'react'
+import { useLocation } from 'react-router-dom'
+import { homeMotCua } from '@/Services/Static/dataStatic.js'
+import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
+import FeatureItemMotCua from '@/Components/FeatureItemMotCua/FeatureItemMotCua'
 
 function HomeHanhChinh() {
-  const iconDaoTao = homeMotCua[3].ico;
-  const featureHanhChinh = homeMotCua[3].childrens;
+  const iconDaoTao = homeMotCua[3].ico
+  const featureHanhChinh = homeMotCua[3].childrens
 
-  const location = useLocation();
-  const { pathname } = location;
+  const location = useLocation()
+  const { pathname } = location
 
   const breadcrumbs = [
     {
-      title: "Hành chính",
+      title: 'Hành chính',
       path: pathname,
     },
-  ];
+  ]
 
   const home = {
-    path: "/motcua",
-    title: "Bộ phận một cửa",
-  };
+    path: '/motcua',
+    title: 'Bộ phận một cửa',
+  }
 
   return (
     <div className="">
@@ -36,12 +36,12 @@ function HomeHanhChinh() {
                   featureItem={featureItem}
                 />
               </div>
-            ) : null;
+            ) : null
           })}
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default HomeHanhChinh;
+export default HomeHanhChinh

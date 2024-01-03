@@ -1,11 +1,11 @@
-import Breadcrumb from "@/Components/Breadcumb/Breadcrumb";
-import { XacNhanDTForm } from "./XacNhanDTForm";
-import { breadcrumbs, home } from "./constants";
-import { GiayToKemTheoAlert } from "@/Components/MotCua/GiayToKemTheoAlert";
-import { VanBanMauId } from "@/Configs/constants";
+import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
+import { XacNhanDTForm } from './XacNhanDTForm'
+import { breadcrumbs, home } from './constants'
+import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
+import { VanBanMauId } from '@/Configs/constants'
 
 export const XacNhanDTView = (props) => {
-  const { handleSubmitData } = props;
+  const { handleSubmitData } = props
   return (
     <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
       <div className="p-4 flex flex-col gap-4">
@@ -40,5 +40,5 @@ export const XacNhanDTView = (props) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

@@ -1,11 +1,11 @@
-import dayjs from "dayjs";
-import DataTable from "@/Components/DataTable/DataTable";
-import { useBem } from "@/Services/Hooks";
-import { Checkbox } from "@mui/material";
-import { isEqual } from "lodash-unified";
-import FileSelect from "@/Components/FileSelect/FileSelect";
-import { FaPlus } from "react-icons/fa6";
-import { useState } from "react";
+import dayjs from 'dayjs'
+import DataTable from '@/Components/DataTable/DataTable'
+import { useBem } from '@/Services/Hooks'
+import { Checkbox } from '@mui/material'
+import { isEqual } from 'lodash-unified'
+import FileSelect from '@/Components/FileSelect/FileSelect'
+import { FaPlus } from 'react-icons/fa6'
+import { useState } from 'react'
 
 export const LichThiViewKhongCoLich = ({
   listHocPhan,
@@ -13,13 +13,13 @@ export const LichThiViewKhongCoLich = ({
   handleRowSelection,
   handleSubmitData,
 }) => {
-  const bem = useBem("lich-thi");
+  const bem = useBem('lich-thi')
 
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState([])
 
   const handleFilesChange = (file) => {
-    setFiles((_files) => [..._files, file]);
-  };
+    setFiles((_files) => [..._files, file])
+  }
 
   return (
     <>
@@ -29,12 +29,12 @@ export const LichThiViewKhongCoLich = ({
         scrollY
         thead={
           <tr>
-            <th scope="col" className={bem.is("sticky")}>
+            <th scope="col" className={bem.is('sticky')}>
               STT
             </th>
             <th scope="col">Chọn</th>
             <th scope="col">Mã lớp</th>
-            <th scope="col" className={bem.is("sticky")}>
+            <th scope="col" className={bem.is('sticky')}>
               Tên môn
             </th>
             <th scope="col">Hình thức thi</th>
@@ -49,7 +49,7 @@ export const LichThiViewKhongCoLich = ({
           <>
             {listHocPhan?.map((hocphan, index) => (
               <tr key={index}>
-                <td className={bem.is("sticky")}>{index}</td>
+                <td className={bem.is('sticky')}>{index}</td>
                 <td>
                   <Checkbox
                     checked={selectedRows?.includes((row) =>
@@ -59,11 +59,11 @@ export const LichThiViewKhongCoLich = ({
                   />
                 </td>
                 <td>{hocphan.MaLopHocPhan}</td>
-                <td className={bem.is("sticky")}>{hocphan.TenMonHoc}</td>
+                <td className={bem.is('sticky')}>{hocphan.TenMonHoc}</td>
                 <td>{hocphan.TenHinhThucThi}</td>
                 <td>
                   {hocphan.NgayThi &&
-                    dayjs(hocphan.NgayThi).format("DD/MM/YYYY")}
+                    dayjs(hocphan.NgayThi).format('DD/MM/YYYY')}
                 </td>
                 <td>{hocphan.Thu}</td>
                 <td>{hocphan.Nhom}</td>
@@ -122,7 +122,7 @@ export const LichThiViewKhongCoLich = ({
         </button>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default LichThiViewKhongCoLich;
+export default LichThiViewKhongCoLich

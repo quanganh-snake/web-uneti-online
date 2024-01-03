@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Breadcrumb from "@/Components/Breadcumb/Breadcrumb";
+import React from 'react'
+import PropTypes from 'prop-types'
+import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import {
   Checkbox,
   MenuItem,
@@ -8,7 +8,7 @@ import {
   Select,
   TextField,
   TextareaAutosize,
-} from "@mui/material";
+} from '@mui/material'
 
 function ChuyenDiemView(props) {
   const {
@@ -34,16 +34,16 @@ function ChuyenDiemView(props) {
     setHocPhanTuongDuong,
     handleSelectHocPhanTuongDuong,
     handleDownloadFile,
-  } = props;
+  } = props
 
-  const itemPerPage = 5;
+  const itemPerPage = 5
 
-  const totalPage = Math.ceil(listHocPhan.length / itemPerPage);
+  const totalPage = Math.ceil(listHocPhan.length / itemPerPage)
 
   const listHocPhanShow = listHocPhan.slice(
     itemPerPage * (currentPage - 1),
     itemPerPage * (currentPage - 1) + itemPerPage,
-  );
+  )
 
   return (
     <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
@@ -139,7 +139,7 @@ function ChuyenDiemView(props) {
                         <td className="text-center p-3 border border-solid border-[#dee2e6]">
                           <Checkbox
                             onChange={(e) => {
-                              handleSelectHocPhan(e, hp);
+                              handleSelectHocPhan(e, hp)
                             }}
                             checked={
                               hp.MC_DT_ChuyenDiem_ChiTiet_MaHocPhan ===
@@ -241,7 +241,7 @@ function ChuyenDiemView(props) {
                         <td className="text-center p-3 border border-solid border-[#dee2e6]">
                           <Checkbox
                             onChange={(e) => {
-                              handleSelectHocPhanTuongDuong(e, hp);
+                              handleSelectHocPhanTuongDuong(e, hp)
                             }}
                             checked={
                               hp.HT_HPTD_MTD_MaMonHoc ===
@@ -317,7 +317,7 @@ function ChuyenDiemView(props) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 ChuyenDiemView.propTypes = {
@@ -343,6 +343,6 @@ ChuyenDiemView.propTypes = {
   setHocPhanTuongDuong: PropTypes.func,
   handleSelectHocPhanTuongDuong: PropTypes.func,
   handleDownloadFile: PropTypes.func,
-};
+}
 
-export default ChuyenDiemView;
+export default ChuyenDiemView

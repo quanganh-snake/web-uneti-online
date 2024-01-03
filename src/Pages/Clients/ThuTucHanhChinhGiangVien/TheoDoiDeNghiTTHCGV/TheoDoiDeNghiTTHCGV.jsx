@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { clsx } from "clsx";
-import { getListThuTucYeuCauByMaNhanSu } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
-import { DataCanBoGV } from "./../../../../Services/Utils/dataCanBoGV";
-import moment from "moment";
-import { Link } from "react-router-dom";
-import { changeSlug } from "../../../../Services/Utils/stringUtils";
+import React, { useEffect, useState } from 'react'
+import { clsx } from 'clsx'
+import { getListThuTucYeuCauByMaNhanSu } from '../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
+import { DataCanBoGV } from './../../../../Services/Utils/dataCanBoGV'
+import moment from 'moment'
+import { Link } from 'react-router-dom'
+import { changeSlug } from '../../../../Services/Utils/stringUtils'
 
 function TheoDoiDeNghiTTHCGV() {
-  const dataCBGV = DataCanBoGV();
-  const { MaNhanSu } = dataCBGV;
+  const dataCBGV = DataCanBoGV()
+  const { MaNhanSu } = dataCBGV
 
-  const [listHoSoYeuCau, setListHoSoYeuCau] = useState(null);
+  const [listHoSoYeuCau, setListHoSoYeuCau] = useState(null)
   // event handlers
 
   // effects
   useEffect(() => {
     getListThuTucYeuCauByMaNhanSu(MaNhanSu).then(async (res) => {
-      console.log(res);
+      console.log(res)
       if (res.status === 200) {
-        const data = await res.data?.body;
-        setListHoSoYeuCau(data);
+        const data = await res.data?.body
+        setListHoSoYeuCau(data)
       }
-    });
-  }, []);
+    })
+  }, [])
 
   return (
-    <div clsx={"bg-white w-full"}>
+    <div clsx={'bg-white w-full'}>
       {listHoSoYeuCau?.length < 0 && (
         <p className="p-2 text-center text-[#336699] border font-semibold">
           Bạn chưa có yêu cầu đề nghị nào!
@@ -51,7 +51,7 @@ function TheoDoiDeNghiTTHCGV() {
               </thead>
               <tbody>
                 {listHoSoYeuCau?.map((iHoSo, index) => {
-                  let titleSlug = changeSlug(iHoSo?.MC_TTHC_GV_TenThuTuc);
+                  let titleSlug = changeSlug(iHoSo?.MC_TTHC_GV_TenThuTuc)
                   return (
                     <tr className="border-b hover:bg-slate-300" key={index}>
                       <td className="border-r text-center">{index + 1}</td>
@@ -61,7 +61,7 @@ function TheoDoiDeNghiTTHCGV() {
                       <td className="border-r text-center">
                         <p>
                           {moment(iHoSo?.MC_TTHC_GV_GuiYeuCau_NgayGui).format(
-                            "DD/MM/YYYY",
+                            'DD/MM/YYYY',
                           )}
                         </p>
                       </td>
@@ -77,7 +77,7 @@ function TheoDoiDeNghiTTHCGV() {
                         </Link>
                       </td>
                     </tr>
-                  );
+                  )
                 })}
               </tbody>
             </table>
@@ -85,7 +85,7 @@ function TheoDoiDeNghiTTHCGV() {
         </div>
       )}
     </div>
-  );
+  )
 }
 
-export default TheoDoiDeNghiTTHCGV;
+export default TheoDoiDeNghiTTHCGV

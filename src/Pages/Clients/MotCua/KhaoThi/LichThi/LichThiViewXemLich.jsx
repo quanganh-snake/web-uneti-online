@@ -1,20 +1,20 @@
-import moment from "moment";
-import DataTable from "@/Components/DataTable/DataTable";
-import { useBem } from "@/Services/Hooks";
+import moment from 'moment'
+import DataTable from '@/Components/DataTable/DataTable'
+import { useBem } from '@/Services/Hooks'
 
 export const LichThiViewXemDanhSach = (props) => {
-  const { listHocPhan } = props;
+  const { listHocPhan } = props
 
-  const bem = useBem("data-table");
+  const bem = useBem('data-table')
 
   const thead = () => (
     <>
       <tr className="text-center">
-        <th scope="col" className={bem.is("sticky")}>
+        <th scope="col" className={bem.is('sticky')}>
           <div className="h-full">STT</div>
         </th>
         <th scope="col">Mã lớp học phần</th>
-        <th scope="col" className={bem.is("sticky")}>
+        <th scope="col" className={bem.is('sticky')}>
           Tên học phần
         </th>
         <th scope="col">Hình thức thi</th>
@@ -64,14 +64,14 @@ export const LichThiViewXemDanhSach = (props) => {
         </th>
       </tr>
     </>
-  );
+  )
 
   const tbody = () =>
     listHocPhan && listHocPhan.length > 0 ? (
       listHocPhan.map((hocphan, index) => {
         return (
           <tr key={index}>
-            <td scope="row" className={bem.is("sticky")}>
+            <td scope="row" className={bem.is('sticky')}>
               <div>{index + 1}</div>
             </td>
             <td scope="row">
@@ -79,9 +79,9 @@ export const LichThiViewXemDanhSach = (props) => {
                 ? hocphan.MaLopHocPhan
                 : hocphan.KhongCoLich_MaHocPhan
                   ? hocphan.KhongCoLich_MaHocPhan
-                  : ""}
+                  : ''}
             </td>
-            <td className={bem.is("sticky")}>
+            <td className={bem.is('sticky')}>
               <p>
                 {hocphan.TenMonHoc
                   ? hocphan.TenMonHoc
@@ -89,18 +89,18 @@ export const LichThiViewXemDanhSach = (props) => {
               </p>
             </td>
             <td className="px-6 py-4">
-              <p>{hocphan.TenHinhThucThi ? hocphan.TenHinhThucThi : ""}</p>
+              <p>{hocphan.TenHinhThucThi ? hocphan.TenHinhThucThi : ''}</p>
             </td>
             <td>
               <p>
                 {hocphan.Thu && hocphan.NgayThi
                   ? hocphan.Thu == 8
-                    ? "Chủ nhật"
-                    : "Thứ " +
+                    ? 'Chủ nhật'
+                    : 'Thứ ' +
                       hocphan.Thu +
-                      ", " +
-                      moment(hocphan.NgayThi).format("DD/MM/YYYY")
-                  : ""}
+                      ', ' +
+                      moment(hocphan.NgayThi).format('DD/MM/YYYY')
+                  : ''}
               </p>
             </td>
             <td className="px-6 py-4">
@@ -109,15 +109,15 @@ export const LichThiViewXemDanhSach = (props) => {
             <td>
               <p>
                 {hocphan.TuTiet && hocphan.DenTiet
-                  ? hocphan.TuTiet + " - " + hocphan.DenTiet
-                  : ""}
+                  ? hocphan.TuTiet + ' - ' + hocphan.DenTiet
+                  : ''}
               </p>
             </td>
             <td>
-              <p>{hocphan.TenPhong ? hocphan.TenPhong : ""}</p>
+              <p>{hocphan.TenPhong ? hocphan.TenPhong : ''}</p>
             </td>
             <td>
-              <p className="text-center">{hocphan.SBD ? hocphan.SBD : ""}</p>
+              <p className="text-center">{hocphan.SBD ? hocphan.SBD : ''}</p>
             </td>
             <td className="whitespace-nowrap">
               <div className="w-full flex items-center">
@@ -127,10 +127,10 @@ export const LichThiViewXemDanhSach = (props) => {
                       ? hocphan.DiemThi
                       : hocphan.DiemThi1
                         ? hocphan.DiemThi1
-                        : ""}
+                        : ''}
                   </p>
                   <p className="px-6 py-4 text-center w-1/2">
-                    {hocphan.DiemThi2 ? hocphan.DiemThi2 : ""}
+                    {hocphan.DiemThi2 ? hocphan.DiemThi2 : ''}
                   </p>
                 </div>
                 <div className="w-1/2 flex items-center">
@@ -139,16 +139,16 @@ export const LichThiViewXemDanhSach = (props) => {
                       ? hocphan.DiemTongKet
                       : hocphan.DiemTongKet1
                         ? hocphan.DiemTongKet1
-                        : ""}
+                        : ''}
                   </p>
                   <p className="px-6 py-4 text-center w-1/2">
-                    {hocphan.DiemTongKet2 ? hocphan.DiemTongKet2 : ""}
+                    {hocphan.DiemTongKet2 ? hocphan.DiemTongKet2 : ''}
                   </p>
                 </div>
               </div>
             </td>
           </tr>
-        );
+        )
       })
     ) : (
       <tr>
@@ -158,13 +158,13 @@ export const LichThiViewXemDanhSach = (props) => {
           </p>
         </td>
       </tr>
-    );
+    )
 
   return (
     <>
       <DataTable thead={thead()} tbody={tbody()} />
     </>
-  );
-};
+  )
+}
 
-export default LichThiViewXemDanhSach;
+export default LichThiViewXemDanhSach

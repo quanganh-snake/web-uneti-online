@@ -1,4 +1,4 @@
-import { MenuItem, Select, TextField } from "@mui/material";
+import { MenuItem, Select, TextField } from '@mui/material'
 
 function FormYeuCauSuaDiem(props) {
   const {
@@ -10,16 +10,16 @@ function FormYeuCauSuaDiem(props) {
     diemSua,
     setDiemSua,
     handleSubmitData,
-  } = props;
+  } = props
 
   const listLyDoView =
-    lyDo === "Điều chỉnh, bổ sung: Điểm thường kỳ" ? listLyDoDTK : listLyDoDT;
+    lyDo === 'Điều chỉnh, bổ sung: Điểm thường kỳ' ? listLyDoDTK : listLyDoDT
 
   return (
     <form className="py-8 flex flex-col justify-center items-center gap-4">
       <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
         <span className="block pr-10 w-[300px]">
-          {lyDo === "Điều chỉnh, bổ sung: Điểm thường kỳ"
+          {lyDo === 'Điều chỉnh, bổ sung: Điểm thường kỳ'
             ? `Điểm thường kỳ (*)`
             : `Điểm thi (*)`}
         </span>
@@ -33,14 +33,14 @@ function FormYeuCauSuaDiem(props) {
       </div>
       <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
         <span className="block pr-10 w-[300px]">
-          {lyDo === "Điều chỉnh, bổ sung: Điểm thường kỳ"
+          {lyDo === 'Điều chỉnh, bổ sung: Điểm thường kỳ'
             ? `Lý do điều chỉnh điểm thường kỳ (*)`
             : `Lý do điều chỉnh điểm thi (*)`}
         </span>
         <Select
           value={lyDoChiTiet}
           onChange={(e) => {
-            setLyDoChiTiet(e.target.value);
+            setLyDoChiTiet(e.target.value)
           }}
           className="flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
         >
@@ -60,7 +60,7 @@ function FormYeuCauSuaDiem(props) {
         </button>
       ) : null}
     </form>
-  );
+  )
 }
 
-export default FormYeuCauSuaDiem;
+export default FormYeuCauSuaDiem

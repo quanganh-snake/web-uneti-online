@@ -5,7 +5,7 @@
     #{$selector}::before,
     #{$selector}::after {
       display: table;
-      content: "";
+      content: '';
     }
     #{$selector}::after {
       clear: both;
@@ -19,7 +19,7 @@
   @at-root {
     #{$selector}::after {
       display: inline-block;
-      content: "";
+      content: '';
       height: 100%;
       vertical-align: middle;
     }

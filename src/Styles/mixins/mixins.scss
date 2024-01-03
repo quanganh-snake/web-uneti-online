@@ -1,11 +1,11 @@
-@use "sass:map";
-@use "function" as *;
-@use "../Common/var" as *;
+@use 'sass:map';
+@use 'function' as *;
+@use '../Common/var' as *;
 // forward mixins
-@forward "config";
-@forward "function";
-@forward "_var";
-@use "config" as *;
+@forward 'config';
+@forward 'function';
+@forward '_var';
+@use 'config' as *;
 
 // Break-points
 @mixin res($key, $map: $breakpoints) {
@@ -21,8 +21,8 @@
 
 // Scrollbar
 @mixin scroll-bar {
-  $scrollbar-thumb-background: getCssVar("text-color", "disabled");
-  $scrollbar-track-background: getCssVar("fill-color", "blank");
+  $scrollbar-thumb-background: getCssVar('text-color', 'disabled');
+  $scrollbar-track-background: getCssVar('fill-color', 'blank');
 
   &::-webkit-scrollbar {
     z-index: 11;
@@ -65,14 +65,14 @@
 @mixin e($element) {
   $E: $element !global;
   $selector: &;
-  $currentSelector: "";
+  $currentSelector: '';
   @each $unit in $element {
     $currentSelector: #{$currentSelector +
-      "." +
+      '.' +
       $B +
       $element-separator +
       $unit +
-      ","};
+      ','};
   }
 
   @if hitAllSpecialNestRule($selector) {
@@ -94,13 +94,13 @@
 
 @mixin m($modifier) {
   $selector: &;
-  $currentSelector: "";
+  $currentSelector: '';
   @each $unit in $modifier {
     $currentSelector: #{$currentSelector +
       $selector +
       $modifier-separator +
       $unit +
-      ","};
+      ','};
   }
 
   @at-root {
@@ -112,7 +112,7 @@
 
 @mixin configurable-m($modifier, $E-flag: false) {
   $selector: &;
-  $interpolation: "";
+  $interpolation: '';
 
   @if $E-flag {
     $interpolation: $element-separator + $E-flag;
@@ -128,12 +128,12 @@
 }
 
 @mixin spec-selector(
-  $specSelector: "",
+  $specSelector: '',
   $element: $E,
   $modifier: false,
   $block: $B
 ) {
-  $modifierCombo: "";
+  $modifierCombo: '';
 
   @if $modifier {
     $modifierCombo: $modifier-separator + $modifier;
@@ -151,7 +151,7 @@
 
 @mixin meb($modifier: false, $element: $E, $block: $B) {
   $selector: &;
-  $modifierCombo: "";
+  $modifierCombo: '';
 
   @if $modifier {
     $modifierCombo: $modifier-separator + $modifier;
@@ -183,11 +183,11 @@
 }
 
 @mixin extend-rule($name) {
-  @extend #{"%shared-" + $name} !optional;
+  @extend #{'%shared-' + $name} !optional;
 }
 
 @mixin share-rule($name) {
-  $rule-name: "%shared-" + $name;
+  $rule-name: '%shared-' + $name;
 
   @at-root #{$rule-name} {
     @content;
@@ -195,7 +195,7 @@
 }
 
 @mixin pseudo($pseudo) {
-  @at-root #{&}#{":#{$pseudo}"} {
+  @at-root #{&}#{':#{$pseudo}'} {
     @content;
   }
 }

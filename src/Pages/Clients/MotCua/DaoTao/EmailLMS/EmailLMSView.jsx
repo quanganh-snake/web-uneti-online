@@ -1,6 +1,6 @@
-import Breadcrumb from "@/Components/Breadcumb/Breadcrumb";
-import { MenuItem, Select, TextField, TextareaAutosize } from "@mui/material";
-import PropTypes from "prop-types";
+import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
+import { MenuItem, Select, TextField, TextareaAutosize } from '@mui/material'
+import PropTypes from 'prop-types'
 
 function EmailLMSView(props) {
   const {
@@ -17,7 +17,7 @@ function EmailLMSView(props) {
     setLyDo,
     listChiTietDeNghi,
     handleSubmitData,
-  } = props;
+  } = props
 
   return (
     <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
@@ -64,7 +64,7 @@ function EmailLMSView(props) {
               </Select>
             </div>
 
-            {deNghi === "Tài khoản Email UNETI" && (
+            {deNghi === 'Tài khoản Email UNETI' && (
               <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
                 <span className="block pr-10 w-[200px]">
                   Email cá nhân _ Ví dụ: @gmail.com (*)
@@ -95,7 +95,7 @@ function EmailLMSView(props) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 EmailLMSView.propTypes = {
@@ -110,6 +110,6 @@ EmailLMSView.propTypes = {
   listDeNghi: PropTypes.array,
   listChiTietDeNghi: PropTypes.array,
   handleSubmitData: PropTypes.func,
-};
+}
 
-export default EmailLMSView;
+export default EmailLMSView

@@ -1,5 +1,5 @@
-import { Checkbox } from "@mui/material";
-import Pagination from "@mui/material/Pagination";
+import { Checkbox } from '@mui/material'
+import Pagination from '@mui/material/Pagination'
 
 function DanhSachHocPhan(props) {
   const {
@@ -11,16 +11,16 @@ function DanhSachHocPhan(props) {
     handleRowSelection,
     currentPage,
     setCurrentPage,
-  } = props;
+  } = props
 
-  const itemPerPage = 5;
+  const itemPerPage = 5
 
-  const totalPage = Math.ceil(listHocPhan.length / itemPerPage);
+  const totalPage = Math.ceil(listHocPhan.length / itemPerPage)
 
   const listHocPhanShow = listHocPhan.slice(
     itemPerPage * (currentPage - 1),
     itemPerPage * (currentPage - 1) + itemPerPage,
-  );
+  )
 
   return (
     <div className="flex flex-col justify-center items-center pb-4">
@@ -31,7 +31,7 @@ function DanhSachHocPhan(props) {
               <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                 STT
               </th>
-              {lyDo !== "Xem kết quả học tập" && (
+              {lyDo !== 'Xem kết quả học tập' && (
                 <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                   CHỌN
                 </th>
@@ -60,11 +60,11 @@ function DanhSachHocPhan(props) {
                   <td className="text-center p-3 border border-solid border-[#dee2e6]">
                     {(currentPage - 1) * itemPerPage + index + 1}
                   </td>
-                  {lyDo !== "Xem kết quả học tập" && (
+                  {lyDo !== 'Xem kết quả học tập' && (
                     <td className="text-center p-3 border border-solid border-[#dee2e6]">
                       <Checkbox
                         onChange={(e) => {
-                          handleRowSelection(e, hocphan);
+                          handleRowSelection(e, hocphan)
                         }}
                       />
                     </td>
@@ -119,7 +119,7 @@ function DanhSachHocPhan(props) {
         </table>
       </div>
     </div>
-  );
+  )
 }
 
-export default DanhSachHocPhan;
+export default DanhSachHocPhan

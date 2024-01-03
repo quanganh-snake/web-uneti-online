@@ -1,6 +1,6 @@
-@use "Styles/Mixins/mixins" as *;
-@use "Styles/Mixins/var" as *;
-@use "Styles/Common/var" as *;
+@use 'Styles/Mixins/mixins' as *;
+@use 'Styles/Mixins/var' as *;
+@use 'Styles/Common/var' as *;
 
 @mixin a-color {
   color: rgba(var(--vs-text-color), 1);

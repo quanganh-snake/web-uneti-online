@@ -1,73 +1,73 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import {
   getDetailEditStatusYeuCau,
   getHoSoGuiYeuCauById,
   getTrangThaiXuLyYeuCauById,
-} from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
-import { getListTrangThaiTTHCGVByIDGoc } from "../../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai";
-import moment from "moment";
-import clsx from "clsx";
-import Loading from "../../../../Components/Loading/Loading";
+} from '../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
+import { getListTrangThaiTTHCGVByIDGoc } from '../../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai'
+import moment from 'moment'
+import clsx from 'clsx'
+import Loading from '../../../../Components/Loading/Loading'
 
 function TheoDoiDeNghiTTHCGVChiTiet() {
-  const { tieude, id } = useParams();
+  const { tieude, id } = useParams()
 
-  const [loading, setLoading] = useState(true);
-  const [infoProcedure, setInfoProcedure] = useState(null);
-  const [listTrangThai, setListTrangThai] = useState(null);
-  const [currentStatusByProcedure, setCurrentStatusByProcedure] = useState(0);
-  const [indexActive, setIndexActive] = useState(-1);
-  const [detailEditStatus, setDetailEditStatus] = useState([]);
-  const [activeDetail, setActiveDetail] = useState(false);
-  const [tenTrangThai, setTenTrangThai] = useState("");
+  const [loading, setLoading] = useState(true)
+  const [infoProcedure, setInfoProcedure] = useState(null)
+  const [listTrangThai, setListTrangThai] = useState(null)
+  const [currentStatusByProcedure, setCurrentStatusByProcedure] = useState(0)
+  const [indexActive, setIndexActive] = useState(-1)
+  const [detailEditStatus, setDetailEditStatus] = useState([])
+  const [activeDetail, setActiveDetail] = useState(false)
+  const [tenTrangThai, setTenTrangThai] = useState('')
   // event handlers
   const handleActive = async (currentDataStatus, index) => {
-    setTenTrangThai(currentDataStatus?.MC_TTHC_GV_TrangThai_TenTrangThai);
+    setTenTrangThai(currentDataStatus?.MC_TTHC_GV_TrangThai_TenTrangThai)
     getDetailEditStatusYeuCau(
       id,
       currentDataStatus?.MC_TTHC_GV_TrangThai_TenTrangThai,
     )
       .then(async (resDetail) => {
         if (resDetail.status === 200) {
-          setDetailEditStatus(resDetail.data?.body);
+          setDetailEditStatus(resDetail.data?.body)
         }
       })
       .catch((err) => {
-        console.log(err.message);
-      });
+        console.log(err.message)
+      })
 
     if (indexActive === index) {
-      setIndexActive(null);
-      setActiveDetail(!activeDetail);
+      setIndexActive(null)
+      setActiveDetail(!activeDetail)
     } else {
-      setIndexActive(index);
-      setActiveDetail(true);
+      setIndexActive(index)
+      setActiveDetail(true)
     }
-  };
+  }
 
   // effect
   useEffect(() => {
     const fetcherData = async () => {
       try {
-        const resChiTetHoSoYeuCau = await getHoSoGuiYeuCauById(id);
+        const resChiTetHoSoYeuCau = await getHoSoGuiYeuCauById(id)
         if (resChiTetHoSoYeuCau.status === 200) {
-          setInfoProcedure(resChiTetHoSoYeuCau.data?.body[0]);
+          setInfoProcedure(resChiTetHoSoYeuCau.data?.body[0])
         }
 
-        const resTrangThaiXuLyYeuCau = await getTrangThaiXuLyYeuCauById(id);
+        const resTrangThaiXuLyYeuCau = await getTrangThaiXuLyYeuCauById(id)
         if (resTrangThaiXuLyYeuCau.status === 200) {
-          setListTrangThai(resTrangThaiXuLyYeuCau.data?.body);
+          setListTrangThai(resTrangThaiXuLyYeuCau.data?.body)
         }
       } catch (error) {
-        console.log(err.message);
+        console.log(err.message)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetcherData();
-  }, [id]);
+    fetcherData()
+  }, [id])
   return (
     <div>
       {loading ? (
@@ -100,7 +100,7 @@ function TheoDoiDeNghiTTHCGVChiTiet() {
                   <td className="text-right px-2 font-semibold">Ngày gửi:</td>
                   <td>
                     {moment(infoProcedure?.MC_TTHC_GV_GuiYeuCau_NgayGui).format(
-                      "DD/MM/YYYY HH:mm:ss",
+                      'DD/MM/YYYY HH:mm:ss',
                     )}
                   </td>
                 </tr>
@@ -118,8 +118,8 @@ function TheoDoiDeNghiTTHCGVChiTiet() {
             <div className="w-full flex flex-col lg:flex-row justify-between gap-10">
               <table
                 className={clsx(
-                  "border",
-                  activeDetail ? "w-full max-h-[200px]" : "w-1/2",
+                  'border',
+                  activeDetail ? 'w-full max-h-[200px]' : 'w-1/2',
                 )}
               >
                 <thead className="bg-[#336699] text-white">
@@ -137,11 +137,11 @@ function TheoDoiDeNghiTTHCGVChiTiet() {
                         <tr
                           key={index}
                           className={clsx(
-                            "border-b ",
+                            'border-b ',
                             currentStatusByProcedure ==
                               iTrangThai?.MC_TTHC_GV_TrangThai_ID
-                              ? "bg-slate-300"
-                              : "",
+                              ? 'bg-slate-300'
+                              : '',
                           )}
                         >
                           <td className="text-center border-r">
@@ -154,7 +154,7 @@ function TheoDoiDeNghiTTHCGVChiTiet() {
                             {iTrangThai?.MC_TTHC_GV_GuiYeuCau_DateEditor
                               ? moment(
                                   iTrangThai?.MC_TTHC_GV_GuiYeuCau_DateEditor,
-                                ).format("DD/MM/YYYY HH:mm:ss")
+                                ).format('DD/MM/YYYY HH:mm:ss')
                               : null}
                           </td>
                           <td className="text-center py-2">
@@ -162,14 +162,14 @@ function TheoDoiDeNghiTTHCGVChiTiet() {
                               type="button"
                               className="px-2 py-1 border border-sky-800 rounded-md text-sky-800 hover:border-white hover:bg-sky-800 hover:text-white"
                               onClick={() => {
-                                handleActive(iTrangThai, index);
+                                handleActive(iTrangThai, index)
                               }}
                             >
                               Xem chi tiết
                             </button>
                           </td>
                         </tr>
-                      );
+                      )
                     })}
                 </tbody>
               </table>
@@ -177,7 +177,7 @@ function TheoDoiDeNghiTTHCGVChiTiet() {
               {activeDetail ? (
                 <div className="flex flex-col gap-4 w-full">
                   <h4 className="font-semibold">
-                    Chi tiết thực hiện của công việc:{" "}
+                    Chi tiết thực hiện của công việc:{' '}
                     {tenTrangThai.toUpperCase()}
                   </h4>
                   <div className="w-full max-h-[500px] overflow-y-scroll">
@@ -213,7 +213,7 @@ function TheoDoiDeNghiTTHCGVChiTiet() {
                                 {iDetail?.MC_TTHC_GV_GuiYeuCau_NgayHenTra &&
                                   moment(
                                     iDetail?.MC_TTHC_GV_GuiYeuCau_NgayHenTra,
-                                  ).format("DD/MM/YYYY HH:mm:ss")}
+                                  ).format('DD/MM/YYYY HH:mm:ss')}
                               </td>
                               <td className="px-2 py-1 text-center border-r">
                                 {iDetail?.MC_TTHC_GV_GuiYeuCau_NoiTraKetQua}
@@ -222,11 +222,11 @@ function TheoDoiDeNghiTTHCGVChiTiet() {
                                 {iDetail?.MC_TTHC_GV_GuiYeuCau_DateEditor
                                   ? moment(
                                       iDetail?.MC_TTHC_GV_GuiYeuCau_DateEditor,
-                                    ).format("DD/MM/YYYY HH:mm:ss")
+                                    ).format('DD/MM/YYYY HH:mm:ss')
                                   : null}
                               </td>
                             </tr>
-                          );
+                          )
                         })}
                       </tbody>
                     </table>
@@ -238,7 +238,7 @@ function TheoDoiDeNghiTTHCGVChiTiet() {
         </>
       )}
     </div>
-  );
+  )
 }
 
-export default TheoDoiDeNghiTTHCGVChiTiet;
+export default TheoDoiDeNghiTTHCGVChiTiet

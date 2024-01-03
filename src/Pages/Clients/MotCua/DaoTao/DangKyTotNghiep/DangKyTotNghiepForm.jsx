@@ -1,5 +1,5 @@
-import FileSelect from "@/Components/FileSelect/FileSelect";
-import { listYeuCau } from "./constants";
+import FileSelect from '@/Components/FileSelect/FileSelect'
+import { listYeuCau } from './constants'
 
 export const DangKyTotNghiepForm = (props) => {
   const {
@@ -9,24 +9,24 @@ export const DangKyTotNghiepForm = (props) => {
     listTenDot,
     giayToKemTheo,
     files,
-  } = props;
+  } = props
 
   return (
     <>
       <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
         <label
-          htmlFor={"MC_DT_TotNghiepXetThi_TenDot"}
+          htmlFor={'MC_DT_TotNghiepXetThi_TenDot'}
           className="md:w-[30%] mb-2 md:mb-0"
         >
           Học kỳ (*)
         </label>
 
         <select
-          id={"MC_DT_TotNghiepXetThi_TenDot"}
+          id={'MC_DT_TotNghiepXetThi_TenDot'}
           className="md:w-[70%] border px-2 py-1 rounded-lg outline-sky-800"
           onChange={handleChangeValue}
         >
-          <option value={""}>Chọn học kỳ</option>
+          <option value={''}>Chọn học kỳ</option>
           {listTenDot?.map((option) => (
             <option value={option.TenDot} key={option.TenDot}>
               {option.TenDot}
@@ -37,7 +37,7 @@ export const DangKyTotNghiepForm = (props) => {
 
       <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
         <label
-          htmlFor={"MC_DT_TotNghiepXetThi_YeuCau"}
+          htmlFor={'MC_DT_TotNghiepXetThi_YeuCau'}
           className="md:w-[30%] mb-2 md:mb-0"
         >
           Đăng ký (*)
@@ -45,7 +45,7 @@ export const DangKyTotNghiepForm = (props) => {
 
         <select
           onChange={handleChangeValue}
-          id={"MC_DT_TotNghiepXetThi_YeuCau"}
+          id={'MC_DT_TotNghiepXetThi_YeuCau'}
           className="md:w-[70%] border px-2 py-1 rounded-lg outline-sky-800"
         >
           <option>Chọn yêu cầu</option>
@@ -59,7 +59,7 @@ export const DangKyTotNghiepForm = (props) => {
 
       <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
         <label
-          htmlFor={"MC_DT_TotNghiepXetThi_YeuCau_LyDo"}
+          htmlFor={'MC_DT_TotNghiepXetThi_YeuCau_LyDo'}
           className="md:w-[30%] mb-2 md:mb-0"
         >
           Lý do (*)
@@ -77,7 +77,7 @@ export const DangKyTotNghiepForm = (props) => {
 
       <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
         <label
-          htmlFor={"MC_DT_TotNghiepXetThi_YeuCau_KemTheo"}
+          htmlFor={'MC_DT_TotNghiepXetThi_YeuCau_KemTheo'}
           className="md:w-[30%] mb-2 md:mb-0"
         >
           Giấy tờ kèm theo
@@ -118,5 +118,5 @@ export const DangKyTotNghiepForm = (props) => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}

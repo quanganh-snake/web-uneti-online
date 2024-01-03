@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { MdAddCircle, MdCheckBox } from "react-icons/md";
-import { CiViewList } from "react-icons/ci";
-import { IoClose } from "react-icons/io5";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { AiOutlineFileSearch } from "react-icons/ai";
-import { FaFileSignature } from "react-icons/fa6";
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { MdAddCircle, MdCheckBox } from 'react-icons/md'
+import { CiViewList } from 'react-icons/ci'
+import { IoClose } from 'react-icons/io5'
+import { GiHamburgerMenu } from 'react-icons/gi'
+import { AiOutlineFileSearch } from 'react-icons/ai'
+import { FaFileSignature } from 'react-icons/fa6'
 
-import clsx from "clsx";
+import clsx from 'clsx'
 
-const PATH_TTHCGV = "/admin/quantriTTHCGV/hosothutuc";
+const PATH_TTHCGV = '/admin/quantriTTHCGV/hosothutuc'
 
 function SidebarTTHCGV() {
-  const [openMenuQuanTri, setOpenMenuQuanTri] = useState(true);
+  const [openMenuQuanTri, setOpenMenuQuanTri] = useState(true)
   const handleOpenMenuQuanTri = () => {
-    setOpenMenuQuanTri(!openMenuQuanTri);
-  };
+    setOpenMenuQuanTri(!openMenuQuanTri)
+  }
 
   return (
     <div
       className={clsx(
-        "bg-white p-4 rounded-xl shadow-xl",
-        openMenuQuanTri ? "min-w-[308px] flex flex-col" : "",
+        'bg-white p-4 rounded-xl shadow-xl',
+        openMenuQuanTri ? 'min-w-[308px] flex flex-col' : '',
       )}
     >
       <div className="mb-4">
@@ -39,7 +39,7 @@ function SidebarTTHCGV() {
           />
         )}
       </div>
-      <div className={clsx(openMenuQuanTri ? "" : "hidden")}>
+      <div className={clsx(openMenuQuanTri ? '' : 'hidden')}>
         <div className="mb-4">
           <h4 className="text-md font-bold uppercase mb-4">Quy trình/Hồ sơ</h4>
           <ul>
@@ -68,7 +68,7 @@ function SidebarTTHCGV() {
           <ul>
             <li>
               <Link
-                to={"/admin/canbonghiepvu"}
+                to={'/admin/canbonghiepvu'}
                 className="flex flex-row items-center justify-between  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white"
               >
                 <div className="flex flex-row items-center  gap-2">
@@ -80,7 +80,7 @@ function SidebarTTHCGV() {
             </li>
             <li>
               <Link
-                to={"/admin/canbonghiepvu/hosoxuly"}
+                to={'/admin/canbonghiepvu/hosoxuly'}
                 className="flex flex-row items-center justify-between  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white"
               >
                 <div className="flex flex-row items-center  gap-2">
@@ -94,7 +94,7 @@ function SidebarTTHCGV() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default SidebarTTHCGV;
+export default SidebarTTHCGV

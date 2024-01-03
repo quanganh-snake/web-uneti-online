@@ -1,10 +1,10 @@
-import Breadcrumb from "@/Components/Breadcumb/Breadcrumb";
-import PropTypes from "prop-types";
-import { GiayToKemTheoAlert } from "@/Components/MotCua/GiayToKemTheoAlert";
-import { VanBanMauId } from "@/Configs/constants";
+import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
+import PropTypes from 'prop-types'
+import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
+import { VanBanMauId } from '@/Configs/constants'
 
 function NghiHocTamThoiView(props) {
-  const { home, breadcrumbs } = props;
+  const { home, breadcrumbs } = props
 
   return (
     <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
@@ -25,15 +25,15 @@ function NghiHocTamThoiView(props) {
           download={[
             {
               id: VanBanMauId.MotCua.HanhChinh.GiayGioiThieu.DangKyXe,
-              text: "Giới thiệu đăng ký xe hoặc công việc khác",
+              text: 'Giới thiệu đăng ký xe hoặc công việc khác',
             },
             {
               id: VanBanMauId.MotCua.HanhChinh.GiayGioiThieu.ThucTapNhom,
-              text: " Giấy giới thiệu thực tập tốt nghiệp (theo nhóm)",
+              text: ' Giấy giới thiệu thực tập tốt nghiệp (theo nhóm)',
             },
             {
               id: VanBanMauId.MotCua.HanhChinh.GiayGioiThieu.ThucTapCaNhan,
-              text: " Giấy giới thiệu thực tập tốt nghiệp (cá nhân)",
+              text: ' Giấy giới thiệu thực tập tốt nghiệp (cá nhân)',
             },
           ]}
           downloadId={
@@ -43,12 +43,12 @@ function NghiHocTamThoiView(props) {
         />
       </div>
     </div>
-  );
+  )
 }
 
 NghiHocTamThoiView.propTypes = {
   home: PropTypes.object,
   breadcrumbs: PropTypes.array,
-};
+}
 
-export default NghiHocTamThoiView;
+export default NghiHocTamThoiView

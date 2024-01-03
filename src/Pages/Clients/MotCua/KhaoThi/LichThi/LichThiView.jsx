@@ -1,8 +1,8 @@
-import Breadcrumb from "@/Components/Breadcumb/Breadcrumb";
-import Loading from "@/Components/Loading/Loading";
-import LichThiViewXemDanhSach from "./LichThiViewXemLich";
-import LichThiViewTrungLichThi from "./LichThiViewTrungLich";
-import LichThiViewKhongCoLich from "./LichThiViewKhongCoLich";
+import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
+import Loading from '@/Components/Loading/Loading'
+import LichThiViewXemDanhSach from './LichThiViewXemLich'
+import LichThiViewTrungLichThi from './LichThiViewTrungLich'
+import LichThiViewKhongCoLich from './LichThiViewKhongCoLich'
 
 function LichThiView(props) {
   const {
@@ -16,7 +16,7 @@ function LichThiView(props) {
     loaiThi,
     lyDo,
     handleChangeValue,
-  } = props;
+  } = props
 
   return (
     <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
@@ -31,17 +31,17 @@ function LichThiView(props) {
             {/* Start: Tên đọt - Học kỳ */}
             <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
               <label
-                htmlFor={"MC_KT_LichThi_TenDot"}
+                htmlFor={'MC_KT_LichThi_TenDot'}
                 className="md:w-[30%] mb-2 md:mb-0"
               >
                 Học kỳ (*)
               </label>
               <select
-                id={"MC_KT_LichThi_TenDot"}
+                id={'MC_KT_LichThi_TenDot'}
                 onChange={handleChangeValue}
                 className="md:w-[70%] border px-2 py-1 rounded-lg outline-sky-800"
               >
-                <option value={""}>Chọn học kỳ</option>
+                <option value={''}>Chọn học kỳ</option>
                 {listHocKy.map((option) => (
                   <option value={option.TenDot} key={option.TenDot}>
                     {option.TenDot}
@@ -53,17 +53,17 @@ function LichThiView(props) {
             {/* Start: Tên đọt - Học kỳ */}
             <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
               <label
-                htmlFor={"MC_KT_LichThi_LoaiThi"}
+                htmlFor={'MC_KT_LichThi_LoaiThi'}
                 className="md:w-[30%] mb-2 md:mb-0"
               >
                 Loại thi (*)
               </label>
               <select
-                id={"MC_KT_LichThi_LoaiThi"}
+                id={'MC_KT_LichThi_LoaiThi'}
                 onChange={handleChangeValue}
                 className="md:w-[70%] border px-2 py-1 rounded-lg outline-sky-800"
               >
-                <option value={""}>Chọn loại thi</option>
+                <option value={''}>Chọn loại thi</option>
                 {dataLoaiThi.map((option) => (
                   <option value={option.id} key={option.id}>
                     {option.title}
@@ -75,17 +75,17 @@ function LichThiView(props) {
             {/* START: Lý do */}
             <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
               <label
-                htmlFor={"MC_KT_LichThi_YeuCau"}
+                htmlFor={'MC_KT_LichThi_YeuCau'}
                 className="md:w-[30%] mb-2 md:mb-0"
               >
                 Lý do (*)
               </label>
               <select
-                id={"MC_KT_LichThi_YeuCau"}
+                id={'MC_KT_LichThi_YeuCau'}
                 onChange={handleChangeValue}
                 className="md:w-[70%] border px-2 py-1 rounded-lg outline-sky-800"
               >
-                <option value={""}>Chọn lý do</option>
+                <option value={''}>Chọn lý do</option>
                 {listLyDo.map((itemLyDo) => (
                   <option value={itemLyDo.value} key={itemLyDo.id}>
                     {itemLyDo.title}
@@ -101,7 +101,7 @@ function LichThiView(props) {
                 <div className="w-full flex justify-center">
                   <Loading />
                 </div>
-              ) : tenDot !== "" && loaiThi !== "" && lyDo !== "" ? (
+              ) : tenDot !== '' && loaiThi !== '' && lyDo !== '' ? (
                 <>
                   {lyDo == 0 && <LichThiViewXemDanhSach {...props} />}
                   {lyDo == 1 && <LichThiViewTrungLichThi {...props} />}
@@ -114,7 +114,7 @@ function LichThiView(props) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default LichThiView;
+export default LichThiView

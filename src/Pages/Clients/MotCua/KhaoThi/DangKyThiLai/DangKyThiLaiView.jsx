@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Breadcrumb from "@/Components/Breadcumb/Breadcrumb";
-import FormDangKyThiLai from "./FormDangKyThiLai";
+import React from 'react'
+import PropTypes from 'prop-types'
+import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
+import FormDangKyThiLai from './FormDangKyThiLai'
 
 function DangKyThiLaiView(props) {
   const {
@@ -18,7 +18,7 @@ function DangKyThiLaiView(props) {
     setLyDoKhac,
     handleRowSelection,
     handleSubmitData,
-  } = props;
+  } = props
 
   return (
     <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
@@ -39,9 +39,9 @@ function DangKyThiLaiView(props) {
         />
       </div>
     </div>
-  );
+  )
 }
 
-DangKyThiLaiView.propTypes = {};
+DangKyThiLaiView.propTypes = {}
 
-export default DangKyThiLaiView;
+export default DangKyThiLaiView

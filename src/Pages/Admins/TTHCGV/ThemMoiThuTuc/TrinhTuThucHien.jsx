@@ -1,9 +1,9 @@
-import clsx from "clsx";
-import React, { useState } from "react";
-import { AiOutlineSearch } from "react-icons/ai";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
-import { MdAdd } from "react-icons/md";
-import Swal from "sweetalert2";
+import clsx from 'clsx'
+import React, { useState } from 'react'
+import { AiOutlineSearch } from 'react-icons/ai'
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
+import { MdAdd } from 'react-icons/md'
+import Swal from 'sweetalert2'
 
 function TrinhTuThucHien(props) {
   const {
@@ -14,109 +14,109 @@ function TrinhTuThucHien(props) {
     setTPHoSoDeNghiActive,
     setTrinhTuThucHienActive,
     setPhanQuyenActive,
-  } = props;
-  const [editRowIndex, setEditRowIndex] = useState(-1);
-  const [editValueRow, setEditValueRow] = useState({});
+  } = props
+  const [editRowIndex, setEditRowIndex] = useState(-1)
+  const [editValueRow, setEditValueRow] = useState({})
 
-  const [donViSelected, setDonViSelected] = useState("");
-  const [searchDonVi, setSearchDonVi] = useState("");
+  const [donViSelected, setDonViSelected] = useState('')
+  const [searchDonVi, setSearchDonVi] = useState('')
 
-  const [donViPhoiHopSelected, setDonViPhoiHopSelected] = useState("");
-  const [searchDonViPhoiHop, setSearchDonViPhoiHop] = useState("");
+  const [donViPhoiHopSelected, setDonViPhoiHopSelected] = useState('')
+  const [searchDonViPhoiHop, setSearchDonViPhoiHop] = useState('')
 
   const handleEditRow = (index) => {
-    setEditRowIndex(index);
-    setEditValueRow(quyTrinh[index]);
-  };
+    setEditRowIndex(index)
+    setEditValueRow(quyTrinh[index])
+  }
 
   const handleSaveDataRow = () => {
     setQuyTrinh((prevDataRow) => {
-      const newDataRow = [...prevDataRow];
+      const newDataRow = [...prevDataRow]
       newDataRow[editRowIndex] = {
         ...editValueRow,
         MC_TTHC_GV_TrinhTuThucHien_Buoc: editRowIndex + 1,
-      };
-      return newDataRow;
-    });
+      }
+      return newDataRow
+    })
 
-    setEditRowIndex(-1);
-    setEditValueRow({});
-  };
+    setEditRowIndex(-1)
+    setEditValueRow({})
+  }
 
   const handleCancelEditDataRow = () => {
-    setEditRowIndex(-1);
-  };
+    setEditRowIndex(-1)
+  }
 
   const handleDeleteRow = (rowIndex) => {
     Swal.fire({
-      title: "Bạn chắc chắn muốn xóa dữ liệu này?",
-      text: "Sau khi xóa sẽ không thể khôi phục lại được",
-      icon: "warning",
+      title: 'Bạn chắc chắn muốn xóa dữ liệu này?',
+      text: 'Sau khi xóa sẽ không thể khôi phục lại được',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Xóa",
-      cancelButtonText: "Hủy",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
-          title: "Xóa!",
-          text: "Xóa thành công dữ liệu",
-          icon: "success",
-        });
+          title: 'Xóa!',
+          text: 'Xóa thành công dữ liệu',
+          icon: 'success',
+        })
         setThanhPhanHoSo((prevDataRow) => {
-          const newData = [...prevDataRow];
-          newData.splice(rowIndex, 1);
-          return newData;
-        });
+          const newData = [...prevDataRow]
+          newData.splice(rowIndex, 1)
+          return newData
+        })
       }
-    });
-  };
+    })
+  }
 
   const handleChangeValue = (e, fieldName) => {
-    const { value, checked, type, files } = e.target;
-    let fieldValue;
-    if (type === "checkbox") {
-      fieldValue = checked;
+    const { value, checked, type, files } = e.target
+    let fieldValue
+    if (type === 'checkbox') {
+      fieldValue = checked
       setEditValueRow((prevEditValueRow) => ({
         ...prevEditValueRow,
         [fieldName]: fieldValue,
-      }));
-    } else if (type === "file") {
+      }))
+    } else if (type === 'file') {
       if (files && files.length > 0) {
         setEditValueRow((prevEditValueRow) => ({
           ...prevEditValueRow,
           MC_TTHC_GV_ThanhPhanHoSo_TenFile: files[0].name,
-        }));
+        }))
         getDataFileToBase64(files[0]).then((dataFileBase64) => {
           setEditValueRow((prevEditValueRow) => ({
             ...prevEditValueRow,
             MC_TTHC_GV_ThanhPhanHoSo_DataFile: dataFileBase64,
-          }));
-        });
+          }))
+        })
       }
     } else {
-      fieldValue = value;
+      fieldValue = value
       setEditValueRow((prevEditValueRow) => ({
         ...prevEditValueRow,
         [fieldName]: fieldValue,
-      }));
+      }))
     }
 
-    if (fieldName === "MC_TTHC_GV_TrinhTuThucHien_DonViThucHien") {
+    if (fieldName === 'MC_TTHC_GV_TrinhTuThucHien_DonViThucHien') {
       setEditValueRow((prevEditValueRow) => ({
         ...prevEditValueRow,
         [fieldName]: e.target.textContent,
-      }));
+      }))
     }
 
-    if (fieldName === "MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop") {
+    if (fieldName === 'MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop') {
       setEditValueRow((prevEditValueRow) => ({
         ...prevEditValueRow,
         [fieldName]: e.target.textContent,
-      }));
+      }))
     }
-  };
+  }
 
   return (
     <div className="uneti-tthcgv__trinhtuthuchien mb-5">
@@ -168,7 +168,7 @@ function TrinhTuThucHien(props) {
             {quyTrinh.map((row, index) => (
               <tr
                 key={index}
-                className={clsx(editRowIndex === index ? "bg-slate-200" : null)}
+                className={clsx(editRowIndex === index ? 'bg-slate-200' : null)}
               >
                 {/* Dữ liệu hiển thị */}
                 {editRowIndex === index ? (
@@ -185,12 +185,12 @@ function TrinhTuThucHien(props) {
                         rows={3}
                         value={
                           editValueRow.MC_TTHC_GV_TrinhTuThucHien_TenCongViec ||
-                          ""
+                          ''
                         }
                         onChange={(e) =>
                           handleChangeValue(
                             e,
-                            "MC_TTHC_GV_TrinhTuThucHien_TenCongViec",
+                            'MC_TTHC_GV_TrinhTuThucHien_TenCongViec',
                           )
                         }
                       ></textarea>
@@ -203,12 +203,12 @@ function TrinhTuThucHien(props) {
                         placeholder="Nhập mô tả thực hiện..."
                         value={
                           editValueRow.MC_TTHC_GV_TrinhTuThucHien_CachThucThucHien ||
-                          ""
+                          ''
                         }
                         onChange={(e) =>
                           handleChangeValue(
                             e,
-                            "MC_TTHC_GV_TrinhTuThucHien_CachThucThucHien",
+                            'MC_TTHC_GV_TrinhTuThucHien_CachThucThucHien',
                           )
                         }
                       />
@@ -218,14 +218,14 @@ function TrinhTuThucHien(props) {
                         className="border border-slate-300 px-3 py-1 w-full focus:outline-slate-200"
                         value={
                           editValueRow.MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra ||
-                          ""
+                          ''
                         }
                         name="MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra"
                         id="MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra"
                         onChange={(e) =>
                           handleChangeValue(
                             e,
-                            "MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra",
+                            'MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra',
                           )
                         }
                       >
@@ -250,12 +250,12 @@ function TrinhTuThucHien(props) {
                             {donViSelected}
                           </p>
                         ) : (
-                          ""
+                          ''
                         )}
                         <ul
                           className={clsx(
-                            "bg-white mt-2 border shadow-sm overflow-y-auto",
-                            !editRowIndex === index ? "hidden" : "max-h-40",
+                            'bg-white mt-2 border shadow-sm overflow-y-auto',
+                            !editRowIndex === index ? 'hidden' : 'max-h-40',
                           )}
                         >
                           <div className="flex items-center px-2 sticky top-0 bg-white shadow-md">
@@ -266,7 +266,7 @@ function TrinhTuThucHien(props) {
                             <input
                               type="text"
                               onChange={(e) => {
-                                setSearchDonVi(e.target.value.toLowerCase());
+                                setSearchDonVi(e.target.value.toLowerCase())
                               }}
                               placeholder="Nhập tên đơn vị"
                               className="w-full placeholder:text-gray-500 p-2 outline-none"
@@ -278,25 +278,25 @@ function TrinhTuThucHien(props) {
                                 <li
                                   key={index}
                                   className={clsx(
-                                    "p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white",
+                                    'p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
                                     iDonVi?.TenPhongBan.toLowerCase().includes(
                                       searchDonVi,
                                     )
-                                      ? "block"
-                                      : "hidden",
+                                      ? 'block'
+                                      : 'hidden',
                                   )}
                                   onClick={(e) => {
                                     handleChangeValue(
                                       e,
-                                      "MC_TTHC_GV_TrinhTuThucHien_DonViThucHien",
-                                    );
-                                    setDonViSelected(iDonVi?.TenPhongBan);
-                                    setSearchDonVi("");
+                                      'MC_TTHC_GV_TrinhTuThucHien_DonViThucHien',
+                                    )
+                                    setDonViSelected(iDonVi?.TenPhongBan)
+                                    setSearchDonVi('')
                                   }}
                                 >
                                   {iDonVi?.TenPhongBan}
                                 </li>
-                              );
+                              )
                             })}
                         </ul>
                       </div>
@@ -308,12 +308,12 @@ function TrinhTuThucHien(props) {
                             {donViPhoiHopSelected}
                           </p>
                         ) : (
-                          ""
+                          ''
                         )}
                         <ul
                           className={clsx(
-                            "bg-white mt-2 border shadow-sm overflow-y-auto",
-                            !editRowIndex === index ? "hidden" : "max-h-40",
+                            'bg-white mt-2 border shadow-sm overflow-y-auto',
+                            !editRowIndex === index ? 'hidden' : 'max-h-40',
                           )}
                         >
                           <div className="flex items-center px-2 sticky top-0 bg-white shadow-md">
@@ -326,7 +326,7 @@ function TrinhTuThucHien(props) {
                               onChange={(e) => {
                                 setSearchDonViPhoiHop(
                                   e.target.value.toLowerCase(),
-                                );
+                                )
                               }}
                               placeholder="Nhập tên đơn vị"
                               className="w-full placeholder:text-gray-500 p-2 outline-none"
@@ -338,27 +338,25 @@ function TrinhTuThucHien(props) {
                                 <li
                                   key={index}
                                   className={clsx(
-                                    "p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white",
+                                    'p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
                                     iDonVi?.TenPhongBan.toLowerCase().includes(
                                       searchDonViPhoiHop,
                                     )
-                                      ? "block"
-                                      : "hidden",
+                                      ? 'block'
+                                      : 'hidden',
                                   )}
                                   onClick={(e) => {
                                     handleChangeValue(
                                       e,
-                                      "MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop",
-                                    );
-                                    setDonViPhoiHopSelected(
-                                      iDonVi?.TenPhongBan,
-                                    );
-                                    setSearchDonViPhoiHop("");
+                                      'MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop',
+                                    )
+                                    setDonViPhoiHopSelected(iDonVi?.TenPhongBan)
+                                    setSearchDonViPhoiHop('')
                                   }}
                                 >
                                   {iDonVi?.TenPhongBan}
                                 </li>
-                              );
+                              )
                             })}
                         </ul>
                       </div>
@@ -371,12 +369,12 @@ function TrinhTuThucHien(props) {
                         step={0.1}
                         value={
                           editValueRow.MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay ||
-                          ""
+                          ''
                         }
                         onChange={(e) =>
                           handleChangeValue(
                             e,
-                            "MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay",
+                            'MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay',
                           )
                         }
                       />
@@ -388,12 +386,12 @@ function TrinhTuThucHien(props) {
                         placeholder="Nhập thông báo kết quả"
                         rows="3"
                         value={
-                          editValueRow.MC_TTHC_GV_TrinhTuThucHien_KetQua || ""
+                          editValueRow.MC_TTHC_GV_TrinhTuThucHien_KetQua || ''
                         }
                         onChange={(e) =>
                           handleChangeValue(
                             e,
-                            "MC_TTHC_GV_TrinhTuThucHien_KetQua",
+                            'MC_TTHC_GV_TrinhTuThucHien_KetQua',
                           )
                         }
                       />
@@ -430,26 +428,26 @@ function TrinhTuThucHien(props) {
                       {index + 1}
                     </td>
                     <td className="text-center border-r px-2 py-1 min-w-[250px]">
-                      {row.MC_TTHC_GV_TrinhTuThucHien_TenCongViec ?? ""}
+                      {row.MC_TTHC_GV_TrinhTuThucHien_TenCongViec ?? ''}
                     </td>
                     <td className="text-left border-r px-2 py-1 w-[150px]">
-                      {row.MC_TTHC_GV_TrinhTuThucHien_CachThucThucHien ?? ""}
+                      {row.MC_TTHC_GV_TrinhTuThucHien_CachThucThucHien ?? ''}
                     </td>
                     <td className="text-center border-r px-2 py-1">
-                      {row.MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra ?? ""}
+                      {row.MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra ?? ''}
                     </td>
                     <td className="text-center border-r px-2 py-1">
-                      {row.MC_TTHC_GV_TrinhTuThucHien_DonViThucHien ?? ""}
+                      {row.MC_TTHC_GV_TrinhTuThucHien_DonViThucHien ?? ''}
                     </td>
                     <td className="text-center border-r px-2 py-1">
-                      {row.MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop ?? ""}
+                      {row.MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop ?? ''}
                     </td>
                     <td className="text-center border-r px-2 py-1">
-                      {row.MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay ?? ""}
+                      {row.MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay ?? ''}
                     </td>
                     <td className="text-center border-r px-2 py-1 min-w-[300px]">
                       <p className="w-full text-left">
-                        {row.MC_TTHC_GV_TrinhTuThucHien_KetQua ?? ""}
+                        {row.MC_TTHC_GV_TrinhTuThucHien_KetQua ?? ''}
                       </p>
                     </td>
                     <td className="text-center border-r px-2 py-1 sticky right-0 z-[1] bg-slate-300 shadow-md top-0 bottom-0 h-full">
@@ -482,8 +480,8 @@ function TrinhTuThucHien(props) {
         <button
           type="button"
           onClick={() => {
-            setTPHoSoDeNghiActive(true);
-            setTrinhTuThucHienActive(false);
+            setTPHoSoDeNghiActive(true)
+            setTrinhTuThucHienActive(false)
           }}
           className="font-semibold text-md flex items-center gap-2 px-3 py-2 bg-teal-600 text-white rounded-lg hover:opacity-70"
         >
@@ -501,8 +499,8 @@ function TrinhTuThucHien(props) {
         <button
           type="button"
           onClick={() => {
-            setPhanQuyenActive(true);
-            setTrinhTuThucHienActive(false);
+            setPhanQuyenActive(true)
+            setTrinhTuThucHienActive(false)
           }}
           className="font-semibold text-md flex items-center gap-2 px-3 py-2 bg-teal-600 text-white rounded-lg hover:opacity-70"
         >
@@ -511,7 +509,7 @@ function TrinhTuThucHien(props) {
         </button>
       </div>
     </div>
-  );
+  )
 }
 
-export default TrinhTuThucHien;
+export default TrinhTuThucHien

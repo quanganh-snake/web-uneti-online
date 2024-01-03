@@ -1,10 +1,10 @@
-import Breadcrumb from "@/Components/Breadcumb/Breadcrumb";
-import PropTypes from "prop-types";
-import { GiayToKemTheoAlert } from "@/Components/MotCua/GiayToKemTheoAlert";
-import { VanBanMauId } from "@/Configs/constants";
+import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
+import PropTypes from 'prop-types'
+import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
+import { VanBanMauId } from '@/Configs/constants'
 
 function MienChungChiView(props) {
-  const { home, breadcrumbs } = props;
+  const { home, breadcrumbs } = props
 
   return (
     <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
@@ -27,12 +27,12 @@ function MienChungChiView(props) {
         />
       </div>
     </div>
-  );
+  )
 }
 
 MienChungChiView.propTypes = {
   home: PropTypes.object,
   breadcrumbs: PropTypes.array,
-};
+}
 
-export default MienChungChiView;
+export default MienChungChiView

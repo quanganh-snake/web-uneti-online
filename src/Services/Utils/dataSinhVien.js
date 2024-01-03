@@ -1,9 +1,9 @@
-import moment from "moment";
-import { useSelector } from "react-redux";
+import moment from 'moment'
+import { useSelector } from 'react-redux'
 
 export const DataSinhVien = () => {
-  const student = useSelector((state) => state.user?.currentUser);
-  const dataToken = useSelector((state) => state.auth?.login?.currentToken);
+  const student = useSelector((state) => state.user?.currentUser)
+  const dataToken = useSelector((state) => state.auth?.login?.currentToken)
 
   const {
     HoDem,
@@ -31,7 +31,7 @@ export const DataSinhVien = () => {
     DiaChiThuongTru,
     TrangThaiHocTap,
     Role,
-  } = student ?? "";
+  } = student ?? ''
   return {
     HoDem,
     Ten,
@@ -48,8 +48,8 @@ export const DataSinhVien = () => {
     SoDienThoai2,
     SoDienThoai3,
     NgayCapCMND: NgayCapCMND
-      ? moment(NgayCapCMND).format("DD/MM/YYYY").toString()
-      : "",
+      ? moment(NgayCapCMND).format('DD/MM/YYYY').toString()
+      : '',
     NoiCapCMND,
     IdSinhVien,
     ChuyenNganh,
@@ -61,5 +61,5 @@ export const DataSinhVien = () => {
     TrangThaiHocTap,
     Role,
     dataToken,
-  };
-};
+  }
+}

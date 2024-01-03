@@ -1,85 +1,85 @@
-import clsx from "clsx";
-import React, { useState } from "react";
-import { MdAdd } from "react-icons/md";
-import Swal from "sweetalert2";
+import clsx from 'clsx'
+import React, { useState } from 'react'
+import { MdAdd } from 'react-icons/md'
+import Swal from 'sweetalert2'
 
 function PhiLePhi(props) {
-  const { phiLePhi, setPhiLePhi, handleAddLePhi } = props;
-  const [editRowIndex, setEditRowIndex] = useState(-1);
-  const [editValueRow, setEditValueRow] = useState({});
+  const { phiLePhi, setPhiLePhi, handleAddLePhi } = props
+  const [editRowIndex, setEditRowIndex] = useState(-1)
+  const [editValueRow, setEditValueRow] = useState({})
   // event handlers
   const handleEditRow = (index) => {
-    setEditRowIndex(index);
-    setEditValueRow(phiLePhi[index]);
-  };
+    setEditRowIndex(index)
+    setEditValueRow(phiLePhi[index])
+  }
 
   const handleSaveDataRow = () => {
     setPhiLePhi((prevDataRow) => {
-      const newDataRow = [...prevDataRow];
-      newDataRow[editRowIndex] = editValueRow;
-      return newDataRow;
-    });
+      const newDataRow = [...prevDataRow]
+      newDataRow[editRowIndex] = editValueRow
+      return newDataRow
+    })
 
-    setEditRowIndex(-1);
-    setEditValueRow({});
-  };
+    setEditRowIndex(-1)
+    setEditValueRow({})
+  }
 
   const handleDeleteRow = (rowIndex) => {
     Swal.fire({
-      title: "Bạn chắc chắn muốn xóa dữ liệu này?",
-      text: "Sau khi xóa sẽ không thể khôi phục lại được",
-      icon: "warning",
+      title: 'Bạn chắc chắn muốn xóa dữ liệu này?',
+      text: 'Sau khi xóa sẽ không thể khôi phục lại được',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Xóa",
-      cancelButtonText: "Hủy",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
-          title: "Xóa!",
-          text: "Xóa thành công dữ liệu",
-          icon: "success",
-        });
+          title: 'Xóa!',
+          text: 'Xóa thành công dữ liệu',
+          icon: 'success',
+        })
         setThanhPhanHoSo((prevDataRow) => {
-          const newData = [...prevDataRow];
-          newData.splice(rowIndex, 1);
-          return newData;
-        });
+          const newData = [...prevDataRow]
+          newData.splice(rowIndex, 1)
+          return newData
+        })
       }
-    });
-  };
+    })
+  }
 
   const handleChangeValue = (e, fieldName) => {
-    const { value, checked, type, files } = e.target;
-    let fieldValue;
-    if (type === "checkbox") {
-      fieldValue = checked;
+    const { value, checked, type, files } = e.target
+    let fieldValue
+    if (type === 'checkbox') {
+      fieldValue = checked
       setEditValueRow((prevEditValueRow) => ({
         ...prevEditValueRow,
         [fieldName]: fieldValue,
-      }));
-    } else if (type === "file") {
+      }))
+    } else if (type === 'file') {
       if (files && files.length > 0) {
         setEditValueRow((prevEditValueRow) => ({
           ...prevEditValueRow,
           MC_TTHC_GV_ThanhPhanHoSo_TenFile: files[0].name,
-        }));
+        }))
         convertDataFileToBase64(files[0]).then((dataFileBase64) => {
           setEditValueRow((prevEditValueRow) => ({
             ...prevEditValueRow,
             MC_TTHC_GV_ThanhPhanHoSo_DataFile: dataFileBase64,
-          }));
-        });
+          }))
+        })
       }
     } else {
-      fieldValue = value;
+      fieldValue = value
       setEditValueRow((prevEditValueRow) => ({
         ...prevEditValueRow,
         [fieldName]: fieldValue,
-      }));
+      }))
     }
-  };
+  }
 
   return (
     <div className="uneti-tthcgv__tphosodenghi mb-5 w-full">
@@ -110,7 +110,7 @@ function PhiLePhi(props) {
             {phiLePhi.map((row, index) => (
               <tr
                 key={index}
-                className={clsx(editRowIndex === index ? "bg-slate-200" : null)}
+                className={clsx(editRowIndex === index ? 'bg-slate-200' : null)}
               >
                 {/* Dữ liệu hiển thị */}
                 {editRowIndex === index ? (
@@ -124,9 +124,9 @@ function PhiLePhi(props) {
                         type="number"
                         className="w-full border border-slate-300 rounded-md px-2 focus:outline-slate-300"
                         placeholder="Nhập mức phí..."
-                        value={editValueRow.MC_TTHC_GV_LePhi_MucPhi || ""}
+                        value={editValueRow.MC_TTHC_GV_LePhi_MucPhi || ''}
                         onChange={(e) =>
-                          handleChangeValue(e, "MC_TTHC_GV_LePhi_MucPhi")
+                          handleChangeValue(e, 'MC_TTHC_GV_LePhi_MucPhi')
                         }
                       />
                     </td>
@@ -135,9 +135,9 @@ function PhiLePhi(props) {
                         type="text"
                         className="w-full border border-slate-300 rounded-md px-2 focus:outline-slate-300"
                         placeholder="Nhập mô tả..."
-                        value={editValueRow.MC_TTHC_GV_LePhi_MoTa || ""}
+                        value={editValueRow.MC_TTHC_GV_LePhi_MoTa || ''}
                         onChange={(e) =>
-                          handleChangeValue(e, "MC_TTHC_GV_LePhi_MoTa")
+                          handleChangeValue(e, 'MC_TTHC_GV_LePhi_MoTa')
                         }
                       ></textarea>
                     </td>
@@ -172,10 +172,10 @@ function PhiLePhi(props) {
                       {index + 1}
                     </td>
                     <td className="text-center border-r px-2 py-1">
-                      {row.MC_TTHC_GV_LePhi_MucPhi ?? ""}
+                      {row.MC_TTHC_GV_LePhi_MucPhi ?? ''}
                     </td>
                     <td className="text-center border-r px-2 py-1">
-                      {row.MC_TTHC_GV_LePhi_MoTa ?? ""}
+                      {row.MC_TTHC_GV_LePhi_MoTa ?? ''}
                     </td>
                     <td className="text-center border-r px-2 py-1">
                       <div className="flex flex-col lg:flex-row items-center justify-center gap-2">
@@ -212,7 +212,7 @@ function PhiLePhi(props) {
         Thêm mức phí, lệ phí
       </button>
     </div>
-  );
+  )
 }
 
-export default PhiLePhi;
+export default PhiLePhi

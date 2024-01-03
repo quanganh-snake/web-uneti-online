@@ -1,10 +1,10 @@
-import Breadcrumb from "@/Components/Breadcumb/Breadcrumb";
-import PropTypes from "prop-types";
-import { GiayToKemTheoAlert } from "@/Components/MotCua/GiayToKemTheoAlert";
-import { VanBanMauId } from "@/Configs/constants";
+import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
+import PropTypes from 'prop-types'
+import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
+import { VanBanMauId } from '@/Configs/constants'
 
 function QuaTrinhHocView(props) {
-  const { home, breadcrumbs } = props;
+  const { home, breadcrumbs } = props
 
   return (
     <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
@@ -25,15 +25,15 @@ function QuaTrinhHocView(props) {
           download={[
             {
               id: VanBanMauId.MotCua.CTSV.QuaTrinhHoc.QuayLaiHoc,
-              text: "Mẫu xin trở lại học",
+              text: 'Mẫu xin trở lại học',
             },
             {
               id: VanBanMauId.MotCua.CTSV.QuaTrinhHoc.ThoiHoc,
-              text: "Mẫu thôi học",
+              text: 'Mẫu thôi học',
             },
             {
               id: VanBanMauId.MotCua.CTSV.QuaTrinhHoc.XinBaoLuu,
-              text: "Mẫu xin bảo lưu",
+              text: 'Mẫu xin bảo lưu',
             },
           ]}
           downloadId={VanBanMauId.MotCua.CTSV.QuaTrinhHoc.MauThongTin}
@@ -41,12 +41,12 @@ function QuaTrinhHocView(props) {
         />
       </div>
     </div>
-  );
+  )
 }
 
 QuaTrinhHocView.propTypes = {
   home: PropTypes.object,
   breadcrumbs: PropTypes.array,
-};
+}
 
-export default QuaTrinhHocView;
+export default QuaTrinhHocView

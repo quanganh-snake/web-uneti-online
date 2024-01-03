@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import SidebarTTHCGV from "../SidebarTTHCGV/SidebarTTHCGV";
-import Breadcrumb from "../../../../Components/Breadcumb/Breadcrumb";
-import { Link, useParams } from "react-router-dom";
-import Loading from "./../../../../Components/Loading/Loading";
-import mammoth from "mammoth";
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import SidebarTTHCGV from '../SidebarTTHCGV/SidebarTTHCGV'
+import Breadcrumb from '../../../../Components/Breadcumb/Breadcrumb'
+import { Link, useParams } from 'react-router-dom'
+import Loading from './../../../../Components/Loading/Loading'
+import mammoth from 'mammoth'
 
 function ChiTietThuTucView({
   idThuTuc,
@@ -13,18 +13,18 @@ function ChiTietThuTucView({
   loading,
   dataThuTuc,
 }) {
-  const { tieude, id } = useParams();
-  if (typeof dataThuTuc !== "object" || dataThuTuc === null) {
-    return null;
+  const { tieude, id } = useParams()
+  if (typeof dataThuTuc !== 'object' || dataThuTuc === null) {
+    return null
   }
 
-  const { ThongTinHoSo, ThanhPhanHoSo, TrinhTuThucHien } = dataThuTuc;
-  let totalTime = 0;
+  const { ThongTinHoSo, ThanhPhanHoSo, TrinhTuThucHien } = dataThuTuc
+  let totalTime = 0
 
   for (let i = 0; i < TrinhTuThucHien.length; i++) {
     totalTime =
       totalTime +
-      parseFloat(TrinhTuThucHien[i]?.MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay);
+      parseFloat(TrinhTuThucHien[i]?.MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay)
   }
 
   return (
@@ -203,7 +203,7 @@ function ChiTietThuTucView({
                                       />
                                     </td>
                                   </tr>
-                                );
+                                )
                               })}
                             </tbody>
                           </table>
@@ -221,8 +221,8 @@ function ChiTietThuTucView({
                       <td className="px-4 py-1 border border-slate-500">
                         <p>
                           {ThongTinHoSo?.MC_TTHC_GV_SoBoHoSo
-                            ? ThongTinHoSo?.MC_TTHC_GV_SoBoHoSo + " bộ"
-                            : "0"}
+                            ? ThongTinHoSo?.MC_TTHC_GV_SoBoHoSo + ' bộ'
+                            : '0'}
                         </p>
                       </td>
                     </tr>
@@ -233,8 +233,8 @@ function ChiTietThuTucView({
                       <td className="px-4 py-1 border border-slate-500">
                         <p>
                           {totalTime
-                            ? totalTime + " ngày kể từ khi nhận đủ hồ sơ hợp lệ"
-                            : "0"}
+                            ? totalTime + ' ngày kể từ khi nhận đủ hồ sơ hợp lệ'
+                            : '0'}
                         </p>
                         {/* <p>{ThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet ? ThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet + " ngày kể từ khi nhận đủ hồ sơ hợp lệ" : "0"}</p> */}
                       </td>
@@ -337,7 +337,7 @@ function ChiTietThuTucView({
                                       </div>
                                     </td>
                                   </tr>
-                                );
+                                )
                               })}
                             </tbody>
                           </table>
@@ -422,9 +422,9 @@ function ChiTietThuTucView({
         )}
       </div>
     </>
-  );
+  )
 }
 
-ChiTietThuTucView.propTypes = {};
+ChiTietThuTucView.propTypes = {}
 
-export default ChiTietThuTucView;
+export default ChiTietThuTucView

@@ -1,8 +1,8 @@
-import Breadcrumb from "@/Components/Breadcumb/Breadcrumb";
-import DanhSachHocPhan from "./DanhSachHocPhan";
-import FormYeuCauSuaDiem from "./FormYeuCauSuaDiem";
-import { MenuItem, Select } from "@mui/material";
-import Loading from "@/Components/Loading/Loading";
+import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
+import DanhSachHocPhan from './DanhSachHocPhan'
+import FormYeuCauSuaDiem from './FormYeuCauSuaDiem'
+import { MenuItem, Select } from '@mui/material'
+import Loading from '@/Components/Loading/Loading'
 
 function KetQuaHocTapView(props) {
   const {
@@ -26,7 +26,7 @@ function KetQuaHocTapView(props) {
     handleSubmitData,
     currentPage,
     setCurrentPage,
-  } = props;
+  } = props
 
   return (
     <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
@@ -57,7 +57,7 @@ function KetQuaHocTapView(props) {
               <Select
                 value={lyDo}
                 onChange={(e) => {
-                  setLyDo(e.target.value);
+                  setLyDo(e.target.value)
                 }}
                 className="flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
               >
@@ -75,7 +75,7 @@ function KetQuaHocTapView(props) {
             </div>
           ) : null}
 
-          {!loading && tenDot !== "" && lyDo !== "" && (
+          {!loading && tenDot !== '' && lyDo !== '' && (
             <DanhSachHocPhan
               tenDot={tenDot}
               lyDo={lyDo}
@@ -86,9 +86,9 @@ function KetQuaHocTapView(props) {
             />
           )}
           {!loading &&
-            tenDot !== "" &&
-            lyDo !== "" &&
-            lyDo !== "Xem kết quả học tập" && (
+            tenDot !== '' &&
+            lyDo !== '' &&
+            lyDo !== 'Xem kết quả học tập' && (
               <FormYeuCauSuaDiem
                 lyDo={lyDo}
                 listLyDoDTK={listLyDoDTK}
@@ -104,9 +104,9 @@ function KetQuaHocTapView(props) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-KetQuaHocTapView.propTypes = {};
+KetQuaHocTapView.propTypes = {}
 
-export default KetQuaHocTapView;
+export default KetQuaHocTapView

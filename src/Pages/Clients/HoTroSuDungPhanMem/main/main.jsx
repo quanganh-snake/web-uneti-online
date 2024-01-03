@@ -1,28 +1,28 @@
-import { useState } from "react";
+import { useState } from 'react'
 
-import { useBem } from "@/Services/Hooks";
-import { SearchBox } from "./SearchBox";
-import { Posts } from "../Posts";
-import { Sidebar } from "../Sidebar";
+import { useBem } from '@/Services/Hooks'
+import { SearchBox } from './SearchBox'
+import { Posts } from '../Posts'
+import { Sidebar } from '../Sidebar'
 
-import "./Main.scss";
+import './Main.scss'
 
 export const Main = () => {
-  const bem = useBem("main");
+  const bem = useBem('main')
 
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState('')
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('')
 
   const handleSearch = (searchStr) => {
-    setSearch(searchStr);
-  };
+    setSearch(searchStr)
+  }
 
-  const [showSidebar, setShowSidebar] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false)
 
   return (
     <>
-      <h2 className={bem.e("title")}>Hỗ trợ sử dụng phần mềm</h2>
+      <h2 className={bem.e('title')}>Hỗ trợ sử dụng phần mềm</h2>
       <main className={bem.b()}>
         <Sidebar
           category={category}
@@ -32,7 +32,7 @@ export const Main = () => {
           setShowSidebar={setShowSidebar}
         />
 
-        <div className={bem.e("content")}>
+        <div className={bem.e('content')}>
           <SearchBox onSearch={handleSearch} />
 
           <Posts search={search} category={category} />
@@ -40,11 +40,11 @@ export const Main = () => {
       </main>
 
       <button
-        className={bem.e("toggle-sidebar")}
+        className={bem.e('toggle-sidebar')}
         onClick={() => setShowSidebar(!showSidebar)}
       >
         <svg
-          className={`${bem.is("active", !showSidebar)} ${bem.e("show")}`}
+          className={`${bem.is('active', !showSidebar)} ${bem.e('show')}`}
           width="24"
           height="24"
           viewBox="0 0 24 24"
@@ -78,7 +78,7 @@ export const Main = () => {
         </svg>
 
         <svg
-          className={`${bem.is("active", showSidebar)} ${bem.e("close")}`}
+          className={`${bem.is('active', showSidebar)} ${bem.e('close')}`}
           width="24"
           height="24"
           viewBox="0 0 24 24"
@@ -116,7 +116,7 @@ export const Main = () => {
         </svg>
       </button>
     </>
-  );
-};
+  )
+}
 
-Main.propTypes = {};
+Main.propTypes = {}

@@ -1,9 +1,9 @@
-import clsx from "clsx";
-import React, { useState } from "react";
-import { MdAdd } from "react-icons/md";
-import Swal from "sweetalert2";
-import { convertDataFileToBase64 } from "../../../../Services/Utils/stringUtils";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
+import clsx from 'clsx'
+import React, { useState } from 'react'
+import { MdAdd } from 'react-icons/md'
+import Swal from 'sweetalert2'
+import { convertDataFileToBase64 } from '../../../../Services/Utils/stringUtils'
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
 
 function ThanhPhanHoSoDeNghi(props) {
   const {
@@ -13,93 +13,93 @@ function ThanhPhanHoSoDeNghi(props) {
     setThongTinActive,
     setTPHoSoDeNghiActive,
     setTrinhTuThucHienActive,
-  } = props;
-  const [editRowIndex, setEditRowIndex] = useState(-1);
-  const [editValueRow, setEditValueRow] = useState({});
+  } = props
+  const [editRowIndex, setEditRowIndex] = useState(-1)
+  const [editValueRow, setEditValueRow] = useState({})
   // event handlers
   const handleEditRow = (index) => {
-    setEditRowIndex(index);
-    setEditValueRow(thanhPhanHoSo[index]);
-  };
+    setEditRowIndex(index)
+    setEditValueRow(thanhPhanHoSo[index])
+  }
 
   const handleSaveDataRow = () => {
     setThanhPhanHoSo((prevDataRow) => {
-      const newDataRow = [...prevDataRow];
+      const newDataRow = [...prevDataRow]
       newDataRow[editRowIndex] = {
         ...editValueRow,
         MC_TTHC_GV_ThanhPhanHoSo_STT: editRowIndex + 1,
-      };
-      return newDataRow;
-    });
+      }
+      return newDataRow
+    })
 
-    setEditRowIndex(-1);
-    setEditValueRow({});
-  };
+    setEditRowIndex(-1)
+    setEditValueRow({})
+  }
 
   const handleDeleteRow = (rowIndex) => {
     Swal.fire({
-      title: "Bạn chắc chắn muốn xóa dữ liệu này?",
-      text: "Sau khi xóa sẽ không thể khôi phục lại được",
-      icon: "warning",
+      title: 'Bạn chắc chắn muốn xóa dữ liệu này?',
+      text: 'Sau khi xóa sẽ không thể khôi phục lại được',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Xóa",
-      cancelButtonText: "Hủy",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Xóa',
+      cancelButtonText: 'Hủy',
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
-          title: "Xóa!",
-          text: "Xóa thành công dữ liệu",
-          icon: "success",
-        });
+          title: 'Xóa!',
+          text: 'Xóa thành công dữ liệu',
+          icon: 'success',
+        })
         setThanhPhanHoSo((prevDataRow) => {
-          const newData = [...prevDataRow];
-          newData.splice(rowIndex, 1);
-          return newData;
-        });
+          const newData = [...prevDataRow]
+          newData.splice(rowIndex, 1)
+          return newData
+        })
       }
-    });
-  };
+    })
+  }
 
   const handleChangeValue = (e, fieldName) => {
-    const { value, checked, type, files } = e.target;
-    let fieldValue;
-    if (type === "checkbox") {
-      fieldValue = checked;
+    const { value, checked, type, files } = e.target
+    let fieldValue
+    if (type === 'checkbox') {
+      fieldValue = checked
       setEditValueRow((prevEditValueRow) => ({
         ...prevEditValueRow,
         [fieldName]: fieldValue,
-      }));
-    } else if (type === "file") {
+      }))
+    } else if (type === 'file') {
       if (files && files.length > 0) {
         setEditValueRow((prevEditValueRow) => ({
           ...prevEditValueRow,
           MC_TTHC_GV_ThanhPhanHoSo_TenFile: files[0].name,
-        }));
+        }))
         convertDataFileToBase64(files[0]).then((dataFileBase64) => {
           setEditValueRow((prevEditValueRow) => ({
             ...prevEditValueRow,
             MC_TTHC_GV_ThanhPhanHoSo_DataFile: dataFileBase64,
-          }));
-        });
+          }))
+        })
       }
     } else {
-      fieldValue = value;
+      fieldValue = value
       setEditValueRow((prevEditValueRow) => ({
         ...prevEditValueRow,
         [fieldName]: fieldValue,
-      }));
+      }))
     }
-  };
+  }
 
   const handleDeleteFile = (index) => {
     setEditValueRow((prevEditValueRow) => ({
       ...prevEditValueRow,
-      MC_TTHC_GV_ThanhPhanHoSo_TenFile: "",
+      MC_TTHC_GV_ThanhPhanHoSo_TenFile: '',
       MC_TTHC_GV_ThanhPhanHoSo_DataFile: null,
-    }));
-  };
+    }))
+  }
 
   return (
     <div id="tphsdenghi" className="uneti-tthcgv__tphosodenghi mb-5 w-full">
@@ -133,7 +133,7 @@ function ThanhPhanHoSoDeNghi(props) {
             {thanhPhanHoSo.map((row, index) => (
               <tr
                 key={index}
-                className={clsx(editRowIndex === index ? "bg-slate-200" : null)}
+                className={clsx(editRowIndex === index ? 'bg-slate-200' : null)}
               >
                 {/* Dữ liệu hiển thị */}
                 {editRowIndex === index ? (
@@ -148,12 +148,12 @@ function ThanhPhanHoSoDeNghi(props) {
                         className="w-full border border-slate-300 rounded-md px-2 focus:outline-slate-300"
                         placeholder="Nhập tên giấy tờ..."
                         value={
-                          editValueRow.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo || ""
+                          editValueRow.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo || ''
                         }
                         onChange={(e) =>
                           handleChangeValue(
                             e,
-                            "MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo",
+                            'MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo',
                           )
                         }
                       ></textarea>
@@ -164,12 +164,12 @@ function ThanhPhanHoSoDeNghi(props) {
                         className="w-full border border-slate-300 rounded-md px-2 focus:outline-slate-300"
                         placeholder="Chèn link mẫu hồ sơ, hướng dẫn..."
                         value={
-                          editValueRow.MC_TTHC_GV_ThanhPhanHoSo_TenFile || ""
+                          editValueRow.MC_TTHC_GV_ThanhPhanHoSo_TenFile || ''
                         }
                         onChange={(e) =>
                           handleChangeValue(
                             e,
-                            "MC_TTHC_GV_ThanhPhanHoSo_TenFile",
+                            'MC_TTHC_GV_ThanhPhanHoSo_TenFile',
                           )
                         }
                       ></textarea>
@@ -184,7 +184,7 @@ function ThanhPhanHoSoDeNghi(props) {
                         onChange={(e) =>
                           handleChangeValue(
                             e,
-                            "MC_TTHC_GV_ThanhPhanHoSo_BanChinh",
+                            'MC_TTHC_GV_ThanhPhanHoSo_BanChinh',
                           )
                         }
                       />
@@ -198,7 +198,7 @@ function ThanhPhanHoSoDeNghi(props) {
                         onChange={(e) =>
                           handleChangeValue(
                             e,
-                            "MC_TTHC_GV_ThanhPhanHoSo_BanSao",
+                            'MC_TTHC_GV_ThanhPhanHoSo_BanSao',
                           )
                         }
                       />
@@ -212,7 +212,7 @@ function ThanhPhanHoSoDeNghi(props) {
                         onChange={(e) =>
                           handleChangeValue(
                             e,
-                            "MC_TTHC_GV_ThanhPhanHoSo_BatBuoc",
+                            'MC_TTHC_GV_ThanhPhanHoSo_BatBuoc',
                           )
                         }
                       />
@@ -248,15 +248,15 @@ function ThanhPhanHoSoDeNghi(props) {
                     </td>
                     <td className="text-center border-r px-2 py-1">
                       <p className="min-w-[160px] text-left">
-                        {row.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo ?? ""}
+                        {row.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo ?? ''}
                       </p>
                     </td>
                     <td className="text-center border-r px-2 py-1">
                       <p className="min-w-[160px] text-left">
-                        {row.MC_TTHC_GV_ThanhPhanHoSo_TenFile ?? ""}
+                        {row.MC_TTHC_GV_ThanhPhanHoSo_TenFile ?? ''}
                       </p>
                       <p className="hidden">
-                        {row.MC_TTHC_GV_ThanhPhanHoSo_DataFile ?? ""}
+                        {row.MC_TTHC_GV_ThanhPhanHoSo_DataFile ?? ''}
                       </p>
                     </td>
                     <td className="text-center border-r px-2 py-1">
@@ -349,8 +349,8 @@ function ThanhPhanHoSoDeNghi(props) {
         <button
           type="button"
           onClick={() => {
-            setThongTinActive(true);
-            setTPHoSoDeNghiActive(false);
+            setThongTinActive(true)
+            setTPHoSoDeNghiActive(false)
           }}
           className="font-semibold text-md flex items-center gap-2 px-3 py-2 bg-teal-600 text-white rounded-lg hover:opacity-70"
         >
@@ -368,8 +368,8 @@ function ThanhPhanHoSoDeNghi(props) {
         <button
           type="button"
           onClick={() => {
-            setTPHoSoDeNghiActive(false);
-            setTrinhTuThucHienActive(true);
+            setTPHoSoDeNghiActive(false)
+            setTrinhTuThucHienActive(true)
           }}
           className="font-semibold text-md flex items-center gap-2 px-3 py-2 bg-teal-600 text-white rounded-lg hover:opacity-70"
         >
@@ -378,7 +378,7 @@ function ThanhPhanHoSoDeNghi(props) {
         </button>
       </div>
     </div>
-  );
+  )
 }
 
-export default ThanhPhanHoSoDeNghi;
+export default ThanhPhanHoSoDeNghi

@@ -1,7 +1,7 @@
-import { useState } from "react";
-import DanhSachHocPhan from "./DanhSachHocPhan";
-import { MenuItem, Select, TextareaAutosize } from "@mui/material";
-import Loading from "@/Components/Loading/Loading";
+import { useState } from 'react'
+import DanhSachHocPhan from './DanhSachHocPhan'
+import { MenuItem, Select, TextareaAutosize } from '@mui/material'
+import Loading from '@/Components/Loading/Loading'
 
 function FormDangKyThiLai(props) {
   const {
@@ -16,7 +16,7 @@ function FormDangKyThiLai(props) {
     setLyDoKhac,
     handleRowSelection,
     handleSubmitData,
-  } = props;
+  } = props
 
   return (
     <div className="border-[#336699] border border-solid mt-5 rounded-md">
@@ -54,8 +54,8 @@ function FormDangKyThiLai(props) {
             defaultValue="0"
             value={lyDo}
             onChange={(e) => {
-              setLyDo(e.target.value);
-              setLyDoKhac("");
+              setLyDo(e.target.value)
+              setLyDoKhac('')
             }}
             className="flex-1 max-w-[75%] rounded-md border border-solid border-gray-300"
           >
@@ -66,7 +66,7 @@ function FormDangKyThiLai(props) {
             <MenuItem value="4">Lý do khác</MenuItem>
           </Select>
         </div>
-        {lyDo === "4" && (
+        {lyDo === '4' && (
           <div className="w-[75%] flex justify-between items-start">
             <span className="block pr-10">Chi tiết lý do (*)</span>
             <TextareaAutosize
@@ -79,7 +79,7 @@ function FormDangKyThiLai(props) {
         )}
       </form>
 
-      {(hocKy === "" && lyDo != "") || (hocKy != "" && lyDo === "") ? (
+      {(hocKy === '' && lyDo != '') || (hocKy != '' && lyDo === '') ? (
         <div className="flex justify-center items-center pb-4">
           <span className="w-[75%] text-center font-bold block text-red-900 bg-red-200 p-3 rounded-md">
             Vui lòng chọn đầy đủ thông tin học kỳ và lý do để xem lịch thi cần
@@ -93,8 +93,8 @@ function FormDangKyThiLai(props) {
           <Loading />
         </div>
       ) : (
-        hocKy != "" &&
-        lyDo != "" && (
+        hocKy != '' &&
+        lyDo != '' && (
           <div className="flex flex-col justify-center items-center pb-4">
             <DanhSachHocPhan
               listHocPhan={listHocPhan}
@@ -110,9 +110,9 @@ function FormDangKyThiLai(props) {
         )
       )}
     </div>
-  );
+  )
 }
 
-FormDangKyThiLai.propTypes = {};
+FormDangKyThiLai.propTypes = {}
 
-export default FormDangKyThiLai;
+export default FormDangKyThiLai

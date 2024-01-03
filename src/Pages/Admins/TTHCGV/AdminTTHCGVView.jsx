@@ -1,243 +1,243 @@
-import React, { useEffect, useRef, useState } from "react";
-import PropTypes from "prop-types";
-import Tabs from "./Tabs/Tabs";
-import ThongTinHoSo from "./ThemMoiThuTuc/ThongTinHoSo";
-import ThanhPhanHoSoDeNghi from "./ThemMoiThuTuc/ThanhPhanHoSoDeNghi";
-import TrinhTuThucHien from "./ThemMoiThuTuc/TrinhTuThucHien";
-import PhiLePhi from "./ThemMoiThuTuc/PhiLePhi";
-import TrangThaiHoSo from "./ThemMoiThuTuc/TrangThaiHoSo";
-import PhanQuyen from "./ThemMoiThuTuc/PhanQuyen";
-import SidebarTTHCGV from "./Sidebar/SidebarTTHCGV";
-import { postThuTucHanhChinh } from "../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
-import { NguonTiepNhan_WEB } from "../../../Services/Static/dataStatic";
-import Swal from "sweetalert2";
-import { postThanhPhanHoSoTTHCGV } from "./../../../Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo";
-import { postTrinhTuThucHienTTHCGV } from "./../../../Apis/ThuTucHanhChinhGiangVien/apiTrinhTuThucHien";
-import { postLePhi } from "./../../../Apis/ThuTucHanhChinhGiangVien/apiLePhi";
-import { postTrangThaiTTHCGV } from "./../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai";
-import { getThuTucHanhChinhByMaThuTuc } from "./../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
-import { postPhanQuyenTTHCGV } from "../../../Apis/ThuTucHanhChinhGiangVien/apiPhanQuyen";
-import { toast } from "react-toastify";
-import { FaSave } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useRef, useState } from 'react'
+import PropTypes from 'prop-types'
+import Tabs from './Tabs/Tabs'
+import ThongTinHoSo from './ThemMoiThuTuc/ThongTinHoSo'
+import ThanhPhanHoSoDeNghi from './ThemMoiThuTuc/ThanhPhanHoSoDeNghi'
+import TrinhTuThucHien from './ThemMoiThuTuc/TrinhTuThucHien'
+import PhiLePhi from './ThemMoiThuTuc/PhiLePhi'
+import TrangThaiHoSo from './ThemMoiThuTuc/TrangThaiHoSo'
+import PhanQuyen from './ThemMoiThuTuc/PhanQuyen'
+import SidebarTTHCGV from './Sidebar/SidebarTTHCGV'
+import { postThuTucHanhChinh } from '../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
+import { NguonTiepNhan_WEB } from '../../../Services/Static/dataStatic'
+import Swal from 'sweetalert2'
+import { postThanhPhanHoSoTTHCGV } from './../../../Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo'
+import { postTrinhTuThucHienTTHCGV } from './../../../Apis/ThuTucHanhChinhGiangVien/apiTrinhTuThucHien'
+import { postLePhi } from './../../../Apis/ThuTucHanhChinhGiangVien/apiLePhi'
+import { postTrangThaiTTHCGV } from './../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai'
+import { getThuTucHanhChinhByMaThuTuc } from './../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
+import { postPhanQuyenTTHCGV } from '../../../Apis/ThuTucHanhChinhGiangVien/apiPhanQuyen'
+import { toast } from 'react-toastify'
+import { FaSave } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 
 function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
   // ref
-  const inputTenThuTucRef = useRef(null);
-  const inputMaThuTucRef = useRef(null);
-  const inputMucDoRef = useRef(null);
-  const inputTongThoiGianRef = useRef(null);
-  const inputDonViTiepNhanRef = useRef(null);
-  const inputNoiTraKetQuaRef = useRef(null);
+  const inputTenThuTucRef = useRef(null)
+  const inputMaThuTucRef = useRef(null)
+  const inputMucDoRef = useRef(null)
+  const inputTongThoiGianRef = useRef(null)
+  const inputDonViTiepNhanRef = useRef(null)
+  const inputNoiTraKetQuaRef = useRef(null)
 
   // variables
   // var: active Tabs
-  const [thongTinActive, setThongTinActive] = useState(false);
-  const [tpHoSoDeNghiActive, setTPHoSoDeNghiActive] = useState(false);
-  const [trinhTuThucHienActive, setTrinhTuThucHienActive] = useState(false);
-  const [phiActive, setPhiActive] = useState(false);
-  const [phanQuyenActive, setPhanQuyenActive] = useState(false);
-  const [trangThaiActive, setTrangThaiActive] = useState(false);
+  const [thongTinActive, setThongTinActive] = useState(false)
+  const [tpHoSoDeNghiActive, setTPHoSoDeNghiActive] = useState(false)
+  const [trinhTuThucHienActive, setTrinhTuThucHienActive] = useState(false)
+  const [phiActive, setPhiActive] = useState(false)
+  const [phanQuyenActive, setPhanQuyenActive] = useState(false)
+  const [trangThaiActive, setTrangThaiActive] = useState(false)
   // var: dataForm - thongtinhoso
-  const [tenThuTuc, setTenThuTuc] = useState("");
-  const [canCuPhapLyCuaTTHC, setCanCuPhapLyCuaTTHC] = useState("");
-  const [dieuKienThucHien, setDieuKienThucHien] = useState("");
-  const [viTri, setViTri] = useState("");
-  const [maThuTuc, setMaThuTuc] = useState("");
-  const [mucDo, setMucDo] = useState("");
-  const [tongThoiGianGiaiQuyet, setTongThoiGianGiaiQuyet] = useState("");
-  const [soBoHoSo, setSoBoHoSo] = useState("");
-  const [linhVuc, setLinhVuc] = useState("");
-  const [donViTiepNhan, setDonViTiepNhan] = useState("");
-  const [noiTraKetQua, setNoiTraKetQua] = useState("");
-  const [thuTucLienThong, setThuTucLienThong] = useState(false);
+  const [tenThuTuc, setTenThuTuc] = useState('')
+  const [canCuPhapLyCuaTTHC, setCanCuPhapLyCuaTTHC] = useState('')
+  const [dieuKienThucHien, setDieuKienThucHien] = useState('')
+  const [viTri, setViTri] = useState('')
+  const [maThuTuc, setMaThuTuc] = useState('')
+  const [mucDo, setMucDo] = useState('')
+  const [tongThoiGianGiaiQuyet, setTongThoiGianGiaiQuyet] = useState('')
+  const [soBoHoSo, setSoBoHoSo] = useState('')
+  const [linhVuc, setLinhVuc] = useState('')
+  const [donViTiepNhan, setDonViTiepNhan] = useState('')
+  const [noiTraKetQua, setNoiTraKetQua] = useState('')
+  const [thuTucLienThong, setThuTucLienThong] = useState(false)
   const [thuTucKhongApDungMotCua, setThuTucLienThongApDungMotCua] =
-    useState(false);
-  const [thanhPhanHoSo, setThanhPhanHoSo] = useState([]);
-  const [quyTrinh, setQuyTrinh] = useState([]);
-  const [phiLePhi, setPhiLePhi] = useState([]);
-  const [trangThai, setTrangThai] = useState([]);
-  const [phanQuyen, setPhanQuyen] = useState([]);
-  const [tenTepThuTuc, setTenTepThuTuc] = useState("");
-  const [dataFilesTepThuTuc, setDataFilesTepThuTuc] = useState(null);
+    useState(false)
+  const [thanhPhanHoSo, setThanhPhanHoSo] = useState([])
+  const [quyTrinh, setQuyTrinh] = useState([])
+  const [phiLePhi, setPhiLePhi] = useState([])
+  const [trangThai, setTrangThai] = useState([])
+  const [phanQuyen, setPhanQuyen] = useState([])
+  const [tenTepThuTuc, setTenTepThuTuc] = useState('')
+  const [dataFilesTepThuTuc, setDataFilesTepThuTuc] = useState(null)
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   // event handlers
   const handleOpenTab = (e) => {
-    const { id } = e.target;
-    if (id === "btnThietLapHoSo") {
-      setThongTinActive(true);
-      setTPHoSoDeNghiActive(false);
-      setTrinhTuThucHienActive(false);
-      setPhiActive(false);
-      setPhanQuyenActive(false);
-      setTrangThaiActive(false);
+    const { id } = e.target
+    if (id === 'btnThietLapHoSo') {
+      setThongTinActive(true)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(false)
+      setPhiActive(false)
+      setPhanQuyenActive(false)
+      setTrangThaiActive(false)
     }
 
-    if (id === "btnTPHSDeNghi") {
-      setThongTinActive(false);
-      setTPHoSoDeNghiActive(true);
-      setTrinhTuThucHienActive(false);
-      setPhiActive(false);
-      setPhanQuyenActive(false);
-      setTrangThaiActive(false);
+    if (id === 'btnTPHSDeNghi') {
+      setThongTinActive(false)
+      setTPHoSoDeNghiActive(true)
+      setTrinhTuThucHienActive(false)
+      setPhiActive(false)
+      setPhanQuyenActive(false)
+      setTrangThaiActive(false)
     }
 
-    if (id === "btnTLTrinhTuThucHien") {
-      setThongTinActive(false);
-      setTPHoSoDeNghiActive(false);
-      setTrinhTuThucHienActive(true);
-      setPhiActive(false);
-      setPhanQuyenActive(false);
-      setTrangThaiActive(false);
+    if (id === 'btnTLTrinhTuThucHien') {
+      setThongTinActive(false)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(true)
+      setPhiActive(false)
+      setPhanQuyenActive(false)
+      setTrangThaiActive(false)
     }
 
-    if (id === "btnPhiLePhi") {
-      setThongTinActive(false);
-      setTPHoSoDeNghiActive(false);
-      setTrinhTuThucHienActive(false);
-      setPhiActive(true);
-      setPhanQuyenActive(false);
-      setTrangThaiActive(false);
+    if (id === 'btnPhiLePhi') {
+      setThongTinActive(false)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(false)
+      setPhiActive(true)
+      setPhanQuyenActive(false)
+      setTrangThaiActive(false)
     }
 
-    if (id === "btnPhanQuyen") {
-      setThongTinActive(false);
-      setTPHoSoDeNghiActive(false);
-      setTrinhTuThucHienActive(false);
-      setPhiActive(false);
-      setPhanQuyenActive(true);
-      setTrangThaiActive(false);
+    if (id === 'btnPhanQuyen') {
+      setThongTinActive(false)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(false)
+      setPhiActive(false)
+      setPhanQuyenActive(true)
+      setTrangThaiActive(false)
     }
 
-    if (id === "btnTrangThai") {
-      setThongTinActive(false);
-      setTPHoSoDeNghiActive(false);
-      setTrinhTuThucHienActive(false);
-      setPhiActive(false);
-      setPhanQuyenActive(false);
-      setTrangThaiActive(true);
+    if (id === 'btnTrangThai') {
+      setThongTinActive(false)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(false)
+      setPhiActive(false)
+      setPhanQuyenActive(false)
+      setTrangThaiActive(true)
     }
-  };
+  }
 
   const handleChangeValue = (e) => {
-    const { id, value, checked, files } = e.target;
-    if (id === "MC_TTHC_GV_TenThuTuc") {
-      setTenThuTuc(value);
+    const { id, value, checked, files } = e.target
+    if (id === 'MC_TTHC_GV_TenThuTuc') {
+      setTenThuTuc(value)
     }
 
-    if (id === "MC_TTHC_GV_ThuTu") {
-      setViTri(value);
+    if (id === 'MC_TTHC_GV_ThuTu') {
+      setViTri(value)
     }
 
-    if (id === "MC_TTHC_GV_MaThuTuc") {
-      setMaThuTuc(value);
+    if (id === 'MC_TTHC_GV_MaThuTuc') {
+      setMaThuTuc(value)
     }
 
-    if (id === "MC_TTHC_GV_IDMucDo") {
-      setMucDo(value);
+    if (id === 'MC_TTHC_GV_IDMucDo') {
+      setMucDo(value)
     }
 
-    if (id === "MC_TTHC_GV_TongThoiGianGiaiQuyet") {
-      setTongThoiGianGiaiQuyet(value);
+    if (id === 'MC_TTHC_GV_TongThoiGianGiaiQuyet') {
+      setTongThoiGianGiaiQuyet(value)
     }
 
-    if (id === "MC_TTHC_GV_LinhVuc") {
-      setLinhVuc(value);
+    if (id === 'MC_TTHC_GV_LinhVuc') {
+      setLinhVuc(value)
     }
 
-    if (id === "MC_TTHC_GV_NoiTiepNhan") {
-      setDonViTiepNhan(value);
+    if (id === 'MC_TTHC_GV_NoiTiepNhan') {
+      setDonViTiepNhan(value)
     }
 
-    if (id === "MC_TTHC_GV_NoiTraKetQua") {
-      setNoiTraKetQua(value);
+    if (id === 'MC_TTHC_GV_NoiTraKetQua') {
+      setNoiTraKetQua(value)
     }
 
-    if (id === "MC_TTHC_GV_ThuTucLienThong") {
-      setThuTucLienThong(checked);
+    if (id === 'MC_TTHC_GV_ThuTucLienThong') {
+      setThuTucLienThong(checked)
     }
 
-    if (id === "MC_TTHC_GV_ThuTucKhongApDungMC") {
-      setThuTucLienThongApDungMotCua(checked);
+    if (id === 'MC_TTHC_GV_ThuTucKhongApDungMC') {
+      setThuTucLienThongApDungMotCua(checked)
     }
 
-    if (id === "MC_TTHC_GV_SoBoHoSo") {
-      setSoBoHoSo(value);
+    if (id === 'MC_TTHC_GV_SoBoHoSo') {
+      setSoBoHoSo(value)
     }
 
-    if (id === "MC_TTHC_GV_CanCuPhapLyCuaTTHC") {
-      setCanCuPhapLyCuaTTHC(value);
+    if (id === 'MC_TTHC_GV_CanCuPhapLyCuaTTHC') {
+      setCanCuPhapLyCuaTTHC(value)
     }
 
-    if (id === "MC_TTHC_GV_DieuKienThucHien") {
-      setDieuKienThucHien(value);
+    if (id === 'MC_TTHC_GV_DieuKienThucHien') {
+      setDieuKienThucHien(value)
     }
 
-    if (id === "MC_TTHC_GV_TepThuTuc_DataFileFile") {
-      setTenTepThuTuc(value);
+    if (id === 'MC_TTHC_GV_TepThuTuc_DataFileFile') {
+      setTenTepThuTuc(value)
     }
-  };
+  }
 
   const handleAddThanhPhanHoSo = () => {
     const newThanhPhanHoSo = {
-      MC_TTHC_GV_ThanhPhanHoSo_IDTTHC: "",
-      MC_TTHC_GV_ThanhPhanHoSo_STT: "",
-      MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo: "",
+      MC_TTHC_GV_ThanhPhanHoSo_IDTTHC: '',
+      MC_TTHC_GV_ThanhPhanHoSo_STT: '',
+      MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo: '',
       MC_TTHC_GV_ThanhPhanHoSo_BanChinh: false,
       MC_TTHC_GV_ThanhPhanHoSo_BanSao: false,
       MC_TTHC_GV_ThanhPhanHoSo_BatBuoc: false,
       MC_TTHC_GV_ThanhPhanHoSo_DataFile: null,
-      MC_TTHC_GV_ThanhPhanHoSo_TenFile: "",
-    };
+      MC_TTHC_GV_ThanhPhanHoSo_TenFile: '',
+    }
 
-    setThanhPhanHoSo([...thanhPhanHoSo, newThanhPhanHoSo]);
-  };
+    setThanhPhanHoSo([...thanhPhanHoSo, newThanhPhanHoSo])
+  }
 
   const handleAddQuyTrinh = () => {
     const newQuyTrinh = {
-      MC_TTHC_GV_TrinhTuThucHien_IDTTHC: "",
-      MC_TTHC_GV_TrinhTuThucHien_Buoc: "",
-      MC_TTHC_GV_TrinhTuThucHien_TenCongViec: "",
-      MC_TTHC_GV_TrinhTuThucHien_CachThucThucHien: "",
-      MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra: "",
-      MC_TTHC_GV_TrinhTuThucHien_DonViThucHien: "",
-      MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop: "",
+      MC_TTHC_GV_TrinhTuThucHien_IDTTHC: '',
+      MC_TTHC_GV_TrinhTuThucHien_Buoc: '',
+      MC_TTHC_GV_TrinhTuThucHien_TenCongViec: '',
+      MC_TTHC_GV_TrinhTuThucHien_CachThucThucHien: '',
+      MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra: '',
+      MC_TTHC_GV_TrinhTuThucHien_DonViThucHien: '',
+      MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop: '',
       MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay: 0,
-      MC_TTHC_GV_TrinhTuThucHien_KetQua: "",
-    };
+      MC_TTHC_GV_TrinhTuThucHien_KetQua: '',
+    }
 
-    setQuyTrinh([...quyTrinh, newQuyTrinh]);
-  };
+    setQuyTrinh([...quyTrinh, newQuyTrinh])
+  }
 
   const handleAddLePhi = () => {
     const newLePhi = {
       MC_TTHC_GV_LePhi_STT: null,
       MC_TTHC_GV_LePhi_MucPhi: null,
-      MC_TTHC_GV_LePhi_MoTa: "",
-    };
+      MC_TTHC_GV_LePhi_MoTa: '',
+    }
 
-    setPhiLePhi([...phiLePhi, newLePhi]);
-  };
+    setPhiLePhi([...phiLePhi, newLePhi])
+  }
 
   const handleAddTrangThai = () => {
     const newTrangThai = {
-      MC_TTHC_GV_TrangThai_IDTTHC: "",
-      MC_TTHC_GV_TrangThai_STT: "",
-      MC_TTHC_GV_TrangThai_TenTrangThai: "",
-      MC_TTHC_GV_TrangThai_MoTa: "",
-    };
+      MC_TTHC_GV_TrangThai_IDTTHC: '',
+      MC_TTHC_GV_TrangThai_STT: '',
+      MC_TTHC_GV_TrangThai_TenTrangThai: '',
+      MC_TTHC_GV_TrangThai_MoTa: '',
+    }
 
-    setTrangThai([...trangThai, newTrangThai]);
-  };
+    setTrangThai([...trangThai, newTrangThai])
+  }
 
   const handleOnSubmitForm = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     const dataThongTinHoSo = {
       MC_TTHC_GV_ThuTu: viTri,
       MC_TTHC_GV_MaThuTuc: maThuTuc,
       MC_TTHC_GV_TenThuTuc: tenThuTuc,
-      MC_TTHC_GV_GhiChu: "",
+      MC_TTHC_GV_GhiChu: '',
       MC_TTHC_GV_IDMucDo: mucDo,
       MC_TTHC_GV_LinhVuc: linhVuc,
       MC_TTHC_GV_ThuTucLienThong: thuTucLienThong,
@@ -254,104 +254,103 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
         dataFilesTepThuTuc?.MC_TTHC_GV_TepThuTuc_TenFile,
       MC_TTHC_GV_TepThuTuc_DataFileFile:
         dataFilesTepThuTuc?.MC_TTHC_GV_TepThuTuc_DataFileFile,
-    };
+    }
 
     if (
-      dataThongTinHoSo?.MC_TTHC_GV_TenThuTuc == "" ||
+      dataThongTinHoSo?.MC_TTHC_GV_TenThuTuc == '' ||
       dataThongTinHoSo?.MC_TTHC_GV_TenThuTuc == null ||
       dataThongTinHoSo?.MC_TTHC_GV_TenThuTuc == undefined
     ) {
-      toast.error("Vui lòng nhập tên thủ tục!");
-      inputTenThuTucRef.current.focus();
-      return;
+      toast.error('Vui lòng nhập tên thủ tục!')
+      inputTenThuTucRef.current.focus()
+      return
     }
 
     if (
-      dataThongTinHoSo?.MC_TTHC_GV_MaThuTuc == "" ||
+      dataThongTinHoSo?.MC_TTHC_GV_MaThuTuc == '' ||
       dataThongTinHoSo?.MC_TTHC_GV_MaThuTuc == null ||
       dataThongTinHoSo?.MC_TTHC_GV_MaThuTuc == undefined
     ) {
-      toast.error("Vui lòng nhập mã thủ tục!");
-      inputMaThuTucRef.current.focus();
-      return;
+      toast.error('Vui lòng nhập mã thủ tục!')
+      inputMaThuTucRef.current.focus()
+      return
     }
 
     if (
-      dataThongTinHoSo?.MC_TTHC_GV_IDMucDo == "" ||
+      dataThongTinHoSo?.MC_TTHC_GV_IDMucDo == '' ||
       dataThongTinHoSo?.MC_TTHC_GV_IDMucDo == null ||
       dataThongTinHoSo?.MC_TTHC_GV_IDMucDo == undefined
     ) {
-      toast.error("Vui lòng chọn mức độ thủ tục!");
-      inputMucDoRef.current.focus();
-      return;
+      toast.error('Vui lòng chọn mức độ thủ tục!')
+      inputMucDoRef.current.focus()
+      return
     }
 
     if (
-      dataThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet == "" ||
+      dataThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet == '' ||
       dataThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet == null ||
       dataThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet == undefined
     ) {
-      toast.error("Vui lòng nhập tổng thời gian giải quyết!");
-      inputTongThoiGianRef.current.focus();
-      return;
+      toast.error('Vui lòng nhập tổng thời gian giải quyết!')
+      inputTongThoiGianRef.current.focus()
+      return
     }
 
     if (
-      dataThongTinHoSo?.MC_TTHC_GV_NoiTiepNhan == "" ||
+      dataThongTinHoSo?.MC_TTHC_GV_NoiTiepNhan == '' ||
       dataThongTinHoSo?.MC_TTHC_GV_NoiTiepNhan == null ||
       dataThongTinHoSo?.MC_TTHC_GV_NoiTiepNhan == undefined
     ) {
-      toast.error("Vui lòng chọn đơn vị tiếp nhận!");
-      inputDonViTiepNhanRef.current.focus();
-      return;
+      toast.error('Vui lòng chọn đơn vị tiếp nhận!')
+      inputDonViTiepNhanRef.current.focus()
+      return
     }
 
     if (
-      dataThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua == "" ||
+      dataThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua == '' ||
       dataThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua == null ||
       dataThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua == undefined
     ) {
-      toast.error("Vui lòng chọn nơi trả kết quả!");
-      inputNoiTraKetQuaRef.current.focus();
-      return;
+      toast.error('Vui lòng chọn nơi trả kết quả!')
+      inputNoiTraKetQuaRef.current.focus()
+      return
     }
 
-    let idTTHCGV;
+    let idTTHCGV
 
     try {
-      const resultPostThongTinTTHC =
-        await postThuTucHanhChinh(dataThongTinHoSo);
+      const resultPostThongTinTTHC = await postThuTucHanhChinh(dataThongTinHoSo)
       if (resultPostThongTinTTHC.status === 200) {
-        const dataPostThongTinHoSo = await resultPostThongTinTTHC.data;
-        if (dataPostThongTinHoSo.message === "Bản ghi bị trùng.") {
+        const dataPostThongTinHoSo = await resultPostThongTinTTHC.data
+        if (dataPostThongTinHoSo.message === 'Bản ghi bị trùng.') {
           Swal.fire({
-            icon: "error",
-            title: "Hồ sơ đã tồn tại",
+            icon: 'error',
+            title: 'Hồ sơ đã tồn tại',
             text: `Thông tin hồ sơ ${dataThongTinHoSo.MC_TTHC_GV_TenThuTuc} - mã hồ sơ ${dataThongTinHoSo.MC_TTHC_GV_MaThuTuc} đã tồn tại. Vui lòng chỉnh sửa hoặc xóa hồ sơ để tạo mới!`,
-          });
-          return;
+          })
+          return
         } else {
-          const dataTTHCGVGetID = await getThuTucHanhChinhByMaThuTuc(maThuTuc);
+          const dataTTHCGVGetID = await getThuTucHanhChinhByMaThuTuc(maThuTuc)
           if (dataTTHCGVGetID.status === 200) {
-            const dataTTHCGVID = await dataTTHCGVGetID.data;
-            idTTHCGV = dataTTHCGVID.body[0].MC_TTHC_GV_ID;
+            const dataTTHCGVID = await dataTTHCGVGetID.data
+            idTTHCGV = dataTTHCGVID.body[0].MC_TTHC_GV_ID
           }
         }
       }
 
       // UI-POST: Thanh Phan Ho So
       for (let i = 0; i < thanhPhanHoSo.length; i++) {
-        thanhPhanHoSo[i].MC_TTHC_GV_ThanhPhanHoSo_IDTTHC = idTTHCGV;
+        thanhPhanHoSo[i].MC_TTHC_GV_ThanhPhanHoSo_IDTTHC = idTTHCGV
       }
       const resultPostThanhPhanHoSo =
-        await postThanhPhanHoSoTTHCGV(thanhPhanHoSo);
+        await postThanhPhanHoSoTTHCGV(thanhPhanHoSo)
 
       // UI-POST: TrinhTuThucHien
       for (let i = 0; i < quyTrinh.length; i++) {
-        quyTrinh[i].MC_TTHC_GV_TrinhTuThucHien_IDTTHC = idTTHCGV;
+        quyTrinh[i].MC_TTHC_GV_TrinhTuThucHien_IDTTHC = idTTHCGV
       }
       const resultPostTrinhTuThucHien =
-        await postTrinhTuThucHienTTHCGV(quyTrinh);
+        await postTrinhTuThucHienTTHCGV(quyTrinh)
 
       // UI-POST: Lệ phí
       // for (let i = 0; i < phiLePhi.length; i++) {
@@ -361,15 +360,15 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
 
       // UI-POST: Phân quyền
       for (let i = 0; i < phanQuyen.length; i++) {
-        phanQuyen[i].MC_TTHC_GV_PhanQuyen_IDTTHC = idTTHCGV;
+        phanQuyen[i].MC_TTHC_GV_PhanQuyen_IDTTHC = idTTHCGV
       }
-      const resultPostPhanQuyen = await postPhanQuyenTTHCGV(phanQuyen);
+      const resultPostPhanQuyen = await postPhanQuyenTTHCGV(phanQuyen)
 
       // UI-POST: Trạng thái
       for (let i = 0; i < trangThai.length; i++) {
-        trangThai[i].MC_TTHC_GV_TrangThai_IDTTHC = idTTHCGV;
+        trangThai[i].MC_TTHC_GV_TrangThai_IDTTHC = idTTHCGV
       }
-      const resultPostTrangThai = await postTrangThaiTTHCGV(trangThai);
+      const resultPostTrangThai = await postTrangThaiTTHCGV(trangThai)
 
       try {
         if (
@@ -378,10 +377,10 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
           resultPostPhanQuyen.status === 200 &&
           resultPostTrangThai.status === 200
         ) {
-          const dataPostThanhPhanHoSo = await resultPostThanhPhanHoSo.data;
-          const dataPostTrinhTuThucHien = await resultPostTrinhTuThucHien.data;
-          const dataPostPhanQuyen = await resultPostPhanQuyen.data;
-          const dataPostTrangThai = await resultPostTrangThai.data;
+          const dataPostThanhPhanHoSo = await resultPostThanhPhanHoSo.data
+          const dataPostTrinhTuThucHien = await resultPostTrinhTuThucHien.data
+          const dataPostPhanQuyen = await resultPostPhanQuyen.data
+          const dataPostTrangThai = await resultPostTrangThai.data
 
           if (
             dataPostThanhPhanHoSo &&
@@ -390,38 +389,38 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
             dataPostTrangThai
           ) {
             Swal.fire({
-              position: "center",
-              icon: "success",
-              title: "Thêm mới hồ sơ/thủ tục thành công!",
+              position: 'center',
+              icon: 'success',
+              title: 'Thêm mới hồ sơ/thủ tục thành công!',
               showConfirmButton: false,
               timer: 1500,
-            });
-            navigate("/admin/quantriTTHCGV/hosothutuc/xem/tatca");
-            return;
+            })
+            navigate('/admin/quantriTTHCGV/hosothutuc/xem/tatca')
+            return
           } else {
             return Swal.fire({
-              icon: "error",
-              title: "Lỗi",
+              icon: 'error',
+              title: 'Lỗi',
               text: `Vui lòng kiểm tra lại thông tin hồ sơ!`,
-            });
+            })
           }
         }
       } catch (error) {
-        console.log(">>> Error: " + error);
+        console.log('>>> Error: ' + error)
       }
     } catch (error) {
-      console.log(">>> Error: " + [error]);
+      console.log('>>> Error: ' + [error])
     }
-  };
+  }
 
   useEffect(() => {
-    setThongTinActive(true);
-    setTPHoSoDeNghiActive(false);
-    setTrinhTuThucHienActive(false);
-    setPhiActive(false);
-    setPhanQuyenActive(false);
-    setTrangThaiActive(false);
-  }, []);
+    setThongTinActive(true)
+    setTPHoSoDeNghiActive(false)
+    setTrinhTuThucHienActive(false)
+    setPhiActive(false)
+    setPhanQuyenActive(false)
+    setTrangThaiActive(false)
+  }, [])
 
   useEffect(() => {}, [
     thongTinActive,
@@ -430,7 +429,7 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
     phiActive,
     phanQuyenActive,
     trangThaiActive,
-  ]);
+  ])
 
   return (
     <div className="px-5 lg:px-0 flex gap-4">
@@ -551,9 +550,9 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
         </form>
       </div>
     </div>
-  );
+  )
 }
 
-AdminTTHCGVView.propTypes = {};
+AdminTTHCGVView.propTypes = {}
 
-export default AdminTTHCGVView;
+export default AdminTTHCGVView

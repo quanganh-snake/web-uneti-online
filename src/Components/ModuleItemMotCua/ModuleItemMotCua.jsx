@@ -1,11 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Link, useLocation } from "react-router-dom";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Link, useLocation } from 'react-router-dom'
 
 function ModuleItemMotCua(props) {
-  const { moduleItemMotCua } = props;
-  const location = useLocation();
-  const { pathname } = location;
+  const { moduleItemMotCua } = props
+  const location = useLocation()
+  const { pathname } = location
 
   return (
     <Link
@@ -28,19 +28,19 @@ function ModuleItemMotCua(props) {
             {moduleItemMotCua.childrens.map((feature, index) => (
               <span key={index}>
                 {index + 1 < moduleItemMotCua.childrens.length
-                  ? feature.title + ", "
-                  : feature.title + "."}
+                  ? feature.title + ', '
+                  : feature.title + '.'}
               </span>
             ))}
           </p>
         </div>
       </div>
     </Link>
-  );
+  )
 }
 
 ModuleItemMotCua.propTypes = {
   moduleItemMotCua: PropTypes.object.isRequired,
-};
+}
 
-export default ModuleItemMotCua;
+export default ModuleItemMotCua

@@ -1,7 +1,7 @@
-import { Main } from "./Main";
+import { Main } from './Main'
 
 export const HoTroSuDungPhanMem = () => {
-  return <Main />;
-};
+  return <Main />
+}
 
-export default HoTroSuDungPhanMem;
+export default HoTroSuDungPhanMem

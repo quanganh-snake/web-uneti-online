@@ -1,40 +1,40 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import Breadcrumb from "../../../Components/Breadcumb/Breadcrumb";
-import { FiSearch } from "react-icons/fi";
-import { Link } from "react-router-dom";
-import SidebarTTHCGV from "./SidebarTTHCGV/SidebarTTHCGV";
-import { changeSlug } from "../../../Services/Utils/stringUtils";
-import ReactPaginate from "react-paginate";
-import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
-import clsx from "clsx";
-import { DebounceInput } from "react-debounce-input";
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import Breadcrumb from '../../../Components/Breadcumb/Breadcrumb'
+import { FiSearch } from 'react-icons/fi'
+import { Link } from 'react-router-dom'
+import SidebarTTHCGV from './SidebarTTHCGV/SidebarTTHCGV'
+import { changeSlug } from '../../../Services/Utils/stringUtils'
+import ReactPaginate from 'react-paginate'
+import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
+import clsx from 'clsx'
+import { DebounceInput } from 'react-debounce-input'
 function HomeTTHCGVView(props) {
-  const { home, dataListHoSoThuTuc, setKeywords, setDieuKienLoc } = props;
+  const { home, dataListHoSoThuTuc, setKeywords, setDieuKienLoc } = props
 
   // paginates
-  const [currentPage, setCurrentPage] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const pageCount = Math.ceil(dataListHoSoThuTuc.length / itemsPerPage);
+  const [currentPage, setCurrentPage] = useState(0)
+  const [itemsPerPage, setItemsPerPage] = useState(10)
+  const pageCount = Math.ceil(dataListHoSoThuTuc.length / itemsPerPage)
   const displayData = dataListHoSoThuTuc.slice(
     currentPage * itemsPerPage,
     (currentPage + 1) * itemsPerPage,
-  );
+  )
 
   // events handlers
   const handlePageChange = ({ selected }) => {
-    setCurrentPage(selected);
-  };
+    setCurrentPage(selected)
+  }
   const handleChangeValue = (e) => {
-    const { id, name, value } = e.target;
-    if (id == "records-number" || name == "records-number") {
-      setItemsPerPage(parseInt(value));
+    const { id, name, value } = e.target
+    if (id == 'records-number' || name == 'records-number') {
+      setItemsPerPage(parseInt(value))
     }
-  };
+  }
 
   const handleSearch = (e) => {
-    e.preventDefault();
-  };
+    e.preventDefault()
+  }
 
   return (
     <div className="flex flex-col md:flex-row gap-2">
@@ -58,8 +58,8 @@ function HomeTTHCGVView(props) {
                 placeholder="Nhập từ khóa tìm kiếm"
                 className="px-3 py-1 bg-transparent w-full focus:outline-none"
                 onChange={(e) => {
-                  setKeywords(e.target.value.toLowerCase());
-                  setDieuKienLoc("");
+                  setKeywords(e.target.value.toLowerCase())
+                  setDieuKienLoc('')
                 }}
               />
               <FiSearch size={24} className="font-semibold" />
@@ -97,7 +97,7 @@ function HomeTTHCGVView(props) {
                 <tbody>
                   {displayData &&
                     displayData.map((iData, index) => {
-                      const nameSlug = changeSlug(iData.MC_TTHC_GV_TenThuTuc);
+                      const nameSlug = changeSlug(iData.MC_TTHC_GV_TenThuTuc)
                       return (
                         <tr key={index}>
                           <td className="border border-slate-300 text-center">
@@ -116,22 +116,22 @@ function HomeTTHCGVView(props) {
                                 </li>
                                 <li>
                                   <span className="flex items-center gap-2">
-                                    Mức độ:{" "}
+                                    Mức độ:{' '}
                                     <span
                                       className={clsx(
-                                        "inline-block w-4 h-4 rounded-full text-center font-semibold text-white text-xs",
+                                        'inline-block w-4 h-4 rounded-full text-center font-semibold text-white text-xs',
                                         parseInt(iData.MC_TTHC_GV_IDMucDo) == 1
-                                          ? "bg-red-300"
-                                          : "",
+                                          ? 'bg-red-300'
+                                          : '',
                                         parseInt(iData.MC_TTHC_GV_IDMucDo) == 2
-                                          ? "bg-red-400"
-                                          : "",
+                                          ? 'bg-red-400'
+                                          : '',
                                         parseInt(iData.MC_TTHC_GV_IDMucDo) == 3
-                                          ? "bg-red-500"
-                                          : "",
+                                          ? 'bg-red-500'
+                                          : '',
                                         parseInt(iData.MC_TTHC_GV_IDMucDo) >= 4
-                                          ? "bg-red-600"
-                                          : "",
+                                          ? 'bg-red-600'
+                                          : '',
                                       )}
                                     >
                                       {iData.MC_TTHC_GV_IDMucDo}
@@ -140,7 +140,7 @@ function HomeTTHCGVView(props) {
                                 </li>
                                 <li>
                                   <span className="font-semibold italic text-red-600">
-                                    {"Nộp hồ sơ"}
+                                    {'Nộp hồ sơ'}
                                   </span>
                                 </li>
                               </ul>
@@ -152,14 +152,14 @@ function HomeTTHCGVView(props) {
                             </p>
                           </td>
                         </tr>
-                      );
+                      )
                     })}
                 </tbody>
               </table>
               <div className="grid grid-cols-2 mt-5 items-center justify-between">
                 <div className="col-span-2 lg:col-span-1 flex flex-row items-center mb-6">
                   <p className="font-bold text-[#336699]">
-                    Tổng số:{" "}
+                    Tổng số:{' '}
                     <span>{dataListHoSoThuTuc?.length} hồ sơ/thủ tục</span>
                   </p>
                 </div>
@@ -170,12 +170,12 @@ function HomeTTHCGVView(props) {
                   marginPagesDisplayed={2}
                   pageRangeDisplayed={5}
                   onPageChange={handlePageChange}
-                  containerClassName={"pagination"}
+                  containerClassName={'pagination'}
                   pageClassName={
-                    "px-2 py-1 hover:text-white hover:font-semibold hover:bg-[#336699]"
+                    'px-2 py-1 hover:text-white hover:font-semibold hover:bg-[#336699]'
                   }
                   activeClassName={
-                    "px-2 py-1 text-white font-semibold bg-[#336699]"
+                    'px-2 py-1 text-white font-semibold bg-[#336699]'
                   }
                   className="col-span-2 lg:col-span-1 w-full flex items-center justify-center lg:justify-end gap-1"
                 />
@@ -186,9 +186,9 @@ function HomeTTHCGVView(props) {
         {/* END: Table DS Thủ tục */}
       </div>
     </div>
-  );
+  )
 }
 
-HomeTTHCGVView.propTypes = {};
+HomeTTHCGVView.propTypes = {}
 
-export default HomeTTHCGVView;
+export default HomeTTHCGVView
