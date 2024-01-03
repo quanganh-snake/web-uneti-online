@@ -1,11 +1,11 @@
-@use 'sass:map';
+@use "sass:map";
 
-@use 'Styles/Mixins/mixins' as *;
-@use 'Styles/Mixins/var' as *;
-@use 'Styles/Common/var' as *;
+@use "Styles/Mixins/mixins" as *;
+@use "Styles/Mixins/var" as *;
+@use "Styles/Common/var" as *;
 
 @include b(post) {
-  border: 1px solid map.get($appColor, 'gray-4');
+  border: 1px solid map.get($appColor, "gray-4");
   padding: 16px;
   border-radius: 12px;
 
@@ -16,7 +16,7 @@
     padding-top: 10px;
     margin-bottom: 14px;
 
-    border-bottom: 1px solid map.get($appColor, 'gray-4');
+    border-bottom: 1px solid map.get($appColor, "gray-4");
   }
 
   @include e(description) {

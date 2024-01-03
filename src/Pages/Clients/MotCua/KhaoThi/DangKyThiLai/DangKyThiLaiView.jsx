@@ -1,17 +1,30 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react";
+import PropTypes from "prop-types";
 import Breadcrumb from "@/Components/Breadcumb/Breadcrumb";
-import FormDangKyThiLai from './FormDangKyThiLai';
+import FormDangKyThiLai from "./FormDangKyThiLai";
 
 function DangKyThiLaiView(props) {
-
-  const {loading, home, breadcrumbs, listHocPhan, hocKy, setHocKy, lyDo, setLyDo, listHocKy, lyDoKhac, setLyDoKhac, handleRowSelection, handleSubmitData} = props
+  const {
+    loading,
+    home,
+    breadcrumbs,
+    listHocPhan,
+    hocKy,
+    setHocKy,
+    lyDo,
+    setLyDo,
+    listHocKy,
+    lyDoKhac,
+    setLyDoKhac,
+    handleRowSelection,
+    handleSubmitData,
+  } = props;
 
   return (
     <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
-			<div className="p-4 flex flex-col">
-				<Breadcrumb home={home} breadcrumbs={breadcrumbs} />
-				<FormDangKyThiLai 
+      <div className="p-4 flex flex-col">
+        <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
+        <FormDangKyThiLai
           listHocPhan={listHocPhan}
           hocKy={hocKy}
           setHocKy={setHocKy}
@@ -24,11 +37,11 @@ function DangKyThiLaiView(props) {
           handleSubmitData={handleSubmitData}
           loading={loading}
         />
-			</div>
-		</div>
-  )
+      </div>
+    </div>
+  );
 }
 
-DangKyThiLaiView.propTypes = {}
+DangKyThiLaiView.propTypes = {};
 
-export default DangKyThiLaiView
+export default DangKyThiLaiView;

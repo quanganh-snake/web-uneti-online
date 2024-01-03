@@ -43,7 +43,7 @@ function ChuyenDiem() {
 
   const [loaiDiem, setLoaiDiem] = useState(listLoaiDiem[0].value);
   const [lyDo, setLyDo] = useState(
-    "Đề nghị công nhận kết quả học tập các học phần đã học cho học phần tương đương khác"
+    "Đề nghị công nhận kết quả học tập các học phần đã học cho học phần tương đương khác",
   );
   const [giayToKemTheo, setGiayToKemTheo] = useState("Đơn xin chuyển điểm");
 
@@ -99,7 +99,7 @@ function ChuyenDiem() {
     if (!isEmpty(hocPhan)) {
       getAllHocPhanTuongDuongChuyenDiem(
         dataSV.MaSinhVien,
-        hocPhan.MC_DT_ChuyenDiem_ChiTiet_MaMonHoc
+        hocPhan.MC_DT_ChuyenDiem_ChiTiet_MaMonHoc,
       ).then((res) => {
         setListHocPhanTuongDuong(res?.data?.body);
         console.log(res?.data?.body);

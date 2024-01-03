@@ -67,7 +67,7 @@ function EmailLMS() {
   ]);
   const [deNghi, setDeNghi] = useState(listDeNghi[0]);
   const [chiTietDeNghi, setChiTietDeNghi] = useState(
-    listChiTietDeNghiEmail[0].value
+    listChiTietDeNghiEmail[0].value,
   );
   const [emailCaNhan, setEmailCaNhan] = useState("");
   const [lyDo, setLyDo] = useState("");
@@ -114,7 +114,7 @@ function EmailLMS() {
       ? new Date(
           `${dataSV.NgaySinh.split("/")[2]}-${dataSV.NgaySinh.split("/")[1]}-${
             dataSV.NgaySinh.split("/")[0]
-          }`
+          }`,
         ).toISOString()
       : "null";
     dataYeuCau.MC_DT_EMAILLMS_TenHeDaoTao = dataSV.BacDaoTao
@@ -134,10 +134,10 @@ function EmailLMS() {
     dataYeuCau.MC_DT_EMAILLMS_DienThoai = dataSV.SoDienThoai
       ? dataSV.SoDienThoai
       : dataSV.SoDienThoai2
-      ? dataSV.SoDienThoai2
-      : dataSV.SoDienThoai3
-      ? dataSV.SoDienThoai3
-      : "";
+        ? dataSV.SoDienThoai2
+        : dataSV.SoDienThoai3
+          ? dataSV.SoDienThoai3
+          : "";
     dataYeuCau.MC_DT_EMAILLMS_Email = dataSV.Email_TruongCap
       ? dataSV.Email_TruongCap
       : "null";
@@ -166,7 +166,7 @@ function EmailLMS() {
             listChiTietDeNghi.filter((e) => e.value === chiTietDeNghi)[0].text
           }`,
           "",
-          "info"
+          "info",
         );
       }
     });
@@ -182,7 +182,7 @@ function EmailLMS() {
         const checkTrungTaiKhoan = await getKiemTraTrungTaiKhoanEmailLMS(
           dataYeuCau.MC_DT_EMAILLMS_MaSinhVien,
           dataYeuCau.MC_DT_EMAILLMS_Loai,
-          dataYeuCau.MC_DT_EMAILLMS_YeuCau
+          dataYeuCau.MC_DT_EMAILLMS_YeuCau,
         );
         if (checkTrungTaiKhoan.status === 200) {
           const data = await checkTrungTaiKhoan.data;
@@ -200,7 +200,7 @@ function EmailLMS() {
       const checkKiemTraTrung = await getKiemTraTrungEmailLMS(
         dataYeuCau.MC_DT_EMAILLMS_MaSinhVien,
         dataYeuCau.MC_DT_EMAILLMS_Loai,
-        dataYeuCau.MC_DT_EMAILLMS_YeuCau
+        dataYeuCau.MC_DT_EMAILLMS_YeuCau,
       );
       if (checkKiemTraTrung.status === 200) {
         const body = checkKiemTraTrung.data?.body[0];

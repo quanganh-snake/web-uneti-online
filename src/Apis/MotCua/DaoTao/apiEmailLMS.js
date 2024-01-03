@@ -3,7 +3,7 @@ import http from "@/Configs/http";
 export const getKiemTraTrungEmailLMS = (
   MaSinhVien = "",
   Loai = "",
-  YeuCau = ""
+  YeuCau = "",
 ) => {
   return http.get("SP_MC_DT_EMAILLMS_TiepNhan/KiemTraTrung", {
     params: {
@@ -17,7 +17,7 @@ export const getKiemTraTrungEmailLMS = (
 export const getKiemTraTrungTaiKhoanEmailLMS = (
   MaSinhVien = "",
   Loai = "",
-  YeuCau = ""
+  YeuCau = "",
 ) => {
   return http.get(
     "SP_MC_DT_EMAILLMS_TiepNhan/KiemTraTrungTaiKhoan_QTPM_QLEMAIL",
@@ -27,7 +27,7 @@ export const getKiemTraTrungTaiKhoanEmailLMS = (
         MC_DT_EMAILLMS_Loai: Loai,
         MC_DT_EMAILLMS_YeuCau: YeuCau,
       },
-    }
+    },
   );
 };
 

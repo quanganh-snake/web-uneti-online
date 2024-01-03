@@ -1,12 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react";
+import PropTypes from "prop-types";
 
 function HocKyDeNghi(props) {
-  return (
-    <div>HocKyDeNghi</div>
-  )
+  return <div>HocKyDeNghi</div>;
 }
 
-HocKyDeNghi.propTypes = {}
+HocKyDeNghi.propTypes = {};
 
-export default HocKyDeNghi
+export default HocKyDeNghi;

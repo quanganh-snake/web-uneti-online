@@ -63,7 +63,7 @@ function HuyDangKyThiLai() {
     } else {
       // Xóa khỏi mảng yeucau
       const updatedYeucau = selectedRows.filter(
-        (yeucauItem) => yeucauItem !== item
+        (yeucauItem) => yeucauItem !== item,
       );
       setSelectedRows(updatedYeucau);
     }
@@ -111,10 +111,10 @@ function HuyDangKyThiLai() {
       dataHocPhan.MC_KT_HDKThiLai_DienThoai = dataSV.SoDienThoai
         ? dataSV.SoDienThoai
         : dataSV.SoDienThoai2
-        ? dataSV.SoDienThoai2
-        : dataSV.SoDienThoai3
-        ? dataSV.SoDienThoai3
-        : "null";
+          ? dataSV.SoDienThoai2
+          : dataSV.SoDienThoai3
+            ? dataSV.SoDienThoai3
+            : "null";
       dataHocPhan.MC_KT_HDKThiLai_Email = dataSV.Email_TruongCap
         ? dataSV.Email_TruongCap
         : "null";
@@ -123,7 +123,7 @@ function HuyDangKyThiLai() {
         ? new Date(
             `${dataSV.NgaySinh.split("/")[2]}-${
               dataSV.NgaySinh.split("/")[1]
-            }-${dataSV.NgaySinh.split("/")[0]}`
+            }-${dataSV.NgaySinh.split("/")[0]}`,
           ).toISOString()
         : "null";
       dataHocPhan.MC_KT_HDKThiLai_IDSinhVien = dataSV.IdSinhVien
@@ -200,7 +200,7 @@ function HuyDangKyThiLai() {
         dataHocPhan.MC_KT_HDKThiLai_TenCoSo,
         dataHocPhan.MC_KT_HDKThiLai_TenDot,
         dataHocPhan.MC_KT_HDKThiLai_MaLopHocPhan,
-        dataHocPhan.MC_KT_HDKThiLai_LoaiThi
+        dataHocPhan.MC_KT_HDKThiLai_LoaiThi,
       );
       if (checkHDKThiTrung.status === 200) {
         // kiểm tra trùng yêu cầu
@@ -273,7 +273,7 @@ function HuyDangKyThiLai() {
         (res) => {
           setLoading(false);
           setListHocPhan(res?.data?.body);
-        }
+        },
       );
     }
 

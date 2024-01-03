@@ -1,1 +1,1 @@
-export { Posts } from './Posts.jsx'
+export { Posts } from "./Posts.jsx";

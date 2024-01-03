@@ -9,7 +9,7 @@ export const getAllHocPhanDKLopChatLuong = (TenDot = "", MaSinhVien = "") => {
         MC_DT_DKHocChatLuong_TenDot: TenDot,
         MC_DT_DKHocChatLuong_MaSinhVien: MaSinhVien,
       },
-    }
+    },
   );
 };
 
@@ -22,7 +22,7 @@ export const getKiemTraQuaHanDKLopChatLuong = () => {
 export const getKiemTraTrungDKLopChatLuong = (
   MaSinhVien = "",
   LyDo = "",
-  MaLopHoc = ""
+  MaLopHoc = "",
 ) => {
   return http.get("SP_MC_DT_DKHocChatLuong_TiepNhan/KiemTraTrung", {
     params: {

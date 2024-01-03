@@ -1,1 +1,1 @@
-export { useBem } from './useBem.js'
+export { useBem } from "./useBem.js";

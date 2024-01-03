@@ -1,6 +1,6 @@
-@use 'Styles/Mixins/mixins' as *;
-@use 'Styles/Mixins/var' as *;
-@use 'Styles/Common/var' as *;
+@use "Styles/Mixins/mixins" as *;
+@use "Styles/Mixins/var" as *;
+@use "Styles/Common/var" as *;
 
 @include b(uneti_chart) {
   @include e(view) {

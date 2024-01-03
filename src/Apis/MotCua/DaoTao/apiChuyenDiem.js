@@ -8,7 +8,7 @@ export const getAllHocPhanChuyenDiem = (MaSinhVien = "") => {
 
 export const getAllHocPhanTuongDuongChuyenDiem = (
   MaSinhVien = "",
-  MaMonHoc = ""
+  MaMonHoc = "",
 ) => {
   return http.get("SP_MC_DT_ChuyenDiem_TiepNhan/HT_HPTD_MCD_MaMonHoc", {
     params: {

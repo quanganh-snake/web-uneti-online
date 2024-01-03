@@ -1,63 +1,63 @@
-const statePrefix = 'is-'
+const statePrefix = "is-";
 
 const _bem = (block, blockSuffix, element, modifier) => {
-  let cls = `${block}`
+  let cls = `${block}`;
   if (blockSuffix) {
-    cls += `-${blockSuffix}`
+    cls += `-${blockSuffix}`;
   }
   if (element) {
-    cls += `__${element}`
+    cls += `__${element}`;
   }
   if (modifier) {
-    cls += `--${modifier}`
+    cls += `--${modifier}`;
   }
-  return cls
-}
+  return cls;
+};
 
 export const useBem = (block) => {
-  const b = (blockSuffix = '') => _bem(block, blockSuffix, '', '')
-  const e = (element = '') => (element ? _bem(block, '', element, '') : '')
-  const m = (modifier = '') => (modifier ? _bem(block, '', '', modifier) : '')
-  const be = (blockSuffix = '', element = '') =>
-    blockSuffix && element ? _bem(block, blockSuffix, element, '') : ''
-  const em = (element = '', modifier = '') =>
-    element && modifier ? _bem(block, '', element, modifier) : ''
-  const bm = (blockSuffix = '', modifier = '') =>
-    blockSuffix && modifier ? _bem(block, blockSuffix, '', modifier) : ''
-  const bem = (blockSuffix = '', element = '', modifier = '') =>
+  const b = (blockSuffix = "") => _bem(block, blockSuffix, "", "");
+  const e = (element = "") => (element ? _bem(block, "", element, "") : "");
+  const m = (modifier = "") => (modifier ? _bem(block, "", "", modifier) : "");
+  const be = (blockSuffix = "", element = "") =>
+    blockSuffix && element ? _bem(block, blockSuffix, element, "") : "";
+  const em = (element = "", modifier = "") =>
+    element && modifier ? _bem(block, "", element, modifier) : "";
+  const bm = (blockSuffix = "", modifier = "") =>
+    blockSuffix && modifier ? _bem(block, blockSuffix, "", modifier) : "";
+  const bem = (blockSuffix = "", element = "", modifier = "") =>
     blockSuffix && element && modifier
       ? _bem(block, blockSuffix, element, modifier)
-      : ''
+      : "";
   const is = (name, ...args) => {
-    const state = args.length >= 1 ? args[0] : true
-    return name && state ? `${statePrefix}${name}` : ''
-  }
+    const state = args.length >= 1 ? args[0] : true;
+    return name && state ? `${statePrefix}${name}` : "";
+  };
 
   // for css var
   // { 'color': #adcc }
   // --color: #adcc;
   const cssVar = (object) => {
-    const styles = {}
+    const styles = {};
     for (const key in object) {
       if (object[key]) {
-        styles[`--${key}`] = object[key]
+        styles[`--${key}`] = object[key];
       }
     }
-    return styles
-  }
+    return styles;
+  };
   // with block
   const cssVarBlock = (object) => {
-    const styles = {}
+    const styles = {};
     for (const key in object) {
       if (object[key]) {
-        styles[`--${block}-${key}`] = object[key]
+        styles[`--${block}-${key}`] = object[key];
       }
     }
-    return styles
-  }
+    return styles;
+  };
 
-  const cssVarName = (name) => `--${name}`
-  const cssVarBlockName = (name) => `--${block}-${name}`
+  const cssVarName = (name) => `--${name}`;
+  const cssVarBlockName = (name) => `--${block}-${name}`;
 
   return {
     b,
@@ -73,5 +73,5 @@ export const useBem = (block) => {
     cssVarName,
     cssVarBlock,
     cssVarBlockName,
-  }
-}
+  };
+};

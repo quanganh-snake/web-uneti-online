@@ -1,26 +1,26 @@
-import XinChuyenView from './XinChuyenView'
+import XinChuyenView from "./XinChuyenView";
 
 function XinChuyen() {
   const home = {
-    path: '/motcua',
-    title: 'Bộ phận một cửa'
-  }
+    path: "/motcua",
+    title: "Bộ phận một cửa",
+  };
 
   const breadcrumbs = [
     {
-      path: '/motcua/ct&ctsv',
-      title: 'Công tác sinh viên'
+      path: "/motcua/ct&ctsv",
+      title: "Công tác sinh viên",
     },
     {
-      path: '/motcua/ct&ctsv/xinchuyen',
-      title: 'Xin chuyển'
-    }
-  ]
+      path: "/motcua/ct&ctsv/xinchuyen",
+      title: "Xin chuyển",
+    },
+  ];
 
   const handleDownloadFile = (e) => {
-    e.preventDefault()
-    console.log('download file here')
-  }
+    e.preventDefault();
+    console.log("download file here");
+  };
 
   return (
     <XinChuyenView
@@ -28,7 +28,7 @@ function XinChuyen() {
       breadcrumbs={breadcrumbs}
       handleDownloadFile={handleDownloadFile}
     />
-  )
+  );
 }
 
-export default XinChuyen
+export default XinChuyen;

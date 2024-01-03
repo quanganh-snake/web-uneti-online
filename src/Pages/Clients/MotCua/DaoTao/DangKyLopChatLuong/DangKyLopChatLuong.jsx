@@ -116,7 +116,7 @@ function DangKyLopChatLuong() {
       ? new Date(
           `${dataSV.NgaySinh.split("/")[2]}-${dataSV.NgaySinh.split("/")[1]}-${
             dataSV.NgaySinh.split("/")[0]
-          }`
+          }`,
         ).toISOString()
       : "null";
     dataHocPhan.MC_DT_DKHocChatLuong_TenLop = dataSV.LopHoc
@@ -125,10 +125,10 @@ function DangKyLopChatLuong() {
     dataHocPhan.MC_DT_DKHocChatLuong_DienThoai = dataSV.SoDienThoai
       ? dataSV.SoDienThoai
       : dataSV.SoDienThoai2
-      ? dataSV.SoDienThoai2
-      : dataSV.SoDienThoai3
-      ? dataSV.SoDienThoai3
-      : "null";
+        ? dataSV.SoDienThoai2
+        : dataSV.SoDienThoai3
+          ? dataSV.SoDienThoai3
+          : "null";
     dataHocPhan.MC_DT_DKHocChatLuong_Email = dataSV.Email_TruongCap
       ? dataSV.Email_TruongCap
       : "null";
@@ -187,9 +187,9 @@ function DangKyLopChatLuong() {
             text: `Lớp chất lượng ${
               dataHocPhan.MC_DT_DKHocChatLuong_TenLop
             } hiện tại không thể đăng ký (Hạn đăng ký từ ngày ${dayjs(
-              ngayBatDau
+              ngayBatDau,
             ).format("DD-MM-YYYY")} đến ngày ${dayjs(ngayKetThuc).format(
-              "DD-MM-YYYY"
+              "DD-MM-YYYY",
             )})`,
           });
           return;
@@ -200,7 +200,7 @@ function DangKyLopChatLuong() {
       const checkTrungDKLopChatLuong = await getKiemTraTrungDKLopChatLuong(
         dataHocPhan.MC_DT_DKHocChatLuong_MaSinhVien,
         dataHocPhan.MC_DT_DKHocChatLuong_YeuCau_LyDo,
-        dataHocPhan.MC_DT_DKHocChatLuong_MaLopHoc
+        dataHocPhan.MC_DT_DKHocChatLuong_MaLopHoc,
       );
       if (checkTrungDKLopChatLuong.status === 200) {
         if (checkTrungDKLopChatLuong.data?.body[0]) {

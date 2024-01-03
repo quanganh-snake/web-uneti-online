@@ -42,7 +42,7 @@ function ChuyenDiemView(props) {
 
   const listHocPhanShow = listHocPhan.slice(
     itemPerPage * (currentPage - 1),
-    itemPerPage * (currentPage - 1) + itemPerPage
+    itemPerPage * (currentPage - 1) + itemPerPage,
   );
 
   return (

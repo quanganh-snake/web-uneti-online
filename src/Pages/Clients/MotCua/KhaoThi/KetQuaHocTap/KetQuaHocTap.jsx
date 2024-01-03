@@ -62,7 +62,7 @@ function KetQuaHocTap() {
     } else {
       // Xóa khỏi mảng yeucau
       const updatedYeucau = selectedRows.filter(
-        (yeucauItem) => yeucauItem !== item
+        (yeucauItem) => yeucauItem !== item,
       );
       setSelectedRows(updatedYeucau);
     }
@@ -120,10 +120,10 @@ function KetQuaHocTap() {
       dataHocPhan.MC_KT_KetQuaHT_DienThoai = dataSV.SoDienThoai
         ? dataSV.SoDienThoai
         : dataSV.SoDienThoai2
-        ? dataSV.SoDienThoai2
-        : dataSV.SoDienThoai3
-        ? dataSV.SoDienThoai3
-        : "";
+          ? dataSV.SoDienThoai2
+          : dataSV.SoDienThoai3
+            ? dataSV.SoDienThoai3
+            : "";
       dataHocPhan.MC_KT_KetQuaHT_Email = dataSV.Email_TruongCap
         ? dataSV.Email_TruongCap
         : "null";
@@ -131,7 +131,7 @@ function KetQuaHocTap() {
         ? new Date(
             `${dataSV.NgaySinh.split("/")[2]}-${
               dataSV.NgaySinh.split("/")[1]
-            }-${dataSV.NgaySinh.split("/")[0]}`
+            }-${dataSV.NgaySinh.split("/")[0]}`,
           ).toISOString()
         : "null";
       dataHocPhan.MC_KT_KetQuaHT_IDSinhVien = dataSV.IdSinhVien
@@ -210,7 +210,7 @@ function KetQuaHocTap() {
         dataHocPhan.MC_KT_KetQuaHT_MaSinhVien,
         dataHocPhan.MC_KT_KetQuaHT_TenDot,
         dataHocPhan.MC_KT_KetQuaHT_TenMonHoc,
-        dataHocPhan.MC_KT_KetQuaHT_MaMonHoc
+        dataHocPhan.MC_KT_KetQuaHT_MaMonHoc,
       );
       if (checkKiemTraTrungKQHT.status === 200) {
         const body = checkKiemTraTrungKQHT.data?.body[0];
@@ -283,7 +283,7 @@ function KetQuaHocTap() {
         setLoading(false);
         if (tenDot !== "Tất cả học kỳ") {
           setListHocPhan(() =>
-            (res?.data?.body).filter((hocPhan) => hocPhan.TenDot === tenDot)
+            (res?.data?.body).filter((hocPhan) => hocPhan.TenDot === tenDot),
           );
         } else {
           setListHocPhan(() => res?.data?.body);

@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 function HomeAdmin() {
-  return (
-    <div>HomeAdmin</div>
-  )
+  return <div>HomeAdmin</div>;
 }
 
-export default HomeAdmin
+export default HomeAdmin;
