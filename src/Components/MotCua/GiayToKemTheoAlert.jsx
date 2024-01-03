@@ -1,5 +1,5 @@
 import { downloadFileById } from '@/Apis/MotCua/apiTaiFileMau'
-import { Alert } from '../Alert/Alert'
+import { Alert } from '@/Components/Alert/Alert'
 import Swal from 'sweetalert2'
 import { convertBufferToBase64 } from '@/Services/Utils/stringUtils'
 import { useMemo } from 'react'
