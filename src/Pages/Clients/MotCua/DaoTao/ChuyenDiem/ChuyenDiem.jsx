@@ -3,6 +3,7 @@ import ChuyenDiemView from './ChuyenDiemView'
 import {
   getAllHocPhanChuyenDiem,
   getAllHocPhanTuongDuongChuyenDiem,
+  getChuyenDiemID,
   getKiemTraTrungChuyenDiem,
   postChuyenDiem,
   postChuyenDiemChiTiet,
@@ -62,6 +63,8 @@ function ChuyenDiem() {
 
   const [files, setFiles] = useState([])
 
+  const [chuyenDiemID, setChuyenDiemID] = useState('')
+
   const dataSV = DataSinhVien()
 
   const handleSelectHocPhan = (e, hp) => {
@@ -70,10 +73,6 @@ function ChuyenDiem() {
 
   const handleSelectHocPhanTuongDuong = (e, hp) => {
     setHocPhanTuongDuong(() => hp)
-  }
-
-  const handleDownloadFile = () => {
-    console.log('download file here')
   }
 
   const handleFilesChange = (file) => {
@@ -85,11 +84,16 @@ function ChuyenDiem() {
       setListHocPhan(res?.data?.body)
     })
 
+    getChuyenDiemID(dataSV.MaSinhVien).then((res) => {
+      setChuyenDiemID(res?.data?.body[0].MC_DT_ChuyenDiem_ID.toString())
+    })
+
     return () => {
       setListHocPhan([])
       setListHocPhanTuongDuong([])
       setHocPhanTuongDuong({})
       setFiles([])
+      setChuyenDiemID('')
     }
   }, [])
 
@@ -149,7 +153,8 @@ function ChuyenDiem() {
       : 'null'
     dataChuyenDiem.MC_DT_ChuyenDiem_HoDem = dataSV.HoDem ? dataSV.HoDem : 'null'
     dataChuyenDiem.MC_DT_ChuyenDiem_Ten = dataSV.Ten ? dataSV.Ten : 'null'
-    dataChuyenDiem.MC_DT_ChuyenDiem_GioiTinh = dataSV.GioiTinh ?? 'null'
+    dataChuyenDiem.MC_DT_ChuyenDiem_GioiTinh =
+      dataSV.GioiTinh !== null ? dataSV.GioiTinh.toString() : 'null'
     dataChuyenDiem.MC_DT_ChuyenDiem_NgaySinh2 = dataSV.NgaySinh
       ? new Date(
           `${dataSV.NgaySinh.split('/')[2]}-${dataSV.NgaySinh.split('/')[1]}-${
@@ -215,7 +220,9 @@ function ChuyenDiem() {
     }
 
     // dataChuyenDiemChiTiet
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ID = '1'
+    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ID = chuyenDiemID.length
+      ? chuyenDiemID
+      : 'null'
     dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_IDDot =
       hocPhan.MC_DT_ChuyenDiem_ChiTiet_IDDot
         ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_IDDot.toString()
@@ -233,8 +240,8 @@ function ChuyenDiem() {
         ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_HocKy
         : 'null'
     dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_MaMonHoc =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_MTD_MaMonHoc
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_MTD_MaMonHoc
+      hocPhanTuongDuong.HT_HPTD_MCD_MaMonHoc
+        ? hocPhanTuongDuong.HT_HPTD_MCD_MaMonHoc
         : 'null'
     dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_MaHocPhan =
       hocPhan.MC_DT_ChuyenDiem_ChiTiet_MaHocPhan
@@ -344,7 +351,7 @@ function ChuyenDiem() {
         dataChuyenDiem.MC_DT_ChuyenDiem_MaSinhVien,
         dataChuyenDiem.MC_DT_ChuyenDiem_YeuCau,
         dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_HocKy,
-        dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_MTD_MaMonHoc,
+        dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_MaMonHoc,
       )
 
       if (checkTrungChuyenDiem.status === 200) {
@@ -443,7 +450,6 @@ function ChuyenDiem() {
       hocPhanTuongDuong={hocPhanTuongDuong}
       setHocPhanTuongDuong={setHocPhanTuongDuong}
       handleSelectHocPhanTuongDuong={handleSelectHocPhanTuongDuong}
-      handleDownloadFile={handleDownloadFile}
       files={files}
       handleFilesChange={handleFilesChange}
       handleSubmitData={handleSubmitData}

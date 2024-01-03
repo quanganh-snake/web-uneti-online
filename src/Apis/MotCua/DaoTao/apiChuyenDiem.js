@@ -6,6 +6,17 @@ export const getAllHocPhanChuyenDiem = (MaSinhVien = '') => {
   })
 }
 
+export const getChuyenDiemID = (MaSinhVien = '') => {
+  return http.get(
+    'SP_MC_DT_ChuyenDiem_TiepNhan/Load_R_MC_DT_ChuyenDiem_ID_ByMaSinhVien',
+    {
+      params: {
+        MC_DT_ChuyenDiem_MaSinhVien: MaSinhVien,
+      },
+    },
+  )
+}
+
 export const getAllHocPhanTuongDuongChuyenDiem = (
   MaSinhVien = '',
   MaMonHoc = '',

@@ -10,6 +10,8 @@ import {
   TextareaAutosize,
 } from '@mui/material'
 import FileSelect from '@/Components/FileSelect/FileSelect'
+import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
+import { VanBanMauId } from '@/Configs/constants'
 
 function ChuyenDiemView(props) {
   const {
@@ -34,7 +36,6 @@ function ChuyenDiemView(props) {
     hocPhanTuongDuong,
     setHocPhanTuongDuong,
     handleSelectHocPhanTuongDuong,
-    handleDownloadFile,
     files,
     handleFilesChange,
     handleSubmitData,
@@ -261,7 +262,7 @@ function ChuyenDiemView(props) {
                               {hp.HT_HPTD_TenKhoa}
                             </td>
                             <td className="text-center p-3 border border-solid border-[#dee2e6]">
-                              {hp.HT_HPTD_MCD_MaMonHoc}
+                              {hp.HT_HPTD_MTD_MaMonHoc}
                             </td>
                             <td className="text-center p-3 border border-solid border-[#dee2e6]">
                               {hp.HT_HPTD_MTD_TenMonHoc}
@@ -329,36 +330,10 @@ function ChuyenDiemView(props) {
             </div>
           )}
           <div className="py-8 flex flex-col justify-center items-center gap-4">
-            <div className="w-[75%] flex flex-col justify-start items-start gap-4">
-              <p className="text-red-500 font-bold italic">
-                <span className="underline">GHI CHÚ:</span> ĐỐI VỚI CÁC CHỨC
-                NĂNG BỊ GIỚI HẠN KHÔNG CHO PHÉP ĐỀ NGHỊ TRỰC TUYẾN, NGƯỜI HỌC
-                CẦN ĐẾN BỘ PHẬN MỘT CỬA ĐỂ ĐỀ NGHỊ TRỰC TIẾP.
-              </p>
-              <p>Các giấy tờ kèm theo (click vào tên giấy tờ để tải file):</p>
-              <p>
-                1. Mẫu đề nghị giải quyết thủ tục hành chính:
-                <span
-                  onClick={handleDownloadFile}
-                  className="mx-2 cursor-pointer text-[#245D7C] duration-200 hover:text-[#0056b3]"
-                >
-                  Chuyển điểm
-                </span>
-                (Người học cần in, điền thông tin vào mẫu và nộp tại bộ phận Một
-                cửa hoặc đến trực tiếp bộ phận Một cửa để lấy mẫu đề nghị giải
-                quyết thủ tục hành chính).
-              </p>
-              <p>
-                2. Mẫu giấy tờ kèm theo đề nghị (nếu trong đề nghị yêu cầu),
-                người học tải file mẫu tại địa chỉ sau
-                <a
-                  className="mx-2 text-[#245D7C] duration-200 hover:text-[#0056b3]"
-                  href="https://uneti.edu.vn/bieu-mau-bo-phan-hanh-chinh-mot-cua/"
-                >
-                  https://uneti.edu.vn/bieu-mau-bo-phan-hanh-chinh-mot-cua/
-                </a>
-              </p>
-            </div>
+            <GiayToKemTheoAlert
+              downloadId={VanBanMauId.MotCua.DaoTao.ChuyenDiem}
+              downloadText={'Chuyển điểm'}
+            />
           </div>
         </div>
       </div>
@@ -388,7 +363,6 @@ ChuyenDiemView.propTypes = {
   hocPhanTuongDuong: PropTypes.object,
   setHocPhanTuongDuong: PropTypes.func,
   handleSelectHocPhanTuongDuong: PropTypes.func,
-  handleDownloadFile: PropTypes.func,
   files: PropTypes.array,
   handleFilesChange: PropTypes.func,
   handleSubmitData: PropTypes.func,
