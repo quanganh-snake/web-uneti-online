@@ -9,6 +9,7 @@ import {
   TextField,
   TextareaAutosize,
 } from "@mui/material";
+import FileSelect from "@/Components/FileSelect/FileSelect";
 
 function ChuyenDiemView(props) {
   const {
@@ -34,6 +35,10 @@ function ChuyenDiemView(props) {
     setHocPhanTuongDuong,
     handleSelectHocPhanTuongDuong,
     handleDownloadFile,
+    files,
+    handleFilesChange,
+    handleSubmitData,
+    isEmpty,
   } = props;
 
   const itemPerPage = 5;
@@ -203,85 +208,126 @@ function ChuyenDiemView(props) {
               </table>
             </div>
           </form>
-          <div className="py-8 flex flex-col justify-center items-center gap-4">
-            <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
-              <table className="w-full min-w-[800px]">
-                <thead>
-                  <tr>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
-                      STT
-                    </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
-                      CHỌN
-                    </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
-                      TÊN KHOA
-                    </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
-                      MÃ MÔN HỌC
-                    </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
-                      TÊN MÔN HỌC
-                    </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
-                      SỐ TÍN CHỈ
-                    </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
-                      BẬC ĐÀO TẠO
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {listHocPhanTuongDuong.length ? (
-                    listHocPhanTuongDuong.map((hp, index) => (
-                      <tr key={index}>
-                        <td className="text-center p-3 border border-solid border-[#dee2e6]">
-                          {(currentPage - 1) * itemPerPage + index + 1}
-                        </td>
-                        <td className="text-center p-3 border border-solid border-[#dee2e6]">
-                          <Checkbox
-                            onChange={(e) => {
-                              handleSelectHocPhanTuongDuong(e, hp);
-                            }}
-                            checked={
-                              hp.HT_HPTD_MTD_MaMonHoc ===
-                              hocPhanTuongDuong.HT_HPTD_MTD_MaMonHoc
-                            }
-                          />
-                        </td>
-                        <td className="text-center p-3 border border-solid border-[#dee2e6]">
-                          {hp.HT_HPTD_TenKhoa}
-                        </td>
-                        <td className="text-center p-3 border border-solid border-[#dee2e6]">
-                          {hp.HT_HPTD_MCD_MaMonHoc}
-                        </td>
-                        <td className="text-center p-3 border border-solid border-[#dee2e6]">
-                          {hp.HT_HPTD_MTD_TenMonHoc}
-                        </td>
-                        <td className="text-center p-3 border border-solid border-[#dee2e6]">
-                          {hp.HT_HPTD_MTD_SoTinChi}
-                        </td>
-                        <td className="text-center p-3 border border-solid border-[#dee2e6]">
-                          {hp.HT_HPTD_MTD_BacDaoTao}
-                        </td>
+
+          {!isEmpty(hocPhan) && (
+            <div className="py-8 flex flex-col justify-center items-center gap-4">
+              <div className="w-[75%] flex flex-col md:justify-between md:items-center gap-2">
+                <div className="w-full overflow-x-auto">
+                  <table className="w-full min-w-[800px]">
+                    <thead>
+                      <tr>
+                        <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                          STT
+                        </th>
+                        <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                          CHỌN
+                        </th>
+                        <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                          TÊN KHOA
+                        </th>
+                        <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                          MÃ MÔN HỌC
+                        </th>
+                        <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                          TÊN MÔN HỌC
+                        </th>
+                        <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                          SỐ TÍN CHỈ
+                        </th>
+                        <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                          BẬC ĐÀO TẠO
+                        </th>
                       </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td
-                        colSpan="8"
-                        className="text-center p-3 border border-solid border-[#dee2e6]"
-                      >
-                        Hiện tại không có học phần tương đương cho môn này. Vui
-                        lòng thử lại sau.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-              <div className=""></div>
+                    </thead>
+                    <tbody>
+                      {listHocPhanTuongDuong.length ? (
+                        listHocPhanTuongDuong.map((hp, index) => (
+                          <tr key={index}>
+                            <td className="text-center p-3 border border-solid border-[#dee2e6]">
+                              {(currentPage - 1) * itemPerPage + index + 1}
+                            </td>
+                            <td className="text-center p-3 border border-solid border-[#dee2e6]">
+                              <Checkbox
+                                onChange={(e) => {
+                                  handleSelectHocPhanTuongDuong(e, hp);
+                                }}
+                                checked={
+                                  hp.HT_HPTD_MTD_MaMonHoc ===
+                                  hocPhanTuongDuong.HT_HPTD_MTD_MaMonHoc
+                                }
+                              />
+                            </td>
+                            <td className="text-center p-3 border border-solid border-[#dee2e6]">
+                              {hp.HT_HPTD_TenKhoa}
+                            </td>
+                            <td className="text-center p-3 border border-solid border-[#dee2e6]">
+                              {hp.HT_HPTD_MCD_MaMonHoc}
+                            </td>
+                            <td className="text-center p-3 border border-solid border-[#dee2e6]">
+                              {hp.HT_HPTD_MTD_TenMonHoc}
+                            </td>
+                            <td className="text-center p-3 border border-solid border-[#dee2e6]">
+                              {hp.HT_HPTD_MTD_SoTinChi}
+                            </td>
+                            <td className="text-center p-3 border border-solid border-[#dee2e6]">
+                              {hp.HT_HPTD_MTD_BacDaoTao}
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td
+                            colSpan="8"
+                            className="text-center p-3 border border-solid border-[#dee2e6]"
+                          >
+                            Hiện tại không có học phần tương đương cho môn này.
+                            Vui lòng thử lại sau.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+                {!isEmpty(hocPhanTuongDuong) && (
+                  <div className="w-full flex flex-col justify-center items-center">
+                    <div className="w-full">
+                      <span className="block pr-10 pb-4">
+                        Ảnh giấy tờ kèm theo
+                      </span>
+
+                      {/* Files area */}
+                      <div className="w-full flex flex-wrap justify-start items-center gap-2">
+                        {/* Preview image */}
+                        {files.map((file) => (
+                          <img
+                            className="w-28 h-28 rounded-xl object-cover border border-stone-900"
+                            key={file.uniqueIdentifier}
+                            src={URL.createObjectURL(file)}
+                          />
+                        ))}
+
+                        {files.length < 5 && (
+                          <FileSelect
+                            width="128"
+                            height="128"
+                            maxFiles={5}
+                            label="Ấn để chọn ảnh hoặc kéo thả ảnh vào đây"
+                            handleFilesChange={handleFilesChange}
+                          />
+                        )}
+                      </div>
+                    </div>
+                    <button
+                      onClick={handleSubmitData}
+                      className="mt-8 px-5 py-3 border-2 border-solid text-[#245D7C] border-[#245D7C] rounded-md font-bold transition-all duration-200 hover:bg-[#245D7C] hover:text-white"
+                    >
+                      Gửi Yêu Cầu
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+          )}
           <div className="py-8 flex flex-col justify-center items-center gap-4">
             <div className="w-[75%] flex flex-col justify-start items-start gap-4">
               <p className="text-red-500 font-bold italic">
@@ -343,6 +389,10 @@ ChuyenDiemView.propTypes = {
   setHocPhanTuongDuong: PropTypes.func,
   handleSelectHocPhanTuongDuong: PropTypes.func,
   handleDownloadFile: PropTypes.func,
+  files: PropTypes.array,
+  handleFilesChange: PropTypes.func,
+  handleSubmitData: PropTypes.func,
+  isEmpty: PropTypes.func,
 };
 
 export default ChuyenDiemView;

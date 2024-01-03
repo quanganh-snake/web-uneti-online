@@ -1,5 +1,4 @@
 import http from "@/Configs/http";
-import { data } from "autoprefixer";
 
 export const getAllHocPhanDKLopChatLuong = (TenDot = "", MaSinhVien = "") => {
   return http.get(

@@ -17,3 +17,27 @@ export const getAllHocPhanTuongDuongChuyenDiem = (
     },
   });
 };
+
+export const getKiemTraTrungChuyenDiem = (
+  MaSinhVien = "",
+  YeuCau = "",
+  HocKy = "",
+  MaMonHoc = ""
+) => {
+  return http.get("SP_MC_DT_ChuyenDiem_TiepNhan/KiemTraTrung", {
+    params: {
+      MC_DT_ChuyenDiem_MaSinhVien: MaSinhVien,
+      MC_DT_ChuyenDiem_YeuCau: YeuCau,
+      MC_DT_ChuyenDiem_ChiTiet_HocKy: HocKy,
+      MC_DT_ChuyenDiem_ChiTiet_MaMonHoc: MaMonHoc,
+    },
+  });
+};
+
+export const postChuyenDiem = (data = {}) => {
+  return http.post("SP_MC_DT_ChuyenDiem_TiepNhan/Add_Para", data);
+};
+
+export const postChuyenDiemChiTiet = (data = {}) => {
+  return http.post("SP_MC_DT_ChuyenDiem_TiepNhan/ChiTiet_Add_Para", data);
+};
