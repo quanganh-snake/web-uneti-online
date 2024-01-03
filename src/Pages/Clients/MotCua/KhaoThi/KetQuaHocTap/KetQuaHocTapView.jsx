@@ -38,7 +38,7 @@ function KetQuaHocTapView(props) {
               TIẾP NHẬN KẾT QUẢ HỌC TẬP
             </h2>
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
-              <span className="block pr-10 w-[300px]">Học kỳ (*)</span>
+              <span className="block pr-10 w-[120px]">Học kỳ (*)</span>
               <Select
                 value={tenDot}
                 onChange={(e) => setTenDot(e.target.value)}
@@ -53,7 +53,7 @@ function KetQuaHocTapView(props) {
               </Select>
             </div>
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
-              <span className="block pr-10 w-[300px]">Lý do (*)</span>
+              <span className="block pr-10 w-[120px]">Lý do (*)</span>
               <Select
                 value={lyDo}
                 onChange={(e) => {
