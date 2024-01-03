@@ -28,7 +28,6 @@ function FormYeuCauSuaDiem(props) {
           onChange={(e) => setDiemSua(e.target.value)}
           type="number"
           InputProps={{ inputProps: { min: 0, max: 10 } }}
-          variant="filled"
           className="flex-1 md:max-w-[75%] p-2 rounded-md border border-solid border-gray-300"
         />
       </div>

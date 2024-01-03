@@ -74,7 +74,6 @@ function EmailLMSView(props) {
                   value={emailCaNhan}
                   onChange={(e) => setEmailCaNhan(e.target.value)}
                   type="email"
-                  variant="filled"
                   className="flex-1 md:max-w-[75%] px-2 rounded-md border border-solid border-gray-300"
                 />
               </div>
