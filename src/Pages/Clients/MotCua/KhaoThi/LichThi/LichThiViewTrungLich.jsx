@@ -5,22 +5,25 @@ import { Checkbox } from '@mui/material'
 import FileSelect from '@/Components/FileSelect/FileSelect'
 import dayjs from 'dayjs'
 import { FaPlus } from 'react-icons/fa6'
+import { isEqual } from 'lodash-unified'
+import { useState } from 'react'
 
 export const LichThiViewTrungLichThi = (props) => {
-  const {
-    handleSubmitData,
-    handleRowSelection,
-    handleFilesChange,
-    files,
-    listHocPhan,
-  } = props
+  const { handleSubmitData, handleRowSelection, listHocPhan, selectedRows } =
+    props
 
   const bem = useBem('lich-thi')
+
+  const [files, setFiles] = useState([])
+
+  const handleFilesChange = (file) => {
+    setFiles((_files) => [..._files, file])
+  }
 
   return (
     <>
       <DataTable
-        maxHeight='400px'
+        maxHeight='500px'
         scrollX
         scrollY
         thead={
@@ -43,7 +46,12 @@ export const LichThiViewTrungLichThi = (props) => {
               <tr key={index}>
                 <td className={bem.is('sticky')}>{index}</td>
                 <td>
-                  <Checkbox onClick={(e) => handleRowSelection(e, hocphan)} />
+                  <Checkbox
+                    checked={selectedRows?.includes((row) =>
+                      isEqual(row, hocphan)
+                    )}
+                    onClick={() => handleRowSelection(hocphan)}
+                  />
                 </td>
                 <td>
                   {hocphan.MaLopHocPhan
@@ -138,7 +146,7 @@ export const LichThiViewTrungLichThi = (props) => {
 
       <div className='pb-10 uneti-action flex justify-center'>
         <button
-          onClick={handleSubmitData}
+          onClick={(e) => handleSubmitData(e, files)}
           className='px-3 py-2 bg-white text-sky-800 font-semibold border border-sky-800 rounded-full hover:bg-sky-800 hover:text-white'
         >
           Gửi yêu cầu
