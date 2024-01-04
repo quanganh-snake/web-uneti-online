@@ -1,9 +1,9 @@
 import { useBem, useClickOutside } from '@/Services/Hooks'
-import { useRef } from 'react'
+import { useRef, useImperativeHandle, forwardRef } from 'react'
 
 import './Dialog.scss'
 
-export default function Dialog(props) {
+export const Dialog = forwardRef((props, ref) => {
   const bem = useBem('dialog')
 
   const { footer, header, children, isOpen, setIsOpen } = props
@@ -24,6 +24,10 @@ export default function Dialog(props) {
   }
 
   useClickOutside(dialogOriginalRef, handleCloseDialog)
+
+  useImperativeHandle(ref, () => ({
+    close: handleCloseDialog,
+  }))
 
   return (
     <>
@@ -60,4 +64,8 @@ export default function Dialog(props) {
       )}
     </>
   )
-}
+})
+
+Dialog.displayName = 'Dialog'
+
+export default Dialog
