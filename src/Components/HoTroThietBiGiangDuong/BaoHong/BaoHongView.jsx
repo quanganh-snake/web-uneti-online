@@ -20,7 +20,7 @@ export const BaoHongView = (props) => {
             <BaoHongForm {...props} />
 
             <div className="relative sm:rounded-lg my-6">
-              <div className="pb-10 uneti-action flex justify-center">
+              <div className="pb-10 uneti-action flex justify-center gap-2">
                 <HuongDanSuDung />
 
                 <button
