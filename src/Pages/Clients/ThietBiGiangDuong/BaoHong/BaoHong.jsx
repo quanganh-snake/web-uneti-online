@@ -1,5 +1,5 @@
-import React from 'react'
+import { BaoHongView } from './BaoHongView'
 
 export default function BaoHong() {
-  return <div>BaoHong</div>
+  return <BaoHongView />
 }

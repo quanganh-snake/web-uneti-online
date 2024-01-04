@@ -9,7 +9,7 @@ import {
   TextField,
   TextareaAutosize,
 } from '@mui/material'
-import FileSelect from '@/Components/FileSelect/FileSelect'
+import FileSelect from '@/Components/Base/FileSelect/FileSelect'
 
 function ChuyenDiemView(props) {
   const {

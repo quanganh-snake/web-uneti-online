@@ -47,7 +47,7 @@ export const FileSelect = (props) => {
       fileTypeErrorCallback(file, errorCount) {
         console.log({ file, errorCount })
       },
-      maxFilesErrorCallback(files, errorCount) {
+      maxFilesErrorCallback() {
         Swal.fire({
           icon: 'error',
           title: 'Lỗi',

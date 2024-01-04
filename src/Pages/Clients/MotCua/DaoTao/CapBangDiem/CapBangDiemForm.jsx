@@ -1,4 +1,4 @@
-import FileSelect from '@/Components/FileSelect/FileSelect'
+import FileSelect from '@/Components/Base/FileSelect/FileSelect'
 import { listNoiNhanKetQua, listLoaiBangDiem } from './constants'
 
 export const CapBangDiemForm = (props) => {

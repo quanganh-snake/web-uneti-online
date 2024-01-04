@@ -1,9 +1,9 @@
 import dayjs from 'dayjs'
-import DataTable from '@/Components/DataTable/DataTable'
+import DataTable from '@/Components/Base/DataTable/DataTable'
 import { useBem } from '@/Services/Hooks'
 import { Checkbox } from '@mui/material'
 import { isEqual } from 'lodash-unified'
-import FileSelect from '@/Components/FileSelect/FileSelect'
+import FileSelect from '@/Components/Base/FileSelect/FileSelect'
 import { FaPlus } from 'react-icons/fa6'
 import { useState } from 'react'
 
