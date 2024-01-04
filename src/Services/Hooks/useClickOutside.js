@@ -4,7 +4,11 @@ import { unrefElement } from '@/Services/Utils/reactUtils'
 const defaultWindow = typeof window !== 'undefined' ? window : undefined
 
 export function useClickOutside(target, handler, options = {}) {
-  const { window = defaultWindow, event = 'pointerdown' } = options
+  const {
+    window = defaultWindow,
+    event = 'pointerdown',
+    allowEsc = true,
+  } = options
 
   function eventPath(event) {
     const path = (event.composedPath && event.composedPath()) || event.path
@@ -27,14 +31,26 @@ export function useClickOutside(target, handler, options = {}) {
 
     const listener = (event) => {
       const el = unrefElement(target)
+      if (!el) return
 
-      if (!el || el === event.target || eventPath(event).includes(el)) return
+      if (el === event.target || eventPath(event).includes(el)) return
 
       handler(event)
     }
 
-    window.addEventListener(event, listener)
+    const listenerKeyDown = (event) => {
+      // TODO: move magic number [27] to Constants
+      if (allowEsc && event.keyCode == 27 /** 27: Phím Esc */) {
+        handler(event)
+      }
+    }
 
-    return () => window.removeEventListener(event, listener)
-  }, [target, handler, window, event])
+    window.addEventListener(event, listener)
+    if (allowEsc) window.addEventListener('keydown', listenerKeyDown)
+
+    return () => {
+      window.removeEventListener(event, listener)
+      if (allowEsc) window.removeEventListener('keydown', listenerKeyDown)
+    }
+  }, [target, handler, window, event, allowEsc])
 }
