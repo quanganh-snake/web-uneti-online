@@ -31,11 +31,11 @@ function ChuyenDiem() {
 
   const listLoaiDiem = [
     {
-      value: '0',
+      value: 'Hệ 10',
       text: 'Hệ 10',
     },
     {
-      value: '1',
+      value: 'Hệ 4',
       text: 'Hệ 4',
     },
   ]

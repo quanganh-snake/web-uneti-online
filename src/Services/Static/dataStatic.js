@@ -54,7 +54,7 @@ export const homeMain = [
     title: 'Hỗ trợ sử dụng phần mềm',
     desc: 'Tổng hợp file cài đặt, tài liệu hướng dẫn sử dụng các phần mềm.',
     icon: icoHTSDPM,
-    path: 'https://demosupportphanmem.uneti.edu.vn/Pages/Home.aspx',
+    path: '/hotrosudungphanmem',
     moduleActive: true,
     roleActive: ['GV', 'SV'],
   },

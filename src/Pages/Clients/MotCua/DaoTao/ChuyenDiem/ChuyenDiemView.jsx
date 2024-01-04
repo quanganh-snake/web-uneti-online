@@ -73,7 +73,7 @@ function ChuyenDiemView(props) {
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10">Loại điểm (*)</span>
               <Select
-                defaultValue="loaiDiem"
+                defaultValue={loaiDiem}
                 value={loaiDiem}
                 onChange={(e) => setLoaiDiem(e.target.value)}
                 className="flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"

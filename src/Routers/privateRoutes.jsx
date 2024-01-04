@@ -58,6 +58,10 @@ import TheoDoiDeNghiTTHCGVChiTiet from '../Pages/Clients/ThuTucHanhChinhGiangVie
 // Page Hỗ trợ sử dụng phần mềm
 import HoTroSuDungPhanMem from '../Pages/Clients/HoTroSuDungPhanMem/index.jsx'
 
+// page theo dõi đề nghị SV
+import TheoDoiDeNghi from '@/Pages/Clients/TheoDoiDeNghi/TheoDoiDeNghi.jsx'
+import TheoDoiDeNghiChiTiet from '@/Pages/Clients/TheoDoiDeNghi/TheoDoiDeNghiChiTiet/TheoDoiDeNghiChiTiet.jsx'
+
 const ROLES = ['GV', 'SV']
 
 export const privateRoutes = (
@@ -112,6 +116,14 @@ export const privateRoutes = (
       </Route>
       {/* Một cửa */}
       <Route element={<RoleMiddleware allowedRoles={['SV']} />}>
+        {/* Theo dõi đề nghị */}
+        <Route path="theodoidenghi">
+          <Route index element={<TheoDoiDeNghi />} />
+          <Route
+            path="theodoidenghichitiet"
+            element={<TheoDoiDeNghiChiTiet />}
+          />
+        </Route>
         <Route path="motcua">
           <Route index element={<HomeMotCua />} />
           <Route path="khaothi">
