@@ -17,6 +17,12 @@ import thumbnailDaoTao from '../../assets/Icons/icoThumbnailDaoTao.png'
 import thumbnailHanhChinh from '../../assets/Icons/icoThumbnailHanhChinh.png'
 import thumbnailCTSV from '../../assets/Icons/icoThumbnailCTSV.png'
 
+// icons - thumbnails HTTBGD
+import iconHTTBGDBaoHong from '@/assets/Icons/icoHTTBGDBaoHong.png'
+import iconHTTBGDXuLySuCo from '@/assets/Icons/icoHTTBGDXuLySuCo.png'
+import iconHTTBGDDangKySuDungThietBi from '@/assets/Icons/icoHTTBGDDangKySuDungThietBi.png'
+import iconHTTBGDGopY from '@/assets/Icons/icoHTTBGDGopY.png'
+
 // icons - homeTaSan
 import icoTeamView from '../../assets/Icons/icoTeamviewer.png'
 import icoUltraView from '../../assets/Icons/icoUltraview.png'
@@ -1118,7 +1124,44 @@ export const homeMotCua = [
   },
 ]
 
-export const homeTTBGD = [{}]
+export const homeHTTBGD = [
+  {
+    title: 'Báo hỏng',
+    name: 'Báo hỏng',
+    desc: '<b>Tiếp nhận</b>: Báo hỏng các thiết bị giảng đường',
+    path: '/baohong',
+    thumbnail: iconHTTBGDBaoHong,
+    ico: icoKhaoThi,
+    moduleActive: true,
+  },
+  {
+    title: 'Xử lý sự cố',
+    name: 'Xử lý sự cố',
+    desc: '<b>Tiếp nhận</b>: Xử lý sự cố giảng đường',
+    path: '/xulysuco',
+    thumbnail: iconHTTBGDXuLySuCo,
+    ico: icoKhaoThi,
+    moduleActive: true,
+  },
+  {
+    title: 'Đăng ký sử dụng thiết bị',
+    name: 'Đăng ký sử dụng thiết bị',
+    desc: '<b>Tiếp nhận</b>: Đăng ký sử dụng thiết bị giảng đường',
+    path: '/dangkysudungthietbi',
+    thumbnail: iconHTTBGDDangKySuDungThietBi,
+    ico: icoKhaoThi,
+    moduleActive: true,
+  },
+  {
+    title: 'Góp ý',
+    name: 'Góp ý',
+    desc: '<b>Tiếp nhận</b>: Góp ý',
+    path: '/gopy',
+    thumbnail: iconHTTBGDGopY,
+    ico: icoKhaoThi,
+    moduleActive: true,
+  },
+]
 
 export const homeTaiSan = {
   listCanBoHoTro: [

@@ -39,6 +39,10 @@ import GiayGioiThieu from '../Pages/Clients/MotCua/HanhChinh/GiayGioiThieu/GiayG
 
 // Pages Thiết Bị Giảng Đường
 import HomeTBGD from '../Pages/Clients/ThietBiGiangDuong/index'
+import BaoHong from '@/Pages/Clients/ThietBiGiangDuong/BaoHong/BaoHong'
+import XuLySuCo from '@/Pages/Clients/ThietBiGiangDuong/XuLySuCo/XuLySuCo'
+import DangKySuDungThietBi from '@/Pages/Clients/ThietBiGiangDuong/DangKySuDungThietBi/DangKySuDungThietBi'
+import GopY from '@/Pages/Clients/ThietBiGiangDuong/GopY/GopY'
 
 // Pages Tài Sản
 import HomeTaiSan from '../Pages/Clients/TaiSan/index'
@@ -164,7 +168,13 @@ export const privateRoutes = (
       </Route>
       {/* Hỗ trợ TBGD */}
       <Route element={<RoleMiddleware allowedRoles={['GV']} />}>
-        <Route index path="hotrothietbigiangduong" element={<HomeTBGD />} />
+        <Route path="hotrothietbigiangduong">
+          <Route index element={<HomeTBGD />} />
+          <Route path="baohong" element={<BaoHong />} />
+          <Route path="xulysuco" element={<XuLySuCo />} />
+          <Route path="dangkysudungthietbi" element={<DangKySuDungThietBi />} />
+          <Route path="gopy" element={<GopY />} />
+        </Route>
       </Route>
 
       {/* Hỗ trợ SDPM */}

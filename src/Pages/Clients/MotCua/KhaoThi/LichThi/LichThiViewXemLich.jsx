@@ -1,5 +1,5 @@
 import moment from 'moment'
-import DataTable from '@/Components/DataTable/DataTable'
+import DataTable from '@/Components/Base/DataTable/DataTable'
 import { useBem } from '@/Services/Hooks'
 
 export const LichThiViewXemDanhSach = (props) => {
