@@ -1,8 +1,8 @@
-import React from "react";
-import { homeMotCua } from "../../../Services/Static/dataStatic.js";
-import ModuleItemMotCua from "../../../Components/ModuleItemMotCua/ModuleItemMotCua.jsx";
-import SlideMotCua from "./Slides/SlideMotCua.jsx";
-import ChartMotCua from "./Charts/ChartMotCua.jsx";
+import React from 'react'
+import { homeMotCua } from '../../../Services/Static/dataStatic.js'
+import ModuleItemMotCua from '../../../Components/ModuleItemMotCua/ModuleItemMotCua.jsx'
+import SlideMotCua from './Slides/SlideMotCua.jsx'
+import ChartMotCua from './Charts/ChartMotCua.jsx'
 
 function HomeMotCua() {
   return (
@@ -13,7 +13,7 @@ function HomeMotCua() {
             <React.Fragment key={index}>
               <ModuleItemMotCua moduleItemMotCua={moduleItemMotCua} />
             </React.Fragment>
-          );
+          )
         })}
       </div>
       <div className="my-5 max-w-7xl">
@@ -23,7 +23,7 @@ function HomeMotCua() {
         <ChartMotCua />
       </div>
     </>
-  );
+  )
 }
 
-export default HomeMotCua;
+export default HomeMotCua

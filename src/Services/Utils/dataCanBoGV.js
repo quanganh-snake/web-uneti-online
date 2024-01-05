@@ -1,9 +1,9 @@
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux'
 
 export const DataCanBoGV = () => {
-  const teacher = useSelector((state) => state.user?.currentUser);
+  const teacher = useSelector((state) => state.user?.currentUser)
   // console.log("🚀 ~ file: dataCanBoGV.js:5 ~ DataCanBoGV ~ teacher:", teacher)
-  const dataToken = useSelector((state) => state.auth?.login?.currentToken);
+  const dataToken = useSelector((state) => state.auth?.login?.currentToken)
 
   const {
     IDNhanSu,
@@ -54,28 +54,28 @@ export const DataCanBoGV = () => {
     MaSoThue,
     LoaiTaiKhoan,
     Role,
-  } = teacher ?? "";
+  } = teacher ?? ''
   let formatDate = NgayCapCMND
     ? NgayCapCMND?.slice(8, 10) +
-      "/" +
+      '/' +
       NgayCapCMND?.slice(5, 7) +
-      "/" +
+      '/' +
       NgayCapCMND?.slice(0, 4)
-    : "";
+    : ''
   let formatDateNgaySinh = NgaySinh
     ? NgaySinh?.slice(8, 10) +
-      "/" +
+      '/' +
       NgaySinh?.slice(5, 7) +
-      "/" +
+      '/' +
       NgaySinh?.slice(0, 4)
-    : "";
+    : ''
   let formatDateVaoDang = NgaySinh
     ? DangVienNgayVao?.slice(8, 10) +
-      "/" +
+      '/' +
       DangVienNgayVao?.slice(5, 7) +
-      "/" +
+      '/' +
       DangVienNgayVao?.slice(0, 4)
-    : "";
+    : ''
   return {
     IDNhanSu,
     MaNhanSu,
@@ -129,5 +129,5 @@ export const DataCanBoGV = () => {
     LoaiTaiKhoan,
     Role,
     dataToken,
-  };
-};
+  }
+}

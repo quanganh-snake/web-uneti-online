@@ -1,17 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Link, useLocation } from "react-router-dom";
-import clsx from "clsx";
+import { Link, useLocation } from 'react-router-dom'
+import clsx from 'clsx'
 
 function Breadcrumb(props) {
-  const { home, breadcrumbs } = props;
+  const { home, breadcrumbs } = props
 
-  const location = useLocation();
-  const { pathname } = location;
+  const location = useLocation()
+  const { pathname } = location
 
   return (
     <nav
-      className="flex pb-2 border-[#336699] border-b-2"
+      className="flex pb-2 border-uneti-primary border-b-2 border-b-vs-text border-opacity-80"
       aria-label="Breadcrumb"
     >
       <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
@@ -20,7 +18,7 @@ function Breadcrumb(props) {
             id="homeDropdown"
             data-dropdown-toggle="dropdown"
             to={home.path}
-            className="inline-flex items-center text-sm font-medium text-gray-700 hover:opacity-60 dark:text-gray-400 dark:hover:text-white"
+            className="inline-flex items-center text-sm font-medium text-vs-text hover:opacity-70"
           >
             <svg
               className="w-3 h-3 me-2.5"
@@ -56,23 +54,23 @@ function Breadcrumb(props) {
                 <Link
                   to={breadcrumb.path}
                   className={clsx(
-                    "ms-1 text-sm font-medium hover:opacity-60 md:ms-2 dark:text-gray-400 dark:hover:text-white",
+                    'ms-1 text-sm font-medium hover:opacity-70 md:ms-2',
                     pathname === breadcrumb.path
-                      ? "text-blue-600"
-                      : "text-gray-700",
+                      ? 'text-blue-600'
+                      : 'text-gray-700',
                   )}
                 >
                   {breadcrumb.title}
                 </Link>
               </div>
             </li>
-          );
+          )
         })}
       </ol>
     </nav>
-  );
+  )
 }
 
-Breadcrumb.propTypes = {};
+Breadcrumb.propTypes = {}
 
-export default Breadcrumb;
+export default Breadcrumb

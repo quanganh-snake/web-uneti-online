@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   login: {
@@ -11,37 +11,37 @@ const initialState = {
     isFetching: false,
     error: false,
   },
-};
+}
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
     tokenStart: (state) => {
-      state.login.isFetching = true;
+      state.login.isFetching = true
     },
     tokenSuccess: (state, action) => {
-      state.login.isFetching = false;
-      state.login.currentToken = action.payload;
-      state.login.error = false;
+      state.login.isFetching = false
+      state.login.currentToken = action.payload
+      state.login.error = false
     },
     tokenFailure: (state) => {
-      state.login.isFetching = false;
-      state.login.error = true;
+      state.login.isFetching = false
+      state.login.error = true
     },
     logOutStart: (state) => {
-      state.logout.isFetching = true;
+      state.logout.isFetching = true
     },
     logOutSuccess: (state) => {
-      state.logout.isFetching = false;
-      state.login.currentToken = null;
-      state.logout.error = false;
+      state.logout.isFetching = false
+      state.login.currentToken = null
+      state.logout.error = false
     },
     logOutFailure: (state) => {
-      state.logout.isFetching = false;
-      state.logout.error = true;
+      state.logout.isFetching = false
+      state.logout.error = true
     },
   },
-});
+})
 
 export const {
   tokenStart,
@@ -50,5 +50,5 @@ export const {
   logOutStart,
   logOutSuccess,
   logOutFailure,
-} = authSlice.actions;
-export default authSlice.reducer;
+} = authSlice.actions
+export default authSlice.reducer

@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import clsx from "clsx";
-import { MdOutlineZoomInMap, MdOutlineZoomOutMap } from "react-icons/md";
+import React from 'react'
+import PropTypes from 'prop-types'
+import clsx from 'clsx'
+import { MdOutlineZoomInMap, MdOutlineZoomOutMap } from 'react-icons/md'
 
 function Tabs(props) {
   const {
@@ -14,11 +14,11 @@ function Tabs(props) {
     trangThaiActive,
     zoomView,
     setZoomView,
-  } = props;
+  } = props
   return (
     <div
       className={clsx(
-        "mb-5 text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 flex items-center justify-between",
+        'mb-5 text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 flex items-center justify-between',
       )}
     >
       <ul className="flex flex-wrap -mb-px">
@@ -28,10 +28,10 @@ function Tabs(props) {
             id="btnThietLapHoSo"
             onClick={handleOpenTab}
             className={clsx(
-              "inline-block p-4  border-b-2 rounded-t-lg",
+              'inline-block p-4  border-b-2 rounded-t-lg',
               thongTinActive
-                ? "active text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500"
-                : "border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300",
+                ? 'active text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
+                : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300',
             )}
           >
             Thiết lập hồ sơ
@@ -43,10 +43,10 @@ function Tabs(props) {
             id="btnTPHSDeNghi"
             onClick={handleOpenTab}
             className={clsx(
-              "inline-block p-4 border-b-2 rounded-t-lg",
+              'inline-block p-4 border-b-2 rounded-t-lg',
               tpHoSoDeNghiActive
-                ? "active text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500"
-                : "border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300",
+                ? 'active text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
+                : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300',
             )}
             aria-current="page"
           >
@@ -59,10 +59,10 @@ function Tabs(props) {
             id="btnTLTrinhTuThucHien"
             onClick={handleOpenTab}
             className={clsx(
-              "inline-block p-4 border-b-2",
+              'inline-block p-4 border-b-2',
               trinhTuThucHienActive
-                ? "active text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500"
-                : "border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300",
+                ? 'active text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
+                : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300',
             )}
           >
             Thiết lập trình tự thực hiện
@@ -89,10 +89,10 @@ function Tabs(props) {
             id="btnPhanQuyen"
             onClick={handleOpenTab}
             className={clsx(
-              "inline-block p-4 border-b-2",
+              'inline-block p-4 border-b-2',
               phanQuyenActive
-                ? "active text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500"
-                : "border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300",
+                ? 'active text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
+                : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300',
             )}
           >
             Phân quyền
@@ -104,10 +104,10 @@ function Tabs(props) {
             id="btnTrangThai"
             onClick={handleOpenTab}
             className={clsx(
-              "inline-block p-4 border-b-2",
+              'inline-block p-4 border-b-2',
               trangThaiActive
-                ? "active text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500"
-                : "border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300",
+                ? 'active text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
+                : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300',
             )}
           >
             Trạng thái
@@ -120,7 +120,7 @@ function Tabs(props) {
             size={24}
             className="text-sky-800 cursor-pointer hover:opacity-70"
             onClick={() => {
-              setZoomView(false);
+              setZoomView(false)
             }}
           />
         ) : (
@@ -128,13 +128,13 @@ function Tabs(props) {
             size={24}
             className="text-sky-800 cursor-pointer hover:opacity-70"
             onClick={() => {
-              setZoomView(true);
+              setZoomView(true)
             }}
           />
         )}
       </div>
     </div>
-  );
+  )
 }
 
 Tabs.propTypes = {
@@ -145,6 +145,6 @@ Tabs.propTypes = {
   phiActive: PropTypes.bool.isRequired,
   phanQuyenActive: PropTypes.bool.isRequired,
   trangThaiActive: PropTypes.bool.isRequired,
-};
+}
 
-export default Tabs;
+export default Tabs

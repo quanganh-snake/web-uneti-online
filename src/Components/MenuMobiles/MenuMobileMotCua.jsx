@@ -1,10 +1,10 @@
-import clsx from "clsx";
-import React, { useState } from "react";
-import { IoMdMenu, IoMdClose } from "react-icons/io";
-import { Link } from "react-router-dom";
+import clsx from 'clsx'
+import React, { useState } from 'react'
+import { IoMdMenu, IoMdClose } from 'react-icons/io'
+import { Link } from 'react-router-dom'
 
 function MenuMobileMotCua() {
-  const [showMenu, setShowMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState(false)
   return (
     <>
       {showMenu ? (
@@ -13,7 +13,7 @@ function MenuMobileMotCua() {
           color="red"
           className="hover:opacity-70"
           onClick={() => {
-            setShowMenu(false);
+            setShowMenu(false)
           }}
         />
       ) : (
@@ -22,25 +22,25 @@ function MenuMobileMotCua() {
           color="#336699"
           className="hover:opacity-70"
           onClick={() => {
-            setShowMenu(true);
+            setShowMenu(true)
           }}
         />
       )}
 
       <div
         className={clsx(
-          "absolute left-0 right-0 top-[100%] w-full bg-[#336699]",
+          'absolute left-0 right-0 top-[100%] w-full bg-[#336699]',
           showMenu
-            ? "block animate__animated animate__fadeInLeft"
-            : "animate__animated animate__fadeOutLeft",
+            ? 'block animate__animated animate__fadeInLeft'
+            : 'animate__animated animate__fadeOutLeft',
         )}
       >
         <ul>
           <li>
             <Link
-              to={"/motcua"}
+              to={'/motcua'}
               onClick={() => {
-                setShowMenu(false);
+                setShowMenu(false)
               }}
               className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
             >
@@ -49,9 +49,9 @@ function MenuMobileMotCua() {
           </li>
           <li>
             <Link
-              to={"/motcua/khaothi"}
+              to={'/motcua/khaothi'}
               onClick={() => {
-                setShowMenu(false);
+                setShowMenu(false)
               }}
               className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
             >
@@ -60,9 +60,9 @@ function MenuMobileMotCua() {
           </li>
           <li>
             <Link
-              to={"/motcua/daotao"}
+              to={'/motcua/daotao'}
               onClick={() => {
-                setShowMenu(false);
+                setShowMenu(false)
               }}
               className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
             >
@@ -71,9 +71,9 @@ function MenuMobileMotCua() {
           </li>
           <li>
             <Link
-              to={"/motcua/ct&ctsv"}
+              to={'/motcua/ct&ctsv'}
               onClick={() => {
-                setShowMenu(false);
+                setShowMenu(false)
               }}
               className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
             >
@@ -82,9 +82,9 @@ function MenuMobileMotCua() {
           </li>
           <li>
             <Link
-              to={"/motcua/hanhchinh"}
+              to={'/motcua/hanhchinh'}
               onClick={() => {
-                setShowMenu(false);
+                setShowMenu(false)
               }}
               className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
             >
@@ -94,7 +94,7 @@ function MenuMobileMotCua() {
         </ul>
       </div>
     </>
-  );
+  )
 }
 
-export default MenuMobileMotCua;
+export default MenuMobileMotCua

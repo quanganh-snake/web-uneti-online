@@ -1,52 +1,52 @@
-import React from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { MdKeyboardArrowDown } from "react-icons/md";
+import React from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { MdKeyboardArrowDown } from 'react-icons/md'
 // data
-import noAvatar from "../../assets/Images/noavatar.png";
-import logoUNETI from "../../assets/Images/LOGO_UNETI.ico";
+import noAvatar from '../../assets/Images/noavatar.png'
+import logoUNETI from '../../assets/Images/LOGO_UNETI.ico'
 
 // styles
-import "./Header.scss";
-import NavbarMotCua from "../../Components/Navbars/NavbarMotCua";
-import { useDispatch } from "react-redux";
-import { logOut } from "./../../Apis/apiLogout";
-import { persistor } from "../../Services/Redux/store";
-import { DataSinhVien } from "../../Services/Utils/dataSinhVien.js";
-import { DataCanBoGV } from "../../Services/Utils/dataCanBoGV.js";
-import localStorage from "redux-persist/es/storage";
-import DropdownProfileTeacher from "./DropdownProfileTeacher.jsx";
-import DropdownProfileStudent from "./DropdownProfileStudent.jsx";
-import NavbarTTHCGV from "../../Components/Navbars/NavbarTTHCGV.jsx";
-import MenuMobileMotCua from "../../Components/MenuMobiles/MenuMobileMotCua.jsx";
-import MenuMobileTTHCGV from "../../Components/MenuMobiles/MenuMobileTTHCGV.jsx";
+import './Header.scss'
+import NavbarMotCua from '../../Components/Navbars/NavbarMotCua'
+import { useDispatch } from 'react-redux'
+import { logOut } from './../../Apis/apiLogout'
+import { persistor } from '../../Services/Redux/store'
+import { DataSinhVien } from '../../Services/Utils/dataSinhVien.js'
+import { DataCanBoGV } from '../../Services/Utils/dataCanBoGV.js'
+import localStorage from 'redux-persist/es/storage'
+import DropdownProfileTeacher from './DropdownProfileTeacher.jsx'
+import DropdownProfileStudent from './DropdownProfileStudent.jsx'
+import NavbarTTHCGV from '../../Components/Navbars/NavbarTTHCGV.jsx'
+import MenuMobileMotCua from '../../Components/MenuMobiles/MenuMobileMotCua.jsx'
+import MenuMobileTTHCGV from '../../Components/MenuMobiles/MenuMobileTTHCGV.jsx'
 
 function Header() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { pathname } = location;
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { pathname } = location
 
   const listPath = pathname
-    .split("/")
+    .split('/')
     .filter(Boolean)
-    .map((item) => `/${item}`);
+    .map((item) => `/${item}`)
 
-  const dataSV = DataSinhVien();
-  const dataCBGV = DataCanBoGV();
+  const dataSV = DataSinhVien()
+  const dataCBGV = DataCanBoGV()
 
   const refreshToken = dataSV.dataToken?.refreshToken
     ? dataSV.dataToken?.refreshToken
     : dataCBGV.dataToken?.refreshToken
       ? dataCBGV.dataToken?.refreshToken
-      : null;
+      : null
 
-  const role = dataSV.Role ? dataSV.Role : dataCBGV.Role ? dataCBGV.Role : null;
+  const role = dataSV.Role ? dataSV.Role : dataCBGV.Role ? dataCBGV.Role : null
 
   const handleLogout = () => {
-    localStorage.removeItem("persist:root");
-    logOut(role, dispatch, navigate, refreshToken);
-    persistor.purge();
-  };
+    localStorage.removeItem('persist:root')
+    logOut(role, dispatch, navigate, refreshToken)
+    persistor.purge()
+  }
 
   return (
     <header className="shadow-md fixed left-0 right-0 top-0 w-[100%] z-10">
@@ -54,10 +54,10 @@ function Header() {
         <div className="max-w-7xl flex flex-wrap items-center justify-between mx-auto relative">
           {/* START: MENU - Mobile */}
           <div className="menu-mobile w-12 h-12 flex justify-center items-center lg:hidden">
-            {listPath && listPath.includes("/motcua") ? (
+            {listPath && listPath.includes('/motcua') ? (
               <MenuMobileMotCua />
             ) : null}
-            {listPath.includes("/admin") ? <MenuMobileTTHCGV /> : null}
+            {listPath.includes('/admin') ? <MenuMobileTTHCGV /> : null}
           </div>
           {/* END: MENU - Mobile */}
 
@@ -83,13 +83,13 @@ function Header() {
               <span className="sr-only">Open user menu</span>
               <img
                 className="w-14 h-14 rounded-full object-cover border border-slate-500"
-                src={role === "GV" ? noAvatar : dataSV.HinhAnh}
+                src={role === 'GV' ? noAvatar : dataSV.HinhAnh}
                 alt="user photo"
               />
               <span className="hidden md:block">
-                {role === "GV"
-                  ? dataCBGV.HoDem + " " + dataCBGV.Ten
-                  : dataSV.HoDem + " " + dataSV.Ten}
+                {role === 'GV'
+                  ? dataCBGV.HoDem + ' ' + dataCBGV.Ten
+                  : dataSV.HoDem + ' ' + dataSV.Ten}
               </span>
               <MdKeyboardArrowDown className="text-2xl hidden md:inline-block" />
             </button>
@@ -98,7 +98,7 @@ function Header() {
               className={`min-w-[220px] z-50 absolute top-[80%] my-4 right-0 text-base list-none bg-white divide-y divide-gray-100 rounded-b-lg shadow dark:bg-gray-700 dark:divide-gray-600`}
               id="user-dropdown"
             >
-              {role === "GV" ? (
+              {role === 'GV' ? (
                 <DropdownProfileTeacher handleLogout={handleLogout} />
               ) : (
                 <DropdownProfileStudent handleLogout={handleLogout} />
@@ -108,10 +108,10 @@ function Header() {
           {/* END: USER - Profile */}
 
           {/* START: Navbar Pages */}
-          {listPath && listPath.includes("/motcua") ? <NavbarMotCua /> : null}
-          {listPath.includes("/tthcgiangvien") ? (
+          {listPath && listPath.includes('/motcua') ? <NavbarMotCua /> : null}
+          {listPath.includes('/tthcgiangvien') ? (
             <NavbarTTHCGV />
-          ) : listPath.includes("/admin") ? (
+          ) : listPath.includes('/admin') ? (
             <NavbarTTHCGV />
           ) : null}
 
@@ -119,7 +119,7 @@ function Header() {
         </div>
       </nav>
     </header>
-  );
+  )
 }
 
-export default Header;
+export default Header

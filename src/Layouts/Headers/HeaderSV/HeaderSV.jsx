@@ -1,34 +1,34 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { MdKeyboardArrowDown } from "react-icons/md";
+import React from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { MdKeyboardArrowDown } from 'react-icons/md'
 // data
-import noAvatar from "../../../assets/Images/noavatar.png";
-import logoUNETI from "../../../assets/Images/LOGO_UNETI.ico";
-import { useDispatch } from "react-redux";
-import { DataSinhVien } from "./../../../Services/Utils/dataSinhVien";
-import NavbarMotCua from "../../../Components/Navbars/NavbarMotCua.jsx";
-import DropdownProfileStudent from "../DropdownProfileStudent.jsx";
-import MenuMobileMotCua from "../../../Components/MenuMobiles/MenuMobileMotCua.jsx";
-import { logOut } from "./../../../Apis/apiLogout";
-import { store } from "../../../Services/Redux/store.js";
+import noAvatar from '../../../assets/Images/noavatar.png'
+import logoUNETI from '../../../assets/Images/LOGO_UNETI.ico'
+import { useDispatch } from 'react-redux'
+import { DataSinhVien } from './../../../Services/Utils/dataSinhVien'
+import NavbarMotCua from '../../../Components/Navbars/NavbarMotCua.jsx'
+import DropdownProfileStudent from '../DropdownProfileStudent.jsx'
+import MenuMobileMotCua from '../../../Components/MenuMobiles/MenuMobileMotCua.jsx'
+import { logOut } from './../../../Apis/apiLogout'
+import { store } from '../../../Services/Redux/store.js'
 
 function HeaderSV() {
-  const dataSV = DataSinhVien();
+  const dataSV = DataSinhVien()
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  const state = store.getState();
-  const refreshToken = state?.auth?.login?.currentToken?.refreshToken;
+  const state = store.getState()
+  const refreshToken = state?.auth?.login?.currentToken?.refreshToken
   console.log(
-    "🚀 ~ file: HeaderCBGV.jsx:18 ~ HeaderCBGV ~ refreshToken:",
+    '🚀 ~ file: HeaderCBGV.jsx:18 ~ HeaderCBGV ~ refreshToken:',
     refreshToken,
-  );
+  )
   const handleLogout = () => {
-    localStorage.removeItem("persist:root");
-    logOut(role, dispatch, navigate, refreshToken);
-    persistor.purge();
-  };
+    localStorage.removeItem('persist:root')
+    logOut(role, dispatch, navigate, refreshToken)
+    persistor.purge()
+  }
 
   return (
     <header className="shadow-md fixed left-0 right-0 top-0 w-[100%] z-10">
@@ -66,7 +66,7 @@ function HeaderSV() {
                 alt="user photo"
               />
               <span className="hidden md:block">
-                {dataSV?.HoDem + " " + dataSV?.Ten}
+                {dataSV?.HoDem + ' ' + dataSV?.Ten}
               </span>
               <MdKeyboardArrowDown className="text-2xl hidden md:inline-block" />
             </button>
@@ -86,7 +86,7 @@ function HeaderSV() {
         </div>
       </nav>
     </header>
-  );
+  )
 }
 
-export default HeaderSV;
+export default HeaderSV

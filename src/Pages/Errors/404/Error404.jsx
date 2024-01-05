@@ -1,6 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import logoUNETI from "../../../assets/Images/LOGO_UNETI.ico";
+import React from 'react'
+import { Link } from 'react-router-dom'
+import logoUNETI from '../../../assets/Images/LOGO_UNETI.ico'
 
 function Error404() {
   return (
@@ -46,7 +46,7 @@ function Error404() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Error404;
+export default Error404

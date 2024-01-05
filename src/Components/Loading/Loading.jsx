@@ -1,5 +1,5 @@
-import React from "react";
-import "./Loading.scss";
+import React from 'react'
+import './Loading.scss'
 
 function Loading() {
   return (
@@ -7,11 +7,11 @@ function Loading() {
       <div
         className="loadingio-spinner-spinner-yfuq28igrq"
         style={{
-          position: "relative",
-          display: "flex",
-          justifyContent: "center",
-          alignContent: "center",
-          alignItems: "center",
+          position: 'relative',
+          display: 'flex',
+          justifyContent: 'center',
+          alignContent: 'center',
+          alignItems: 'center',
         }}
       >
         <p className="absolute font-semibold text-sky-900">UNETI</p>
@@ -31,7 +31,7 @@ function Loading() {
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default Loading;
+export default Loading

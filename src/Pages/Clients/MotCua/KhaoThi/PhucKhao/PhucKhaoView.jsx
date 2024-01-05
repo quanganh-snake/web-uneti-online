@@ -1,8 +1,8 @@
-import React from "react";
-import Breadcrumb from "../../../../../Components/Breadcumb/Breadcrumb";
-import Loading from "../../../../../Components/Loading/Loading";
-import moment from "moment/moment";
-import PropTypes from "prop-types";
+import React from 'react'
+import Breadcrumb from '../../../../../Components/Breadcumb/Breadcrumb'
+import Loading from '../../../../../Components/Loading/Loading'
+import moment from 'moment/moment'
+import PropTypes from 'prop-types'
 
 function PhucKhaoView(props) {
   const {
@@ -17,7 +17,7 @@ function PhucKhaoView(props) {
     handleChangeValue,
     handleRowSelection,
     handleSubmitData,
-  } = props;
+  } = props
 
   return (
     <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
@@ -32,17 +32,17 @@ function PhucKhaoView(props) {
             {/* Start: Tên đọt - Học kỳ */}
             <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
               <label
-                htmlFor={"MC_KT_PhucKhao_TenDot"}
+                htmlFor={'MC_KT_PhucKhao_TenDot'}
                 className="md:w-[30%] mb-2 md:mb-0"
               >
                 Học kỳ (*)
               </label>
               <select
-                id={"MC_KT_PhucKhao_TenDot"}
+                id={'MC_KT_PhucKhao_TenDot'}
                 onChange={handleChangeValue}
                 className="md:w-[70%] border px-2 py-1 rounded-lg outline-sky-800"
               >
-                <option value={""}>Chọn học kỳ</option>
+                <option value={''}>Chọn học kỳ</option>
                 {listHocKy.map((option) => (
                   <option value={option.TenDot} key={option.TenDot}>
                     {option.TenDot}
@@ -54,17 +54,17 @@ function PhucKhaoView(props) {
             {/* Start: Tên đọt - Học kỳ */}
             <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
               <label
-                htmlFor={"MC_KT_PhucKhao_LoaiThi"}
+                htmlFor={'MC_KT_PhucKhao_LoaiThi'}
                 className="md:w-[30%] mb-2 md:mb-0"
               >
                 Loại thi (*)
               </label>
               <select
-                id={"MC_KT_PhucKhao_LoaiThi"}
+                id={'MC_KT_PhucKhao_LoaiThi'}
                 onChange={handleChangeValue}
                 className="md:w-[70%] border px-2 py-1 rounded-lg outline-sky-800"
               >
-                <option value={""}>Chọn loại thi</option>
+                <option value={''}>Chọn loại thi</option>
                 {dataLoaiThi.map((option) => (
                   <option value={option.id} key={option.id}>
                     {option.title}
@@ -79,7 +79,7 @@ function PhucKhaoView(props) {
                 <div className="w-full flex justify-center">
                   <Loading />
                 </div>
-              ) : tenDot !== "" && loaiThi !== "" ? (
+              ) : tenDot !== '' && loaiThi !== '' ? (
                 <>
                   <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-white uppercase bg-sky-800 dark:bg-gray-700 dark:text-gray-400">
@@ -194,7 +194,7 @@ function PhucKhaoView(props) {
                                 <div className="flex justify-center">
                                   <input
                                     onChange={(e) => {
-                                      handleRowSelection(e, hocphan);
+                                      handleRowSelection(e, hocphan)
                                     }}
                                     id="checkbox-table-1"
                                     type="checkbox"
@@ -223,10 +223,10 @@ function PhucKhaoView(props) {
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <p>
                                   {hocphan.Thu == 8
-                                    ? "Chủ nhật"
-                                    : "Thứ " + hocphan.Thu}{" "}
-                                  {", "}
-                                  {moment(hocphan.NgayThi).format("DD/MM/YYYY")}
+                                    ? 'Chủ nhật'
+                                    : 'Thứ ' + hocphan.Thu}{' '}
+                                  {', '}
+                                  {moment(hocphan.NgayThi).format('DD/MM/YYYY')}
                                 </p>
                               </td>
                               <td className="px-6 py-4">
@@ -234,7 +234,7 @@ function PhucKhaoView(props) {
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <p>
-                                  {hocphan.TuTiet} {" - "} {hocphan.DenTiet}
+                                  {hocphan.TuTiet} {' - '} {hocphan.DenTiet}
                                 </p>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
@@ -242,7 +242,7 @@ function PhucKhaoView(props) {
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <p className="text-center">
-                                  {hocphan.SBD ? hocphan.SBD : ""}
+                                  {hocphan.SBD ? hocphan.SBD : ''}
                                 </p>
                               </td>
                               <td className="whitespace-nowrap">
@@ -253,10 +253,10 @@ function PhucKhaoView(props) {
                                         ? hocphan.DiemThi
                                         : hocphan.DiemThi1
                                           ? hocphan.DiemThi1
-                                          : ""}
+                                          : ''}
                                     </p>
                                     <p className="px-6 py-4 text-center w-1/2">
-                                      {hocphan.DiemThi2 ? hocphan.DiemThi2 : ""}
+                                      {hocphan.DiemThi2 ? hocphan.DiemThi2 : ''}
                                     </p>
                                   </div>
                                   <div className="w-1/2 flex items-center">
@@ -265,18 +265,18 @@ function PhucKhaoView(props) {
                                         ? hocphan.DiemTongKet
                                         : hocphan.DiemTongKet1
                                           ? hocphan.DiemTongKet1
-                                          : ""}
+                                          : ''}
                                     </p>
                                     <p className="px-6 py-4 text-center w-1/2">
                                       {hocphan.DiemTongKet2
                                         ? hocphan.DiemTongKet2
-                                        : ""}
+                                        : ''}
                                     </p>
                                   </div>
                                 </div>
                               </td>
                             </tr>
-                          );
+                          )
                         })
                       ) : (
                         <tr>
@@ -325,7 +325,7 @@ function PhucKhaoView(props) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 PhucKhaoView.propTypes = {
   home: PropTypes.object,
@@ -339,5 +339,5 @@ PhucKhaoView.propTypes = {
   handleChangeValue: PropTypes.func,
   handleRowSelection: PropTypes.func,
   handleSubmitData: PropTypes.func,
-};
-export default PhucKhaoView;
+}
+export default PhucKhaoView

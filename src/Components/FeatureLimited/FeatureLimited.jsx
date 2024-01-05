@@ -1,7 +1,7 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import Breadcrumb from "../Breadcumb/Breadcrumb";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
+import Breadcrumb from '../Breadcumb/Breadcrumb'
 
 function FeatureLimited(props) {
   return (
@@ -29,7 +29,7 @@ function FeatureLimited(props) {
               học tải file mẫu tại địa chỉ sau:
               <Link
                 className="font-semibold ml-2 text-sky-900"
-                to={"https://uneti.edu.vn/bieu-mau-bo-phan-hanh-chinh-mot-cua/"}
+                to={'https://uneti.edu.vn/bieu-mau-bo-phan-hanh-chinh-mot-cua/'}
                 target="_blank"
               >
                 https://uneti.edu.vn/bieu-mau-bo-phan-hanh-chinh-mot-cua/
@@ -39,9 +39,9 @@ function FeatureLimited(props) {
         </ol>
       </div>
     </div>
-  );
+  )
 }
 
-FeatureLimited.propTypes = {};
+FeatureLimited.propTypes = {}
 
-export default FeatureLimited;
+export default FeatureLimited

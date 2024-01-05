@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import clsx from "clsx";
-import { IoMdMenu, IoMdClose } from "react-icons/io";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react'
+import clsx from 'clsx'
+import { IoMdMenu, IoMdClose } from 'react-icons/io'
+import { Link } from 'react-router-dom'
 
 function MenuMobileTTHCGV() {
-  const [showMenu, setShowMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState(false)
 
   return (
     <>
@@ -14,7 +14,7 @@ function MenuMobileTTHCGV() {
           color="red"
           className="hover:opacity-70"
           onClick={() => {
-            setShowMenu(false);
+            setShowMenu(false)
           }}
         />
       ) : (
@@ -23,25 +23,25 @@ function MenuMobileTTHCGV() {
           color="#336699"
           className="hover:opacity-70"
           onClick={() => {
-            setShowMenu(true);
+            setShowMenu(true)
           }}
         />
       )}
 
       <div
         className={clsx(
-          "absolute left-0 right-0 top-[100%] w-full bg-[#336699]",
+          'absolute left-0 right-0 top-[100%] w-full bg-[#336699]',
           showMenu
-            ? "block animate__animated animate__fadeInLeft"
-            : "animate__animated animate__fadeOutLeft",
+            ? 'block animate__animated animate__fadeInLeft'
+            : 'animate__animated animate__fadeOutLeft',
         )}
       >
         <ul>
           <li>
             <Link
-              to={"/uneti"}
+              to={'/uneti'}
               onClick={() => {
-                setShowMenu(false);
+                setShowMenu(false)
               }}
               className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
             >
@@ -50,9 +50,9 @@ function MenuMobileTTHCGV() {
           </li>
           <li>
             <Link
-              to={"/admin/canbonghiepvu"}
+              to={'/admin/canbonghiepvu'}
               onClick={() => {
-                setShowMenu(false);
+                setShowMenu(false)
               }}
               className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
             >
@@ -61,9 +61,9 @@ function MenuMobileTTHCGV() {
           </li>
           <li>
             <Link
-              to={"/admin/quantriTTHCGV"}
+              to={'/admin/quantriTTHCGV'}
               onClick={() => {
-                setShowMenu(false);
+                setShowMenu(false)
               }}
               className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
             >
@@ -73,7 +73,7 @@ function MenuMobileTTHCGV() {
         </ul>
       </div>
     </>
-  );
+  )
 }
 
-export default MenuMobileTTHCGV;
+export default MenuMobileTTHCGV

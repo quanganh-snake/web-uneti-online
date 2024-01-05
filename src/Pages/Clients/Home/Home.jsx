@@ -1,21 +1,21 @@
-import React from "react";
-import { homeMain } from "../../../Services/Static/dataStatic";
-import { Link, useNavigate } from "react-router-dom";
-import { DataSinhVien } from "../../../Services/Utils/dataSinhVien";
-import { DataCanBoGV } from "../../../Services/Utils/dataCanBoGV";
+import React from 'react'
+import { homeMain } from '../../../Services/Static/dataStatic'
+import { Link, useNavigate } from 'react-router-dom'
+import { DataSinhVien } from '../../../Services/Utils/dataSinhVien'
+import { DataCanBoGV } from '../../../Services/Utils/dataCanBoGV'
 
 function Home() {
-  const navigate = useNavigate();
-  const dataSV = DataSinhVien();
-  const dataCBGV = DataCanBoGV();
+  const navigate = useNavigate()
+  const dataSV = DataSinhVien()
+  const dataCBGV = DataCanBoGV()
 
-  let role = null;
+  let role = null
   if (dataSV) {
-    role = dataSV.Role;
+    role = dataSV.Role
   } else if (dataCBGV) {
-    role = dataCBGV.Role;
+    role = dataCBGV.Role
   } else {
-    role = null;
+    role = null
   }
 
   if (role) {
@@ -42,14 +42,14 @@ function Home() {
                 <p className="text-center text-sky-700">{module.desc}</p>
               </Link>
             )
-          );
+          )
         })}
       </div>
-    );
+    )
   } else {
-    navigate("/dangnhap");
-    return;
+    navigate('/dangnhap')
+    return
   }
 }
 
-export default Home;
+export default Home

@@ -1,0 +1,98 @@
+@use 'sass:math';
+@use 'sass:map';
+
+@use '../Mixins/function.scss' as *;
+
+// Break-point
+$sm: 768px !default;
+$md: 992px !default;
+$lg: 1200px !default;
+$xl: 1920px !default;
+
+$breakpoints: (
+  'xs': '(max-width: #{$sm})',
+  'sm': '(min-width: #{$sm})',
+  'md': '(min-width: #{$md})',
+  'lg': '(min-width: #{$lg})',
+  'xl': '(min-width: #{$xl})',
+) !default;
+
+$breakpoints-spec: (
+  'xs-only': '(max-width: #{$sm - 1})',
+  'sm-and-up': '(min-width: #{$sm})',
+  'sm-only': '(min-width: #{$sm}) and (max-width: #{$md - 1})',
+  'sm-and-down': '(max-width: #{$md - 1})',
+  'md-and-up': '(min-width: #{$md})',
+  'md-only': '(min-width: #{$md}) and (max-width: #{$lg - 1})',
+  'md-and-down': '(max-width: #{$lg - 1})',
+  'lg-and-up': '(min-width: #{$lg})',
+  'lg-only': '(min-width: #{$lg}) and (max-width: #{$xl - 1})',
+  'lg-and-down': '(max-width: #{$xl - 1})',
+  'xl-only': '(min-width: #{$xl})',
+) !default;
+
+// Color
+$colors: () !default;
+$colors: map.deep-merge(
+  (
+    'color': #111214,
+    'white': #ffffff,
+    'black': #000000,
+    'primary': (
+      'base': #195bff,
+    ),
+    'success': (
+      'base': #46c93a,
+    ),
+    'warn': (
+      'base': #ffba00,
+    ),
+    'danger': (
+      'base': #ff4757,
+    ),
+    'error': (
+      'base': #ff4757,
+    ),
+    'info': (
+      'base': #909399,
+    ),
+    'dark': (
+      'base': #1e1e1e,
+    ),
+    'light': (
+      'base': #f4f7f8,
+    ),
+  ),
+  $colors
+);
+
+$color-base: map.get($colors, 'color') !default;
+$color-white: map.get($colors, 'white') !default;
+$color-black: map.get($colors, 'black') !default;
+$color-dark: map.get($colors, 'dark', 'base') !default;
+$color-light: map.get($colors, 'light', 'base') !default;
+$color-primary: map.get($colors, 'primary', 'base') !default;
+$color-success: map.get($colors, 'success', 'base') !default;
+$color-warn: map.get($colors, 'warn', 'base') !default;
+$color-danger: map.get($colors, 'danger', 'base') !default;
+$color-error: map.get($colors, 'error', 'base') !default;
+$color-info: map.get($colors, 'info', 'base') !default;
+$color-info: map.get($colors, 'dark', 'base') !default;
+
+$appColor: () !default;
+$appColor: map.merge(
+  (
+    'gray-1': #f9fcfd,
+    'gray-2': #f4f7f8,
+    'gray-3': #f0f3f4,
+    'gray-4': #e6e9ea,
+    'divider': #ced0d4,
+    'text': #2c3e50,
+    'background': #ffffff,
+
+    'primary': #245d7c,
+    'primary-light': #336699,
+    'primary-lighter': #0484ac,
+  ),
+  $appColor
+);

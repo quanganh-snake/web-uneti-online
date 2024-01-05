@@ -1,84 +1,84 @@
-import React, { useEffect, useState } from "react";
-import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
-import { homeTaiSan } from "../../../Services/Static/dataStatic.js";
-import icoPhoneHotLine from "../../../assets/Icons/icoPhoneTaiSan.png";
-import ReactPaginate from "react-paginate";
+import React, { useEffect, useState } from 'react'
+import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai'
+import { homeTaiSan } from '../../../Services/Static/dataStatic.js'
+import icoPhoneHotLine from '../../../assets/Icons/icoPhoneTaiSan.png'
+import ReactPaginate from 'react-paginate'
 
-import { FiSearch } from "react-icons/fi";
-import ModalYeuCauHoTro from "../../../Components/Modals/ModalTaiSan/ModalYeuCauHoTro.jsx";
-import { DataSinhVien } from "../../../Services/Utils/dataSinhVien.js";
-import { DataCanBoGV } from "../../../Services/Utils/dataCanBoGV.js";
-import { getDanhSachYeuCau } from "../../../Apis/TaiSan/apiTaiSan.js";
-import { tokenSuccess } from "../../../Services/Redux/Slice/authSlice.js";
-import { useDispatch } from "react-redux";
+import { FiSearch } from 'react-icons/fi'
+import ModalYeuCauHoTro from '../../../Components/Modals/ModalTaiSan/ModalYeuCauHoTro.jsx'
+import { DataSinhVien } from '../../../Services/Utils/dataSinhVien.js'
+import { DataCanBoGV } from '../../../Services/Utils/dataCanBoGV.js'
+import { getDanhSachYeuCau } from '../../../Apis/TaiSan/apiTaiSan.js'
+import { tokenSuccess } from '../../../Services/Redux/Slice/authSlice.js'
+import { useDispatch } from 'react-redux'
 
 function HomeTaiSan() {
-  const [loading, setLoading] = useState(true);
-  const { listCanBoHoTro, listHotlines, listAppSupport } = homeTaiSan;
+  const [loading, setLoading] = useState(true)
+  const { listCanBoHoTro, listHotlines, listAppSupport } = homeTaiSan
 
-  const [listYeuCauSuCo, setListYeuCauSuCo] = useState([]);
+  const [listYeuCauSuCo, setListYeuCauSuCo] = useState([])
 
-  const [showModal, setShowModal] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [selectedRows, setSelectedRows] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
+  const [showModal, setShowModal] = useState(false)
+  const [currentPage, setCurrentPage] = useState(0)
+  const [selectedRows, setSelectedRows] = useState([])
+  const [selectAll, setSelectAll] = useState(false)
 
   // event handlers
   const handlePageChange = ({ selected }) => {
-    setCurrentPage(selected);
-  };
-  const ITEMS_PER_PAGE = 10;
-  const offset = listYeuCauSuCo ? currentPage * ITEMS_PER_PAGE : 0;
+    setCurrentPage(selected)
+  }
+  const ITEMS_PER_PAGE = 10
+  const offset = listYeuCauSuCo ? currentPage * ITEMS_PER_PAGE : 0
   const currentItems = listYeuCauSuCo
     ? listYeuCauSuCo.slice(offset, offset + ITEMS_PER_PAGE)
-    : [];
+    : []
 
   const handleShowModal = () => {
-    setShowModal(!showModal);
-  };
+    setShowModal(!showModal)
+  }
 
   const handleRowClick = (rowId) => {
-    const isSelected = selectedRows.includes(rowId);
-    let newSelectedRows = [];
+    const isSelected = selectedRows.includes(rowId)
+    let newSelectedRows = []
 
     if (isSelected) {
-      newSelectedRows = selectedRows.filter((id) => id !== rowId);
+      newSelectedRows = selectedRows.filter((id) => id !== rowId)
     } else {
-      newSelectedRows = [...selectedRows, rowId];
+      newSelectedRows = [...selectedRows, rowId]
     }
 
-    setSelectedRows(newSelectedRows);
-  };
+    setSelectedRows(newSelectedRows)
+  }
 
   const handleSelectAll = () => {
     if (selectAll) {
       // Deselect all rows
-      setSelectedRows([]);
+      setSelectedRows([])
     } else {
       // Select all rows
       // Assume your data is an array of objects and each object has a unique id property
-      const allRowIds = currentItems.map((row) => row.id);
-      setSelectedRows(allRowIds);
+      const allRowIds = currentItems.map((row) => row.id)
+      setSelectedRows(allRowIds)
     }
 
-    setSelectAll(!selectAll);
-  };
+    setSelectAll(!selectAll)
+  }
 
   useEffect(() => {
     const getAllYeuCauBaoHong = async () => {
       getDanhSachYeuCau()
         .then((res) => {
-          setListYeuCauSuCo(res);
-          setLoading(false);
+          setListYeuCauSuCo(res)
+          setLoading(false)
         })
         .catch((err) => {
-          console.log([err]);
-          setLoading(false);
-        });
-    };
+          console.log([err])
+          setLoading(false)
+        })
+    }
 
-    getAllYeuCauBaoHong();
-  }, []);
+    getAllYeuCauBaoHong()
+  }, [])
 
   return (
     <main className="my-[120px]">
@@ -391,16 +391,16 @@ function HomeTaiSan() {
                               </div>
                             </td>
                             <td className="whitespace-nowrap px-6 py-4 border-r">
-                              {"Đây là nội dung mô tả ......................"}
+                              {'Đây là nội dung mô tả ......................'}
                             </td>
                             <td className="whitespace-nowrap px-6 py-4 border-r">
-                              {"Đây là thời gian yêu cầu"}
+                              {'Đây là thời gian yêu cầu'}
                             </td>
                             <td className="whitespace-nowrap px-6 py-4 border-r">
-                              {"Đây là người yêu cầu"}
+                              {'Đây là người yêu cầu'}
                             </td>
                             <td className="whitespace-nowrap px-6 py-4 border-r">
-                              {"Đây là đơn vị"}
+                              {'Đây là đơn vị'}
                             </td>
                             <td className="whitespace-nowrap py-1 border-r">
                               <table className="border border-solid w-full px-4">
@@ -426,7 +426,7 @@ function HomeTaiSan() {
                               </table>
                             </td>
                             <td className="whitespace-nowrap px-6 py-4 border-r">
-                              {"0334350166"}
+                              {'0334350166'}
                             </td>
                             <td className="whitespace-nowrap px-6 py-4 border-r">
                               {yeucau.DT_QLTS_TS_ID}
@@ -435,10 +435,10 @@ function HomeTaiSan() {
                               {yeucau.DT_QLTS_TS_ID}
                             </td>
                             <td className="whitespace-nowrap px-6 py-4 border-r">
-                              {"Tống Bá Quang Anh"}
+                              {'Tống Bá Quang Anh'}
                             </td>
                             <td className="whitespace-nowrap px-6 py-4 border-r">
-                              {"11/11/2023"}
+                              {'11/11/2023'}
                             </td>
                           </tr>
                         ))}
@@ -476,7 +476,7 @@ function HomeTaiSan() {
       </section>
       {/* END: .uneti-qlsp__list-require Danh sách yêu cầu */}
     </main>
-  );
+  )
 }
 
-export default HomeTaiSan;
+export default HomeTaiSan
