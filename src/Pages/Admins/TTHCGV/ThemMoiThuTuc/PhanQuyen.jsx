@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import {
   getAllNhanSuByIDPhongBan,
   getAllPhongBan,
@@ -10,15 +10,14 @@ import { MdClose } from 'react-icons/md'
 import clsx from 'clsx'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
 
-function PhanQuyen({
-  phanQuyen,
-  setPhanQuyen,
-  setThongTinActive,
-  setTPHoSoDeNghiActive,
-  setTrinhTuThucHienActive,
-  setPhanQuyenActive,
-  setTrangThaiActive,
-}) {
+const PhanQuyen = memo(function PhanQuyen(props) {
+  const {
+    phanQuyen,
+    setPhanQuyen,
+    setTrinhTuThucHienActive,
+    setPhanQuyenActive,
+    setTrangThaiActive,
+  } = props
   const [listDonViThucHien, setListDonViThucHien] = useState([])
   const [listNhanSuThucHien, setListNhanSuThucHien] = useState([])
 
@@ -146,9 +145,9 @@ function PhanQuyen({
                   />
                 </div>
                 {listDonViThucHien?.length &&
-                  listDonViThucHien?.map((iDonVi) => (
+                  listDonViThucHien?.map((iDonVi, index) => (
                     <li
-                      key={iDonVi?.IDPhongBan}
+                      key={index}
                       className={clsx(
                         'p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
                         iDonVi?.TenPhongBan.toLowerCase().includes(searchDonVi)
@@ -358,6 +357,6 @@ function PhanQuyen({
       </div>
     </div>
   )
-}
+})
 
 export default PhanQuyen

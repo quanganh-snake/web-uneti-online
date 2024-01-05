@@ -1,11 +1,11 @@
 import clsx from 'clsx'
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import { MdAdd } from 'react-icons/md'
 import Swal from 'sweetalert2'
 import { convertDataFileToBase64 } from '../../../../Services/Utils/stringUtils'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
 
-function ThanhPhanHoSoDeNghi(props) {
+const ThanhPhanHoSoDeNghi = memo(function ThanhPhanHoSoDeNghi(props) {
   const {
     thanhPhanHoSo,
     setThanhPhanHoSo,
@@ -13,8 +13,9 @@ function ThanhPhanHoSoDeNghi(props) {
     setThongTinActive,
     setTPHoSoDeNghiActive,
     setTrinhTuThucHienActive,
+    editRowIndex,
+    setEditRowIndex,
   } = props
-  const [editRowIndex, setEditRowIndex] = useState(-1)
   const [editValueRow, setEditValueRow] = useState({})
   // event handlers
   const handleEditRow = (index) => {
@@ -80,7 +81,7 @@ function ThanhPhanHoSoDeNghi(props) {
         convertDataFileToBase64(files[0]).then((dataFileBase64) => {
           setEditValueRow((prevEditValueRow) => ({
             ...prevEditValueRow,
-            MC_TTHC_GV_ThanhPhanHoSo_DataFile: dataFileBase64,
+            MC_TTHC_GV_ThanhPhanHoSo_DataFile: dataFileBase64.split(',')[1],
           }))
         })
       }
@@ -91,14 +92,6 @@ function ThanhPhanHoSoDeNghi(props) {
         [fieldName]: fieldValue,
       }))
     }
-  }
-
-  const handleDeleteFile = (index) => {
-    setEditValueRow((prevEditValueRow) => ({
-      ...prevEditValueRow,
-      MC_TTHC_GV_ThanhPhanHoSo_TenFile: '',
-      MC_TTHC_GV_ThanhPhanHoSo_DataFile: null,
-    }))
   }
 
   return (
@@ -139,10 +132,10 @@ function ThanhPhanHoSoDeNghi(props) {
                 {editRowIndex === index ? (
                   <>
                     {/* Hiển thị dữ liệu cho phép chỉnh sửa */}
-                    <td className="border-r px-2 py-1 text-center">
+                    <td className="border-r border-white px-2 py-1 text-center">
                       {index + 1}
                     </td>
-                    <td className="border-r px-2 py-1">
+                    <td className="border-r border-white px-2 py-1">
                       <textarea
                         type="text"
                         className="w-full border border-slate-300 rounded-md px-2 focus:outline-slate-300"
@@ -158,23 +151,20 @@ function ThanhPhanHoSoDeNghi(props) {
                         }
                       ></textarea>
                     </td>
-                    <td className="border-r px-2 py-1">
-                      <textarea
-                        type="text"
-                        className="w-full border border-slate-300 rounded-md px-2 focus:outline-slate-300"
-                        placeholder="Chèn link mẫu hồ sơ, hướng dẫn..."
-                        value={
-                          editValueRow.MC_TTHC_GV_ThanhPhanHoSo_TenFile || ''
-                        }
-                        onChange={(e) =>
+                    <td className="border-r border-white px-2 py-1">
+                      <input
+                        type="file"
+                        name="MC_TTHC_GV_ThanhPhanHoSo_TenFile"
+                        id="MC_TTHC_GV_ThanhPhanHoSo_TenFile"
+                        onChange={(e) => {
                           handleChangeValue(
                             e,
                             'MC_TTHC_GV_ThanhPhanHoSo_TenFile',
                           )
-                        }
-                      ></textarea>
+                        }}
+                      />
                     </td>
-                    <td className="border-r px-2 py-1 text-center">
+                    <td className="border-r border-white px-2 py-1 text-center">
                       <input
                         type="checkbox"
                         checked={
@@ -189,7 +179,7 @@ function ThanhPhanHoSoDeNghi(props) {
                         }
                       />
                     </td>
-                    <td className="border-r px-2 py-1 text-center">
+                    <td className="border-r border-white px-2 py-1 text-center">
                       <input
                         type="checkbox"
                         checked={
@@ -203,7 +193,7 @@ function ThanhPhanHoSoDeNghi(props) {
                         }
                       />
                     </td>
-                    <td className="border-r px-2 py-1 text-center">
+                    <td className="border-r border-white px-2 py-1 text-center">
                       <input
                         type="checkbox"
                         checked={
@@ -379,6 +369,6 @@ function ThanhPhanHoSoDeNghi(props) {
       </div>
     </div>
   )
-}
+})
 
 export default ThanhPhanHoSoDeNghi

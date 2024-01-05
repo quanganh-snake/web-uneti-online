@@ -43,11 +43,11 @@ function DanhSachHoSo() {
         dieuKienLoc,
         keywords,
       )
+      setLoading(false)
       if (resultGetSearchThuTuc.status === 200) {
         const dataSearchThuTuc = await resultGetSearchThuTuc?.data?.body
         if (dataSearchThuTuc.length) {
           setListHoSoThuTuc(dataSearchThuTuc)
-          setLoading(false)
         }
       }
     } catch (error) {
@@ -216,7 +216,7 @@ function DanhSachHoSo() {
                                 to={`${PATH_TTHCGV}/xem/chitiet/${titleSlug}/${itemThuTuc.MC_TTHC_GV_ID}`}
                                 className="bg-white text-[#336699] font-semibold rounded-md border px-2 py-1 hover:bg-[#336699] hover:text-white"
                               >
-                                Xem
+                                Sửa
                               </Link>
                               <button
                                 type="button"

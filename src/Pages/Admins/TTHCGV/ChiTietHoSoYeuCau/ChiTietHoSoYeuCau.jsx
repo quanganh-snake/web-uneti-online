@@ -5,15 +5,19 @@ import { useState } from 'react'
 import { FaCaretRight, FaCaretDown } from 'react-icons/fa'
 import { FaFileDownload } from 'react-icons/fa'
 import { FaCaretLeft, FaListCheck } from 'react-icons/fa6'
-import { Link, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import SidebarTTHCGV from '../Sidebar/SidebarTTHCGV'
 import {
+  delThuTucHanhChinhGuiYeuCauByID,
   getHoSoGuiYeuCauById,
   getQuyTrinhXuLyCBNV,
   putHoSoThuTucGuiYeuCauById,
 } from '../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
 import moment from 'moment'
-import { getThanhPhanHoSoGuiYeuCauById } from '../../../../Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo'
+import {
+  getThanhPhanHoSoByIdTTHCGV,
+  getThanhPhanHoSoGuiYeuCauById,
+} from '../../../../Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo'
 import Swal from 'sweetalert2'
 import {
   getListTrangThaiTTHCGVByIDGoc,
@@ -22,15 +26,26 @@ import {
 } from '../../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai'
 import { toast } from 'react-toastify'
 import { NguonTiepNhan_WEB } from './../../../../Services/Static/dataStatic'
-import { sendEmailUserSubmit } from './../../../../Services/Utils/emailUtils'
+import {
+  TEMPLATE_SUBJECT_PENDING_EMAIL,
+  TEMPLATE_SUBJECT_RECEIVED_EMAIL,
+  sendEmailTTHCGiangVien,
+} from './../../../../Services/Utils/emailUtils'
 import { DataCanBoGV } from '../../../../Services/Utils/dataCanBoGV'
-import { convertBufferToBase64 } from '../../../../Services/Utils/stringUtils'
+import {
+  compareStrings,
+  convertBufferToBase64,
+} from '../../../../Services/Utils/stringUtils'
 import Loading from './../../../../Components/Loading/Loading'
 import { DebounceInput } from 'react-debounce-input'
 import ReactPaginate from 'react-paginate'
+import { handlePreviewFileBase64 } from '../../../../Services/Utils/fileUtils'
+import { BiChevronDown } from 'react-icons/bi'
+import { AiOutlineSearch } from 'react-icons/ai'
+import { getListNoiTraKetQua } from './../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
 
 function ChiTietHoSoYeuCau() {
-  const { yeucau, id } = useParams()
+  const { id } = useParams()
 
   const [showThongTinNguoiNop, setShowThongTinNguoiNop] = useState(true)
   const [showThongTinHoSo, setShowThongTinHoSo] = useState(true)
@@ -42,11 +57,18 @@ function ChiTietHoSoYeuCau() {
   const [hinhThucTra, setHinhThucTra] = useState('')
   const [diaDiemTra, setDiaDiemTra] = useState('')
   const [listQuyTrinhXuLy, setListQuyTrinhXuLy] = useState([])
+  const [listNoiTraKetQua, setListNoiTraKetQua] = useState(null)
   const [trangThaiGhiChu, setTrangThaiGhiChu] = useState('')
   const [listTrangThaiYeuCau, setListTrangThaiYeuCau] = useState([])
   const [loading, setLoading] = useState(true)
+  const [searchNoiTraKetQua, setSearchNoiTraKetQua] = useState('')
+  const [openSelectNoiTraKetQua, setOpenSelectNoiTraKetQua] = useState(false)
+
+  const navigate = useNavigate()
+
   let khoaGiangVien = ''
   const dataCBGV = DataCanBoGV()
+
   const [currentPage, setCurrentPage] = useState(0)
   const itemsPerPage = 10
   const pageCount = Math.ceil(listQuyTrinhXuLy?.length / parseInt(itemsPerPage))
@@ -82,12 +104,24 @@ function ChiTietHoSoYeuCau() {
       setLoading(false)
     }
   }
-  const getDtaTrangThaiYeuCauByIDGoc = async (id) => {
+  const getDataTrangThaiYeuCauByIDGoc = async (id) => {
     const res = await getListTrangThaiTTHCGVByIDGoc(id)
     if (res.status === 200) {
       const data = await res.data?.body
       setListTrangThaiYeuCau(data)
       setLoading(false)
+    }
+  }
+
+  const getListDataNoiTraKetQua = async () => {
+    try {
+      const res = await getListNoiTraKetQua()
+      if (res.status === 200) {
+        const data = await res.data?.body
+        setListNoiTraKetQua(data)
+      }
+    } catch (error) {
+      console.log(error.message)
     }
   }
 
@@ -107,10 +141,6 @@ function ChiTietHoSoYeuCau() {
     if (id == 'HinhThucTra') {
       setHinhThucTra(value)
     }
-
-    if (id === 'MC_TTHC_GV_GuiYeuCau_NoiTraKetQua') {
-      setDiaDiemTra(value)
-    }
   }
 
   const handleShowThongTinNguoiNop = () => {
@@ -126,11 +156,25 @@ function ChiTietHoSoYeuCau() {
   }
 
   const handleUpdateYeuCauGui = async (yeuCauID, trangThaiID) => {
+    let listTPHSDeNghiYeuCau = []
+    try {
+      const resListTPHSDeNghiYeuCau = await getThanhPhanHoSoByIdTTHCGV(
+        dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
+      )
+      if (resListTPHSDeNghiYeuCau.status === 200) {
+        const data = await resListTPHSDeNghiYeuCau.data?.body
+        listTPHSDeNghiYeuCau = [...data]
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+
     if (trangThaiID == 0) {
       Swal.fire({
         title: 'Hồ sơ yêu cầu chưa được tiếp nhận!',
         text: 'Bạn có muốn tiếp nhận hồ sơ để tiếp tục xử lý yêu cầu?',
         icon: 'question',
+        showConfirmButton: true,
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
@@ -159,26 +203,28 @@ function ChiTietHoSoYeuCau() {
                 await putHoSoThuTucGuiYeuCauById(newDataUpdate)
 
               if (resPutHoSoThuTuc.status === 200) {
-                sendEmailUserSubmit(
-                  'tiepnhan',
-                  `Thông báo trả lời đề nghị ${dataDetailYeuCau?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`,
-                  dataCBGV?.HoDem + ' ' + dataCBGV?.Ten,
-                  dataDetailYeuCau.MC_TTHC_GV_TenThuTuc.toUpperCase(),
-                  dataCBGV?.MaNhanSu,
-                  khoaGiangVien,
-                  newDataUpdate?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu,
-                  newDataUpdate?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong,
-                  'Tống Bá Quang Anh',
-                  'tbquanganh@gmail.com',
-                  '0334350166',
-                  newDataUpdate?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
-                )
                 Swal.fire({
                   title: 'Thông báo',
                   text: 'Đã tiếp nhận hồ sơ! Tiếp tục xử lý yêu cầu!',
                   icon: 'success',
                 })
+
+                sendEmailTTHCGiangVien(
+                  TEMPLATE_SUBJECT_RECEIVED_EMAIL,
+                  { ...dataDetailYeuCau, ...newDataUpdate },
+                  dataCBGV,
+                  listTPHSDeNghiYeuCau,
+                  newDataUpdate.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
+                ).then((res) => console.log('SEND EMAIL OK'))
+                getDataHoSoYeuCauById(id)
+                getDataTrinhTuThucHienYeuCauByIDGoc(id)
               }
+            } else {
+              return Swal.fire({
+                icon: 'error',
+                title:
+                  'Không tìm thấy trạng thái được thiết lập cho hồ sơ này để tiến hành cập nhật!',
+              })
             }
           }
         } else {
@@ -249,40 +295,40 @@ function ChiTietHoSoYeuCau() {
           allowOutsideClick: () => !Swal.isLoading(),
         }).then(async (result) => {
           if (result.isConfirmed) {
-            console.log(newDataUpdate)
+            if (
+              compareStrings(
+                newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
+                dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
+              ) == true
+            ) {
+              Swal.fire({
+                icon: 'error',
+                title:
+                  'Vui lòng chỉnh sửa, thay đổi nội dung cập nhật yêu cầu để thông báo lại cho người gửi!',
+              })
+              return
+            }
             // return;
             const resUpdateYeuCau = await putHoSoThuTucGuiYeuCauById({
               ...newDataUpdate,
-              MC_TTHC_GV_GuiYeuCau_NgayHenTra: moment(ngayHenTra).format(
-                'YYYY-MM-DDTHH:mm:ss.SSS[Z]',
-              ),
-              MC_TTHC_GV_GuiYeuCau_NgayGiaoTra: moment(ngayGiaoTra).format(
-                'YYYY-MM-DDTHH:mm:ss.SSS[Z]',
-              ),
+              MC_TTHC_GV_GuiYeuCau_NgayHenTra: ngayHenTra
+                ? moment(ngayHenTra).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
+                : null,
+              MC_TTHC_GV_GuiYeuCau_NgayGiaoTra: ngayGiaoTra
+                ? moment(ngayGiaoTra).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
+                : null,
               MC_TTHC_GV_GuiYeuCau_NoiTraKetQua: '',
             })
 
-            console.log(
-              '🚀 ~ file: ChiTietHoSoYeuCau.jsx:224 ~ handleUpdateYeuCauGui ~ resUpdateYeuCau:',
-              resUpdateYeuCau,
-            )
             if (resUpdateYeuCau.status === 200) {
               toast.success('Cập nhật thành công thông tin xử lý hồ sơ.')
-              sendEmailUserSubmit(
-                'xuly',
-                `Thông báo xử lý đề nghị ${dataDetailYeuCau?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`,
-                dataCBGV?.HoDem + ' ' + dataCBGV?.Ten,
-                dataDetailYeuCau?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc.toUpperCase(),
-                dataCBGV?.MaNhanSu,
-                khoaGiangVien,
-                newDataUpdate?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu,
-                `Cập nhật xử lý theo yêu cầu ${result.value}. Vui lòng truy cập website để kiểm tra chi tiết.`,
-                newDataUpdate?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong,
-                'Tống Bá Quang Anh',
-                'tbquanganh@gmail.com',
-                '0334350166',
-                newDataUpdate?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
-              )
+              sendEmailTTHCGiangVien(
+                TEMPLATE_SUBJECT_PENDING_EMAIL,
+                { ...dataDetailYeuCau, ...newDataUpdate },
+                dataCBGV,
+                listTPHSDeNghiYeuCau,
+                newDataUpdate.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
+              ).then((res) => console.log('SEND EMAIL OK'))
               getDataHoSoYeuCauById(id)
               getDataTrinhTuThucHienYeuCauByIDGoc(id)
             }
@@ -316,21 +362,13 @@ function ChiTietHoSoYeuCau() {
               })
               if (resUpdateYeuCau.status === 200) {
                 toast.success('Cập nhật thông tin thành công!')
-                sendEmailUserSubmit(
-                  'xuly',
-                  `Thông báo xử lý đề nghị ${dataDetailYeuCau?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`,
-                  dataCBGV?.HoDem + ' ' + dataCBGV?.Ten,
-                  dataDetailYeuCau?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc.toUpperCase(),
-                  dataCBGV?.MaNhanSu,
-                  khoaGiangVien,
-                  newDataUpdate?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu,
-                  `Cập nhật xử lý theo yêu cầu ${result.value}. Vui lòng truy cập website để kiểm tra chi tiết.`,
-                  newDataUpdate?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong,
-                  'Tống Bá Quang Anh',
-                  'tbquanganh@gmail.com',
-                  '0334350166',
-                  newDataUpdate?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
-                )
+                sendEmailTTHCGiangVien(
+                  TEMPLATE_SUBJECT_PENDING_EMAIL,
+                  { ...dataDetailYeuCau, ...newDataUpdate },
+                  dataCBGV,
+                  listTPHSDeNghiYeuCau,
+                  newDataUpdate.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
+                ).then((res) => console.log('SEND EMAIL OK'))
                 getDataHoSoYeuCauById(id)
                 getDataTrinhTuThucHienYeuCauByIDGoc(id)
                 return
@@ -357,21 +395,13 @@ function ChiTietHoSoYeuCau() {
               const res = await putHoSoThuTucGuiYeuCauById(newDataUpdate)
               if (res.status === 200) {
                 toast.success('Cập nhật thành công thông tin yêu cầu!')
-                sendEmailUserSubmit(
-                  'xuly',
-                  `Thông báo xử lý đề nghị ${dataDetailYeuCau?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`,
-                  dataCBGV?.HoDem + ' ' + dataCBGV?.Ten,
-                  dataDetailYeuCau?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc.toUpperCase(),
-                  dataCBGV?.MaNhanSu,
-                  khoaGiangVien,
-                  newDataUpdate?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu,
-                  `Cập nhật xử lý theo yêu cầu. Vui lòng truy cập website để kiểm tra chi tiết.`,
-                  newDataUpdate?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong,
-                  'Tống Bá Quang Anh',
-                  'tbquanganh@gmail.com',
-                  '0334350166',
-                  newDataUpdate?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
-                )
+                sendEmailTTHCGiangVien(
+                  TEMPLATE_SUBJECT_PENDING_EMAIL,
+                  { ...dataDetailYeuCau, ...newDataUpdate },
+                  dataCBGV,
+                  listTPHSDeNghiYeuCau,
+                  newDataUpdate.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
+                ).then((res) => console.log('SEND EMAIL OK'))
                 getDataHoSoYeuCauById(id)
                 getDataTrinhTuThucHienYeuCauByIDGoc(id)
               }
@@ -461,7 +491,7 @@ function ChiTietHoSoYeuCau() {
           getDataHoSoYeuCauById(id)
           getDataTPHSDeNghiYeuCauByIDGoc(id)
           getDataTrinhTuThucHienYeuCauByIDGoc(id)
-          getDtaTrangThaiYeuCauByIDGoc(id)
+          getDataTrangThaiYeuCauByIDGoc(id)
           return {
             status: 1,
             message: 'Đã chuyển trạng thái hồ sơ thành công!',
@@ -515,10 +545,45 @@ function ChiTietHoSoYeuCau() {
     }
   }
 
-  const handleCancelHoSo = async () => {
-    return Swal.fire({
-      icon: 'info',
-      title: 'Chức năng này đang phát triển.',
+  const handleCancelHoSo = async (dataHoSoYeuCau) => {
+    Swal.fire({
+      icon: 'question',
+      title: 'Bạn chắc chắn muốn hủy/trả yêu cầu này?',
+      showConfirmButton: true,
+      showCancelButton: true,
+      confirmButtonText: 'Đồng ý',
+      cancelButtonText: 'Hủy',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        if (dataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu == '') {
+          Swal.fire({
+            icon: 'error',
+            title:
+              'Vui lòng nhập nội dung chi tiết hủy/trả hồ sơ tại mục ghi chú!',
+          })
+          return
+        }
+        // Thực hiện xóa
+        delThuTucHanhChinhGuiYeuCauByID(
+          dataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_ID,
+        ).then((res) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Hủy/trả yêu cầu hồ sơ thành công!',
+          })
+          // Gửi email thông báo cho người dùng
+          sendEmailTTHCGiangVien(
+            dataHoSoYeuCau,
+            dataCBGV,
+            listTPHSDeNghiYeuCau,
+            dataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
+          ).then((res) => {
+            console.log(res.statusText)
+          })
+          navigate(-1)
+          return
+        })
+      }
     })
   }
 
@@ -528,10 +593,13 @@ function ChiTietHoSoYeuCau() {
 
   // effects
   useEffect(() => {
+    getListDataNoiTraKetQua()
+  }, [])
+  useEffect(() => {
     getDataHoSoYeuCauById(id)
     getDataTPHSDeNghiYeuCauByIDGoc(id)
     getDataTrinhTuThucHienYeuCauByIDGoc(id)
-    getDtaTrangThaiYeuCauByIDGoc(id)
+    getDataTrangThaiYeuCauByIDGoc(id)
   }, [id, loading])
 
   const displayedListQuyTrinhXuLy = useMemo(() => {
@@ -736,18 +804,94 @@ function ChiTietHoSoYeuCau() {
                       {hinhThucTra == '2' ? (
                         <div className="flex flex-col gap-2">
                           <p>Địa điểm giao trả:</p>
-                          <select
-                            className="p-2 border focus:outline-slate-400"
-                            name="MC_TTHC_GV_GuiYeuCau_NoiTraKetQua"
-                            id="MC_TTHC_GV_GuiYeuCau_NoiTraKetQua"
-                            value={diaDiemTra}
-                            onChange={handleChangeValue}
-                          >
-                            <option value="">Chọn địa điểm giao trả</option>
-                            <option value="1 - Minh Khai">1 - Minh Khai</option>
-                            <option value="2 - Lĩnh Nam">2 - Lĩnh Nam</option>
-                            <option value="3 - Nam Định">3 - Nam Định</option>
-                          </select>
+                          <div className="col-span-4 md:col-span-2 relative">
+                            <div
+                              id="MC_TTHC_GV_GuiYeuCau_NoiTraKetQua"
+                              onClick={() => {
+                                setOpenSelectNoiTraKetQua(
+                                  !openSelectNoiTraKetQua,
+                                )
+                              }}
+                              className="bg-white w-full p-2 flex items-center justify-between rounded-md border border-slate-300 cursor-pointer"
+                            >
+                              <span
+                                className={clsx(
+                                  diaDiemTra && 'text-gray-700 font-semibold',
+                                )}
+                              >
+                                {diaDiemTra
+                                  ? diaDiemTra
+                                  : 'Chọn nơi trả kết quả'}
+                              </span>
+                              <BiChevronDown
+                                size={20}
+                                className={clsx(
+                                  openSelectNoiTraKetQua && 'rotate-180',
+                                )}
+                              />
+                            </div>
+                            <ul
+                              className={clsx(
+                                'bg-white mt-2 border shadow-sm overflow-y-auto absolute right-0 left-0 top-full',
+                                openSelectNoiTraKetQua ? 'max-h-60' : 'hidden',
+                              )}
+                            >
+                              <div className="flex items-center px-2 sticky top-0 bg-white shadow-md">
+                                <AiOutlineSearch
+                                  size={18}
+                                  className="text-gray-700"
+                                />
+                                <input
+                                  type="text"
+                                  value={searchNoiTraKetQua}
+                                  onChange={(e) => {
+                                    setSearchNoiTraKetQua(e.target.value)
+                                  }}
+                                  placeholder="Nhập nơi trả kết quả..."
+                                  className="w-full placeholder:text-gray-500 p-2 outline-none"
+                                />
+                              </div>
+                              {searchNoiTraKetQua ? (
+                                <li
+                                  className={clsx(
+                                    'font-semibold px-2 py-3 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
+                                  )}
+                                  onClick={() => {
+                                    setDiaDiemTra(searchNoiTraKetQua)
+                                    setOpenSelectNoiTraKetQua(false)
+                                    setSearchNoiTraKetQua('')
+                                  }}
+                                >
+                                  {searchNoiTraKetQua}
+                                </li>
+                              ) : null}
+                              {listNoiTraKetQua &&
+                                listNoiTraKetQua?.map((iDiaChi, index) => {
+                                  return (
+                                    <li
+                                      key={index}
+                                      className={clsx(
+                                        'p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
+                                        iDiaChi?.MC_TTHC_GV_NoiTraKetQua.toLowerCase().includes(
+                                          searchNoiTraKetQua,
+                                        )
+                                          ? 'block'
+                                          : 'hidden',
+                                      )}
+                                      onClick={() => {
+                                        setDiaDiemTra(
+                                          iDiaChi?.MC_TTHC_GV_NoiTraKetQua,
+                                        )
+                                        setOpenSelectNoiTraKetQua(false)
+                                        setSearchNoiTraKetQua('')
+                                      }}
+                                    >
+                                      {iDiaChi?.MC_TTHC_GV_NoiTraKetQua}
+                                    </li>
+                                  )
+                                })}
+                            </ul>
+                          </div>
                         </div>
                       ) : null}
 
@@ -799,25 +943,6 @@ function ChiTietHoSoYeuCau() {
                     <tbody>
                       {dataDetailTPHSYeuCau &&
                         dataDetailTPHSYeuCau?.map((iTPHSYeuCau, index) => {
-                          const base64String = convertBufferToBase64(
-                            iTPHSYeuCau
-                              ?.MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_DataFile
-                              ?.data,
-                          )
-                          function openPreviewNewTab() {
-                            var file = new Blob([base64String], {
-                              type: 'application/pdf',
-                            })
-                            var fileURL = URL.createObjectURL(file)
-                            var a = document.createElement('a')
-                            a.href = fileURL
-                            a.target = '_blank'
-                            document.body.appendChild(a)
-                            a.click()
-                            document.body.removeChild(a)
-                            URL.revokeObjectURL(fileURL)
-                          }
-
                           return (
                             <tr className="border" key={index}>
                               <td className="border-r px-2 py-1 text-center">
@@ -835,7 +960,16 @@ function ChiTietHoSoYeuCau() {
                                   type="button"
                                   className="text-[#336699] font-medium"
                                   onClick={() => {
-                                    openPreviewNewTab()
+                                    const base64StringWithoutPrefix =
+                                      convertBufferToBase64(
+                                        iTPHSYeuCau
+                                          ?.MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_DataFile
+                                          ?.data,
+                                      )
+                                    handlePreviewFileBase64(
+                                      iTPHSYeuCau?.MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_TenFile,
+                                      base64StringWithoutPrefix,
+                                    )
                                   }}
                                 >
                                   Xem
@@ -880,6 +1014,12 @@ function ChiTietHoSoYeuCau() {
                     Quá trình xử lý hồ sơ
                   </button>
                 </div>
+                <h4 className="font-semibold my-4">
+                  Trạng thái hồ sơ yêu cầu hiện tại:{' '}
+                  <span className="text-red-600 uppercase">
+                    {dataDetailYeuCau.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu}
+                  </span>
+                </h4>
                 {showXuLyHoSo ? (
                   <div className="flex flex-row items-center gap-4">
                     <button
@@ -904,7 +1044,11 @@ function ChiTietHoSoYeuCau() {
                       type="button"
                       className="px-3 py-1 text-white rounded-lg font-semibold hover:opacity-70 bg-[#FF0000]"
                       onClick={() => {
-                        handleCancelHoSo()
+                        handleCancelHoSo({
+                          ...dataDetailYeuCau,
+                          MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu:
+                            trangThaiGhiChu,
+                        })
                       }}
                     >
                       Hủy/trả hồ sơ

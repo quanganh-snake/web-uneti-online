@@ -4,8 +4,8 @@ import http from '../../../Configs/http'
 export const getTenDotDKThiLai = () => {
   return http.get('/SP_MC_KT_DangKyThi_TiepNhan/EDU_Load_TenDot')
 }
-
 // lấy danh sách học phần có thể đăng ký
+
 export const getAllHocPhanDKThiLai = (
   MaSinhVien = '',
   tenDot = '',

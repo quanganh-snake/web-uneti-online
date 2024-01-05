@@ -1,22 +1,21 @@
 import clsx from 'clsx'
-import React from 'react'
+import React, { memo } from 'react'
 import { useState } from 'react'
+import { FaSave } from 'react-icons/fa'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
 import { MdAdd } from 'react-icons/md'
 import Swal from 'sweetalert2'
 
-function TrangThaiHoSo(props) {
+const TrangThaiHoSo = memo(function TrangThaiHoSo(props) {
   const {
     trangThai,
     setTrangThai,
     handleAddTrangThai,
-    setThongTinActive,
-    setTPHoSoDeNghiActive,
-    setTrinhTuThucHienActive,
     setPhanQuyenActive,
     setTrangThaiActive,
+    editRowIndex,
+    setEditRowIndex,
   } = props
-  const [editRowIndex, setEditRowIndex] = useState(-1)
   const [editValueRow, setEditValueRow] = useState({})
   // event handlers
   const handleEditRow = (index) => {
@@ -243,8 +242,17 @@ function TrangThaiHoSo(props) {
           Thêm trạng thái
         </button>
       </div>
+      <div className="uneti-tthcgv__add-form mt-6">
+        <button
+          type="submit"
+          className="flex items-center gap-2 font-md text-md px-3 py-2 bg-emerald-600 text-white hover:opacity-70 rounded-md"
+        >
+          <FaSave />
+          Lưu hồ sơ
+        </button>
+      </div>
     </div>
   )
-}
+})
 
 export default TrangThaiHoSo

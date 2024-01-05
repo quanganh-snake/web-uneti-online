@@ -1,9 +1,9 @@
 import clsx from 'clsx'
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import { MdAdd } from 'react-icons/md'
 import Swal from 'sweetalert2'
 
-function PhiLePhi(props) {
+const PhiLePhi = memo(function PhiLePhi(props) {
   const { phiLePhi, setPhiLePhi, handleAddLePhi } = props
   const [editRowIndex, setEditRowIndex] = useState(-1)
   const [editValueRow, setEditValueRow] = useState({})
@@ -213,6 +213,6 @@ function PhiLePhi(props) {
       </button>
     </div>
   )
-}
+})
 
 export default PhiLePhi

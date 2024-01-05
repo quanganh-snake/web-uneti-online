@@ -51,10 +51,23 @@ function Header() {
   return (
     <header className="shadow-md fixed left-0 right-0 top-0 w-[100%] z-10">
       <nav className="bg-white border-gray-200 dark:bg-gray-900">
-        <div className="max-w-7xl flex flex-wrap items-center justify-between mx-auto">
-          <Link to="/" className="flex items-center p-2">
+        <div className="max-w-7xl flex flex-wrap items-center justify-between mx-auto relative">
+          {/* START: MENU - Mobile */}
+          <div className="menu-mobile w-12 h-12 flex justify-center items-center lg:hidden">
+            {listPath && listPath.includes('/motcua') ? (
+              <MenuMobileMotCua />
+            ) : null}
+            {listPath.includes('/admin') ? <MenuMobileTTHCGV /> : null}
+          </div>
+          {/* END: MENU - Mobile */}
+
+          {/* STARTL Logo */}
+          <Link to="/uneti" className="flex items-center p-2">
             <img src={logoUNETI} className="h-20 mr-3" alt="UNETI Logo" />
           </Link>
+          {/* END: Logo */}
+
+          {/* START: USER - Profile */}
           <div
             className="flex items-center md:order-2 relative py-4"
             id="control-dropdown"
@@ -85,17 +98,20 @@ function Header() {
               className={`min-w-[220px] z-50 absolute top-[80%] my-4 right-0 text-base list-none bg-white divide-y divide-gray-100 rounded-b-lg shadow dark:bg-gray-700 dark:divide-gray-600`}
               id="user-dropdown"
             >
-              {role === 'CB' ? (
+              {role === 'GV' ? (
                 <DropdownProfileTeacher handleLogout={handleLogout} />
               ) : (
                 <DropdownProfileStudent handleLogout={handleLogout} />
               )}
             </div>
           </div>
+          {/* END: USER - Profile */}
+
           {/* START: Navbar Pages */}
-          {listPath && listPath.includes('/motcua') ? (
-            <NavbarMotCua />
-          ) : listPath.includes('/tthcgiangvien') ? (
+          {listPath && listPath.includes('/motcua') ? <NavbarMotCua /> : null}
+          {listPath.includes('/tthcgiangvien') ? (
+            <NavbarTTHCGV />
+          ) : listPath.includes('/admin') ? (
             <NavbarTTHCGV />
           ) : null}
 

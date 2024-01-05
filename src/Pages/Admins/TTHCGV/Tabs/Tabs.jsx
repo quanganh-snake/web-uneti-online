@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
+import { MdOutlineZoomInMap, MdOutlineZoomOutMap } from 'react-icons/md'
 
 function Tabs(props) {
   const {
@@ -11,9 +12,15 @@ function Tabs(props) {
     phiActive,
     phanQuyenActive,
     trangThaiActive,
+    zoomView,
+    setZoomView,
   } = props
   return (
-    <div className="mb-5 text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+    <div
+      className={clsx(
+        'mb-5 text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700 flex items-center justify-between',
+      )}
+    >
       <ul className="flex flex-wrap -mb-px">
         <li className="me-2">
           <button
@@ -61,7 +68,7 @@ function Tabs(props) {
             Thiết lập trình tự thực hiện
           </button>
         </li>
-        {/* <li className="me-2">
+        {/* <li className="me-2">false);
 					<button
 						type="button"
 						id="btnPhiLePhi"
@@ -107,6 +114,25 @@ function Tabs(props) {
           </button>
         </li>
       </ul>
+      <div className="">
+        {zoomView ? (
+          <MdOutlineZoomInMap
+            size={24}
+            className="text-sky-800 cursor-pointer hover:opacity-70"
+            onClick={() => {
+              setZoomView(false)
+            }}
+          />
+        ) : (
+          <MdOutlineZoomOutMap
+            size={24}
+            className="text-sky-800 cursor-pointer hover:opacity-70"
+            onClick={() => {
+              setZoomView(true)
+            }}
+          />
+        )}
+      </div>
     </div>
   )
 }
