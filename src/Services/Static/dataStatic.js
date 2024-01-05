@@ -37,7 +37,7 @@ export const homeMain = [
     desc: 'Theo dõi và báo hỏng thiết bị trong phòng học.',
     icon: icoHTTBGD,
     path: '/hotrothietbigiangduong',
-    moduleActive: false,
+    moduleActive: true,
     roleActive: ['GV'],
   },
   {
@@ -53,7 +53,7 @@ export const homeMain = [
     desc: 'Theo dõi và báo hỏng thiết bị ở sảnh, hành lang và phòng làm việc.',
     icon: icoHTTBSP,
     path: '/hotrothietbisanhphong',
-    moduleActive: false,
+    moduleActive: true,
     roleActive: ['GV'],
   },
   {
@@ -61,7 +61,7 @@ export const homeMain = [
     desc: 'Tổng hợp file cài đặt, tài liệu hướng dẫn sử dụng các phần mềm.',
     icon: icoHTSDPM,
     path: '/hotrosudungphanmem',
-    moduleActive: false,
+    moduleActive: true,
     roleActive: ['GV', 'SV'],
   },
   {
@@ -69,7 +69,7 @@ export const homeMain = [
     desc: 'Quét QR để tra cứu thông tin tài sản.',
     icon: icoTCTTTS,
     path: '/taisan',
-    moduleActive: false,
+    moduleActive: true,
     roleActive: ['GV', 'SV'],
   },
   {
@@ -77,7 +77,7 @@ export const homeMain = [
     desc: 'Hệ thống quản lý chi tiết công việc cán bộ phòng, ban.',
     icon: icoQLCTCV,
     path: 'https://uneti.edu.vn/',
-    moduleActive: false,
+    moduleActive: true,
     roleActive: ['GV'],
   },
   {
