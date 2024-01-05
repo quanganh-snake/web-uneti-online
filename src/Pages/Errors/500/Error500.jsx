@@ -1,6 +1,6 @@
-import React from "react";
-import "./Error500.scss";
-import { colors } from "@mui/material";
+import React from 'react'
+import './Error500.scss'
+import { colors } from '@mui/material'
 function Error500() {
   return (
     <main>
@@ -56,12 +56,12 @@ function Error500() {
       <div id="code-error">
         <h2>
           Lỗi máy chủ! <br />
-          <span style={{ color: "red" }}>Internal Server Error!!!</span> <br />
+          <span style={{ color: 'red' }}>Internal Server Error!!!</span> <br />
           Vui lòng liên hệ bộ phận kỹ thuật để khắc phục!
         </h2>
       </div>
     </main>
-  );
+  )
 }
 
-export default Error500;
+export default Error500

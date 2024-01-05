@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react'
 
 function QuaTrinhHoc() {
-  return <div>QuaTrinhHoc</div>;
+  return <div>QuaTrinhHoc</div>
 }
 
-export default QuaTrinhHoc;
+export default QuaTrinhHoc

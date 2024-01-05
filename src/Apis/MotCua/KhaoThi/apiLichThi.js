@@ -1,13 +1,13 @@
-import http from "../../../Configs/http";
+import http from '../../../Configs/http'
 
 export const getAllHocPhanLichThi = (
-  MaSinhVien = "",
-  tenDot = "",
-  loaiThi = "",
-  lyDo = "",
+  MaSinhVien = '',
+  tenDot = '',
+  loaiThi = '',
+  lyDo = '',
 ) => {
   return http.get(
-    "SP_MC_KT_LichThi_TiepNhan/EDU_Load_R_Para_MaSinhVien_LichThiLichHoc",
+    'SP_MC_KT_LichThi_TiepNhan/EDU_Load_R_Para_MaSinhVien_LichThiLichHoc',
     {
       params: {
         MaSinhVien: MaSinhVien,
@@ -16,5 +16,5 @@ export const getAllHocPhanLichThi = (
         MC_KT_LichThi_YeuCau: lyDo,
       },
     },
-  );
-};
+  )
+}

@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react'
 
 function DangKyTotNghiep() {
-  return <div>DangKyTotNghiep</div>;
+  return <div>DangKyTotNghiep</div>
 }
 
-export default DangKyTotNghiep;
+export default DangKyTotNghiep

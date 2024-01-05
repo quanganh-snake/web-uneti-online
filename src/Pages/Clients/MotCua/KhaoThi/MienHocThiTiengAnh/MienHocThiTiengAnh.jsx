@@ -1,23 +1,23 @@
-import React from "react";
-import FeatureLimited from "../../../../../Components/FeatureLimited/FeatureLimited";
-import Breadcrumb from "../../../../../Components/Breadcumb/Breadcrumb";
+import React from 'react'
+import FeatureLimited from '../../../../../Components/FeatureLimited/FeatureLimited'
+import Breadcrumb from '../../../../../Components/Breadcumb/Breadcrumb'
 
 function MienHocThiTiengAnh() {
   const home = {
-    path: "/motcua",
-    title: "Bộ phận một cửa",
-  };
+    path: '/motcua',
+    title: 'Bộ phận một cửa',
+  }
 
   const breadcrumbs = [
     {
-      path: "/motcua/khaothi",
-      title: "Khảo thí",
+      path: '/motcua/khaothi',
+      title: 'Khảo thí',
     },
     {
-      path: "/motcua/khaothi/mienhocthiTA",
-      title: "Miễn học, thi Tiếng Anh",
+      path: '/motcua/khaothi/mienhocthiTA',
+      title: 'Miễn học, thi Tiếng Anh',
     },
-  ];
+  ]
 
   return (
     <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
@@ -26,7 +26,7 @@ function MienHocThiTiengAnh() {
         <FeatureLimited />
       </div>
     </div>
-  );
+  )
 }
 
-export default MienHocThiTiengAnh;
+export default MienHocThiTiengAnh

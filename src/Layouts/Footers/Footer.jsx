@@ -1,8 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { MdOutlineLocationOn, MdPhone, MdOutlinePublic } from "react-icons/md";
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { MdOutlineLocationOn, MdPhone, MdOutlinePublic } from 'react-icons/md'
 // data
-import logoUNETI from "../../assets/Images/LOGO_UNETI.ico";
+import logoUNETI from '../../assets/Images/LOGO_UNETI.ico'
 function Footer() {
   return (
     <footer className="bg-sky-800">
@@ -21,7 +21,7 @@ function Footer() {
               <p className="flex items-center gap-2 mb-3">
                 <MdOutlineLocationOn />
                 <span>
-                  Số 456 Minh Khai, P.Vĩnh Tuy, Q.Hai Bà Trưng, TP.Hà Nội{" "}
+                  Số 456 Minh Khai, P.Vĩnh Tuy, Q.Hai Bà Trưng, TP.Hà Nội{' '}
                 </span>
               </p>
             </li>
@@ -102,7 +102,7 @@ function Footer() {
         </div>
       </div>
     </footer>
-  );
+  )
 }
 
-export default Footer;
+export default Footer

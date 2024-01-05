@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react'
 
 function SuaThongTin() {
-  return <div>SuaThongTin</div>;
+  return <div>SuaThongTin</div>
 }
 
-export default SuaThongTin;
+export default SuaThongTin

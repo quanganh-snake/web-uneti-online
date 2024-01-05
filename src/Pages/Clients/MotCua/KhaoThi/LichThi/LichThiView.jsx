@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import Breadcrumb from "../../../../../Components/Breadcumb/Breadcrumb";
-import Loading from "../../../../../Components/Loading/Loading";
-import moment from "moment";
+import React from 'react'
+import PropTypes from 'prop-types'
+import Breadcrumb from '../../../../../Components/Breadcumb/Breadcrumb'
+import Loading from '../../../../../Components/Loading/Loading'
+import moment from 'moment'
 
 function LichThiView(props) {
   const {
@@ -19,7 +19,7 @@ function LichThiView(props) {
     handleChangeValue,
     handleRowSelection,
     handleSubmitData,
-  } = props;
+  } = props
   return (
     <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
       <div className="p-4 flex flex-col gap-4">
@@ -32,17 +32,17 @@ function LichThiView(props) {
             {/* Start: Tên đọt - Học kỳ */}
             <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
               <label
-                htmlFor={"MC_KT_LichThi_TenDot"}
+                htmlFor={'MC_KT_LichThi_TenDot'}
                 className="md:w-[30%] mb-2 md:mb-0"
               >
                 Học kỳ (*)
               </label>
               <select
-                id={"MC_KT_LichThi_TenDot"}
+                id={'MC_KT_LichThi_TenDot'}
                 onChange={handleChangeValue}
                 className="md:w-[70%] border px-2 py-1 rounded-lg outline-sky-800"
               >
-                <option value={""}>Chọn học kỳ</option>
+                <option value={''}>Chọn học kỳ</option>
                 {listHocKy.map((option) => (
                   <option value={option.TenDot} key={option.TenDot}>
                     {option.TenDot}
@@ -54,17 +54,17 @@ function LichThiView(props) {
             {/* Start: Tên đọt - Học kỳ */}
             <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
               <label
-                htmlFor={"MC_KT_LichThi_LoaiThi"}
+                htmlFor={'MC_KT_LichThi_LoaiThi'}
                 className="md:w-[30%] mb-2 md:mb-0"
               >
                 Loại thi (*)
               </label>
               <select
-                id={"MC_KT_LichThi_LoaiThi"}
+                id={'MC_KT_LichThi_LoaiThi'}
                 onChange={handleChangeValue}
                 className="md:w-[70%] border px-2 py-1 rounded-lg outline-sky-800"
               >
-                <option value={""}>Chọn loại thi</option>
+                <option value={''}>Chọn loại thi</option>
                 {dataLoaiThi.map((option) => (
                   <option value={option.id} key={option.id}>
                     {option.title}
@@ -76,17 +76,17 @@ function LichThiView(props) {
             {/* START: Lý do */}
             <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
               <label
-                htmlFor={"MC_KT_LichThi_YeuCau"}
+                htmlFor={'MC_KT_LichThi_YeuCau'}
                 className="md:w-[30%] mb-2 md:mb-0"
               >
                 Lý do (*)
               </label>
               <select
-                id={"MC_KT_LichThi_YeuCau"}
+                id={'MC_KT_LichThi_YeuCau'}
                 onChange={handleChangeValue}
                 className="md:w-[70%] border px-2 py-1 rounded-lg outline-sky-800"
               >
-                <option value={""}>Chọn lý do</option>
+                <option value={''}>Chọn lý do</option>
                 {listLyDo.map((itemLyDo) => (
                   <option value={itemLyDo.value} key={itemLyDo.id}>
                     {itemLyDo.title}
@@ -102,7 +102,7 @@ function LichThiView(props) {
                 <div className="w-full flex justify-center">
                   <Loading />
                 </div>
-              ) : tenDot !== "" && loaiThi !== "" && lyDo !== "" ? (
+              ) : tenDot !== '' && loaiThi !== '' && lyDo !== '' ? (
                 <>
                   <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-white uppercase bg-sky-800 dark:bg-gray-700 dark:text-gray-400">
@@ -217,7 +217,7 @@ function LichThiView(props) {
                                 <div className="flex justify-center">
                                   <input
                                     onChange={(e) => {
-                                      handleRowSelection(e, hocphan);
+                                      handleRowSelection(e, hocphan)
                                     }}
                                     id="checkbox-table-1"
                                     type="checkbox"
@@ -239,7 +239,7 @@ function LichThiView(props) {
                                   ? hocphan.MaLopHocPhan
                                   : hocphan.KhongCoLich_MaHocPhan
                                     ? hocphan.KhongCoLich_MaHocPhan
-                                    : ""}
+                                    : ''}
                               </th>
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <p>
@@ -252,21 +252,21 @@ function LichThiView(props) {
                                 <p>
                                   {hocphan.TenHinhThucThi
                                     ? hocphan.TenHinhThucThi
-                                    : ""}
+                                    : ''}
                                 </p>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <p>
                                   {hocphan.Thu && hocphan.NgayThi
                                     ? hocphan.Thu == 8
-                                      ? "Chủ nhật"
-                                      : "Thứ " +
+                                      ? 'Chủ nhật'
+                                      : 'Thứ ' +
                                         hocphan.Thu +
-                                        ", " +
+                                        ', ' +
                                         moment(hocphan.NgayThi).format(
-                                          "DD/MM/YYYY",
+                                          'DD/MM/YYYY',
                                         )
-                                    : ""}
+                                    : ''}
                                 </p>
                               </td>
                               <td className="px-6 py-4">
@@ -275,18 +275,18 @@ function LichThiView(props) {
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <p>
                                   {hocphan.TuTiet && hocphan.DenTiet
-                                    ? hocphan.TuTiet + " - " + hocphan.DenTiet
-                                    : ""}
+                                    ? hocphan.TuTiet + ' - ' + hocphan.DenTiet
+                                    : ''}
                                 </p>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <p>
-                                  {hocphan.TenPhong ? hocphan.TenPhong : ""}
+                                  {hocphan.TenPhong ? hocphan.TenPhong : ''}
                                 </p>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <p className="text-center">
-                                  {hocphan.SBD ? hocphan.SBD : ""}
+                                  {hocphan.SBD ? hocphan.SBD : ''}
                                 </p>
                               </td>
                               <td className="whitespace-nowrap">
@@ -297,10 +297,10 @@ function LichThiView(props) {
                                         ? hocphan.DiemThi
                                         : hocphan.DiemThi1
                                           ? hocphan.DiemThi1
-                                          : ""}
+                                          : ''}
                                     </p>
                                     <p className="px-6 py-4 text-center w-1/2">
-                                      {hocphan.DiemThi2 ? hocphan.DiemThi2 : ""}
+                                      {hocphan.DiemThi2 ? hocphan.DiemThi2 : ''}
                                     </p>
                                   </div>
                                   <div className="w-1/2 flex items-center">
@@ -309,18 +309,18 @@ function LichThiView(props) {
                                         ? hocphan.DiemTongKet
                                         : hocphan.DiemTongKet1
                                           ? hocphan.DiemTongKet1
-                                          : ""}
+                                          : ''}
                                     </p>
                                     <p className="px-6 py-4 text-center w-1/2">
                                       {hocphan.DiemTongKet2
                                         ? hocphan.DiemTongKet2
-                                        : ""}
+                                        : ''}
                                     </p>
                                   </div>
                                 </div>
                               </td>
                             </tr>
-                          );
+                          )
                         })
                       ) : (
                         <tr>
@@ -365,9 +365,9 @@ function LichThiView(props) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-LichThiView.propTypes = {};
+LichThiView.propTypes = {}
 
-export default LichThiView;
+export default LichThiView

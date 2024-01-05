@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react'
 
 function ChuyenDiem() {
-  return <div>ChuyenDiem</div>;
+  return <div>ChuyenDiem</div>
 }
 
-export default ChuyenDiem;
+export default ChuyenDiem

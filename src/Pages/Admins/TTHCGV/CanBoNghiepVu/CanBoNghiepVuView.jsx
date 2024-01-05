@@ -1,13 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import SidebarTTHCGV from "../Sidebar/SidebarTTHCGV";
-import { Link } from "react-router-dom";
-import { changeSlug } from "../../../../Services/Utils/stringUtils";
-import ReactPaginate from "react-paginate";
-import { FaCaretLeft, FaCaretRight } from "react-icons/fa";
-import moment from "moment";
-import Loading from "./../../../../Components/Loading/Loading";
-import { DebounceInput } from "react-debounce-input";
+import React from 'react'
+import PropTypes from 'prop-types'
+import SidebarTTHCGV from '../Sidebar/SidebarTTHCGV'
+import { Link } from 'react-router-dom'
+import { changeSlug } from '../../../../Services/Utils/stringUtils'
+import ReactPaginate from 'react-paginate'
+import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
+import moment from 'moment'
+import Loading from './../../../../Components/Loading/Loading'
+import { DebounceInput } from 'react-debounce-input'
 function CanBoNghiepVuView({
   loading,
   listHoSoYeuCau,
@@ -21,7 +21,7 @@ function CanBoNghiepVuView({
   onSearch,
   setSelectedTrangThai,
 }) {
-  const pageCount = Math.ceil(listHoSoYeuCau?.length / itemsPerPage);
+  const pageCount = Math.ceil(listHoSoYeuCau?.length / itemsPerPage)
 
   return (
     <>
@@ -41,14 +41,14 @@ function CanBoNghiepVuView({
                   placeholder="Nhập nội dung tìm kiếm..."
                   className="block w-full h-full px-3 py-1 rounded-full border border-slate-300 focus:outline-none"
                   onChange={(e) => {
-                    onSearch(e.target.value);
+                    onSearch(e.target.value)
                   }}
                 />
               </div>
               <div className="uneti-tthc__timkiem col-span-4 lg:col-span-1">
                 <select
                   onChange={(e) => {
-                    setSelectedTrangThai(e.target.value);
+                    setSelectedTrangThai(e.target.value)
                   }}
                   className="w-full border border-[#336699] rounded-lg px-3 py-1 focus:outline-slate-300"
                   name=""
@@ -63,14 +63,14 @@ function CanBoNghiepVuView({
                       >
                         {iTrangThai.MC_TTHC_GV_TrangThai_TenTrangThai}
                       </option>
-                    );
+                    )
                   })}
                 </select>
               </div>
               <div className="uneti-tthc__timkiem col-span-4 lg:col-span-1">
                 <select
                   onChange={(e) => {
-                    setItemsPerPage(e.target.value);
+                    setItemsPerPage(e.target.value)
                   }}
                   className="w-full border border-[#336699] rounded-lg px-3 py-1 focus:outline-slate-300"
                 >
@@ -104,7 +104,7 @@ function CanBoNghiepVuView({
                     paginatedData?.map((itemYeuCau, index) => {
                       const titleSlug = changeSlug(
                         itemYeuCau.MC_TTHC_GV_TenThuTuc,
-                      );
+                      )
                       return (
                         <tr className="border" key={index}>
                           <td className="px-2 py-1 text-center border-r">
@@ -117,28 +117,28 @@ function CanBoNghiepVuView({
                               </p>
                               <ul>
                                 <li>
-                                  - Số biên tiếp nhận:{" "}
+                                  - Số biên tiếp nhận:{' '}
                                   {
                                     itemYeuCau?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong
                                   }
                                 </li>
                                 <li>
-                                  - Tổ chức/Cá nhân nộp HS:{" "}
+                                  - Tổ chức/Cá nhân nộp HS:{' '}
                                   <span className="font-semibold capitalize">
                                     {itemYeuCau?.HoTen}
                                   </span>
                                 </li>
                                 <li>
-                                  - Ngày tiếp nhận:{" "}
+                                  - Ngày tiếp nhận:{' '}
                                   {moment(
                                     itemYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayGui,
-                                  ).format("DD/MM/YYYY")}
+                                  ).format('DD/MM/YYYY')}
                                 </li>
                                 <li>
-                                  - Ngày hẹn trả:{" "}
+                                  - Ngày hẹn trả:{' '}
                                   {itemYeuCau.ngayHenTra
                                     ? itemYeuCau.ngayHenTra
-                                    : "Chưa thực hiện"}
+                                    : 'Chưa thực hiện'}
                                 </li>
                               </ul>
                               <div className="flex items-center gap-4">
@@ -154,7 +154,7 @@ function CanBoNghiepVuView({
                                   <button
                                     type="button"
                                     onClick={() => {
-                                      handleTiepNhanHoSo(itemYeuCau);
+                                      handleTiepNhanHoSo(itemYeuCau)
                                     }}
                                     className="text-white font-semibold bg-[#0484AC] px-3 py-1 rounded-full hover:opacity-70"
                                   >
@@ -184,7 +184,7 @@ function CanBoNghiepVuView({
                             </p>
                           </td>
                         </tr>
-                      );
+                      )
                     })
                   ) : (
                     <tr>
@@ -216,12 +216,12 @@ function CanBoNghiepVuView({
                   marginPagesDisplayed={2}
                   pageRangeDisplayed={5}
                   onPageChange={setPage}
-                  containerClassName={"pagination"}
+                  containerClassName={'pagination'}
                   pageClassName={
-                    "px-2 py-1 hover:text-white hover:font-semibold hover:bg-[#336699]"
+                    'px-2 py-1 hover:text-white hover:font-semibold hover:bg-[#336699]'
                   }
                   activeClassName={
-                    "px-2 py-1 text-white font-semibold bg-[#336699]"
+                    'px-2 py-1 text-white font-semibold bg-[#336699]'
                   }
                   className="w-full flex items-center justify-end gap-1"
                 />
@@ -231,9 +231,9 @@ function CanBoNghiepVuView({
         </div>
       )}
     </>
-  );
+  )
 }
 
-CanBoNghiepVuView.propTypes = {};
+CanBoNghiepVuView.propTypes = {}
 
-export default CanBoNghiepVuView;
+export default CanBoNghiepVuView

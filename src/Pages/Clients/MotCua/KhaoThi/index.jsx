@@ -1,27 +1,27 @@
-import React from "react";
-import { homeMotCua } from "../../../../Services/Static/dataStatic.js";
-import { useLocation } from "react-router-dom";
-import FeatureItemMotCua from "../../../../Components/FeatureItemMotCua/FeatureItemMotCua.jsx";
-import Breadcrumb from "../../../../Components/Breadcumb/Breadcrumb.jsx";
+import React from 'react'
+import { homeMotCua } from '../../../../Services/Static/dataStatic.js'
+import { useLocation } from 'react-router-dom'
+import FeatureItemMotCua from '../../../../Components/FeatureItemMotCua/FeatureItemMotCua.jsx'
+import Breadcrumb from '../../../../Components/Breadcumb/Breadcrumb.jsx'
 
 function HomeKhaoThi() {
-  const iconKhaoThi = homeMotCua[0].ico;
-  const featureKhaoThi = homeMotCua[0].childrens;
+  const iconKhaoThi = homeMotCua[0].ico
+  const featureKhaoThi = homeMotCua[0].childrens
 
-  const location = useLocation();
-  const { pathname } = location;
+  const location = useLocation()
+  const { pathname } = location
 
   const breadcrumbs = [
     {
-      title: "Khảo thí",
+      title: 'Khảo thí',
       path: pathname,
     },
-  ];
+  ]
 
   const home = {
-    path: "/motcua",
-    title: "Bộ phận Một cửa",
-  };
+    path: '/motcua',
+    title: 'Bộ phận Một cửa',
+  }
 
   return (
     <div className="">
@@ -36,12 +36,12 @@ function HomeKhaoThi() {
                   featureItem={featureItem}
                 />
               </div>
-            ) : null;
+            ) : null
           })}
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default HomeKhaoThi;
+export default HomeKhaoThi

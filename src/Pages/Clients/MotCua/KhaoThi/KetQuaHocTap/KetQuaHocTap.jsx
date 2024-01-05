@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react'
 
 function KetQuaHocTap() {
-  return <div>KetQuaHocTap</div>;
+  return <div>KetQuaHocTap</div>
 }
 
-export default KetQuaHocTap;
+export default KetQuaHocTap

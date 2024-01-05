@@ -1,30 +1,30 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { MdKeyboardArrowDown } from "react-icons/md";
+import React from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { MdKeyboardArrowDown } from 'react-icons/md'
 // data
-import noAvatar from "../../../assets/Images/noavatar.png";
-import logoUNETI from "../../../assets/Images/LOGO_UNETI.ico";
-import { useDispatch } from "react-redux";
-import DropdownProfileTeacher from "../DropdownProfileTeacher.jsx";
-import { DataCanBoGV } from "../../../Services/Utils/dataCanBoGV.js";
-import NavbarTTHCGV from "../../../Components/Navbars/NavbarTTHCGV.jsx";
-import { logOut } from "../../../Apis/apiLogout.js";
-import { persistor, store } from "../../../Services/Redux/store.js";
-import MenuMobileTTHCGV from "../../../Components/MenuMobiles/MenuMobileTTHCGV.jsx";
+import noAvatar from '../../../assets/Images/noavatar.png'
+import logoUNETI from '../../../assets/Images/LOGO_UNETI.ico'
+import { useDispatch } from 'react-redux'
+import DropdownProfileTeacher from '../DropdownProfileTeacher.jsx'
+import { DataCanBoGV } from '../../../Services/Utils/dataCanBoGV.js'
+import NavbarTTHCGV from '../../../Components/Navbars/NavbarTTHCGV.jsx'
+import { logOut } from '../../../Apis/apiLogout.js'
+import { persistor, store } from '../../../Services/Redux/store.js'
+import MenuMobileTTHCGV from '../../../Components/MenuMobiles/MenuMobileTTHCGV.jsx'
 
 function HeaderCBGV() {
-  const dataCBGV = DataCanBoGV();
+  const dataCBGV = DataCanBoGV()
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  const state = store.getState();
-  const refreshToken = state?.auth?.login?.currentToken?.refreshToken;
+  const state = store.getState()
+  const refreshToken = state?.auth?.login?.currentToken?.refreshToken
   const handleLogout = () => {
-    localStorage.removeItem("persist:root");
-    logOut(role, dispatch, navigate, refreshToken);
-    persistor.purge();
-  };
+    localStorage.removeItem('persist:root')
+    logOut(role, dispatch, navigate, refreshToken)
+    persistor.purge()
+  }
 
   return (
     <header className="shadow-md fixed left-0 right-0 top-0 w-[100%] z-10">
@@ -62,7 +62,7 @@ function HeaderCBGV() {
                 alt="user photo"
               />
               <span className="hidden md:block">
-                {dataCBGV.HoDem + " " + dataCBGV.Ten}
+                {dataCBGV.HoDem + ' ' + dataCBGV.Ten}
               </span>
               <MdKeyboardArrowDown className="text-2xl hidden md:inline-block" />
             </button>
@@ -82,7 +82,7 @@ function HeaderCBGV() {
         </div>
       </nav>
     </header>
-  );
+  )
 }
 
-export default HeaderCBGV;
+export default HeaderCBGV

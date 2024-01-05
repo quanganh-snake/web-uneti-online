@@ -1,22 +1,22 @@
-import React from "react";
+import React from 'react'
 // Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide } from 'swiper/react'
 
 // Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
+import 'swiper/css'
+import 'swiper/css/pagination'
+import 'swiper/css/navigation'
 
 // import required modules
-import { Navigation, Pagination } from "swiper/modules";
-import mcTimeLine01 from "../../../../assets/Images/MC_TimeLine01.png";
-import mcTimeLine02 from "../../../../assets/Images/MC_TimeLine02.png";
+import { Navigation, Pagination } from 'swiper/modules'
+import mcTimeLine01 from '../../../../assets/Images/MC_TimeLine01.png'
+import mcTimeLine02 from '../../../../assets/Images/MC_TimeLine02.png'
 function SlideMotCua() {
   return (
     <div className="px-4 my-10 rounded-lg">
       <Swiper
         pagination={{
-          type: "fraction",
+          type: 'fraction',
           dynamicBullets: true,
         }}
         navigation={true}
@@ -31,7 +31,7 @@ function SlideMotCua() {
         </SwiperSlide>
       </Swiper>
     </div>
-  );
+  )
 }
 
-export default SlideMotCua;
+export default SlideMotCua

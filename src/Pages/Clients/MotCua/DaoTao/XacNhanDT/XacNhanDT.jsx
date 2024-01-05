@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react'
 
 function XacNhanDT() {
-  return <div>XacNhanDT</div>;
+  return <div>XacNhanDT</div>
 }
 
-export default XacNhanDT;
+export default XacNhanDT

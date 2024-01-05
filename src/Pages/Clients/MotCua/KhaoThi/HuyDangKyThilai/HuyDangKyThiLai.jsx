@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react'
 
 function HuyDangKyThiLai() {
-  return <div>HuyDangKyThiLai</div>;
+  return <div>HuyDangKyThiLai</div>
 }
 
-export default HuyDangKyThiLai;
+export default HuyDangKyThiLai

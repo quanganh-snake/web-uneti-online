@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react'
 
 function HomeHanhChinh() {
-  return <div>HomeHanhChinh</div>;
+  return <div>HomeHanhChinh</div>
 }
 
-export default HomeHanhChinh;
+export default HomeHanhChinh

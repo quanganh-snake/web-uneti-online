@@ -1,8 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react'
+import PropTypes from 'prop-types'
 
 function DropdownUNETI(props) {
-  const { textLabel, id, optionDefault, options } = props;
+  const { textLabel, id, optionDefault, options } = props
   return (
     <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
       <label htmlFor={id} className="md:w-[30%] mb-2 md:mb-0">
@@ -20,7 +20,7 @@ function DropdownUNETI(props) {
         ))}
       </select>
     </div>
-  );
+  )
 }
 
 DropdownUNETI.propTypes = {
@@ -28,6 +28,6 @@ DropdownUNETI.propTypes = {
   id: PropTypes.string,
   optionDefault: PropTypes.string,
   options: PropTypes.array.isRequired,
-};
+}
 
-export default DropdownUNETI;
+export default DropdownUNETI

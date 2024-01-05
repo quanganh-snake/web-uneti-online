@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from "react";
-import Chart from "react-apexcharts";
+import React, { useState, useEffect } from 'react'
+import Chart from 'react-apexcharts'
 
 function ChartMotCua() {
-  const [dataAudits, setDataAudits] = useState([]);
+  const [dataAudits, setDataAudits] = useState([])
 
-  const windowWidth = window.innerWidth;
+  const windowWidth = window.innerWidth
 
-  const [chartWidth, setChartWidth] = useState(800);
-  const [chartHeight, setChartHeight] = useState(800);
+  const [chartWidth, setChartWidth] = useState(800)
+  const [chartHeight, setChartHeight] = useState(800)
 
   useEffect(() => {
     const updateChartSize = () => {
       if (windowWidth < 565) {
-        setChartWidth(360);
-        setChartHeight(360);
+        setChartWidth(360)
+        setChartHeight(360)
       } else {
-        setChartWidth(800);
-        setChartHeight(550);
+        setChartWidth(800)
+        setChartHeight(550)
       }
-    };
+    }
 
-    window.onresize = updateChartSize();
-  }, []);
+    window.onresize = updateChartSize()
+  }, [])
 
   return (
     <React.Fragment>
@@ -33,7 +33,7 @@ function ChartMotCua() {
             height={chartHeight}
             series={[45, 67, 89, 34]}
             options={{
-              labels: ["Khảo thí", "Đào tạo", "CT&CTSV", "Hành chính"],
+              labels: ['Khảo thí', 'Đào tạo', 'CT&CTSV', 'Hành chính'],
               plotOptions: {
                 pie: {
                   donut: {
@@ -41,10 +41,10 @@ function ChartMotCua() {
                       show: true,
                       total: {
                         show: true,
-                        label: "TỔNG",
+                        label: 'TỔNG',
                         fontSize: 30,
                         fontWeight: 600,
-                        color: "#336699",
+                        color: '#336699',
                       },
                     },
                   },
@@ -76,7 +76,7 @@ function ChartMotCua() {
         </div>
       </div>
     </React.Fragment>
-  );
+  )
 }
 
-export default ChartMotCua;
+export default ChartMotCua

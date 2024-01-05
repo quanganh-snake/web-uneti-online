@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { homeTTHCGV } from "../../Services/Static/dataStatic.js";
-import { Link } from "react-router-dom";
-import clsx from "clsx";
+import React, { useState } from 'react'
+import { homeTTHCGV } from '../../Services/Static/dataStatic.js'
+import { Link } from 'react-router-dom'
+import clsx from 'clsx'
 
 function NavbarTTHCGV() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0)
 
   return (
     <div
@@ -16,21 +16,21 @@ function NavbarTTHCGV() {
           homeTTHCGV.map((module, index) => {
             const handleActive = () => {
               if (activeIndex === index) {
-                setActiveIndex(null);
+                setActiveIndex(null)
               } else {
-                setActiveIndex(index);
+                setActiveIndex(index)
               }
-            };
-            const isActive = index === activeIndex;
+            }
+            const isActive = index === activeIndex
             return (
               <li key={module.id}>
                 <Link
                   to={module.path}
                   className={clsx(
-                    "block hover:bg-sky-800 hover:text-white px-4 py-2 rounded-[99px]",
+                    'block hover:bg-sky-800 hover:text-white px-4 py-2 rounded-[99px]',
                     isActive
-                      ? "bg-sky-800 text-white"
-                      : "bg-transparent text-black",
+                      ? 'bg-sky-800 text-white'
+                      : 'bg-transparent text-black',
                   )}
                   aria-current="page"
                   onClick={handleActive}
@@ -38,11 +38,11 @@ function NavbarTTHCGV() {
                   {module.name}
                 </Link>
               </li>
-            );
+            )
           })}
       </ul>
     </div>
-  );
+  )
 }
 
-export default NavbarTTHCGV;
+export default NavbarTTHCGV

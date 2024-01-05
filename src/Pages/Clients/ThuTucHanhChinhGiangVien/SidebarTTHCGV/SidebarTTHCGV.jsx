@@ -1,68 +1,68 @@
-import clsx from "clsx";
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { MdMenu, MdClose } from "react-icons/md";
-import { Link } from "react-router-dom";
+import clsx from 'clsx'
+import React from 'react'
+import { useEffect } from 'react'
+import { useState } from 'react'
+import { MdMenu, MdClose } from 'react-icons/md'
+import { Link } from 'react-router-dom'
 import {
   getAllLinhVuc,
   getAllPhongBan,
   getListDonVi,
-} from "../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien";
+} from '../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
 function SidebarTTHCGV({ setKeywords, setDieuKienLoc }) {
-  const [openMenu, setOpenMenu] = useState(true);
-  const [dataSelect, setDataSelect] = useState("donvi");
-  const [listDepartments, setListDepartments] = useState([]);
-  const [listArea, setListArea] = useState([]);
+  const [openMenu, setOpenMenu] = useState(true)
+  const [dataSelect, setDataSelect] = useState('donvi')
+  const [listDepartments, setListDepartments] = useState([])
+  const [listArea, setListArea] = useState([])
 
   const handleOpenMenu = () => {
-    setOpenMenu(!openMenu);
-  };
+    setOpenMenu(!openMenu)
+  }
 
   const handleChangeSelectionData = (e) => {
-    const { id } = e.target;
-    setDataSelect(id);
-  };
+    const { id } = e.target
+    setDataSelect(id)
+  }
 
   useEffect(() => {
     const getAllDepartments = async () => {
       try {
-        const resultAllDepartments = await getListDonVi();
+        const resultAllDepartments = await getListDonVi()
         if (resultAllDepartments.status === 200) {
-          const dataDepartments = await resultAllDepartments?.data?.body;
+          const dataDepartments = await resultAllDepartments?.data?.body
           if (dataDepartments) {
-            setListDepartments([...dataDepartments]);
+            setListDepartments([...dataDepartments])
           }
         }
       } catch (error) {
-        console.info(error);
+        console.info(error)
       }
-    };
+    }
 
     const getAllAreas = async () => {
       try {
-        const resultAllAreas = await getAllLinhVuc();
+        const resultAllAreas = await getAllLinhVuc()
         if (resultAllAreas.status === 200) {
-          const dataLinhnVuc = await resultAllAreas?.data?.body;
+          const dataLinhnVuc = await resultAllAreas?.data?.body
           if (dataLinhnVuc.length) {
-            setListArea([...dataLinhnVuc]);
+            setListArea([...dataLinhnVuc])
           }
         }
       } catch (error) {
-        console.info(error.message);
+        console.info(error.message)
       }
-    };
+    }
 
-    getAllDepartments();
-    getAllAreas();
-  }, []);
+    getAllDepartments()
+    getAllAreas()
+  }, [])
 
   return (
-    <div className={clsx("w-full", openMenu ? " md:min-w-[220px]" : "")}>
+    <div className={clsx('w-full', openMenu ? ' md:min-w-[220px]' : '')}>
       <div
         className={clsx(
-          "uneti__menu mb-2 flex",
-          openMenu ? "justify-end" : "justify-start ",
+          'uneti__menu mb-2 flex',
+          openMenu ? 'justify-end' : 'justify-start ',
         )}
       >
         {openMenu ? (
@@ -81,8 +81,8 @@ function SidebarTTHCGV({ setKeywords, setDieuKienLoc }) {
       </div>
       <div
         className={clsx(
-          "uneti__luachon border p-2",
-          openMenu ? "flex justify-between items-center gap-4" : "hidden",
+          'uneti__luachon border p-2',
+          openMenu ? 'flex justify-between items-center gap-4' : 'hidden',
         )}
       >
         <label
@@ -96,8 +96,8 @@ function SidebarTTHCGV({ setKeywords, setDieuKienLoc }) {
             name="luachon"
             id="donvi"
             onChange={() => {
-              setDieuKienLoc("NoiTiepNhan");
-              setKeywords("");
+              setDieuKienLoc('NoiTiepNhan')
+              setKeywords('')
             }}
           />
           <span>Đơn vị</span>
@@ -112,8 +112,8 @@ function SidebarTTHCGV({ setKeywords, setDieuKienLoc }) {
             name="luachon"
             id="linhvuc"
             onChange={() => {
-              setDieuKienLoc("LinhVuc");
-              setKeywords("");
+              setDieuKienLoc('LinhVuc')
+              setKeywords('')
             }}
           />
           <span>Lĩnh vực</span>
@@ -121,12 +121,12 @@ function SidebarTTHCGV({ setKeywords, setDieuKienLoc }) {
       </div>
       <div
         className={clsx(
-          "uneti__luachon--list my-4  max-h-[700px] overflow-y-auto",
-          openMenu ? "" : "hidden",
+          'uneti__luachon--list my-4  max-h-[700px] overflow-y-auto',
+          openMenu ? '' : 'hidden',
         )}
       >
         {dataSelect &&
-          dataSelect === "donvi" &&
+          dataSelect === 'donvi' &&
           listDepartments?.map((iData, index) => {
             return (
               <div
@@ -135,17 +135,17 @@ function SidebarTTHCGV({ setKeywords, setDieuKienLoc }) {
               >
                 <Link
                   onClick={() => {
-                    setKeywords(iData.MC_TTHC_GV_NoiTiepNhan);
-                    setDieuKienLoc("NoiTiepNhan");
+                    setKeywords(iData.MC_TTHC_GV_NoiTiepNhan)
+                    setDieuKienLoc('NoiTiepNhan')
                   }}
                 >
                   <p className="truncate">{iData.MC_TTHC_GV_NoiTiepNhan}</p>
                 </Link>
               </div>
-            );
+            )
           })}
         {dataSelect &&
-          dataSelect === "linhvuc" &&
+          dataSelect === 'linhvuc' &&
           listArea?.map((iData, index) => {
             return (
               <div
@@ -154,18 +154,18 @@ function SidebarTTHCGV({ setKeywords, setDieuKienLoc }) {
               >
                 <Link
                   onClick={() => {
-                    setKeywords(iData.MC_TTHC_GV_LinhVuc);
-                    setDieuKienLoc("LinhVuc");
+                    setKeywords(iData.MC_TTHC_GV_LinhVuc)
+                    setDieuKienLoc('LinhVuc')
                   }}
                 >
                   <p className="truncate">{iData.MC_TTHC_GV_LinhVuc}</p>
                 </Link>
               </div>
-            );
+            )
           })}
       </div>
     </div>
-  );
+  )
 }
 
-export default SidebarTTHCGV;
+export default SidebarTTHCGV

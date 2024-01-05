@@ -1,11 +1,11 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Link, useLocation } from "react-router-dom";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Link, useLocation } from 'react-router-dom'
 
 function FeatureItemMotCua(props) {
-  const { iconKhaoThi, featureItem } = props;
-  const location = useLocation();
-  const { pathname } = location;
+  const { iconKhaoThi, featureItem } = props
+  const location = useLocation()
+  const { pathname } = location
 
   return (
     <div className="feature__item min-h-[200px] h-full bg-white p-4 rounded-xl shadow-lg flex flex-col relative">
@@ -25,11 +25,11 @@ function FeatureItemMotCua(props) {
         </Link>
       </div>
     </div>
-  );
+  )
 }
 
 FeatureItemMotCua.propTypes = {
   featureItem: PropTypes.object.isRequired,
-};
+}
 
-export default FeatureItemMotCua;
+export default FeatureItemMotCua

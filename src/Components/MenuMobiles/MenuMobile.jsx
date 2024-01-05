@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import clsx from "clsx";
-import { IoMdMenu, IoMdClose } from "react-icons/io";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react'
+import clsx from 'clsx'
+import { IoMdMenu, IoMdClose } from 'react-icons/io'
+import { Link } from 'react-router-dom'
 
 function MenuMobile() {
-  const [showMenu, setShowMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState(false)
 
   return (
     <>
@@ -14,7 +14,7 @@ function MenuMobile() {
           color="red"
           className="hover:opacity-70"
           onClick={() => {
-            setShowMenu(false);
+            setShowMenu(false)
           }}
         />
       ) : (
@@ -23,23 +23,23 @@ function MenuMobile() {
           color="#336699"
           className="hover:opacity-70"
           onClick={() => {
-            setShowMenu(true);
+            setShowMenu(true)
           }}
         />
       )}
 
       <div
         className={clsx(
-          "absolute left-0 right-0 top-[100%] w-full bg-[#336699]",
+          'absolute left-0 right-0 top-[100%] w-full bg-[#336699]',
           showMenu
-            ? "block animate__animated animate__fadeInLeft"
-            : "animate__animated animate__fadeOutLeft",
+            ? 'block animate__animated animate__fadeInLeft'
+            : 'animate__animated animate__fadeOutLeft',
         )}
       >
         <ul>
           <li>
             <Link
-              to={"/uneti"}
+              to={'/uneti'}
               className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
             >
               Trang chủ
@@ -47,7 +47,7 @@ function MenuMobile() {
           </li>
           <li>
             <Link
-              to={"/admin/canbonghiepvu"}
+              to={'/admin/canbonghiepvu'}
               className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
             >
               Cán bộ nghiệp vụ
@@ -55,7 +55,7 @@ function MenuMobile() {
           </li>
           <li>
             <Link
-              to={"/admin/quantriTTHCGV"}
+              to={'/admin/quantriTTHCGV'}
               className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
             >
               Quản trị hệ thống
@@ -64,7 +64,7 @@ function MenuMobile() {
         </ul>
       </div>
     </>
-  );
+  )
 }
 
-export default MenuMobile;
+export default MenuMobile

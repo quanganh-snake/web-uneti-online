@@ -1,16 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import {
   MdFormatListNumbered,
   MdInsertDriveFile,
   MdLogout,
   MdNotificationImportant,
-} from "react-icons/md";
-import { FaYoutube } from "react-icons/fa6";
+} from 'react-icons/md'
+import { FaYoutube } from 'react-icons/fa6'
 
 function DropdownProfileStudent(props) {
-  const { handleLogout } = props;
+  const { handleLogout } = props
   return (
     <React.Fragment>
       <ul className="py-2" aria-labelledby="user-menu-button">
@@ -64,12 +64,12 @@ function DropdownProfileStudent(props) {
         </li>
       </ul>
     </React.Fragment>
-  );
+  )
 }
 
 DropdownProfileStudent.propTypes = {
   dropdownProfiles: PropTypes.array,
   handleLogout: PropTypes.func.isRequired,
-};
+}
 
-export default DropdownProfileStudent;
+export default DropdownProfileStudent

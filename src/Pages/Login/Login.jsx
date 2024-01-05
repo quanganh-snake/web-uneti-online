@@ -1,226 +1,223 @@
-import React, { useState } from "react";
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { toast } from "react-toastify";
+import React, { useState } from 'react'
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
+import { toast } from 'react-toastify'
 
 import {
   tokenGVLogin,
   tokenSVLogin,
   userGVLogin,
   userSVLogin,
-} from "../../Apis/apiLogin.js";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import Loading from "./../../Components/Loading/Loading";
+} from '../../Apis/apiLogin.js'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import Loading from './../../Components/Loading/Loading'
 
 function Login() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   // event handlers
   const handleChangevalue = async (e) => {
-    if (e.target.id === "taikhoan") {
-      setUsername(e.target.value);
+    if (e.target.id === 'taikhoan') {
+      setUsername(e.target.value)
     }
 
-    if (e.target.id === "matkhau") {
-      setPassword(e.target.value);
+    if (e.target.id === 'matkhau') {
+      setPassword(e.target.value)
     }
-  };
+  }
 
   const checkedSinhVien = async (username, password) => {
     // Check Sinh Viên
-    setLoading(true);
+    setLoading(true)
     const userSV = {
       TC_SV_MaSinhVien: username,
       TC_SV_MaSinhVien_Pass: password,
-    };
-    const tokenSV = await tokenSVLogin(userSV, dispatch);
+    }
+    const tokenSV = await tokenSVLogin(userSV, dispatch)
 
     if (tokenSV) {
-      const dataSV = await userSVLogin(
-        { TC_SV_MaSinhVien: username },
-        dispatch,
-      );
+      const dataSV = await userSVLogin({ TC_SV_MaSinhVien: username }, dispatch)
 
       if (!dataSV) {
-        setLoading(false);
-        return null;
+        setLoading(false)
+        return null
       }
 
       if (
-        dataSV?.LoaiHinhDaoTao === "" ||
+        dataSV?.LoaiHinhDaoTao === '' ||
         dataSV?.LoaiHinhDaoTao == null ||
         dataSV?.LoaiHinhDaoTao === undefined
       ) {
-        setLoading(false);
-        return "Invalid-LoaiHinhDaoTao";
+        setLoading(false)
+        return 'Invalid-LoaiHinhDaoTao'
       }
 
       if (
-        dataSV?.Email_TruongCap === "" ||
+        dataSV?.Email_TruongCap === '' ||
         dataSV?.Email_TruongCap == null ||
         dataSV?.Email_TruongCap === undefined
       ) {
-        setLoading(false);
-        return "Invalid-Email";
+        setLoading(false)
+        return 'Invalid-Email'
       }
 
-      if (dataSV?.TrangThaiHocTap === "Đang học") {
-        setLoading(false);
-        return "SV";
-      } else if (dataSV?.TrangThaiHocTap === "Đã tốt nghiệp") {
-        setLoading(false);
-        return "SV-Done";
+      if (dataSV?.TrangThaiHocTap === 'Đang học') {
+        setLoading(false)
+        return 'SV'
+      } else if (dataSV?.TrangThaiHocTap === 'Đã tốt nghiệp') {
+        setLoading(false)
+        return 'SV-Done'
       }
     } else {
-      setLoading(false);
-      return null;
+      setLoading(false)
+      return null
     }
-  };
+  }
 
   const checkedGiangVien = async (username, password) => {
     // Check Giảng Viên
-    setLoading(true);
+    setLoading(true)
     const userGV = {
       HT_USER_TenDN: username,
       HT_USER_MK: password,
-    };
+    }
     try {
-      const tokenGV = await tokenGVLogin(userGV, dispatch);
+      const tokenGV = await tokenGVLogin(userGV, dispatch)
       if (tokenGV) {
-        const dataGV = await userGVLogin(userGV, dispatch, navigate);
+        const dataGV = await userGVLogin(userGV, dispatch, navigate)
 
         if (!dataGV) {
-          setLoading(false);
-          return null;
+          setLoading(false)
+          return null
         }
 
-        if (dataGV?.LoaiTaiKhoan === "Giảng viên") {
-          setLoading(false);
-          return "CB";
+        if (dataGV?.LoaiTaiKhoan === 'Giảng viên') {
+          setLoading(false)
+          return 'CB'
         } else {
-          return null;
+          return null
         }
       } else {
-        setLoading(false);
-        return null;
+        setLoading(false)
+        return null
       }
     } catch (error) {
-      setLoading(false);
-      console.log([error]);
+      setLoading(false)
+      console.log([error])
     }
-  };
+  }
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    if (username === "" || username === null || username === undefined) {
-      setLoading(false);
-      return toast.error("Vui lòng nhập tài khoản!", {
-        position: "top-right",
+    e.preventDefault()
+    setLoading(true)
+    if (username === '' || username === null || username === undefined) {
+      setLoading(false)
+      return toast.error('Vui lòng nhập tài khoản!', {
+        position: 'top-right',
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
-      });
+        theme: 'light',
+      })
     }
 
-    if (password === "" || password === null || password === undefined) {
-      setLoading(false);
-      return toast.error("Vui lòng nhập mật khẩu!", {
-        position: "top-right",
+    if (password === '' || password === null || password === undefined) {
+      setLoading(false)
+      return toast.error('Vui lòng nhập mật khẩu!', {
+        position: 'top-right',
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: "light",
-      });
+        theme: 'light',
+      })
     }
 
-    const sinhvien = await checkedSinhVien(username, password);
-    const giangvien = await checkedGiangVien(username, password);
+    const sinhvien = await checkedSinhVien(username, password)
+    const giangvien = await checkedGiangVien(username, password)
 
     if (!sinhvien && !giangvien) {
-      setLoading(false);
+      setLoading(false)
       return toast.error(
-        "Thông tin đăng nhập không chính xác. Vui lòng kiểm tra lại!",
+        'Thông tin đăng nhập không chính xác. Vui lòng kiểm tra lại!',
         {
-          position: "top-right",
+          position: 'top-right',
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "light",
+          theme: 'light',
         },
-      );
+      )
     }
 
-    if (sinhvien === "Invalid-Email") {
-      setLoading(false);
+    if (sinhvien === 'Invalid-Email') {
+      setLoading(false)
       return toast.error(
-        "Tài khoản của bạn thiếu thông tin email của trường cấp không thể đăng nhập. Vui lòng đợi cập nhật thông tin và quay lại sau!",
+        'Tài khoản của bạn thiếu thông tin email của trường cấp không thể đăng nhập. Vui lòng đợi cập nhật thông tin và quay lại sau!',
         {
-          position: "top-right",
+          position: 'top-right',
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "light",
+          theme: 'light',
         },
-      );
-    } else if (sinhvien === "Invalid-LoaiHinhDaoTao") {
-      setLoading(false);
+      )
+    } else if (sinhvien === 'Invalid-LoaiHinhDaoTao') {
+      setLoading(false)
       return toast.error(
-        "Tài khoản của bạn thiếu thông tin bậc đào tạo không thể đăng nhập. Vui lòng đợi cập nhật thông tin và quay lại sau!",
+        'Tài khoản của bạn thiếu thông tin bậc đào tạo không thể đăng nhập. Vui lòng đợi cập nhật thông tin và quay lại sau!',
         {
-          position: "top-right",
+          position: 'top-right',
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "light",
+          theme: 'light',
         },
-      );
-    } else if (sinhvien === "SV-Done") {
-      setLoading(false);
+      )
+    } else if (sinhvien === 'SV-Done') {
+      setLoading(false)
       return toast.error(
-        "Tài khoản đã tốt nghiệp không thể sử dụng hệ thống UNETI.",
+        'Tài khoản đã tốt nghiệp không thể sử dụng hệ thống UNETI.',
         {
-          position: "top-right",
+          position: 'top-right',
           autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "light",
+          theme: 'light',
         },
-      );
+      )
     }
-    setLoading(false);
-    navigate("/uneti");
-  };
+    setLoading(false)
+    navigate('/uneti')
+  }
 
   const handleEnterPressKey = (e) => {
-    if (e.key === "Enter") {
-      handleLogin(e);
+    if (e.key === 'Enter') {
+      handleLogin(e)
     }
-  };
+  }
 
   return (
     <section
@@ -264,7 +261,7 @@ function Login() {
                 <input
                   id="matkhau"
                   autoComplete="current-password"
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   className="px-4 py-2 border border-slate-300 w-full rounded-full outline-none valid:bg-white"
                   placeholder="Mật khẩu"
                   onChange={handleChangevalue}
@@ -272,7 +269,7 @@ function Login() {
                 <span
                   className="absolute right-5 top-3 cursor-pointer text-xl"
                   onClick={() => {
-                    setShowPassword(!showPassword);
+                    setShowPassword(!showPassword)
                   }}
                 >
                   {!showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
@@ -289,7 +286,7 @@ function Login() {
         </div>
       )}
     </section>
-  );
+  )
 }
 
-export default Login;
+export default Login
