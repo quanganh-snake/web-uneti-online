@@ -12,7 +12,7 @@ import moment from 'moment-timezone'
 import { DataCanBoGV } from '../../../../Services/Utils/dataCanBoGV'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
-import { sendEmailUserSubmit } from '../../../../Services/Utils/emailUtils'
+import { isValidEmail } from '../../../../Services/Utils/emailUtils'
 import { convertDataFileToBase64 } from '../../../../Services/Utils/stringUtils'
 function SoanHoSo() {
   const home = {
@@ -95,12 +95,13 @@ function SoanHoSo() {
 
     const newDataHoSoYeuCau = {
       ...dataHoSoYeuCau,
+      MC_TTHC_GV_GuiYeuCau_DaNop: false,
       MC_TTHC_GV_GuiYeuCau_YeuCau_ID: dataChiTietThuTuc?.ThongTinHoSo
         ?.MC_TTHC_GV_ID
         ? dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_ID.toString()
         : '',
       MC_TTHC_GV_GuiYeuCau_TrangThai_ID: '0',
-      MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu: '',
+      MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu: 'Nộp hồ sơ',
       MC_TTHC_GV_GuiYeuCau_NgayGui: moment()
         .tz('Asia/Ho_Chi_Minh')
         .format('YYYY-MM-DD HH:mm:ss'),
@@ -113,91 +114,94 @@ function SoanHoSo() {
       return toast.error('Vui lòng nhập số lượng bản ghi nhận tối thiểu là 1')
     }
 
+    if (
+      !isValidEmail(newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email)
+    ) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Vui lòng nhập đúng email!',
+      })
+      return
+    }
+
     let idGuiYeuCau
     try {
-      const resultKiemTraHoSoThuTucTrung =
-        await getGuiYeuCauHoSoThuTucKiemTraTrung(
-          dataCBGV.MaNhanSu,
-          newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
-          newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID,
-        )
-      if (resultKiemTraHoSoThuTucTrung.status === 200) {
-        const resultCountKiemTra =
-          await resultKiemTraHoSoThuTucTrung?.data?.body?.length
+      // Kiểm tra đầy đủ thông tin
+      // 1. Thông tin liên hệ và nội dung yêu cầu
+      // 2. Thông tin giấy tờ kèm theo
+      if (
+        listThanhPhanHoSoFiles?.length < dataChiTietThuTuc?.ThanhPhanHoSo.length
+      ) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: 'Thiếu dữ liệu!',
+          footer: 'Vui lòng chọn đầy đủ giấy tờ kèm theo!',
+        })
+        return
+      } else {
+        const resultKiemTraHoSoThuTucTrung =
+          await getGuiYeuCauHoSoThuTucKiemTraTrung(
+            dataCBGV.MaNhanSu,
+            newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
+            newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID,
+          )
+        if (resultKiemTraHoSoThuTucTrung.status === 200) {
+          const resultCountKiemTra =
+            await resultKiemTraHoSoThuTucTrung?.data?.body?.length
 
-        if (resultCountKiemTra > 0) {
-          Swal.fire({
-            icon: 'info',
-            title: 'Thông báo',
-            html: `Yêu cầu cho hồ sơ <p class="font-semibold text-[#336699]">${dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc}</p> đã được gửi lên trước đó. Vui lòng chờ kết quả phản hồi qua email. `,
-          })
-          return
-        } else {
-          const resultPostTTHCYeuCau =
-            await postThuTucHanhChinhGuiYeuCau(newDataHoSoYeuCau)
+          if (resultCountKiemTra > 0) {
+            Swal.fire({
+              icon: 'info',
+              title: 'Thông báo',
+              html: `Yêu cầu cho hồ sơ <p class="font-semibold text-[#336699]">${dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc}</p> đã được gửi lên trước đó. Vui lòng chờ kết quả phản hồi qua email. `,
+            })
+            return
+          } else {
+            const resultPostTTHCYeuCau =
+              await postThuTucHanhChinhGuiYeuCau(newDataHoSoYeuCau)
 
-          if (resultPostTTHCYeuCau.status === 200) {
-            const getIDGuiYeuCau = await getGuiYeuCauHoSoThuTucKiemTraTrung(
-              dataCBGV.MaNhanSu,
-              newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
-              newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID,
-            )
-            const dataIDGuiYeuCau = await getIDGuiYeuCau.data?.body[0]
-            idGuiYeuCau = await dataIDGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_ID
-            let khoaGiangVien =
-              await dataIDGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Khoa
-
-            console.log(listThanhPhanHoSoFiles)
-            if (
-              listThanhPhanHoSoFiles?.length <
-              dataChiTietThuTuc?.ThanhPhanHoSo.length
-            ) {
-              Swal.fire({
-                icon: 'error',
-                title: 'Lỗi',
-                text: 'Thiếu dữ liệu!',
-                footer: 'Vui lòng chèn đường link cho giấy tờ kèn theo!',
-              })
-              return
-            }
-            // UI-POST: Thanh Phan Ho So
-            for (let i = 0; i < listThanhPhanHoSoFiles.length; i++) {
-              listThanhPhanHoSoFiles[
-                i
-              ].MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_IDGoc = idGuiYeuCau
-            }
-            const resultPostTPHSGuiYeuCau = await postThanhPhanHoSoGuiYeuCau(
-              listThanhPhanHoSoFiles,
-            )
-
-            if (
-              resultPostTPHSGuiYeuCau.status === 200 &&
-              resultPostTTHCYeuCau.status === 200
-            ) {
-              Swal.fire({
-                position: 'center',
-                icon: 'success',
-                html: `Gửi yêu cầu thành công! <br/> Vui lòng chờ kết quả xử lý thông báo qua Email hoặc Số điện thoại của bạn.`,
-                showConfirmButton: false,
-                timer: 2000,
-              })
-
-              sendEmailUserSubmit(
-                'tiepnhan',
-                `Thông báo trả lời đề nghị ${dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`,
-                dataCBGV?.HoDem + ' ' + dataCBGV?.Ten,
-                `${dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc.toUpperCase()}`,
-                dataCBGV?.MaNhanSu,
-                khoaGiangVien,
-                newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu,
-                '',
-                newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong,
-                'Tống Bá Quang Anh',
-                'tbquanganh@gmail.com',
-                '0334350166',
-                newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
+            if (resultPostTTHCYeuCau.status === 200) {
+              const getIDGuiYeuCau = await getGuiYeuCauHoSoThuTucKiemTraTrung(
+                dataCBGV.MaNhanSu,
+                newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
+                newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID,
               )
-              return
+              const dataIDGuiYeuCau = await getIDGuiYeuCau.data?.body[0]
+              idGuiYeuCau = await dataIDGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_ID
+              let khoaGiangVien =
+                await dataIDGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Khoa
+              // UI-POST: Thanh Phan Ho So
+              for (let i = 0; i < listThanhPhanHoSoFiles.length; i++) {
+                listThanhPhanHoSoFiles[
+                  i
+                ].MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_IDGoc = idGuiYeuCau
+              }
+              const resultPostTPHSGuiYeuCau = await postThanhPhanHoSoGuiYeuCau(
+                listThanhPhanHoSoFiles,
+              )
+
+              if (
+                resultPostTPHSGuiYeuCau.status === 200 &&
+                resultPostTTHCYeuCau.status === 200
+              ) {
+                Swal.fire({
+                  position: 'center',
+                  icon: 'success',
+                  html: `Gửi yêu cầu thành công! <br/> Vui lòng chờ kết quả xử lý thông báo qua Email hoặc Số điện thoại của bạn.`,
+                  showConfirmButton: false,
+                  timer: 2000,
+                })
+                return
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Lỗi',
+                  text: 'Đã có lỗi xảy ra!',
+                  footer:
+                    'Vui lòng thử lại hoặc liên hệ cho bộ phận kỹ thuật để khắc phục sự cố!',
+                })
+              }
             } else {
               Swal.fire({
                 icon: 'error',
@@ -207,14 +211,6 @@ function SoanHoSo() {
                   'Vui lòng thử lại hoặc liên hệ cho bộ phận kỹ thuật để khắc phục sự cố!',
               })
             }
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Lỗi',
-              text: 'Đã có lỗi xảy ra!',
-              footer:
-                'Vui lòng thử lại hoặc liên hệ cho bộ phận kỹ thuật để khắc phục sự cố!',
-            })
           }
         }
       }
