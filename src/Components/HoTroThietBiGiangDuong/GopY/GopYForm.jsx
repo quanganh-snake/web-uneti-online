@@ -1,6 +1,6 @@
 import FileSelect from '@/Components/Base/FileSelect/FileSelect'
 import Tag from '@/Components/Base/Tag/Tag'
-import { getFileType, humanFileSize } from '@/Services/Utils/file'
+import { getFileType, humanFileSize } from '@/Services/Utils/fileUtils'
 import IconTrash from './IconTrash'
 import Button from '@/Components/Base/Button/Button'
 
