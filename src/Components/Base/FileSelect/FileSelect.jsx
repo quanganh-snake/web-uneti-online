@@ -6,10 +6,13 @@ import { store } from '@/Services/Redux/store'
 import Resumable from 'resumablejs'
 import { FaPlus } from 'react-icons/fa6'
 import Swal from 'sweetalert2'
+import { useState } from 'react'
 
 export const FileSelect = (props) => {
   const {
     maxFiles = 1,
+    maxFileSize = undefined,
+    fileType = ['jpg', 'jpeg', 'png'],
     handleFilesChange,
     width = 40,
     height = 40,
@@ -22,11 +25,13 @@ export const FileSelect = (props) => {
 
   const browseFile = useRef()
 
+  const [fileCached, setFileCached] = useState([])
+
   useEffect(() => {
     const resumable = new Resumable({
       target: '', // TODO:
-      fileType: ['jpg', 'jpeg', 'png'],
-      chunkSize: 4000000, // 4M
+      fileType: fileType,
+      chunkSize: 6000000, // 6M
       headers: () => {
         const dataToken = store.getState()?.auth?.login?.currentToken
 
@@ -40,22 +45,34 @@ export const FileSelect = (props) => {
         }
       },
       testChunks: false,
+      maxFileSize: maxFileSize,
       forceChunkSize: true,
       maxFiles: maxFiles,
       withCredentials: true,
       chunkRetryInterval: 10000, // 10s
-      fileTypeErrorCallback(file, errorCount) {
-        console.log({ file, errorCount })
+      fileTypeErrorCallback() {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: `Chỉ chấp nhận các file ${fileType.join(', ')}`,
+        })
       },
       maxFilesErrorCallback() {
         Swal.fire({
           icon: 'error',
           title: 'Lỗi',
-          text: 'Chỉ được chọn tối đa 5 ảnh!',
+          text: `Chỉ được chọn tối đa ${maxFiles} ${
+            maxFiles == 1 ? 'file' : 'files'
+          }!`,
         })
       },
-      maxFileSizeErrorCallback(file, errorCount) {
-        console.log({ file, errorCount })
+      maxFileSizeErrorCallback() {
+        maxFileSize &&
+          Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: `File không được vượt quá ${maxFileSize}!`,
+          })
       },
       minFileSizeErrorCallback(file, errorCount) {
         console.log({ file, errorCount })
@@ -69,6 +86,7 @@ export const FileSelect = (props) => {
     resumable.assignDrop(browseFile.current)
 
     resumable.on('fileAdded', (file) => {
+      setFileCached(file)
       handleFilesChange(file.file)
     })
 
