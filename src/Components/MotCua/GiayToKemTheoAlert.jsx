@@ -71,13 +71,13 @@ export const GiayToKemTheoAlert = (props) => {
             <p>
               1. Mẫu đề nghị giải quyết thủ tục hành chính:
               {list.map((e, i) => (
-                <div
+                <span
                   key={i}
-                  className="cursor-pointer py-2 ml-8 text-[#245D7C] underline font-semibold mx-1 hover:text-[#0056b3] duration-200"
+                  className="block cursor-pointer py-2 ml-8 text-[#245D7C] underline font-semibold mx-1 hover:text-[#0056b3] duration-200"
                   onClick={() => handleDownloadFile(e.id)}
                 >
                   1.{i + 1} -{e.text},
-                </div>
+                </span>
               ))}
               (Người học cần in, điền thông tin vào mẫu và nộp tại bộ phận Một
               cửa hoặc đến trực tiếp bộ phận Một cửa để lấy mẫu đề nghị giải
