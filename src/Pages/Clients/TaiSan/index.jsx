@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai'
-import { homeTaiSan } from '../../../Services/Static/dataStatic.js'
-import icoPhoneHotLine from '../../../assets/Icons/icoPhoneTaiSan.png'
+import { homeTaiSan } from '@/Services/Static/dataStatic.js'
+import icoPhoneHotLine from '@/assets/Icons/icoPhoneTaiSan.png'
 import ReactPaginate from 'react-paginate'
 
 import { FiSearch } from 'react-icons/fi'
-import ModalYeuCauHoTro from '../../../Components/Modals/ModalTaiSan/ModalYeuCauHoTro.jsx'
-import { DataSinhVien } from '../../../Services/Utils/dataSinhVien.js'
-import { DataCanBoGV } from '../../../Services/Utils/dataCanBoGV.js'
-import { getDanhSachYeuCau } from '../../../Apis/TaiSan/apiTaiSan.js'
-import { tokenSuccess } from '../../../Services/Redux/Slice/authSlice.js'
+import ModalYeuCauHoTro from '@/Components/Modals/ModalTaiSan/ModalYeuCauHoTro.jsx'
+import { DataSinhVien } from '@/Services/Utils/dataSinhVien.js'
+import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV.js'
+import { getDanhSachYeuCau } from '@/Apis/TaiSan/apiTaiSan.js'
+import { tokenSuccess } from '@/Services/Redux/Slice/authSlice.js'
 import { useDispatch } from 'react-redux'
 
 function HomeTaiSan() {

@@ -1,4 +1,4 @@
-import { SidebarItem } from './SidebarItem/SidebarItem'
+import { SidebarItem } from '../SidebarItem/SidebarItem'
 import { useBem } from '@/Services/Hooks'
 import PropTypes from 'prop-types'
 

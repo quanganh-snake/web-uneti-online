@@ -18,7 +18,7 @@ function Breadcrumb(props) {
             id="homeDropdown"
             data-dropdown-toggle="dropdown"
             to={home.path}
-            className="inline-flex items-center text-sm font-medium text-vs-text hover:opacity-70"
+            className="inline-flex items-center text-sm font-medium text-vs-text hover:opacity-80"
           >
             <svg
               className="w-3 h-3 me-2.5"

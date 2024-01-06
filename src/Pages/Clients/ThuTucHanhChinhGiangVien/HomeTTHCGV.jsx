@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import HomeTTHCGVView from './HomeTTHCGVView'
-import { getThuTucHanhChinhByKeyWords } from '../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
+import { getThuTucHanhChinhByKeyWords } from '@/Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
 
 function HomeTTHCGV() {
   const home = {

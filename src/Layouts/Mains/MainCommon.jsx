@@ -1,13 +1,13 @@
 import React from 'react'
 import Header from '../Headers/Header'
 import Footer from '../Footers/Footer'
-import RouterCore from '../../Routers'
+import RouterCore from '@/Routers'
 import { useLocation } from 'react-router-dom'
 import HeaderSV from '../Headers/HeaderSV/HeaderSV'
 import HeaderCBGV from '../Headers/HeaderCBGV/HeaderCBGV'
-import { store } from '../../Services/Redux/store'
-import { DataSinhVien } from '../../Services/Utils/dataSinhVien'
-import { DataCanBoGV } from '../../Services/Utils/dataCanBoGV'
+import { store } from '@/Services/Redux/store'
+import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
+import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 
 function MainCommon() {
   const location = useLocation()

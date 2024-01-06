@@ -6,14 +6,14 @@ import {
   getThuTucHanhChinhByID,
   postThanhPhanHoSoGuiYeuCau,
   postThuTucHanhChinhGuiYeuCau,
-} from '../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
-import { NguonTiepNhan_WEB } from '../../../../Services/Static/dataStatic'
+} from '@/Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
+import { NguonTiepNhan_WEB } from '@/Services/Static/dataStatic'
 import moment from 'moment-timezone'
-import { DataCanBoGV } from '../../../../Services/Utils/dataCanBoGV'
+import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
-import { isValidEmail } from '../../../../Services/Utils/emailUtils'
-import { convertDataFileToBase64 } from '../../../../Services/Utils/stringUtils'
+import { isValidEmail } from '@/Services/Utils/emailUtils'
+import { convertDataFileToBase64 } from '@/Services/Utils/stringUtils'
 function SoanHoSo() {
   const home = {
     path: '/tthcgiangvien',

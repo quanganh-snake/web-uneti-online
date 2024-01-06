@@ -2,9 +2,9 @@ import {
   logOutFailure,
   logOutStart,
   logOutSuccess,
-} from '../Services/Redux/Slice/authSlice'
-import http from '../Configs/http'
-import { userSuccess } from '../Services/Redux/Slice/userSlice'
+} from '@/Services/Redux/Slice/authSlice'
+import http from '@/Configs/http'
+import { userSuccess } from '@/Services/Redux/Slice/userSlice'
 
 export const logOut = async (role, dispatch, navigate, refreshToken) => {
   dispatch(logOutStart())

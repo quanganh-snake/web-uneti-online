@@ -1,6 +1,6 @@
 import { Route } from 'react-router-dom'
-import Login from '../Pages/Login/Login'
-import Default from '../Pages/Default'
+import Login from '@/Pages/Login/Login'
+import Default from '@/Pages/Default'
 
 export const publicRoutes = (
   <>

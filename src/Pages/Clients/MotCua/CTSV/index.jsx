@@ -1,8 +1,7 @@
-import React from 'react'
 import { useLocation } from 'react-router-dom'
 import { homeMotCua } from '@/Services/Static/dataStatic.js'
-import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
-import FeatureItemMotCua from '@/Components/FeatureItemMotCua/FeatureItemMotCua'
+import FeatureItem from '@/Components/FeatureItem/FeatureItem'
+import Box from '@/Components/MotCua/Box'
 
 function HomeCTSV() {
   const iconDaoTao = homeMotCua[2].ico
@@ -24,23 +23,15 @@ function HomeCTSV() {
   }
 
   return (
-    <div className="">
-      <div className="flex flex-col gap-4 p-5 rounded-md shadow-xl bg-white">
-        <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {featureCTSV.map((featureItem, index) => {
-            return featureItem.visiable ? (
-              <div key={index} className="feature-box">
-                <FeatureItemMotCua
-                  iconKhaoThi={iconDaoTao}
-                  featureItem={featureItem}
-                />
-              </div>
-            ) : null
-          })}
-        </div>
-      </div>
-    </div>
+    <Box home={home} breadcrumbs={breadcrumbs}>
+      {featureCTSV.map((featureItem, index) => {
+        return featureItem.visiable ? (
+          <div key={index} className="feature-box">
+            <FeatureItem icon={iconDaoTao} featureItem={featureItem} />
+          </div>
+        ) : null
+      })}
+    </Box>
   )
 }
 

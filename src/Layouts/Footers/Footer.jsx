@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { MdOutlineLocationOn, MdPhone, MdOutlinePublic } from 'react-icons/md'
 // data
-import logoUNETI from '../../assets/Images/LOGO_UNETI.ico'
+import logoUNETI from '@/assets/Images/LOGO_UNETI.ico'
 function Footer() {
   return (
     <footer className="bg-sky-800">
