@@ -4,11 +4,11 @@ import {
   getDetailEditStatusYeuCau,
   getHoSoGuiYeuCauById,
   getTrangThaiXuLyYeuCauById,
-} from '../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
-import { getListTrangThaiTTHCGVByIDGoc } from '../../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai'
+} from '@/Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
+import { getListTrangThaiTTHCGVByIDGoc } from '@/Apis/ThuTucHanhChinhGiangVien/apiTrangThai'
 import moment from 'moment'
 import clsx from 'clsx'
-import Loading from '../../../../Components/Loading/Loading'
+import Loading from '@/Components/Loading/Loading'
 
 function TheoDoiDeNghiTTHCGVChiTiet() {
   const { tieude, id } = useParams()

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { clsx } from 'clsx'
-import { getListThuTucYeuCauByMaNhanSu } from '../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
-import { DataCanBoGV } from './../../../../Services/Utils/dataCanBoGV'
+import { getListThuTucYeuCauByMaNhanSu } from '@/Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
+import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
-import { changeSlug } from '../../../../Services/Utils/stringUtils'
+import { changeSlug } from '@/Services/Utils/stringUtils'
 
 function TheoDoiDeNghiTTHCGV() {
   const dataCBGV = DataCanBoGV()

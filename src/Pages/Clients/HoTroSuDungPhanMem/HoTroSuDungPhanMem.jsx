@@ -1,13 +1,13 @@
 import { useState } from 'react'
 
 import { useBem } from '@/Services/Hooks'
-import { SearchBox } from './SearchBox'
-import { Posts } from '../Posts'
-import { Sidebar } from '../Sidebar'
+import { SearchBox } from '@/Components/HoTroSuDungPhanMem/SearchBox/SearchBox'
+import { Posts } from '@/Components/HoTroSuDungPhanMem/Posts/Posts'
+import { Sidebar } from '@/Components/HoTroSuDungPhanMem/Sidebar/Sidebar'
 
-import './Main.scss'
+import './HoTroSuDungPhanMem.scss'
 
-export const Main = () => {
+export const HoTroSuDungPhanMem = () => {
   const bem = useBem('main')
 
   const [category, setCategory] = useState('')
@@ -119,4 +119,6 @@ export const Main = () => {
   )
 }
 
-Main.propTypes = {}
+HoTroSuDungPhanMem.propTypes = {}
+
+export default HoTroSuDungPhanMem

@@ -4,10 +4,11 @@
 @use '../Mixins/function.scss' as *;
 
 // Break-point
-$sm: 768px !default;
-$md: 992px !default;
-$lg: 1200px !default;
-$xl: 1920px !default;
+$sm: 640px !default;
+$md: 768px !default;
+$lg: 1024px !default;
+$xl: 1280px !default;
+$xxl: 1536px !default;
 
 $breakpoints: (
   'xs': '(max-width: #{$sm})',
@@ -15,6 +16,7 @@ $breakpoints: (
   'md': '(min-width: #{$md})',
   'lg': '(min-width: #{$lg})',
   'xl': '(min-width: #{$xl})',
+  '2xl': '(min-width: #{$xxl})',
 ) !default;
 
 $breakpoints-spec: (

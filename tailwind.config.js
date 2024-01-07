@@ -16,6 +16,31 @@ module.exports = {
         'vs-theme-color': 'rgba(44, 62, 80)',
         'vs-theme-bg': 'rgba(244, 247, 248)',
       },
+      borderRadius: {
+        // exclude top left
+        'exclude-tl': '12px 22px 22px 22px',
+      },
+    },
+
+    /**
+     * Customizing breakpoint
+     * Need to sync with @/Styles/common/var.scss -> $breakpoints
+     */
+    screens: {
+      sm: '640px',
+      // => @media (min-width: 640px) { ... }
+
+      md: '768px',
+      // => @media (min-width: 768px) { ... }
+
+      lg: '1024px',
+      // => @media (min-width: 1024px) { ... }
+
+      xl: '1280px',
+      // => @media (min-width: 1280px) { ... }
+
+      '2xl': '1536px',
+      // => @media (min-width: 1536px) { ... }
     },
   },
   plugins: [],

@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import SidebarTTHCGV from '../SidebarTTHCGV/SidebarTTHCGV'
-import Breadcrumb from '../../../../Components/Breadcumb/Breadcrumb'
+import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import { Link } from 'react-router-dom'
 import { FaUpload, FaSave } from 'react-icons/fa'
 import { FcCancel } from 'react-icons/fc'
 import { BsSend } from 'react-icons/bs'
 import { MdCancel } from 'react-icons/md'
-import Loading from '../../../../Components/Loading/Loading'
+import Loading from '@/Components/Loading/Loading'
 import { IoMdClose } from 'react-icons/io'
 function SoanHoSoView({
   home,

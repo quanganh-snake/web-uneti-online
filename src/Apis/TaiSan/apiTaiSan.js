@@ -1,4 +1,4 @@
-import http from '../../Configs/http'
+import http from '@/Configs/http'
 
 export const getDanhSachYeuCau = async () => {
   try {

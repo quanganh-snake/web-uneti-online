@@ -1,8 +1,7 @@
-import React from 'react'
-import { homeMain } from '../../../Services/Static/dataStatic'
+import { homeMain } from '@/Services/Static/dataStatic'
 import { Link, useNavigate } from 'react-router-dom'
-import { DataSinhVien } from '../../../Services/Utils/dataSinhVien'
-import { DataCanBoGV } from '../../../Services/Utils/dataCanBoGV'
+import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
+import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 
 function Home() {
   const navigate = useNavigate()
@@ -28,7 +27,7 @@ function Home() {
               <Link
                 to={`${module.path}`}
                 key={index}
-                className="uneti-module flex flex-col items-center p-10 bg-white hover:bg-[#ebf4f9] cursor-pointer shadow-[12px_12px_12px_#bfbfbf] hover:shadow-[3px_3px_3px_#bfbfbf] rounded-xl"
+                className="flex flex-col items-center p-10 bg-white cursor-pointer hover:shadow-sm rounded-[12px_22px_22px_22px]"
               >
                 <img
                   src={module.icon}

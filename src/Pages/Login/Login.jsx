@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
 import { toast } from 'react-toastify'
 
@@ -7,10 +7,10 @@ import {
   tokenSVLogin,
   userGVLogin,
   userSVLogin,
-} from '../../Apis/apiLogin.js'
+} from '@/Apis/apiLogin.js'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import Loading from './../../Components/Loading/Loading'
+import Loading from '@/Components/Loading/Loading'
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false)
