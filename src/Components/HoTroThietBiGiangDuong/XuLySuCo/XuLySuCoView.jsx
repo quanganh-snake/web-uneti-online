@@ -1,9 +1,44 @@
 import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import { breadcrumbs, home } from './constants'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { MenuItem, Select } from '@mui/material'
+import HuongDanSuDung from './HuongDanSuDung'
+import { useEffect, useState } from 'react'
+import {
+  getAllLichDayXuLySuCo,
+  getTTPhongXuLySuCo,
+} from '@/Apis/HoTroThietBiGiangDuong/apiXuLySuCo'
+import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
+import dayjs from 'dayjs'
+import { isEmpty } from 'lodash-unified'
 
 function XuLySuCoView() {
+  const { id } = useParams()
+
+  const [thongTinPhong, setThongTinPhong] = useState({})
+  const [listLichDay, setListLichDay] = useState([])
+
+  const dataCBGV = DataCanBoGV()
+
+  useEffect(() => {
+    getTTPhongXuLySuCo(id).then((res) => {
+      setThongTinPhong(res?.data?.body[0])
+    })
+  }, [])
+
+  useEffect(() => {
+    if (!isEmpty(thongTinPhong)) {
+      getAllLichDayXuLySuCo(
+        dayjs(new Date()).format('YYYY-MM-DD'),
+        dayjs(new Date()).format('YYYY-MM-DD'),
+        thongTinPhong.DT_QLP_Phong_TenPhong,
+        dataCBGV.MaNhanSu.toString(),
+      ).then((res) => {
+        setListLichDay(res?.data?.body)
+      })
+    }
+  }, [thongTinPhong])
+
   return (
     <div className="bg-vs-theme-layout rounded-2xl mx-4 lg:mx-0">
       <div className="p-4 flex flex-col gap-4">
@@ -14,7 +49,6 @@ function XuLySuCoView() {
             XỬ LÝ SỰ CỐ
           </h2>
           <div className="lg:px-36">
-            {/* form */}
             <div>
               <Select
                 defaultValue="0"
@@ -62,14 +96,53 @@ function XuLySuCoView() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td
-                      colSpan="10"
-                      className="text-center p-3 border border-solid border-[#dee2e6]"
-                    >
-                      Hiện tại chưa có dữ liệu để hiển thị
-                    </td>
-                  </tr>
+                  {listLichDay.length ? (
+                    listLichDay.map((ld, index) => (
+                      <tr key={index}>
+                        <td className="p-2 border border-solid border-[#dee2e6]">
+                          #
+                        </td>
+                        <td className="p-2 border border-solid border-[#dee2e6]">
+                          {ld.DT_CVNB_TBGD_LichHoc_CoSo}
+                        </td>
+                        <td className="p-2 border border-solid border-[#dee2e6]">
+                          {ld.DT_CVNB_TBGD_LichHoc_TenDiaDiem}
+                        </td>
+                        <td className="p-2 border border-solid border-[#dee2e6]">
+                          {ld.DT_CVNB_TBGD_LichHoc_TenDayNha}
+                        </td>
+                        <td className="p-2 border border-solid border-[#dee2e6]">
+                          {ld.DT_CVNB_TBGD_LichHoc_TenPhong}
+                        </td>
+                        <td className="p-2 border border-solid border-[#dee2e6]">
+                          {ld.DT_CVNB_TBGD_LichHoc_MaGiangVien}
+                        </td>
+                        <td className="p-2 border border-solid border-[#dee2e6]">
+                          {ld.DT_CVNB_TBGD_LichHoc_HoTenGiangVien}
+                        </td>
+                        <td className="p-2 border border-solid border-[#dee2e6]">
+                          {`${ld.DT_CVNB_TBGD_LichHoc_TuTiet} - ${ld.DT_CVNB_TBGD_LichHoc_DenTiet}`}
+                        </td>
+                        <td className="p-2 border border-solid border-[#dee2e6]">
+                          {dayjs(ld.DT_CVNB_TBGD_LichHoc_NgayBatDau).format(
+                            'DD-MM-YYYY',
+                          )}
+                        </td>
+                        <td className="p-2 border border-solid border-[#dee2e6]">
+                          {ld.DT_CVNB_TBGD_SuCo_DanhSachSuCo}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan="10"
+                        className="text-center p-3 border border-solid border-[#dee2e6]"
+                      >
+                        Hiện tại chưa có dữ liệu để hiển thị
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
@@ -77,6 +150,7 @@ function XuLySuCoView() {
             <div className="relative sm:rounded-lg my-6">
               <div className="pb-10 uneti-action flex justify-center gap-2">
                 {/* hướng dẫn sử dụng */}
+                <HuongDanSuDung />
 
                 <button
                   //   onClick={handleSubmitData}
@@ -96,28 +170,28 @@ function XuLySuCoView() {
               <span className="w-full font-bold text-sky-800">
                 Danh sách sự cố:
               </span>
-              <div className="w-full flex justify-between items-center gap-10">
-                <span className="text-red-500 block w-[30%] font-bold">
+              <div className="w-full flex flex-col md:flex-row justify-between md:items-center gap-10">
+                <span className="text-red-500 block md:w-[30%] font-bold">
                   Nguyên nhân*:
                 </span>
                 <Select
                   defaultValue="0"
                   disabled
-                  className="flex-1 rounded-md border border-solid border-gray-300"
+                  className="flex-1 w-full rounded-md border border-solid border-gray-300"
                 >
-                  <MenuItem value=""></MenuItem>
+                  <MenuItem value="0"></MenuItem>
                 </Select>
               </div>
-              <div className="w-full flex justify-between items-center gap-10">
-                <span className="text-red-500 block w-[30%] font-bold">
+              <div className="w-full flex flex-col md:flex-row justify-between md:items-center gap-10">
+                <span className="text-red-500 block md:w-[30%] font-bold">
                   Kết quả khắc phục*:
                 </span>
                 <Select
                   defaultValue="0"
                   disabled
-                  className="flex-1 rounded-md border border-solid border-gray-300"
+                  className="flex-1 w-full rounded-md border border-solid border-gray-300"
                 >
-                  <MenuItem value=""></MenuItem>
+                  <MenuItem value="0"></MenuItem>
                 </Select>
               </div>
               <div className="w-full flex justify-center items-center gap-2">
