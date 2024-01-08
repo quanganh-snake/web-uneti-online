@@ -1,11 +1,13 @@
 import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import { breadcrumbs, home } from './constants'
 import { Link, useParams } from 'react-router-dom'
-import { MenuItem, Select } from '@mui/material'
+import { Checkbox, MenuItem, Select } from '@mui/material'
 import HuongDanSuDung from './HuongDanSuDung'
 import { useEffect, useState } from 'react'
 import {
+  getAllKhacPhucXuLySuCo,
   getAllLichDayXuLySuCo,
+  getAllNguyenNhanXuLySuCo,
   getTTPhongXuLySuCo,
 } from '@/Apis/HoTroThietBiGiangDuong/apiXuLySuCo'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
@@ -17,13 +19,37 @@ function XuLySuCoView() {
 
   const [thongTinPhong, setThongTinPhong] = useState({})
   const [listLichDay, setListLichDay] = useState([])
+  const [selectedRow, setSelectedRow] = useState({})
+  const [listKhacPhuc, setListKhacPhuc] = useState([])
+  const [listNguyenNhan, setListNguyenNhan] = useState([])
+  const [khacPhuc, setKhacPhuc] = useState('')
+  const [nguyenNhan, setNguyenNhan] = useState('')
 
   const dataCBGV = DataCanBoGV()
+
+  const handleSelectedRow = (e, ld) => {
+    e.preventDefault()
+    setSelectedRow(ld)
+  }
 
   useEffect(() => {
     getTTPhongXuLySuCo(id).then((res) => {
       setThongTinPhong(res?.data?.body[0])
     })
+
+    getAllKhacPhucXuLySuCo(id).then((res) => {
+      setListKhacPhuc(res?.data?.body)
+    })
+
+    getAllNguyenNhanXuLySuCo(id).then((res) => {
+      setListNguyenNhan(res?.data?.body)
+    })
+
+    return () => {
+      setThongTinPhong({})
+      setListKhacPhuc([])
+      setListNguyenNhan([])
+    }
   }, [])
 
   useEffect(() => {
@@ -37,7 +63,18 @@ function XuLySuCoView() {
         setListLichDay(res?.data?.body)
       })
     }
+
+    return () => {
+      setSelectedRow({})
+    }
   }, [thongTinPhong])
+
+  const handleCancel = (e) => {
+    e.preventDefault()
+    setSelectedRow({})
+    setNguyenNhan('')
+    setKhacPhuc('')
+  }
 
   return (
     <div className="bg-vs-theme-layout rounded-2xl mx-4 lg:mx-0">
@@ -50,13 +87,13 @@ function XuLySuCoView() {
           </h2>
           <div className="lg:px-36">
             <div>
-              <Select
+              <select
                 defaultValue="0"
                 disabled
-                className="w-full rounded-md border border-solid border-gray-300"
+                className="w-full px-2 py-1 rounded-md border border-solid border-gray-300"
               >
-                <MenuItem value="0">Thiết bị giảng đường</MenuItem>
-              </Select>
+                <option value="0">Thiết bị giảng đường</option>
+              </select>
             </div>
 
             <div className="mt-4 overflow-x-auto">
@@ -100,7 +137,13 @@ function XuLySuCoView() {
                     listLichDay.map((ld, index) => (
                       <tr key={index}>
                         <td className="p-2 border border-solid border-[#dee2e6]">
-                          #
+                          <Checkbox
+                            checked={
+                              selectedRow.DT_CVNB_TBGD_LichHoc_MaLopHocPhan ===
+                              ld.DT_CVNB_TBGD_LichHoc_MaLopHocPhan
+                            }
+                            onChange={(e) => handleSelectedRow(e, ld)}
+                          />
                         </td>
                         <td className="p-2 border border-solid border-[#dee2e6]">
                           {ld.DT_CVNB_TBGD_LichHoc_CoSo}
@@ -154,13 +197,13 @@ function XuLySuCoView() {
 
                 <button
                   //   onClick={handleSubmitData}
-                  className="px-3 py-2 bg-white text-sky-800 font-semibold border border-sky-800 rounded-xl hover:bg-sky-800 hover:text-white"
+                  className="duration-200 px-3 py-2 bg-white text-sky-800 font-semibold border border-sky-800 rounded-xl hover:bg-sky-800 hover:text-white"
                 >
                   Gửi yêu cầu
                 </button>
 
                 <Link to={'/hotrothietbigiangduong'}>
-                  <button className="px-3 py-2 bg-white text-sky-800 font-semibold border border-sky-800 rounded-xl hover:bg-sky-800 hover:text-white">
+                  <button className="duration-200 px-3 py-2 bg-white text-sky-800 font-semibold border border-sky-800 rounded-xl hover:bg-sky-800 hover:text-white">
                     Trở lại
                   </button>
                 </Link>
@@ -174,37 +217,62 @@ function XuLySuCoView() {
                 <span className="text-red-500 block md:w-[30%] font-bold">
                   Nguyên nhân*:
                 </span>
-                <Select
-                  defaultValue="0"
-                  disabled
-                  className="flex-1 w-full rounded-md border border-solid border-gray-300"
+                <select
+                  disabled={isEmpty(selectedRow)}
+                  value={khacPhuc}
+                  onChange={(e) => setKhacPhuc(e.target.value.toString())}
+                  className="flex-1 w-full px-2 py-1 rounded-md border border-solid border-gray-300"
                 >
-                  <MenuItem value="0"></MenuItem>
-                </Select>
+                  <option value="">Chọn kết quả khắc phục</option>
+                  {listKhacPhuc.length
+                    ? listKhacPhuc.map((kp, index) => (
+                        <option key={index} value={kp.DT_CVNB_TBGD_TL_ID}>
+                          {kp.DT_CVNB_TBGD_TL_Ten}
+                        </option>
+                      ))
+                    : null}
+                </select>
               </div>
               <div className="w-full flex flex-col md:flex-row justify-between md:items-center gap-10">
                 <span className="text-red-500 block md:w-[30%] font-bold">
                   Kết quả khắc phục*:
                 </span>
-                <Select
-                  defaultValue="0"
-                  disabled
-                  className="flex-1 w-full rounded-md border border-solid border-gray-300"
+                <select
+                  disabled={isEmpty(selectedRow)}
+                  value={nguyenNhan}
+                  onChange={(e) => setNguyenNhan(e.target.value.toString())}
+                  className="flex-1 w-full px-2 py-1 rounded-md border border-solid border-gray-300"
                 >
-                  <MenuItem value="0"></MenuItem>
-                </Select>
+                  <option value="">Chọn nguyên nhân</option>
+                  {listNguyenNhan.length
+                    ? listNguyenNhan.map((nn, index) => (
+                        <option key={index} value={nn.DT_CVNB_TBGD_TL_ID}>
+                          {nn.DT_CVNB_TBGD_TL_Ten}
+                        </option>
+                      ))
+                    : null}
+                </select>
               </div>
               <div className="w-full flex justify-center items-center gap-2">
                 <button
-                  disabled
-                  className="px-3 py-2 font-semibold border rounded-xl bg-sky-800 text-white opacity-50"
+                  disabled={khacPhuc.length === 0 || nguyenNhan.length === 0}
+                  className={`px-3 py-2 bg-white text-sky-800 font-semibold border border-sky-800 rounded-xl duration-200 ${
+                    khacPhuc.length === 0 || nguyenNhan.length === 0
+                      ? 'opacity-50'
+                      : 'cursor-pointer hover:bg-sky-800 hover:text-white'
+                  }`}
                 >
                   Xác nhận hoàn thành
                 </button>
 
                 <button
-                  disabled
-                  className="px-3 py-2 font-semibold border rounded-xl bg-sky-800 text-white opacity-50"
+                  disabled={khacPhuc.length === 0 || nguyenNhan.length === 0}
+                  onClick={handleCancel}
+                  className={`px-3 py-2 bg-white text-sky-800 font-semibold border border-sky-800 rounded-xl duration-200 ${
+                    khacPhuc.length === 0 || nguyenNhan.length === 0
+                      ? 'opacity-50'
+                      : 'cursor-pointer hover:bg-sky-800 hover:text-white'
+                  }`}
                 >
                   Hủy
                 </button>

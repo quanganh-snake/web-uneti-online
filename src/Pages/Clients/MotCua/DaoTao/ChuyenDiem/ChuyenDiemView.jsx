@@ -1,14 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
-import {
-  Checkbox,
-  MenuItem,
-  Pagination,
-  Select,
-  TextField,
-  TextareaAutosize,
-} from '@mui/material'
+import { Checkbox, Pagination, TextareaAutosize } from '@mui/material'
 import FileSelect from '@/Components/Base/FileSelect/FileSelect'
 import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
 import { VanBanMauId } from '@/Configs/constants'
@@ -62,28 +55,28 @@ function ChuyenDiemView(props) {
             </h2>
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10">Xin chuyển (*)</span>
-              <Select
+              <select
                 defaultValue={xinChuyen.value}
                 disabled
-                className="flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
+                className="flex-1 px-2 py-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
               >
-                <MenuItem value={xinChuyen.value}>{xinChuyen.text}</MenuItem>
-              </Select>
+                <option value={xinChuyen.value}>{xinChuyen.text}</option>
+              </select>
             </div>
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10">Loại điểm (*)</span>
-              <Select
+              <select
                 defaultValue={loaiDiem}
                 value={loaiDiem}
                 onChange={(e) => setLoaiDiem(e.target.value)}
-                className="flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
+                className="flex-1 px-2 py-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
               >
                 {listLoaiDiem.map((e, index) => (
-                  <MenuItem key={index} value={e.value}>
+                  <option key={index} value={e.value}>
                     {e.text}
-                  </MenuItem>
+                  </option>
                 ))}
-              </Select>
+              </select>
             </div>
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-start gap-2">
               <span className="block pr-10">Lý do (*)</span>
@@ -96,10 +89,10 @@ function ChuyenDiemView(props) {
             </div>
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10">Giấy tờ kèm theo</span>
-              <TextField
+              <input
                 value={giayToKemTheo}
                 onChange={(e) => setGiayToKemTheo(e.target.value)}
-                className="flex-1 md:max-w-[75%] px-2 rounded-md border border-solid border-gray-300"
+                className="flex-1 px-2 py-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
               />
             </div>
             <div className="w-[75%] overflow-x-auto">

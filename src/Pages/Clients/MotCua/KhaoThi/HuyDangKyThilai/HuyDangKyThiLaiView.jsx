@@ -1,6 +1,6 @@
 import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import Loading from '@/Components/Loading/Loading'
-import { Checkbox, MenuItem, Select, TextareaAutosize } from '@mui/material'
+import { Checkbox, TextareaAutosize } from '@mui/material'
 
 function HuyDangKyThiLaiView(props) {
   const {
@@ -18,7 +18,7 @@ function HuyDangKyThiLaiView(props) {
     listHocKy,
     listLyDo,
     listHocPhan,
-    handleRowSelection,
+    handleRowselection,
     handleSubmitData,
   } = props
 
@@ -33,44 +33,45 @@ function HuyDangKyThiLaiView(props) {
             </h2>
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10">Học kỳ (*)</span>
-              <Select
+              <select
                 value={tenDot}
                 onChange={(e) => setTenDot(e.target.value)}
-                className="flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
+                className="flex-1 md:max-w-[75%] px-2 py-1 rounded-md border border-solid border-gray-300"
               >
+                <option value="">Chọn học kỳ</option>
                 {listHocKy.map((e, index) => (
-                  <MenuItem key={index} value={e.TenDot}>
+                  <option key={index} value={e.TenDot}>
                     {e.TenDot}
-                  </MenuItem>
+                  </option>
                 ))}
-              </Select>
+              </select>
             </div>
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10">Loại thi</span>
-              <Select
-                inputProps={{ readOnly: true }}
+              <select
+                disabled
                 defaultValue="Thi Lại"
-                className="flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
+                className="flex-1 md:max-w-[75%] px-2 py-1 rounded-md border border-solid border-gray-300"
               >
-                <MenuItem value="Thi Lại">Thi Lại</MenuItem>
-              </Select>
+                <option value="Thi Lại">Thi Lại</option>
+              </select>
             </div>
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10">Lý do (*)</span>
-              <Select
+              <select
                 value={lyDo}
                 onChange={(e) => {
                   setLyDo(e.target.value)
                   setLyDoKhac('')
                 }}
-                className="flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
+                className="flex-1 md:max-w-[75%] px-2 py-1 rounded-md border border-solid border-gray-300"
               >
                 {listLyDo.map((e, index) => (
-                  <MenuItem key={index} value={e.value}>
+                  <option key={index} value={e.value}>
                     {e.name}
-                  </MenuItem>
+                  </option>
                 ))}
-              </Select>
+              </select>
             </div>
             {lyDo === 3 && (
               <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-start gap-2">
@@ -142,7 +143,7 @@ function HuyDangKyThiLaiView(props) {
                             <td className="text-center p-3 border border-solid border-[#dee2e6]">
                               <Checkbox
                                 onChange={(e) => {
-                                  handleRowSelection(e, hocphan)
+                                  handleRowselection(e, hocphan)
                                 }}
                               />
                             </td>

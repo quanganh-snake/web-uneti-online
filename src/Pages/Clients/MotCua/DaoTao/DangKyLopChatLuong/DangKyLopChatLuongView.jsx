@@ -1,5 +1,5 @@
 import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
-import { Select, MenuItem, TextareaAutosize, Checkbox } from '@mui/material'
+import { TextareaAutosize, Checkbox } from '@mui/material'
 import PropTypes from 'prop-types'
 
 function DangKyLopChatLuongView(props) {
@@ -35,33 +35,34 @@ function DangKyLopChatLuongView(props) {
             </h2>
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10 w-[175px]">Học kỳ (*)</span>
-              <Select
+              <select
                 value={hocKy}
                 onChange={(e) => setHocKy(e.target.value)}
-                className="flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
+                className="flex-1 px-2 py-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
               >
+                <option value="">Chọn học kỳ</option>
                 {listHocKy.map((e, index) => (
-                  <MenuItem key={index} value={e.TenDot}>
+                  <option key={index} value={e.TenDot}>
                     {e.TenDot}
-                  </MenuItem>
+                  </option>
                 ))}
-              </Select>
+              </select>
             </div>
 
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10 w-[175px]">Lý do (*)</span>
-              <Select
+              <select
                 defaultValue={listLyDo[0].value}
                 value={lyDo}
                 onChange={(e) => setLyDo(e.target.value)}
-                className="flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
+                className="flex-1 px-2 py-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
               >
                 {listLyDo.map((e, index) => (
-                  <MenuItem key={index} value={e.value}>
+                  <option key={index} value={e.value}>
                     <span className="whitespace-normal">{e.text}</span>
-                  </MenuItem>
+                  </option>
                 ))}
-              </Select>
+              </select>
             </div>
 
             {lyDo === '1' && (

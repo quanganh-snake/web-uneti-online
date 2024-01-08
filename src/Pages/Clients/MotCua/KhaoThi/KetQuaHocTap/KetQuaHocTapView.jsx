@@ -1,7 +1,6 @@
 import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import DanhSachHocPhan from './DanhSachHocPhan'
 import FormYeuCauSuaDiem from './FormYeuCauSuaDiem'
-import { MenuItem, Select } from '@mui/material'
 import Loading from '@/Components/Loading/Loading'
 
 function KetQuaHocTapView(props) {
@@ -39,34 +38,35 @@ function KetQuaHocTapView(props) {
             </h2>
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10 w-[120px]">Học kỳ (*)</span>
-              <Select
+              <select
                 value={tenDot}
                 onChange={(e) => setTenDot(e.target.value)}
-                className="flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
+                className="px-2 py-1 flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
               >
-                <MenuItem value="Tất cả học kỳ">Tất cả học kỳ</MenuItem>
+                <option value="">Chọn học kỳ</option>
+                <option value="Tất cả học kỳ">Tất cả học kỳ</option>
                 {listHocKy.map((e, index) => (
-                  <MenuItem key={index} value={e.TenDot}>
+                  <option key={index} value={e.TenDot}>
                     {e.TenDot}
-                  </MenuItem>
+                  </option>
                 ))}
-              </Select>
+              </select>
             </div>
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10 w-[120px]">Lý do (*)</span>
-              <Select
+              <select
                 value={lyDo}
                 onChange={(e) => {
                   setLyDo(e.target.value)
                 }}
-                className="flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
+                className="px-2 py-1 flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
               >
                 {listLyDo.map((e, index) => (
-                  <MenuItem key={index} value={e}>
+                  <option key={index} value={e}>
                     {e}
-                  </MenuItem>
+                  </option>
                 ))}
-              </Select>
+              </select>
             </div>
           </form>
           {loading ? (

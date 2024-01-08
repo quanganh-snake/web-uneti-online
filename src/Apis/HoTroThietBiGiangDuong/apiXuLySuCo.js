@@ -23,3 +23,11 @@ export const getAllLichDayXuLySuCo = (
     },
   })
 }
+
+export const getAllKhacPhucXuLySuCo = () => {
+  return http.get('SP_DT_QLP_Phong_TiepNhan/TL_Load_R_Para_KhacPhuc')
+}
+
+export const getAllNguyenNhanXuLySuCo = () => {
+  return http.get('SP_DT_QLP_Phong_TiepNhan/TL_Load_R_Para_NguyenNhan')
+}
