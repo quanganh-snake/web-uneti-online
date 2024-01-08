@@ -1,4 +1,4 @@
-import http from '../../Configs/http'
+import http from '@/Configs/http'
 
 // DELETE
 export const deleteTrangThaiTTHCGV = (data = {}) => {
@@ -10,6 +10,11 @@ export const deleteTrangThaiTTHCGV = (data = {}) => {
 // POST: Thêm trạng thái hồ sơ
 export const postTrangThaiTTHCGV = (data = []) => {
   return http.post('SP_MC_TTHC_GV_TrangThaiTiepNhan/Add_Para', data)
+}
+
+// PUT
+export const putTrangthaiTTHCGV = (data = {}) => {
+  return http.put('SP_MC_TTHC_GV_TrangThaiTiepNhan/TrangThai_Edit_Para', data)
 }
 
 // GET: load danh sách trạng thái

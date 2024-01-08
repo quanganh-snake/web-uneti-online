@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import SidebarTTHCGV from '../SidebarTTHCGV/SidebarTTHCGV'
-import Breadcrumb from '../../../../Components/Breadcumb/Breadcrumb'
+import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import { Link, useParams } from 'react-router-dom'
-import Loading from './../../../../Components/Loading/Loading'
+import Loading from '@/Components/Loading/Loading'
 import mammoth from 'mammoth'
 
 function ChiTietThuTucView({

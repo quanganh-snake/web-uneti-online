@@ -13,7 +13,7 @@ import mcTimeLine01 from '../../../../assets/Images/MC_TimeLine01.png'
 import mcTimeLine02 from '../../../../assets/Images/MC_TimeLine02.png'
 function SlideMotCua() {
   return (
-    <div className="px-4 my-10 rounded-lg">
+    <div className="px-4 my-10 py-10 shadow-sm rounded-exclude-tl bg-white">
       <Swiper
         pagination={{
           type: 'fraction',
@@ -21,13 +21,17 @@ function SlideMotCua() {
         }}
         navigation={true}
         modules={[Pagination, Navigation]}
-        className="rounded-lg shadow-md"
+        className="rounded-exclude-tl px-10"
       >
         <SwiperSlide>
-          <img src={mcTimeLine01} className="w-full rounded-lg" />
+          <div className="px-10">
+            <img src={mcTimeLine01} className="w-full rounded-lg" />
+          </div>
         </SwiperSlide>
         <SwiperSlide>
-          <img src={mcTimeLine02} className="w-full rounded-lg" />
+          <div className="px-10">
+            <img src={mcTimeLine02} className="w-full rounded-lg" />
+          </div>
         </SwiperSlide>
       </Swiper>
     </div>

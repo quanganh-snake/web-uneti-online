@@ -12,7 +12,7 @@ function ModuleItemMotCua(props) {
       to={`${pathname}${moduleItemMotCua.path}`}
       className="uneti-motcua__module "
     >
-      <div className="module__item bg-white p-6 rounded-xl hover:bg-[#93e5eb3f] hover:shadow-inner hover:opacity-70 h-full flex flex-col justify-center md:flex-row md:justify-start items-center shadow-lg">
+      <div className="bg-white p-8 rounded-exclude-tl h-full flex flex-col justify-center md:flex-row md:justify-start items-center shadow-sm">
         <img
           src={moduleItemMotCua.thumbnail}
           className="inline-block w-20 h-20"

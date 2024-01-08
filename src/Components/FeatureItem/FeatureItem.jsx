@@ -1,16 +1,15 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { Link, useLocation } from 'react-router-dom'
 
-function FeatureItemMotCua(props) {
-  const { iconKhaoThi, featureItem } = props
+function FeatureItem(props) {
+  const { icon, featureItem } = props
   const location = useLocation()
   const { pathname } = location
 
   return (
-    <div className="feature__item min-h-[200px] h-full bg-white p-4 pb-20 rounded-xl shadow-lg flex flex-col relative">
-      <div className="feature--header flex items-center gap-4 border-b-2 pb-2 border-[#336699]">
-        <img src={iconKhaoThi} className="w-14" alt={featureItem.title} />
+    <div className="text-vs-text feature__item min-h-[200px] h-full bg-white p-4 pb-20 rounded-exclude-tl shadow-sm flex flex-col relative">
+      <div className="feature--header flex items-center gap-4 border-b-2 pb-2 border-uneti-primary">
+        <img src={icon} className="w-14" alt={featureItem.title} />
         <h2 className="text-xl font-semibold">{featureItem.title}</h2>
       </div>
       <div className="feature--body my-4">
@@ -19,7 +18,7 @@ function FeatureItemMotCua(props) {
       <div className="feature--footer flex justify-end absolute bottom-3 right-3">
         <Link
           to={pathname + featureItem.path}
-          className="px-3 py-2 bg-white text-[#336699] font-semibold border border-sky-900 rounded-full hover:bg-[#336699] hover:text-white"
+          className="px-3 py-2 bg-white text-uneti-primary font-semibold border border-sky-900 rounded-xl hover:bg-uneti-primary hover:text-white"
         >
           Gửi yêu cầu
         </Link>
@@ -28,8 +27,8 @@ function FeatureItemMotCua(props) {
   )
 }
 
-FeatureItemMotCua.propTypes = {
+FeatureItem.propTypes = {
   featureItem: PropTypes.object.isRequired,
 }
 
-export default FeatureItemMotCua
+export default FeatureItem

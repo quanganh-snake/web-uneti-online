@@ -9,10 +9,14 @@ import {
   getTrangThaiIDBySTTYeuCauId,
 } from '../../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai'
 import Swal from 'sweetalert2'
-import { sendEmailUserSubmit } from '../../../../Services/Utils/emailUtils'
+import {
+  TEMPLATE_SUBJECT_RECEIVED_EMAIL,
+  sendEmailTTHCGiangVien,
+} from '../../../../Services/Utils/emailUtils'
 import { DataCanBoGV } from '../../../../Services/Utils/dataCanBoGV'
 import { toast } from 'react-toastify'
 import { useLocation } from 'react-router-dom'
+import { getThanhPhanHoSoByIdTTHCGV } from '../../../../Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo'
 
 function CanBoNghiepVu() {
   const [listHoSoYeuCau, setListHoSoYeuCau] = useState(null)
@@ -28,6 +32,28 @@ function CanBoNghiepVu() {
   const dataCBGV = DataCanBoGV()
 
   const { pathname } = useLocation()
+
+  // fetch data
+  const fetchData = async () => {
+    try {
+      setLoading(true)
+      const resTrangThai = await getListTrangThaiTTHCGV()
+      if (resTrangThai.status === 200) {
+        setListTrangThaiHoSo(resTrangThai.data?.body)
+      }
+
+      const resHoSoYeuCau = await getAllHoSoGuiYeuCau(
+        pathname.includes('hosoxuly') ? 1 : 0,
+      )
+      if (resHoSoYeuCau.status === 200) {
+        setListHoSoYeuCau(resHoSoYeuCau.data?.body)
+      }
+    } catch (err) {
+      console.log(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
   // event handlers
   const handleTiepNhanHoSo = async (itemYeuCau) => {
     if (
@@ -38,6 +64,7 @@ function CanBoNghiepVu() {
         title: 'Hồ sơ yêu cầu chưa được tiếp nhận!',
         text: 'Bạn có muốn tiếp nhận hồ sơ để tiếp tục xử lý yêu cầu?',
         icon: 'question',
+        showConfirmButton: true,
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
@@ -50,6 +77,15 @@ function CanBoNghiepVu() {
             itemYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
             1,
           )
+          const resListTPHSDeNghiYeuCau = await getThanhPhanHoSoByIdTTHCGV(
+            itemYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
+          )
+
+          let listTPHSDeNghiYeuCau = []
+          if (resListTPHSDeNghiYeuCau.status === 200) {
+            const data = await resListTPHSDeNghiYeuCau.data?.body
+            listTPHSDeNghiYeuCau = [...data]
+          }
           if (resNewTrangThaiID.status === 200) {
             const dataTrangThaiIDNew = await resNewTrangThaiID.data?.body[0]
             if (dataTrangThaiIDNew) {
@@ -64,30 +100,16 @@ function CanBoNghiepVu() {
               }
               const resPutHoSoThuTuc =
                 await putHoSoThuTucGuiYeuCauById(newDataUpdate)
-              console.log(
-                '🚀 ~ file: CanBoNghiepVu.jsx:56 ~ handleTiepNhanHoSo ~ resPutHoSoThuTuc:',
-                resPutHoSoThuTuc,
-              )
 
               if (resPutHoSoThuTuc.status === 200) {
-                sendEmailUserSubmit(
-                  'tiepnhan',
-                  `Thông báo trả lời đề nghị ${itemYeuCau?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`,
-                  itemYeuCau?.HoTen,
-                  itemYeuCau?.MC_TTHC_GV_TenThuTuc.toUpperCase(),
-                  itemYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_MaNhanSu,
-                  itemYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Khoa,
-                  itemYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu,
-                  itemYeuCau?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong,
-                  `${dataCBGV?.HoDem + ' ' + dataCBGV?.Ten}`,
-                  dataCBGV?.Email,
-                  dataCBGV?.SoDienThoai
-                    ? dataCBGV?.SoDienThoai
-                    : dataCBGV?.SoDiDong,
-                  itemYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
+                const res = await sendEmailTTHCGiangVien(
+                  TEMPLATE_SUBJECT_RECEIVED_EMAIL,
+                  itemYeuCau,
+                  dataCBGV,
+                  listTPHSDeNghiYeuCau,
                 )
                 setLoading(false)
-                getListHoSoYeuCau()
+                fetchData()
                 toast.success('Đã tiếp nhận yêu cầu hồ sơ!')
               }
             }
@@ -100,29 +122,17 @@ function CanBoNghiepVu() {
     }
   }
 
+  const handleSearch = (value) => {
+    setKeywordSearch(value)
+    setCurrentPage(0)
+  }
+
+  const handlePageChange = (selectedPage) => {
+    setCurrentPage(selectedPage)
+  }
+
   // effects
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true)
-        const resTrangThai = await getListTrangThaiTTHCGV()
-        if (resTrangThai.status === 200) {
-          setListTrangThaiHoSo(resTrangThai.data?.body)
-        }
-
-        const resHoSoYeuCau = await getAllHoSoGuiYeuCau(
-          pathname.includes('hosoxuly') ? 1 : 0,
-        )
-        if (resHoSoYeuCau.status === 200) {
-          setListHoSoYeuCau(resHoSoYeuCau.data?.body)
-        }
-      } catch (err) {
-        console.log(err.message)
-      } finally {
-        setLoading(false)
-      }
-    }
-
     fetchData()
   }, [pathname])
 
@@ -154,15 +164,6 @@ function CanBoNghiepVu() {
     currentPage,
     itemsPerPage,
   ])
-
-  const handleSearch = (value) => {
-    setKeywordSearch(value)
-    setCurrentPage(0)
-  }
-
-  const handlePageChange = (selectedPage) => {
-    setCurrentPage(selectedPage)
-  }
 
   return (
     <CanBoNghiepVuView

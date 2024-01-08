@@ -1,5 +1,5 @@
 import { useBem } from '@/Services/Hooks'
-import { Post } from './Post'
+import { Post } from '../Post/Post'
 import PropTypes from 'prop-types'
 
 import './Posts.scss'

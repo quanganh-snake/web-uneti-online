@@ -1,21 +1,23 @@
 import clsx from 'clsx'
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
+import { FaArrowLeft, FaArrowRight, FaDeleteLeft } from 'react-icons/fa6'
 import { MdAdd } from 'react-icons/md'
 import Swal from 'sweetalert2'
 
-function TrinhTuThucHien(props) {
+const TrinhTuThucHien = memo(function TrinhTuThucHien(props) {
   const {
     quyTrinh,
     setQuyTrinh,
     donVi,
+    diaChiNhanTraHoSo,
     handleAddQuyTrinh,
     setTPHoSoDeNghiActive,
     setTrinhTuThucHienActive,
     setPhanQuyenActive,
+    editRowIndex,
+    setEditRowIndex,
   } = props
-  const [editRowIndex, setEditRowIndex] = useState(-1)
   const [editValueRow, setEditValueRow] = useState({})
 
   const [donViSelected, setDonViSelected] = useState('')
@@ -116,6 +118,13 @@ function TrinhTuThucHien(props) {
         [fieldName]: e.target.textContent,
       }))
     }
+
+    if (fieldName === 'MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra') {
+      setEditValueRow((prevEditValueRow) => ({
+        ...prevEditValueRow,
+        [fieldName]: e.target.textContent || e.target.value,
+      }))
+    }
   }
 
   return (
@@ -125,7 +134,7 @@ function TrinhTuThucHien(props) {
       </h2>
 
       <div className="block w-full overflow-x-auto mb-4 border border-slate-300 rounded-xl ">
-        <table className="w-[1400px] relative">
+        <table className="w-full">
           <thead className="bg-[#075985] text-white rounded-t-xl">
             <tr>
               <th className="border-r px-2 py-1 rounded-tl-xl">
@@ -150,9 +159,7 @@ function TrinhTuThucHien(props) {
                 <p className="w-44">Thời gian (ngày)</p>
               </th>
               <th className="border-r px-2 py-1">Kết quả</th>
-              <th className="px-2 py-1 rounded-tr-xl sticky right-0 bg-[#336699] text-white z-[1]">
-                Actions
-              </th>
+              <th className="px-2 py-1 rounded-tr-xl">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y">
@@ -174,10 +181,10 @@ function TrinhTuThucHien(props) {
                 {editRowIndex === index ? (
                   <>
                     {/* Hiển thị dữ liệu cho phép chỉnh sửa */}
-                    <td className="border-r px-2 py-1 text-center">
+                    <td className="border-r border-white px-2 py-1 text-center">
                       {index + 1}
                     </td>
-                    <td className="border-r py-1">
+                    <td className="border-r border-white py-1">
                       <textarea
                         type="text"
                         className="w-full h-full border border-slate-300 px-3 py-1 focus:outline-slate-300"
@@ -195,7 +202,7 @@ function TrinhTuThucHien(props) {
                         }
                       ></textarea>
                     </td>
-                    <td className="border-r py-1">
+                    <td className="border-r border-white py-1">
                       <textarea
                         type="text"
                         rows={3}
@@ -213,155 +220,251 @@ function TrinhTuThucHien(props) {
                         }
                       />
                     </td>
-                    <td className="border-r py-1">
-                      <select
-                        className="border border-slate-300 px-3 py-1 w-full focus:outline-slate-200"
-                        value={
-                          editValueRow.MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra ||
-                          ''
-                        }
-                        name="MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra"
-                        id="MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra"
-                        onChange={(e) =>
-                          handleChangeValue(
-                            e,
-                            'MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra',
-                          )
-                        }
-                      >
-                        <option value="">
-                          Chọn địa chỉ tiếp nhận/trả hồ sơ
-                        </option>
-                        <option value="Phòng Đào tạo HN">
-                          Phòng Đào tạo HN
-                        </option>
-                        <option value="Phòng Đào tạo NĐ">
-                          Phòng Đào tạo NĐ
-                        </option>
-                        <option value="Phòng Tổ chức cán bộ">
-                          Phòng Tổ chức cán bộ
-                        </option>
-                      </select>
-                    </td>
-                    <td className="border-r py-1">
+                    <td className="border-r border-white py-1">
                       <div className="w-full relative">
-                        {donViSelected ? (
-                          <p className="text-center text-red-600 font-medium">
-                            {donViSelected}
-                          </p>
-                        ) : (
-                          ''
-                        )}
-                        <ul
-                          className={clsx(
-                            'bg-white mt-2 border shadow-sm overflow-y-auto',
-                            !editRowIndex === index ? 'hidden' : 'max-h-40',
-                          )}
-                        >
-                          <div className="flex items-center px-2 sticky top-0 bg-white shadow-md">
-                            <AiOutlineSearch
-                              size={18}
-                              className="text-gray-700"
-                            />
-                            <input
-                              type="text"
-                              onChange={(e) => {
-                                setSearchDonVi(e.target.value.toLowerCase())
+                        {editValueRow?.MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra ? (
+                          <div className="flex flex-row items-center justify-between p-2">
+                            <p className="text-center text-red-600 font-medium">
+                              {editValueRow
+                                ?.MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra
+                                .length > 20
+                                ? editValueRow?.MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra.substring(
+                                    0,
+                                    20,
+                                  ) + '...'
+                                : editValueRow?.MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra}
+                            </p>
+                            <FaDeleteLeft
+                              className="cursor-pointer hover:text-red-600"
+                              onClick={() => {
+                                setDonViSelected('')
+                                setEditValueRow({
+                                  ...editValueRow,
+                                  MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra: '',
+                                })
                               }}
-                              placeholder="Nhập tên đơn vị"
-                              className="w-full placeholder:text-gray-500 p-2 outline-none"
                             />
                           </div>
-                          {donVi &&
-                            donVi?.map((iDonVi, index) => {
-                              return (
-                                <li
-                                  key={index}
-                                  className={clsx(
-                                    'p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
-                                    iDonVi?.TenPhongBan.toLowerCase().includes(
-                                      searchDonVi,
-                                    )
-                                      ? 'block'
-                                      : 'hidden',
-                                  )}
-                                  onClick={(e) => {
-                                    handleChangeValue(
-                                      e,
-                                      'MC_TTHC_GV_TrinhTuThucHien_DonViThucHien',
-                                    )
-                                    setDonViSelected(iDonVi?.TenPhongBan)
-                                    setSearchDonVi('')
-                                  }}
-                                >
-                                  {iDonVi?.TenPhongBan}
-                                </li>
-                              )
-                            })}
-                        </ul>
-                      </div>
-                    </td>
-                    <td className="border-r px-2 py-1">
-                      <div className="w-full relative">
-                        {donViPhoiHopSelected ? (
-                          <p className="text-center text-red-600 font-medium">
-                            {donViPhoiHopSelected}
-                          </p>
                         ) : (
-                          ''
-                        )}
-                        <ul
-                          className={clsx(
-                            'bg-white mt-2 border shadow-sm overflow-y-auto',
-                            !editRowIndex === index ? 'hidden' : 'max-h-40',
-                          )}
-                        >
-                          <div className="flex items-center px-2 sticky top-0 bg-white shadow-md">
-                            <AiOutlineSearch
-                              size={18}
-                              className="text-gray-700"
-                            />
-                            <input
-                              type="text"
-                              onChange={(e) => {
-                                setSearchDonViPhoiHop(
-                                  e.target.value.toLowerCase(),
+                          <ul
+                            className={clsx(
+                              'bg-white mt-2 border shadow-sm overflow-y-auto',
+                              !editRowIndex === index ? 'hidden' : 'max-h-40',
+                            )}
+                          >
+                            <div className="flex items-center px-2 sticky top-0 bg-white shadow-md">
+                              <AiOutlineSearch
+                                size={18}
+                                className="text-gray-700"
+                              />
+                              <input
+                                type="text"
+                                onChange={(e) => {
+                                  setSearchDonVi(e.target.value)
+                                }}
+                                placeholder="Nhập địa chỉ..."
+                                className="w-full placeholder:text-gray-500 p-2 outline-none"
+                              />
+                            </div>
+                            {searchDonVi ? (
+                              <li
+                                key={index}
+                                className={clsx(
+                                  'px-2 py-3 text-sm cursor-pointer hover:bg-sky-600 hover:text-white capitalize font-semibold',
+                                )}
+                                onClick={(e) => {
+                                  handleChangeValue(
+                                    e,
+                                    'MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra',
+                                  )
+                                  setSearchDonVi('')
+                                }}
+                              >
+                                {searchDonVi}
+                              </li>
+                            ) : null}
+                            {diaChiNhanTraHoSo &&
+                              diaChiNhanTraHoSo?.map((iDiaChi, index) => {
+                                return (
+                                  <li
+                                    key={index}
+                                    className={clsx(
+                                      'p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
+                                      iDiaChi?.MC_TTHC_GV_NoiTraKetQua.toLowerCase().includes(
+                                        searchDonVi,
+                                      )
+                                        ? 'block'
+                                        : 'hidden',
+                                    )}
+                                    onClick={(e) => {
+                                      handleChangeValue(
+                                        e,
+                                        'MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra',
+                                      )
+                                      setSearchDonVi('')
+                                    }}
+                                  >
+                                    {iDiaChi?.MC_TTHC_GV_NoiTraKetQua}
+                                  </li>
                                 )
-                              }}
-                              placeholder="Nhập tên đơn vị"
-                              className="w-full placeholder:text-gray-500 p-2 outline-none"
-                            />
-                          </div>
-                          {donVi &&
-                            donVi?.map((iDonVi, index) => {
-                              return (
-                                <li
-                                  key={index}
-                                  className={clsx(
-                                    'p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
-                                    iDonVi?.TenPhongBan.toLowerCase().includes(
-                                      searchDonViPhoiHop,
-                                    )
-                                      ? 'block'
-                                      : 'hidden',
-                                  )}
-                                  onClick={(e) => {
-                                    handleChangeValue(
-                                      e,
-                                      'MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop',
-                                    )
-                                    setDonViPhoiHopSelected(iDonVi?.TenPhongBan)
-                                    setSearchDonViPhoiHop('')
-                                  }}
-                                >
-                                  {iDonVi?.TenPhongBan}
-                                </li>
-                              )
-                            })}
-                        </ul>
+                              })}
+                          </ul>
+                        )}
                       </div>
                     </td>
-                    <td className="border-r py-1">
+                    <td className="border-r border-white py-1">
+                      <div className="w-full relative">
+                        {editValueRow?.MC_TTHC_GV_TrinhTuThucHien_DonViThucHien ? (
+                          <div className="flex flex-row items-center justify-between p-2">
+                            <p className="text-center text-red-600 font-medium">
+                              {editValueRow
+                                ?.MC_TTHC_GV_TrinhTuThucHien_DonViThucHien
+                                .length > 20
+                                ? editValueRow?.MC_TTHC_GV_TrinhTuThucHien_DonViThucHien.substring(
+                                    0,
+                                    20,
+                                  ) + '...'
+                                : editValueRow?.MC_TTHC_GV_TrinhTuThucHien_DonViThucHien}
+                            </p>
+                            <FaDeleteLeft
+                              className="cursor-pointer hover:text-red-600"
+                              onClick={() => {
+                                setDonViSelected('')
+                                setEditValueRow({
+                                  ...editValueRow,
+                                  MC_TTHC_GV_TrinhTuThucHien_DonViThucHien: '',
+                                })
+                              }}
+                            />
+                          </div>
+                        ) : (
+                          <ul
+                            className={clsx(
+                              'bg-white mt-2 border shadow-sm overflow-y-auto',
+                              !editRowIndex === index ? 'hidden' : 'max-h-40',
+                            )}
+                          >
+                            <div className="flex items-center px-2 sticky top-0 bg-white shadow-md">
+                              <AiOutlineSearch
+                                size={18}
+                                className="text-gray-700"
+                              />
+                              <input
+                                type="text"
+                                onChange={(e) => {
+                                  setSearchDonVi(e.target.value.toLowerCase())
+                                }}
+                                placeholder="Nhập tên đơn vị"
+                                className="w-full placeholder:text-gray-500 p-2 outline-none"
+                              />
+                            </div>
+                            {donVi &&
+                              donVi?.map((iDonVi, index) => {
+                                return (
+                                  <li
+                                    key={index}
+                                    className={clsx(
+                                      'p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
+                                      iDonVi?.TenPhongBan.toLowerCase().includes(
+                                        searchDonVi,
+                                      )
+                                        ? 'block'
+                                        : 'hidden',
+                                    )}
+                                    onClick={(e) => {
+                                      handleChangeValue(
+                                        e,
+                                        'MC_TTHC_GV_TrinhTuThucHien_DonViThucHien',
+                                      )
+                                      setSearchDonVi('')
+                                    }}
+                                  >
+                                    {iDonVi?.TenPhongBan}
+                                  </li>
+                                )
+                              })}
+                          </ul>
+                        )}
+                      </div>
+                    </td>
+                    <td className="border-r border-white px-2 py-1">
+                      <div className="w-full relative">
+                        {editValueRow?.MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop ? (
+                          <div className="flex flex-row items-center justify-between p-2">
+                            <p className="text-center text-red-600 font-medium">
+                              {editValueRow
+                                ?.MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop
+                                .length > 20
+                                ? editValueRow?.MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop.substring(
+                                    0,
+                                    20,
+                                  ) + '...'
+                                : editValueRow?.MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop}
+                            </p>
+                            <FaDeleteLeft
+                              className="cursor-pointer hover:text-red-600"
+                              onClick={() => {
+                                setDonViPhoiHopSelected('')
+                                setEditValueRow({
+                                  ...editValueRow,
+                                  MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop: '',
+                                })
+                              }}
+                            />
+                          </div>
+                        ) : (
+                          <ul
+                            className={clsx(
+                              'bg-white mt-2 border shadow-sm overflow-y-auto',
+                              !editRowIndex === index ? 'hidden' : 'max-h-40',
+                            )}
+                          >
+                            <div className="flex items-center px-2 sticky top-0 bg-white shadow-md">
+                              <AiOutlineSearch
+                                size={18}
+                                className="text-gray-700"
+                              />
+                              <input
+                                type="text"
+                                onChange={(e) => {
+                                  setSearchDonViPhoiHop(
+                                    e.target.value.toLowerCase(),
+                                  )
+                                }}
+                                placeholder="Nhập tên đơn vị"
+                                className="w-full placeholder:text-gray-500 p-2 outline-none"
+                              />
+                            </div>
+                            {donVi &&
+                              donVi?.map((iDonVi, index) => {
+                                return (
+                                  <li
+                                    key={index}
+                                    className={clsx(
+                                      'p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
+                                      iDonVi?.TenPhongBan.toLowerCase().includes(
+                                        searchDonViPhoiHop,
+                                      )
+                                        ? 'block'
+                                        : 'hidden',
+                                    )}
+                                    onClick={(e) => {
+                                      handleChangeValue(
+                                        e,
+                                        'MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop',
+                                      )
+                                      setSearchDonViPhoiHop('')
+                                    }}
+                                  >
+                                    {iDonVi?.TenPhongBan}
+                                  </li>
+                                )
+                              })}
+                          </ul>
+                        )}
+                      </div>
+                    </td>
+                    <td className="border-r border-white py-1">
                       <input
                         type="number"
                         className="w-full border border-slate-300 px-3 py-1 focus:outline-slate-300"
@@ -379,7 +482,7 @@ function TrinhTuThucHien(props) {
                         }
                       />
                     </td>
-                    <td className="border-r py-1">
+                    <td className="border-r border-white py-1">
                       <textarea
                         type="text"
                         className="min-w-[300px] border border-slate-300 px-3 py-1 focus:outline-slate-300"
@@ -396,7 +499,7 @@ function TrinhTuThucHien(props) {
                         }
                       />
                     </td>
-                    <td className="border-r px-2 py-1 text-center flex flex-col lg:flex-row justify-center gap-2 sticky right-0 z-[1] bg-slate-300 shadow-md top-0 bottom-0 h-[100px]">
+                    <td className="border-r px-2 py-1 text-center">
                       <div className="flex flex-col lg:flex-row items-center justify-center gap-2 h-full">
                         <button
                           type="button"
@@ -450,7 +553,7 @@ function TrinhTuThucHien(props) {
                         {row.MC_TTHC_GV_TrinhTuThucHien_KetQua ?? ''}
                       </p>
                     </td>
-                    <td className="text-center border-r px-2 py-1 sticky right-0 z-[1] bg-slate-300 shadow-md top-0 bottom-0 h-full">
+                    <td className="text-center border-r px-2 py-1">
                       <div className="flex flex-col lg:flex-row items-center justify-center gap-2 h-full">
                         <button
                           type="button"
@@ -510,6 +613,6 @@ function TrinhTuThucHien(props) {
       </div>
     </div>
   )
-}
+})
 
 export default TrinhTuThucHien

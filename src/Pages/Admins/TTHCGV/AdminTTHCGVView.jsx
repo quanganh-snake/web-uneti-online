@@ -20,8 +20,14 @@ import { postPhanQuyenTTHCGV } from '../../../Apis/ThuTucHanhChinhGiangVien/apiP
 import { toast } from 'react-toastify'
 import { FaSave } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
+import clsx from 'clsx'
 
-function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
+function AdminTTHCGVView({
+  listMucDo,
+  listDonViTiepNhan,
+  listNoiTraKetQua,
+  listLinhVuc,
+}) {
   // ref
   const inputTenThuTucRef = useRef(null)
   const inputMaThuTucRef = useRef(null)
@@ -60,7 +66,8 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
   const [phanQuyen, setPhanQuyen] = useState([])
   const [tenTepThuTuc, setTenTepThuTuc] = useState('')
   const [dataFilesTepThuTuc, setDataFilesTepThuTuc] = useState(null)
-
+  const [editRowIndex, setEditRowIndex] = useState(0)
+  const [zoomView, setZoomView] = useState(false)
   const navigate = useNavigate()
   // event handlers
   const handleOpenTab = (e) => {
@@ -192,6 +199,7 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
     }
 
     setThanhPhanHoSo([...thanhPhanHoSo, newThanhPhanHoSo])
+    setEditRowIndex(thanhPhanHoSo.length)
   }
 
   const handleAddQuyTrinh = () => {
@@ -208,6 +216,7 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
     }
 
     setQuyTrinh([...quyTrinh, newQuyTrinh])
+    setEditRowIndex(quyTrinh.length)
   }
 
   const handleAddLePhi = () => {
@@ -229,6 +238,7 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
     }
 
     setTrangThai([...trangThai, newTrangThai])
+    setEditRowIndex(trangThai.length)
   }
 
   const handleOnSubmitForm = async (e) => {
@@ -249,11 +259,10 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
       MC_TTHC_GV_NguonTiepNhan: NguonTiepNhan_WEB,
       MC_TTHC_GV_NoiTiepNhan: donViTiepNhan,
       MC_TTHC_GV_NoiTraKetQua: noiTraKetQua,
-      // MC_TTHC_GV_TepThuTuc_TenFile: tenTepThuTuc,
       MC_TTHC_GV_TepThuTuc_TenFile:
         dataFilesTepThuTuc?.MC_TTHC_GV_TepThuTuc_TenFile,
       MC_TTHC_GV_TepThuTuc_DataFileFile:
-        dataFilesTepThuTuc?.MC_TTHC_GV_TepThuTuc_DataFileFile,
+        dataFilesTepThuTuc?.MC_TTHC_GV_TepThuTuc_DataFileFile?.split(',')[1],
     }
 
     if (
@@ -316,8 +325,84 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
       return
     }
 
-    let idTTHCGV
+    if (thanhPhanHoSo.length > 0) {
+      for (let i = 0; i < thanhPhanHoSo.length; i++) {
+        if (
+          !thanhPhanHoSo[i]?.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo ||
+          thanhPhanHoSo[i]?.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo == ''
+        ) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Lỗi',
+            text: 'Vui lòng thiết lập đầy đủ thông tin tên giấy tờ thành phần hồ sơ đề nghị!',
+          })
+          setThongTinActive(false)
+          setTPHoSoDeNghiActive(true)
+          setTrinhTuThucHienActive(false)
+          setPhanQuyenActive(false)
+          setTrangThaiActive(false)
+          return
+        }
+      }
+    }
 
+    if (quyTrinh.length > 0) {
+      for (let i = 0; i < quyTrinh.length; i++) {
+        if (
+          !quyTrinh[i]?.MC_TTHC_GV_TrinhTuThucHien_TenCongViec ||
+          quyTrinh[i]?.MC_TTHC_GV_TrinhTuThucHien_TenCongViec.trim() == ''
+        ) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Lỗi',
+            text: 'Vui lòng thiết lập đầy đủ thông tin tên công việc của trình tự thực hiện!',
+          })
+          setThongTinActive(false)
+          setTPHoSoDeNghiActive(true)
+          setTrinhTuThucHienActive(false)
+          setPhanQuyenActive(false)
+          setTrangThaiActive(false)
+          return
+        }
+      }
+    }
+
+    if (phanQuyen.length < 1) {
+      setThongTinActive(false)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(false)
+      setPhanQuyenActive(true)
+      setTrangThaiActive(false)
+      return toast.error('Vui lòng thiết lập phân quyền cho người thực hiện!')
+    }
+
+    let checkDataTrangThai = false
+
+    if (trangThai.length < 1) {
+      setThongTinActive(false)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(false)
+      setPhanQuyenActive(false)
+      setTrangThaiActive(true)
+      return toast.error('Vui lòng thiết lập trạng thái cho hồ sơ thủ tục!')
+    } else {
+      trangThai.forEach((iTrangThai) => {
+        if (
+          !iTrangThai.MC_TTHC_GV_TrangThai_TenTrangThai ||
+          iTrangThai?.MC_TTHC_GV_TrangThai_TenTrangThai == ''
+        ) {
+          return (checkDataTrangThai = true)
+        }
+      })
+    }
+
+    if (checkDataTrangThai == true) {
+      return toast.error(
+        'Vui lòng thiết lập thông tin tên trạng thái cho hồ sơ thủ tục!',
+      )
+    }
+
+    let idTTHCGV
     try {
       const resultPostThongTinTTHC = await postThuTucHanhChinh(dataThongTinHoSo)
       if (resultPostThongTinTTHC.status === 200) {
@@ -413,6 +498,13 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
     }
   }
 
+  const handleDeleteTepThuTuc = () => {
+    if (dataFilesTepThuTuc?.MC_TTHC_GV_TepThuTuc_TenFile) {
+      setDataFilesTepThuTuc(null)
+    }
+  }
+
+  // effect
   useEffect(() => {
     setThongTinActive(true)
     setTPHoSoDeNghiActive(false)
@@ -432,9 +524,14 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
   ])
 
   return (
-    <div className="px-5 lg:px-0 flex gap-4">
+    <div className="px-5 lg:px-0 grid grid-cols-12 gap-4 ">
       <SidebarTTHCGV />
-      <div className="w-full p-4 rounded-xl shadow-lg bg-white">
+      <div
+        className={clsx(
+          'w-full col-span-10 p-4 rounded-xl shadow-lg bg-white',
+          zoomView ? 'absolute left-0 right-0' : '',
+        )}
+      >
         {/* START: Tabs Bar */}
         <Tabs
           handleOpenTab={handleOpenTab}
@@ -444,6 +541,8 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
           phiActive={phiActive}
           phanQuyenActive={phanQuyenActive}
           trangThaiActive={trangThaiActive}
+          zoomView={zoomView}
+          setZoomView={setZoomView}
         />
         {/* END: Tabs Bar */}
 
@@ -459,6 +558,7 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
               inputNoiTraKetQuaRef={inputNoiTraKetQuaRef}
               listMucDo={listMucDo}
               listDonViTiepNhan={listDonViTiepNhan}
+              listLinhVuc={listLinhVuc}
               tenThuTuc={tenThuTuc}
               viTri={viTri}
               maThuTuc={maThuTuc}
@@ -468,15 +568,19 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
               tongThoiGianGiaiQuyet={tongThoiGianGiaiQuyet}
               soBoHoSo={soBoHoSo}
               linhVuc={linhVuc}
+              setLinhVuc={setLinhVuc}
               donViTiepNhan={donViTiepNhan}
               setDonViTiepNhan={setDonViTiepNhan}
               noiTraKetQua={noiTraKetQua}
+              setNoiTraKetQua={setNoiTraKetQua}
+              diaChiNhanTraHoSo={listNoiTraKetQua}
               thuTucLienThong={thuTucLienThong}
               thuTucKhongApDungMotCua={thuTucKhongApDungMotCua}
               dataFilesTepThuTuc={dataFilesTepThuTuc}
-              setDataFilesTepThuTuc={setDataFilesTepThuTuc}
               tenTepThuTuc={tenTepThuTuc}
+              setDataFilesTepThuTuc={setDataFilesTepThuTuc}
               handleChangeValue={handleChangeValue}
+              handleDeleteTepThuTuc={handleDeleteTepThuTuc}
               setThongTinActive={setThongTinActive}
               setTPHoSoDeNghiActive={setTPHoSoDeNghiActive}
             />
@@ -492,6 +596,8 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
               setThongTinActive={setThongTinActive}
               setTPHoSoDeNghiActive={setTPHoSoDeNghiActive}
               setTrinhTuThucHienActive={setTrinhTuThucHienActive}
+              editRowIndex={editRowIndex}
+              setEditRowIndex={setEditRowIndex}
             />
           ) : null}
           {/* END: Thành phần hồ sơ đề nghị */}
@@ -501,11 +607,14 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
             <TrinhTuThucHien
               quyTrinh={quyTrinh}
               donVi={listDonViTiepNhan}
+              diaChiNhanTraHoSo={listNoiTraKetQua}
               setQuyTrinh={setQuyTrinh}
               handleAddQuyTrinh={handleAddQuyTrinh}
               setTPHoSoDeNghiActive={setTPHoSoDeNghiActive}
               setTrinhTuThucHienActive={setTrinhTuThucHienActive}
               setPhanQuyenActive={setPhanQuyenActive}
+              editRowIndex={editRowIndex}
+              setEditRowIndex={setEditRowIndex}
             />
           ) : null}
           {/* END: Thiết lập trình tự thực hiện */}
@@ -522,6 +631,8 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
               handleAddTrangThai={handleAddTrangThai}
               setPhanQuyenActive={setPhanQuyenActive}
               setTrangThaiActive={setTrangThaiActive}
+              editRowIndex={editRowIndex}
+              setEditRowIndex={setEditRowIndex}
             />
           ) : null}
           {/* END: Trạng thái */}
@@ -537,16 +648,6 @@ function AdminTTHCGVView({ listMucDo, listDonViTiepNhan }) {
             />
           ) : null}
           {/* END: Phân quyền */}
-
-          <div className="uneti-tthcgv__add-form">
-            <button
-              type="submit"
-              className="flex items-center gap-2 font-md text-md px-3 py-2 bg-emerald-600 text-white hover:opacity-70 rounded-md"
-            >
-              <FaSave />
-              Lưu hồ sơ
-            </button>
-          </div>
         </form>
       </div>
     </div>

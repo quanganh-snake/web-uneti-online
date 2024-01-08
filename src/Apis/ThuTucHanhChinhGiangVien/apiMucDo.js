@@ -3,7 +3,7 @@
  * @returns
  */
 
-import http from '../../Configs/http'
+import http from '@/Configs/http'
 
 // GET DATA
 // GET: Danh sách Mức độ thủ tục

@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { jwtDecode } from 'jwt-decode'
-import { tokenSuccess } from '../Services/Redux/Slice/authSlice'
-import { store } from '../Services/Redux/store'
-import { refreshDataToken } from '../Apis/apiLogin'
+import { tokenSuccess } from '@/Services/Redux/Slice/authSlice'
+import { store } from '@/Services/Redux/store'
+import { refreshDataToken } from '@/Apis/apiLogin'
 
 const http = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}`,

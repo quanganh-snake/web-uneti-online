@@ -3,13 +3,13 @@ import {
   tokenFailure,
   tokenStart,
   tokenSuccess,
-} from '../Services/Redux/Slice/authSlice.js'
+} from '@/Services/Redux/Slice/authSlice.js'
 import {
   userFailure,
   userStart,
   userSuccess,
-} from '../Services/Redux/Slice/userSlice.js'
-import http from '../Configs/http.js'
+} from '@/Services/Redux/Slice/userSlice.js'
+import http from '@/Configs/http.js'
 
 // data token
 export const tokenSVLogin = async (user, dispatch) => {

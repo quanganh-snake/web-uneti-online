@@ -16,7 +16,7 @@ function HomeMotCua() {
           )
         })}
       </div>
-      <div className="my-5 max-w-7xl">
+      <div className="px-4 my-5 max-w-7xl">
         <SlideMotCua />
       </div>
       <div className="my-5 rounded-lg">

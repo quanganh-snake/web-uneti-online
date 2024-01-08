@@ -4,13 +4,21 @@
  * @returns
  */
 
-import http from './../../Configs/http'
+import http from '@/Configs/http'
 
 // DELETE
 export const delThuTucHanhChinhByID = (id) => {
   return http.delete('SP_MC_TTHC_GV_TiepNhan/Del_Para', {
     data: {
       MC_TTHC_GV_ID: id.toString(),
+    },
+  })
+}
+
+export const delThuTucHanhChinhGuiYeuCauByID = (id) => {
+  return http.delete('SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Del_Para', {
+    data: {
+      MC_TTHC_GV_GuiYeuCau_ID: id.toString(),
     },
   })
 }
@@ -128,6 +136,11 @@ export const getAllNhanSuByIDPhongBan = (idPhongBan) => {
 // GET: Danh sách lĩnh vực
 export const getAllLinhVuc = () => {
   return http.get('SP_MC_TTHC_GV_TiepNhan/Load_LinhVuc')
+}
+
+// GET: Danh sách nơi tiếp nhận
+export const getListNoiTraKetQua = () => {
+  return http.get('SP_MC_TTHC_GV_TiepNhan/NoiTraKetQua_Load_Para')
 }
 
 // GET: Danh sách hồ sơ, thủ tục đã gửi lên

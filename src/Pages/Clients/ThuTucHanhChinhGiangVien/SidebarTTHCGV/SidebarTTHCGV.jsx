@@ -8,7 +8,7 @@ import {
   getAllLinhVuc,
   getAllPhongBan,
   getListDonVi,
-} from '../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
+} from '@/Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
 function SidebarTTHCGV({ setKeywords, setDieuKienLoc }) {
   const [openMenu, setOpenMenu] = useState(true)
   const [dataSelect, setDataSelect] = useState('donvi')
