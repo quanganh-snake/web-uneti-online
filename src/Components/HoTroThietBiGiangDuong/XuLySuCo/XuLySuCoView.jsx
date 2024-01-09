@@ -37,11 +37,11 @@ function XuLySuCoView() {
       setThongTinPhong(res?.data?.body[0])
     })
 
-    getAllKhacPhucXuLySuCo(id).then((res) => {
+    getAllKhacPhucXuLySuCo().then((res) => {
       setListKhacPhuc(res?.data?.body)
     })
 
-    getAllNguyenNhanXuLySuCo(id).then((res) => {
+    getAllNguyenNhanXuLySuCo().then((res) => {
       setListNguyenNhan(res?.data?.body)
     })
 
@@ -266,13 +266,8 @@ function XuLySuCoView() {
                 </button>
 
                 <button
-                  disabled={khacPhuc.length === 0 || nguyenNhan.length === 0}
                   onClick={handleCancel}
-                  className={`px-3 py-2 bg-white text-sky-800 font-semibold border border-sky-800 rounded-xl duration-200 ${
-                    khacPhuc.length === 0 || nguyenNhan.length === 0
-                      ? 'opacity-50'
-                      : 'cursor-pointer hover:bg-sky-800 hover:text-white'
-                  }`}
+                  className="px-3 py-2 bg-white text-sky-800 font-semibold border border-sky-800 rounded-xl duration-200 cursor-pointer hover:bg-sky-800 hover:text-white"
                 >
                   Hủy
                 </button>

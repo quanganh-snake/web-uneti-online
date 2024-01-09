@@ -2,11 +2,26 @@ import LichHoc from '@/Components/HoTroThietBiGiangDuong/BaoHong/LichHoc'
 import DanhSachSuCo from '@/Components/HoTroThietBiGiangDuong/BaoHong/DanhSachSuCo'
 
 export const BaoHongForm = (props) => {
-  const { handleSelectLichHoc, handleSelectSuCo } = props
+  const {
+    selectedLichHoc,
+    listLichHoc,
+    handleSelectLichHoc,
+    handleSelectSuCo,
+    listSuCo,
+    selectedSuCo,
+  } = props
   return (
     <>
-      <LichHoc handleSelectLichHoc={handleSelectLichHoc} />
-      <DanhSachSuCo handleSelectSuCo={handleSelectSuCo} />
+      <LichHoc
+        selectedLichHoc={selectedLichHoc}
+        listLichHoc={listLichHoc}
+        handleSelectLichHoc={handleSelectLichHoc}
+      />
+      <DanhSachSuCo
+        listSuCo={listSuCo}
+        selectedSuCo={selectedSuCo}
+        handleSelectSuCo={handleSelectSuCo}
+      />
     </>
   )
 }

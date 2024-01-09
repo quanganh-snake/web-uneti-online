@@ -3,9 +3,10 @@ import { BaoHongForm } from './BaoHongForm'
 import { home, breadcrumbs } from './constants'
 import { Link } from 'react-router-dom'
 import HuongDanSuDung from './HuongDanSuDung'
+import { isEmpty } from 'lodash-unified'
 
 export const BaoHongView = (props) => {
-  const { handleSubmitData } = props
+  const { handleSubmitData, selectedSuCo, selectedLichHoc } = props
 
   return (
     <div className="bg-vs-theme-layout rounded-2xl mx-4 lg:mx-0">
@@ -24,14 +25,21 @@ export const BaoHongView = (props) => {
                 <HuongDanSuDung />
 
                 <button
+                  disabled={
+                    isEmpty(selectedLichHoc) || selectedSuCo.length === 0
+                  }
                   onClick={handleSubmitData}
-                  className="px-3 py-2 bg-white text-sky-800 font-semibold border border-sky-800 rounded-xl hover:bg-sky-800 hover:text-white"
+                  className={`cursor-pointer duration-200 px-3 py-2 bg-white text-sky-800 font-semibold border border-sky-800 rounded-xl ${
+                    isEmpty(selectedLichHoc) || selectedSuCo.length === 0
+                      ? 'opacity-50'
+                      : 'hover:bg-sky-800 hover:text-white cursor-pointer'
+                  }`}
                 >
                   Gửi yêu cầu
                 </button>
 
                 <Link to={'/hotrothietbigiangduong'}>
-                  <button className="px-3 py-2 bg-white text-sky-800 font-semibold border border-sky-800 rounded-xl hover:bg-sky-800 hover:text-white">
+                  <button className="cursor-pointer duration-200 px-3 py-2 bg-white text-sky-800 font-semibold border border-sky-800 rounded-xl hover:bg-sky-800 hover:text-white">
                     Trở lại
                   </button>
                 </Link>

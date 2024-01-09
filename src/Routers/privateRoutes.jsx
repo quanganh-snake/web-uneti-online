@@ -170,8 +170,8 @@ export const privateRoutes = (
       <Route element={<RoleMiddleware allowedRoles={['GV']} />}>
         <Route path="hotrothietbigiangduong">
           <Route index element={<HomeTBGD />} />
-          <Route path="baohong" element={<BaoHong />} />
-          <Route path="xulysuco/:id" element={<XuLySuCo />} />
+          <Route path="baohong/:id?" element={<BaoHong />} />
+          <Route path="xulysuco/:id?" element={<XuLySuCo />} />
           <Route path="dangkysudungthietbi" element={<DangKySuDungThietBi />} />
           <Route path="gopy" element={<GopY />} />
         </Route>

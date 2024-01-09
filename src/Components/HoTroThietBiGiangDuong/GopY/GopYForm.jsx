@@ -57,11 +57,24 @@ export default function GopYForm(props) {
           {/* Preview image */}
           {files.map((file) =>
             ALLOW_FILE_PREVIEW.includes(getFileType(file)) ? (
-              <img
-                className="w-32 h-32 rounded-xl object-cover"
+              <div
                 key={file.uniqueIdentifier}
-                src={URL.createObjectURL(file)}
-              />
+                className="flex justify-start items-start"
+              >
+                <img
+                  className="w-32 h-32 rounded-xl object-cover"
+                  src={URL.createObjectURL(file)}
+                />
+                <Button
+                  onClick={() => handleRemoveFile(file)}
+                  type="transparent"
+                  icon={true}
+                >
+                  <div className="scale-75">
+                    <IconTrash />
+                  </div>
+                </Button>
+              </div>
             ) : (
               // display file name
               <div
