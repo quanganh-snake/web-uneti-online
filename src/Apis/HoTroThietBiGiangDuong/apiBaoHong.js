@@ -32,3 +32,7 @@ export const getAllSuCo = (id = '', tenPhong = '') => {
     },
   })
 }
+
+export const updateBaoHong = (data = {}) => {
+  return http.put('SP_DT_QLP_Phong_TiepNhan/Edit_SuCo_Web', data)
+}

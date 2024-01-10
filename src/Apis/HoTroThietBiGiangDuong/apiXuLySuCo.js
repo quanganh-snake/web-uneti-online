@@ -10,16 +10,14 @@ export const getTTPhongXuLySuCo = (id = '') => {
 
 export const getAllLichDayXuLySuCo = (
   NgayBatDau = '',
-  NgayKetThuc = '',
-  TenPhong = '',
-  MaGiangVien = '',
+  DiaDiem = '',
+  DayNha = '',
 ) => {
-  return http.get('SP_DT_QLP_Phong_TiepNhan/TBGD_Load_Para_Ngay', {
+  return http.get('SP_DT_QLP_Phong_TiepNhan/Load_Para_SuCoKhacPhuc', {
     params: {
       DT_CVNB_TBGD_LichHoc_NgayBatDau: NgayBatDau,
-      DT_CVNB_TBGD_LichHoc_NgayKetThuc: NgayKetThuc,
-      DT_CVNB_TBGD_LichHoc_TenPhong: TenPhong,
-      DT_CVNB_TBGD_LichHoc_MaGiangVien: MaGiangVien,
+      DT_CVNB_TBGD_LichHoc_TenDiaDiem: DiaDiem,
+      DT_CVNB_TBGD_LichHoc_TenDayNha: DayNha,
     },
   })
 }
@@ -30,4 +28,8 @@ export const getAllKhacPhucXuLySuCo = () => {
 
 export const getAllNguyenNhanXuLySuCo = () => {
   return http.get('SP_DT_QLP_Phong_TiepNhan/TL_Load_R_Para_NguyenNhan')
+}
+
+export const updateXuLySuCo = (data = {}) => {
+  return http.put('SP_DT_QLP_Phong_TiepNhan/Edit_Para_KhacPhucSuCo', data)
 }
