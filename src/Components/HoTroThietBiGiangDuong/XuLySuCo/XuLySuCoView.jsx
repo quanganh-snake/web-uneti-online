@@ -17,9 +17,6 @@ import { isEmpty } from 'lodash-unified'
 import Swal from 'sweetalert2'
 
 function XuLySuCoView() {
-  const { id } = useParams()
-
-  const [thongTinPhong, setThongTinPhong] = useState({})
   const [listLichDay, setListLichDay] = useState([])
   const [selectedRow, setSelectedRow] = useState({})
   const [listKhacPhuc, setListKhacPhuc] = useState([])
@@ -31,54 +28,43 @@ function XuLySuCoView() {
 
   const handleSelectedRow = (e, ld) => {
     e.preventDefault()
-    setSelectedRow({ ...ld })
+    setSelectedRow(ld)
   }
 
   useEffect(() => {
     const getData = () => {
-      getTTPhongXuLySuCo(id).then((res) => {
-        setThongTinPhong(res?.data?.body[0])
-      })
-
-      getAllKhacPhucXuLySuCo().then((res) => {
-        setListKhacPhuc(res?.data?.body)
-      })
-
-      getAllNguyenNhanXuLySuCo().then((res) => {
-        setListNguyenNhan(res?.data?.body)
+      setListLichDay([])
+      getAllLichDayXuLySuCo(
+        // dayjs(new Date()).format('MM/DD/YYYY hh:mm:ss A'),
+        '2024-01-05T00:00:00.000Z',
+        '',
+        '',
+      ).then((res) => {
+        setListLichDay(res?.data?.body)
       })
     }
+
+    getAllKhacPhucXuLySuCo().then((res) => {
+      setListKhacPhuc(res?.data?.body)
+    })
+
+    getAllNguyenNhanXuLySuCo().then((res) => {
+      setListNguyenNhan(res?.data?.body)
+    })
 
     getData()
 
     // 5 phut load lai 1 lan
-    const autoReloadData = setInterval(getData, 1000 * 60 * 5)
+    const autoReloadData = setInterval(getData, 1000 * 60 * 2)
 
     return () => {
-      setThongTinPhong({})
+      setListLichDay([])
       setListKhacPhuc([])
       setListNguyenNhan([])
       setSelectedRow({})
       clearInterval(autoReloadData)
     }
   }, [])
-
-  useEffect(() => {
-    if (!isEmpty(thongTinPhong)) {
-      getAllLichDayXuLySuCo(
-        dayjs(new Date()).format('YYYY-MM-DD'),
-        // '2024-01-05',
-        thongTinPhong.DT_QLP_Phong_DiaDiem,
-        thongTinPhong.DT_QLP_Phong_ToaNha,
-      ).then((res) => {
-        setListLichDay(res?.data?.body)
-      })
-    }
-
-    return () => {
-      setSelectedRow({})
-    }
-  }, [thongTinPhong])
 
   const handleCancel = (e) => {
     e.preventDefault()
@@ -192,37 +178,37 @@ function XuLySuCoView() {
             </div>
 
             <div className="mt-4 overflow-x-auto">
-              <table className="w-full min-w-[800px]">
+              <table className="w-full">
                 <thead>
                   <tr>
                     <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       #
                     </th>
-                    {/* <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Cơ sở
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Tên địa điểm
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Tên dãy nhà
-                    </th> */}
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    </th>
+                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Tên phòng
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Mã giảng viên
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Họ tên
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[50px]">
                       Tiết
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Ngày
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Danh sách sự cố
                     </th>
                   </tr>
@@ -231,7 +217,7 @@ function XuLySuCoView() {
                   {listLichDay.length ? (
                     listLichDay.map((ld, index) => (
                       <tr key={index}>
-                        <td className="p-2 border border-solid border-[#dee2e6]">
+                        <td className="p-2 border border-solid border-[#dee2e6] text-center">
                           <Checkbox
                             checked={
                               selectedRow.DT_CVNB_TBGD_LichHoc_MaLopHocPhan ===
@@ -240,34 +226,45 @@ function XuLySuCoView() {
                             onChange={(e) => handleSelectedRow(e, ld)}
                           />
                         </td>
-                        {/* <td className="p-2 border border-solid border-[#dee2e6]">
+                        <td className="p-2 border border-solid border-[#dee2e6] text-center">
                           {ld.DT_CVNB_TBGD_LichHoc_CoSo}
                         </td>
-                        <td className="p-2 border border-solid border-[#dee2e6]">
+                        <td className="p-2 border border-solid border-[#dee2e6] text-center">
                           {ld.DT_CVNB_TBGD_LichHoc_TenDiaDiem}
                         </td>
-                        <td className="p-2 border border-solid border-[#dee2e6]">
+                        <td className="p-2 border border-solid border-[#dee2e6] text-center">
                           {ld.DT_CVNB_TBGD_LichHoc_TenDayNha}
-                        </td> */}
+                        </td>
                         <td className="p-2 border border-solid border-[#dee2e6]">
                           {ld.DT_CVNB_TBGD_LichHoc_TenPhong}
                         </td>
-                        <td className="p-2 border border-solid border-[#dee2e6]">
+                        <td className="p-2 border border-solid border-[#dee2e6] text-center">
                           {ld.DT_CVNB_TBGD_Giao_MaNhanSu}
                         </td>
                         <td className="p-2 border border-solid border-[#dee2e6]">
                           {ld.DT_CVNB_TBGD_LichHoc_HoTenGiangVien}
                         </td>
-                        <td className="p-2 border border-solid border-[#dee2e6]">
+                        <td className="p-2 border border-solid border-[#dee2e6] text-center">
                           {`${ld.DT_CVNB_TBGD_LichHoc_TuTiet} - ${ld.DT_CVNB_TBGD_LichHoc_DenTiet}`}
                         </td>
-                        <td className="p-2 border border-solid border-[#dee2e6]">
+                        <td className="p-2 border border-solid border-[#dee2e6] text-center">
                           {dayjs(ld.DT_CVNB_TBGD_LichHoc_NgayBatDau).format(
                             'DD-MM-YYYY',
                           )}
                         </td>
                         <td className="p-2 border border-solid border-[#dee2e6]">
-                          {ld.DT_CVNB_TBGD_SuCo_DanhSachSuCo}
+                          {ld.DT_CVNB_TBGD_SuCo_DanhSachSuCo.split(';').map(
+                            (e, index) => {
+                              if (e.length) {
+                                return (
+                                  <p key={index} className="p-1">
+                                    {' '}
+                                    - {e}
+                                  </p>
+                                )
+                              }
+                            },
+                          )}
                         </td>
                       </tr>
                     ))
@@ -303,7 +300,19 @@ function XuLySuCoView() {
                   Danh sách sự cố:
                 </span>
                 <span className="ml-2">
-                  {selectedRow.DT_CVNB_TBGD_SuCo_DanhSachSuCo}
+                  {selectedRow.DT_CVNB_TBGD_SuCo_DanhSachSuCo &&
+                    selectedRow.DT_CVNB_TBGD_SuCo_DanhSachSuCo.split(';').map(
+                      (e, index) => {
+                        if (e.length) {
+                          return (
+                            <p key={index} className="p-1 ml-2">
+                              {' '}
+                              - {e}
+                            </p>
+                          )
+                        }
+                      },
+                    )}
                 </span>
               </p>
               <div className="w-full flex flex-col md:flex-row justify-between md:items-center gap-2">
