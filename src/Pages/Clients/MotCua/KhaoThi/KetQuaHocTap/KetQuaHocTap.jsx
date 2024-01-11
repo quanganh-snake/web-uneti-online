@@ -26,16 +26,6 @@ function KetQuaHocTap() {
     },
   ]
 
-  const [loading, setLoading] = useState(true)
-  const [listHocKy, setListHocKy] = useState([])
-  const [tenDot, setTenDot] = useState('')
-  const [lyDo, setLyDo] = useState('')
-  const [listHocPhan, setListHocPhan] = useState([])
-  const [diemSua, setDiemSua] = useState(0)
-  const [lyDoChiTiet, setLyDoChiTiet] = useState('')
-  const [selectedRows, setSelectedRows] = useState([])
-  const [currentPage, setCurrentPage] = useState(1)
-
   const listLyDo = [
     'Xem kết quả học tập',
     'Điều chỉnh, bổ sung: Điểm thường kỳ',
@@ -52,6 +42,16 @@ function KetQuaHocTap() {
     'Bị mất điểm thi trên trang cá nhân',
     'Điểm thi thay đổi so với trước đây đã xem',
   ]
+
+  const [loading, setLoading] = useState(true)
+  const [listHocKy, setListHocKy] = useState([])
+  const [tenDot, setTenDot] = useState('')
+  const [lyDo, setLyDo] = useState(listLyDo[0])
+  const [listHocPhan, setListHocPhan] = useState([])
+  const [diemSua, setDiemSua] = useState(0)
+  const [lyDoChiTiet, setLyDoChiTiet] = useState('')
+  const [selectedRows, setSelectedRows] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
 
   const dataSV = DataSinhVien()
 
@@ -287,6 +287,12 @@ function KetQuaHocTap() {
           setListHocPhan(() => res?.data?.body)
         }
       })
+      // thay đổi list lý do chi tiết
+      if (listLyDo.indexOf(lyDo) == 1) {
+        setLyDoChiTiet(listLyDoDT[0])
+      } else if (listLyDo.indexOf(lyDo) == 2) {
+        setLyDoChiTiet(listLyDoDTK[0])
+      }
     }
 
     return () => {

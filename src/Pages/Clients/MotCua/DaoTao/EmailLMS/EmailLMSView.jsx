@@ -1,5 +1,5 @@
 import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
-import { MenuItem, Select, TextField, TextareaAutosize } from '@mui/material'
+import { TextareaAutosize } from '@mui/material'
 import PropTypes from 'prop-types'
 
 function EmailLMSView(props) {
@@ -33,35 +33,35 @@ function EmailLMSView(props) {
             </h2>
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10 w-[200px]">Đề nghị (*)</span>
-              <Select
+              <select
                 defaultValue={listDeNghi[0]}
                 value={deNghi}
                 onChange={(e) => setDeNghi(e.target.value)}
-                className="flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
+                className="flex-1 px-2 py-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
               >
                 {listDeNghi.map((e, index) => (
-                  <MenuItem key={index} value={e}>
+                  <option key={index} value={e}>
                     {e}
-                  </MenuItem>
+                  </option>
                 ))}
-              </Select>
+              </select>
             </div>
 
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10 w-[200px]">
                 Chi tiết đề nghị (*)
               </span>
-              <Select
+              <select
                 value={chiTietDeNghi}
                 onChange={(e) => setChiTietDeNghi(e.target.value)}
-                className="flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
+                className="flex-1 px-2 py-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
               >
                 {listChiTietDeNghi.map((e, index) => (
-                  <MenuItem key={index} value={e.value}>
+                  <option key={index} value={e.value}>
                     {e.text}
-                  </MenuItem>
+                  </option>
                 ))}
-              </Select>
+              </select>
             </div>
 
             {deNghi === 'Tài khoản Email UNETI' && (
@@ -69,12 +69,12 @@ function EmailLMSView(props) {
                 <span className="block pr-10 w-[200px]">
                   Email cá nhân _ Ví dụ: @gmail.com (*)
                 </span>
-                <TextField
+                <input
                   required
                   value={emailCaNhan}
                   onChange={(e) => setEmailCaNhan(e.target.value)}
                   type="email"
-                  className="flex-1 md:max-w-[75%] px-2 rounded-md border border-solid border-gray-300"
+                  className="flex-1 px-2 py-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
                 />
               </div>
             )}

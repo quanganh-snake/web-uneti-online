@@ -1,4 +1,4 @@
-import { MenuItem, Select, TextField } from '@mui/material'
+import { TextField } from '@mui/material'
 
 function FormYeuCauSuaDiem(props) {
   const {
@@ -18,38 +18,39 @@ function FormYeuCauSuaDiem(props) {
   return (
     <form className="py-8 flex flex-col justify-center items-center gap-4">
       <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
-        <span className="block pr-10 w-[300px]">
+        <span className="block pr-10 w-[30%]">
           {lyDo === 'Điều chỉnh, bổ sung: Điểm thường kỳ'
             ? `Điểm thường kỳ (*)`
             : `Điểm thi (*)`}
         </span>
-        <TextField
+        <input
           value={diemSua}
           onChange={(e) => setDiemSua(e.target.value)}
           type="number"
-          InputProps={{ inputProps: { min: 0, max: 10 } }}
-          className="flex-1 md:max-w-[75%] p-2 rounded-md border border-solid border-gray-300"
+          min={0}
+          max={10}
+          className="flex-1 md:max-w-[70%] px-2 py-1 rounded-md border border-solid border-gray-300"
         />
       </div>
       <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
-        <span className="block pr-10 w-[300px]">
+        <span className="block pr-10 w-[30%]">
           {lyDo === 'Điều chỉnh, bổ sung: Điểm thường kỳ'
             ? `Lý do điều chỉnh điểm thường kỳ (*)`
             : `Lý do điều chỉnh điểm thi (*)`}
         </span>
-        <Select
+        <select
           value={lyDoChiTiet}
           onChange={(e) => {
             setLyDoChiTiet(e.target.value)
           }}
-          className="flex-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
+          className="flex-1 px-2 py-1 md:max-w-[70%] rounded-md border border-solid border-gray-300"
         >
           {listLyDoView.map((e, index) => (
-            <MenuItem key={index} value={e}>
+            <option key={index} value={e}>
               {e}
-            </MenuItem>
+            </option>
           ))}
-        </Select>
+        </select>
       </div>
       {lyDoChiTiet.length ? (
         <button

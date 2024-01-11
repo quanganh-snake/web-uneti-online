@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import DanhSachHocPhan from './DanhSachHocPhan'
-import { MenuItem, Select, TextareaAutosize } from '@mui/material'
+import { TextareaAutosize } from '@mui/material'
 import Loading from '@/Components/Loading/Loading'
 
 function FormDangKyThiLai(props) {
@@ -14,7 +14,7 @@ function FormDangKyThiLai(props) {
     listHocKy,
     lyDoKhac,
     setLyDoKhac,
-    handleRowSelection,
+    handleRowselection,
     handleSubmitData,
   } = props
 
@@ -26,45 +26,45 @@ function FormDangKyThiLai(props) {
         </h2>
         <div className="w-[75%] flex justify-between items-center">
           <span className="block pr-10">Học kỳ (*)</span>
-          <Select
+          <select
             value={hocKy}
             onChange={(e) => setHocKy(e.target.value)}
-            className="flex-1 max-w-[75%] rounded-md border border-solid border-gray-300"
+            className="flex-1 max-w-[75%] px-2 py-1 rounded-md border border-solid border-gray-300"
           >
             {listHocKy.map((e, index) => (
-              <MenuItem key={index} value={e.TenDot}>
+              <option key={index} value={e.TenDot}>
                 {e.TenDot}
-              </MenuItem>
+              </option>
             ))}
-          </Select>
+          </select>
         </div>
         <div className="w-[75%] flex justify-between items-center">
           <span className="block pr-10">Loại thi</span>
-          <Select
+          <select
             inputProps={{ readOnly: true }}
             defaultValue="Thi Lại"
-            className="flex-1 max-w-[75%] rounded-md border border-solid border-gray-300"
+            className="flex-1 max-w-[75%] px-2 py-1 rounded-md border border-solid border-gray-300"
           >
-            <MenuItem value="Thi Lại">Thi Lại</MenuItem>
-          </Select>
+            <option value="Thi Lại">Thi Lại</option>
+          </select>
         </div>
         <div className="w-[75%] flex justify-between items-center">
           <span className="block pr-10">Lý do (*)</span>
-          <Select
+          <select
             defaultValue="0"
             value={lyDo}
             onChange={(e) => {
               setLyDo(e.target.value)
               setLyDoKhac('')
             }}
-            className="flex-1 max-w-[75%] rounded-md border border-solid border-gray-300"
+            className="flex-1 max-w-[75%] px-2 py-1 rounded-md border border-solid border-gray-300"
           >
-            <MenuItem value="0">Trùng lịch thi</MenuItem>
-            <MenuItem value="1">Lỗi Website</MenuItem>
-            <MenuItem value="2">Khác hệ, loại hình đào tạo</MenuItem>
-            <MenuItem value="3">Thi không theo kế hoạch</MenuItem>
-            <MenuItem value="4">Lý do khác</MenuItem>
-          </Select>
+            <option value="0">Trùng lịch thi</option>
+            <option value="1">Lỗi Website</option>
+            <option value="2">Khác hệ, loại hình đào tạo</option>
+            <option value="3">Thi không theo kế hoạch</option>
+            <option value="4">Lý do khác</option>
+          </select>
         </div>
         {lyDo === '4' && (
           <div className="w-[75%] flex justify-between items-start">
@@ -98,7 +98,7 @@ function FormDangKyThiLai(props) {
           <div className="flex flex-col justify-center items-center pb-4">
             <DanhSachHocPhan
               listHocPhan={listHocPhan}
-              handleRowSelection={handleRowSelection}
+              handleRowselection={handleRowselection}
             />
             <button
               onClick={handleSubmitData}
