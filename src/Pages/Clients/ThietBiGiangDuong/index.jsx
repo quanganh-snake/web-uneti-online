@@ -1,6 +1,6 @@
 import React from 'react'
 import { homeHTTBGD } from '@/Services/Static/dataStatic.js'
-import ModuleItemHTTBGD from '@/Components/ModuleItemHTTBGD/ModuleItemHTTBGD.jsx'
+import ModuleItem from '@/Components/ModuleItem/ModuleItem.jsx'
 
 function HomeTBGD() {
   return (
@@ -13,7 +13,7 @@ function HomeTBGD() {
           {homeHTTBGD.map((itemHTTBGD, index) => {
             return (
               <React.Fragment key={index}>
-                <ModuleItemHTTBGD item={itemHTTBGD} />
+                <ModuleItem item={itemHTTBGD} />
               </React.Fragment>
             )
           })}

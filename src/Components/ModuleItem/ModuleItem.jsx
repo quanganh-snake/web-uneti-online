@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 
-function ModuleItemHTTBGD(props) {
+function ModuleItem(props) {
   const { item } = props
   const location = useLocation()
   const { pathname } = location
@@ -29,4 +29,4 @@ function ModuleItemHTTBGD(props) {
   )
 }
 
-export default ModuleItemHTTBGD
+export default ModuleItem

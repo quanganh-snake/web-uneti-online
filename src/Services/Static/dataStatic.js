@@ -57,7 +57,14 @@ export const homeMain = [
     roleActive: ['GV'],
   },
   {
-    title: 'Hỗ trợ sử dụng phần mềm',
+    title: 'Ôn luyện thi thử',
+    desc: 'Tiếp nhận ôn luyện, thi thử cho sinh viên.',
+    icon: icoTTHCSV,
+    path: '/hoctap',
+    moduleActive: true,
+    roleActive: ['SV'],
+  },
+  {  title: 'Hỗ trợ sử dụng phần mềm',
     desc: 'Tổng hợp file cài đặt, tài liệu hướng dẫn sử dụng các phần mềm.',
     icon: icoHTSDPM,
     path: '/hotrosudungphanmem',
@@ -1295,6 +1302,29 @@ export const homeTTHCGV = [
     path: '/admin/quantriTTHCGV',
     roleActive: ['Admin'],
   },
+]
+
+export const homeHocTap = [
+  {
+    id: 1,
+    title: 'Kết quả học tập',
+    desc: 'Theo dõi toàn bộ quá trình điểm danh đối với các môn học tương ứng tại các học kỳ',
+    path: '/ketquahoctap',
+    thumbnail: icoHTTBGD,
+    roleActive: ['SV'],
+    moduleActive: true,
+  },
+ 
+  {
+    id: 2,
+    title: 'Ôn tập',
+    desc: 'Theo dõi toàn bộ lịch học theo ngày, tuần, tháng đối với từng môn học trong học kỳ',
+    path: '/ontap',
+    moduleActive: true,
+    thumbnail: icoTTHCSV,
+    roleActive: ['SV'],
+  },
+ 
 ]
 
 // Data Loại Thi
