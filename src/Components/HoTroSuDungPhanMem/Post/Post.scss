@@ -20,13 +20,15 @@
     font-size: 14px;
   }
 
-  @include e(button) {
-    width: 100%;
+  @include e(download-button) {
     padding: 10px 14px;
-    border: 1px solid map.get($appColor, gray-4);
+    border: 1px solid map.get($appColor, primary-light);
     border-radius: 16px;
     margin-top: 12px;
     transition: all 0.25s ease;
+    margin-left: auto;
+    display: inline-block;
+    cursor: pointer;
 
     &:hover {
       background-color: map.get($appColor, primary-lighter);

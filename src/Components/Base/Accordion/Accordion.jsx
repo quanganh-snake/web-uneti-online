@@ -11,7 +11,7 @@ import AccordionContent from '../AccordionContent/AccordionContent'
 
 import './Accordion.scss'
 
-export default function Accordion({ children }) {
+export default function Accordion({ children, className, ...attrs }) {
   const bem = useBem('accordion')
 
   const [state, dispatch] = useReducer(reducer, {
@@ -19,14 +19,16 @@ export default function Accordion({ children }) {
     isOpen: false,
   })
 
-  const accordionCls = useMemo(() => transformCls([
-    bem.b(),
-    bem.is('open', state.isOpen)
-  ]), [bem, state.isOpen])
+  const accordionCls = useMemo(
+    () => transformCls([className, bem.b(), bem.is('open', state.isOpen)]),
+    [bem, state.isOpen],
+  )
 
   return (
     <AccordionContext.Provider value={{ ...state, dispatch }}>
-      <div className={accordionCls}>{children}</div>
+      <div className={accordionCls} {...attrs}>
+        {children}
+      </div>
     </AccordionContext.Provider>
   )
 }
