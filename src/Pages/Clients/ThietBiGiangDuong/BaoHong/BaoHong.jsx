@@ -37,10 +37,10 @@ export default function BaoHong() {
   useEffect(() => {
     if (!isEmpty(thongTinPhong)) {
       getAllLichDayBaoHong(
-        // dayjs(new Date()).format('YYYY-MM-DD'),
-        // dayjs(new Date()).format('YYYY-MM-DD'),
-        '2024-01-05',
-        '2024-01-05',
+        dayjs(new Date()).format('YYYY-MM-DD'),
+        dayjs(new Date()).format('YYYY-MM-DD'),
+        // '2024-01-05',
+        // '2024-01-05',
         thongTinPhong.DT_QLP_Phong_TenPhong,
         dataCBGV.MaNhanSu.toString(),
       ).then((res) => {
