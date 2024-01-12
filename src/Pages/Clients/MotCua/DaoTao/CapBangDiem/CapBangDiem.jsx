@@ -39,6 +39,10 @@ function CapBangDiem() {
     setFiles((_files) => [..._files, file])
   }
 
+  const handleRemoveFile = (file) => {
+    setFiles((_files) => _files.filter((e) => e !== file))
+  }
+
   const handleSubmitData = async (e) => {
     e.preventDefault()
 
@@ -236,6 +240,7 @@ function CapBangDiem() {
         handleSubmitData={handleSubmitData}
         handleFilesChange={handleFilesChange}
         handleChangeValue={handleChangeValue}
+        handleRemoveFile={handleRemoveFile}
       />
     </>
   )

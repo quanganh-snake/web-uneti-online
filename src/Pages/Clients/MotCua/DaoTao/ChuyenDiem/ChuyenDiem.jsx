@@ -79,6 +79,10 @@ function ChuyenDiem() {
     setFiles((_files) => [..._files, file])
   }
 
+  const handleRemoveFile = (file) => {
+    setFiles((_files) => _files.filter((e) => e !== file))
+  }
+
   useEffect(() => {
     getAllHocPhanChuyenDiem(dataSV.MaSinhVien).then((res) => {
       setListHocPhan(res?.data?.body)
@@ -454,6 +458,7 @@ function ChuyenDiem() {
       handleFilesChange={handleFilesChange}
       handleSubmitData={handleSubmitData}
       isEmpty={isEmpty}
+      handleRemoveFile={handleRemoveFile}
     />
   )
 }

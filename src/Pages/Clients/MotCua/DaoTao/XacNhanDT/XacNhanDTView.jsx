@@ -15,7 +15,6 @@ export const XacNhanDTView = (props) => {
           <h2 className="text-center uppercase text-2xl font-bold text-sky-800 mb-6">
             Tiếp nhận yêu cầu xác nhận
           </h2>
-          <h1 className="uppercase">Lỗi 2 options cuối</h1>
           <div className="lg:px-36">
             <XacNhanDTForm {...props} />
 

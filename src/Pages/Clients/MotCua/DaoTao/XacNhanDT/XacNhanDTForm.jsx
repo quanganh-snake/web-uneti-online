@@ -1,6 +1,8 @@
 import FileSelect from '@/Components/Base/FileSelect/FileSelect'
 import { listNoiNhanKetQua } from './constants'
 import { listDeNghi } from './constants'
+import Button from '@/Components/Base/Button/Button'
+import IconTrash from './IconTrash'
 
 export const XacNhanDTForm = (props) => {
   const {
@@ -10,6 +12,7 @@ export const XacNhanDTForm = (props) => {
     giayToKemTheo,
     noiNhanKetQua,
     files,
+    handleRemoveFile,
   } = props
 
   return (
@@ -78,11 +81,22 @@ export const XacNhanDTForm = (props) => {
         <div className="w-full md:w-[70%] flex flex-wrap items-center gap-2">
           {/* Preview image */}
           {files.map((file) => (
-            <img
-              className="w-32 h-32 rounded-xl object-cover"
-              key={file.uniqueIdentifier}
-              src={URL.createObjectURL(file)}
-            />
+            <div>
+              <Button
+                onClick={() => handleRemoveFile(file)}
+                type="transparent"
+                icon={true}
+              >
+                <div className="scale-75">
+                  <IconTrash />
+                </div>
+              </Button>
+              <img
+                className="w-32 h-32 rounded-xl object-cover"
+                key={file.uniqueIdentifier}
+                src={URL.createObjectURL(file)}
+              />
+            </div>
           ))}
 
           {files.length < 5 && (

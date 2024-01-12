@@ -4,7 +4,6 @@ import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import {
-  getTenDot,
   hoanThikiemTraTrung,
   postHoanThi,
 } from '@/Apis/MotCua/KhaoThi/apiHoanThi'
@@ -16,6 +15,7 @@ import { LY_DO_KHAC, breadcrumbs, home } from './constants'
 import { HoanThiForm } from './HoanThiForm'
 import { HoanThiTable } from './HoanThiTable'
 import { usePrevious } from '@/Services/Hooks/usePrevious'
+import { getTenDot } from '@/Apis/MotCua/apiTenDot'
 
 function HoanThi() {
   const [loading, setLoading] = useState(false)
@@ -109,11 +109,6 @@ function HoanThi() {
     }
 
     const itemHocPhan = selectedRow
-
-    console.log(
-      '🚀 ~ file: HoanThi.jsx ~ handleSubmitData ~ itemHocPhan:',
-      itemHocPhan,
-    )
 
     let dataHocPhan = {}
     if (itemHocPhan) {
@@ -293,9 +288,9 @@ function HoanThi() {
               timer: 1500,
             })
 
-            // setTimeout(() => {
-            //   window.location.reload()
-            // }, 1000)
+            setTimeout(() => {
+              window.location.reload()
+            }, 1000)
           }
         }
       }

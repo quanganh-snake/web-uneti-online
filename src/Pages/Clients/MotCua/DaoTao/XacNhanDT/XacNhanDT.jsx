@@ -38,6 +38,10 @@ function XacNhanDT() {
     setFiles((_files) => [..._files, file])
   }
 
+  const handleRemoveFile = (file) => {
+    setFiles((_files) => _files.filter((e) => e !== file))
+  }
+
   const handleSubmitData = async (e) => {
     e.preventDefault()
 
@@ -223,6 +227,7 @@ function XacNhanDT() {
       handleChangeValue={handleChangeValue}
       handleFilesChange={handleFilesChange}
       handleSubmitData={handleSubmitData}
+      handleRemoveFile={handleRemoveFile}
     />
   )
 }

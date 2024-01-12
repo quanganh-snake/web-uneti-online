@@ -10,6 +10,7 @@ import {
 } from '@/Apis/MotCua/KhaoThi/apiDangKyThiLai'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import Swal from 'sweetalert2'
+import { getTenDot } from '@/Apis/MotCua/apiTenDot'
 
 function DangKyThiLai() {
   const dataSV = DataSinhVien()
@@ -34,14 +35,14 @@ function DangKyThiLai() {
   const [lichThi, setLichThi] = useState([])
   const [listHocKy, setListHocKy] = useState([])
   const [hocKy, setHocKy] = useState('')
-  const [lyDo, setLyDo] = useState('')
+  const [lyDo, setLyDo] = useState('0')
   const [listHocPhan, setListHocPhan] = useState([])
   const loaiThi = 'Thi Lại'
   const [lyDoKhac, setLyDoKhac] = useState('')
   const [selectedRows, setSelectedRows] = useState([])
 
   useEffect(() => {
-    getTenDotDKThiLai().then((res) => {
+    getTenDot().then((res) => {
       setListHocKy(res?.data?.body)
     })
 
