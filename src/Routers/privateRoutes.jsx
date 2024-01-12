@@ -66,6 +66,11 @@ import HoTroSuDungPhanMem from '@/Pages/Clients/HoTroSuDungPhanMem/HoTroSuDungPh
 import TheoDoiDeNghi from '@/Pages/Clients/TheoDoiDeNghi/TheoDoiDeNghi.jsx'
 import TheoDoiDeNghiChiTiet from '@/Pages/Clients/TheoDoiDeNghi/TheoDoiDeNghiChiTiet/TheoDoiDeNghiChiTiet.jsx'
 
+// Page học tập
+import HomeHocTap from '@/Pages/Clients/HocTap/index.jsx'
+import HocTapKetQuaHocTap from '@/Pages/Clients/HocTap/KetQuaHocTap/KetQuaHocTap.jsx'
+import HocTapOnTap from '@/Pages/Clients/HocTap/OnTap/OnTap.jsx'
+
 const ROLES = ['GV', 'SV']
 
 export const privateRoutes = (
@@ -174,6 +179,14 @@ export const privateRoutes = (
           <Route path="xulysuco" element={<XuLySuCo />} />
           <Route path="dangkysudungthietbi" element={<DangKySuDungThietBi />} />
           <Route path="gopy" element={<GopY />} />
+        </Route>
+      </Route>
+
+      <Route element={<RoleMiddleware allowedRoles={['SV']} />}>
+        <Route path="hoctap">
+          <Route index element={<HomeHocTap />} />
+          <Route path='ketquahoctap' element={<HocTapKetQuaHocTap />} />
+          <Route path='ontap' element={<HocTapOnTap />} />
         </Route>
       </Route>
 
