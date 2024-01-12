@@ -1,0 +1,30 @@
+@use 'Styles/Mixins/mixins' as *;
+@use 'Styles/Mixins/var' as *;
+@use 'Styles/Common/var' as *;
+
+@include b(file-select) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  border: 2px dashed getColor(text, 0.5);
+  border-radius: 14px;
+  padding: 8px 6px;
+  &:hover {
+    border-color: getColor(primary, 9);
+  }
+
+  @include e(icon) {
+    font-size: 30px;
+    color: getColor(text, 0.9);
+  }
+
+  @include e(label) {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    font-size: 14px;
+    color: getColor(text, 0.6);
+  }
+}

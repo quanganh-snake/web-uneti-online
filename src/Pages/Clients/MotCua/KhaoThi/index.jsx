@@ -1,11 +1,10 @@
-import React from 'react'
-import { homeMotCua } from '../../../../Services/Static/dataStatic.js'
+import { homeMotCua } from '@/Services/Static/dataStatic.js'
 import { useLocation } from 'react-router-dom'
-import FeatureItemMotCua from '../../../../Components/FeatureItemMotCua/FeatureItemMotCua.jsx'
-import Breadcrumb from '../../../../Components/Breadcumb/Breadcrumb.jsx'
+import FeatureItem from '@/Components/FeatureItem/FeatureItem.jsx'
+import Box from '@/Components/MotCua/Box'
 
 function HomeKhaoThi() {
-  const iconKhaoThi = homeMotCua[0].ico
+  const icon = homeMotCua[0].ico
   const featureKhaoThi = homeMotCua[0].childrens
 
   const location = useLocation()
@@ -24,23 +23,15 @@ function HomeKhaoThi() {
   }
 
   return (
-    <div className="">
-      <div className="flex flex-col gap-4 p-5 rounded-md shadow-xl bg-white">
-        <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {featureKhaoThi.map((featureItem, index) => {
-            return featureItem.visiable ? (
-              <div key={index} className="feature-box">
-                <FeatureItemMotCua
-                  iconKhaoThi={iconKhaoThi}
-                  featureItem={featureItem}
-                />
-              </div>
-            ) : null
-          })}
-        </div>
-      </div>
-    </div>
+    <Box home={home} breadcrumbs={breadcrumbs}>
+      {featureKhaoThi.map((featureItem, index) => {
+        return featureItem.visiable ? (
+          <div key={index} className="feature-box">
+            <FeatureItem icon={icon} featureItem={featureItem} />
+          </div>
+        ) : null
+      })}
+    </Box>
   )
 }
 

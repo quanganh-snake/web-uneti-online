@@ -1,4 +1,4 @@
-import http from '../../../Configs/http'
+import http from '@/Configs/http'
 
 // Method lấy tất cả học phần phúc khảo
 export const getAllHocPhanPhucKhao = (

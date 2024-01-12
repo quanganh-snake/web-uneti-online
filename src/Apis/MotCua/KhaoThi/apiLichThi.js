@@ -1,4 +1,4 @@
-import http from '../../../Configs/http'
+import http from '@/Configs/http'
 
 export const getAllHocPhanLichThi = (
   MaSinhVien = '',
@@ -17,4 +17,8 @@ export const getAllHocPhanLichThi = (
       },
     },
   )
+}
+
+export const postYeuCauLichThi = (data) => {
+  return http.post('SP_MC_KT_LichThi_TiepNhan/Add_Para', data)
 }

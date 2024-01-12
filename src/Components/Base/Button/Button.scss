@@ -1,0 +1,52 @@
+@use 'Styles/Mixins/mixins' as *;
+@use 'Styles/Mixins/var' as *;
+@use 'Styles/Common/var' as *;
+
+@include b(button) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  transition: all 0.25s ease;
+  border: 0;
+  padding: 0;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  user-select: none;
+  cursor: pointer;
+  outline: 0;
+  font-size: 0.8rem;
+  position: relative;
+
+  @include when(icon) {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 10px !important;
+  }
+
+  @include when(flat) {
+    color: getColor(primary);
+    background-color: getColor(primary, 0.1);
+  }
+
+  @include when(transparent) {
+    color: getColor(primary);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      transform: scale(0);
+      transition: all 0.25s ease;
+      background-color: getColor(primary, 0.1);
+    }
+
+    &:hover::before {
+      transform: scale(1);
+    }
+  }
+}

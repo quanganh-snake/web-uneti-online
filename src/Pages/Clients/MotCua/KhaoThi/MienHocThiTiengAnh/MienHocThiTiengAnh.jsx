@@ -1,6 +1,4 @@
-import React from 'react'
-import FeatureLimited from '../../../../../Components/FeatureLimited/FeatureLimited'
-import Breadcrumb from '../../../../../Components/Breadcumb/Breadcrumb'
+import MienHocThiTiengAnhView from './MienHocThiTiengAnhView'
 
 function MienHocThiTiengAnh() {
   const home = {
@@ -19,14 +17,7 @@ function MienHocThiTiengAnh() {
     },
   ]
 
-  return (
-    <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
-      <div className="p-4 flex flex-col">
-        <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
-        <FeatureLimited />
-      </div>
-    </div>
-  )
+  return <MienHocThiTiengAnhView home={home} breadcrumbs={breadcrumbs} />
 }
 
 export default MienHocThiTiengAnh
