@@ -1,7 +1,3 @@
-@use 'Styles/Mixins/mixins' as *;
-@use 'Styles/Mixins/var' as *;
-@use 'Styles/Common/var' as *;
-
 @include b(dialog) {
   background: rgba(0, 0, 0, 0.2);
   position: fixed;
