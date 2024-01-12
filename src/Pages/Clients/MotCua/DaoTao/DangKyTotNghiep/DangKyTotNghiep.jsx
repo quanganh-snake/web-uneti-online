@@ -25,6 +25,10 @@ function DangKyTotNghiep() {
     setFiles((_files) => [..._files, file])
   }
 
+  const handleRemoveFile = (file) => {
+    setFiles((_files) => _files.filter((e) => e !== file))
+  }
+
   const handleChangeValue = (e) => {
     if (e.target.id === 'MC_DT_TotNghiepXetThi_TenDot') {
       setTenDot(e.target.value)
@@ -201,9 +205,9 @@ function DangKyTotNghiep() {
             timer: 1500,
           })
 
-          // setTimeout(() => {
-          //   window.location.reload()
-          // }, 1000)
+          setTimeout(() => {
+            window.location.reload()
+          }, 1000)
         }
       }
       // }
@@ -244,6 +248,7 @@ function DangKyTotNghiep() {
       handleFilesChange={handleFilesChange}
       handleChangeValue={handleChangeValue}
       handleSubmitData={handleSubmitData}
+      handleRemoveFile={handleRemoveFile}
     />
   )
 }

@@ -31,6 +31,7 @@ function FormDangKyThiLai(props) {
             onChange={(e) => setHocKy(e.target.value)}
             className="flex-1 max-w-[75%] px-2 py-1 rounded-md border border-solid border-gray-300"
           >
+            <option value="">Chọn học kỳ</option>
             {listHocKy.map((e, index) => (
               <option key={index} value={e.TenDot}>
                 {e.TenDot}
@@ -51,7 +52,6 @@ function FormDangKyThiLai(props) {
         <div className="w-[75%] flex justify-between items-center">
           <span className="block pr-10">Lý do (*)</span>
           <select
-            defaultValue="0"
             value={lyDo}
             onChange={(e) => {
               setLyDo(e.target.value)

@@ -55,7 +55,7 @@ function XuLySuCoView() {
     getData()
 
     // 5 phut load lai 1 lan
-    const autoReloadData = setInterval(getData, 1000 * 60 * 2)
+    const autoReloadData = setInterval(getData, 1000 * 60 * 5)
 
     return () => {
       setListLichDay([])

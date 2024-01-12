@@ -8,6 +8,7 @@ import {
   postHDKThiLai,
 } from '@/Apis/MotCua/KhaoThi/apiHuyDangKyThiLai'
 import Swal from 'sweetalert2'
+import { getTenDot } from '@/Apis/MotCua/apiTenDot'
 
 function HuyDangKyThiLai() {
   const home = {
@@ -261,7 +262,7 @@ function HuyDangKyThiLai() {
   }
 
   useEffect(() => {
-    getTenDotHDKThiLai().then((res) => {
+    getTenDot().then((res) => {
       setListHocKy(res?.data?.body)
     })
 
