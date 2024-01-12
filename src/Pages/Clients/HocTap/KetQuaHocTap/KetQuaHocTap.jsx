@@ -41,32 +41,56 @@ export default function KetQuaHocTap() {
               Học kỳ {hk}
             </Accordion.Label>
             <Accordion.Content>
-              <div className="overflow-x-auto">
-                <table>
+              <div className="overflow-x-auto my-1">
+                <table className="min-w-[800px]">
                   <thead>
                     <tr>
-                      <th className="border border-solid border-uneti-primary border-b-0">
+                      <th
+                        rowSpan={2}
+                        className="border border-solid border-uneti-primary border-b-0"
+                      >
                         Tên môn học
                       </th>
-                      <th className="border border-solid border-uneti-primary border-b-0">
+                      <th
+                        rowSpan={2}
+                        className="border border-solid border-uneti-primary border-b-0"
+                      >
                         Mã lớp học phần
                       </th>
-                      <th className="border border-solid border-uneti-primary border-b-0">
+                      <th
+                        rowSpan={2}
+                        className="border border-solid border-uneti-primary border-b-0"
+                      >
                         Tên lớp học
                       </th>
-                      <th className="border border-solid border-uneti-primary border-b-0">
+                      <th
+                        rowSpan={2}
+                        className="border border-solid border-uneti-primary border-b-0"
+                      >
                         Số tín chỉ
                       </th>
-                      <th className="border border-solid border-uneti-primary border-b-0">
+                      <th
+                        rowSpan={2}
+                        className="border border-solid border-uneti-primary border-b-0"
+                      >
                         Điểm danh (Số buổi vắng)
                       </th>
-                      <th className="border border-solid border-uneti-primary border-b-0">
+                      <th
+                        rowSpan={2}
+                        className="border border-solid border-uneti-primary border-b-0"
+                      >
                         Xét dự thi
                       </th>
-                      <th className="border border-solid border-uneti-primary border-b-0">
+                      <th
+                        rowSpan={2}
+                        className="border border-solid border-uneti-primary border-b-0"
+                      >
                         Không tính TBC
                       </th>
-                      <th className="border border-solid border-uneti-primary border-b-0">
+                      <th
+                        rowSpan={2}
+                        className="border border-solid border-uneti-primary border-b-0"
+                      >
                         Loại môn thi
                       </th>
                       <th
@@ -75,31 +99,38 @@ export default function KetQuaHocTap() {
                       >
                         Điểm tổng kết hệ 10
                       </th>
-                      <th className="border border-solid border-uneti-primary border-b-0">
+                      <th
+                        rowSpan={2}
+                        className="border border-solid border-uneti-primary border-b-0"
+                      >
                         Điểm tổng kết hệ 4
                       </th>
-                      <th className="border border-solid border-uneti-primary border-b-0">
+                      <th
+                        rowSpan={2}
+                        className="border border-solid border-uneti-primary border-b-0"
+                      >
                         Điểm chữ
                       </th>
-                      <th className="border border-solid border-uneti-primary border-b-0">
+                      <th
+                        rowSpan={2}
+                        className="border border-solid border-uneti-primary border-b-0"
+                      >
                         Xếp loại
                       </th>
-                      <th className="border border-solid border-uneti-primary border-b-0">
+                      <th
+                        rowSpan={2}
+                        className="border border-solid border-uneti-primary border-b-0"
+                      >
                         Ghi chú 1
                       </th>
-                      <th className="border border-solid border-uneti-primary border-b-0">
+                      <th
+                        rowSpan={2}
+                        className="border border-solid border-uneti-primary border-b-0"
+                      >
                         Ghi chú 2
                       </th>
                     </tr>
                     <tr>
-                      <th className="border border-uneti-primary border-t-0 border-b-0"></th>
-                      <th className="border border-uneti-primary border-t-0 border-b-0"></th>
-                      <th className="border border-uneti-primary border-t-0 border-b-0"></th>
-                      <th className="border border-uneti-primary border-t-0 border-b-0"></th>
-                      <th className="border border-uneti-primary border-t-0 border-b-0"></th>
-                      <th className="border border-uneti-primary border-t-0 border-b-0"></th>
-                      <th className="border border-uneti-primary border-t-0 border-b-0"></th>
-                      <th className="border border-uneti-primary border-t-0 border-b-0"></th>
                       <th className="border border-solid border-uneti-primary">
                         Điểm tổng kết
                       </th>
@@ -109,11 +140,6 @@ export default function KetQuaHocTap() {
                       <th className="border border-solid border-uneti-primary">
                         Điểm tổng kết lần 2
                       </th>
-                      <th className="border border-uneti-primary border-t-0 border-b-0"></th>
-                      <th className="border border-uneti-primary border-t-0 border-b-0"></th>
-                      <th className="border border-uneti-primary border-t-0 border-b-0"></th>
-                      <th className="border border-uneti-primary border-t-0 border-b-0"></th>
-                      <th className="border border-uneti-primary border-t-0 border-b-0"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -121,52 +147,52 @@ export default function KetQuaHocTap() {
                       if (mh.TC_SV_KetQuaHocTap_HocKy === hk) {
                         return (
                           <tr key={i}>
-                            <td className="border border-solid border-uneti-primary">
+                            <td className="text-center border border-solid border-uneti-primary">
                               {mh.TC_SV_KetQuaHocTap_TenMonHoc}
                             </td>
-                            <td className="border border-solid border-uneti-primary">
+                            <td className="text-center border border-solid border-uneti-primary">
                               {mh.TC_SV_KetQuaHocTap_MaLopHocPhan}
                             </td>
-                            <td className="border border-solid border-uneti-primary">
+                            <td className="text-center border border-solid border-uneti-primary">
                               {mh.TC_SV_KetQuaHocTap_TenLopHoc}
                             </td>
-                            <td className="border border-solid border-uneti-primary">
+                            <td className="text-center border border-solid border-uneti-primary">
                               {mh.TC_SV_KetQuaHocTap_SoTinChi}
                             </td>
-                            <td className="border border-solid border-uneti-primary">
+                            <td className="text-center border border-solid border-uneti-primary">
                               {mh.TC_SV_KetQuaHocTap_DiemDanh}
                             </td>
-                            <td className="border border-solid border-uneti-primary">
+                            <td className="text-center border border-solid border-uneti-primary">
                               {mh.TC_SV_KetQuaHocTap_XetDuThi}
                             </td>
-                            <td className="border border-solid border-uneti-primary">
+                            <td className="text-center border border-solid border-uneti-primary">
                               {mh.TC_SV_KetQuaHocTap_KhongTinhDiemTBC}
                             </td>
-                            <td className="border border-solid border-uneti-primary">
+                            <td className="text-center border border-solid border-uneti-primary">
                               {mh.TC_SV_KetQuaHocTap_TenLoaiMonHoc}
                             </td>
-                            <td className="border border-solid border-uneti-primary">
+                            <td className="text-center border border-solid border-uneti-primary">
                               {mh.TC_SV_KetQuaHocTap_DiemTongKet}
                             </td>
-                            <td className="border border-solid border-uneti-primary">
+                            <td className="text-center border border-solid border-uneti-primary">
                               {mh.TC_SV_KetQuaHocTap_DiemTongKet1}
                             </td>
-                            <td className="border border-solid border-uneti-primary">
+                            <td className="text-center border border-solid border-uneti-primary">
                               {mh.TC_SV_KetQuaHocTap_DiemTongKet2}
                             </td>
-                            <td className="border border-solid border-uneti-primary">
+                            <td className="text-center border border-solid border-uneti-primary">
                               {mh.TC_SV_KetQuaHocTap_DiemTinChi}
                             </td>
-                            <td className="border border-solid border-uneti-primary">
+                            <td className="text-center border border-solid border-uneti-primary">
                               {mh.TC_SV_KetQuaHocTap_DiemChu}
                             </td>
-                            <td className="border border-solid border-uneti-primary">
+                            <td className="text-center border border-solid border-uneti-primary">
                               {mh.TC_SV_KetQuaHocTap_XepLoai}
                             </td>
-                            <td className="border border-solid border-uneti-primary">
+                            <td className="text-center border border-solid border-uneti-primary">
                               {mh.TC_SV_KetQuaHocTap_GhiChu1}
                             </td>
-                            <td className="border border-solid border-uneti-primary">
+                            <td className="text-center border border-solid border-uneti-primary">
                               {mh.TC_SV_KetQuaHocTap_GhiChu2}
                             </td>
                           </tr>
