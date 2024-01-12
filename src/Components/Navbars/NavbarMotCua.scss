@@ -37,9 +37,9 @@
       bottom: 0;
       left: 0;
       right: 0;
-      height: 2px;
+      height: 3px;
       width: 0;
-      border-radius: 12px;
+      border-radius: 888px;
       margin-left: auto;
       margin-right: auto;
       transition: all 0.2s ease;
@@ -49,7 +49,7 @@
       color: map-get($map: $appColor, $key: 'primary-lighter');
 
       &::before {
-        width: 100%;
+        width: 20%;
         background-color: map-get($map: $appColor, $key: 'primary-light');
       }
     }
@@ -58,7 +58,7 @@
       color: map-get($map: $appColor, $key: 'primary-lighter');
 
       &::before {
-        width: 100%;
+        width: 20%;
         background-color: map-get($map: $appColor, $key: 'primary-light');
       }
     }
