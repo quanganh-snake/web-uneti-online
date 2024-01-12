@@ -12,4 +12,14 @@ export default defineConfig({
       Styles: path.resolve(__dirname, './src/Styles/'),
     },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use '@/Services/Styles/Mixins/mixins' as *;
+                        @use '@/Services/Styles/Mixins/var' as *;
+                        @use '@/Services/Styles/Common/var' as *;`,
+      },
+    },
+    exclude: ['src/Services/Styles/**/*.scss'],
+  },
 })

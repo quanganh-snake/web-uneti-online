@@ -1,7 +1,3 @@
-@use 'Styles/Mixins/mixins' as *;
-@use 'Styles/Mixins/var' as *;
-@use 'Styles/Common/var' as *;
-
 @include b(accordion) {
   @include when(open) {
     @include e(wrapper) {
@@ -16,11 +12,10 @@
     gap: 8px;
     border-radius: 4px 4px 14px 14px;
     transition: all 0.25s ease;
-    
+
     height: 0;
     opacity: 0;
     visibility: hidden;
     overflow: hidden;
   }
 }
-
