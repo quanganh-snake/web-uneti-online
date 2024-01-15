@@ -185,8 +185,8 @@ export const privateRoutes = (
       <Route element={<RoleMiddleware allowedRoles={['SV']} />}>
         <Route path="hoctap">
           <Route index element={<HomeHocTap />} />
-          <Route path='ketquahoctap' element={<HocTapKetQuaHocTap />} />
-          <Route path='ontap' element={<HocTapOnTap />} />
+          <Route path="ketquahoctap" element={<HocTapKetQuaHocTap />} />
+          <Route path="ontap" element={<HocTapOnTap />} />
         </Route>
       </Route>
 

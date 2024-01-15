@@ -1,5 +1,5 @@
 export const AccordionAction = {
-    TOGGLE: 'toggle'
+  TOGGLE: 'toggle',
 }
 
 export const reducer = (state, action) => {

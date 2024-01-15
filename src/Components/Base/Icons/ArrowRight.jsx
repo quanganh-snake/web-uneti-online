@@ -1,4 +1,4 @@
-export default function ArrowRight({...attrs}) {
+export default function ArrowRight({ ...attrs }) {
   return (
     <svg
       width="24"
