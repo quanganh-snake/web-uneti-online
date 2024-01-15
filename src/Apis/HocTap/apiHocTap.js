@@ -10,3 +10,14 @@ export const getAllMonHoc = (MaSinhVien = '') => {
     },
   )
 }
+
+export const getALLDiemTrungBinh = (MaSinhVien = '') => {
+  return http.get(
+    'SP_TC_SV_KetQuaHocTap_TiepNhan/EDU_Load_Para_MaSinhVien_DiemTrungBinhHocKy',
+    {
+      params: {
+        TC_SV_KetQuaHocTap_MaSinhVien: MaSinhVien,
+      },
+    },
+  )
+}
