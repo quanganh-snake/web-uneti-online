@@ -64,7 +64,8 @@ export const homeMain = [
     moduleActive: true,
     roleActive: ['SV'],
   },
-  {  title: 'Hỗ trợ sử dụng phần mềm',
+  {
+    title: 'Hỗ trợ sử dụng phần mềm',
     desc: 'Tổng hợp file cài đặt, tài liệu hướng dẫn sử dụng các phần mềm.',
     icon: icoHTSDPM,
     path: '/hotrosudungphanmem',
@@ -754,14 +755,6 @@ export const homeMotCua = [
     moduleActive: true,
     childrens: [
       {
-        title: 'Cấp lại',
-        desc: ``,
-        path: '/caplai',
-        limited: true,
-        visiable: true,
-        stt: 1,
-      },
-      {
         title: 'Xác nhận',
         desc: `
           <p style="padding-bottom: 1rem; font-size: 1.25rem;line-height: 1.75rem; font-weight: 700; color: #EF4444; ">
@@ -1314,7 +1307,7 @@ export const homeHocTap = [
     roleActive: ['SV'],
     moduleActive: true,
   },
- 
+
   {
     id: 2,
     title: 'Ôn tập',
@@ -1324,7 +1317,6 @@ export const homeHocTap = [
     thumbnail: icoTTHCSV,
     roleActive: ['SV'],
   },
- 
 ]
 
 // Data Loại Thi

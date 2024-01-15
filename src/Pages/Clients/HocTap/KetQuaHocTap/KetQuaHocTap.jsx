@@ -12,6 +12,7 @@ export default function KetQuaHocTap() {
   useEffect(() => {
     getAllMonHoc(dataSV.MaSinhVien).then((res) => {
       setListMonHoc(res?.data?.body)
+      console.log(res?.data?.body)
     })
 
     return () => {
@@ -30,7 +31,9 @@ export default function KetQuaHocTap() {
     }
   }, [listMonHoc])
 
-  console.log(listMonHoc)
+  if (!listHocKy.length) {
+    return null
+  }
 
   return (
     <>
