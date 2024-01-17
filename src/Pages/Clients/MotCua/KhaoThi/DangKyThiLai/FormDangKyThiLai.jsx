@@ -52,7 +52,6 @@ function FormDangKyThiLai(props) {
         <div className="w-[75%] flex justify-between items-center">
           <span className="block pr-10">Lý do (*)</span>
           <select
-            defaultValue="0"
             value={lyDo}
             onChange={(e) => {
               setLyDo(e.target.value)
@@ -60,7 +59,6 @@ function FormDangKyThiLai(props) {
             }}
             className="flex-1 max-w-[75%] px-2 py-1 rounded-md border border-solid border-gray-300"
           >
-            <option value="">Chọn lý do</option>
             <option value="0">Trùng lịch thi</option>
             <option value="1">Lỗi Website</option>
             <option value="2">Khác hệ, loại hình đào tạo</option>

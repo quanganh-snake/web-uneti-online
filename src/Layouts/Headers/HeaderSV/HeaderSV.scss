@@ -1,0 +1,17 @@
+@use 'sass:map';
+
+@include b(header) {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+  border-radius: 0 0 24px 24px;
+
+  @include e(nav) {
+    box-shadow: 0 25px 20px -25px #00000008;
+    border-radius: inherit;
+    background-color: map.get($appColor, background);
+  }
+}

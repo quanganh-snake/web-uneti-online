@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import HomeTTHCGVView from './HomeTTHCGVView'
-import { getThuTucHanhChinhByKeyWords } from '../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
+import { getThuTucHanhChinhByKeyWords } from '@/Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
 
 function HomeTTHCGV() {
   const home = {
@@ -13,8 +13,6 @@ function HomeTTHCGV() {
   const [listHoSoThuTuc, setListHoSoThuTuc] = useState([])
   const [keywords, setKeywords] = useState('')
   const [dieuKienLoc, setDieuKienLoc] = useState('')
-  const [loading, setLoading] = useState(true)
-
   useEffect(() => {
     const getListHoSoThuTuc = async () => {
       try {
@@ -25,7 +23,6 @@ function HomeTTHCGV() {
         if (resultListHoSoThuTuc.status === 200) {
           const dataListHoSoThuTuc = await resultListHoSoThuTuc?.data?.body
           setListHoSoThuTuc(dataListHoSoThuTuc)
-          setLoading(false)
         }
       } catch (error) {
         // console.log(error);
@@ -37,7 +34,6 @@ function HomeTTHCGV() {
   return (
     <HomeTTHCGVView
       home={home}
-      loading={loading}
       dataListHoSoThuTuc={listHoSoThuTuc}
       setKeywords={setKeywords}
       setDieuKienLoc={setDieuKienLoc}

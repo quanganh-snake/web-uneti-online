@@ -1,16 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import SidebarTTHCGV from '../SidebarTTHCGV/SidebarTTHCGV'
-import Breadcrumb from '../../../../Components/Breadcumb/Breadcrumb'
+import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import { Link } from 'react-router-dom'
 import { FaUpload, FaSave } from 'react-icons/fa'
 import { FcCancel } from 'react-icons/fc'
 import { BsSend } from 'react-icons/bs'
 import { MdCancel } from 'react-icons/md'
-import Loading from '../../../../Components/Loading/Loading'
+import Loading from '@/Components/Loading/Loading'
 import { IoMdClose } from 'react-icons/io'
-import { convertBufferToBase64 } from '../../../../Services/Utils/stringUtils'
-import { handlePreviewFileBase64 } from '../../../../Services/Utils/fileUtils'
 function SoanHoSoView({
   home,
   breadcrumbs,
@@ -29,9 +27,7 @@ function SoanHoSoView({
   return (
     <>
       {loading ? (
-        <div className="flex items-center justify-center">
-          <Loading />
-        </div>
+        <Loading />
       ) : (
         <div className="flex flex-col md:flex-row gap-2">
           <div className="bg-white p-4">
@@ -75,7 +71,7 @@ function SoanHoSoView({
                   rows={4}
                   name="MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email"
                   id="MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email"
-                  placeholder="Ví dụ: example@example.com"
+                  placeholder="Nhập email liên hệ"
                   required={true}
                   onChange={(e) => {
                     setDataHoSoYeuCau({
@@ -99,8 +95,7 @@ function SoanHoSoView({
                   rows={4}
                   name="MC_TTHC_GV_GuiYeuCau_NhanSuGui_SDT"
                   id="MC_TTHC_GV_GuiYeuCau_NhanSuGui_SDT"
-                  placeholder="Ví dụ: +8434350166 hoặc 0334350166"
-                  pattern="^(\+84|0)\d{9}$"
+                  placeholder="Nhập số điện thoại liên hệ"
                   required={true}
                   onChange={(e) => {
                     setDataHoSoYeuCau({
@@ -130,8 +125,7 @@ function SoanHoSoView({
               </div>
               <div className="flex flex-col form-group mb-4 col-span-2 md:col-span-1">
                 <label htmlFor="quantity" className="font-semibold mb-2">
-                  Nhập số lượng bản{' '}
-                  <span className="font-bold text-red-500">*</span>
+                  Nhập số lượng bản
                 </label>
                 <input
                   type="number"
@@ -177,8 +171,7 @@ function SoanHoSoView({
               </div>
               <div className="flex flex-col form-group mb-4 col-span-2">
                 <label htmlFor="price" className="font-semibold mb-2">
-                  Danh sách giấy tờ kèm theo{' '}
-                  <span className="font-bold text-red-500">*</span>
+                  Danh sách giấy tờ kèm theo
                 </label>
                 {dataChiTietThuTuc?.ThanhPhanHoSo?.length ? (
                   <table className="rounded-xl">
@@ -206,8 +199,8 @@ function SoanHoSoView({
                     </thead>
                     <tbody>
                       {dataChiTietThuTuc?.ThanhPhanHoSo?.map(
-                        (iThanhPhanHoSo, index) =>
-                          iThanhPhanHoSo.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo ? (
+                        (iThanhPhanHoSo, index) => {
+                          return (
                             <tr className="border border-slate-300" key={index}>
                               <td className="px-2 py-1 border border-slate-300 text-center">
                                 {index + 1}
@@ -223,25 +216,17 @@ function SoanHoSoView({
                                     <span className="font-medium">
                                       Xem/tải mẫu:{' '}
                                     </span>
-                                    <span
-                                      className="cursor-pointer hover:opacity-70"
-                                      onClick={() => {
-                                        const base64StringWithoutPrefix =
-                                          convertBufferToBase64(
-                                            iThanhPhanHoSo
-                                              ?.MC_TTHC_GV_ThanhPhanHoSo_DataFile
-                                              ?.data,
-                                          )
-                                        handlePreviewFileBase64(
-                                          iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenFile,
-                                          base64StringWithoutPrefix,
-                                        )
-                                      }}
-                                    >
-                                      {
+                                    <Link
+                                      to={
                                         iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenFile
                                       }
-                                    </span>
+                                      target="_blank"
+                                      className="cursor-pointer hover:opacity-70"
+                                    >
+                                      {
+                                        iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo
+                                      }
+                                    </Link>
                                   </p>
                                 ) : null}
                               </td>
@@ -293,7 +278,8 @@ function SoanHoSoView({
                                 </div>
                               </td>
                             </tr>
-                          ) : null,
+                          )
+                        },
                       )}
                     </tbody>
                   </table>

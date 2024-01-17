@@ -1,4 +1,4 @@
-import http from '../../Configs/http'
+import http from '@/Configs/http'
 
 // POST
 export const postTrinhTuThucHienTTHCGV = (data = []) => {

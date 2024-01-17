@@ -46,6 +46,10 @@ function XacNhanCTSV() {
     setFiles((_files) => [..._files, file])
   }
 
+  const handleRemoveFile = (file) => {
+    setFiles((_files) => _files.filter((e) => e !== file))
+  }
+
   const handleSubmitData = async (e) => {
     e.preventDefault()
 
@@ -206,9 +210,9 @@ function XacNhanCTSV() {
               timer: 1500,
             })
 
-            // setTimeout(() => {
-            //   window.location.reload()
-            // }, 1000)
+            setTimeout(() => {
+              window.location.reload()
+            }, 1000)
           }
         }
       }
@@ -247,6 +251,7 @@ function XacNhanCTSV() {
               files={files}
               handleChangeValue={handleChangeValue}
               handleFilesChange={handleFilesChange}
+              handleRemoveFile={handleRemoveFile}
             />
 
             <div className="relative sm:rounded-lg my-6">

@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Navigate, Outlet } from 'react-router-dom'
-import { DataSinhVien } from '../Services/Utils/dataSinhVien'
-import { DataCanBoGV } from '../Services/Utils/dataCanBoGV'
+import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
+import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 
 function RoleMiddleware(props) {
   const { allowedRoles } = props

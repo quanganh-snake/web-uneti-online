@@ -304,6 +304,7 @@ function PhucKhao() {
       getAllHocPhanPhucKhao(dataSV.MaSinhVien, tenDot, loaiThi).then((res) => {
         setLoading(false)
         setListHocPhan(res?.data?.body)
+        console.log(res?.data?.body)
       })
     }
 

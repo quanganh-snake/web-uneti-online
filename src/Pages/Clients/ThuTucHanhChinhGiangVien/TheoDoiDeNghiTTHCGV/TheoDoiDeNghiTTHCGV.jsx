@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import {
-  delThuTucHanhChinhGuiYeuCauByID,
-  getListThuTucYeuCauByMaNhanSu,
-} from '../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
-import { DataCanBoGV } from './../../../../Services/Utils/dataCanBoGV'
+import { clsx } from 'clsx'
+import { getListThuTucYeuCauByMaNhanSu } from '@/Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
+import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
-import { changeSlug } from '../../../../Services/Utils/stringUtils'
-import Swal from 'sweetalert2'
+import { changeSlug } from '@/Services/Utils/stringUtils'
 
 function TheoDoiDeNghiTTHCGV() {
   const dataCBGV = DataCanBoGV()
@@ -15,51 +12,21 @@ function TheoDoiDeNghiTTHCGV() {
 
   const [listHoSoYeuCau, setListHoSoYeuCau] = useState(null)
   // event handlers
-  const fetchListThuTucByMaNhanSu = async () => {
-    const res = await getListThuTucYeuCauByMaNhanSu(MaNhanSu)
-    if (res.status === 200) {
-      const data = await res.data?.body
-      setListHoSoYeuCau(data)
-    }
-  }
-
-  const handleHuyTraHoSo = async (idHoSoYeuCau) => {
-    Swal.fire({
-      icon: 'question',
-      title: 'Bạn chắc chắn muốn hủy yêu cầu này?',
-      showConfirmButton: true,
-      showCancelButton: true,
-      confirmButtonText: 'Đồng ý',
-      cancelButtonText: 'Hủy',
-    })
-      .then(async (result) => {
-        if (result.isConfirmed) {
-          delThuTucHanhChinhGuiYeuCauByID(idHoSoYeuCau).then((res) => {
-            fetchListThuTucByMaNhanSu()
-            Swal.fire({
-              icon: 'success',
-              title: 'Hủy gửi yêu cầu hồ sơ thành công!',
-            })
-            return
-          })
-        }
-      })
-      .catch((error) => {
-        return Swal.fire({
-          icon: 'error',
-          title: 'Có lỗi xảy ra!',
-          text: 'Hủy gửi yêu cầu hồ sơ thất bại!',
-        })
-      })
-  }
 
   // effects
   useEffect(() => {
-    fetchListThuTucByMaNhanSu()
+    getListThuTucYeuCauByMaNhanSu(MaNhanSu).then(async (res) => {
+      console.log(res)
+      if (res.status === 200) {
+        const data = await res.data?.body
+        setListHoSoYeuCau(data)
+      }
+    })
   }, [])
+
   return (
     <div clsx={'bg-white w-full'}>
-      {listHoSoYeuCau?.length < 1 && (
+      {listHoSoYeuCau?.length < 0 && (
         <p className="p-2 text-center text-[#336699] border font-semibold">
           Bạn chưa có yêu cầu đề nghị nào!
         </p>
@@ -101,25 +68,13 @@ function TheoDoiDeNghiTTHCGV() {
                       <td className="border-r text-center">
                         <p>{iHoSo?.MC_TTHC_GV_TrangThai_TenTrangThai}</p>
                       </td>
-                      <td className="border-r text-center flex items-center justify-center gap-4 py-2">
+                      <td className="border-r text-center flex items-center justify-center py-2">
                         <Link
                           to={`/tthcgiangvien/theodoiquytrinh/chitiet/${titleSlug}/${iHoSo?.MC_TTHC_GV_GuiYeuCau_ID}`}
                           className="p-2 bg-[#336699] text-white rounded-full hover:opacity-70"
                         >
                           Xem chi tiết
                         </Link>
-                        {iHoSo?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID > 0 ? (
-                          ''
-                        ) : (
-                          <p
-                            className="p-2 bg-red-600 text-white rounded-full hover:opacity-70 cursor-pointer"
-                            onClick={() => {
-                              handleHuyTraHoSo(iHoSo.MC_TTHC_GV_GuiYeuCau_ID)
-                            }}
-                          >
-                            Hủy yêu cầu
-                          </p>
-                        )}
                       </td>
                     </tr>
                   )
