@@ -70,6 +70,7 @@ import TheoDoiDeNghiChiTiet from '@/Pages/Clients/TheoDoiDeNghi/TheoDoiDeNghiChi
 import HomeHocTap from '@/Pages/Clients/HocTap/index.jsx'
 import HocTapKetQuaHocTap from '@/Pages/Clients/HocTap/KetQuaHocTap/KetQuaHocTap.jsx'
 import HocTapOnTap from '@/Pages/Clients/HocTap/OnTap/OnTap.jsx'
+import KetQuaHocTapChiTiet from '@/Pages/Clients/HocTap/KetQuaHocTap/KetQuaHocTapChiTiet/KetQuaHocTapChiTiet'
 
 const ROLES = ['GV', 'SV']
 
@@ -186,6 +187,10 @@ export const privateRoutes = (
         <Route path="hoctap">
           <Route index element={<HomeHocTap />} />
           <Route path="ketquahoctap" element={<HocTapKetQuaHocTap />} />
+          <Route
+            path="ketquahoctap/ketquahoctapchitiet/:id?"
+            element={<KetQuaHocTapChiTiet />}
+          />
           <Route path="ontap" element={<HocTapOnTap />} />
         </Route>
       </Route>

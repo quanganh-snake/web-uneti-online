@@ -2,6 +2,7 @@ import { getALLDiemTrungBinh, getAllMonHoc } from '@/Apis/HocTap/apiHocTap'
 import Accordion from '@/Components/Base/Accordion/Accordion'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 export default function KetQuaHocTap() {
   const [listMonHoc, setListMonHoc] = useState([])
@@ -155,28 +156,32 @@ export default function KetQuaHocTap() {
                       if (mh.TC_SV_KetQuaHocTap_HocKy === hk) {
                         return (
                           <tr key={i}>
-                            <td className=" py-2 px-4 border border-solid border-uneti-primary border-opacity-30 border-l-0 border-b-0">
-                              {mh.TC_SV_KetQuaHocTap_TenMonHoc}
+                            <td className="transition-all duration-200 hover:text-uneti-primary cursor-pointer py-2 px-4 border border-solid border-uneti-primary border-opacity-30 border-l-0 border-b-0">
+                              <Link
+                                to={`ketquahoctapchitiet/${mh.TC_SV_KetQuaHocTap_MaLopHocPhan}`}
+                              >
+                                {mh.TC_SV_KetQuaHocTap_TenMonHoc}
+                              </Link>
                             </td>
-                            <td className=" py-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
+                            <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
                               {mh.TC_SV_KetQuaHocTap_MaLopHocPhan}
                             </td>
-                            <td className=" py-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
+                            <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
                               {mh.TC_SV_KetQuaHocTap_TenLopHoc}
                             </td>
-                            <td className=" py-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
+                            <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
                               {mh.TC_SV_KetQuaHocTap_SoTinChi}
                             </td>
-                            <td className=" py-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
+                            <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
                               {mh.TC_SV_KetQuaHocTap_DiemDanh}
                             </td>
-                            <td className=" py-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
+                            <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
                               {mh.TC_SV_KetQuaHocTap_XetDuThi}
                             </td>
-                            <td className=" py-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
+                            <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
                               {mh.TC_SV_KetQuaHocTap_KhongTinhDiemTBC}
                             </td>
-                            <td className=" py-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
+                            <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
                               {mh.TC_SV_KetQuaHocTap_TenLoaiMonHoc}
                             </td>
                             <td
@@ -184,7 +189,7 @@ export default function KetQuaHocTap() {
                                 mh.TC_SV_KetQuaHocTap_DiemTongKet <= 5
                                   ? 'text-vs-danger'
                                   : ''
-                              }  py-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0`}
+                              }  py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0`}
                             >
                               {mh.TC_SV_KetQuaHocTap_DiemTongKet}
                             </td>
@@ -193,7 +198,7 @@ export default function KetQuaHocTap() {
                                 mh.TC_SV_KetQuaHocTap_DiemTongKet1 <= 5
                                   ? 'text-vs-danger'
                                   : ''
-                              }  py-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0`}
+                              }  py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0`}
                             >
                               {mh.TC_SV_KetQuaHocTap_DiemTongKet1}
                             </td>
@@ -202,23 +207,23 @@ export default function KetQuaHocTap() {
                                 mh.TC_SV_KetQuaHocTap_DiemTongKet2 <= 5
                                   ? 'text-vs-danger'
                                   : ''
-                              }  py-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0`}
+                              }  py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0`}
                             >
                               {mh.TC_SV_KetQuaHocTap_DiemTongKet2}
                             </td>
-                            <td className=" py-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
+                            <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
                               {mh.TC_SV_KetQuaHocTap_DiemTinChi}
                             </td>
-                            <td className=" py-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
+                            <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
                               {mh.TC_SV_KetQuaHocTap_DiemChu}
                             </td>
-                            <td className=" py-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
+                            <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
                               {mh.TC_SV_KetQuaHocTap_XepLoai}
                             </td>
-                            <td className=" py-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
+                            <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
                               {mh.TC_SV_KetQuaHocTap_GhiChu1}
                             </td>
-                            <td className=" py-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0 border-r-0">
+                            <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0 border-r-0">
                               {mh.TC_SV_KetQuaHocTap_GhiChu2}
                             </td>
                           </tr>
