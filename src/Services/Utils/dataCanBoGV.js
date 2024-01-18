@@ -1,4 +1,4 @@
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { useSelector } from 'react-redux'
 
 export const DataCanBoGV = () => {
@@ -62,14 +62,14 @@ export const DataCanBoGV = () => {
     SoThuTu,
     HoDem,
     Ten,
-    NgaySinh: moment(NgaySinh).format('DD/MM/YYYY'),
+    NgaySinh: dayjs(NgaySinh).format('DD/MM/YYYY'),
     NoiSinh,
     GioiTinh,
     NguyenQuan,
     HoKhau,
     NoiOHienTai,
     SoCMND,
-    NgayCapCMND: moment(NgayCapCMND).format('DD/MM/YYYY'),
+    NgayCapCMND: dayjs(NgayCapCMND).format('DD/MM/YYYY'),
     NoiCapCMND,
     SoDienThoai,
     SoDiDong,
@@ -99,7 +99,7 @@ export const DataCanBoGV = () => {
     TrinhDoChinhTri,
     TrinhDoQuanLyNhaNuoc,
     TrinhDoQuanLyGiaoDuc,
-    DangVienNgayVao: moment(DangVienNgayVao).format('DD/MM/YYYY'),
+    DangVienNgayVao: dayjs(DangVienNgayVao).format('DD/MM/YYYY'),
     DangVienChinhThuc,
     DangVienChucVu,
     MaSoThue,
