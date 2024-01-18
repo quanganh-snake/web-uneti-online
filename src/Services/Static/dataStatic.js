@@ -1310,9 +1310,31 @@ export const homeHocTap = [
 
   {
     id: 2,
-    title: 'Ôn tập',
+    title: 'Ôn luyện',
     desc: 'Theo dõi toàn bộ lịch học theo ngày, tuần, tháng đối với từng môn học trong học kỳ',
+    path: '/onluyen',
+    moduleActive: true,
+    thumbnail: icoTTHCSV,
+    roleActive: ['SV'],
+  },
+]
+
+export const homeOnLuyen = [
+  {
+    id: 1,
+    title: 'Ôn tập',
+    desc: 'Theo dõi toàn bộ quá trình điểm danh đối với các môn học tương ứng tại các học kỳ',
     path: '/ontap',
+    thumbnail: icoHTTBGD,
+    roleActive: ['SV'],
+    moduleActive: true,
+  },
+
+  {
+    id: 2,
+    title: 'Thi thử',
+    desc: 'Theo dõi toàn bộ lịch học theo ngày, tuần, tháng đối với từng môn học trong học kỳ',
+    path: '/thithu',
     moduleActive: true,
     thumbnail: icoTTHCSV,
     roleActive: ['SV'],

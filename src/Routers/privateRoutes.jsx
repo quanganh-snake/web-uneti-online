@@ -70,7 +70,9 @@ import RoleViewActionMiddleware from '@/Middlewares/RoleViewActionMiddleware'
 // Page học tập
 import HomeHocTap from '@/Pages/Clients/HocTap/index.jsx'
 import HocTapKetQuaHocTap from '@/Pages/Clients/HocTap/KetQuaHocTap/KetQuaHocTap.jsx'
-import HocTapOnTap from '@/Pages/Clients/HocTap/OnTap/OnTap.jsx'
+import HocTapOnLuyen from '@/Pages/Clients/HocTap/OnLuyen/OnLuyen.jsx'
+import HocTapOnTap from '@/Pages/Clients/HocTap/OnLuyen/OnTap/OnTap.jsx'
+import HocTapThiThu from '@/Pages/Clients/HocTap/OnLuyen/ThiThu/ThiThu.jsx'
 import KetQuaHocTapChiTiet from '@/Pages/Clients/HocTap/KetQuaHocTap/KetQuaHocTapChiTiet/KetQuaHocTapChiTiet'
 
 const ROLES = ['GV', 'SV']
@@ -210,7 +212,12 @@ export const privateRoutes = (
             path="ketquahoctap/ketquahoctapchitiet/:id?"
             element={<KetQuaHocTapChiTiet />}
           />
-          <Route path="ontap" element={<HocTapOnTap />} />
+          <Route path="onluyen">
+            <Route index element={<HocTapOnLuyen />} />
+
+            <Route path="ontap" element={<HocTapOnTap />} />
+            <Route path="thithu" element={<HocTapThiThu />} />
+          </Route>
         </Route>
       </Route>
 
