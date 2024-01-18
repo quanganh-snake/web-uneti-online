@@ -3,16 +3,24 @@ import { useBem } from '@/Services/Hooks'
 
 import './Sidebar.scss'
 import { useState } from 'react'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export const Sidebar = ({ showSidebar, setShowSidebar, items, title }) => {
   const bem = useBem('sidebar')
 
+  const router = useNavigate()
+
   const [sidebarItem, setSidebarItem] = useState('')
 
   const handleSidebarItemClick = (item) => {
-    if (!item?.children?.length) setSidebarItem(item.name)
+    setSidebarItem(item.name)
     setShowSidebar(false)
   }
+
+  useEffect(() => {
+    if (sidebarItem) router(sidebarItem)
+  }, [sidebarItem])
 
   return (
     <div className={`${bem.b()} ${bem.is('active', showSidebar)}`}>

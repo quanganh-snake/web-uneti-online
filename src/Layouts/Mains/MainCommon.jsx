@@ -8,6 +8,7 @@ import HeaderCBGV from '../Headers/HeaderCBGV/HeaderCBGV'
 import { store } from '@/Services/Redux/store'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
+// import { Sidebar } from '@/Components/Sidebar/Sidebar'
 
 function MainCommon() {
   const location = useLocation()
@@ -28,7 +29,7 @@ function MainCommon() {
         <HeaderCBGV />
       )}
 
-      <main className="mt-[140px] mb-[50px] max-w-7xl mx-auto">
+      <main className="px-5 mt-[140px] mb-[50px] max-w-7xl mx-auto gap-10">
         <RouterCore />
       </main>
       {pathname === '/' || pathname === '/dangnhap' ? null : <Footer />}

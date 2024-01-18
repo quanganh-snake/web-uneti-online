@@ -11,9 +11,10 @@ export const SidebarItem = ({ item, onClick, modelValue }) => {
   const handleSidebarItemClick = (e) => {
     e.stopPropagation()
 
+    onClick(item)
     if (item.children?.length) {
       setIsOpen((prev) => !prev)
-    } else onClick(item)
+    }
   }
 
   return (
@@ -22,7 +23,7 @@ export const SidebarItem = ({ item, onClick, modelValue }) => {
         onClick={handleSidebarItemClick}
         className={transformCls([
           bem.e('item'),
-          bem.is('active', modelValue == item.name),
+          bem.is('active', modelValue == item.name && !item.children?.length),
           bem.is('open', isOpen),
           bem.is('group', item.children?.length),
         ])}
@@ -88,7 +89,10 @@ export const SidebarItem = ({ item, onClick, modelValue }) => {
             {item.children.map((e, index) => (
               <SidebarItem
                 key={index}
-                item={e}
+                item={{
+                  ...e,
+                  name: `${item.name}${e.name}`,
+                }}
                 onClick={onClick}
                 modelValue={modelValue}
               />

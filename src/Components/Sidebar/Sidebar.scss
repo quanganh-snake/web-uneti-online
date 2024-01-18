@@ -12,6 +12,7 @@
   min-width: 250px;
   height: max-content;
   background-color: #fff;
+  color: map-get($map: $appColor, $key: 'text');
   padding: 18px;
   border-radius: 26px;
   box-shadow: rgba(0, 0, 0, 0.04) 0px 20px 30px -25px;
@@ -24,6 +25,7 @@
   @include e(group) {
     padding-left: 10px;
     height: 0;
+    transition: all 0.2s ease;
     overflow: hidden;
   }
 

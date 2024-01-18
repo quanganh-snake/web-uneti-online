@@ -11,19 +11,19 @@ export default function OnLuyen() {
           <Sidebar
             items={[
               {
-                name: 'ketquahoctap',
+                name: '/hoctap/ketquahoctap',
                 label: 'Kết quả học tập',
               },
               {
-                name: 'onluyen',
+                name: '/hoctap/onluyen',
                 label: 'Ôn luyện',
                 children: [
                   {
-                    name: 'ontap',
+                    name: '/ontap',
                     label: 'Ôn tập',
                   },
                   {
-                    name: 'thithu',
+                    name: '/thithu',
                     label: 'Thi thử',
                   },
                 ],
