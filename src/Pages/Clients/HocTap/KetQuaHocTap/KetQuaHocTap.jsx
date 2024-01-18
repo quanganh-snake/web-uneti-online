@@ -259,7 +259,7 @@ export default function KetQuaHocTap() {
                             {
                               listDiemTrungBinh.filter(
                                 (dtb) => dtb.TC_SV_KetQuaHocTap_TenDot === hk,
-                              )[0].TC_SV_KetQuaHocTap_DiemTrungBinhHocKy
+                              )[0]?.TC_SV_KetQuaHocTap_DiemTrungBinhHocKy
                             }
                           </td>
                           <td
@@ -270,7 +270,7 @@ export default function KetQuaHocTap() {
                             {
                               listDiemTrungBinh.filter(
                                 (dtb) => dtb.TC_SV_KetQuaHocTap_TenDot === hk,
-                              )[0].TC_SV_KetQuaHocTap_DiemTrungBinhHocKy_He4
+                              )[0]?.TC_SV_KetQuaHocTap_DiemTrungBinhHocKy_He4
                             }
                           </td>
                           <td
@@ -287,7 +287,7 @@ export default function KetQuaHocTap() {
                             {
                               listDiemTrungBinh.filter(
                                 (dtb) => dtb.TC_SV_KetQuaHocTap_TenDot === hk,
-                              )[0].TC_SV_KetQuaHocTap_DiemTrungBinhTichLuy
+                              )[0]?.TC_SV_KetQuaHocTap_DiemTrungBinhTichLuy
                             }
                           </td>
                           <td
@@ -298,7 +298,7 @@ export default function KetQuaHocTap() {
                             {
                               listDiemTrungBinh.filter(
                                 (dtb) => dtb.TC_SV_KetQuaHocTap_TenDot === hk,
-                              )[0].TC_SV_KetQuaHocTap_DiemTrungBinhTichLuy_He4
+                              )[0]?.TC_SV_KetQuaHocTap_DiemTrungBinhTichLuy_He4
                             }
                           </td>
                           <td
@@ -315,7 +315,7 @@ export default function KetQuaHocTap() {
                             {
                               listDiemTrungBinh.filter(
                                 (dtb) => dtb.TC_SV_KetQuaHocTap_TenDot === hk,
-                              )[0].TC_SV_KetQuaHocTap_TongTinChi_DangKy
+                              )[0]?.TC_SV_KetQuaHocTap_TongTinChi_DangKy
                             }
                           </td>
                           <td
@@ -326,7 +326,7 @@ export default function KetQuaHocTap() {
                             {
                               listDiemTrungBinh.filter(
                                 (dtb) => dtb.TC_SV_KetQuaHocTap_TenDot === hk,
-                              )[0].TC_SV_KetQuaHocTap_TongTinChi_TichLuy
+                              )[0]?.TC_SV_KetQuaHocTap_TongTinChi_TichLuy
                             }
                           </td>
                           <td
@@ -343,7 +343,7 @@ export default function KetQuaHocTap() {
                             {
                               listDiemTrungBinh.filter(
                                 (dtb) => dtb.TC_SV_KetQuaHocTap_TenDot === hk,
-                              )[0].TC_SV_KetQuaHocTap_TongTinChi_No
+                              )[0]?.TC_SV_KetQuaHocTap_TongTinChi_No
                             }
                           </td>
                           <td
@@ -354,7 +354,7 @@ export default function KetQuaHocTap() {
                             {
                               listDiemTrungBinh.filter(
                                 (dtb) => dtb.TC_SV_KetQuaHocTap_TenDot === hk,
-                              )[0].TC_SV_KetQuaHocTap_XepLoaiHocLuc_TichLuy
+                              )[0]?.TC_SV_KetQuaHocTap_XepLoaiHocLuc_TichLuy
                             }
                           </td>
                           <td
