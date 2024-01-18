@@ -17,6 +17,8 @@ function EmailLMSView(props) {
     setLyDo,
     listChiTietDeNghi,
     handleSubmitData,
+    soDienThoai,
+    setSoDienThoai,
   } = props
 
   return (
@@ -34,7 +36,6 @@ function EmailLMSView(props) {
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10 w-[200px]">Đề nghị (*)</span>
               <select
-                defaultValue={listDeNghi[0]}
                 value={deNghi}
                 onChange={(e) => setDeNghi(e.target.value)}
                 className="flex-1 px-2 py-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
@@ -70,10 +71,20 @@ function EmailLMSView(props) {
                   Email cá nhân _ Ví dụ: @gmail.com (*)
                 </span>
                 <input
-                  required
                   value={emailCaNhan}
                   onChange={(e) => setEmailCaNhan(e.target.value)}
                   type="email"
+                  className="flex-1 px-2 py-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
+                />
+              </div>
+            )}
+            {deNghi === 'Tài khoản Email UNETI' && chiTietDeNghi === '7' && (
+              <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+                <span className="block pr-10 w-[200px]">Số điện thoại</span>
+                <input
+                  value={soDienThoai}
+                  onChange={(e) => setSoDienThoai(e.target.value)}
+                  type="phone"
                   className="flex-1 px-2 py-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
                 />
               </div>
@@ -110,6 +121,8 @@ EmailLMSView.propTypes = {
   listDeNghi: PropTypes.array,
   listChiTietDeNghi: PropTypes.array,
   handleSubmitData: PropTypes.func,
+  soDienThoai: PropTypes.string,
+  setSoDienThoai: PropTypes.func,
 }
 
 export default EmailLMSView
