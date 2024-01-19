@@ -22,7 +22,7 @@ function HeaderCBGV() {
   const refreshToken = state?.auth?.login?.currentToken?.refreshToken
   const handleLogout = () => {
     localStorage.removeItem('persist:root')
-    logOut(role, dispatch, navigate, refreshToken)
+    logOut(dataCBGV.Role, dispatch, navigate, refreshToken)
     persistor.purge()
   }
 

@@ -1,6 +1,6 @@
 @use 'sass:map';
 
-@include b(htsdpm-sidebar) {
+@include b(sidebar) {
   position: fixed;
   top: 180px;
   left: 20px;
@@ -8,34 +8,55 @@
   transform: translateX(calc(-100% - 20px));
 
   transition: all 0.2s linear;
-  width: 280px;
-  min-width: 280px;
+  width: 250px;
+  min-width: 250px;
   height: max-content;
   background-color: #fff;
+  color: map-get($map: $appColor, $key: 'text');
   padding: 18px;
   border-radius: 26px;
-  display: flex;
-  gap: 10px;
-  flex-direction: column;
   box-shadow: rgba(0, 0, 0, 0.04) 0px 20px 30px -25px;
+  user-select: none;
 
   @include when(active) {
     transform: translateX(0);
   }
-  @include e(item) {
-    padding: 8px 10px;
-    border-radius: 8px;
-    transition: all 0.25 ease;
-    cursor: pointer;
 
-    &:hover {
-      color: $color-primary;
-      background-color: rgba($color-primary, 0.04);
+  @include e(group) {
+    padding-left: 10px;
+    height: 0;
+    transition: all 0.2s ease;
+    overflow: hidden;
+  }
+
+  @include e(item) {
+    transition: all 0.25s ease;
+    cursor: pointer;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    border-radius: 8px;
+
+    @include m(label) {
+      padding: 8px 10px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+
+      &:hover {
+        color: $color-primary;
+        background-color: rgba($color-primary, 0.04);
+      }
     }
 
     @include when(active) {
       color: $color-primary;
       background-color: rgba($color-primary, 0.04);
+    }
+
+    @include when(open) {
+      @include e(group) {
+        height: max-content;
+      }
     }
   }
 
@@ -51,7 +72,7 @@
 }
 
 @include res(md) {
-  @include b(htsdpm-sidebar) {
+  @include b(sidebar) {
     position: static;
 
     transform: translateX(0);

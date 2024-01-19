@@ -13,7 +13,7 @@ export const Sidebar = ({
   showSidebar,
   setShowSidebar,
 }) => {
-  const bem = useBem('sidebar')
+  const bem = useBem('htsdpm-sidebar')
 
   const [categories, setCategories] = useState([])
 

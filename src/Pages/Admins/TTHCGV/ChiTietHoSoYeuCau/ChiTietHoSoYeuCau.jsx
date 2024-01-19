@@ -39,7 +39,10 @@ import {
 import Loading from './../../../../Components/Loading/Loading'
 import { DebounceInput } from 'react-debounce-input'
 import ReactPaginate from 'react-paginate'
-import { handlePreviewFileBase64 } from '../../../../Services/Utils/fileUtils'
+import {
+  handleOpenFileBase64,
+  handlePreviewFileBase64,
+} from '../../../../Services/Utils/fileUtils'
 import { BiChevronDown } from 'react-icons/bi'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { getListNoiTraKetQua } from './../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
@@ -63,6 +66,7 @@ function ChiTietHoSoYeuCau() {
   const [loading, setLoading] = useState(true)
   const [searchNoiTraKetQua, setSearchNoiTraKetQua] = useState('')
   const [openSelectNoiTraKetQua, setOpenSelectNoiTraKetQua] = useState(false)
+  const [linkFileTraKetQuaOnline, setLinkFileTraKetQuaOnline] = useState('')
 
   const navigate = useNavigate()
 
@@ -279,62 +283,73 @@ function ChiTietHoSoYeuCau() {
         .format('DD/MM/YYYY HH:mm')
         .toString()
 
+      let contentReply = ''
       // Hình thức trả: Email
       if (hinhThucTra == '1') {
         Swal.fire({
-          title: 'Hãy chèn link file đính kèm',
-          input: 'text',
-          inputAttributes: {
-            autocapitalize: 'off',
-            require: true,
-          },
+          icon: 'question',
+          title: 'Bạn có chắc chắn muốn cập nhật hồ sơ?',
+          text: 'Sau khi cập nhật, các nội dung thay đổi sẽ tự động gửi email thông báo đến người gửi!',
+          showConfirmButton: true,
           showCancelButton: true,
-          confirmButtonText: 'Lưu cập nhật',
+          confirmButtonText: 'Đồng ý',
           cancelButtonText: 'Hủy',
-          showLoaderOnConfirm: true,
-          allowOutsideClick: () => !Swal.isLoading(),
         }).then(async (result) => {
           if (result.isConfirmed) {
-            if (
-              compareStrings(
-                newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
-                dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
-              ) == true
-            ) {
+            const resUpdateYeuCau = await putHoSoThuTucGuiYeuCauById({
+              ...newDataUpdate,
+            })
+
+            const patternLink = /^(https?|ftp):\/\/[^\s\/$.?#].[^\s]*$/gm
+            let checkLinkFileTraKetQuaOnline
+            if (linkFileTraKetQuaOnline !== '') {
+              checkLinkFileTraKetQuaOnline = patternLink.test(
+                linkFileTraKetQuaOnline,
+              )
+            }
+
+            if (checkLinkFileTraKetQuaOnline == false) {
               Swal.fire({
                 icon: 'error',
-                title:
-                  'Vui lòng chỉnh sửa, thay đổi nội dung cập nhật yêu cầu để thông báo lại cho người gửi!',
+                title: 'Vui lòng nhập đúng đường link của tệp đính kèm!',
               })
               return
             }
-            // return;
-            const resUpdateYeuCau = await putHoSoThuTucGuiYeuCauById({
-              ...newDataUpdate,
-              MC_TTHC_GV_GuiYeuCau_NgayHenTra: ngayHenTra
-                ? moment(ngayHenTra).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
-                : null,
-              MC_TTHC_GV_GuiYeuCau_NgayGiaoTra: ngayGiaoTra
-                ? moment(ngayGiaoTra).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
-                : null,
-              MC_TTHC_GV_GuiYeuCau_NoiTraKetQua: '',
-            })
+
+            if (newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu != '') {
+              contentReply = `Hồ sơ của quý Thầy/Cô đã được xử lý thành công.${
+                linkFileTraKetQuaOnline
+                  ? ' Đường dẫn file đính kèm: ' + linkFileTraKetQuaOnline
+                  : ''
+              } `
+            } else {
+              contentReply = `Hồ sơ của quý Thầy/Cô đã được xử lý thành công. ${
+                linkFileTraKetQuaOnline
+                  ? 'Đường dẫn file đính kèm: ' + linkFileTraKetQuaOnline + '.'
+                  : ''
+              } Nội dung lưu ý: ${
+                newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu
+              }`
+            }
 
             if (resUpdateYeuCau.status === 200) {
-              toast.success('Cập nhật thành công thông tin xử lý hồ sơ.')
+              Swal.fire({
+                icon: 'success',
+                title: 'Thành công',
+                text: 'Đã gửi thông báo xử lý hoàn thành hồ sơ thủ tục qua email!',
+              })
               sendEmailTTHCGiangVien(
                 TEMPLATE_SUBJECT_PENDING_EMAIL,
                 { ...dataDetailYeuCau, ...newDataUpdate },
                 dataCBGV,
                 listTPHSDeNghiYeuCau,
-                newDataUpdate.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
+                contentReply,
               ).then((res) => console.log('SEND EMAIL OK'))
               getDataHoSoYeuCauById(id)
               getDataTrinhTuThucHienYeuCauByIDGoc(id)
             }
           }
         })
-        return
       } else if (hinhThucTra == '2') {
         //Hình thức trả: trực tiếp
         if (!diaDiemTra) {
@@ -342,9 +357,10 @@ function ChiTietHoSoYeuCau() {
         } else {
           Swal.fire({
             icon: 'question',
-            title: 'Bạn chắc chắn muốn cập nhật thông tin yêu cầu này?',
+            title: 'Bạn có chắc chắn muốn cập nhật hồ sơ?',
+            text: 'Sau khi cập nhật, các nội dung thay đổi sẽ tự động gửi email thông báo đến người gửi!',
             showCancelButton: true,
-            confirmButtonText: 'Lưu cập nhật',
+            confirmButtonText: 'Đồng ý',
             cancelButtonText: 'Hủy',
             showLoaderOnConfirm: true,
             allowOutsideClick: () => !Swal.isLoading(),
@@ -362,12 +378,34 @@ function ChiTietHoSoYeuCau() {
               })
               if (resUpdateYeuCau.status === 200) {
                 toast.success('Cập nhật thông tin thành công!')
+                if (ngayHenTra && ngayGiaoTra) {
+                  contentReply = `Hồ sơ của quý Thầy/Cô đã được xử lý. Ngày hẹn trả ${moment(
+                    newDataUpdate?.MC_TTHC_GV_GuiYeuCau_NgayHenTra,
+                  ).format('DD/MM/YYYY HH:mm:ss')} - Ngày giao trả ${moment(
+                    newDataUpdate?.MC_TTHC_GV_GuiYeuCau_NgayGiaoTra,
+                  ).format('DD/MM/YYYY HH:mm:ss')}. Nội dung lưu ý: ${
+                    newDataUpdate.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu
+                  }`
+                } else if (ngayHenTra) {
+                  contentReply = `Hồ sơ của quý Thầy/Cô đã được xử lý. Ngày hẹn trả ${moment(
+                    newDataUpdate?.MC_TTHC_GV_GuiYeuCau_NgayHenTra,
+                  ).format('DD/MM/YYYY HH:mm:ss')}. Nội dung lưu ý: ${
+                    newDataUpdate.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu
+                  }`
+                } else if (ngayGiaoTra) {
+                  contentReply = `Hồ sơ của quý Thầy/Cô đã được xử lý. Ngày giao trả ${moment(
+                    newDataUpdate?.MC_TTHC_GV_GuiYeuCau_NgayGiaoTra,
+                  ).format('DD/MM/YYYY HH:mm:ss')}. Nội dung lưu ý: ${
+                    newDataUpdate.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu
+                  }`
+                }
+
                 sendEmailTTHCGiangVien(
                   TEMPLATE_SUBJECT_PENDING_EMAIL,
                   { ...dataDetailYeuCau, ...newDataUpdate },
                   dataCBGV,
                   listTPHSDeNghiYeuCau,
-                  newDataUpdate.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
+                  contentReply,
                 ).then((res) => console.log('SEND EMAIL OK'))
                 getDataHoSoYeuCauById(id)
                 getDataTrinhTuThucHienYeuCauByIDGoc(id)
@@ -420,15 +458,14 @@ function ChiTietHoSoYeuCau() {
 
   const updateStepTrangThaiHoSoYeuCau = async (dataGuiYeuCau, type) => {
     let currentTrangThaiSTT
+    let newTenTrangThaiUpdate = ''
+    let listTrangThaiHoSo
     const resultListTrangThaiByIDGoc = await getListTrangThaiTTHCGVByIDGoc(
       dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
     )
+
     if (resultListTrangThaiByIDGoc.status === 200) {
-      const listTrangThaiHoSo = await resultListTrangThaiByIDGoc.data?.body
-      console.log(
-        '🚀 ~ file: ChiTietHoSoYeuCau.jsx:343 ~ updateStepTrangThaiHoSoYeuCau ~ listTrangThaiHoSo:',
-        listTrangThaiHoSo,
-      )
+      listTrangThaiHoSo = await resultListTrangThaiByIDGoc.data?.body
       if (listTrangThaiHoSo.length > 0) {
         for (let i = 0; i < listTrangThaiHoSo?.length; i++) {
           if (
@@ -452,6 +489,16 @@ function ChiTietHoSoYeuCau() {
     if (resultTrangThaiIDUpdate.status === 200) {
       const dataTrangThaiIDUpdate = await resultTrangThaiIDUpdate.data?.body[0]
       if (dataTrangThaiIDUpdate?.MC_TTHC_GV_TrangThai_ID) {
+        for (let i = 0; i < listTrangThaiHoSo?.length; i++) {
+          if (
+            parseInt(listTrangThaiHoSo[i].MC_TTHC_GV_TrangThai_ID) ===
+            parseInt(dataTrangThaiIDUpdate?.MC_TTHC_GV_TrangThai_ID)
+          ) {
+            newTenTrangThaiUpdate =
+              listTrangThaiHoSo[i].MC_TTHC_GV_TrangThai_TenTrangThai
+          }
+        }
+
         const dataUpdateNew = {
           MC_TTHC_GV_GuiYeuCau_ID: dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_ID,
           MC_TTHC_GV_GuiYeuCau_NhanSuGui_MaNhanSu:
@@ -492,9 +539,10 @@ function ChiTietHoSoYeuCau() {
           getDataTPHSDeNghiYeuCauByIDGoc(id)
           getDataTrinhTuThucHienYeuCauByIDGoc(id)
           getDataTrangThaiYeuCauByIDGoc(id)
+
           return {
             status: 1,
-            message: 'Đã chuyển trạng thái hồ sơ thành công!',
+            message: `Đã chuyển trạng thái hồ sơ thành "${newTenTrangThaiUpdate}" thành công!`,
           }
         }
       } else {
@@ -523,11 +571,19 @@ function ChiTietHoSoYeuCau() {
       'prev',
     )
     if (dataUpdate?.status == 1) {
-      return toast.success(dataUpdate?.message)
+      Swal.fire({
+        icon: 'success',
+        title: `${dataUpdate?.message}`,
+      })
+      return
     }
 
     if (dataUpdate?.status == -1) {
-      return toast.error(dataUpdate?.message)
+      Swal.fire({
+        icon: 'error',
+        title: `${dataUpdate?.message}`,
+      })
+      return
     }
   }
 
@@ -537,11 +593,19 @@ function ChiTietHoSoYeuCau() {
       'next',
     )
     if (dataUpdate?.status == 1) {
-      return toast.success(dataUpdate?.message)
+      Swal.fire({
+        icon: 'success',
+        title: `${dataUpdate?.message}`,
+      })
+      return
     }
 
     if (dataUpdate?.status == -1) {
-      return toast.error(dataUpdate?.message)
+      Swal.fire({
+        icon: 'error',
+        title: `${dataUpdate?.message}`,
+      })
+      return
     }
   }
 
@@ -760,35 +824,15 @@ function ChiTietHoSoYeuCau() {
                       {dataDetailYeuCau?.MC_TTHC_GV_LinhVuc}
                     </span>
                   </p>
+                  <p className="col-span-1 mb-3">
+                    Trạng thái hồ sơ:{' '}
+                    <span className="font-semibold text-red-600">
+                      {dataDetailYeuCau?.MC_TTHC_GV_TrangThai_TenTrangThai}
+                    </span>
+                  </p>
                   <div className="col-span-2">
                     <div className="grid grid-cols-2 gap-2 border border-slate-400 p-2">
-                      <div className="flex flex-col gap-2">
-                        <p>Ngày hẹn trả:</p>
-                        <input
-                          type="datetime-local"
-                          className="p-2 border"
-                          name="MC_TTHC_GV_GuiYeuCau_NgayHenTra"
-                          id="MC_TTHC_GV_GuiYeuCau_NgayHenTra"
-                          value={moment(ngayHenTra).format('YYYY-MM-DDTHH:mm')}
-                          onChange={(e) => {
-                            setNgayHenTra(e.target.value)
-                          }}
-                        />
-                      </div>
-                      <div className="flex flex-col gap-2">
-                        <p>Ngày giao trả:</p>
-                        <input
-                          type="datetime-local"
-                          className="p-2 border"
-                          name="NgayGiaoTra"
-                          id="NgayGiaoTra"
-                          value={moment(ngayGiaoTra).format('YYYY-MM-DDTHH:mm')}
-                          onChange={(e) => {
-                            setNgayGiaoTra(e.target.value)
-                          }}
-                        />
-                      </div>
-                      <div className="flex flex-col gap-2">
+                      <div className="flex flex-col gap-2 col-span-1">
                         <p>Hình thức giao trả:</p>
                         <select
                           className="p-2 border focus:outline-slate-400"
@@ -801,98 +845,146 @@ function ChiTietHoSoYeuCau() {
                           <option value="2">Trả trực tiếp</option>
                         </select>
                       </div>
+                      {hinhThucTra == '1' && (
+                        <div className="flex flex-col gap-2 col-span-1">
+                          <p>Link tệp đính kèm (nếu có):</p>
+                          <input
+                            type="text"
+                            className="p-2 border focus:outline-slate-400"
+                            placeholder="Link tệp đính kèm"
+                            pattern="/^(https?|ftp):\/\/[^\s\/$.?#].[^\s]*$/gm"
+                            onChange={(e) => {
+                              setLinkFileTraKetQuaOnline(e.target.value)
+                            }}
+                          />
+                        </div>
+                      )}
                       {hinhThucTra == '2' ? (
-                        <div className="flex flex-col gap-2">
-                          <p>Địa điểm giao trả:</p>
-                          <div className="col-span-4 md:col-span-2 relative">
-                            <div
-                              id="MC_TTHC_GV_GuiYeuCau_NoiTraKetQua"
-                              onClick={() => {
-                                setOpenSelectNoiTraKetQua(
-                                  !openSelectNoiTraKetQua,
-                                )
-                              }}
-                              className="bg-white w-full p-2 flex items-center justify-between rounded-md border border-slate-300 cursor-pointer"
-                            >
-                              <span
-                                className={clsx(
-                                  diaDiemTra && 'text-gray-700 font-semibold',
-                                )}
+                        <>
+                          <div className="flex flex-col gap-2">
+                            <p>Địa điểm giao trả:</p>
+                            <div className="col-span-4 md:col-span-2 relative">
+                              <div
+                                id="MC_TTHC_GV_GuiYeuCau_NoiTraKetQua"
+                                onClick={() => {
+                                  setOpenSelectNoiTraKetQua(
+                                    !openSelectNoiTraKetQua,
+                                  )
+                                }}
+                                className="bg-white w-full p-2 flex items-center justify-between rounded-md border border-slate-300 cursor-pointer"
                               >
-                                {diaDiemTra
-                                  ? diaDiemTra
-                                  : 'Chọn nơi trả kết quả'}
-                              </span>
-                              <BiChevronDown
-                                size={20}
-                                className={clsx(
-                                  openSelectNoiTraKetQua && 'rotate-180',
-                                )}
-                              />
-                            </div>
-                            <ul
-                              className={clsx(
-                                'bg-white mt-2 border shadow-sm overflow-y-auto absolute right-0 left-0 top-full',
-                                openSelectNoiTraKetQua ? 'max-h-60' : 'hidden',
-                              )}
-                            >
-                              <div className="flex items-center px-2 sticky top-0 bg-white shadow-md">
-                                <AiOutlineSearch
-                                  size={18}
-                                  className="text-gray-700"
-                                />
-                                <input
-                                  type="text"
-                                  value={searchNoiTraKetQua}
-                                  onChange={(e) => {
-                                    setSearchNoiTraKetQua(e.target.value)
-                                  }}
-                                  placeholder="Nhập nơi trả kết quả..."
-                                  className="w-full placeholder:text-gray-500 p-2 outline-none"
+                                <span
+                                  className={clsx(
+                                    diaDiemTra && 'text-gray-700 font-semibold',
+                                  )}
+                                >
+                                  {diaDiemTra
+                                    ? diaDiemTra
+                                    : 'Chọn nơi trả kết quả'}
+                                </span>
+                                <BiChevronDown
+                                  size={20}
+                                  className={clsx(
+                                    openSelectNoiTraKetQua && 'rotate-180',
+                                  )}
                                 />
                               </div>
-                              {searchNoiTraKetQua ? (
-                                <li
-                                  className={clsx(
-                                    'font-semibold px-2 py-3 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
-                                  )}
-                                  onClick={() => {
-                                    setDiaDiemTra(searchNoiTraKetQua)
-                                    setOpenSelectNoiTraKetQua(false)
-                                    setSearchNoiTraKetQua('')
-                                  }}
-                                >
-                                  {searchNoiTraKetQua}
-                                </li>
-                              ) : null}
-                              {listNoiTraKetQua &&
-                                listNoiTraKetQua?.map((iDiaChi, index) => {
-                                  return (
-                                    <li
-                                      key={index}
-                                      className={clsx(
-                                        'p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
-                                        iDiaChi?.MC_TTHC_GV_NoiTraKetQua.toLowerCase().includes(
-                                          searchNoiTraKetQua,
-                                        )
-                                          ? 'block'
-                                          : 'hidden',
-                                      )}
-                                      onClick={() => {
-                                        setDiaDiemTra(
-                                          iDiaChi?.MC_TTHC_GV_NoiTraKetQua,
-                                        )
-                                        setOpenSelectNoiTraKetQua(false)
-                                        setSearchNoiTraKetQua('')
-                                      }}
-                                    >
-                                      {iDiaChi?.MC_TTHC_GV_NoiTraKetQua}
-                                    </li>
-                                  )
-                                })}
-                            </ul>
+                              <ul
+                                className={clsx(
+                                  'bg-white mt-2 border shadow-sm overflow-y-auto absolute right-0 left-0 top-full',
+                                  openSelectNoiTraKetQua
+                                    ? 'max-h-60'
+                                    : 'hidden',
+                                )}
+                              >
+                                <div className="flex items-center px-2 sticky top-0 bg-white shadow-md">
+                                  <AiOutlineSearch
+                                    size={18}
+                                    className="text-gray-700"
+                                  />
+                                  <input
+                                    type="text"
+                                    value={searchNoiTraKetQua}
+                                    onChange={(e) => {
+                                      setSearchNoiTraKetQua(e.target.value)
+                                    }}
+                                    placeholder="Nhập nơi trả kết quả..."
+                                    className="w-full placeholder:text-gray-500 p-2 outline-none"
+                                  />
+                                </div>
+                                {searchNoiTraKetQua ? (
+                                  <li
+                                    className={clsx(
+                                      'font-semibold px-2 py-3 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
+                                    )}
+                                    onClick={() => {
+                                      setDiaDiemTra(searchNoiTraKetQua)
+                                      setOpenSelectNoiTraKetQua(false)
+                                      setSearchNoiTraKetQua('')
+                                    }}
+                                  >
+                                    {searchNoiTraKetQua}
+                                  </li>
+                                ) : null}
+                                {listNoiTraKetQua &&
+                                  listNoiTraKetQua?.map((iDiaChi, index) => {
+                                    return (
+                                      <li
+                                        key={index}
+                                        className={clsx(
+                                          'p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
+                                          iDiaChi?.MC_TTHC_GV_NoiTraKetQua.toLowerCase().includes(
+                                            searchNoiTraKetQua,
+                                          )
+                                            ? 'block'
+                                            : 'hidden',
+                                        )}
+                                        onClick={() => {
+                                          setDiaDiemTra(
+                                            iDiaChi?.MC_TTHC_GV_NoiTraKetQua,
+                                          )
+                                          setOpenSelectNoiTraKetQua(false)
+                                          setSearchNoiTraKetQua('')
+                                        }}
+                                      >
+                                        {iDiaChi?.MC_TTHC_GV_NoiTraKetQua}
+                                      </li>
+                                    )
+                                  })}
+                              </ul>
+                            </div>
                           </div>
-                        </div>
+                          <div className="flex flex-col gap-2">
+                            <p>Ngày hẹn trả:</p>
+                            <input
+                              type="datetime-local"
+                              className="p-2 border"
+                              name="MC_TTHC_GV_GuiYeuCau_NgayHenTra"
+                              id="MC_TTHC_GV_GuiYeuCau_NgayHenTra"
+                              value={moment(ngayHenTra).format(
+                                'YYYY-MM-DDTHH:mm',
+                              )}
+                              onChange={(e) => {
+                                setNgayHenTra(e.target.value)
+                              }}
+                            />
+                          </div>
+                          <div className="flex flex-col gap-2">
+                            <p>Ngày giao trả:</p>
+                            <input
+                              type="datetime-local"
+                              className="p-2 border"
+                              name="NgayGiaoTra"
+                              id="NgayGiaoTra"
+                              value={moment(ngayGiaoTra).format(
+                                'YYYY-MM-DDTHH:mm',
+                              )}
+                              onChange={(e) => {
+                                setNgayGiaoTra(e.target.value)
+                              }}
+                            />
+                          </div>
+                        </>
                       ) : null}
 
                       <div className="flex flex-col gap-2 col-span-2">
@@ -966,6 +1058,10 @@ function ChiTietHoSoYeuCau() {
                                           ?.MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_DataFile
                                           ?.data,
                                       )
+                                    console.log(
+                                      '🚀 ~ ChiTietHoSoYeuCau ~ base64StringWithoutPrefix:',
+                                      base64StringWithoutPrefix,
+                                    )
                                     handlePreviewFileBase64(
                                       iTPHSYeuCau?.MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_TenFile,
                                       base64StringWithoutPrefix,
@@ -1014,12 +1110,6 @@ function ChiTietHoSoYeuCau() {
                     Quá trình xử lý hồ sơ
                   </button>
                 </div>
-                <h4 className="font-semibold my-4">
-                  Trạng thái hồ sơ yêu cầu hiện tại:{' '}
-                  <span className="text-red-600 uppercase">
-                    {dataDetailYeuCau.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu}
-                  </span>
-                </h4>
                 {showXuLyHoSo ? (
                   <div className="flex flex-row items-center gap-4">
                     <button

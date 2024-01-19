@@ -90,7 +90,10 @@ export const handlePreviewFileBase64 = async (
     } else if (fileName.endsWith('.gif')) {
       prefixImage = 'image/gif'
     }
-    createBlobAndOpen(`data:${prefixImage};base64,${base64StringWithoutPrefix}`)
+    createBlobAndOpen(
+      // `data:${prefixImage};base64,${base64StringWithoutPrefix}`,
+      `${base64StringWithoutPrefix}`,
+    )
   } else if (fileName.endsWith('.docx')) {
     createBlobAndOpen(
       base64StringWithoutPrefix,

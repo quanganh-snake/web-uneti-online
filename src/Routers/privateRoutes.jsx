@@ -65,14 +65,21 @@ import HoTroSuDungPhanMem from '@/Pages/Clients/HoTroSuDungPhanMem/HoTroSuDungPh
 // page theo dõi đề nghị SV
 import TheoDoiDeNghi from '@/Pages/Clients/TheoDoiDeNghi/TheoDoiDeNghi.jsx'
 import TheoDoiDeNghiChiTiet from '@/Pages/Clients/TheoDoiDeNghi/TheoDoiDeNghiChiTiet/TheoDoiDeNghiChiTiet.jsx'
+import RoleViewActionMiddleware from '@/Middlewares/RoleViewActionMiddleware'
 
 // Page học tập
 import HomeHocTap from '@/Pages/Clients/HocTap/index.jsx'
 import HocTapKetQuaHocTap from '@/Pages/Clients/HocTap/KetQuaHocTap/KetQuaHocTap.jsx'
-import HocTapOnTap from '@/Pages/Clients/HocTap/OnTap/OnTap.jsx'
+import HocTapOnLuyen from '@/Pages/Clients/HocTap/OnLuyen/OnLuyen.jsx'
+import HocTapOnTap from '@/Pages/Clients/HocTap/OnLuyen/OnTap/OnTap.jsx'
+import HocTapThiThu from '@/Pages/Clients/HocTap/OnLuyen/ThiThu/ThiThu.jsx'
 import KetQuaHocTapChiTiet from '@/Pages/Clients/HocTap/KetQuaHocTap/KetQuaHocTapChiTiet/KetQuaHocTapChiTiet'
 
 const ROLES = ['GV', 'SV']
+export const ROLE_VIEW_ACTION_TTHCGV = {
+  QT_TTHCGV: '15',
+  CBNV_TTHCGV: '16',
+}
 
 export const privateRoutes = (
   <>
@@ -84,7 +91,14 @@ export const privateRoutes = (
       <Route element={<RoleMiddleware allowedRoles={['GV']} />}>
         <Route path="admin">
           <Route index element={<HomeAdmin />} />
-          <Route path="canbonghiepvu">
+          <Route
+            path="canbonghiepvu"
+            element={
+              <RoleViewActionMiddleware
+                allowedRoleViewAction={[ROLE_VIEW_ACTION_TTHCGV.CBNV_TTHCGV]}
+              />
+            }
+          >
             <Route index element={<CanBoNghiepVu />} />
             <Route path="hosoxuly" element={<CanBoNghiepVu />} />
             <Route
@@ -92,7 +106,14 @@ export const privateRoutes = (
               element={<ChiTietHoSoYeuCau />}
             />
           </Route>
-          <Route path="quantriTTHCGV">
+          <Route
+            path="quantriTTHCGV"
+            element={
+              <RoleViewActionMiddleware
+                allowedRoleViewAction={[ROLE_VIEW_ACTION_TTHCGV.QT_TTHCGV]}
+              />
+            }
+          >
             <Route index element={<DanhSachHoSo />} />
             <Route path="hosothutuc/xem/tatca" element={<DanhSachHoSo />} />
             <Route path="hosothutuc/them" element={<AdminTTHCGV />} />
@@ -191,7 +212,12 @@ export const privateRoutes = (
             path="ketquahoctap/ketquahoctapchitiet/:id?"
             element={<KetQuaHocTapChiTiet />}
           />
-          <Route path="ontap" element={<HocTapOnTap />} />
+          <Route path="onluyen">
+            <Route index element={<HocTapOnLuyen />} />
+
+            <Route path="ontap" element={<HocTapOnTap />} />
+            <Route path="thithu" element={<HocTapThiThu />} />
+          </Route>
         </Route>
       </Route>
 

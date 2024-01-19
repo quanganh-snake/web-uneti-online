@@ -1,8 +1,8 @@
+import dayjs from 'dayjs'
 import { useSelector } from 'react-redux'
 
 export const DataCanBoGV = () => {
   const teacher = useSelector((state) => state.user?.currentUser)
-  // console.log("🚀 ~ file: dataCanBoGV.js:5 ~ DataCanBoGV ~ teacher:", teacher)
   const dataToken = useSelector((state) => state.auth?.login?.currentToken)
 
   const {
@@ -54,42 +54,22 @@ export const DataCanBoGV = () => {
     MaSoThue,
     LoaiTaiKhoan,
     Role,
+    HT_GROUPUSER_ID,
   } = teacher ?? ''
-  let formatDate = NgayCapCMND
-    ? NgayCapCMND?.slice(8, 10) +
-      '/' +
-      NgayCapCMND?.slice(5, 7) +
-      '/' +
-      NgayCapCMND?.slice(0, 4)
-    : ''
-  let formatDateNgaySinh = NgaySinh
-    ? NgaySinh?.slice(8, 10) +
-      '/' +
-      NgaySinh?.slice(5, 7) +
-      '/' +
-      NgaySinh?.slice(0, 4)
-    : ''
-  let formatDateVaoDang = NgaySinh
-    ? DangVienNgayVao?.slice(8, 10) +
-      '/' +
-      DangVienNgayVao?.slice(5, 7) +
-      '/' +
-      DangVienNgayVao?.slice(0, 4)
-    : ''
   return {
     IDNhanSu,
     MaNhanSu,
     SoThuTu,
     HoDem,
     Ten,
-    NgaySinh,
+    NgaySinh: dayjs(NgaySinh).format('DD/MM/YYYY'),
     NoiSinh,
     GioiTinh,
     NguyenQuan,
     HoKhau,
     NoiOHienTai,
     SoCMND,
-    NgayCapCMND,
+    NgayCapCMND: dayjs(NgayCapCMND).format('DD/MM/YYYY'),
     NoiCapCMND,
     SoDienThoai,
     SoDiDong,
@@ -100,9 +80,6 @@ export const DataCanBoGV = () => {
     DanToc,
     TonGiao,
     HienTaiDonVi,
-    formatDate,
-    formatDateNgaySinh,
-    formatDateVaoDang,
     HienTaiChucVu,
     HienTaiPhongBan,
     HienTaiChucVuTuNgay,
@@ -122,12 +99,13 @@ export const DataCanBoGV = () => {
     TrinhDoChinhTri,
     TrinhDoQuanLyNhaNuoc,
     TrinhDoQuanLyGiaoDuc,
-    DangVienNgayVao,
+    DangVienNgayVao: dayjs(DangVienNgayVao).format('DD/MM/YYYY'),
     DangVienChinhThuc,
     DangVienChucVu,
     MaSoThue,
     LoaiTaiKhoan,
     Role,
     dataToken,
+    HT_GROUPUSER_ID,
   }
 }

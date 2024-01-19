@@ -5,7 +5,7 @@ import ModuleItem from '@/Components/ModuleItem/ModuleItem.jsx'
 function HomeHocTap() {
   return (
     <>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 px-4">
+      <div className="flex flex-col md:flex-row px-4 gap-7">
         {homeHocTap.map((item, index) => {
           return (
             <React.Fragment key={index}>

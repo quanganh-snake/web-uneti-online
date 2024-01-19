@@ -1059,17 +1059,32 @@ function ThongTinChiTietHoSo() {
                                   <div className="">
                                     <p className="font-semibold ">
                                       Xem mẫu hồ sơ/hướng dẫn (trước đấy):{' '}
-                                      <Link
+                                      <span
                                         to={
                                           iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_TenFile
                                         }
                                         target="_blank"
                                         className="text-[#336699] cursor-pointer hover:opacity-70"
+                                        onClick={() => {
+                                          const dataFileBase64WithoutPrefix =
+                                            convertBufferToBase64(
+                                              iThanhPhan
+                                                .MC_TTHC_GV_ThanhPhanHoSo_DataFile
+                                                ?.data,
+                                            )
+                                          console.log(
+                                            dataFileBase64WithoutPrefix,
+                                          )
+                                          handlePreviewFileBase64(
+                                            iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_TenFile,
+                                            dataFileBase64WithoutPrefix,
+                                          )
+                                        }}
                                       >
                                         {
                                           iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo
                                         }
-                                      </Link>
+                                      </span>
                                     </p>
                                     {editValueRow?.MC_TTHC_GV_ThanhPhanHoSo_DataFile ? (
                                       <p className="border p-1 flex items-center justify-between gap-2 my-2">
@@ -1452,7 +1467,9 @@ function ThongTinChiTietHoSo() {
                                       <DebounceInput
                                         element={'textarea'}
                                         className="block w-full max-h-full border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
-                                        style={{ minHeight: '200px' }}
+                                        style={{
+                                          minHeight: '200px',
+                                        }}
                                         minLength={2}
                                         debounceTimeout={300}
                                         value={
@@ -1550,7 +1567,9 @@ function ThongTinChiTietHoSo() {
                                       <DebounceInput
                                         element={'textarea'}
                                         className="block w-full border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
-                                        style={{ minHeight: '200px' }}
+                                        style={{
+                                          minHeight: '200px',
+                                        }}
                                         minLength={2}
                                         debounceTimeout={300}
                                         value={

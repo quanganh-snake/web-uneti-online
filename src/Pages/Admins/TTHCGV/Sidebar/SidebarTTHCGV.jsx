@@ -8,10 +8,14 @@ import { AiOutlineFileSearch } from 'react-icons/ai'
 import { FaFileSignature } from 'react-icons/fa6'
 
 import clsx from 'clsx'
+import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
+import { ROLE_VIEW_ACTION_TTHCGV } from '@/Routers/privateRoutes'
 
 const PATH_TTHCGV = '/admin/quantriTTHCGV/hosothutuc'
 
 function SidebarTTHCGV() {
+  const dataCBNV = DataCanBoGV()
+
   const [openMenuQuanTri, setOpenMenuQuanTri] = useState(true)
   const handleOpenMenuQuanTri = () => {
     setOpenMenuQuanTri(!openMenuQuanTri)
@@ -40,13 +44,22 @@ function SidebarTTHCGV() {
         )}
       </div>
       <div className={clsx(openMenuQuanTri ? '' : 'hidden')}>
-        <div className="mb-4">
+        <div
+          className={clsx(
+            'mb-4',
+            dataCBNV.HT_GROUPUSER_ID.includes(ROLE_VIEW_ACTION_TTHCGV.QT_TTHCGV)
+              ? ''
+              : 'hidden',
+          )}
+        >
           <h4 className="text-md font-bold uppercase mb-4">Quy trình/Hồ sơ</h4>
           <ul>
             <li>
               <Link
                 to={`${PATH_TTHCGV}/them`}
-                className="flex flex-row items-center gap-2 mb-4 bg-slate-200 p-1 rounded-md hover:bg-slate-500 hover:text-white"
+                className={clsx(
+                  'flex flex-row items-center gap-2 mb-4 bg-slate-200 p-1 rounded-md hover:bg-slate-500 hover:text-white',
+                )}
               >
                 <MdAddCircle size={24} />
                 <span>Thêm quy trình hồ sơ</span>

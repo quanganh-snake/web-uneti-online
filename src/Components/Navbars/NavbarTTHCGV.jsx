@@ -2,9 +2,22 @@ import React, { useState } from 'react'
 import { homeTTHCGV } from '../../Services/Static/dataStatic.js'
 import { Link } from 'react-router-dom'
 import clsx from 'clsx'
+import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV.js'
+import { ROLE_VIEW_ACTION_TTHCGV } from '@/Routers/privateRoutes.jsx'
 
 function NavbarTTHCGV() {
   const [activeIndex, setActiveIndex] = useState(0)
+  const dataCBGV = DataCanBoGV()
+  const { HT_GROUPUSER_ID } = dataCBGV
+
+  let roleViewAction
+  if (HT_GROUPUSER_ID?.includes(ROLE_VIEW_ACTION_TTHCGV.QT_TTHCGV)) {
+    roleViewAction = 'Admin'
+  } else if (HT_GROUPUSER_ID?.includes(ROLE_VIEW_ACTION_TTHCGV.CBNV_TTHCGV)) {
+    roleViewAction = 'CBNV'
+  } else {
+    roleViewAction = null
+  }
 
   return (
     <div
@@ -31,6 +44,7 @@ function NavbarTTHCGV() {
                     isActive
                       ? 'bg-sky-800 text-white'
                       : 'bg-transparent text-black',
+                    module?.roleActive.includes(roleViewAction) ? '' : 'hidden',
                   )}
                   aria-current="page"
                   onClick={handleActive}

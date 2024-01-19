@@ -115,7 +115,8 @@ function SoanHoSo() {
     }
 
     if (
-      !isValidEmail(newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email)
+      isValidEmail(newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email) ==
+      false
     ) {
       Swal.fire({
         icon: 'error',

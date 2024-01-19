@@ -1,10 +1,11 @@
 import { apiSendEmailUNETI } from '../../Apis/Emails/apiEmail'
 
 export const emailRegexCheckByGroup =
-  /^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|([a-zA-Z0-9]+[\w-]+\.)+[a-zA-Z]{1}[a-zA-Z0-9-]{1,23})$/gm
+  /^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|([a-zA-Z0-9]+[\w-]+\.)+[a-zA-Z]{1}[a-zA-Z0-9-]{1,23})$/
 
 export const isValidEmail = (email = '') => {
-  return emailRegexCheckByGroup.test(email)
+  const checkEmail = emailRegexCheckByGroup.test(email)
+  return checkEmail
 }
 
 // CONTENT SEND EMAIL
@@ -32,6 +33,8 @@ export const sendEmailTTHCGiangVien = async (
   for (let i = 0; i < listThanhPhanHoSo.length; i++) {
     listThanhPhanHoSoHtml += `<p>${listThanhPhanHoSo[i]?.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo}</p>`
   }
+
+  let subjectEmail = ''
 
   if (action == TEMPLATE_SUBJECT_RECEIVED_EMAIL) {
     subjectEmail = `Thông báo trả lời tiếp nhận đề nghị ${dataUserSuggest?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`

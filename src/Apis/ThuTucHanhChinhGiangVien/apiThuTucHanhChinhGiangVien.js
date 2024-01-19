@@ -152,6 +152,18 @@ export const getAllHoSoGuiYeuCau = (dieuKienLoc = 0) => {
   })
 }
 
+export const getAllHoSoGuiYeuCauByNhanSuXuLy = (
+  dieuKienLoc = 0,
+  maNhanSu = '',
+) => {
+  return http.get('SP_MC_TTHC_GV_TiepNhan/GuiYeuCau_Load_DuLieu_ByMaNhanSu', {
+    params: {
+      DieuKienLoc: dieuKienLoc,
+      MaNhanSu: maNhanSu,
+    },
+  })
+}
+
 // GET: Danh sách thành phần hồ sơ - hồ sơ đã gửi
 export const getAllThanhPhanHoSoGuiYeuCau = () => {
   return http.get('SP_MC_TTHC_GV_ThanhPhanHoSoTiepNhan/GuiYeuCau_Load')

@@ -1,7 +1,13 @@
-import { useState } from 'react'
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
+import React, { useState } from 'react'
+import {
+  AiOutlineEye,
+  AiOutlineEyeInvisible,
+  AiOutlineGlobal,
+  AiOutlineYoutube,
+} from 'react-icons/ai'
+import { FaSquareFacebook } from 'react-icons/fa6'
 import { toast } from 'react-toastify'
-
+import logoUneti from '@/assets/Images/LOGO_UNETI.ico'
 import {
   tokenGVLogin,
   tokenSVLogin,
@@ -9,7 +15,7 @@ import {
   userSVLogin,
 } from '@/Apis/apiLogin.js'
 import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Loading from '@/Components/Loading/Loading'
 
 function Login() {
@@ -233,6 +239,9 @@ function Login() {
         </div>
       ) : (
         <div className="w-[600px] p-10 bg-white rounded-xl">
+          <div className="login-brand flex justify-center mb-6">
+            <img src={logoUneti} className="w-32" alt="" />
+          </div>
           <h3 className="font-bold uppercase text-3xl text-sky-700 mb-10 text-center">
             Đăng nhập hệ thống UNETI
           </h3>
@@ -283,6 +292,25 @@ function Login() {
               Đăng nhập
             </button>
           </form>
+
+          <div className="login-bottom text-center mt-6">
+            <p>Trường Đại Học Kinh Tế - Kỹ Thuật Công Nghiệp</p>
+            <p>Tel: (024)38621504 - (0228)3848706</p>
+            <div className="flex justify-center gap-4 mt-2">
+              <Link to={'https://uneti.edu.vn'} target="_blank">
+                <AiOutlineGlobal size={24} />
+              </Link>
+              <Link
+                to={'https://www.facebook.com/Daihoc.uneti'}
+                target="_blank"
+              >
+                <FaSquareFacebook size={24} />
+              </Link>
+              <Link to={'https://www.youtube.com/@nokia88e1'} target="_blank">
+                <AiOutlineYoutube size={24} />
+              </Link>
+            </div>
+          </div>
         </div>
       )}
     </section>

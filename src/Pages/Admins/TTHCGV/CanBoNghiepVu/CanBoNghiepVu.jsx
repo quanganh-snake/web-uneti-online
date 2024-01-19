@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import CanBoNghiepVuView from './CanBoNghiepVuView'
 import {
   getAllHoSoGuiYeuCau,
+  getAllHoSoGuiYeuCauByNhanSuXuLy,
   putHoSoThuTucGuiYeuCauById,
 } from '../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
 import {
@@ -42,8 +43,9 @@ function CanBoNghiepVu() {
         setListTrangThaiHoSo(resTrangThai.data?.body)
       }
 
-      const resHoSoYeuCau = await getAllHoSoGuiYeuCau(
+      const resHoSoYeuCau = await getAllHoSoGuiYeuCauByNhanSuXuLy(
         pathname.includes('hosoxuly') ? 1 : 0,
+        dataCBGV?.MaNhanSu,
       )
       if (resHoSoYeuCau.status === 200) {
         setListHoSoYeuCau(resHoSoYeuCau.data?.body)
@@ -107,6 +109,7 @@ function CanBoNghiepVu() {
                   itemYeuCau,
                   dataCBGV,
                   listTPHSDeNghiYeuCau,
+                  'Hồ sơ yêu cầu của quý Thầy/Cô đã được tiếp nhận. Vui lòng chờ kết quả xử lý theo thông báo!',
                 )
                 setLoading(false)
                 fetchData()
