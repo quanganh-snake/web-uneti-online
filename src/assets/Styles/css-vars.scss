@@ -1,0 +1,7 @@
+@use './Mixins/mixins' as *;
+@use './Mixins/var' as *;
+@use './common/var' as *;
+
+:root {
+    @include set-component-color('', $appColor);
+}

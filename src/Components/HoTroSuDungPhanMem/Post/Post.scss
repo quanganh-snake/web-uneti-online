@@ -1,40 +1,41 @@
+@use '@/assets/Styles/Mixins/mixins' as *;
+@use '@/assets/Styles/Mixins/var' as *;
+@use '@/assets/Styles/Common/var' as *;
 @use 'sass:map';
 
-@use 'Styles/Mixins/mixins' as *;
-@use 'Styles/Mixins/var' as *;
-@use 'Styles/Common/var' as *;
-
 @include b(post) {
-  border: 1px solid map.get($appColor, 'gray-4');
-  padding: 16px;
-  border-radius: 12px;
+    border: 1px solid map.get($appColor, 'gray-4');
+    padding: 16px;
+    border-radius: 12px;
 
-  @include e(title) {
-    font-size: 18px;
-    font-weight: 600;
-    padding-bottom: 14px;
-    padding-top: 10px;
-    margin-bottom: 14px;
+    @include e(title) {
+        font-size: 18px;
+        font-weight: 600;
+        padding-bottom: 14px;
+        padding-top: 10px;
+        margin-bottom: 14px;
 
-    border-bottom: 1px solid map.get($appColor, 'gray-4');
-  }
-
-  @include e(description) {
-    opacity: 0.7;
-    font-size: 14px;
-  }
-
-  @include e(button) {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1px solid map.get($appColor, gray-4);
-    border-radius: 16px;
-    margin-top: 12px;
-    transition: all 0.25s ease;
-
-    &:hover {
-      background-color: map.get($appColor, primary-lighter);
-      color: $color-white;
+        border-bottom: 1px solid map.get($appColor, 'gray-4');
     }
-  }
+
+    @include e(description) {
+        opacity: 0.7;
+        font-size: 14px;
+    }
+
+    @include e(download-button) {
+        padding: 10px 14px;
+        border: 1px solid map.get($appColor, primary-light);
+        border-radius: 16px;
+        margin-top: 12px;
+        transition: all 0.25s ease;
+        margin-left: auto;
+        display: inline-block;
+        cursor: pointer;
+
+        &:hover {
+            background-color: map.get($appColor, primary-lighter);
+            color: $color-white;
+        }
+    }
 }

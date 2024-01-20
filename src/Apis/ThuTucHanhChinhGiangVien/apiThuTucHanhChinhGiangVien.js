@@ -4,7 +4,7 @@
  * @returns
  */
 
-import http from './../../Configs/http'
+import http from '@/Configs/http'
 
 // DELETE
 export const delThuTucHanhChinhByID = (id) => {
@@ -125,10 +125,10 @@ export const getAllPhongBan = () => {
 }
 
 // GET: Danh sách nhân sự theo phòng ban
-export const getAllNhanSuByIDPhongBan = (idPhongBan) => {
+export const getAllNhanSuByTenPhongBan = (TenPhongBan) => {
     return http.get('SP_MC_TTHC_GV_TiepNhan/Load_NhanSu_R_Para', {
         params: {
-            IDPhongBan: idPhongBan,
+            TenPhongBan: TenPhongBan,
         },
     })
 }

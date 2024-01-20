@@ -112,6 +112,8 @@ function CanBoNghiepVu() {
                                     dataCBGV,
                                     listTPHSDeNghiYeuCau,
                                     'Hồ sơ yêu cầu của quý Thầy/Cô đã được tiếp nhận. Vui lòng chờ kết quả xử lý theo thông báo!',
+                                    '',
+                                    '',
                                 )
                                 setLoading(false)
                                 fetchData()

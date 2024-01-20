@@ -1,65 +1,66 @@
-@use 'Styles/Mixins/mixins' as *;
-@use 'Styles/Mixins/var' as *;
-@use 'Styles/Common/var' as *;
+@use '@/assets/Styles/Mixins/mixins' as *;
+@use '@/assets/Styles/Mixins/var' as *;
+@use '@/assets/Styles/Common/var' as *;
+@use 'sass:map';
 
 @mixin a-color {
-  color: rgba(var(--vs-text-color), 1);
-  font-weight: 600;
+    color: rgba(var(--vs-text-color), 1);
+    font-weight: 600;
 }
 
 @include b(alert) {
-  padding: 0.1rem 1rem;
-  border-left-width: 0.1rem;
-  border-left-style: solid;
-  margin: 1rem 0;
-  position: relative;
-  border-radius: 10px 15px 15px 10px !important;
+    padding: 0.1rem 1rem;
+    border-left-width: 0.1rem;
+    border-left-style: solid;
+    margin: 1rem 0;
+    position: relative;
+    border-radius: 10px 15px 15px 10px !important;
 
-  a {
-    text-decoration: underline !important;
-    font-weight: 600;
-    color: inherit !important;
-  }
-
-  p {
-    margin: 1rem 0px !important;
-    font-size: 0.8rem;
-  }
-
-  @include e(title) {
-    font-weight: 600;
-  }
-
-  @include e(content) {
-  }
-
-  @include when(warn) {
-    background-color: #ffba0017;
-    border-color: #ffba00;
-    color: #cc9500;
-
-    @include e(title) {
-      color: #b38200;
-
-      @include a-color;
-    }
-  }
-
-  @include when(tip) {
-    background-color: #46c93a0a;
-    border-color: #42b983;
-    color: #2e825c;
-  }
-
-  @include when(danger) {
-    background-color: #ff47570d;
-    border-color: #ff4757;
-    color: #ff061b;
-
-    @include e(title) {
-      color: #e40014;
+    a {
+        text-decoration: underline !important;
+        font-weight: 600;
+        color: inherit !important;
     }
 
-    @include a-color;
-  }
+    p {
+        margin: 1rem 0px !important;
+        font-size: 0.8rem;
+    }
+
+    @include e(title) {
+        font-weight: 600;
+    }
+
+    @include e(content) {
+    }
+
+    @include when(warn) {
+        background-color: #ffba0017;
+        border-color: #ffba00;
+        color: #cc9500;
+
+        @include e(title) {
+            color: #b38200;
+
+            @include a-color;
+        }
+    }
+
+    @include when(tip) {
+        background-color: #46c93a0a;
+        border-color: #42b983;
+        color: #2e825c;
+    }
+
+    @include when(danger) {
+        background-color: #ff47570d;
+        border-color: #ff4757;
+        color: #ff061b;
+
+        @include e(title) {
+            color: #e40014;
+        }
+
+        @include a-color;
+    }
 }

@@ -1,26 +1,37 @@
 // icons - images homeMain
-import icoHTTBGD from '../../assets/Icons/icoHTTBGD.png'
-import icoTTHCSV from '../../assets/Icons/icoTTHCSV.png'
-import icoHTTBSP from '../../assets/Icons/icoHTTBSP.png'
-import icoHTSDPM from '../../assets/Icons/icoHTSDPM.png'
-import icoTCTTTS from '../../assets/Icons/icoTCTTTS.png'
-import icoQLCTCV from '../../assets/Icons/icoQLCTCV.png'
+import icoHTTBGD from '@/assets/Icons/icoHTTBGD.png'
+import icoTTHCSV from '@/assets/Icons/icoTTHCSV.png'
+import icoHTTBSP from '@/assets/Icons/icoHTTBSP.png'
+import icoHTSDPM from '@/assets/Icons/icoHTSDPM.png'
+import icoTCTTTS from '@/assets/Icons/icoTCTTTS.png'
+import icoQLCTCV from '@/assets/Icons/icoQLCTCV.png'
+import icoHocTap from '@/assets/Icons/icoHocTap.png'
 
 // icons - thumbnails homeMotCua
-import icoKhaoThi from '../../assets/Icons/icoKhaoThi.png'
-import icoDaoTao from '../../assets/Icons/icoDaoTao.png'
-import icoCTSV from '../../assets/Icons/icoCTSV.png'
-import icoHanhChinh from '../../assets/Icons/icoHanhChinh.png'
+import icoKhaoThi from '@/assets/Icons/icoKhaoThi.png'
+import icoDaoTao from '@/assets/Icons/icoDaoTao.png'
+import icoCTSV from '@/assets/Icons/icoCTSV.png'
+import icoHanhChinh from '@/assets/Icons/icoHanhChinh.png'
 
-import thumbnailKhaoThi from '../../assets/Icons/icoThumbnailKhaoThi.png'
-import thumbnailDaoTao from '../../assets/Icons/icoThumbnailDaoTao.png'
-import thumbnailHanhChinh from '../../assets/Icons/icoThumbnailHanhChinh.png'
-import thumbnailCTSV from '../../assets/Icons/icoThumbnailCTSV.png'
+import thumbnailKhaoThi from '@/assets/Icons/icoThumbnailKhaoThi.png'
+import thumbnailDaoTao from '@/assets/Icons/icoThumbnailDaoTao.png'
+import thumbnailHanhChinh from '@/assets/Icons/icoThumbnailHanhChinh.png'
+import thumbnailCTSV from '@/assets/Icons/icoThumbnailCTSV.png'
 
-// icons - homeTaSan
-import icoTeamView from '../../assets/Icons/icoTeamviewer.png'
-import icoUltraView from '../../assets/Icons/icoUltraview.png'
-import icoZalo from '../../assets/Icons/icoZalo.png'
+// icons - thumbnails HTTBGD
+import iconHTTBGDBaoHong from '@/assets/Icons/icoHTTBGDBaoHong.png'
+import iconHTTBGDXuLySuCo from '@/assets/Icons/icoHTTBGDXuLySuCo.png'
+import iconHTTBGDDangKySuDungThietBi from '@/assets/Icons/icoHTTBGDDangKySuDungThietBi.png'
+import iconHTTBGDGopY from '@/assets/Icons/icoHTTBGDGopY.png'
+
+// icons - homeTaiSan
+import icoTeamView from '@/assets/Icons/icoTeamviewer.png'
+import icoUltraView from '@/assets/Icons/icoUltraview.png'
+import icoZalo from '@/assets/Icons/icoZalo.png'
+
+// icons - thumbnails Module Học Tập
+import icoKetQuaHocTapOnLuyen from '@/assets/Icons/icoKetQuaHocTapOnLuyen.png'
+import icoOnLuyenTracNghiem from '@/assets/Icons/icoOnLuyenTracNghiem.png'
 
 // data Static NguonTiepNhan
 export const NguonTiepNhan_WEB = 1
@@ -30,7 +41,7 @@ export const homeMain = [
         title: 'Hỗ trợ thiết bị giảng đường',
         desc: 'Theo dõi và báo hỏng thiết bị trong phòng học.',
         icon: icoHTTBGD,
-        path: 'https://supportgiangduong.uneti.edu.vn',
+        path: '/hotrothietbigiangduong',
         moduleActive: true,
         roleActive: ['GV'],
     },
@@ -39,6 +50,14 @@ export const homeMain = [
         desc: 'Tiếp nhận giải quyết các thủ tục hành chính cho sinh viên.',
         icon: icoTTHCSV,
         path: '/motcua',
+        moduleActive: true,
+        roleActive: ['SV'],
+    },
+    {
+        title: 'Học tập',
+        desc: 'Tra cứu kết quả học tập; Chương trình đào tạo; Ôn luyện; Dự kiến kết quả học tập.',
+        icon: icoHocTap,
+        path: '/hoctap',
         moduleActive: true,
         roleActive: ['SV'],
     },
@@ -1110,7 +1129,87 @@ export const homeMotCua = [
     },
 ]
 
-export const homeTTBGD = [{}]
+export const homeHocTap = [
+    {
+        title: 'Kết quả học tập',
+        name: 'Kết quả học tập',
+        desc: '<p>Thông tin đánh giá chi tiết kết quả của từng môn học trong mỗi học kỳ.</p>',
+        path: '/ketquahoctap',
+        thumbnail: icoKetQuaHocTapOnLuyen,
+        ico: icoKetQuaHocTapOnLuyen,
+        moduleActive: true,
+    },
+    {
+        title: 'Ôn luyện',
+        name: 'Ôn luyện',
+        desc: '<p>Ôn tập; Thi thử: Dành cho các học phần đã đăng ký.</p>',
+        path: '/onluyen',
+        thumbnail: icoOnLuyenTracNghiem,
+        ico: icoOnLuyenTracNghiem,
+        moduleActive: true,
+        childrens: [
+            {
+                title: 'Ôn tập',
+                desc: `<p>Ôn tập lý thuyết</p>`,
+                path: '/ontaplythuyet',
+                thumbnail: icoOnLuyenTracNghiem,
+                ico: icoOnLuyenTracNghiem,
+                limited: false,
+                visiable: true,
+                stt: 1,
+            },
+            {
+                title: 'Thi thử',
+                desc: `<p>Thi thử đánh giá</p>`,
+                path: '/thithu',
+                thumbnail: icoOnLuyenTracNghiem,
+                ico: icoOnLuyenTracNghiem,
+                limited: false,
+                visiable: true,
+                stt: 2,
+            },
+        ],
+    },
+]
+
+export const homeHTTBGD = [
+    {
+        title: 'Báo hỏng',
+        name: 'Báo hỏng',
+        desc: '<b>Tiếp nhận</b>: Báo hỏng các thiết bị giảng đường',
+        path: '/baohong',
+        thumbnail: iconHTTBGDBaoHong,
+        ico: icoKhaoThi,
+        moduleActive: true,
+    },
+    {
+        title: 'Xử lý sự cố',
+        name: 'Xử lý sự cố',
+        desc: '<b>Tiếp nhận</b>: Xử lý sự cố giảng đường',
+        path: '/xulysuco',
+        thumbnail: iconHTTBGDXuLySuCo,
+        ico: icoKhaoThi,
+        moduleActive: true,
+    },
+    {
+        title: 'Đăng ký sử dụng thiết bị',
+        name: 'Đăng ký sử dụng thiết bị',
+        desc: '<b>Tiếp nhận</b>: Đăng ký sử dụng thiết bị giảng đường',
+        path: '/dangkysudungthietbi',
+        thumbnail: iconHTTBGDDangKySuDungThietBi,
+        ico: icoKhaoThi,
+        moduleActive: true,
+    },
+    {
+        title: 'Góp ý',
+        name: 'Góp ý',
+        desc: '<b>Tiếp nhận</b>: Góp ý',
+        path: '/gopy',
+        thumbnail: iconHTTBGDGopY,
+        ico: icoKhaoThi,
+        moduleActive: true,
+    },
+]
 
 export const homeTaiSan = {
     listCanBoHoTro: [

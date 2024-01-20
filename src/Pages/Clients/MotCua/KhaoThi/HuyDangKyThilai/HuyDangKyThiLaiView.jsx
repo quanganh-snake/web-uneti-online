@@ -66,7 +66,6 @@ function HuyDangKyThiLaiView(props) {
                                 }}
                                 className="flex-1 md:max-w-[75%] px-2 py-1 rounded-md border border-solid border-gray-300"
                             >
-                                <option value="">Chọn lý do</option>
                                 {listLyDo.map((e, index) => (
                                     <option key={index} value={e.value}>
                                         {e.name}

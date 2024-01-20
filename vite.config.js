@@ -4,12 +4,12 @@ import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  assetsInclude: ['/src/assets/*.{ico,jpg,jpeg,gif,svg,.png}'],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src/'),
-      Styles: path.resolve(__dirname, './src/Styles/'),
+    plugins: [react()],
+    assetsInclude: ['/src/assets/*.{ico,jpg,jpeg,gif,svg,.png}'],
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, './src/'),
+            Styles: path.resolve(__dirname, './src/assets/Styles/'),
+        },
     },
-  },
 })

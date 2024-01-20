@@ -41,6 +41,7 @@ import {
 } from '../../../../../Services/Utils/stringUtils'
 import { handlePreviewFileBase64 } from '../../../../../Services/Utils/fileUtils'
 import { DebounceInput } from 'react-debounce-input'
+import { EditPhanQuyenThuTuc } from './EditPhanQuyenThuTuc/EditPhanQuyenThuTuc'
 
 function ThongTinChiTietHoSo() {
     const { id } = useParams()
@@ -52,6 +53,7 @@ function ThongTinChiTietHoSo() {
     const [showTrinhTuThucHien, setShowTrinhTuThucHien] = useState(false)
     const [showPhanQuyen, setShowPhanQuyen] = useState(false)
     const [showTrangThai, setShowTrangThai] = useState(false)
+    const [showEditPhanQuyen, setShowEditPhanQuyen] = useState(false)
 
     const [zoomView, setZoomView] = useState(false)
     const [updatetepThuTuc, setUpdatetepThuTuc] = useState(false)
@@ -530,16 +532,18 @@ function ThongTinChiTietHoSo() {
     } = detailHoSoThuTuc ?? null
     return (
         <div className="px-5 lg:px-0 grid grid-cols-12 flex-row gap-4">
-            <SidebarTTHCGV />
+            <div className="col-span-12 lg:col-span-2">
+                <SidebarTTHCGV />
+            </div>
             <div
                 className={clsx(
-                    'col-span-10 w-full p-4 rounded-xl shadow-lg bg-white',
+                    'col-span-12 lg:col-span-10 w-full p-4 rounded-xl shadow-lg bg-white',
                     zoomView ? 'absolute left-0 right-0' : '',
                 )}
             >
                 <div className="flex flex-col">
                     <div className="flex justify-between">
-                        <h3 className="font-bold text-2xl uppercase mb-6 text-[#336699] underline">
+                        <h3 className="font-bold text-md lg:text-2xl uppercase mb-6 text-[#336699] underline">
                             Chi tiết quy trình hồ sơ - thủ tục
                         </h3>
                         {zoomView ? (
@@ -567,8 +571,8 @@ function ThongTinChiTietHoSo() {
                     ) : (
                         <>
                             {/* Thông tin hồ sơ */}
-                            <div className="TTHC-GV_ThongTinHoSo mb-6">
-                                <div className="flex flex-col sm:flex-row items-center justify-between bg-gray-100 shadow-md p-2 rounded-md mb-4">
+                            <div className="TTHC-GV_ThongTinHoSo mb-4">
+                                <div className="flex flex-row items-center lg:justify-between bg-gray-100 shadow-md p-2 rounded-md mb-4">
                                     <div className="flex flex-row items-center gap-2 text-sky-700">
                                         {showThongTinHoSo ? (
                                             <FaAngleRight
@@ -591,7 +595,7 @@ function ThongTinChiTietHoSo() {
                                                 }}
                                             />
                                         )}
-                                        <h4 className="text-xl uppercase font-medium">
+                                        <h4 className="lg:text-xl uppercase font-medium">
                                             Thông tin hồ sơ
                                         </h4>
                                     </div>
@@ -779,7 +783,7 @@ function ThongTinChiTietHoSo() {
                                                     className="font-semibold"
                                                 >
                                                     Căn cứ pháp lý của Thủ tục
-                                                    hàn chính
+                                                    hành chính
                                                 </label>
                                                 <input
                                                     type="text"
@@ -1114,9 +1118,9 @@ function ThongTinChiTietHoSo() {
                             </div>
                             {/* Thành phần hồ sơ */}
                             {ThanhPhanHoSo.length ? (
-                                <div className="TTHC-GV_ThanhPhanHoSoDeNghi mb-6">
+                                <div className="TTHC-GV_ThanhPhanHoSoDeNghi mb-4">
                                     {/* header */}
-                                    <div className="flex flex-col sm:flex-row items-center justify-between bg-gray-100 shadow-md p-2 rounded-md mb-4">
+                                    <div className="flex flex-row items-center lg:justify-between bg-gray-100 shadow-md p-2 rounded-md mb-4">
                                         <div className="flex flex-row items-center gap-2 text-sky-700">
                                             {showTPHSDeNghi ? (
                                                 <FaAngleRight
@@ -1617,7 +1621,7 @@ function ThongTinChiTietHoSo() {
                             {TrinhTuThucHien.length ? (
                                 <div className="TTHC-GV_TrinhTuThucHien mb-4">
                                     {/* header */}
-                                    <div className="flex flex-col sm:flex-row items-center justify-between bg-gray-100 shadow-md p-2 rounded-md mb-4">
+                                    <div className="flex flex-row items-center lg:justify-between bg-gray-100 shadow-md p-2 rounded-md mb-4">
                                         <div className="flex flex-row items-center gap-2 text-sky-700">
                                             {showTrinhTuThucHien ? (
                                                 <FaAngleRight
@@ -1699,326 +1703,352 @@ function ThongTinChiTietHoSo() {
                                                 </thead>
                                                 <tbody>
                                                     {TrinhTuThucHien?.map(
-                                                        (iTrinhTu, index) => (
-                                                            <tr
-                                                                className="border-b"
-                                                                key={
-                                                                    iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_ID
-                                                                }
-                                                            >
-                                                                {editType ===
-                                                                    TABS.tabTrinhTuThucHien &&
-                                                                editRowIndex ===
-                                                                    index ? (
-                                                                    <>
-                                                                        <td className="border-r border-l px-2 py-1 text-center">
-                                                                            {index +
-                                                                                1}
-                                                                        </td>
-                                                                        <td className="border-r px-2 py-1 text-left">
-                                                                            <div className="">
-                                                                                <DebounceInput
-                                                                                    className="block border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
-                                                                                    minLength={
-                                                                                        2
-                                                                                    }
-                                                                                    debounceTimeout={
-                                                                                        300
-                                                                                    }
-                                                                                    value={
-                                                                                        iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_TenCongViec
-                                                                                    }
-                                                                                    name="MC_TTHC_GV_TrinhTuThucHien_TenCongViec"
-                                                                                    onChange={(
-                                                                                        e,
-                                                                                    ) => {
-                                                                                        handleChangeValue(
-                                                                                            TABS.tabTrinhTuThucHien,
+                                                        (iTrinhTu, index) => {
+                                                            let listKetQuaTrinhTu =
+                                                                iTrinhTu?.MC_TTHC_GV_TrinhTuThucHien_KetQua?.split(
+                                                                    /[-+]/,
+                                                                ).filter(
+                                                                    (item) =>
+                                                                        item.trim() !==
+                                                                        '',
+                                                                )
+                                                            return (
+                                                                <tr
+                                                                    className="border-b"
+                                                                    key={
+                                                                        iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_ID
+                                                                    }
+                                                                >
+                                                                    {editType ===
+                                                                        TABS.tabTrinhTuThucHien &&
+                                                                    editRowIndex ===
+                                                                        index ? (
+                                                                        <>
+                                                                            <td className="border-r border-l px-2 py-1 text-center">
+                                                                                {index +
+                                                                                    1}
+                                                                            </td>
+                                                                            <td className="border-r px-2 py-1 text-left">
+                                                                                <div className="">
+                                                                                    <DebounceInput
+                                                                                        className="block border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
+                                                                                        minLength={
+                                                                                            2
+                                                                                        }
+                                                                                        debounceTimeout={
+                                                                                            300
+                                                                                        }
+                                                                                        value={
+                                                                                            iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_TenCongViec
+                                                                                        }
+                                                                                        name="MC_TTHC_GV_TrinhTuThucHien_TenCongViec"
+                                                                                        onChange={(
                                                                                             e,
-                                                                                        )
-                                                                                    }}
-                                                                                />
-                                                                            </div>
-                                                                        </td>
-                                                                        <td className="border-r px-2 py-1 text-left">
-                                                                            <div className="">
-                                                                                <DebounceInput
-                                                                                    element={
-                                                                                        'textarea'
-                                                                                    }
-                                                                                    className="block w-full max-h-full border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
-                                                                                    style={{
-                                                                                        minHeight:
-                                                                                            '200px',
-                                                                                    }}
-                                                                                    minLength={
-                                                                                        2
-                                                                                    }
-                                                                                    debounceTimeout={
-                                                                                        300
-                                                                                    }
-                                                                                    value={
-                                                                                        iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_CachThucThucHien
-                                                                                    }
-                                                                                    name="MC_TTHC_GV_TrinhTuThucHien_CachThucThucHien"
-                                                                                    onChange={(
-                                                                                        e,
-                                                                                    ) => {
-                                                                                        handleChangeValue(
-                                                                                            TABS.tabTrinhTuThucHien,
+                                                                                        ) => {
+                                                                                            handleChangeValue(
+                                                                                                TABS.tabTrinhTuThucHien,
+                                                                                                e,
+                                                                                            )
+                                                                                        }}
+                                                                                    />
+                                                                                </div>
+                                                                            </td>
+                                                                            <td className="border-r px-2 py-1 text-left">
+                                                                                <div className="">
+                                                                                    <DebounceInput
+                                                                                        element={
+                                                                                            'textarea'
+                                                                                        }
+                                                                                        className="block w-full max-h-full border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
+                                                                                        style={{
+                                                                                            minHeight:
+                                                                                                '200px',
+                                                                                        }}
+                                                                                        minLength={
+                                                                                            2
+                                                                                        }
+                                                                                        debounceTimeout={
+                                                                                            300
+                                                                                        }
+                                                                                        value={
+                                                                                            iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_CachThucThucHien
+                                                                                        }
+                                                                                        name="MC_TTHC_GV_TrinhTuThucHien_CachThucThucHien"
+                                                                                        onChange={(
                                                                                             e,
-                                                                                        )
-                                                                                    }}
-                                                                                />
-                                                                            </div>
-                                                                        </td>
-                                                                        <td className="border-r px-2 py-1 text-left">
-                                                                            <div className="">
-                                                                                <DebounceInput
-                                                                                    className="block border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
-                                                                                    minLength={
-                                                                                        2
-                                                                                    }
-                                                                                    debounceTimeout={
-                                                                                        300
-                                                                                    }
-                                                                                    value={
-                                                                                        iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra
-                                                                                    }
-                                                                                    name="MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra"
-                                                                                    onChange={(
-                                                                                        e,
-                                                                                    ) => {
-                                                                                        handleChangeValue(
-                                                                                            TABS.tabTrinhTuThucHien,
+                                                                                        ) => {
+                                                                                            handleChangeValue(
+                                                                                                TABS.tabTrinhTuThucHien,
+                                                                                                e,
+                                                                                            )
+                                                                                        }}
+                                                                                    />
+                                                                                </div>
+                                                                            </td>
+                                                                            <td className="border-r px-2 py-1 text-left">
+                                                                                <div className="">
+                                                                                    <DebounceInput
+                                                                                        className="block border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
+                                                                                        minLength={
+                                                                                            2
+                                                                                        }
+                                                                                        debounceTimeout={
+                                                                                            300
+                                                                                        }
+                                                                                        value={
+                                                                                            iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra
+                                                                                        }
+                                                                                        name="MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra"
+                                                                                        onChange={(
                                                                                             e,
-                                                                                        )
-                                                                                    }}
-                                                                                />
-                                                                            </div>
-                                                                        </td>
-                                                                        <td className="border-r px-2 py-1 text-left">
-                                                                            <div className="">
-                                                                                <DebounceInput
-                                                                                    className="block border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
-                                                                                    minLength={
-                                                                                        2
-                                                                                    }
-                                                                                    debounceTimeout={
-                                                                                        300
-                                                                                    }
-                                                                                    value={
-                                                                                        iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_DonViThucHien
-                                                                                    }
-                                                                                    name="MC_TTHC_GV_TrinhTuThucHien_DonViThucHien"
-                                                                                    onChange={(
-                                                                                        e,
-                                                                                    ) => {
-                                                                                        handleChangeValue(
-                                                                                            TABS.tabTrinhTuThucHien,
+                                                                                        ) => {
+                                                                                            handleChangeValue(
+                                                                                                TABS.tabTrinhTuThucHien,
+                                                                                                e,
+                                                                                            )
+                                                                                        }}
+                                                                                    />
+                                                                                </div>
+                                                                            </td>
+                                                                            <td className="border-r px-2 py-1 text-left">
+                                                                                <div className="">
+                                                                                    <DebounceInput
+                                                                                        className="block border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
+                                                                                        minLength={
+                                                                                            2
+                                                                                        }
+                                                                                        debounceTimeout={
+                                                                                            300
+                                                                                        }
+                                                                                        value={
+                                                                                            iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_DonViThucHien
+                                                                                        }
+                                                                                        name="MC_TTHC_GV_TrinhTuThucHien_DonViThucHien"
+                                                                                        onChange={(
                                                                                             e,
-                                                                                        )
-                                                                                    }}
-                                                                                />
-                                                                            </div>
-                                                                        </td>
-                                                                        <td className="border-r px-2 py-1 text-center">
-                                                                            <div className="">
-                                                                                <DebounceInput
-                                                                                    className="block border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
-                                                                                    minLength={
-                                                                                        2
-                                                                                    }
-                                                                                    debounceTimeout={
-                                                                                        300
-                                                                                    }
-                                                                                    value={
-                                                                                        iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop
-                                                                                    }
-                                                                                    name="MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop"
-                                                                                    onChange={(
-                                                                                        e,
-                                                                                    ) => {
-                                                                                        handleChangeValue(
-                                                                                            TABS.tabTrinhTuThucHien,
+                                                                                        ) => {
+                                                                                            handleChangeValue(
+                                                                                                TABS.tabTrinhTuThucHien,
+                                                                                                e,
+                                                                                            )
+                                                                                        }}
+                                                                                    />
+                                                                                </div>
+                                                                            </td>
+                                                                            <td className="border-r px-2 py-1 text-center">
+                                                                                <div className="">
+                                                                                    <DebounceInput
+                                                                                        className="block border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
+                                                                                        minLength={
+                                                                                            2
+                                                                                        }
+                                                                                        debounceTimeout={
+                                                                                            300
+                                                                                        }
+                                                                                        value={
+                                                                                            iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop
+                                                                                        }
+                                                                                        name="MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop"
+                                                                                        onChange={(
                                                                                             e,
-                                                                                        )
-                                                                                    }}
-                                                                                />
-                                                                            </div>
-                                                                        </td>
-                                                                        <td className="border-r px-2 py-1 text-center">
-                                                                            <div className="">
-                                                                                <DebounceInput
-                                                                                    type={
-                                                                                        'number'
-                                                                                    }
-                                                                                    className="block w-full border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
-                                                                                    min={
-                                                                                        0
-                                                                                    }
-                                                                                    step={
-                                                                                        0.1
-                                                                                    }
-                                                                                    value={
-                                                                                        iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay
-                                                                                    }
-                                                                                    name="MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay"
-                                                                                    onChange={(
-                                                                                        e,
-                                                                                    ) => {
-                                                                                        handleChangeValue(
-                                                                                            TABS.tabTrinhTuThucHien,
+                                                                                        ) => {
+                                                                                            handleChangeValue(
+                                                                                                TABS.tabTrinhTuThucHien,
+                                                                                                e,
+                                                                                            )
+                                                                                        }}
+                                                                                    />
+                                                                                </div>
+                                                                            </td>
+                                                                            <td className="border-r px-2 py-1 text-center">
+                                                                                <div className="">
+                                                                                    <DebounceInput
+                                                                                        type={
+                                                                                            'number'
+                                                                                        }
+                                                                                        className="block w-full border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
+                                                                                        min={
+                                                                                            0
+                                                                                        }
+                                                                                        step={
+                                                                                            0.1
+                                                                                        }
+                                                                                        value={
+                                                                                            iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay
+                                                                                        }
+                                                                                        name="MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay"
+                                                                                        onChange={(
                                                                                             e,
-                                                                                        )
-                                                                                    }}
-                                                                                />
-                                                                            </div>
-                                                                        </td>
-                                                                        <td className="border-r px-2 py-1 text-left">
-                                                                            <div className="">
-                                                                                <DebounceInput
-                                                                                    element={
-                                                                                        'textarea'
-                                                                                    }
-                                                                                    className="block w-full border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
-                                                                                    style={{
-                                                                                        minHeight:
-                                                                                            '200px',
-                                                                                    }}
-                                                                                    minLength={
-                                                                                        2
-                                                                                    }
-                                                                                    debounceTimeout={
-                                                                                        300
-                                                                                    }
-                                                                                    value={
-                                                                                        iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_KetQua
-                                                                                    }
-                                                                                    name="MC_TTHC_GV_TrinhTuThucHien_KetQua"
-                                                                                    onChange={(
-                                                                                        e,
-                                                                                    ) => {
-                                                                                        handleChangeValue(
-                                                                                            TABS.tabTrinhTuThucHien,
+                                                                                        ) => {
+                                                                                            handleChangeValue(
+                                                                                                TABS.tabTrinhTuThucHien,
+                                                                                                e,
+                                                                                            )
+                                                                                        }}
+                                                                                    />
+                                                                                </div>
+                                                                            </td>
+                                                                            <td className="border-r px-2 py-1 text-left">
+                                                                                <div className="">
+                                                                                    <DebounceInput
+                                                                                        element={
+                                                                                            'textarea'
+                                                                                        }
+                                                                                        className="block w-full border-2 border-slate-400 px-3 py-2 focus:outline-slate-400"
+                                                                                        style={{
+                                                                                            minHeight:
+                                                                                                '200px',
+                                                                                        }}
+                                                                                        minLength={
+                                                                                            2
+                                                                                        }
+                                                                                        debounceTimeout={
+                                                                                            300
+                                                                                        }
+                                                                                        value={
+                                                                                            iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_KetQua
+                                                                                        }
+                                                                                        name="MC_TTHC_GV_TrinhTuThucHien_KetQua"
+                                                                                        onChange={(
                                                                                             e,
-                                                                                        )
-                                                                                    }}
-                                                                                />
-                                                                            </div>
-                                                                        </td>
-                                                                        <td className="border-r px-2 py-1 text-center">
-                                                                            <div className="flex flex-col lg:flex-row items-center justify-center gap-2">
-                                                                                <button
-                                                                                    type="button"
-                                                                                    className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
-                                                                                    onClick={() =>
-                                                                                        handleUpdate(
-                                                                                            TABS.tabTrinhTuThucHien,
-                                                                                            editValueRow,
-                                                                                        )
-                                                                                    }
-                                                                                >
-                                                                                    Lưu
-                                                                                </button>
-                                                                                <button
-                                                                                    type="button"
-                                                                                    className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
-                                                                                    onClick={
-                                                                                        handleCancelUpdateRow
-                                                                                    }
-                                                                                >
-                                                                                    Hủy
-                                                                                </button>
-                                                                                <button
-                                                                                    type="button"
-                                                                                    className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
-                                                                                    onClick={() =>
-                                                                                        handleDeleteRow(
-                                                                                            TABS.tabTrinhTuThucHien,
-                                                                                            iTrinhTu,
-                                                                                        )
-                                                                                    }
-                                                                                >
-                                                                                    Xóa
-                                                                                </button>
-                                                                            </div>
-                                                                        </td>
-                                                                    </>
-                                                                ) : (
-                                                                    <>
-                                                                        <td className="border-r border-l px-2 py-1 text-center">
-                                                                            {index +
-                                                                                1}
-                                                                        </td>
-                                                                        <td className="border-r px-2 py-1 text-left">
-                                                                            {
-                                                                                iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_TenCongViec
-                                                                            }
-                                                                        </td>
-                                                                        <td className="border-r px-2 py-1 text-left">
-                                                                            {
-                                                                                iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_CachThucThucHien
-                                                                            }
-                                                                        </td>
-                                                                        <td className="border-r px-2 py-1 text-left">
-                                                                            {
-                                                                                iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra
-                                                                            }
-                                                                        </td>
-                                                                        <td className="border-r px-2 py-1 text-left">
-                                                                            {
-                                                                                iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_DonViThucHien
-                                                                            }
-                                                                        </td>
-                                                                        <td className="border-r px-2 py-1 text-center">
-                                                                            {
-                                                                                iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop
-                                                                            }
-                                                                        </td>
-                                                                        <td className="border-r px-2 py-1 text-center">
-                                                                            {
-                                                                                iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay
-                                                                            }
-                                                                        </td>
-                                                                        <td className="border-r px-2 py-1 text-left">
-                                                                            {
-                                                                                iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_KetQua
-                                                                            }
-                                                                        </td>
-                                                                        <td className="border-r px-2 py-1 text-center">
-                                                                            <div className="flex flex-col lg:flex-row items-center justify-center gap-2">
-                                                                                <button
-                                                                                    type="button"
-                                                                                    className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
-                                                                                    onClick={() =>
-                                                                                        handleEditRow(
-                                                                                            index,
-                                                                                            TABS.tabTrinhTuThucHien,
-                                                                                            iTrinhTu,
-                                                                                        )
-                                                                                    }
-                                                                                >
-                                                                                    Sửa
-                                                                                </button>
-                                                                                <button
-                                                                                    type="button"
-                                                                                    className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
-                                                                                    onClick={() =>
-                                                                                        handleDeleteRow(
-                                                                                            TABS.tabTrinhTuThucHien,
-                                                                                            iTrinhTu,
-                                                                                        )
-                                                                                    }
-                                                                                >
-                                                                                    Xóa
-                                                                                </button>
-                                                                            </div>
-                                                                        </td>
-                                                                    </>
-                                                                )}
-                                                            </tr>
-                                                        ),
+                                                                                        ) => {
+                                                                                            handleChangeValue(
+                                                                                                TABS.tabTrinhTuThucHien,
+                                                                                                e,
+                                                                                            )
+                                                                                        }}
+                                                                                    />
+                                                                                </div>
+                                                                            </td>
+                                                                            <td className="border-r px-2 py-1 text-center">
+                                                                                <div className="flex flex-col lg:flex-row items-center justify-center gap-2">
+                                                                                    <button
+                                                                                        type="button"
+                                                                                        className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
+                                                                                        onClick={() =>
+                                                                                            handleUpdate(
+                                                                                                TABS.tabTrinhTuThucHien,
+                                                                                                editValueRow,
+                                                                                            )
+                                                                                        }
+                                                                                    >
+                                                                                        Lưu
+                                                                                    </button>
+                                                                                    <button
+                                                                                        type="button"
+                                                                                        className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
+                                                                                        onClick={
+                                                                                            handleCancelUpdateRow
+                                                                                        }
+                                                                                    >
+                                                                                        Hủy
+                                                                                    </button>
+                                                                                    <button
+                                                                                        type="button"
+                                                                                        className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
+                                                                                        onClick={() =>
+                                                                                            handleDeleteRow(
+                                                                                                TABS.tabTrinhTuThucHien,
+                                                                                                iTrinhTu,
+                                                                                            )
+                                                                                        }
+                                                                                    >
+                                                                                        Xóa
+                                                                                    </button>
+                                                                                </div>
+                                                                            </td>
+                                                                        </>
+                                                                    ) : (
+                                                                        <>
+                                                                            <td className="border-r border-l px-2 py-1 text-center">
+                                                                                {index +
+                                                                                    1}
+                                                                            </td>
+                                                                            <td className="border-r px-2 py-1 text-left">
+                                                                                {
+                                                                                    iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_TenCongViec
+                                                                                }
+                                                                            </td>
+                                                                            <td className="border-r px-2 py-1 text-left">
+                                                                                {
+                                                                                    iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_CachThucThucHien
+                                                                                }
+                                                                            </td>
+                                                                            <td className="border-r px-2 py-1 text-left">
+                                                                                {
+                                                                                    iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra
+                                                                                }
+                                                                            </td>
+                                                                            <td className="border-r px-2 py-1 text-left">
+                                                                                {
+                                                                                    iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_DonViThucHien
+                                                                                }
+                                                                            </td>
+                                                                            <td className="border-r px-2 py-1 text-center">
+                                                                                {
+                                                                                    iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop
+                                                                                }
+                                                                            </td>
+                                                                            <td className="border-r px-2 py-1 text-center">
+                                                                                {
+                                                                                    iTrinhTu.MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay
+                                                                                }
+                                                                            </td>
+                                                                            <td className="border-r px-2 py-1 text-left">
+                                                                                {
+                                                                                    <div className="w-full">
+                                                                                        {listKetQuaTrinhTu?.map(
+                                                                                            (
+                                                                                                item,
+                                                                                                index,
+                                                                                            ) => (
+                                                                                                <p
+                                                                                                    key={
+                                                                                                        index
+                                                                                                    }
+                                                                                                >
+                                                                                                    {'- ' +
+                                                                                                        item.trim()}
+                                                                                                </p>
+                                                                                            ),
+                                                                                        )}
+                                                                                    </div>
+                                                                                }
+                                                                            </td>
+                                                                            <td className="border-r px-2 py-1 text-center">
+                                                                                <div className="flex flex-col lg:flex-row items-center justify-center gap-2">
+                                                                                    <button
+                                                                                        type="button"
+                                                                                        className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
+                                                                                        onClick={() =>
+                                                                                            handleEditRow(
+                                                                                                index,
+                                                                                                TABS.tabTrinhTuThucHien,
+                                                                                                iTrinhTu,
+                                                                                            )
+                                                                                        }
+                                                                                    >
+                                                                                        Sửa
+                                                                                    </button>
+                                                                                    <button
+                                                                                        type="button"
+                                                                                        className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
+                                                                                        onClick={() =>
+                                                                                            handleDeleteRow(
+                                                                                                TABS.tabTrinhTuThucHien,
+                                                                                                iTrinhTu,
+                                                                                            )
+                                                                                        }
+                                                                                    >
+                                                                                        Xóa
+                                                                                    </button>
+                                                                                </div>
+                                                                            </td>
+                                                                        </>
+                                                                    )}
+                                                                </tr>
+                                                            )
+                                                        },
                                                     )}
                                                 </tbody>
                                             </table>
@@ -2030,7 +2060,7 @@ function ThongTinChiTietHoSo() {
                             {PhanQuyen.length ? (
                                 <div className="TTHC-GV_PhanQuyen mb-4">
                                     {/* header */}
-                                    <div className="flex flex-col sm:flex-row items-center justify-between bg-gray-100 shadow-md p-2 rounded-md mb-4">
+                                    <div className="flex flex-row items-center lg:justify-between bg-gray-100 shadow-md p-2 rounded-md mb-4">
                                         <div className="flex flex-row items-center gap-2 text-sky-700">
                                             {showPhanQuyen ? (
                                                 <FaAngleRight
@@ -2059,13 +2089,39 @@ function ThongTinChiTietHoSo() {
                                         </div>
                                     </div>
                                     {/* contents */}
+
                                     <div
                                         className={clsx(
                                             showPhanQuyen
-                                                ? 'flex flex-col gap-4'
+                                                ? 'flex flex-col gap-4 overflow-x-auto'
                                                 : 'hidden',
                                         )}
                                     >
+                                        <div className="">
+                                            <button
+                                                onClick={() => {
+                                                    setShowEditPhanQuyen(true)
+                                                }}
+                                                className="px-3 py-2 bg-sky-800 text-white hover:opacity-70 rounded-md"
+                                            >
+                                                Thêm phân quyền mới
+                                            </button>
+
+                                            {showEditPhanQuyen ? (
+                                                <EditPhanQuyenThuTuc
+                                                    idTTHCGoc={
+                                                        ThongTinHoSo?.MC_TTHC_GV_ID
+                                                    }
+                                                    onLoading={setLoading}
+                                                    onGetDataDetailHoSoThuTuc={
+                                                        getDataDetailHoSoThuTuc
+                                                    }
+                                                    onShowEditPhanQuyen={
+                                                        setShowEditPhanQuyen
+                                                    }
+                                                />
+                                            ) : null}
+                                        </div>
                                         <table className="w-full">
                                             <thead className="bg-[#075985] text-white rounded-t-xl">
                                                 <tr>
@@ -2150,12 +2206,37 @@ function ThongTinChiTietHoSo() {
                                         </table>
                                     </div>
                                 </div>
-                            ) : null}
+                            ) : (
+                                <div className="">
+                                    <button
+                                        onClick={() => {
+                                            setShowEditPhanQuyen(true)
+                                        }}
+                                        className="px-3 py-2 bg-sky-800 text-white hover:opacity-70 rounded-md"
+                                    >
+                                        Thêm phân quyền mới
+                                    </button>
+                                    {showEditPhanQuyen ? (
+                                        <EditPhanQuyenThuTuc
+                                            idTTHCGoc={
+                                                ThongTinHoSo?.MC_TTHC_GV_ID
+                                            }
+                                            onLoading={setLoading}
+                                            onGetDataDetailHoSoThuTuc={
+                                                getDataDetailHoSoThuTuc
+                                            }
+                                            onShowEditPhanQuyen={
+                                                setShowEditPhanQuyen
+                                            }
+                                        />
+                                    ) : null}
+                                </div>
+                            )}
                             {/* Trạng thái */}
                             {TrangThai.length ? (
                                 <div className="TTHC-GV_TrangThai mb-4">
                                     {/* header */}
-                                    <div className="flex flex-col sm:flex-row items-center justify-between bg-gray-100 shadow-md p-2 rounded-md mb-4">
+                                    <div className="flex flex-row items-center lg:justify-between bg-gray-100 shadow-md p-2 rounded-md mb-4">
                                         <div className="flex flex-row items-center gap-2 text-sky-700">
                                             {showTrangThai ? (
                                                 <FaAngleRight

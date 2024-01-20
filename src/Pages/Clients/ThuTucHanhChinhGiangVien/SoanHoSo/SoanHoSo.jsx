@@ -12,7 +12,10 @@ import moment from 'moment-timezone'
 import { DataCanBoGV } from '../../../../Services/Utils/dataCanBoGV'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
-import { isValidEmail } from '../../../../Services/Utils/emailUtils'
+import {
+    isValidEmail,
+    validateEmail,
+} from '../../../../Services/Utils/emailUtils'
 import { convertDataFileToBase64 } from '../../../../Services/Utils/stringUtils'
 function SoanHoSo() {
     const home = {
@@ -47,6 +50,8 @@ function SoanHoSo() {
         MC_TTHC_GV_GuiYeuCau_NgayHenTra: '',
         MC_TTHC_GV_GuiYeuCau_NgayGiaoTra: '',
         MC_TTHC_GV_GuiYeuCau_NoiTraKetQua: '',
+        MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile: '',
+        MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile: '',
         MC_TTHC_GV_GuiYeuCau_NguonTiepNhan: NguonTiepNhan_WEB,
     })
     const [listThanhPhanHoSoFiles, setListThanhPhanHoSoFiles] = useState([])
@@ -97,6 +102,8 @@ function SoanHoSo() {
         const newDataHoSoYeuCau = {
             ...dataHoSoYeuCau,
             MC_TTHC_GV_GuiYeuCau_DaNop: false,
+            MC_TTHC_GV_GuiYeuCau_NoiTraKetQua:
+                dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua,
             MC_TTHC_GV_GuiYeuCau_YeuCau_ID: dataChiTietThuTuc?.ThongTinHoSo
                 ?.MC_TTHC_GV_ID
                 ? dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_ID.toString()
@@ -108,6 +115,16 @@ function SoanHoSo() {
                 .format('YYYY-MM-DD HH:mm:ss'),
         }
 
+        const checkEmail = validateEmail(
+            newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
+        )
+        if (checkEmail === false) {
+            return Swal.fire({
+                icon: 'error',
+                title: 'Vui lòng nhập đúng email!',
+            })
+        }
+
         if (
             !newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong ||
             parseInt(newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong) < 1
@@ -115,18 +132,6 @@ function SoanHoSo() {
             return toast.error(
                 'Vui lòng nhập số lượng bản ghi nhận tối thiểu là 1',
             )
-        }
-
-        if (
-            isValidEmail(
-                newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
-            ) == false
-        ) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Vui lòng nhập đúng email!',
-            })
-            return
         }
 
         let idGuiYeuCau
@@ -205,7 +210,8 @@ function SoanHoSo() {
                                 Swal.fire({
                                     position: 'center',
                                     icon: 'success',
-                                    html: `Gửi yêu cầu thành công! <br/> Vui lòng chờ kết quả xử lý thông báo qua Email hoặc Số điện thoại của bạn.`,
+                                    title: 'Gửi yêu cầu thành công!',
+                                    text: 'Vui lòng chờ kết quả xử lý thông báo qua Email hoặc Số điện thoại của bạn.',
                                     showConfirmButton: false,
                                     timer: 2000,
                                 })

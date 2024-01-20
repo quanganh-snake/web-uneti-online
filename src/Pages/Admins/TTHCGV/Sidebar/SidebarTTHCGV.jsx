@@ -25,12 +25,10 @@ function SidebarTTHCGV() {
         <div
             className={clsx(
                 'bg-white p-2 rounded-xl shadow-xl',
-                openMenuQuanTri
-                    ? ' col-span-2 flex flex-col'
-                    : 'flex justify-center',
+                openMenuQuanTri ? 'lg:flex flex-col' : 'lg:flex justify-center',
             )}
         >
-            <div className="mb-4">
+            <div className="m-0 lg:mb-4">
                 {openMenuQuanTri ? (
                     <IoClose
                         size={32}

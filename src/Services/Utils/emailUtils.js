@@ -1,10 +1,15 @@
 import { apiSendEmailUNETI } from '../../Apis/Emails/apiEmail'
 
-export const emailRegexCheckByGroup = /^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|([a-zA-Z0-9]+[\w-]+\.)+[a-zA-Z]{1}[a-zA-Z0-9-]{1,23})$/
+export const emailRegexCheckByGroup =
+    /^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|([a-zA-Z0-9]+[\w-]+\.)+[a-zA-Z]{1}[a-zA-Z0-9-]{1,23})$/gm
 
 export const isValidEmail = (email = '') => {
-    const checkEmail = emailRegexCheckByGroup.test(email)
-    return checkEmail
+    return emailRegexCheckByGroup.test(email)
+}
+
+export const validateEmail = (email) => {
+    var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
+    return regex.test(email)
 }
 
 // CONTENT SEND EMAIL
@@ -22,6 +27,8 @@ export const sendEmailTTHCGiangVien = async (
     dataUserHandle = {},
     listThanhPhanHoSo = [],
     contentReply = '',
+    tenFileKemTheo = '',
+    dataFileKemTheo = '',
 ) => {
     if (contentReply == '') {
         contentReply = `Chúng tôi sẽ hồi âm lại kết quả ${dataUserSuggest?.MC_TTHC_GV_TenThuTuc.toUpperCase()} hoặc hướng giải quyết phù hợp trong thời gian sớm nhất.`
@@ -95,6 +102,8 @@ export const sendEmailTTHCGiangVien = async (
         to: dataUserSuggest?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
         subject: subjectEmail,
         text: '',
+        tenfile: tenFileKemTheo,
+        dulieu: dataFileKemTheo,
         html: emailHtml,
     }
     const res = await apiSendEmailUNETI(dataSendEmail)

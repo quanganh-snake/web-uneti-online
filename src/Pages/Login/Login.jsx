@@ -310,13 +310,19 @@ function Login() {
                         <p>Trường Đại Học Kinh Tế - Kỹ Thuật Công Nghiệp</p>
                         <p>Tel: (024)38621504 - (0228)3848706</p>
                         <div className="flex justify-center gap-4 mt-2">
-                            <Link to={'https://uneti.edu.vn'} target='_blank'>
+                            <Link to={'https://uneti.edu.vn'} target="_blank">
                                 <AiOutlineGlobal size={24} />
                             </Link>
-                            <Link to={'https://www.facebook.com/Daihoc.uneti'} target='_blank'>
+                            <Link
+                                to={'https://www.facebook.com/Daihoc.uneti'}
+                                target="_blank"
+                            >
                                 <FaSquareFacebook size={24} />
                             </Link>
-                            <Link to={'https://www.youtube.com/@nokia88e1'} target='_blank'>
+                            <Link
+                                to={'https://www.youtube.com/@nokia88e1'}
+                                target="_blank"
+                            >
                                 <AiOutlineYoutube size={24} />
                             </Link>
                         </div>
