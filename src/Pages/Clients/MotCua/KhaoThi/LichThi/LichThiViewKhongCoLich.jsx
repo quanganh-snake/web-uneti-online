@@ -9,7 +9,7 @@ import { useState } from 'react'
 
 export const LichThiViewKhongCoLich = ({
   listHocPhan,
-  selectedRows,
+  selectedRow,
   handleRowSelection,
   handleSubmitData,
 }) => {
@@ -33,7 +33,7 @@ export const LichThiViewKhongCoLich = ({
               STT
             </th>
             <th scope="col">Chọn</th>
-            <th scope="col">Mã lớp</th>
+            <th scope="col">Mã học phần</th>
             <th scope="col" className={bem.is('sticky')}>
               Tên môn
             </th>
@@ -49,17 +49,17 @@ export const LichThiViewKhongCoLich = ({
           <>
             {listHocPhan?.map((hocphan, index) => (
               <tr key={index}>
-                <td className={bem.is('sticky')}>{index}</td>
+                <td className={bem.is('sticky')}>{index + 1}</td>
                 <td>
                   <Checkbox
-                    checked={selectedRows?.includes((row) =>
-                      isEqual(row, hocphan),
-                    )}
-                    onClick={() => handleRowSelection(hocphan)}
+                    checked={isEqual(selectedRow, hocphan)}
+                    onChange={() => handleRowSelection(hocphan)}
                   />
                 </td>
-                <td>{hocphan.MaLopHocPhan}</td>
-                <td className={bem.is('sticky')}>{hocphan.TenMonHoc}</td>
+                <td>{hocphan.KhongCoLich_MaHocPhan}</td>
+                <td className={bem.is('sticky')}>
+                  {hocphan.KhongCoLich_TenMonHoc}
+                </td>
                 <td>{hocphan.TenHinhThucThi}</td>
                 <td>
                   {hocphan.NgayThi &&

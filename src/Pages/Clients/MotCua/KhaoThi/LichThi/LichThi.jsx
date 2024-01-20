@@ -5,55 +5,30 @@ import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { dataLoaiThi } from '@/Services/Static/dataStatic'
 import { useEffect } from 'react'
 import { getTenDot } from '@/Apis/MotCua/apiTenDot'
-import { includes } from 'lodash-unified'
+import { isEqual } from 'lodash-unified'
 import {
   getAllHocPhanLichThi,
   postYeuCauLichThi,
 } from '@/Apis/MotCua/KhaoThi/apiLichThi'
-import { convertDataFileToBase64 } from '@/Services/Utils/stringUtils'
+import { required } from '@/Services/Middlewares/required'
+import {
+  makeDataImages,
+  makeDataSv,
+  makePostDataSv,
+  transformSubmitValue,
+} from '@/Services/Utils/dataSubmitUtils'
+import { breadcrumbs, home, listLyDo } from './constants'
+
+const LICH_THI_PREFIX = 'MC_KT_LichThi_'
 
 function LichThi() {
-  const home = {
-    path: '/motcua',
-    title: 'Bộ phận một cửa',
-  }
-
-  const breadcrumbs = [
-    {
-      path: '/motcua/khaothi',
-      title: 'Khảo thí',
-    },
-    {
-      path: '/motcua/khaothi/lichthi',
-      title: 'Lịch thi',
-    },
-  ]
-
-  const listLyDo = [
-    {
-      id: 1,
-      title: 'Xem lịch thi',
-      value: 0,
-    },
-    {
-      id: 2,
-      title: 'Trùng lịch thi',
-      value: 1,
-    },
-    {
-      id: 3,
-      title: 'Không có lịch thi',
-      value: 2,
-    },
-  ]
-
   const [loading, setLoading] = useState(true)
   const [listHocKy, setListHocKy] = useState([])
   const [tenDot, setTenDot] = useState('')
   const [loaiThi, setLoaiThi] = useState('')
   const [lyDo, setLyDo] = useState('')
   const [listHocPhan, setListHocPhan] = useState([])
-  const [selectedRows, setSelectedRows] = useState([])
+  const [selectedRow, setSelectedRow] = useState(null)
 
   const dataSV = DataSinhVien()
 
@@ -72,167 +47,67 @@ function LichThi() {
     }
   }
 
-  const handleRowSelection = (item) => {
-    if (!includes(selectedRows, item)) {
-      setSelectedRows([item])
-    } else {
-      setSelectedRows([])
-    }
+  const handleRowSelection = (row) => {
+    setSelectedRow(isEqual(selectedRow, row) ? null : row)
+  }
+
+  const middlewareSubmitData = () => {
+    return [
+      required(tenDot, 'Vui lòng chọn học kỳ!'),
+      required(loaiThi, 'Vui lòng chọn loại thi!'),
+      required(lyDo, 'Vui lòng chọn lý do!'),
+      required(selectedRow, 'Vui lòng chọn 1 học phần cần gửi yêu cầu!'),
+    ].every((e) => e == true)
   }
 
   const handleSubmitData = async (event, files) => {
     event.preventDefault()
 
-    if (tenDot === '') {
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: 'Vui lòng chọn học kỳ!',
-      })
+    if (!middlewareSubmitData()) {
       return
     }
 
-    if (loaiThi === '') {
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: 'Vui lòng chọn loại thi!',
-      })
-      return
-    }
-
-    if (lyDo === '') {
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: 'Vui lòng chọn lý do!',
-      })
-      return
-    }
-
-    if (selectedRows.length > 1 || selectedRows.length === 0) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: 'Vui lòng chọn 1 học phần cần gửi yêu cầu!',
-      })
-      return
-    }
-
-    const itemHocPhan = selectedRows[0]
-    console.log(
-      '🚀 ~ file: LichThi.jsx:96 ~ handleSubmitData ~ itemHocPhan:',
-      itemHocPhan,
-    )
+    const itemHocPhan = selectedRow
 
     let dataHocPhan = {}
     if (itemHocPhan) {
-      // Data post API
-      dataHocPhan.MC_KT_LichThi_TenCoSo = dataSV.CoSo ? dataSV.CoSo : 'null'
-      dataHocPhan.MC_KT_LichThi_TenDot = tenDot ?? 'null'
-      dataHocPhan.MC_KT_LichThi_MaSinhVien = dataSV.MaSinhVien
-        ? dataSV.MaSinhVien
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_HoDem = dataSV.HoDem ? dataSV.HoDem : 'null'
-      dataHocPhan.MC_KT_LichThi_Ten = dataSV.Ten ? dataSV.Ten : 'null'
-      dataHocPhan.MC_KT_LichThi_GioiTinh = `${dataSV.GioiTinh}` ?? 'null'
-      dataHocPhan.MC_KT_LichThi_TenHeDaoTao = dataSV.BacDaoTao
-        ? dataSV.BacDaoTao
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_TenLoaiHinhDT = dataSV.LoaiHinhDaoTao
-        ? dataSV.LoaiHinhDaoTao
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_TenKhoaHoc = dataSV.KhoaHoc
-        ? dataSV.KhoaHoc
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_TenNganh = dataSV.ChuyenNganh
-        ? dataSV.ChuyenNganh
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_TenNghe = dataSV.ChuyenNganh
-        ? dataSV.ChuyenNganh
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_TenLop = dataSV.LopHoc ? dataSV.LopHoc : 'null'
-      dataHocPhan.MC_KT_LichThi_DienThoai = dataSV.SoDienThoai
-        ? dataSV.SoDienThoai
-        : dataSV.SoDienThoai2
-          ? dataSV.SoDienThoai2
-          : dataSV.SoDienThoai3
-            ? dataSV.SoDienThoai3
-            : ''
-      dataHocPhan.MC_KT_LichThi_Email = dataSV.Email_TruongCap
-        ? dataSV.Email_TruongCap
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_IDSinhVien = dataSV.IdSinhVien
-        ? dataSV.IdSinhVien.toString()
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_NgaySinh2 = dataSV.NgaySinh
-        ? new Date(
-            `${dataSV.NgaySinh.split('/')[2]}-${
-              dataSV.NgaySinh.split('/')[1]
-            }-${dataSV.NgaySinh.split('/')[0]}`,
-          ).toISOString()
-        : 'null'
-
-      // data trong Tables
-      dataHocPhan.MC_KT_LichThi_MaLopHocPhan = itemHocPhan.MaLopHocPhan
-        ? itemHocPhan.MaLopHocPhan
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_MaMonHoc = itemHocPhan.MaMonHoc || 'null'
-      dataHocPhan.MC_KT_LichThi_TenMonHoc = itemHocPhan.TenMonHoc
-        ? itemHocPhan.TenMonHoc
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_KhoaChuQuanMon = itemHocPhan.KhoaChuQuanMon
-        ? itemHocPhan.KhoaChuQuanMon
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_TenHinhThucThi = itemHocPhan.TenHinhThucThi
-        ? itemHocPhan.TenHinhThucThi
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_NgayThi = itemHocPhan.NgayThi
-        ? itemHocPhan.NgayThi
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_Thu = itemHocPhan.Thu
-        ? itemHocPhan.Thu.toString()
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_Nhom = itemHocPhan.Nhom
-        ? itemHocPhan.Nhom.toString()
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_TuTiet = itemHocPhan.TuTiet
-        ? itemHocPhan.TuTiet.toString()
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_DenTiet = itemHocPhan.DenTiet
-        ? itemHocPhan.DenTiet.toString()
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_LoaiThi = itemHocPhan.LoaiThi
-        ? itemHocPhan.LoaiThi
-        : 'null'
-      dataHocPhan.MC_KT_LichThi_TenPhong = itemHocPhan.TenPhong
-        ? itemHocPhan.TenPhong
-        : 'null'
-
-      dataHocPhan.MC_KT_LichThi_YeuCau = lyDo.toString()
-
-      dataHocPhan.MC_KT_LichThi_YeuCau_KhongCoLich_MaLopHP = 'null'
-      dataHocPhan.MC_KT_LichThi_YeuCau_KhongCoLich_TenLopHP = 'null'
-      dataHocPhan.MC_KT_LichThi_YeuCau_KhongCoLich_TenPhong = 'null'
+      dataHocPhan = makePostDataSv(
+        makeDataSv(dataSV, LICH_THI_PREFIX),
+        {
+          TenDot: transformSubmitValue(tenDot),
+          MaLopHocPhan: transformSubmitValue(itemHocPhan.MaLopHocPhan),
+          MaMonHoc: transformSubmitValue(itemHocPhan.MaMonHoc),
+          TenMonHoc: transformSubmitValue([
+            itemHocPhan.TenMonHoc,
+            itemHocPhan.KhongCoLich_TenMonHoc,
+          ]),
+          KhoaChuQuanMon: transformSubmitValue(itemHocPhan.KhoaChuQuanMon),
+          TenHinhThucThi: transformSubmitValue(itemHocPhan.TenHinhThucThi),
+          NgayThi: transformSubmitValue(itemHocPhan.NgayThi, ' '),
+          Thu: transformSubmitValue(itemHocPhan.Thu),
+          Nhom: transformSubmitValue(itemHocPhan.Nhom),
+          TuTiet: transformSubmitValue(itemHocPhan.TuTiet),
+          DenTiet: transformSubmitValue(itemHocPhan.DenTiet),
+          LoaiThi: transformSubmitValue(
+            dataLoaiThi.find((e) => e.id == loaiThi).title,
+          ),
+          TenPhong: transformSubmitValue(itemHocPhan.TenPhong),
+          YeuCau: `${lyDo}`,
+          YeuCau_KhongCoLich_MaLopHP: transformSubmitValue(
+            itemHocPhan.KhongCoLich_MaHocPhan,
+          ),
+          YeuCau_KhongCoLich_TenLopHP: transformSubmitValue(
+            itemHocPhan.KhongCoLich_TenMonHoc,
+          ),
+          YeuCau_KhongCoLich_TenPhong: transformSubmitValue(
+            itemHocPhan.TenPhong,
+          ),
+        },
+        LICH_THI_PREFIX,
+      )
 
       // images
-      dataHocPhan.images = []
-      for (let i = 0; i < files.length; i++) {
-        const fileBase64 = await convertDataFileToBase64(files[i])
-        const fileURL = URL.createObjectURL(files[i])
-
-        const fileName = fileURL.split('/').at(-1)
-
-        dataHocPhan.images.push({
-          MC_KT_LichThi_YeuCau_DataFile: fileBase64,
-          MC_KT_LichThi_YeuCau_TenFile: fileName,
-          urlTemp: fileURL,
-          lastModified: '',
-        })
-
-        // URL temp chỉ tồn tại trên client, nên revoke
-        URL.revokeObjectURL(fileURL)
-      }
+      dataHocPhan.images = await makeDataImages(files, 'MC_KT_LichThi_YeuCau_')
     }
 
     const yeuCauTitle = listLyDo.find((e) => e.value == lyDo).title
@@ -253,10 +128,6 @@ function LichThi() {
   }
 
   const handlePostData = async (dataHocPhan) => {
-    console.log(
-      '🚀 ~ file: LichThi.jsx ~ handlePostData ~ dataHocPhan:',
-      dataHocPhan,
-    )
     try {
       const resPostData = await postYeuCauLichThi(dataHocPhan)
 
@@ -337,6 +208,7 @@ function LichThi() {
       tenDot={tenDot}
       dataLoaiThi={dataLoaiThi}
       loaiThi={loaiThi}
+      selectedRow={selectedRow}
       lyDo={lyDo}
       listHocPhan={listHocPhan}
       handleChangeValue={handleChangeValue}

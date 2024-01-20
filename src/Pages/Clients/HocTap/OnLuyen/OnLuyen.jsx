@@ -29,7 +29,6 @@ export default function OnLuyen() {
                 ],
               },
             ]}
-            setShowSidebar={() => null}
           />
         </div>
 
