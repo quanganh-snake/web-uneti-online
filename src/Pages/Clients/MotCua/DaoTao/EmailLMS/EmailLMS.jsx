@@ -7,6 +7,7 @@ import {
   getKiemTraTrungTaiKhoanEmailLMS,
   postEmailLMS,
 } from '@/Apis/MotCua/DaoTao/apiEmailLMS'
+import { REGEX_EMAIL, REGEX_EMAIL_UNETI, REGEX_PHONE_NUMBER } from './constants'
 
 function EmailLMS() {
   const home = {
@@ -71,6 +72,7 @@ function EmailLMS() {
   )
   const [emailCaNhan, setEmailCaNhan] = useState('')
   const [lyDo, setLyDo] = useState('')
+  const [soDienThoai, setSoDienThoai] = useState('')
 
   useEffect(() => {
     switch (listDeNghi.indexOf(deNghi)) {
@@ -99,6 +101,43 @@ function EmailLMS() {
 
   const handleSubmitData = async (e) => {
     e.preventDefault()
+
+    if (deNghi === 'Tài khoản Email UNETI') {
+      let message = ''
+
+      if (emailCaNhan.trim() === '') {
+        message += 'Email không được để trống. '
+      } else {
+        if (!REGEX_EMAIL.test(emailCaNhan.trim())) {
+          message += 'Email không đúng định dạng'
+        } else {
+          if (REGEX_EMAIL_UNETI.test(emailCaNhan.trim())) {
+            message +=
+              'Vui lòng không sử dụng email do trường cấp (.uneti.edu.vn). '
+          }
+        }
+      }
+
+      if (chiTietDeNghi === '7') {
+        if (soDienThoai.trim() === '') {
+          message += 'Số điện thoại không được để trống. '
+        } else {
+          if (!REGEX_PHONE_NUMBER.test(soDienThoai.trim())) {
+            message += ', Số điện thoại không hợp lệ. '
+          }
+        }
+      }
+
+      if (message !== '') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Thông báo dữ liệu không hợp lệ',
+          text: message,
+        })
+        return
+      }
+    }
+
     let dataYeuCau = {}
     dataYeuCau.MC_DT_EMAILLMS_TenCoSo = dataSV.CoSo ? dataSV.CoSo : 'null'
     dataYeuCau.MC_DT_EMAILLMS_IDSinhVien = dataSV.IdSinhVien
@@ -109,7 +148,8 @@ function EmailLMS() {
       : 'null'
     dataYeuCau.MC_DT_EMAILLMS_HoDem = dataSV.HoDem ? dataSV.HoDem : 'null'
     dataYeuCau.MC_DT_EMAILLMS_Ten = dataSV.Ten ? dataSV.Ten : 'null'
-    dataYeuCau.MC_DT_EMAILLMS_GioiTinh = dataSV.GioiTinh ?? 'null'
+    dataYeuCau.MC_DT_EMAILLMS_GioiTinh =
+      dataSV.GioiTinh !== null ? dataSV.GioiTinh.toString() : 'null'
     dataYeuCau.MC_DT_EMAILLMS_NgaySinh2 = dataSV.NgaySinh
       ? new Date(
           `${dataSV.NgaySinh.split('/')[2]}-${dataSV.NgaySinh.split('/')[1]}-${
@@ -143,8 +183,18 @@ function EmailLMS() {
       : 'null'
     dataYeuCau.MC_DT_EMAILLMS_Loai = listDeNghi.indexOf(deNghi).toString()
     dataYeuCau.MC_DT_EMAILLMS_YeuCau = chiTietDeNghi.toString()
-    dataYeuCau.MC_DT_EMAILLMS_YeuCau_LyDo = lyDo.length ? lyDo : 'null'
-    dataYeuCau.MC_DT_EMAILLMS_EmailCaNhan = emailCaNhan.length ? lyDo : 'null'
+    if (chiTietDeNghi === '7') {
+      dataYeuCau.MC_DT_EMAILLMS_YeuCau_LyDo =
+        'Số điện thoại mới: ' +
+        soDienThoai.trim() +
+        ' - Lý do: ' +
+        (lyDo.length ? lyDo : 'null')
+    } else {
+      dataYeuCau.MC_DT_EMAILLMS_YeuCau_LyDo = lyDo.length ? lyDo : 'null'
+    }
+    dataYeuCau.MC_DT_EMAILLMS_EmailCaNhan = emailCaNhan.length
+      ? emailCaNhan
+      : 'null'
     dataYeuCau.MC_DT_EMAILLMS_YeuCau_TaiKhoan = 'null'
     dataYeuCau.MC_DT_EMAILLMS_YeuCau_Pass = 'null'
 
@@ -197,24 +247,24 @@ function EmailLMS() {
         }
       }
       // check gửi trùng yêu cầu
-      const checkKiemTraTrung = await getKiemTraTrungEmailLMS(
-        dataYeuCau.MC_DT_EMAILLMS_MaSinhVien,
-        dataYeuCau.MC_DT_EMAILLMS_Loai,
-        dataYeuCau.MC_DT_EMAILLMS_YeuCau,
-      )
-      if (checkKiemTraTrung.status === 200) {
-        const body = checkKiemTraTrung.data?.body[0]
-        if (body) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Thông báo trùng',
-            text: `Yêu cầu ${
-              listChiTietDeNghi.filter((e) => e.value === chiTietDeNghi)[0].text
-            } đã được gửi trước đấy. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
-          })
-          return
-        }
-      }
+      // const checkKiemTraTrung = await getKiemTraTrungEmailLMS(
+      //   dataYeuCau.MC_DT_EMAILLMS_MaSinhVien,
+      //   dataYeuCau.MC_DT_EMAILLMS_Loai,
+      //   dataYeuCau.MC_DT_EMAILLMS_YeuCau,
+      // )
+      // if (checkKiemTraTrung.status === 200) {
+      //   const body = checkKiemTraTrung.data?.body[0]
+      //   if (body) {
+      //     Swal.fire({
+      //       icon: 'error',
+      //       title: 'Thông báo trùng',
+      //       text: `Yêu cầu ${
+      //         listChiTietDeNghi.filter((e) => e.value === chiTietDeNghi)[0].text
+      //       } đã được gửi trước đấy. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+      //     })
+      //     return
+      //   }
+      // }
 
       const resPostData = await postEmailLMS(dataYeuCau)
       if (resPostData == 'ERR_BAD_REQUEST') {
@@ -281,6 +331,8 @@ function EmailLMS() {
       setLyDo={setLyDo}
       listChiTietDeNghi={listChiTietDeNghi}
       handleSubmitData={handleSubmitData}
+      soDienThoai={soDienThoai}
+      setSoDienThoai={setSoDienThoai}
     />
   )
 }

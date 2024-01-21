@@ -1,7 +1,13 @@
 import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import { breadcrumbs, home } from './constants'
 import { Link, useParams } from 'react-router-dom'
-import { Checkbox, MenuItem, Select } from '@mui/material'
+import {
+  Autocomplete,
+  Checkbox,
+  MenuItem,
+  Select,
+  TextField,
+} from '@mui/material'
 import HuongDanSuDung from './HuongDanSuDung'
 import { useEffect, useState } from 'react'
 import {
@@ -21,8 +27,8 @@ function XuLySuCoView() {
   const [selectedRow, setSelectedRow] = useState({})
   const [listKhacPhuc, setListKhacPhuc] = useState([])
   const [listNguyenNhan, setListNguyenNhan] = useState([])
-  const [khacPhuc, setKhacPhuc] = useState('')
-  const [nguyenNhan, setNguyenNhan] = useState('')
+  const [khacPhuc, setKhacPhuc] = useState([])
+  const [nguyenNhan, setNguyenNhan] = useState([])
 
   const dataCBGV = DataCanBoGV()
 
@@ -69,8 +75,8 @@ function XuLySuCoView() {
   const handleCancel = (e) => {
     e.preventDefault()
     setSelectedRow({})
-    setNguyenNhan('')
-    setKhacPhuc('')
+    setNguyenNhan([])
+    setKhacPhuc([])
   }
 
   const handleSubmitData = () => {
@@ -79,14 +85,18 @@ function XuLySuCoView() {
     let danhSachNguyenNhan = selectedRow.DT_CVNB_TBGD_SuCo_NguyenNhan
       ? selectedRow.DT_CVNB_TBGD_SuCo_NguyenNhan
       : ''
-    danhSachNguyenNhan +=
-      nguyenNhan + '_' + dayjs(new Date()).format('MM/DD/YYYY hh:mm:ss A') + ';'
+    nguyenNhan.forEach((nn) => {
+      danhSachNguyenNhan +=
+        nn + '_' + dayjs(new Date()).format('MM/DD/YYYY hh:mm:ss A') + ';'
+    })
 
     let danhSachKhacPhuc = selectedRow.DT_CVNB_TBGD_SuCo_KetQuaKhacPhuc
       ? selectedRow.DT_CVNB_TBGD_SuCo_KetQuaKhacPhuc
       : ''
-    danhSachKhacPhuc +=
-      khacPhuc + '_' + dayjs(new Date()).format('MM/DD/YYYY hh:mm:ss A') + ';'
+    khacPhuc.forEach((kp) => {
+      danhSachKhacPhuc +=
+        kp + '_' + dayjs(new Date()).format('MM/DD/YYYY hh:mm:ss A') + ';'
+    })
 
     dataSuLySuCo.DT_CVNB_TBGD_ID = selectedRow.DT_CVNB_TBGD_ID
       ? selectedRow.DT_CVNB_TBGD_ID.toString()
@@ -258,7 +268,6 @@ function XuLySuCoView() {
                               if (e.length) {
                                 return (
                                   <p key={index} className="p-1">
-                                    {' '}
                                     - {e}
                                   </p>
                                 )
@@ -305,10 +314,9 @@ function XuLySuCoView() {
                       (e, index) => {
                         if (e.length) {
                           return (
-                            <p key={index} className="p-1 ml-2">
-                              {' '}
+                            <span key={index} className="p-1 ml-2 block">
                               - {e}
-                            </p>
+                            </span>
                           )
                         }
                       },
@@ -319,41 +327,58 @@ function XuLySuCoView() {
                 <span className="text-red-500 block md:w-[30%] font-bold">
                   Nguyên nhân*:
                 </span>
-                <select
+                <Autocomplete
                   disabled={isEmpty(selectedRow)}
+                  className="w-full"
+                  size="small"
+                  multiple
+                  options={listNguyenNhan.map((nn) => nn.DT_CVNB_TBGD_TL_Ten)}
                   value={nguyenNhan}
-                  onChange={(e) => setNguyenNhan(e.target.value.toString())}
-                  className="flex-1 w-full px-2 py-1 rounded-md border border-solid border-gray-300"
-                >
-                  <option value="">Chọn nguyên nhân</option>
-                  {listNguyenNhan.length
-                    ? listNguyenNhan.map((nn, index) => (
-                        <option key={index} value={nn.DT_CVNB_TBGD_TL_Ten}>
-                          {nn.DT_CVNB_TBGD_TL_Ten}
-                        </option>
-                      ))
-                    : null}
-                </select>
+                  onChange={(event, newValue) => {
+                    setNguyenNhan([...newValue])
+                  }}
+                  disableCloseOnSelect
+                  getOptionLabel={(option) => option}
+                  renderOption={(props, option, { selected }) => (
+                    <li {...props}>
+                      <Checkbox checked={selected} />
+                      {option}
+                    </li>
+                  )}
+                  renderInput={(params) => (
+                    <TextField {...params} placeholder="Chọn nguyên nhân" />
+                  )}
+                />
               </div>
               <div className="w-full flex flex-col md:flex-row justify-between md:items-center gap-2">
                 <span className="text-red-500 block md:w-[30%] font-bold">
                   Kết quả khắc phục*:
                 </span>
-                <select
+                <Autocomplete
                   disabled={isEmpty(selectedRow)}
+                  className="w-full"
+                  size="small"
+                  multiple
+                  options={listKhacPhuc.map((kp) => kp.DT_CVNB_TBGD_TL_Ten)}
                   value={khacPhuc}
-                  onChange={(e) => setKhacPhuc(e.target.value.toString())}
-                  className="flex-1 w-full px-2 py-1 rounded-md border border-solid border-gray-300"
-                >
-                  <option value="">Chọn kết quả khắc phục</option>
-                  {listKhacPhuc.length
-                    ? listKhacPhuc.map((kp, index) => (
-                        <option key={index} value={kp.DT_CVNB_TBGD_TL_Ten}>
-                          {kp.DT_CVNB_TBGD_TL_Ten}
-                        </option>
-                      ))
-                    : null}
-                </select>
+                  onChange={(event, newValue) => {
+                    setKhacPhuc([...newValue])
+                  }}
+                  disableCloseOnSelect
+                  getOptionLabel={(option) => option}
+                  renderOption={(props, option, { selected }) => (
+                    <li {...props}>
+                      <Checkbox checked={selected} />
+                      {option}
+                    </li>
+                  )}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      placeholder="Chọn kết quả khắc phục"
+                    />
+                  )}
+                />
               </div>
               <div className="w-full flex justify-center items-center gap-2">
                 <button
