@@ -18,4 +18,8 @@
     visibility: hidden;
     overflow: hidden;
   }
+
+  @include e(content) {
+    width: 100%;
+  }
 }
