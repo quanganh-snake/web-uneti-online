@@ -31,7 +31,9 @@ export const SidebarItem = ({ item, onClick, modelValue }) => {
         <div className={bem.em('item', 'label')}>
           {item.label}
           {item.children?.length ? (
-            isOpen ? (
+            <div
+              className={`${isOpen ? 'rotate-0' : '-rotate-90'} duration-200`}
+            >
               <svg
                 width="24"
                 height="24"
@@ -56,32 +58,7 @@ export const SidebarItem = ({ item, onClick, modelValue }) => {
                   strokeLinejoin="round"
                 />
               </svg>
-            ) : (
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12.9 7.93994L15.52 10.5599C16.29 11.3299 16.29 12.5899 15.52 13.3599L9 19.8699"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeMiterlimit="10"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M9 4.04004L10.04 5.08004"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeMiterlimit="10"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            )
+            </div>
           ) : null}
         </div>
         {item.children?.length ? (
