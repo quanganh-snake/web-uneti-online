@@ -6,7 +6,12 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-export const Sidebar = ({ showSidebar, setShowSidebar, items, title }) => {
+export const Sidebar = ({
+  showSidebar,
+  setShowSidebar = () => null,
+  items,
+  title,
+}) => {
   const bem = useBem('sidebar')
 
   const router = useNavigate()

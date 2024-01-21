@@ -9,7 +9,7 @@ import { isEqual } from 'lodash-unified'
 import { useState } from 'react'
 
 export const LichThiViewTrungLichThi = (props) => {
-  const { handleSubmitData, handleRowSelection, listHocPhan, selectedRows } =
+  const { handleSubmitData, handleRowSelection, listHocPhan, selectedRow } =
     props
 
   const bem = useBem('lich-thi')
@@ -47,10 +47,8 @@ export const LichThiViewTrungLichThi = (props) => {
                 <td className={bem.is('sticky')}>{index}</td>
                 <td>
                   <Checkbox
-                    checked={selectedRows?.includes((row) =>
-                      isEqual(row, hocphan),
-                    )}
-                    onClick={() => handleRowSelection(hocphan)}
+                    checked={isEqual(selectedRow, hocphan)}
+                    onChange={() => handleRowSelection(hocphan)}
                   />
                 </td>
                 <td>
