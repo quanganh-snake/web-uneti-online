@@ -10,6 +10,7 @@ export const Radio = (props) => {
   const uid = Math.floor(Math.random() * 10000)
 
   const {
+    id,
     disabled,
     loading,
     value,
@@ -18,20 +19,26 @@ export const Radio = (props) => {
     name,
     onChange,
     children,
+    checked,
+    color = 'primary',
   } = props
 
   const isDisabled = useMemo(() => disabled || loading, [disabled, loading])
 
-  const checked = useMemo(() => value == modelValue, [value, modelValue])
+  const isChecked = useMemo(
+    () => checked || value == modelValue,
+    [checked, value, modelValue],
+  )
 
   const radioCls = useMemo(() => {
     return transformCls([
       bem.b('wrapper'),
       bem.is('loading', loading),
       bem.is('disabled', isDisabled),
-      bem.is('active', checked),
+      bem.is('active', isChecked),
+      bem.is(`color-${color}`),
     ])
-  }, [loading, isDisabled, checked])
+  }, [loading, isDisabled, isChecked, color])
 
   const handleChange = () => {
     onChange(value)
@@ -42,8 +49,7 @@ export const Radio = (props) => {
       <div className={radioCls}>
         <div className={bem.b()}>
           <input
-            id={uid}
-            value={value}
+            id={id ?? uid}
             onChange={handleChange}
             type="radio"
             disabled={isDisabled}
@@ -52,22 +58,18 @@ export const Radio = (props) => {
           />
 
           <span className={bem.e('effect')}>
-            {loading ? (
+            {/* {loading ? (
               <span className={bem.em('effect', 'loading')}>
                 <icon-loading />
               </span>
-            ) : null}
+            ) : null} */}
           </span>
         </div>
 
         {/* Ưu tiên hiển thị label, sau đó mới tới default slot */}
-        {label ? (
-          <label htmlFor={uid} className={bem.e('label')}>
-            {label}
-          </label>
-        ) : children ? (
-          children
-        ) : null}
+        <label htmlFor={id ?? uid} className={bem.e('label')}>
+          {label ? label : children}
+        </label>
       </div>
     </>
   )

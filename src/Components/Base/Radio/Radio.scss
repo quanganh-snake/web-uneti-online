@@ -1,10 +1,133 @@
-@include b(radio) {
-  &-wrapper {
+@include b(radio-wrapper) {
+  @include set-component-var('radio', $radio);
+
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  position: relative;
+  gap: 10px;
+  user-select: none;
+
+  @include when(active) {
+    .radio__effect {
+      &:after {
+        border: 7px solid getColor('color', 1);
+        box-shadow: 0px 3px 12px 0px getColor('color', 0.3);
+      }
+    }
   }
+
+  @include when(loading) {
+    pointer-events: none;
+    user-select: none;
+
+    .radio__effect {
+      &:after {
+        opacity: 0.1;
+      }
+    }
+  }
+
+  label {
+    cursor: pointer;
+    user-select: none;
+  }
+  @include when(disabled) {
+    opacity: 0.5;
+    pointer-events: none;
+
+    .radio__effect {
+      background: getColor('gray-3');
+    }
+
+    label {
+      pointer-events: none;
+    }
+  }
+}
+
+@include b(radio) {
+  width: getCssVar(radio, 'width');
+  height: getCssVar(radio, 'height');
+  min-width: getCssVar(radio, 'min-width');
+  min-height: getCssVar(radio, 'min-height');
+  margin: 0px;
+  padding: 0px;
+  border-radius: 50%;
+  position: relative;
+  z-index: 2;
 
   @include e(effect) {
-  }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    left: 0px;
+    top: 0px;
+    transition: all 0.22s ease;
+    box-sizing: border-box;
+    z-index: 2;
 
-  @include e(label) {
+    @include m(icon) {
+      transition: all 0.22s ease;
+      i {
+        font-size: 0.75rem;
+      }
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      border: 2px solid getColor('text', 0.35);
+      box-sizing: border-box;
+      transition: all 0.22s ease;
+      display: block;
+      box-shadow: 0px 0px 0px 0px getColor('color', 0.4);
+    }
+  }
+  input {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 5;
+    opacity: 0;
+    cursor: pointer;
+
+    &:active {
+      ~ .radio__effect {
+        &:after {
+          transform: scale(0.9);
+        }
+      }
+    }
+
+    &:not(:checked) ~ .radio__effect {
+      .radio__effect--loading {
+        .icon-loading {
+          color: getColor('divider');
+        }
+      }
+    }
+
+    &:checked {
+      ~ .radio__effect {
+        &:after {
+          border: 7px solid getColor('color', 1);
+          animation-name: radio;
+          animation-duration: 4s;
+          animation-play-state: paused;
+          animation-iteration-count: infinite;
+          box-shadow: 0px 3px 10px 0px getColor('color', 0.4);
+        }
+      }
+    }
   }
 }
