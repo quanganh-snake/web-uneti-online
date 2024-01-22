@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useEffect } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
@@ -12,6 +12,7 @@ import CauHoi from '@/Components/HocTap/OnTap/CauHoi'
 import { getAllMonHoc } from '@/Apis/HocTap/apiHocTap'
 import { useBem } from '@/Services/Hooks'
 import './DanhSachCauHoi.scss'
+import Accordion from '@/Components/Base/Accordion/Accordion'
 import { OnTapContext } from '@/Services/Tokens'
 
 function DanhSachDeThi() {
@@ -37,6 +38,8 @@ function DanhSachDeThi() {
   const [totalPage, setTotalPage] = useState(0)
   const [monHocPhan, setMonHocPhan] = useState()
   const [listCauHoi, setListCauHoi] = useState([])
+
+  const accordionRef = useRef()
 
   useEffect(() => {
     getAllMonHocThiThu(dataSv.MaSinhVien).then((res) => {
@@ -73,6 +76,10 @@ function DanhSachDeThi() {
 
   const [showMenu, setShowMenu] = useState(false)
 
+  useEffect(() => {
+    setShowMenu(accordionRef.current.isOpen)
+  }, [accordionRef.current.isOpen])
+
   return (
     <OnTapContext.Provider>
       <div className="flex flex-col text-center justify-start items-center gap-4 bg-white rounded-[26px] mb-4 p-4">
@@ -94,7 +101,19 @@ function DanhSachDeThi() {
 
         <div
           className={`fixed top-[240px] right-[20px] transition-all duration-200 bg-white rounded-xl overflow-hidden shadow-md flex flex-col md:w-[30%] md:static`}
-        ></div>
+        >
+          <Accordion
+            className={`${showMenu ? 'max-w-max' : 'max-w-80px'}`}
+            ref={accordionRef}
+          >
+            <Accordion.Label className="bg-uneti-primary text-white justify-between">
+              <div className="ml-auto">90:00</div>
+            </Accordion.Label>
+            <Accordion.Content>
+              loremadwandwdwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+            </Accordion.Content>
+          </Accordion>
+        </div>
       </div>
     </OnTapContext.Provider>
   )
