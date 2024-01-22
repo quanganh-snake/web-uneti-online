@@ -53,7 +53,7 @@ function DanhSachDeThi() {
         {monHoc.TenMonHoc}
       </h3>
       <span className="text-uneti-primary text-sm">
-        Mã Lớp Học Phần: {monHoc.MaMonHoc}
+        Mã Môn Học: {monHoc.MaMonHoc}
       </span>
       <div className="w-full flex flex-col gap-4 pb-2">
         {listDeThi.map((dt, index) => (
@@ -69,7 +69,7 @@ function DanhSachDeThi() {
               <span className="text-sm">Mã đề: {dt.MaDeThi}</span>
             </div>
             <div>
-              <Link to={`${dt.MaDeThi}`}>
+              <Link to={`dethi/${dt.MaDeThi}`}>
                 <button className="rounded-lg text-white bg-uneti-primary px-4 py-2 bg-opacity-80 hover:bg-opacity-100 duration-200">
                   Bắt Đầu Thi
                 </button>

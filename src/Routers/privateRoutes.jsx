@@ -227,10 +227,10 @@ export const privateRoutes = (
             </Route>
             <Route path="thithu">
               <Route index element={<HocTapThiThu />} />
-              <Route
-                path="danhsachdethi/:id?"
-                element={<ThiThuDanhSachDeThi />}
-              />
+              <Route path="danhsachdethi/:id?">
+                <Route index element={<ThiThuDanhSachDeThi />} />
+                <Route path="dethi/:id?" element={<DeThi />}></Route>
+              </Route>
             </Route>
           </Route>
         </Route>
