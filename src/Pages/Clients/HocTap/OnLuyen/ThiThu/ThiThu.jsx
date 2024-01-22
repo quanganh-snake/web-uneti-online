@@ -2,7 +2,7 @@ import { getAllMonHocThiThu } from '@/Apis/HocTap/apiOnLuyenThiThu'
 import Accordion from '@/Components/Base/Accordion/Accordion'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import React, { useEffect, useState } from 'react'
-import iconOnLuyen from '@/assets/Images/icon-onluyen.png'
+import iconOnLuyen from '@/assets/Icons/icon-onluyen.png'
 import { Box, CircularProgress, Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
 
@@ -47,7 +47,7 @@ export default function ThiThu() {
                       if (mh.TenDot === hk) {
                         return (
                           <Link
-                            to={`danhsachdethi/${mh.MaMonHoc}`}
+                            to={`${mh.MaMonHoc}`}
                             key={index}
                             className="cursor-pointer bg-white rounded-md shadow-md hover:shadow-sm duration-200 w-full flex p-4 justify-between items-center gap-4 text-vs-text"
                           >
