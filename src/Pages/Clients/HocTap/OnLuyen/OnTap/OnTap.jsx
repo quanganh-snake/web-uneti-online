@@ -41,9 +41,6 @@ export default function OnTap() {
 
   return (
     <>
-      <XacNhanThi {...listMonHoc[0]} />
-      <XacNhanNopBai {...listMonHoc[0]} />
-      <KetQuaThi {...listMonHoc[0]} />
       <CommonLayout
         sidebar={hocTapSidebar}
         breadcrumbs={breadcrumbs}

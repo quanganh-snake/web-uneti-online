@@ -14,6 +14,7 @@ import { useBem } from '@/Services/Hooks'
 import './DanhSachCauHoi.scss'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import Accordion from '@/Components/Base/Accordion/Accordion'
+import { OnTapContext } from '@/Services/Tokens'
 
 function DanhSachDeThi() {
   const uLocation = useLocation()
@@ -81,9 +82,9 @@ function DanhSachDeThi() {
   }, [accordionRef.current.isOpen])
 
   return (
-    <div>
+    <OnTapContext.Provider>
       <div className="flex flex-col text-center justify-start items-center gap-4 bg-white rounded-[26px] mb-4 p-4">
-        <h3 className="text-uneti-primary font-bold text-4xl">
+        <h3 className="text-uneti-primary text-center font-bold text-xl">
           {monHoc.TenMonHoc}
         </h3>
         <span className="text-uneti-primary text-sm">
@@ -115,7 +116,7 @@ function DanhSachDeThi() {
           </Accordion>
         </div>
       </div>
-    </div>
+    </OnTapContext.Provider>
   )
 }
 
