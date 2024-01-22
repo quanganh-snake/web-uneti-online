@@ -10,14 +10,14 @@ import {
 } from '@/Apis/HocTap/apiOnLuyenThiThu'
 import CauHoi from '@/Components/HocTap/OnTap/CauHoi'
 import { getAllMonHoc } from '@/Apis/HocTap/apiHocTap'
-import MenuIcon from './MenuIcon'
-import CloseIcon from './CloseIcon'
+import { useBem } from '@/Services/Hooks'
+import './DanhSachCauHoi.scss'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 function DanhSachDeThi() {
   const uLocation = useLocation()
   const navigate = useNavigate()
-
-  const [showMenu, setShowMenu] = useState(false)
+  const bem = useBem('DanhSachDeThi')
 
   const maMonHoc = uLocation.pathname.split('/').at(-1).toString()
 
@@ -71,10 +71,12 @@ function DanhSachDeThi() {
     })
   }, [maHocPhan])
 
+  const [showMenu, setShowMenu] = useState(false)
+
   return (
-    <>
-      <div className="flex flex-col justify-start items-center gap-4 bg-white rounded-[26px] mb-4 p-4">
-        <h3 className="text-uneti-primary text-center font-bold text-2xl">
+    <div>
+      <div className="flex flex-col text-center justify-start items-center gap-4 bg-white rounded-[26px] mb-4 p-4">
+        <h3 className="text-uneti-primary font-bold text-4xl">
           {monHoc.TenMonHoc}
         </h3>
         <span className="text-uneti-primary text-sm">
@@ -82,7 +84,7 @@ function DanhSachDeThi() {
         </span>
       </div>
       <div className="flex justify-center items-start gap-4">
-        <div className="w-full">
+        <div className="w-full border-b-2 border-solid border-b-white">
           <div className="flex flex-col gap-3 bg-white rounded-[26px] p-4">
             {listCauHoi.map((e, index) => (
               <CauHoi key={index} STT={index + 1} {...e} />
@@ -90,16 +92,11 @@ function DanhSachDeThi() {
           </div>
         </div>
 
-        <div className="fixed right-4 top-48">
-          <MenuIcon />
-          <CloseIcon />
-        </div>
-
-        <div className="md:w-[30%] rounded-[26px] bg-white p-4 fixed right-4 top-50">
-          ddknj
-        </div>
+        <div
+          className={`fixed top-[240px] right-[20px] transition-all duration-200 bg-white rounded-xl overflow-hidden shadow-md flex flex-col md:w-[30%] md:static`}
+        ></div>
       </div>
-    </>
+    </div>
   )
 }
 
