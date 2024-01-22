@@ -45,22 +45,7 @@ function DanhSachDeThi() {
     })
   }, [maHocPhan])
 
-  return (
-    <>
-      <CommonLayout
-        sidebar={sidebar}
-        breadcrumbs={[
-          ...breadcrumbs,
-          {
-            path: `/hoctap/onluyen/ontap/danhsachcauhoi/${maHocPhan}`,
-            title: 'Danh sách đề thi',
-          },
-        ]}
-      >
-        {maHocPhan}
-      </CommonLayout>
-    </>
-  )
+  return <>{maHocPhan}</>
 }
 
 export default DanhSachDeThi

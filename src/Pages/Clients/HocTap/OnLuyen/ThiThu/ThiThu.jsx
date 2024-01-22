@@ -42,6 +42,7 @@ export default function ThiThu() {
           <HocKy
             key={index}
             hocKy={hk}
+            linkTo="danhsachdethi"
             listMonHoc={danhSachMonHocTheoHocKy[hk]}
           />
         ))}

@@ -42,6 +42,7 @@ export default function OnTap() {
           <HocKy
             key={index}
             hocKy={hk}
+            linkTo="danhsachcauhoi"
             listMonHoc={danhSachMonHocTheoHocKy[hk]}
           />
         ))}

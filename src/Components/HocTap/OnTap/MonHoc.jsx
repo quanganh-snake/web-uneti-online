@@ -1,6 +1,5 @@
 import { Box, CircularProgress, Typography } from '@mui/material'
 import iconOnLuyen from '@/assets/Images/icon-onluyen.png'
-import { Link } from 'react-router-dom'
 
 export default function MonHoc({
   MaMonHoc,
@@ -9,10 +8,7 @@ export default function MonHoc({
   TongCauHoi,
 }) {
   return (
-    <Link
-      to={`danhsachdethi/${MaMonHoc}`}
-      className="cursor-pointer rounded-[32px] border-2 border-slate-200 transition-all hover:border-vs-primary hover:shadow-sm duration-200 w-full flex p-4 justify-between items-center gap-4 text-vs-text"
-    >
+    <div className="cursor-pointer rounded-[32px] border-2 border-slate-200 transition-all hover:border-vs-primary hover:shadow-sm duration-200 w-full flex p-4 justify-between items-center gap-4 text-vs-text">
       <div>
         <img src={iconOnLuyen} />
       </div>
@@ -53,6 +49,6 @@ export default function MonHoc({
           </Box>
         </Box>
       </div>
-    </Link>
+    </div>
   )
 }
