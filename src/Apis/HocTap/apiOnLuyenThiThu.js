@@ -8,6 +8,13 @@ export const getAllMonHocThiThu = (MaSinhVien = '') => {
   })
 }
 
+export const getAllDeThiThiThu = (MaMonHoc = '') => {
+  return http.get('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/DeThi_TheoMonHoc', {
+    params: {
+      MaMonHoc: MaMonHoc,
+    },
+  })
+}
 export const LOAD_CAU_HOI_DIEU_KIEN_LOC = {
   TatCa: 0,
   ChuaLam: 1,

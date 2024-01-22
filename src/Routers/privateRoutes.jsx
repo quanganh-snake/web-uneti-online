@@ -74,6 +74,7 @@ import HocTapOnLuyen from '@/Pages/Clients/HocTap/OnLuyen/OnLuyen.jsx'
 import HocTapOnTap from '@/Pages/Clients/HocTap/OnLuyen/OnTap/OnTap.jsx'
 import HocTapThiThu from '@/Pages/Clients/HocTap/OnLuyen/ThiThu/ThiThu.jsx'
 import KetQuaHocTapChiTiet from '@/Pages/Clients/HocTap/KetQuaHocTap/KetQuaHocTapChiTiet/KetQuaHocTapChiTiet'
+import DeThi from '@/Pages/Clients/HocTap/OnLuyen/ThiThu/DanhSachDeThi/DeThi/DeThi'
 import ThiThuDanhSachDeThi from '@/Pages/Clients/HocTap/OnLuyen/ThiThu/DanhSachDeThi/DanhSachMonThi'
 import OnTapDanhSachCauHoi from '@/Pages/Clients/HocTap/OnLuyen/OnTap/DanhSachCauHoi/DanhSachCauHoi'
 
@@ -226,10 +227,10 @@ export const privateRoutes = (
             </Route>
             <Route path="thithu">
               <Route index element={<HocTapThiThu />} />
-              <Route
-                path="danhsachdethi/:id?"
-                element={<ThiThuDanhSachDeThi />}
-              />
+              <Route path="danhsachdethi/:id?">
+                <Route index element={<ThiThuDanhSachDeThi />} />
+                <Route path="dethi/:id?" element={<DeThi />}></Route>
+              </Route>
             </Route>
           </Route>
         </Route>
