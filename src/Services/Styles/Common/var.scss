@@ -98,3 +98,14 @@ $appColor: map.merge(
   ),
   $appColor
 );
+
+$radio: () !default;
+$radio: map.merge(
+  (
+    'width': 20px,
+    'height': 20px,
+    'min-width': 20px,
+    'min-height': 20px,
+  ),
+  $radio
+);

@@ -1,5 +1,5 @@
 import { Box, CircularProgress, Typography } from '@mui/material'
-import iconOnLuyen from '@/assets/Images/icon-onluyen.png'
+import iconOnLuyen from '@/assets/Icons/icon-onluyen.png'
 
 export default function MonHoc({
   MaMonHoc,
