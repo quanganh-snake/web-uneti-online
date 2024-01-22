@@ -24,11 +24,12 @@ export default function CauHoi(props) {
   return (
     <>
       <div className="bg-white text-vs-theme-color text-sm select-none rounded-[20px] border-2 p-5 border-slate-200 padding">
-        <div className="flex text-vs-danger mb-3 text-base">
-          <b>Câu hỏi {STT}:</b>
+        <div className="flex mb-3 text-base text-vs-text">
           <b
-            className="text-vs-theme-color ml-2"
-            dangerouslySetInnerHTML={{ __html: doc }}
+            className=" ml-2"
+            dangerouslySetInnerHTML={{
+              __html: `<span style="margin-right: 0.5rem; color: #FF4757;">Câu hỏi ${STT}:</span> ${doc}`,
+            }}
           />
         </div>
 
