@@ -1,4 +1,4 @@
-export const HocTapSidebar = [
+export const hocTapSidebar = [
   {
     name: '/hoctap/ketquahoctap',
     label: 'Kết quả học tập',

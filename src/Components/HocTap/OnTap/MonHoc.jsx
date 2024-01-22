@@ -8,7 +8,7 @@ export default function MonHoc({
   TongCauHoi,
 }) {
   return (
-    <div className="cursor-pointer rounded-[32px] border-2 border-slate-200 transition-all hover:border-vs-primary hover:shadow-sm duration-200 w-full flex p-4 justify-between items-center gap-4 text-vs-text">
+    <div className="cursor-pointer rounded-[32px] border-2 border-slate-200 transition-all hover:border-vs-primary hover:shadow-sm duration-200 w-full flex p-4 justify-between items-center gap-4">
       <div>
         <img src={iconOnLuyen} />
       </div>

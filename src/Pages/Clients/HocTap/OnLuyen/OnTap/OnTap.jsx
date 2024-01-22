@@ -4,9 +4,10 @@ import CommonLayout from '@/Layouts/Common/CommonLayout'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { getAllMonHocThiThu } from '@/Apis/HocTap/apiOnLuyenThiThu'
 
-import { breadcrumbs, home, sidebar } from './constants'
+import { breadcrumbs, home } from './constants'
 import HocKy from '@/Components/HocTap/OnTap/HocKy'
 import { useMemo } from 'react'
+import { hocTapSidebar } from '../../constants'
 
 export default function OnTap() {
   const [listMonHoc, setListMonHoc] = useState([])
@@ -37,7 +38,11 @@ export default function OnTap() {
 
   return (
     <>
-      <CommonLayout sidebar={sidebar} breadcrumbs={breadcrumbs} home={home}>
+      <CommonLayout
+        sidebar={hocTapSidebar}
+        breadcrumbs={breadcrumbs}
+        home={home}
+      >
         {Object.keys(danhSachMonHocTheoHocKy).map((hk, index) => (
           <HocKy
             key={index}
