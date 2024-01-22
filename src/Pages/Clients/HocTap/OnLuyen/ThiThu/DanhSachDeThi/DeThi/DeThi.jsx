@@ -1,6 +1,6 @@
 import { getAllMonHocThiThu } from '@/Apis/HocTap/apiOnLuyenThiThu'
+import XacNhanNopBai from '@/Components/HocTap/Promt/XacNhanNopBai'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
-import { at } from 'lodash-unified'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -29,6 +29,10 @@ function DeThi() {
     })
   }, [])
 
+  const handleXacNhanNopBai = () => {
+    console.log('Nộp bài')
+  }
+
   return (
     <div>
       <div className="flex justify-center items-center flex-col gap-4 rounded-md bg-white p-4">
@@ -40,6 +44,10 @@ function DeThi() {
         </span>
       </div>
       <div>
+        <XacNhanNopBai
+          TenMonHoc={monHoc.TenMonHoc}
+          onConfirm={handleXacNhanNopBai}
+        />
         <div>Câu Hỏi</div>
         <div>Điều khiển</div>
       </div>

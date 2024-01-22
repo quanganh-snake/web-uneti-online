@@ -7,12 +7,9 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import iconThiThu from '@/assets/Icons/icon-thithu.png'
 import XacNhanThi from '@/Components/HocTap/Promt/XacNhanThi'
-import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 function DanhSachDeThi() {
   const uLocation = useLocation()
-
-  const [autoAnimateRef] = useAutoAnimate()
 
   const navigate = useNavigate()
 
