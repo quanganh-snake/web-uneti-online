@@ -62,7 +62,7 @@ function KetQuaHocTapChiTiet() {
           <h4 className="font-bold mb-4">* Điểm thường kỳ</h4>
           <div className="overflow-auto">
             <div className="min-w-[500px] mb-4 overflow-hidden rounded-2xl border border-solid border-uneti-primary border-opacity-30">
-              <table className="w-full text-vs-text text-sm rounded-3xl">
+              <table className="w-full text-vs-theme-color text-sm rounded-3xl">
                 <thead className="font-bold">
                   <tr>
                     <th
@@ -200,7 +200,7 @@ function KetQuaHocTapChiTiet() {
           <h4 className="font-bold mb-4">* Điểm thi kỹ năng (KN)</h4>
           <div className="overflow-auto">
             <div className="mb-4 overflow-hidden rounded-2xl border border-solid border-uneti-primary border-opacity-30">
-              <table className="w-full text-vs-text text-sm rounded-3xl">
+              <table className="w-full text-vs-theme-color text-sm rounded-3xl">
                 <thead className="font-bold">
                   <tr>
                     <th
@@ -249,7 +249,7 @@ function KetQuaHocTapChiTiet() {
           <h4 className="font-bold mb-4">* Điểm thi</h4>
           <div className="overflow-auto">
             <div className=" mb-4 overflow-hidden rounded-2xl border border-solid border-uneti-primary border-opacity-30">
-              <table className="w-full text-vs-text text-sm rounded-3xl">
+              <table className="w-full text-vs-theme-color text-sm rounded-3xl">
                 <thead className="font-bold">
                   <tr>
                     <th

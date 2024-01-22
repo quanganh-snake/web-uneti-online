@@ -11,7 +11,7 @@ module.exports = {
         'vs-danger': '#ff4757',
         'vs-warn': '#ffba00',
         'vs-dark': '#1e1e1e',
-        'vs-text': '#303133',
+        'vs-text': '#2c3e50',
         'vs-theme-layout': 'rgba(255, 255, 255)',
         'vs-theme-color': 'rgba(44, 62, 80)',
         'vs-theme-bg': 'rgba(244, 247, 248)',
@@ -19,6 +19,9 @@ module.exports = {
       borderRadius: {
         // exclude top left
         'exclude-tl': '12px 22px 22px 22px',
+      },
+      boxShadow: {
+        icon: '0 8px 25px 0 rgba(0, 0, 0, 0.04)',
       },
     },
 

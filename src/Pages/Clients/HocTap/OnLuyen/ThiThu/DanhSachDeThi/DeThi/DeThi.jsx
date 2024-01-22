@@ -32,7 +32,7 @@ function DeThi() {
   return (
     <div>
       <div className="flex justify-center items-center flex-col gap-4 rounded-md bg-white p-4">
-        <h3 className="text-uneti-primary font-bold text-4xl">
+        <h3 className="text-uneti-primary text-center font-bold text-2xl">
           {monHoc.TenMonHoc}
         </h3>
         <span className="text-uneti-primary text-sm">

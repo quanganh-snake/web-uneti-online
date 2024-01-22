@@ -4,6 +4,7 @@ import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import CommonLayout from '@/Layouts/Common/CommonLayout'
+import { hocTapSidebar } from '../constants'
 
 export default function KetQuaHocTap() {
   const home = {
@@ -56,6 +57,7 @@ export default function KetQuaHocTap() {
         heading="KẾT QUẢ HỌC TẬP"
         home={home}
         breadcrumbs={breadcrumbs}
+        sidebar={hocTapSidebar}
       >
         {listHocKy.length
           ? listHocKy.map((hk, index) => (
@@ -63,14 +65,14 @@ export default function KetQuaHocTap() {
                 <Accordion.Label className="bg-uneti-primary text-white">
                   Học kỳ {hk}
                 </Accordion.Label>
-                <Accordion.Content className="w-full overflow-x-auto">
-                  <div className="w-full my-4 overflow-hidden rounded-2xl border border-solid border-uneti-primary border-opacity-30">
+                <Accordion.Content>
+                  <div className="w-full my-4 overflow-x-scroll rounded-2xl border border-solid border-uneti-primary border-opacity-30">
                     <table className="text-vs-text text-sm rounded-3xl">
-                      <thead className="font-bold">
+                      <thead className="font-semibold">
                         <tr>
                           <th
                             rowSpan={2}
-                            className=" py-4 min-w-[200px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-y-0 border-l-0"
+                            className=" py-4 min-w-[200px] sticky left-0 bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-y-0 border-l-0"
                           >
                             Tên môn học
                           </th>
@@ -165,12 +167,12 @@ export default function KetQuaHocTap() {
                           </th>
                         </tr>
                       </thead>
-                      <tbody className="font-[500]">
+                      <tbody>
                         {listMonHoc.map((mh, i) => {
                           if (mh.TC_SV_KetQuaHocTap_HocKy === hk) {
                             return (
                               <tr key={i}>
-                                <td className="transition-all duration-200 hover:text-uneti-primary cursor-pointer py-2 px-4 border border-solid border-uneti-primary border-opacity-30 border-l-0 border-b-0">
+                                <td className="transition-all sticky left-0 top-0 bg-white font-semibold duration-200 hover:text-uneti-primary cursor-pointer py-2 px-4 border border-solid border-uneti-primary border-opacity-30 border-l-0">
                                   <Link
                                     to={`ketquahoctapchitiet/${mh.TC_SV_KetQuaHocTap_MaLopHocPhan}`}
                                   >

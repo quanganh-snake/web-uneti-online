@@ -4,11 +4,15 @@ import {
 } from '@/Apis/HocTap/apiOnLuyenThiThu'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { useEffect, useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import iconThiThu from '@/assets/Icons/icon-thithu.png'
+import XacNhanThi from '@/Components/HocTap/Promt/XacNhanThi'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 function DanhSachDeThi() {
   const uLocation = useLocation()
+
+  const [autoAnimateRef] = useAutoAnimate()
 
   const navigate = useNavigate()
 
@@ -47,9 +51,13 @@ function DanhSachDeThi() {
     }
   }, [])
 
+  const handleBatDauThi = (deThi) => {
+    navigate(`dethi/${deThi.MaDeThi}`)
+  }
+
   return (
     <div className="flex flex-col justify-start items-center gap-4">
-      <h3 className="text-uneti-primary font-bold text-4xl">
+      <h3 className="text-uneti-primary text-center font-bold text-2xl">
         {monHoc.TenMonHoc}
       </h3>
       <span className="text-uneti-primary text-sm">
@@ -65,15 +73,15 @@ function DanhSachDeThi() {
               <img src={iconThiThu} />
             </div>
             <div className="flex-1 flex flex-col gap-4">
-              <span className="font-bold">{dt.TenDeThi}</span>
+              <span className="font-semibold">{dt.TenDeThi}</span>
               <span className="text-sm">Mã đề: {dt.MaDeThi}</span>
             </div>
             <div>
-              <Link to={`dethi/${dt.MaDeThi}`}>
-                <button className="rounded-lg text-white bg-uneti-primary px-4 py-2 bg-opacity-80 hover:bg-opacity-100 duration-200">
-                  Bắt Đầu Thi
-                </button>
-              </Link>
+              <XacNhanThi
+                onConfirm={handleBatDauThi}
+                TenMonHoc={monHoc.TenMonHoc}
+                {...dt}
+              />
             </div>
           </div>
         ))}
