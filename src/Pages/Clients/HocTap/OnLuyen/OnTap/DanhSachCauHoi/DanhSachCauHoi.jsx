@@ -12,6 +12,7 @@ import CauHoi from '@/Components/HocTap/OnTap/CauHoi'
 import { getAllMonHoc } from '@/Apis/HocTap/apiHocTap'
 import { useBem } from '@/Services/Hooks'
 import './DanhSachCauHoi.scss'
+import { OnTapContext } from '@/Services/Tokens'
 
 function DanhSachDeThi() {
   const uLocation = useLocation()
@@ -73,9 +74,9 @@ function DanhSachDeThi() {
   const [showMenu, setShowMenu] = useState(false)
 
   return (
-    <div>
+    <OnTapContext.Provider>
       <div className="flex flex-col text-center justify-start items-center gap-4 bg-white rounded-[26px] mb-4 p-4">
-        <h3 className="text-uneti-primary font-bold text-4xl">
+        <h3 className="text-uneti-primary text-center font-bold text-xl">
           {monHoc.TenMonHoc}
         </h3>
         <span className="text-uneti-primary text-sm">
@@ -95,7 +96,7 @@ function DanhSachDeThi() {
           className={`fixed top-[240px] right-[20px] transition-all duration-200 bg-white rounded-xl overflow-hidden shadow-md flex flex-col md:w-[30%] md:static`}
         ></div>
       </div>
-    </div>
+    </OnTapContext.Provider>
   )
 }
 
