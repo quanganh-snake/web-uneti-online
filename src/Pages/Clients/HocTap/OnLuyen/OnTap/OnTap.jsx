@@ -8,6 +8,9 @@ import { breadcrumbs, home } from './constants'
 import HocKy from '@/Components/HocTap/OnTap/HocKy'
 import { useMemo } from 'react'
 import { hocTapSidebar } from '../../constants'
+import XacNhanThi from '@/Components/HocTap/Promt/XacNhanThi'
+import XacNhanNopBai from '@/Components/HocTap/Promt/XacNhanNopBai'
+import KetQuaThi from '@/Components/HocTap/Promt/KetQuaThi'
 
 export default function OnTap() {
   const [listMonHoc, setListMonHoc] = useState([])
@@ -38,6 +41,9 @@ export default function OnTap() {
 
   return (
     <>
+      <XacNhanThi {...listMonHoc[0]} />
+      <XacNhanNopBai {...listMonHoc[0]} />
+      <KetQuaThi {...listMonHoc[0]} />
       <CommonLayout
         sidebar={hocTapSidebar}
         breadcrumbs={breadcrumbs}

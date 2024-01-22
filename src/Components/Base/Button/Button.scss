@@ -1,11 +1,13 @@
 @include b(button) {
+  --color: var(--primary-lighter);
+
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 12px;
   transition: all 0.25s ease;
   border: 0;
-  padding: 0;
+  padding: 10px 16px;
   position: relative;
   z-index: 1;
   overflow: hidden;
@@ -14,6 +16,25 @@
   outline: 0;
   font-size: 0.8rem;
   position: relative;
+  background-color: getColor(color);
+  color: white;
+
+  @include when(flat) {
+    background: getColor(color, 0.15);
+    color: getColor(color);
+
+    &:hover {
+      background: getColor(color, 0.25);
+    }
+
+    &:focus {
+      color: #fff;
+      background: getColor(color);
+      transition:
+        all 0.25s ease,
+        background 0.25s ease 0.25s;
+    }
+  }
 
   @include when(icon) {
     width: 36px !important;
@@ -22,12 +43,13 @@
   }
 
   @include when(flat) {
-    color: getColor(primary);
-    background-color: getColor(primary, 0.1);
+    color: getColor(color);
+    background-color: getColor(color, 0.1);
   }
 
   @include when(transparent) {
-    color: getColor(primary);
+    color: getColor(color);
+    background-color: transparent;
 
     &::before {
       content: '';
@@ -37,8 +59,13 @@
       right: 0;
       bottom: 0;
       transform: scale(0);
+      border-radius: 12px;
       transition: all 0.25s ease;
-      background-color: getColor(primary, 0.1);
+      background-color: getColor(color, 0.1);
+    }
+
+    &:active::before {
+      transform: scale(0.9) !important;
     }
 
     &:hover::before {

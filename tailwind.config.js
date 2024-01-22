@@ -20,6 +20,9 @@ module.exports = {
         // exclude top left
         'exclude-tl': '12px 22px 22px 22px',
       },
+      boxShadow: {
+        icon: '0 8px 25px 0 rgba(0, 0, 0, 0.04)',
+      },
     },
 
     /**

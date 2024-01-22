@@ -74,7 +74,7 @@ function DanhSachDeThi() {
   return (
     <>
       <div className="flex flex-col justify-start items-center gap-4 bg-white rounded-[26px] mb-4 p-4">
-        <h3 className="text-uneti-primary font-bold text-4xl">
+        <h3 className="text-uneti-primary text-center font-bold text-2xl">
           {monHoc.TenMonHoc}
         </h3>
         <span className="text-uneti-primary text-sm">
