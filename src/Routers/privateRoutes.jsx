@@ -74,8 +74,9 @@ import HocTapOnLuyen from '@/Pages/Clients/HocTap/OnLuyen/OnLuyen.jsx'
 import HocTapOnTap from '@/Pages/Clients/HocTap/OnLuyen/OnTap/OnTap.jsx'
 import HocTapThiThu from '@/Pages/Clients/HocTap/OnLuyen/ThiThu/ThiThu.jsx'
 import KetQuaHocTapChiTiet from '@/Pages/Clients/HocTap/KetQuaHocTap/KetQuaHocTapChiTiet/KetQuaHocTapChiTiet'
-import DanhSachDeThi from '@/Pages/Clients/HocTap/OnLuyen/ThiThu/DanhSachDeThi/DanhSachMonThi'
 import DeThi from '@/Pages/Clients/HocTap/OnLuyen/ThiThu/DanhSachDeThi/DeThi/DeThi'
+import ThiThuDanhSachDeThi from '@/Pages/Clients/HocTap/OnLuyen/ThiThu/DanhSachDeThi/DanhSachMonThi'
+import OnTapDanhSachCauHoi from '@/Pages/Clients/HocTap/OnLuyen/OnTap/DanhSachCauHoi/DanhSachCauHoi'
 
 const ROLES = ['GV', 'SV']
 export const ROLE_VIEW_ACTION_TTHCGV = {
@@ -217,13 +218,19 @@ export const privateRoutes = (
           <Route path="onluyen">
             <Route index element={<HocTapOnLuyen />} />
 
-            <Route path="ontap" element={<HocTapOnTap />} />
+            <Route path="ontap">
+              <Route index element={<HocTapOnTap />} />
+              <Route
+                path="danhsachcauhoi/:id?"
+                element={<OnTapDanhSachCauHoi />}
+              />
+            </Route>
             <Route path="thithu">
-              <Route index element={<HocTapThiThu />}></Route>
-              <Route path=":id?">
-                <Route index element={<DanhSachDeThi />}></Route>
-                <Route path=":id?" element={<DeThi />}></Route>
-              </Route>
+              <Route index element={<HocTapThiThu />} />
+              <Route
+                path="danhsachdethi/:id?"
+                element={<ThiThuDanhSachDeThi />}
+              />
             </Route>
           </Route>
         </Route>

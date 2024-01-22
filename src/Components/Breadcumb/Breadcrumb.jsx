@@ -9,7 +9,7 @@ function Breadcrumb(props) {
 
   return (
     <nav
-      className="flex pb-2 border-uneti-primary border-b-2 border-b-vs-text border-opacity-80"
+      className="flex pb-2 border-uneti-primary border-b-2 border-b-slate-300 border-opacity-70"
       aria-label="Breadcrumb"
     >
       <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
@@ -18,7 +18,7 @@ function Breadcrumb(props) {
             id="homeDropdown"
             data-dropdown-toggle="dropdown"
             to={home.path}
-            className="inline-flex items-center text-sm font-medium text-vs-text hover:opacity-80"
+            className="inline-flex items-center text-sm font-medium text-vs-theme-color opacity-70 hover:opacity-90"
           >
             <svg
               className="w-3 h-3 me-2.5"
@@ -54,10 +54,10 @@ function Breadcrumb(props) {
                 <Link
                   to={breadcrumb.path}
                   className={clsx(
-                    'ms-1 text-sm font-medium hover:opacity-70 md:ms-2',
+                    'ms-1 text-sm font-medium  opacity-70 hover:opacity-90 md:ms-2',
                     pathname === breadcrumb.path
                       ? 'text-blue-600'
-                      : 'text-gray-700',
+                      : 'text-vs-theme-color',
                   )}
                 >
                   {breadcrumb.title}

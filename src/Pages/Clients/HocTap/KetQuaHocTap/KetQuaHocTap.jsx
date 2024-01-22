@@ -1,9 +1,9 @@
 import { getALLDiemTrungBinh, getAllMonHoc } from '@/Apis/HocTap/apiHocTap'
 import Accordion from '@/Components/Base/Accordion/Accordion'
-import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import CommonLayout from '@/Layouts/Common/CommonLayout'
 
 export default function KetQuaHocTap() {
   const home = {
@@ -50,20 +50,15 @@ export default function KetQuaHocTap() {
     }
   }, [listMonHoc])
 
-  if (!listHocKy.length) {
-    return null
-  }
-
   return (
     <>
-      <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
-      <div className="bg-white mt-4 p-10 rounded-md shadow-sm">
-        <h3 className="uppercase w-full text-center font-bold text-xl mb-4 text-uneti-primary">
-          KẾT QUẢ HỌC TẬP
-        </h3>
-        <div>
-          {listHocKy.length &&
-            listHocKy.map((hk, index) => (
+      <CommonLayout
+        heading="KẾT QUẢ HỌC TẬP"
+        home={home}
+        breadcrumbs={breadcrumbs}
+      >
+        {listHocKy.length
+          ? listHocKy.map((hk, index) => (
               <Accordion key={index} className="mb-2">
                 <Accordion.Label className="bg-uneti-primary text-white">
                   Học kỳ {hk}
@@ -367,9 +362,9 @@ export default function KetQuaHocTap() {
                   </div>
                 </Accordion.Content>
               </Accordion>
-            ))}
-        </div>
-      </div>
+            ))
+          : null}
+      </CommonLayout>
     </>
   )
 }
