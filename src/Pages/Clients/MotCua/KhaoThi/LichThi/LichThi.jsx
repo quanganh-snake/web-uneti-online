@@ -10,7 +10,7 @@ import {
   getAllHocPhanLichThi,
   postYeuCauLichThi,
 } from '@/Apis/MotCua/KhaoThi/apiLichThi'
-import { required } from '@/Services/Middlewares/required'
+import { required } from '@/Services/Validators/required'
 import {
   makeDataImages,
   makeDataSv,

@@ -213,7 +213,7 @@ export const privateRoutes = (
       </Route>
 
       {/* Học tập - Sinh Viên */}
-      <Route element={<RoleMiddleware allowedRoles={[ROLES.G0101]} />}>
+      <Route element={<RoleMiddleware allowedRoles={[ROLES.S0202]} />}>
         <Route path="hoctap">
           <Route index element={<HomeHocTap />} />
           <Route path="ketquahoctap" element={<HocTapKetQuaHocTap />} />
