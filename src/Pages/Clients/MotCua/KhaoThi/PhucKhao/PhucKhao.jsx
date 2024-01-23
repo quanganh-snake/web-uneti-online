@@ -3,16 +3,24 @@ import PhucKhaoView from './PhucKhaoView'
 import { useState } from 'react'
 import Swal from 'sweetalert2'
 import { useEffect } from 'react'
-import { getTenDot } from '../../../../../Apis/MotCua/apiTenDot'
+import moment from 'moment'
+import { required } from '@/Services/Middlewares/required'
+import {
+  makeDataSv,
+  makePostDataSv,
+  transformSubmitValue,
+} from '@/Services/Utils/dataSubmitUtils'
+import { dataLoaiThi } from '@/Services/Static/dataStatic'
+import { getTenDot } from '@/Apis/MotCua/apiTenDot'
 import {
   checkExpiredPhucKhao,
   getAllHocPhanPhucKhao,
   postYeuCauPhucKhao,
-} from '../../../../../Apis/MotCua/KhaoThi/apiPhucKhao'
-import { DataSinhVien } from '../../../../../Services/Utils/dataSinhVien'
-import moment from 'moment'
-import { dataLoaiThi } from '../../../../../Services/Static/dataStatic'
+} from '@/Apis/MotCua/KhaoThi/apiPhucKhao'
+import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
+
 function PhucKhao() {
+  const PHUC_KHAO_PREFIX = 'MC_KT_PhucKhao_'
   const home = {
     path: '/motcua',
     title: 'Bộ phận một cửa',
@@ -32,9 +40,9 @@ function PhucKhao() {
   const [loading, setLoading] = useState(true)
   const [listHocKy, setListHocKy] = useState([])
   const [tenDot, setTenDot] = useState('')
-  const [loaiThi, setLoaiThi] = useState('')
+  const [loaiThi, setLoaiThi] = useState(dataLoaiThi[0].id.toString())
   const [listHocPhan, setListHocPhan] = useState([])
-  const [selectedRows, setSelectedRows] = useState([])
+  const [selectedRow, setSelectedRow] = useState(null)
 
   const dataSV = DataSinhVien()
 
@@ -49,164 +57,52 @@ function PhucKhao() {
     }
   }
 
-  const handleRowSelection = async (event, item) => {
-    if (event.target.checked) {
-      // Thêm vào mảng yeucau
-      setSelectedRows([...selectedRows, item])
-    } else {
-      // Xóa khỏi mảng yeucau
-      const updatedYeucau = selectedRows.filter(
-        (yeucauItem) => yeucauItem !== item,
-      )
-      setSelectedRows(updatedYeucau)
-    }
+  const handleRowSelection = (item) => {
+    setSelectedRow(item)
+  }
+
+  const middlewareSubmitData = () => {
+    return [
+      required(selectedRow, 'Vui lòng chọn 1 học phần cần gửi yêu cầu!'),
+    ].every((e) => e == true)
   }
 
   const handleSubmitData = async (e) => {
     e.preventDefault()
 
-    if (tenDot === '') {
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: 'Vui lòng chọn học kỳ!',
-      })
+    if (!middlewareSubmitData()) {
       return
     }
-
-    if (loaiThi === '') {
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: 'Vui lòng chọn loại thi!',
-      })
-      return
-    }
-
-    if (selectedRows.length > 1 || selectedRows.length === 0) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: 'Vui lòng chọn 1 học phần cần phúc khảo!',
-      })
-      return
-    }
-
-    const itemHocPhan = selectedRows[0]
-    console.log(
-      '🚀 ~ file: PhucKhao.jsx:96 ~ handleSubmitData ~ itemHocPhan:',
-      itemHocPhan,
-    )
 
     let dataHocPhan = {}
-    if (itemHocPhan) {
-      // Data post API
-      dataHocPhan.MC_KT_PhucKhao_TenCoSo = dataSV.CoSo ? dataSV.CoSo : 'null'
-      dataHocPhan.MC_KT_PhucKhao_TenDot = tenDot ?? 'null'
-      dataHocPhan.MC_KT_PhucKhao_MaSinhVien = dataSV.MaSinhVien
-        ? dataSV.MaSinhVien
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_HoDem = dataSV.HoDem ? dataSV.HoDem : 'null'
-      dataHocPhan.MC_KT_PhucKhao_Ten = dataSV.Ten ? dataSV.Ten : 'null'
-      dataHocPhan.MC_KT_PhucKhao_GioiTinh = dataSV.GioiTinh ?? 'null'
-      dataHocPhan.MC_KT_PhucKhao_TenHeDaoTao = dataSV.BacDaoTao
-        ? dataSV.BacDaoTao
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_TenLoaiHinhDT = dataSV.LoaiHinhDaoTao
-        ? dataSV.LoaiHinhDaoTao
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_TenKhoaHoc = dataSV.KhoaHoc
-        ? dataSV.KhoaHoc
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_TenNganh = dataSV.ChuyenNganh
-        ? dataSV.ChuyenNganh
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_TenNghe = dataSV.ChuyenNganh
-        ? dataSV.ChuyenNganh
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_TenLop = dataSV.LopHoc ? dataSV.LopHoc : 'null'
-      dataHocPhan.MC_KT_PhucKhao_DienThoai = dataSV.SoDienThoai
-        ? dataSV.SoDienThoai
-        : dataSV.SoDienThoai2
-          ? dataSV.SoDienThoai2
-          : dataSV.SoDienThoai3
-            ? dataSV.SoDienThoai3
-            : ''
-      dataHocPhan.MC_KT_PhucKhao_Email = dataSV.Email_TruongCap
-        ? dataSV.Email_TruongCap
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_IDSinhVien = dataSV.IdSinhVien
-        ? dataSV.IdSinhVien.toString()
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_NgaySinh2 = dataSV.NgaySinh
-        ? new Date(
-            `${dataSV.NgaySinh.split('/')[2]}-${
-              dataSV.NgaySinh.split('/')[1]
-            }-${dataSV.NgaySinh.split('/')[0]}`,
-          ).toISOString()
-        : 'null'
-      // data trong Tables
-      dataHocPhan.MC_KT_PhucKhao_MaLopHocPhan = itemHocPhan.MaLopHocPhan
-        ? itemHocPhan.MaLopHocPhan
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_TenMonHoc = itemHocPhan.TenMonHoc
-        ? itemHocPhan.TenMonHoc
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_KhoaChuQuanMon = itemHocPhan.KhoaChuQuanMon
-        ? itemHocPhan.KhoaChuQuanMon
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_TenHinhThucThi = itemHocPhan.TenHinhThucThi
-        ? itemHocPhan.TenHinhThucThi
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_NgayThi = itemHocPhan.NgayThi
-        ? itemHocPhan.NgayThi
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_Thu = itemHocPhan.Thu
-        ? itemHocPhan.Thu.toString()
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_Nhom = itemHocPhan.Nhom
-        ? itemHocPhan.Nhom.toString()
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_TuTiet = itemHocPhan.TuTiet
-        ? itemHocPhan.TuTiet.toString()
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_DenTiet = itemHocPhan.DenTiet
-        ? itemHocPhan.DenTiet.toString()
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_LoaiThi = itemHocPhan.LoaiThi
-        ? itemHocPhan.LoaiThi
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_TenPhong = itemHocPhan.TenPhong
-        ? itemHocPhan.TenPhong
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_SBD = itemHocPhan.SBD
-        ? itemHocPhan.SBD.toString()
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_DiemThi = itemHocPhan.DiemThi
-        ? itemHocPhan.DiemThi.toString()
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_DiemThi1 = itemHocPhan.DiemThi1
-        ? itemHocPhan.DiemThi1.toString()
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_DiemThi2 = itemHocPhan.DiemThi2
-        ? itemHocPhan.DiemThi2.toString()
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_DiemTongKet = itemHocPhan.DiemTongKet
-        ? itemHocPhan.DiemTongKet.toString()
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_DiemTongKet1 = itemHocPhan.DiemTongKet1
-        ? itemHocPhan.DiemTongKet1.toString()
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_DiemTongKet2 = itemHocPhan.DiemTongKet2
-        ? itemHocPhan.DiemTongKet2.toString()
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_TuiBaiThi = itemHocPhan.TuiBaiThi
-        ? itemHocPhan.TuiBaiThi.toString()
-        : 'null'
-      dataHocPhan.MC_KT_PhucKhao_SoPhach = itemHocPhan.SoPhach
-        ? itemHocPhan.SoPhach.toString()
-        : 'null'
-    }
+
+    dataHocPhan = makePostDataSv(
+      makeDataSv(dataSV, PHUC_KHAO_PREFIX),
+      {
+        TenDot: transformSubmitValue(tenDot),
+        MaLopHocPhan: transformSubmitValue(selectedRow.MaLopHocPhan),
+        TenMonHoc: transformSubmitValue(selectedRow.TenMonHoc),
+        KhoaChuQuanMon: transformSubmitValue(selectedRow.KhoaChuQuanMon),
+        TenHinhThucThi: transformSubmitValue(selectedRow.TenHinhThucThi),
+        NgayThi: transformSubmitValue(selectedRow.NgayThi),
+        Thu: transformSubmitValue(selectedRow.Thu),
+        Nhom: transformSubmitValue(selectedRow.Nhom),
+        TuTiet: transformSubmitValue(selectedRow.TuTiet),
+        DenTiet: transformSubmitValue(selectedRow.DenTiet),
+        LoaiThi: transformSubmitValue(selectedRow.LoaiThi),
+        TenPhong: transformSubmitValue(selectedRow.TenPhong),
+        SBD: transformSubmitValue(selectedRow.SBD),
+        DiemThi: transformSubmitValue(selectedRow.DiemThi),
+        DiemThi1: transformSubmitValue(selectedRow.DiemThi1),
+        DiemThi2: transformSubmitValue(selectedRow.DiemThi2),
+        DiemTongKet: transformSubmitValue(selectedRow.DiemTongKet),
+        DiemTongKet1: transformSubmitValue(selectedRow.DiemTongKet1),
+        DiemTongKet2: transformSubmitValue(selectedRow.DiemTongKet2),
+        TuiBaiThi: transformSubmitValue(selectedRow.TuiBaiThi),
+        SoPhach: transformSubmitValue(selectedRow.SoPhach),
+      },
+      PHUC_KHAO_PREFIX,
+    )
 
     // handle post
     Swal.fire({
@@ -225,10 +121,6 @@ function PhucKhao() {
   }
 
   const handlePostData = async (dataHocPhan) => {
-    console.log(
-      '🚀 ~ file: PhucKhao.jsx:158 ~ handlePostData ~ dataHocPhan:',
-      dataHocPhan,
-    )
     // Kiểm tra học phần đã quá hạn phúc khảo chưa
     try {
       const checkQuaHanPhucKhao = await checkExpiredPhucKhao(
@@ -261,7 +153,7 @@ function PhucKhao() {
           if (data.message === 'Bản ghi bị trùng.') {
             Swal.fire({
               icon: 'error',
-              title: 'Thông báo quá hạn',
+              title: 'Thông báo trùng',
               text: `Học phần ${dataHocPhan.MC_KT_PhucKhao_TenMonHoc} đã được gửi phúc khảo trước đấy. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
             })
           } else {
@@ -299,17 +191,17 @@ function PhucKhao() {
 
     setLoading(false)
 
-    if (tenDot !== '' && loaiThi !== '') {
+    if (tenDot !== '') {
       setLoading(true)
       getAllHocPhanPhucKhao(dataSV.MaSinhVien, tenDot, loaiThi).then((res) => {
         setLoading(false)
         setListHocPhan(res?.data?.body)
-        console.log(res?.data?.body)
       })
     }
 
     return () => {
       setListHocPhan([])
+      setSelectedRow(null)
     }
   }, [tenDot, loaiThi])
 
@@ -327,6 +219,7 @@ function PhucKhao() {
       handleRowSelection={handleRowSelection}
       handleSubmitData={handleSubmitData}
       handlePostData={handlePostData}
+      selectedRow={selectedRow}
     />
   )
 }

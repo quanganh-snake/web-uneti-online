@@ -12,6 +12,7 @@ import CauHoi from '@/Components/HocTap/OnTap/CauHoi'
 import { getAllMonHoc } from '@/Apis/HocTap/apiHocTap'
 import { useBem } from '@/Services/Hooks'
 import './DanhSachCauHoi.scss'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 import Accordion from '@/Components/Base/Accordion/Accordion'
 import { OnTapContext } from '@/Services/Tokens'
 
@@ -38,6 +39,8 @@ function DanhSachDeThi() {
   const [totalPage, setTotalPage] = useState(0)
   const [monHocPhan, setMonHocPhan] = useState()
   const [listCauHoi, setListCauHoi] = useState([])
+  const [soCauDaTraLoi, setSoCauDaTraLoi] = useState(0)
+  const [tongSoCau, setTongSoCau] = useState(60)
 
   const accordionRef = useRef()
 
@@ -76,11 +79,11 @@ function DanhSachDeThi() {
 
   const [showMenu, setShowMenu] = useState(false)
 
-  useEffect(() => {
-    console.log(accordionRef.current)
-    setShowMenu(accordionRef.current?.isOpen)
-    // check watchEffect
-  }, [accordionRef.current?.isOpen])
+  // useEffect(() => {
+  //   console.log(accordionRef.current)
+  //   setShowMenu(accordionRef.current?.isOpen)
+  //   // check watchEffect
+  // }, [accordionRef.current?.isOpen])
 
   return (
     <OnTapContext.Provider value={{}}>
@@ -102,17 +105,53 @@ function DanhSachDeThi() {
         </div>
 
         <div
-          className={`fixed top-[240px] right-[20px] transition-all duration-200 bg-white rounded-xl overflow-hidden shadow-md flex flex-col md:w-[30%] md:static`}
+          className={`fixed top-[200px] right-[20px] transition-all duration-200 overflow-hidden shadow-md flex flex-col md:w-[30%] md:static`}
         >
           <Accordion
-            className={`${showMenu ? 'max-w-max' : 'max-w-80px'}`}
+            className={`${
+              showMenu ? 'max-w-max' : 'max-w-[200px]'
+            } md:max-w-none w-full`}
             ref={accordionRef}
           >
             <Accordion.Label className="bg-uneti-primary text-white justify-between">
               <div className="ml-auto">90:00</div>
             </Accordion.Label>
             <Accordion.Content>
-              loremadwandwdwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+              <div className="bg-white">
+                {/* cau hoi */}
+                <div className="grid grid-cols-5"></div>
+                {/* so cau tra loi */}
+                <div>
+                  <span>Đã trả lời:</span>
+                  <span>
+                    {soCauDaTraLoi}/{tongSoCau}
+                  </span>
+                </div>
+                {/* dieu kien loc */}
+                <div>
+                  <select
+                    value={dieuKienLoc}
+                    onChange={(e) => setDieuKienLoc(e.target.value)}
+                  >
+                    <option value={LOAD_CAU_HOI_DIEU_KIEN_LOC.TatCa}>
+                      Tất cả câu hỏi
+                    </option>
+                    <option value={LOAD_CAU_HOI_DIEU_KIEN_LOC.ChuaLam}>
+                      Câu hỏi chưa làm
+                    </option>
+                    <option value={LOAD_CAU_HOI_DIEU_KIEN_LOC.DaLam}>
+                      Câu hỏi đã làm
+                    </option>
+                    <option value={LOAD_CAU_HOI_DIEU_KIEN_LOC.PhanVan}>
+                      Câu hỏi đang phân vân
+                    </option>
+                  </select>
+                </div>
+                {/* nop bai */}
+                <div>
+                  <button>Nộp bài</button>
+                </div>
+              </div>
             </Accordion.Content>
           </Accordion>
         </div>

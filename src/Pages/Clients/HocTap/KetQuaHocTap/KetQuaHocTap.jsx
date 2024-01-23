@@ -72,49 +72,50 @@ export default function KetQuaHocTap() {
                         <tr>
                           <th
                             rowSpan={2}
-                            className=" py-4 min-w-[200px] sticky left-0 bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-y-0 border-l-0"
+                            className=" py-4 min-w-[200px] sticky left-0 bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0 border-l-0 border-r-0"
                           >
                             Tên môn học
+                            <span className="absolute w-[1px] h-[100%] top-0 right-[-0.5px] bg-uneti-primary opacity-30"></span>
                           </th>
                           <th
                             rowSpan={2}
-                            className=" py-4 min-w-[200px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-y-0"
+                            className=" py-4 min-w-[200px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0 border-l-0"
                           >
                             Mã lớp học phần
                           </th>
                           <th
                             rowSpan={2}
-                            className=" py-4 min-w-[200px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-y-0"
+                            className=" py-4 min-w-[200px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0"
                           >
                             Tên lớp học
                           </th>
                           <th
                             rowSpan={2}
-                            className=" py-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-y-0"
+                            className=" py-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0"
                           >
                             Số tín chỉ
                           </th>
                           <th
                             rowSpan={2}
-                            className=" py-4 min-w-[200px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-y-0"
+                            className=" py-4 min-w-[200px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0"
                           >
                             Điểm danh (Số buổi vắng)
                           </th>
                           <th
                             rowSpan={2}
-                            className=" py-4 min-w-[200px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-y-0"
+                            className=" py-4 min-w-[200px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0"
                           >
                             Xét dự thi
                           </th>
                           <th
                             rowSpan={2}
-                            className=" py-4 min-w-[200px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-y-0"
+                            className=" py-4 min-w-[200px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0"
                           >
                             Không tính TBC
                           </th>
                           <th
                             rowSpan={2}
-                            className=" py-4 min-w-[200px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-y-0"
+                            className=" py-4 min-w-[200px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0"
                           >
                             Loại môn thi
                           </th>
@@ -126,31 +127,31 @@ export default function KetQuaHocTap() {
                           </th>
                           <th
                             rowSpan={2}
-                            className=" py-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-y-0"
+                            className=" py-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0"
                           >
                             Điểm tổng kết hệ 4
                           </th>
                           <th
                             rowSpan={2}
-                            className=" py-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-y-0"
+                            className=" py-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0"
                           >
                             Điểm chữ
                           </th>
                           <th
                             rowSpan={2}
-                            className=" py-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-y-0"
+                            className=" py-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0"
                           >
                             Xếp loại
                           </th>
                           <th
                             rowSpan={2}
-                            className=" py-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-y-0"
+                            className=" py-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0"
                           >
                             Ghi chú 1
                           </th>
                           <th
                             rowSpan={2}
-                            className=" py-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-y-0 border-r-0"
+                            className=" py-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0 border-r-0"
                           >
                             Ghi chú 2
                           </th>
@@ -172,14 +173,15 @@ export default function KetQuaHocTap() {
                           if (mh.TC_SV_KetQuaHocTap_HocKy === hk) {
                             return (
                               <tr key={i}>
-                                <td className="transition-all sticky left-0 top-0 bg-white font-semibold duration-200 hover:text-uneti-primary cursor-pointer py-2 px-4 border border-solid border-uneti-primary border-opacity-30 border-l-0">
+                                <td className="transition-all sticky left-0 top-0 bg-white font-semibold duration-200 hover:text-uneti-primary cursor-pointer py-2 px-4 border border-solid border-uneti-primary border-opacity-30 border-b-0 border-l-0 border-r-0">
                                   <Link
                                     to={`ketquahoctapchitiet/${mh.TC_SV_KetQuaHocTap_MaLopHocPhan}`}
                                   >
                                     {mh.TC_SV_KetQuaHocTap_TenMonHoc}
                                   </Link>
+                                  <span className="absolute w-[1px] h-[100%] top-0 right-[-0.5px] bg-uneti-primary opacity-30"></span>
                                 </td>
-                                <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
+                                <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0 border-l-0">
                                   {mh.TC_SV_KetQuaHocTap_MaLopHocPhan}
                                 </td>
                                 <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">

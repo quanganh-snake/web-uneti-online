@@ -18,6 +18,7 @@ function DangKyThiLaiView(props) {
     setLyDoKhac,
     handleRowSelection,
     handleSubmitData,
+    selectedRow,
   } = props
 
   return (
@@ -36,6 +37,7 @@ function DangKyThiLaiView(props) {
           handleRowSelection={handleRowSelection}
           handleSubmitData={handleSubmitData}
           loading={loading}
+          selectedRow={selectedRow}
         />
       </div>
     </div>

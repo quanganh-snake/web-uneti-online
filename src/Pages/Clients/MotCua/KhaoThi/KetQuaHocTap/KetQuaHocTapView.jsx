@@ -25,6 +25,7 @@ function KetQuaHocTapView(props) {
     handleSubmitData,
     currentPage,
     setCurrentPage,
+    selectedRow,
   } = props
 
   return (
@@ -83,6 +84,7 @@ function KetQuaHocTapView(props) {
               handleRowSelection={handleRowSelection}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
+              selectedRow={selectedRow}
             />
           )}
           {!loading &&

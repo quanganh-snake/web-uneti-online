@@ -1,6 +1,7 @@
 import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import Loading from '@/Components/Loading/Loading'
 import { Checkbox, TextareaAutosize } from '@mui/material'
+import { isEqual } from 'lodash-unified'
 
 function HuyDangKyThiLaiView(props) {
   const {
@@ -18,8 +19,9 @@ function HuyDangKyThiLaiView(props) {
     listHocKy,
     listLyDo,
     listHocPhan,
-    handleRowselection,
+    handleRowSelection,
     handleSubmitData,
+    selectedRow,
   } = props
 
   return (
@@ -73,7 +75,7 @@ function HuyDangKyThiLaiView(props) {
                 ))}
               </select>
             </div>
-            {lyDo === 3 && (
+            {lyDo === '3' && (
               <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-start gap-2">
                 <span className="block pr-10">Lý do khác (*)</span>
                 <TextareaAutosize
@@ -89,8 +91,7 @@ function HuyDangKyThiLaiView(props) {
           {(tenDot === '' && lyDo != '') || (tenDot != '' && lyDo === '') ? (
             <div className="flex justify-center items-center pb-4">
               <span className="w-[75%] text-center font-bold block text-red-900 bg-red-200 p-3 rounded-md">
-                Vui lòng chọn đầy đủ thông tin học kỳ và lý do để xem lịch thi
-                cần đăng ký!
+                Vui lòng chọn học kỳ để xem lịch thi cần đăng ký!
               </span>
             </div>
           ) : null}
@@ -142,8 +143,9 @@ function HuyDangKyThiLaiView(props) {
                             </td>
                             <td className="text-center p-3 border border-solid border-[#dee2e6]">
                               <Checkbox
-                                onChange={(e) => {
-                                  handleRowselection(e, hocphan)
+                                checked={isEqual(selectedRow, hocphan)}
+                                onChange={() => {
+                                  handleRowSelection(hocphan)
                                 }}
                               />
                             </td>

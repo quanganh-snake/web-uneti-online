@@ -14,8 +14,9 @@ function FormDangKyThiLai(props) {
     listHocKy,
     lyDoKhac,
     setLyDoKhac,
-    handleRowselection,
+    handleRowSelection,
     handleSubmitData,
+    selectedRow,
   } = props
 
   return (
@@ -97,7 +98,8 @@ function FormDangKyThiLai(props) {
           <div className="flex flex-col justify-center items-center pb-4">
             <DanhSachHocPhan
               listHocPhan={listHocPhan}
-              handleRowselection={handleRowselection}
+              handleRowSelection={handleRowSelection}
+              selectedRow={selectedRow}
             />
             <button
               onClick={handleSubmitData}

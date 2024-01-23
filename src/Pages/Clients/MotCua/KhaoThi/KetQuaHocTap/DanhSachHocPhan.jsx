@@ -1,5 +1,6 @@
 import { Checkbox } from '@mui/material'
 import Pagination from '@mui/material/Pagination'
+import { isEqual } from 'lodash-unified'
 
 function DanhSachHocPhan(props) {
   const {
@@ -11,6 +12,7 @@ function DanhSachHocPhan(props) {
     handleRowSelection,
     currentPage,
     setCurrentPage,
+    selectedRow,
   } = props
 
   const itemPerPage = 5
@@ -63,8 +65,9 @@ function DanhSachHocPhan(props) {
                   {lyDo !== 'Xem kết quả học tập' && (
                     <td className="text-center p-3 border border-solid border-[#dee2e6]">
                       <Checkbox
-                        onChange={(e) => {
-                          handleRowSelection(e, hocphan)
+                        checked={isEqual(selectedRow, hocphan)}
+                        onChange={() => {
+                          handleRowSelection(hocphan)
                         }}
                       />
                     </td>
@@ -96,28 +99,21 @@ function DanhSachHocPhan(props) {
                 </td>
               </tr>
             )}
-            {totalPage > 1 && (
-              <tr>
-                <td
-                  colSpan={8}
-                  className="text-center p-3 border border-solid border-[#dee2e6]"
-                >
-                  <div className="flex justify-center items-center">
-                    <Pagination
-                      count={totalPage}
-                      page={currentPage}
-                      variant="outlined"
-                      shape="rounded"
-                      color="primary"
-                      onChange={(e, value) => setCurrentPage(value)}
-                    />
-                  </div>
-                </td>
-              </tr>
-            )}
           </tbody>
         </table>
       </div>
+      {totalPage > 1 && (
+        <div className="w-full flex justify-center items-center mt-4">
+          <Pagination
+            count={totalPage}
+            page={currentPage}
+            variant="outlined"
+            shape="rounded"
+            color="primary"
+            onChange={(e, value) => setCurrentPage(value)}
+          />
+        </div>
+      )}
     </div>
   )
 }
