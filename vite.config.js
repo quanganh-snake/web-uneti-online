@@ -9,17 +9,16 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src/'),
-      Styles: path.resolve(__dirname, './src/Styles/'),
     },
   },
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@use '@/Services/Styles/Mixins/mixins' as *;
-                        @use '@/Services/Styles/Mixins/var' as *;
-                        @use '@/Services/Styles/Common/var' as *;`,
+        additionalData: `@use '@/assets/Styles/Mixins/mixins' as *;
+                        @use '@/assets/Styles/Mixins/var' as *;
+                        @use '@/assets/Styles/Common/var' as *;`,
       },
     },
-    exclude: ['src/Services/Styles/**/*.scss'],
+    exclude: ['src/assets/Styles/**/*.scss'],
   },
 })
