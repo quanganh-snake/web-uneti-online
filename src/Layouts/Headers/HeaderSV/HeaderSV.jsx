@@ -20,10 +20,6 @@ function HeaderSV() {
 
     const state = store.getState()
     const refreshToken = state?.auth?.login?.currentToken?.refreshToken
-    console.log(
-        '🚀 ~ file: HeaderCBGV.jsx:18 ~ HeaderCBGV ~ refreshToken:',
-        refreshToken,
-    )
     const handleLogout = () => {
         localStorage.removeItem('persist:root')
         logOut(role, dispatch, navigate, refreshToken)

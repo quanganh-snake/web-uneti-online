@@ -33,6 +33,7 @@ function ChartMotCua() {
                         height={chartHeight}
                         series={[45, 67, 89, 34]}
                         options={{
+                            colors: ['#A4a4a4', '#0098EF', '#BCEBFF', '#CCC'],
                             labels: [
                                 'Khảo thí',
                                 'Đào tạo',

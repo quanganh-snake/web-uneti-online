@@ -8,6 +8,7 @@ import HeaderCBGV from '../Headers/HeaderCBGV/HeaderCBGV'
 import { store } from '../../Services/Redux/store'
 import { DataSinhVien } from '../../Services/Utils/dataSinhVien'
 import { DataCanBoGV } from '../../Services/Utils/dataCanBoGV'
+import AutoScrollTop from '@/Components/BackToTop/AutoScrollTop'
 
 function MainCommon() {
     const location = useLocation()
@@ -32,6 +33,7 @@ function MainCommon() {
                 <RouterCore />
             </main>
             {pathname === '/' || pathname === '/dangnhap' ? null : <Footer />}
+            <AutoScrollTop />
         </>
     )
 }
