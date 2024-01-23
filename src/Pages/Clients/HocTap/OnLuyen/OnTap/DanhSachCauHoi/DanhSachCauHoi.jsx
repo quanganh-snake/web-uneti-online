@@ -78,11 +78,13 @@ function DanhSachDeThi() {
   const [showMenu, setShowMenu] = useState(false)
 
   useEffect(() => {
-    setShowMenu(accordionRef.current.isOpen)
-  }, [accordionRef.current.isOpen])
+    console.log(accordionRef.current)
+    setShowMenu(accordionRef.current?.isOpen)
+    // check watchEffect
+  }, [accordionRef.current?.isOpen])
 
   return (
-    <OnTapContext.Provider>
+    <OnTapContext.Provider value={{}}>
       <div className="flex flex-col text-center justify-start items-center gap-4 bg-white rounded-[26px] mb-4 p-4">
         <h3 className="text-uneti-primary text-center font-bold text-xl">
           {monHoc.TenMonHoc}
