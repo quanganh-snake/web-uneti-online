@@ -12,6 +12,7 @@ import {
   makeDataSv,
   makePostDataSv,
 } from '@/Services/Utils/dataSubmitUtils'
+import { YEU_CAU_CONSTANTS } from './constants'
 
 const MC_DT_DangKyTotNghiep_PREFIX = 'MC_DT_TotNghiepXetThi_'
 const MC_DT_DangKyTotNghiep_FILE_PREFIX = `${MC_DT_DangKyTotNghiep_PREFIX}YeuCau_`
@@ -22,7 +23,7 @@ function DangKyTotNghiep() {
   const [lyDo, setLyDo] = useState(
     'Hoãn tốt nghiệp (Do: 1. Có nguyện vọng học cải thiện một số học phần để có kết quả học tập tốt hơn).',
   )
-  const [yeuCau, setYeuCau] = useState('')
+  const [yeuCau, setYeuCau] = useState(YEU_CAU_CONSTANTS.HoanTotNghiep)
   const [giayToKemTheo, setGiayToKemTheo] = useState(
     '1. Đơn xin hoãn xét công nhận tốt nghiệp.',
   )
@@ -44,20 +45,19 @@ function DangKyTotNghiep() {
     }
     if (e.target.id === 'MC_DT_TotNghiepXetThi_YeuCau_LyDo') {
       setLyDo(e.target.value)
-      console.log(lyDo)
     }
     if (e.target.id === 'MC_DT_TotNghiepXetThi_YeuCau_KemTheo') {
       setGiayToKemTheo(e.target.value)
     }
-    if (e.target.id === 'MC_DT_TotNghiepXetThi_YeuCau') {
-      setYeuCau(e.target.value)
-    }
+    // if (e.target.id === 'MC_DT_TotNghiepXetThi_YeuCau') {
+    //   setYeuCau(e.target.value)
+    // }
   }
 
   const validateSubmitData = () => {
     return [
       required(lyDo, 'Vui lòng nhập lý do!'),
-      required(yeuCau, 'Vui lòng chọn yêu cầu!'),
+      // required(yeuCau, 'Vui lòng chọn yêu cầu!'),
       required(tenDot, 'Vui lòng chọn học kỳ!'),
     ].every((e) => e === true)
   }

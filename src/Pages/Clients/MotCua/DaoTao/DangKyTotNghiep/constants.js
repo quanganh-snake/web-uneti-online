@@ -14,20 +14,26 @@ export const breadcrumbs = [
   },
 ]
 
+export const YEU_CAU_CONSTANTS = {
+  // XetTotNghiep: '0',
+  // ThiTotNghiep: '1',
+  HoanTotNghiep: '2',
+}
+
 export const listYeuCau = [
-  {
-    id: 0,
-    title: 'Xét tốt nghiệp',
-    value: 0,
-  },
-  {
-    id: 1,
-    title: 'Thi tốt nghiệp',
-    value: 1,
-  },
+  // {
+  //   id: 0,
+  //   title: 'Xét tốt nghiệp',
+  //   value: YEU_CAU_CONSTANTS.XetTotNghiep,
+  // },
+  // {
+  //   id: 1,
+  //   title: 'Thi tốt nghiệp',
+  //   value: YEU_CAU_CONSTANTS.ThiTotNghiep,
+  // },
   {
     id: 2,
     title: 'Hoãn tốt nghiệp',
-    value: 2,
+    value: YEU_CAU_CONSTANTS.HoanTotNghiep,
   },
 ]

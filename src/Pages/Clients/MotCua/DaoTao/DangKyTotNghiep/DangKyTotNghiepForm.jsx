@@ -47,16 +47,17 @@ export const DangKyTotNghiepForm = (props) => {
         </label>
 
         <select
-          onChange={handleChangeValue}
-          id={'MC_DT_TotNghiepXetThi_YeuCau'}
-          className="md:w-[70%] border px-2 py-1 rounded-lg outline-sky-800"
+          disabled
+          aria-disabled
+          className="md:w-[70%] disabled opacity-80 border px-2 py-1 rounded-lg outline-sky-800"
         >
-          <option>Chọn yêu cầu</option>
+          <option>Hoãn tốt nghiệp</option>
+          {/* <option>Chọn yêu cầu</option>
           {listYeuCau?.map((option) => (
             <option value={option.value} key={option.id}>
               {option.title}
             </option>
-          ))}
+          ))} */}
         </select>
       </div>
 
