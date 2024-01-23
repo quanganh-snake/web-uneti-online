@@ -11,6 +11,18 @@ import {
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { convertDataFileToBase64 } from '@/Services/Utils/stringUtils'
 import Swal from 'sweetalert2'
+import { isEmpty } from 'lodash-unified'
+import {
+  makeDataImages,
+  makeDataSv,
+  makePostDataSv,
+  transformObjKey,
+  transformSubmitValue,
+} from '@/Services/Utils/dataSubmitUtils'
+
+const CHUYEN_DIEM_PREFIX = 'MC_DT_ChuyenDiem_'
+const CHUYEN_DIEM_FILE_PREFIX = `${CHUYEN_DIEM_PREFIX}YeuCau_`
+const CHUYEN_DIEM_CHI_TIET_PREFIX = `${CHUYEN_DIEM_PREFIX}ChiTiet_`
 
 function ChuyenDiem() {
   const home = {
@@ -107,14 +119,6 @@ function ChuyenDiem() {
     setHocPhanTuongDuong(() => ({}))
   }
 
-  // check object null
-  function isEmpty(obj) {
-    for (let prop in obj) {
-      if (obj.hasOwnProperty(prop)) return false
-    }
-    return true
-  }
-
   useEffect(() => {
     if (!isEmpty(hocPhan)) {
       getAllHocPhanTuongDuongChuyenDiem(
@@ -137,200 +141,98 @@ function ChuyenDiem() {
 
     // if (isEmpty(hocPhan) || isEmpty(hocPhanTuongDuong)) {
     //   Swal.fire({
-    //     icon: "error",
-    //     title: "Lỗi",
-    //     text: "Vui lòng chọn học phần và học phần tương đương để gửi yêu cầu",
-    //   });
-    //   return;
+    //     icon: 'error',
+    //     title: 'Lỗi',
+    //     text: 'Vui lòng chọn học phần và học phần tương đương để gửi yêu cầu',
+    //   })
+    //   return
     // }
 
-    const dataChuyenDiem = {}
-    const dataChuyenDiemChiTiet = {}
+    const dataChuyenDiem = makePostDataSv(
+      makeDataSv(dataSV, CHUYEN_DIEM_PREFIX),
+      {
+        YeuCau: '0',
+        YeuCau_LyDo: transformSubmitValue(lyDo),
+        YeuCau_LoaiBangDiem: transformSubmitValue(loaiDiem),
+        YeuCau_KemTheo: transformSubmitValue(giayToKemTheo),
+      },
+      CHUYEN_DIEM_PREFIX,
+    )
+    dataChuyenDiem.images = await makeDataImages(files, CHUYEN_DIEM_FILE_PREFIX)
 
-    // dataChuyenDiem
-    dataChuyenDiem.MC_DT_ChuyenDiem_TenCoSo = dataSV.CoSo ? dataSV.CoSo : 'null'
-    dataChuyenDiem.MC_DT_ChuyenDiem_IDSinhVien = dataSV.IdSinhVien
-      ? dataSV.IdSinhVien.toString()
-      : 'null'
-    dataChuyenDiem.MC_DT_ChuyenDiem_MaSinhVien = dataSV.MaSinhVien
-      ? dataSV.MaSinhVien
-      : 'null'
-    dataChuyenDiem.MC_DT_ChuyenDiem_HoDem = dataSV.HoDem ? dataSV.HoDem : 'null'
-    dataChuyenDiem.MC_DT_ChuyenDiem_Ten = dataSV.Ten ? dataSV.Ten : 'null'
-    dataChuyenDiem.MC_DT_ChuyenDiem_GioiTinh =
-      dataSV.GioiTinh !== null ? dataSV.GioiTinh.toString() : 'null'
-    dataChuyenDiem.MC_DT_ChuyenDiem_NgaySinh2 = dataSV.NgaySinh
-      ? new Date(
-          `${dataSV.NgaySinh.split('/')[2]}-${dataSV.NgaySinh.split('/')[1]}-${
-            dataSV.NgaySinh.split('/')[0]
-          }`,
-        ).toISOString()
-      : 'null'
-    dataChuyenDiem.MC_DT_ChuyenDiem_TenHeDaoTao = dataSV.BacDaoTao
-      ? dataSV.BacDaoTao
-      : 'null'
-    dataChuyenDiem.MC_DT_ChuyenDiem_TenLoaiHinhDT = dataSV.LoaiHinhDaoTao
-      ? dataSV.LoaiHinhDaoTao
-      : 'null'
-    dataChuyenDiem.MC_DT_ChuyenDiem_TenKhoaHoc = dataSV.KhoaHoc
-      ? dataSV.KhoaHoc
-      : 'null'
-    dataChuyenDiem.MC_DT_ChuyenDiem_TenNganh = dataSV.ChuyenNganh
-      ? dataSV.ChuyenNganh
-      : 'null'
-    dataChuyenDiem.MC_DT_ChuyenDiem_TenLop = dataSV.LopHoc
-      ? dataSV.LopHoc
-      : 'null'
-    dataChuyenDiem.MC_DT_ChuyenDiem_KhoaChuQuanLop =
-      hocPhanTuongDuong.HT_HPTD_TenKhoa
-        ? hocPhanTuongDuong.HT_HPTD_TenKhoa
-        : 'null'
-    dataChuyenDiem.MC_DT_ChuyenDiem_DienThoai = dataSV.SoDienThoai
-      ? dataSV.SoDienThoai
-      : dataSV.SoDienThoai2
-        ? dataSV.SoDienThoai2
-        : dataSV.SoDienThoai3
-          ? dataSV.SoDienThoai3
-          : ''
-    dataChuyenDiem.MC_DT_ChuyenDiem_Email = dataSV.Email_TruongCap
-      ? dataSV.Email_TruongCap
-      : 'null'
-    dataChuyenDiem.MC_DT_ChuyenDiem_YeuCau = '0'
-    dataChuyenDiem.MC_DT_ChuyenDiem_YeuCau_LyDo = lyDo.length
-      ? lyDo.toString()
-      : 'null'
-    dataChuyenDiem.MC_DT_ChuyenDiem_YeuCau_LoaiBangDiem = loaiDiem.length
-      ? loaiDiem.toString()
-      : 'null'
-    dataChuyenDiem.MC_DT_ChuyenDiem_YeuCau_KemTheo = giayToKemTheo.length
-      ? giayToKemTheo
-      : 'null'
-    dataChuyenDiem.images = []
-    for (let i = 0; i < files.length; i++) {
-      const fileBase64 = await convertDataFileToBase64(files[i])
-      const fileURL = URL.createObjectURL(files[i])
-
-      const fileName = fileURL.split('/').at(-1)
-
-      dataChuyenDiem.images.push({
-        MC_DT_ChuyenDiem_YeuCau_DataFile: fileBase64,
-        MC_DT_ChuyenDiem_YeuCau_TenFile: fileName,
-        urlTemp: fileURL,
-        lastModified: '',
-      })
-
-      // URL temp chỉ tồn tại trên client, nên revoke
-      URL.revokeObjectURL(fileURL)
-    }
-
-    // dataChuyenDiemChiTiet
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ID = chuyenDiemID.length
-      ? chuyenDiemID
-      : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_IDDot =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_IDDot
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_IDDot.toString()
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_IDLopHocPhan =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_IDLopHocPhan
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_IDLopHocPhan.toString()
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_NamHoc =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_NamHoc
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_NamHoc.toString()
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_HocKy =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_HocKy
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_HocKy
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_MaMonHoc =
-      hocPhanTuongDuong.HT_HPTD_MCD_MaMonHoc
-        ? hocPhanTuongDuong.HT_HPTD_MCD_MaMonHoc
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_MaHocPhan =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_MaHocPhan
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_MaHocPhan
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_TenMonHoc =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_TenMonHoc
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_TenMonHoc
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_GhiChuXetDuThi =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_GhiChuXetDuThi
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_GhiChuXetDuThi
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_TenLopHoc =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_TenLopHoc
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_TenLopHoc
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_SoTinChi =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_SoTinChi
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_SoTinChi.toString()
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_DiemTBThuongKy =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemTBThuongKy
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemTBThuongKy.toString()
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_KhongTinhDiemTBC =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_KhongTinhDiemTBC !== null
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_KhongTinhDiemTBC.toString()
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_TenTrangThai =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_TenTrangThai
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_TenTrangThai
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_DiemThi =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemThi
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemThi.toString()
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_DiemThi1 =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemThi1
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemThi1.toString()
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_DiemThi2 =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemThi2
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemThi2.toString()
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_DiemTongKet =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemTongKet
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemTongKet.toString()
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_DiemTongKet1 =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemTongKet1
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemTongKet1.toString()
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_DiemTongKet2 =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemTongKet2
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemTongKet2.toString()
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_DiemTinChi =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemTinChi
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemTinChi.toString()
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_DiemChu =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemChu
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemChu
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_XepLoai =
-      hocPhan.MC_DT_ChuyenDiem_ChiTiet_XepLoai
-        ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_XepLoai
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_MTD_BacDaoTao =
-      hocPhanTuongDuong.HT_HPTD_MCD_BacDaoTao
-        ? hocPhanTuongDuong.HT_HPTD_MCD_BacDaoTao
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_MTD_MaMonHoc =
-      hocPhanTuongDuong.HT_HPTD_MTD_MaMonHoc
-        ? hocPhanTuongDuong.HT_HPTD_MTD_MaMonHoc
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_MTD_TenMonHoc =
-      hocPhanTuongDuong.HT_HPTD_MCD_TenMonHoc
-        ? hocPhanTuongDuong.HT_HPTD_MCD_TenMonHoc
-        : 'null'
-    dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_MTD_SoTinChi =
-      hocPhanTuongDuong.HT_HPTD_MTD_SoTinChi
-        ? hocPhanTuongDuong.HT_HPTD_MTD_SoTinChi.toString()
-        : 'null'
+    const dataChuyenDiemChiTiet = makePostDataSv(
+      {
+        MC_DT_ChuyenDiem_ID: transformSubmitValue(chuyenDiemID),
+      },
+      {
+        IDDot: transformSubmitValue(hocPhan.MC_DT_ChuyenDiem_ChiTiet_IDDot),
+        IDLopHocPhan: transformSubmitValue(
+          hocPhan.MC_DT_ChuyenDiem_ChiTiet_IDLopHocPhan,
+        ),
+        NamHoc: transformSubmitValue(hocPhan.MC_DT_ChuyenDiem_ChiTiet_NamHoc),
+        HocKy: transformSubmitValue(hocPhan.MC_DT_ChuyenDiem_ChiTiet_HocKy),
+        MaMonHoc: transformSubmitValue(hocPhanTuongDuong.HT_HPTD_MCD_MaMonHoc),
+        MaHocPhan: transformSubmitValue(
+          hocPhan.MC_DT_ChuyenDiem_ChiTiet_MaHocPhan,
+        ),
+        TenMonHoc: transformSubmitValue(
+          hocPhan.MC_DT_ChuyenDiem_ChiTiet_TenMonHoc,
+        ),
+        GhiChuXetDuThi: transformSubmitValue(
+          hocPhan.MC_DT_ChuyenDiem_ChiTiet_GhiChuXetDuThi,
+        ),
+        TenLopHoc: transformSubmitValue(
+          hocPhan.MC_DT_ChuyenDiem_ChiTiet_TenLopHoc,
+        ),
+        SoTinChi: transformSubmitValue(
+          hocPhan.MC_DT_ChuyenDiem_ChiTiet_SoTinChi,
+        ),
+        DiemTBThuongKy: transformSubmitValue(
+          hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemTBThuongKy,
+        ),
+        KhongTinhDiemTBC:
+          hocPhan.MC_DT_ChuyenDiem_ChiTiet_KhongTinhDiemTBC !== null
+            ? hocPhan.MC_DT_ChuyenDiem_ChiTiet_KhongTinhDiemTBC.toString()
+            : 'null',
+        TenTrangThai: transformSubmitValue(
+          hocPhan.MC_DT_ChuyenDiem_ChiTiet_TenTrangThai,
+        ),
+        DiemThi: transformSubmitValue(hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemThi),
+        DiemThi1: transformSubmitValue(
+          hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemThi1,
+        ),
+        DiemThi2: transformSubmitValue(
+          hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemThi2,
+        ),
+        DiemTongKet: transformSubmitValue(
+          hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemTongKet,
+        ),
+        DiemTongKet1: transformSubmitValue(
+          hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemTongKet1,
+        ),
+        DiemTongKet2: transformSubmitValue(
+          hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemTongKet2,
+        ),
+        DiemTinChi: transformSubmitValue(
+          hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemTinChi,
+        ),
+        DiemChu: transformSubmitValue(hocPhan.MC_DT_ChuyenDiem_ChiTiet_DiemChu),
+        XepLoai: transformSubmitValue(hocPhan.MC_DT_ChuyenDiem_ChiTiet_XepLoai),
+        MTD_BacDaoTao: transformSubmitValue(
+          hocPhanTuongDuong.HT_HPTD_MCD_BacDaoTao,
+        ),
+        MTD_MaMonHoc: transformSubmitValue(
+          hocPhanTuongDuong.HT_HPTD_MTD_MaMonHoc,
+        ),
+        MTD_TenMonHoc: transformSubmitValue(
+          hocPhanTuongDuong.HT_HPTD_MCD_TenMonHoc,
+        ),
+        MTD_SoTinChi: transformSubmitValue(
+          hocPhanTuongDuong.HT_HPTD_MTD_SoTinChi,
+        ),
+      },
+      CHUYEN_DIEM_CHI_TIET_PREFIX,
+    )
 
     // handle post
     Swal.fire({

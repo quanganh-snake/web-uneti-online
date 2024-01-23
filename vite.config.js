@@ -17,7 +17,7 @@ export default defineConfig({
       scss: {
         additionalData: `@use '@/assets/Styles/Mixins/mixins' as *;
                         @use '@/assets/Styles/Mixins/var' as *;
-                        @use '@/assets/Styles/Common/var' as *;`,
+                        @use '@/assets/Styles/Commons/var' as *;`,
       },
     },
     exclude: ['src/assets/Styles/**/*.scss'],

@@ -6,6 +6,15 @@ import Swal from 'sweetalert2'
 import { convertDataFileToBase64 } from '@/Services/Utils/stringUtils'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { postDangKyTotNghiep } from '@/Apis/MotCua/DaoTao/apiDangKyTotNghiep'
+import { required } from '@/Services/Validators/required'
+import {
+  makeDataImages,
+  makeDataSv,
+  makePostDataSv,
+} from '@/Services/Utils/dataSubmitUtils'
+
+const MC_DT_DangKyTotNghiep_PREFIX = 'MC_DT_TotNghiepXetThi_'
+const MC_DT_DangKyTotNghiep_FILE_PREFIX = `${MC_DT_DangKyTotNghiep_PREFIX}YeuCau_`
 
 function DangKyTotNghiep() {
   const [listTenDot, setListTenDot] = useState([])
@@ -45,111 +54,33 @@ function DangKyTotNghiep() {
     }
   }
 
-  const handleValidateDataBeforeSubmit = () => {
-    if (!lyDo) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: 'Vui lòng nhập lý do!',
-      })
-      return false
-    }
-    if (!yeuCau) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: 'Vui lòng chọn yêu cầu!',
-      })
-      return false
-    }
-    if (!tenDot) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: 'Vui lòng chọn học kỳ!',
-      })
-      return false
-    }
-
-    return true
+  const validateSubmitData = () => {
+    return [
+      required(lyDo, 'Vui lòng nhập lý do!'),
+      required(yeuCau, 'Vui lòng chọn yêu cầu!'),
+      required(tenDot, 'Vui lòng chọn học kỳ!'),
+    ].every((e) => e === true)
   }
 
   const handleSubmitData = async (e) => {
     e.preventDefault()
 
-    if (!handleValidateDataBeforeSubmit()) return
+    if (!validateSubmitData()) return
 
-    const data = {}
-    // Data post API
-    data.MC_DT_TotNghiepXetThi_TenCoSo = dataSV.CoSo ? dataSV.CoSo : 'null'
-    data.MC_DT_TotNghiepXetThi_IDSinhVien = dataSV.IdSinhVien
-      ? dataSV.IdSinhVien.toString()
-      : 'null'
-    data.MC_DT_TotNghiepXetThi_MaSinhVien = dataSV.MaSinhVien
-      ? dataSV.MaSinhVien
-      : 'null'
-    data.MC_DT_TotNghiepXetThi_HoDem = dataSV.HoDem ? dataSV.HoDem : 'null'
-    data.MC_DT_TotNghiepXetThi_Ten = dataSV.Ten ? dataSV.Ten : 'null'
-    data.MC_DT_TotNghiepXetThi_GioiTinh = `${dataSV.GioiTinh}` ?? 'null'
-    data.MC_DT_TotNghiepXetThi_NgaySinh2 = dataSV.NgaySinh
-      ? new Date(
-          `${dataSV.NgaySinh.split('/')[2]}-${dataSV.NgaySinh.split('/')[1]}-${
-            dataSV.NgaySinh.split('/')[0]
-          }`,
-        ).toISOString()
-      : 'null'
-    data.MC_DT_TotNghiepXetThi_TenKhoaHoc = dataSV.KhoaHoc
-      ? dataSV.KhoaHoc
-      : 'null'
-    data.MC_DT_TotNghiepXetThi_TenNganh = dataSV.ChuyenNganh
-      ? dataSV.ChuyenNganh
-      : 'null'
-    data.MC_DT_TotNghiepXetThi_TenHeDaoTao = dataSV.BacDaoTao
-      ? dataSV.BacDaoTao
-      : 'null'
-    data.MC_DT_TotNghiepXetThi_KhoaChuQuanLop = dataSV.Khoa
-      ? dataSV.Khoa
-      : 'null'
-    data.MC_DT_TotNghiepXetThi_TenLoaiHinhDT = dataSV.LoaiHinhDaoTao
-      ? dataSV.LoaiHinhDaoTao
-      : 'null'
-    data.MC_DT_TotNghiepXetThi_TenLop = dataSV.LopHoc ? dataSV.LopHoc : 'null'
-    data.MC_DT_TotNghiepXetThi_DienThoai = dataSV.SoDienThoai
-      ? dataSV.SoDienThoai
-      : dataSV.SoDienThoai2
-        ? dataSV.SoDienThoai2
-        : dataSV.SoDienThoai3
-          ? dataSV.SoDienThoai3
-          : ''
-    data.MC_DT_TotNghiepXetThi_Email = dataSV.Email_TruongCap
-      ? dataSV.Email_TruongCap
-      : 'null'
-
-    // Data form
-    data.MC_DT_TotNghiepXetThi_YeuCau = yeuCau
-    data.MC_DT_TotNghiepXetThi_YeuCau_LyDo = lyDo
-    data.MC_DT_TotNghiepXetThi_YeuCau_KemTheo = giayToKemTheo
-    data.MC_DT_TotNghiepXetThi_TenDot = tenDot
-    data.MC_DT_TotNghiepXetThi_TenDotXet = ' '
+    const data = makePostDataSv(
+      makeDataSv(dataSV, MC_DT_DangKyTotNghiep_PREFIX),
+      {
+        YeuCau: yeuCau,
+        YeuCau_LyDo: lyDo,
+        YeuCau_KemTheo: giayToKemTheo,
+        TenDot: tenDot,
+        TenDotXet: ' ',
+      },
+      MC_DT_DangKyTotNghiep_PREFIX,
+    )
 
     // images
-    data.images = []
-    for (let i = 0; i < files.length; i++) {
-      const fileBase64 = await convertDataFileToBase64(files[i])
-      const fileURL = URL.createObjectURL(files[i])
-
-      const fileName = fileURL.split('/').at(-1)
-
-      data.images.push({
-        MC_DT_TotNghiepXetThi_YeuCau_DataFile: fileBase64,
-        MC_DT_TotNghiepXetThi_YeuCau_TenFile: fileName,
-        urlTemp: fileURL,
-        lastModified: '',
-      })
-
-      // URL temp chỉ tồn tại trên client, nên revoke
-      URL.revokeObjectURL(fileURL)
-    }
+    data.images = await makeDataImages(files, MC_DT_DangKyTotNghiep_FILE_PREFIX)
 
     // handle post
     Swal.fire({
@@ -169,13 +100,6 @@ function DangKyTotNghiep() {
 
   const handlePostData = async (data) => {
     try {
-      // TODO: fix err api
-      // const kiemTraTrung = await capBangDiemKiemTraTrung({
-      //   maSinhVien: data.MC_DT_CapBangDiem_MaSinhVien,
-      //   yeuCau: data.MC_DT_CapBangDiem_YeuCau,
-      // })
-
-      // if (kiemTraTrung.status === 200) {
       const resPostData = await postDangKyTotNghiep(data)
 
       if (resPostData == 'ERR_BAD_REQUEST') {
@@ -210,7 +134,6 @@ function DangKyTotNghiep() {
           }, 1000)
         }
       }
-      // }
     } catch (error) {
       if (!error.response) {
         console.log(`Server not response.`)

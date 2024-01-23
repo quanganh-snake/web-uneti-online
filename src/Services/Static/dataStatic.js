@@ -1353,7 +1353,7 @@ export const homeOnLuyen = [
     roleActive: ['SV'],
   },
 ]
-ư
+
 // Data Loại Thi
 export const dataLoaiThi = [
   {

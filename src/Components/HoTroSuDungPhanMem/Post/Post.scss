@@ -1,6 +1,3 @@
-@use '@/assets/Styles/Mixins/mixins' as *;
-@use '@/assets/Styles/Mixins/var' as *;
-@use '@/assets/Styles/Common/var' as *;
 @use 'sass:map';
 
 @include b(post) {

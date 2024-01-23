@@ -7,6 +7,14 @@ import {
   postXacNhan,
   xacNhanKiemTraTrung,
 } from '@/Apis/MotCua/DaoTao/apiXacNhanDT'
+import { required } from '@/Services/Validators/required'
+import { makePostDataSv } from '@/Services/Utils/dataSubmitUtils'
+import { makeDataSv } from '@/Services/Utils/dataSubmitUtils'
+import { transformSubmitValue } from '@/Services/Utils/dataSubmitUtils'
+import { makeDataImages } from '@/Services/Utils/dataSubmitUtils'
+
+const XAC_NHAN_PREFIX = 'MC_DT_XacNhan_'
+const XAC_NHAN_FILE_PREFIX = `${XAC_NHAN_PREFIX}YeuCau_`
 
 function XacNhanDT() {
   const [yeuCau, setYeuCau] = useState('')
@@ -42,103 +50,34 @@ function XacNhanDT() {
     setFiles((_files) => _files.filter((e) => e !== file))
   }
 
+  const validateSubmitData = () => {
+    return [
+      required(yeuCau, 'Vui lòng chọn yêu cầu!'),
+      required(lyDo, 'Vui lòng nhập lý do!'),
+      required(noiNhanKetQua, 'Vui lòng chọn nơi nhận kết quả!'),
+    ].every((e) => e == true)
+  }
+
   const handleSubmitData = async (e) => {
     e.preventDefault()
 
-    if (!lyDo) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: 'Vui lòng nhập lý do!',
-      })
+    if (!validateSubmitData()) {
       return
     }
 
-    if (!yeuCau) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: 'Vui lòng chọn yêu cầu!',
-      })
-      return
-    }
-
-    if (!noiNhanKetQua) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: 'Vui lòng chọn nơi nhận kết quả!',
-      })
-      return
-    }
-
-    const data = {}
-
-    // Data post API
-    data.MC_DT_XacNhan_TenCoSo = dataSV.CoSo ? dataSV.CoSo : 'null'
-    data.MC_DT_XacNhan_IDSinhVien = dataSV.IdSinhVien
-      ? dataSV.IdSinhVien.toString()
-      : 'null'
-    data.MC_DT_XacNhan_MaSinhVien = dataSV.MaSinhVien
-      ? dataSV.MaSinhVien
-      : 'null'
-    data.MC_DT_XacNhan_HoDem = dataSV.HoDem ? dataSV.HoDem : 'null'
-    data.MC_DT_XacNhan_Ten = dataSV.Ten ? dataSV.Ten : 'null'
-    data.MC_DT_XacNhan_GioiTinh = `${dataSV.GioiTinh}` ?? 'null'
-    data.MC_DT_XacNhan_NgaySinh2 = dataSV.NgaySinh
-      ? new Date(
-          `${dataSV.NgaySinh.split('/')[2]}-${dataSV.NgaySinh.split('/')[1]}-${
-            dataSV.NgaySinh.split('/')[0]
-          }`,
-        ).toISOString()
-      : 'null'
-    data.MC_DT_XacNhan_TenKhoaHoc = dataSV.KhoaHoc ? dataSV.KhoaHoc : 'null'
-    data.MC_DT_XacNhan_TenNganh = dataSV.ChuyenNganh
-      ? dataSV.ChuyenNganh
-      : 'null'
-    data.MC_DT_XacNhan_TenHeDaoTao = dataSV.BacDaoTao
-      ? dataSV.BacDaoTao
-      : 'null'
-    data.MC_DT_XacNhan_KhoaChuQuanLop = dataSV.Khoa ? dataSV.Khoa : 'null'
-    data.MC_DT_XacNhan_TenLoaiHinhDT = dataSV.LoaiHinhDaoTao
-      ? dataSV.LoaiHinhDaoTao
-      : 'null'
-    data.MC_DT_XacNhan_TenLop = dataSV.LopHoc ? dataSV.LopHoc : 'null'
-    data.MC_DT_XacNhan_DienThoai = dataSV.SoDienThoai
-      ? dataSV.SoDienThoai
-      : dataSV.SoDienThoai2
-        ? dataSV.SoDienThoai2
-        : dataSV.SoDienThoai3
-          ? dataSV.SoDienThoai3
-          : ''
-    data.MC_DT_XacNhan_Email = dataSV.Email_TruongCap
-      ? dataSV.Email_TruongCap
-      : 'null'
-
-    // Data form
-    data.MC_DT_XacNhan_YeuCau = yeuCau
-    data.MC_DT_XacNhan_YeuCau_LyDo = lyDo
-    data.MC_DT_XacNhan_YeuCau_KemTheo = giayToKemTheo
-    data.MC_DT_XacNhan_DangKyNoiNhanKetQua = noiNhanKetQua
+    const data = makePostDataSv(
+      makeDataSv(dataSV, XAC_NHAN_PREFIX),
+      {
+        YeuCau: yeuCau,
+        YeuCau_LyDo: lyDo,
+        YeuCau_KemTheo: giayToKemTheo,
+        DangKyNoiNhanKetQua: noiNhanKetQua,
+      },
+      XAC_NHAN_PREFIX,
+    )
 
     // images
-    data.images = []
-    for (let i = 0; i < files.length; i++) {
-      const fileBase64 = await convertDataFileToBase64(files[i])
-      const fileURL = URL.createObjectURL(files[i])
-
-      const fileName = fileURL.split('/').at(-1)
-
-      data.images.push({
-        MC_DT_XacNhan_YeuCau_DataFile: fileBase64,
-        MC_DT_XacNhan_YeuCau_TenFile: fileName,
-        urlTemp: fileURL,
-        lastModified: '',
-      })
-
-      // URL temp chỉ tồn tại trên client, nên revoke
-      URL.revokeObjectURL(fileURL)
-    }
+    data.images = await makeDataImages(files, XAC_NHAN_FILE_PREFIX)
 
     // handle post
     Swal.fire({
@@ -158,46 +97,34 @@ function XacNhanDT() {
 
   const handlePostData = async (data) => {
     try {
-      // TODO: fix err api
-      const kiemTraTrung = await xacNhanKiemTraTrung({
-        maSinhVien: data.MC_DT_XacNhan_MaSinhVien,
-        yeuCau: data.MC_DT_XacNhan_YeuCau,
-      })
+      const resPostData = await postXacNhan(data)
 
-      if (kiemTraTrung.status === 200) {
-        const resPostData = await postXacNhan(data)
+      if (resPostData == 'ERR_BAD_REQUEST') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi hệ thống',
+          text: `Vui lòng thử lại và gửi thông báo lỗi cho bộ phận hỗ trợ phần mềm!`,
+        })
+        return
+      }
+      if (resPostData.status === 200) {
+        const data = await resPostData.data
 
-        if (resPostData == 'ERR_BAD_REQUEST') {
+        // Check bản ghi trùng
+        if (data.message === 'Bản ghi bị trùng.') {
           Swal.fire({
             icon: 'error',
-            title: 'Lỗi hệ thống',
-            text: `Vui lòng thử lại và gửi thông báo lỗi cho bộ phận hỗ trợ phần mềm!`,
+            title: 'Yêu cầu quá nhiều',
+            text: `Yêu cầu đã được gửi trước đó!`,
           })
-          return
-        }
-        if (resPostData.status === 200) {
-          const data = await resPostData.data
-
-          // Check bản ghi trùng
-          if (data.message === 'Bản ghi bị trùng.') {
-            Swal.fire({
-              icon: 'error',
-              title: 'Yêu cầu quá nhiều',
-              text: `Yêu cầu đã được gửi trước đó!`,
-            })
-          } else {
-            Swal.fire({
-              position: 'center',
-              icon: 'success',
-              title: `Đã gửi yêu cầu xác nhận thành công`,
-              showConfirmButton: false,
-              timer: 1500,
-            })
-
-            // setTimeout(() => {
-            //   window.location.reload()
-            // }, 1000)
-          }
+        } else {
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: `Đã gửi yêu cầu xác nhận thành công`,
+            showConfirmButton: false,
+            timer: 1500,
+          })
         }
       }
     } catch (error) {

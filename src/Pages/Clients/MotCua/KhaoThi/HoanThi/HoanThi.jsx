@@ -11,7 +11,7 @@ import { HoanThiForm } from './HoanThiForm'
 import { HoanThiTable } from './HoanThiTable'
 import { usePrevious } from '@/Services/Hooks/usePrevious'
 import { getTenDot } from '@/Apis/MotCua/apiTenDot'
-import { required } from '@/Services/Middlewares/required'
+import { required } from '@/Services/Validators/required'
 import {
   makeDataImages,
   makeDataSv,
@@ -73,7 +73,7 @@ function HoanThi() {
     setFiles((_files) => [..._files, file])
   }
 
-  const middlewareSubmitData = () => {
+  const validateSubmitData = () => {
     return [
       required(tenDot, 'Vui lòng chọn học kỳ!'),
       required(loaiThi, 'Vui lòng chọn loại thi!'),
@@ -85,7 +85,7 @@ function HoanThi() {
   const handleSubmitData = async (event) => {
     event.preventDefault()
 
-    if (!middlewareSubmitData()) {
+    if (!validateSubmitData()) {
       return
     }
 

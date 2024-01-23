@@ -10,6 +10,15 @@ import {
 } from '@/Apis/MotCua/DaoTao/apiDangKyLopChatLuong'
 import Swal from 'sweetalert2'
 import dayjs from 'dayjs'
+import {
+  makeDataSv,
+  makePostDataSv,
+  transformSubmitValue,
+} from '@/Services/Utils/dataSubmitUtils'
+import { isEmpty } from 'lodash-unified'
+
+const MC_DT_DKHocChatLuong_PREFIX = 'MC_DT_DKHocChatLuong_'
+const MC_DT_DKHocChatLuong_FILE_PREFIX = `${MC_DT_DKHocChatLuong_PREFIX}YeuCau_`
 
 function DangKyLopChatLuong() {
   const home = {
@@ -49,14 +58,6 @@ function DangKyLopChatLuong() {
   const [ngayKetThuc, setNgayKetThuc] = useState('')
 
   const dataSV = DataSinhVien()
-
-  // check object null
-  function isEmpty(obj) {
-    for (let prop in obj) {
-      if (obj.hasOwnProperty(prop)) return false
-    }
-    return true
-  }
 
   const handleSelectHocPhan = (e, hp) => {
     setHocPhan(() => hp)
@@ -104,58 +105,23 @@ function DangKyLopChatLuong() {
       return
     }
 
-    let dataHocPhan = {}
-
-    //dataSV
-    dataHocPhan.MC_DT_DKHocChatLuong_MaSinhVien = dataSV.MaSinhVien
-      ? dataSV.MaSinhVien
-      : 'null'
-    dataHocPhan.MC_DT_DKHocChatLuong_GioiTinh =
-      dataSV.GioiTinh !== null ? dataSV.GioiTinh.toString() : 'null'
-    dataHocPhan.MC_DT_DKHocChatLuong_NgaySinh2 = dataSV.NgaySinh
-      ? new Date(
-          `${dataSV.NgaySinh.split('/')[2]}-${dataSV.NgaySinh.split('/')[1]}-${
-            dataSV.NgaySinh.split('/')[0]
-          }`,
-        ).toISOString()
-      : 'null'
-    dataHocPhan.MC_DT_DKHocChatLuong_TenLop = dataSV.LopHoc
-      ? dataSV.LopHoc
-      : 'null'
-    dataHocPhan.MC_DT_DKHocChatLuong_DienThoai = dataSV.SoDienThoai
-      ? dataSV.SoDienThoai
-      : dataSV.SoDienThoai2
-        ? dataSV.SoDienThoai2
-        : dataSV.SoDienThoai3
-          ? dataSV.SoDienThoai3
-          : 'null'
-    dataHocPhan.MC_DT_DKHocChatLuong_Email = dataSV.Email_TruongCap
-      ? dataSV.Email_TruongCap
-      : 'null'
-    dataHocPhan.MC_DT_DKHocChatLuong_TenDot = hocKy ?? 'null'
-    dataHocPhan.MC_DT_DKHocChatLuong_MaLopHoc =
-      hocPhan.MC_DT_DKHocChatLuong_MaLopHoc
-        ? hocPhan.MC_DT_DKHocChatLuong_MaLopHoc
-        : 'null'
-    dataHocPhan.MC_DT_DKHocChatLuong_TenLopHoc =
-      hocPhan.MC_DT_DKHocChatLuong_TenLop
-        ? hocPhan.MC_DT_DKHocChatLuong_TenLop
-        : 'null'
-    dataHocPhan.MC_DT_DKHocChatLuong_KhoaChuQuanLHP =
-      hocPhan.MC_DT_DKHocChatLuong_KhoaChuQuanLHP
-        ? hocPhan.MC_DT_DKHocChatLuong_KhoaChuQuanLHP
-        : 'null'
-    dataHocPhan.MC_DT_DKHocChatLuong_SiSo = hocPhan.MC_DT_DKHocChatLuong_SiSo
-      ? hocPhan.MC_DT_DKHocChatLuong_SiSo.toString()
-      : 'null'
-    dataHocPhan.MC_DT_DKHocChatLuong_GhiChu =
-      hocPhan.MC_DT_DKHocChatLuong_GhiChu
-        ? hocPhan.MC_DT_DKHocChatLuong_GhiChu
-        : 'null'
-    dataHocPhan.MC_DT_DKHocChatLuong_YeuCau_LoaiHocTap = '0'
-    dataHocPhan.MC_DT_DKHocChatLuong_YeuCau_LyDo = lyDo
-    dataHocPhan.MC_DT_DKHocChatLuong_YeuCau_LyDo_LyDoKhac_LyDoChiTiet =
-      lyDoKhac.length ? lyDoKhac : 'null'
+    let dataHocPhan = makePostDataSv(
+      makeDataSv(dataSV, MC_DT_DKHocChatLuong_PREFIX),
+      {
+        TenDot: transformSubmitValue(hocKy),
+        MaLopHoc: transformSubmitValue(hocPhan.MC_DT_DKHocChatLuong_MaLopHoc),
+        TenLopHoc: transformSubmitValue(hocPhan.MC_DT_DKHocChatLuong_TenLop),
+        KhoaChuQuanLHP: transformSubmitValue(
+          hocPhan.MC_DT_DKHocChatLuong_KhoaChuQuanLHP,
+        ),
+        SiSo: transformSubmitValue(hocPhan.MC_DT_DKHocChatLuong_SiSo),
+        GhiChu: transformSubmitValue(hocPhan.MC_DT_DKHocChatLuong_GhiChu),
+        YeuCau_LoaiHocTap: '0',
+        YeuCau_LyDo: lyDo,
+        YeuCau_LyDo_LyDoKhac_LyDoChiTiet: transformSubmitValue(lyDoKhac),
+      },
+      MC_DT_DKHocChatLuong_PREFIX,
+    )
 
     // handle post
     Swal.fire({
