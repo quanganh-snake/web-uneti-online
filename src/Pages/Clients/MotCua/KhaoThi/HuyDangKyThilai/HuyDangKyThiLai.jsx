@@ -9,7 +9,7 @@ import {
 } from '@/Apis/MotCua/KhaoThi/apiHuyDangKyThiLai'
 import Swal from 'sweetalert2'
 import { getTenDot } from '@/Apis/MotCua/apiTenDot'
-import { required } from '@/Services/Middlewares/required'
+import { required } from '@/Services/Validators/required'
 import {
   makeDataSv,
   makePostDataSv,

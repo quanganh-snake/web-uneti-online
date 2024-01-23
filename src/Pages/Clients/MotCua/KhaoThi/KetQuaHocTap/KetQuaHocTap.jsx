@@ -9,7 +9,7 @@ import {
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import Swal from 'sweetalert2'
 import { isEmpty } from 'lodash-unified'
-import { required } from '@/Services/Middlewares/required'
+import { required } from '@/Services/Validators/required'
 import {
   makeDataSv,
   makePostDataSv,

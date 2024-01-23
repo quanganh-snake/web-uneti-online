@@ -11,7 +11,7 @@ import {
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import Swal from 'sweetalert2'
 import { getTenDot } from '@/Apis/MotCua/apiTenDot'
-import { required } from '@/Services/Middlewares/required'
+import { required } from '@/Services/Validators/required'
 import {
   makeDataSv,
   makePostDataSv,
@@ -140,11 +140,10 @@ function DangKyThiLai() {
             showConfirmButton: false,
             timer: 1500,
           })
+          setTimeout(() => {
+            window.location.reload()
+          }, 1000)
         }
-
-        setTimeout(() => {
-          window.location.reload()
-        }, 1000)
       } else {
         Swal.fire({
           icon: 'error',

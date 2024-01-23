@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Swal from 'sweetalert2'
 import { useEffect } from 'react'
 import moment from 'moment'
-import { required } from '@/Services/Middlewares/required'
+import { required } from '@/Services/Validators/required'
 import {
   makeDataSv,
   makePostDataSv,

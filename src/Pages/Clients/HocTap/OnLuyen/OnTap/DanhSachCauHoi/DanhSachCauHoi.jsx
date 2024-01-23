@@ -12,7 +12,6 @@ import CauHoi from '@/Components/HocTap/OnTap/CauHoi'
 import { getAllMonHoc } from '@/Apis/HocTap/apiHocTap'
 import { useBem } from '@/Services/Hooks'
 import './DanhSachCauHoi.scss'
-import { useAutoAnimate } from '@formkit/auto-animate/react'
 import Accordion from '@/Components/Base/Accordion/Accordion'
 import { OnTapContext } from '@/Services/Tokens'
 
