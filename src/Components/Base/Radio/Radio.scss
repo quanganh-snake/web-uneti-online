@@ -2,7 +2,7 @@
     @include set-component-var('radio', $radio);
 
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     position: relative;
     gap: 10px;
