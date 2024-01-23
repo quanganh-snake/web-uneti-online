@@ -2,18 +2,18 @@ import React from 'react'
 import { homeHocTap } from '@/Services/Static/dataStatic.js'
 import ModuleItem from '@/Components/ModuleItem/ModuleItem.jsx'
 
-export const HocTap = () => {
+function HomeHocTap() {
   return (
     <>
       <div>
         <h2 className="text-uneti-primary uppercase text-center font-semibold text-2xl mb-10">
           Tra cứu kết quả học tập và ôn luyện
         </h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 px-4">
-          {homeHocTap.map((itemHocTap, index) => {
+        <div className="flex flex-col md:flex-row px-4 gap-7">
+          {homeHocTap.map((item, index) => {
             return (
               <React.Fragment key={index}>
-                <ModuleItem item={itemHocTap} />
+                <ModuleItem item={item} />
               </React.Fragment>
             )
           })}
@@ -22,3 +22,5 @@ export const HocTap = () => {
     </>
   )
 }
+
+export default HomeHocTap

@@ -2,7 +2,7 @@
  * API EMAIL UNETI
  */
 
-import http from '../../Configs/http.js'
+import http from '@/Configs/http'
 // POST
 export const apiSendEmailUNETI = async (data = {}) => {
   try {

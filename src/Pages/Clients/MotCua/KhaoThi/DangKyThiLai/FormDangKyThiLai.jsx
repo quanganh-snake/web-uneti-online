@@ -42,7 +42,6 @@ function FormDangKyThiLai(props) {
         <div className="w-[75%] flex justify-between items-center">
           <span className="block pr-10">Loại thi</span>
           <select
-            inputProps={{ readOnly: true }}
             defaultValue="Thi Lại"
             className="flex-1 max-w-[75%] px-2 py-1 rounded-md border border-solid border-gray-300"
           >

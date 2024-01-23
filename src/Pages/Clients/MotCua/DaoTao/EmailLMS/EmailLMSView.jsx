@@ -78,6 +78,7 @@ function EmailLMSView(props) {
                 />
               </div>
             )}
+            {/* TODO: resolve magic number '7' */}
             {deNghi === 'Tài khoản Email UNETI' && chiTietDeNghi === '7' && (
               <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
                 <span className="block pr-10 w-[200px]">Số điện thoại (*)</span>

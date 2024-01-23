@@ -66,11 +66,17 @@ import HoTroSuDungPhanMem from '@/Pages/Clients/HoTroSuDungPhanMem/HoTroSuDungPh
 import TheoDoiDeNghi from '@/Pages/Clients/TheoDoiDeNghi/TheoDoiDeNghi.jsx'
 import TheoDoiDeNghiChiTiet from '@/Pages/Clients/TheoDoiDeNghi/TheoDoiDeNghiChiTiet/TheoDoiDeNghiChiTiet.jsx'
 import RoleViewActionMiddleware from '@/Middlewares/RoleViewActionMiddleware'
-import { HocTap } from '@/Pages/Clients/HocTap'
-import { KetQuaHocTap as KetQuaHocTapTongQuat } from '@/Pages/Clients/HocTap/KetQuaHocTap/index'
-import { KetQuaHocTapChiTiet } from '@/Pages/Clients/HocTap/KetQuaHocTap/KetQuaHocTapChiTiet'
-import { OnLuyen } from '@/Pages/Clients/HocTap/OnLuyen'
-import { OnTapLyThuyet } from '@/Pages/Clients/HocTap/OnLuyen/OnTap'
+
+// Page học tập
+import HomeHocTap from '@/Pages/Clients/HocTap/index.jsx'
+import HocTapKetQuaHocTap from '@/Pages/Clients/HocTap/KetQuaHocTap/KetQuaHocTap.jsx'
+import HocTapOnLuyen from '@/Pages/Clients/HocTap/OnLuyen/OnLuyen.jsx'
+import HocTapOnTap from '@/Pages/Clients/HocTap/OnLuyen/OnTap/OnTap.jsx'
+import HocTapThiThu from '@/Pages/Clients/HocTap/OnLuyen/ThiThu/ThiThu.jsx'
+import KetQuaHocTapChiTiet from '@/Pages/Clients/HocTap/KetQuaHocTap/KetQuaHocTapChiTiet/KetQuaHocTapChiTiet'
+import DeThi from '@/Pages/Clients/HocTap/OnLuyen/ThiThu/DanhSachDeThi/DeThi/DeThi'
+import ThiThuDanhSachDeThi from '@/Pages/Clients/HocTap/OnLuyen/ThiThu/DanhSachDeThi/DanhSachMonThi'
+import OnTapDanhSachCauHoi from '@/Pages/Clients/HocTap/OnLuyen/OnTap/DanhSachCauHoi/DanhSachCauHoi'
 
 const ROLES = {
   G0101: 'GV',
@@ -195,21 +201,6 @@ export const privateRoutes = (
           </Route>
         </Route>
       </Route>
-
-      {/* Học tập - Sinh Viên */}
-      <Route element={<RoleMiddleware allowedRoles={[ROLES.S0202]} />}>
-        <Route path="/hoctap">
-          <Route index element={<HocTap />} />
-          <Route path="ketquahoctap">
-            <Route index element={<KetQuaHocTapTongQuat />} />
-            <Route path=":monhoc/:id" element={<KetQuaHocTapChiTiet />} />
-          </Route>
-          <Route path="onluyen">
-            <Route index element={<OnLuyen />} />
-            <Route path="ontaplythuyet" element={<OnTapLyThuyet />} />
-          </Route>
-        </Route>
-      </Route>
       {/* Hỗ trợ TBGD */}
       <Route element={<RoleMiddleware allowedRoles={[ROLES.G0101]} />}>
         <Route path="hotrothietbigiangduong">
@@ -221,6 +212,35 @@ export const privateRoutes = (
         </Route>
       </Route>
 
+      {/* Học tập - Sinh Viên */}
+      <Route element={<RoleMiddleware allowedRoles={[ROLES.G0101]} />}>
+        <Route path="hoctap">
+          <Route index element={<HomeHocTap />} />
+          <Route path="ketquahoctap" element={<HocTapKetQuaHocTap />} />
+          <Route
+            path="ketquahoctap/ketquahoctapchitiet/:id?"
+            element={<KetQuaHocTapChiTiet />}
+          />
+          <Route path="onluyen">
+            <Route index element={<HocTapOnLuyen />} />
+
+            <Route path="ontap">
+              <Route index element={<HocTapOnTap />} />
+              <Route
+                path="danhsachcauhoi/:id?"
+                element={<OnTapDanhSachCauHoi />}
+              />
+            </Route>
+            <Route path="thithu">
+              <Route index element={<HocTapThiThu />} />
+              <Route path="danhsachdethi/:id?">
+                <Route index element={<ThiThuDanhSachDeThi />} />
+                <Route path="dethi/:id?" element={<DeThi />}></Route>
+              </Route>
+            </Route>
+          </Route>
+        </Route>
+      </Route>
       {/* Hỗ trợ SDPM */}
       <Route path="hotrosudungphanmem" element={<HoTroSuDungPhanMem />} />
     </Route>

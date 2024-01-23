@@ -13,10 +13,10 @@ import {
   tokenSVLogin,
   userGVLogin,
   userSVLogin,
-} from '../../Apis/apiLogin.js'
+} from '@/Apis/apiLogin.js'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import Loading from './../../Components/Loading/Loading'
+import Loading from '@/Components/Loading/Loading'
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false)

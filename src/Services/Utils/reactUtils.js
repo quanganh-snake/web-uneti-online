@@ -4,3 +4,5 @@ export const unrefElement = (target) => {
   }
   return target
 }
+
+export const transformCls = (cls) => cls.filter((e) => e).join(' ')

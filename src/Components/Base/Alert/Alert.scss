@@ -1,8 +1,3 @@
-@use '@/assets/Styles/Mixins/mixins' as *;
-@use '@/assets/Styles/Mixins/var' as *;
-@use '@/assets/Styles/Common/var' as *;
-@use 'sass:map';
-
 @mixin a-color {
   color: rgba(var(--vs-text-color), 1);
   font-weight: 600;

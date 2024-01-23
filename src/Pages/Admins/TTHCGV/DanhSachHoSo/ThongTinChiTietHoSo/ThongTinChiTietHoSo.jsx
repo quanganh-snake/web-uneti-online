@@ -6,10 +6,10 @@ import { useEffect } from 'react'
 import {
   getThuTucHanhChinhByID,
   putThongTinHoSoThuTuc,
-} from '../../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
+} from '@/Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
 import Swal from 'sweetalert2'
 import clsx from 'clsx'
-import Loading from './../../../../../Components/Loading/Loading'
+import Loading from '@/Components/Loading/Loading'
 
 // icons
 import { FaAngleRight } from 'react-icons/fa'
@@ -19,27 +19,27 @@ import {
   MdOutlineZoomOutMap,
 } from 'react-icons/md'
 import { TfiReload } from 'react-icons/tfi'
-import { NguonTiepNhan_WEB } from '../../../../../Services/Static/dataStatic'
+import { NguonTiepNhan_WEB } from '@/Services/Static/dataStatic'
 import { toast } from 'react-toastify'
-import { checkConditionObject } from '../../../../../Services/Utils/commonUtils'
+import { checkConditionObject } from '@/Services/Utils/commonUtils'
 import {
   delTrinhTuThucHienTTHCGV,
   putTrinhTuThucHienTTHCGV,
-} from '../../../../../Apis/ThuTucHanhChinhGiangVien/apiTrinhTuThucHien'
+} from '@/Apis/ThuTucHanhChinhGiangVien/apiTrinhTuThucHien'
 import {
   deleteTrangThaiTTHCGV,
   putTrangthaiTTHCGV,
-} from '../../../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai'
+} from '@/Apis/ThuTucHanhChinhGiangVien/apiTrangThai'
 import {
   delThanhPhanHoSoTTHCGV,
   putThanhPhanHoSoTTHCGV,
-} from '../../../../../Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo'
-import { delPhanQuyenTTHCGV } from '../../../../../Apis/ThuTucHanhChinhGiangVien/apiPhanQuyen'
+} from '@/Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo'
+import { delPhanQuyenTTHCGV } from '@/Apis/ThuTucHanhChinhGiangVien/apiPhanQuyen'
 import {
   convertBufferToBase64,
   convertDataFileToBase64,
-} from '../../../../../Services/Utils/stringUtils'
-import { handlePreviewFileBase64 } from '../../../../../Services/Utils/fileUtils'
+} from '@/Services/Utils/stringUtils'
+import { handlePreviewFileBase64 } from '@/Services/Utils/fileUtils'
 import { DebounceInput } from 'react-debounce-input'
 import { EditPhanQuyenThuTuc } from './EditPhanQuyenThuTuc/EditPhanQuyenThuTuc'
 

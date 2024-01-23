@@ -4,20 +4,20 @@ import {
   getAllHoSoGuiYeuCau,
   getAllHoSoGuiYeuCauByNhanSuXuLy,
   putHoSoThuTucGuiYeuCauById,
-} from '../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
+} from '@/Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
 import {
   getListTrangThaiTTHCGV,
   getTrangThaiIDBySTTYeuCauId,
-} from '../../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai'
+} from '@/Apis/ThuTucHanhChinhGiangVien/apiTrangThai'
 import Swal from 'sweetalert2'
 import {
   TEMPLATE_SUBJECT_RECEIVED_EMAIL,
   sendEmailTTHCGiangVien,
-} from '../../../../Services/Utils/emailUtils'
-import { DataCanBoGV } from '../../../../Services/Utils/dataCanBoGV'
+} from '@/Services/Utils/emailUtils'
+import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 import { toast } from 'react-toastify'
 import { useLocation } from 'react-router-dom'
-import { getThanhPhanHoSoByIdTTHCGV } from '../../../../Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo'
+import { getThanhPhanHoSoByIdTTHCGV } from '@/Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo'
 
 function CanBoNghiepVu() {
   const [listHoSoYeuCau, setListHoSoYeuCau] = useState(null)

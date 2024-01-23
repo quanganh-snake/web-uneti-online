@@ -1,21 +1,25 @@
-/* eslint-disable no-extra-semi */
 import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import {
-  hoanThikiemTraTrung,
-  postHoanThi,
-} from '@/Apis/MotCua/KhaoThi/apiHoanThi'
+import { postHoanThi } from '@/Apis/MotCua/KhaoThi/apiHoanThi'
 import { getAllHocPhanHoanThi } from '@/Apis/MotCua/KhaoThi/apiHoanThi'
 import Swal from 'sweetalert2'
-import { isEqual, isNil } from 'lodash-unified'
-import { convertDataFileToBase64 } from '@/Services/Utils/stringUtils'
+import { isEqual } from 'lodash-unified'
 import { LY_DO_KHAC, breadcrumbs, home } from './constants'
 import { HoanThiForm } from './HoanThiForm'
 import { HoanThiTable } from './HoanThiTable'
 import { usePrevious } from '@/Services/Hooks/usePrevious'
 import { getTenDot } from '@/Apis/MotCua/apiTenDot'
+import { required } from '@/Services/Middlewares/required'
+import {
+  makeDataImages,
+  makeDataSv,
+  makePostDataSv,
+  transformSubmitValue,
+} from '@/Services/Utils/dataSubmitUtils'
+
+const HOAN_THI_PREFIX = 'MC_KT_HoanThi_'
 
 function HoanThi() {
   const [loading, setLoading] = useState(false)
@@ -69,42 +73,19 @@ function HoanThi() {
     setFiles((_files) => [..._files, file])
   }
 
+  const middlewareSubmitData = () => {
+    return [
+      required(tenDot, 'Vui lòng chọn học kỳ!'),
+      required(loaiThi, 'Vui lòng chọn loại thi!'),
+      required(lyDo, 'Vui lòng chọn lý do!'),
+      required(selectedRow, 'Vui lòng chọn 1 học phần cần gửi yêu cầu!'),
+    ].every((e) => e == true)
+  }
+
   const handleSubmitData = async (event) => {
     event.preventDefault()
 
-    if (tenDot == '') {
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: 'Vui lòng chọn học kỳ!',
-      })
-      return
-    }
-
-    if (loaiThi == '') {
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: 'Vui lòng chọn loại thi!',
-      })
-      return
-    }
-
-    if (lyDo == '') {
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: 'Vui lòng chọn lý do!',
-      })
-      return
-    }
-
-    if (isNil(selectedRow)) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: 'Vui lòng chọn 1 học phần cần gửi yêu cầu!',
-      })
+    if (!middlewareSubmitData()) {
       return
     }
 
@@ -112,110 +93,31 @@ function HoanThi() {
 
     let dataHocPhan = {}
     if (itemHocPhan) {
-      // Data post API
-      dataHocPhan.MC_KT_HoanThi_TenCoSo = dataSV.CoSo ? dataSV.CoSo : 'null'
-      dataHocPhan.MC_KT_HoanThi_TenDot = tenDot ?? 'null'
-      dataHocPhan.MC_KT_HoanThi_MaSinhVien = dataSV.MaSinhVien
-        ? dataSV.MaSinhVien
-        : 'null'
-      dataHocPhan.MC_KT_HoanThi_HoDem = dataSV.HoDem ? dataSV.HoDem : 'null'
-      dataHocPhan.MC_KT_HoanThi_Ten = dataSV.Ten ? dataSV.Ten : 'null'
-      dataHocPhan.MC_KT_HoanThi_GioiTinh = `${dataSV.GioiTinh}` ?? 'null'
-      dataHocPhan.MC_KT_HoanThi_TenHeDaoTao = dataSV.BacDaoTao
-        ? dataSV.BacDaoTao
-        : 'null'
-      dataHocPhan.MC_KT_HoanThi_TenLoaiHinhDT = dataSV.LoaiHinhDaoTao
-        ? dataSV.LoaiHinhDaoTao
-        : 'null'
-      dataHocPhan.MC_KT_HoanThi_TenKhoaHoc = dataSV.KhoaHoc
-        ? dataSV.KhoaHoc
-        : 'null'
-      dataHocPhan.MC_KT_HoanThi_TenNganh = dataSV.ChuyenNganh
-        ? dataSV.ChuyenNganh
-        : 'null'
-      dataHocPhan.MC_KT_HoanThi_TenNghe = dataSV.ChuyenNganh
-        ? dataSV.ChuyenNganh
-        : 'null'
-      dataHocPhan.MC_KT_HoanThi_TenLop = dataSV.LopHoc ? dataSV.LopHoc : 'null'
-      dataHocPhan.MC_KT_HoanThi_DienThoai = dataSV.SoDienThoai
-        ? dataSV.SoDienThoai
-        : dataSV.SoDienThoai2
-          ? dataSV.SoDienThoai2
-          : dataSV.SoDienThoai3
-            ? dataSV.SoDienThoai3
-            : ''
-      dataHocPhan.MC_KT_HoanThi_Email = dataSV.Email_TruongCap
-        ? dataSV.Email_TruongCap
-        : 'null'
-      dataHocPhan.MC_KT_HoanThi_IDSinhVien = dataSV.IdSinhVien
-        ? dataSV.IdSinhVien.toString()
-        : 'null'
-      dataHocPhan.MC_KT_HoanThi_NgaySinh2 = dataSV.NgaySinh
-        ? new Date(
-            `${dataSV.NgaySinh.split('/')[2]}-${
-              dataSV.NgaySinh.split('/')[1]
-            }-${dataSV.NgaySinh.split('/')[0]}`,
-          ).toISOString()
-        : 'null'
-
-      // data trong Tables
-      dataHocPhan.MC_KT_HoanThi_MaLopHocPhan = itemHocPhan.MaLopHocPhan
-        ? itemHocPhan.MaLopHocPhan
-        : 'null'
-      dataHocPhan.MC_KT_HoanThi_MaMonHoc = itemHocPhan.MaMonHoc || 'null'
-      dataHocPhan.MC_KT_HoanThi_TenMonHoc = itemHocPhan.TenMonHoc
-        ? itemHocPhan.TenMonHoc
-        : 'null'
-      dataHocPhan.MC_KT_HoanThi_KhoaChuQuanMon = itemHocPhan.KhoaChuQuanMon
-        ? itemHocPhan.KhoaChuQuanMon
-        : 'null'
-      dataHocPhan.MC_KT_HoanThi_TenHinhThucThi = itemHocPhan.TenHinhThucThi
-        ? itemHocPhan.TenHinhThucThi
-        : 'null'
-      dataHocPhan.MC_KT_HoanThi_NgayThi = itemHocPhan.NgayThi
-        ? itemHocPhan.NgayThi
-        : 'null'
-      dataHocPhan.MC_KT_HoanThi_Thu = itemHocPhan.Thu
-        ? itemHocPhan.Thu.toString()
-        : 'null'
-      dataHocPhan.MC_KT_HoanThi_Nhom = itemHocPhan.Nhom
-        ? itemHocPhan.Nhom.toString()
-        : 'null'
-      dataHocPhan.MC_KT_HoanThi_TuTiet = itemHocPhan.TuTiet
-        ? itemHocPhan.TuTiet.toString()
-        : 'null'
-      dataHocPhan.MC_KT_HoanThi_DenTiet = itemHocPhan.DenTiet
-        ? itemHocPhan.DenTiet.toString()
-        : 'null'
-      dataHocPhan.MC_KT_HoanThi_LoaiThi = itemHocPhan.LoaiThi
-        ? itemHocPhan.LoaiThi
-        : 'null'
-      dataHocPhan.MC_KT_HoanThi_TenPhong = itemHocPhan.TenPhong
-        ? itemHocPhan.TenPhong
-        : 'null'
-
-      dataHocPhan.MC_KT_HoanThi_YeuCau = `${lyDo}`
-      dataHocPhan.MC_KT_HoanThi_YeuCau_XemLich_LyDo = `${lyDo}`
-      dataHocPhan.MC_KT_HoanThi_YeuCau_LyDoKhac_LyDoChiTiet = `${lyDoChiTiet}`
+      dataHocPhan = makePostDataSv(
+        makeDataSv(dataSV, HOAN_THI_PREFIX),
+        {
+          TenDot: transformSubmitValue(tenDot),
+          MaLopHocPhan: transformSubmitValue(itemHocPhan.MaLopHocPhan),
+          MaMonHoc: transformSubmitValue(itemHocPhan.MaMonHoc),
+          TenMonHoc: transformSubmitValue(itemHocPhan.TenMonHoc),
+          KhoaChuQuanMon: transformSubmitValue(itemHocPhan.KhoaChuQuanMon),
+          TenHinhThucThi: transformSubmitValue(itemHocPhan.TenHinhThucThi),
+          NgayThi: transformSubmitValue(itemHocPhan.NgayThi),
+          Thu: transformSubmitValue(itemHocPhan.Thu),
+          Nhom: transformSubmitValue(itemHocPhan.Nhom),
+          TuTiet: transformSubmitValue(itemHocPhan.TuTiet),
+          DenTiet: transformSubmitValue(itemHocPhan.DenTiet),
+          LoaiThi: transformSubmitValue(itemHocPhan.LoaiThi),
+          TenPhong: transformSubmitValue(itemHocPhan.TenPhong),
+          YeuCau: `${lyDo}`,
+          YeuCau_XemLich_LyDo: `${lyDo}`,
+          YeuCau_LyDoKhac_LyDoChiTiet: `${lyDoChiTiet}`,
+        },
+        HOAN_THI_PREFIX,
+      )
 
       // images
-      dataHocPhan.images = []
-      for (let i = 0; i < files.length; i++) {
-        const fileBase64 = await convertDataFileToBase64(files[i])
-        const fileURL = URL.createObjectURL(files[i])
-
-        const fileName = fileURL.split('/').at(-1)
-
-        dataHocPhan.images.push({
-          MC_KT_HoanThi_YeuCau_DataFile: fileBase64,
-          MC_KT_HoanThi_YeuCau_TenFile: fileName,
-          urlTemp: fileURL,
-          lastModified: '',
-        })
-
-        // URL temp chỉ tồn tại trên client, nên revoke
-        URL.revokeObjectURL(fileURL)
-      }
+      dataHocPhan.images = await makeDataImages(files, 'MC_KT_HoanThi_YeuCau_')
     }
 
     // handle post
@@ -240,58 +142,38 @@ function HoanThi() {
 
   const handlePostData = async (dataHocPhan) => {
     try {
-      const kiemTraTrung = await hoanThikiemTraTrung({
-        maSinhVien: dataHocPhan.MC_KT_HoanThi_MaSinhVien,
-        tenCoSo: dataHocPhan.MC_KT_HoanThi_TenCoSo,
-        loaiThi: dataHocPhan.MC_KT_HoanThi_LoaiThi,
-        maLopHocPhan: dataHocPhan.MC_KT_HoanThi_MaLopHocPhan,
-        tenDot: dataHocPhan.MC_KT_HoanThi_TenDot,
-      })
+      const resPostData = await postHoanThi(dataHocPhan)
 
-      if (kiemTraTrung.status === 200) {
-        const records = kiemTraTrung.data.body.length
-        if (records > 0) {
+      if (resPostData == 'ERR_BAD_REQUEST') {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi hệ thống',
+          text: `Vui lòng thử lại và gửi thông báo lỗi cho bộ phận hỗ trợ phần mềm!`,
+        })
+        return
+      }
+      if (resPostData.status === 200) {
+        const data = await resPostData.data
+
+        // Check bản ghi trùng
+        if (data.message === 'Bản ghi bị trùng.') {
           Swal.fire({
             icon: 'error',
             title: 'Thông báo quá hạn',
             text: `Học phần ${dataHocPhan.MC_KT_HoanThi_TenMonHoc} đã được gửi yêu cầu trước đấy. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
           })
-          return
-        }
-
-        const resPostData = await postHoanThi(dataHocPhan)
-
-        if (resPostData == 'ERR_BAD_REQUEST') {
+        } else {
           Swal.fire({
-            icon: 'error',
-            title: 'Lỗi hệ thống',
-            text: `Vui lòng thử lại và gửi thông báo lỗi cho bộ phận hỗ trợ phần mềm!`,
+            position: 'center',
+            icon: 'success',
+            title: `Học phần ${dataHocPhan.MC_KT_HoanThi_TenMonHoc} đã được gửi yêu cầu thành công. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+            showConfirmButton: false,
+            timer: 1500,
           })
-          return
-        }
-        if (resPostData.status === 200) {
-          const data = await resPostData.data
 
-          // Check bản ghi trùng
-          if (data.message === 'Bản ghi bị trùng.') {
-            Swal.fire({
-              icon: 'error',
-              title: 'Thông báo quá hạn',
-              text: `Học phần ${dataHocPhan.MC_KT_HoanThi_TenMonHoc} đã được gửi yêu cầu trước đấy. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
-            })
-          } else {
-            Swal.fire({
-              position: 'center',
-              icon: 'success',
-              title: `Học phần ${dataHocPhan.MC_KT_HoanThi_TenMonHoc} đã được gửi yêu cầu thành công. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
-              showConfirmButton: false,
-              timer: 1500,
-            })
-
-            setTimeout(() => {
-              window.location.reload()
-            }, 1000)
-          }
+          setTimeout(() => {
+            window.location.reload()
+          }, 1000)
         }
       }
     } catch (error) {

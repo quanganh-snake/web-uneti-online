@@ -677,7 +677,6 @@ function ChiTietHoSoYeuCau() {
   useEffect(() => {
     getListDataNoiTraKetQua()
   }, [])
-
   useEffect(() => {
     getDataHoSoYeuCauById(id)
     getDataTPHSDeNghiYeuCauByIDGoc(id)

@@ -65,9 +65,17 @@ export const homeMain = [
     title: 'Hỗ trợ thiết bị sảnh phòng',
     desc: 'Theo dõi và báo hỏng thiết bị ở sảnh, hành lang và phòng làm việc.',
     icon: icoHTTBSP,
-    path: 'https://supportthietbi.uneti.edu.vn/',
+    path: '/hotrothietbisanhphong',
     moduleActive: true,
     roleActive: ['GV'],
+  },
+  {
+    title: 'Ôn luyện thi thử',
+    desc: 'Tiếp nhận ôn luyện, thi thử cho sinh viên.',
+    icon: icoTTHCSV,
+    path: '/hoctap',
+    moduleActive: true,
+    roleActive: ['SV'],
   },
   {
     title: 'Hỗ trợ sử dụng phần mềm',
@@ -81,7 +89,7 @@ export const homeMain = [
     title: 'Tra cứu thông tin tài sản',
     desc: 'Quét QR để tra cứu thông tin tài sản.',
     icon: icoTCTTTS,
-    path: 'https://taisandt.uneti.edu.vn/',
+    path: '/taisan',
     moduleActive: true,
     roleActive: ['GV', 'SV'],
   },
@@ -1129,49 +1137,6 @@ export const homeMotCua = [
   },
 ]
 
-export const homeHocTap = [
-  {
-    title: 'Kết quả học tập',
-    name: 'Kết quả học tập',
-    desc: '<p>Thông tin đánh giá chi tiết kết quả của từng môn học trong mỗi học kỳ.</p>',
-    path: '/ketquahoctap',
-    thumbnail: icoKetQuaHocTapOnLuyen,
-    ico: icoKetQuaHocTapOnLuyen,
-    moduleActive: true,
-  },
-  {
-    title: 'Ôn luyện',
-    name: 'Ôn luyện',
-    desc: '<p>Ôn tập; Thi thử: Dành cho các học phần đã đăng ký.</p>',
-    path: '/onluyen',
-    thumbnail: icoOnLuyenTracNghiem,
-    ico: icoOnLuyenTracNghiem,
-    moduleActive: true,
-    childrens: [
-      {
-        title: 'Ôn tập',
-        desc: `<p>Ôn tập lý thuyết</p>`,
-        path: '/ontaplythuyet',
-        thumbnail: icoOnLuyenTracNghiem,
-        ico: icoOnLuyenTracNghiem,
-        limited: false,
-        visiable: true,
-        stt: 1,
-      },
-      {
-        title: 'Thi thử',
-        desc: `<p>Thi thử đánh giá</p>`,
-        path: '/thithu',
-        thumbnail: icoOnLuyenTracNghiem,
-        ico: icoOnLuyenTracNghiem,
-        limited: false,
-        visiable: true,
-        stt: 2,
-      },
-    ],
-  },
-]
-
 export const homeHTTBGD = [
   {
     title: 'Báo hỏng',
@@ -1345,6 +1310,50 @@ export const homeTTHCGV = [
   },
 ]
 
+export const homeHocTap = [
+  {
+    id: 1,
+    title: 'Kết quả học tập',
+    desc: 'Theo dõi toàn bộ quá trình điểm danh đối với các môn học tương ứng tại các học kỳ',
+    path: '/ketquahoctap',
+    thumbnail: icoHTTBGD,
+    roleActive: ['SV'],
+    moduleActive: true,
+  },
+
+  {
+    id: 2,
+    title: 'Ôn luyện',
+    desc: 'Theo dõi toàn bộ lịch học theo ngày, tuần, tháng đối với từng môn học trong học kỳ',
+    path: '/onluyen',
+    moduleActive: true,
+    thumbnail: icoTTHCSV,
+    roleActive: ['SV'],
+  },
+]
+
+export const homeOnLuyen = [
+  {
+    id: 1,
+    title: 'Ôn tập',
+    desc: 'Theo dõi toàn bộ quá trình điểm danh đối với các môn học tương ứng tại các học kỳ',
+    path: '/ontap',
+    thumbnail: icoHTTBGD,
+    roleActive: ['SV'],
+    moduleActive: true,
+  },
+
+  {
+    id: 2,
+    title: 'Thi thử',
+    desc: 'Theo dõi toàn bộ lịch học theo ngày, tuần, tháng đối với từng môn học trong học kỳ',
+    path: '/thithu',
+    moduleActive: true,
+    thumbnail: icoTTHCSV,
+    roleActive: ['SV'],
+  },
+]
+ư
 // Data Loại Thi
 export const dataLoaiThi = [
   {

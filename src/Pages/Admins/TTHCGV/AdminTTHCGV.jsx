@@ -2,12 +2,12 @@ import React from 'react'
 import AdminTTHCGVView from './AdminTTHCGVView'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import { getAllMucDoThuTuc } from './../../../Apis/ThuTucHanhChinhGiangVien/apiMucDo'
+import { getAllMucDoThuTuc } from '@/Apis/ThuTucHanhChinhGiangVien/apiMucDo'
 import {
   getAllLinhVuc,
   getAllPhongBan,
   getListNoiTraKetQua,
-} from '../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
+} from '@/Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
 function AdminTTHCGV() {
   const [listMucDo, setListMucDo] = useState(null)
   const [listDonViTiepNhan, setListDonViTiepNhan] = useState(null)

@@ -80,8 +80,8 @@ export const XacNhanDTForm = (props) => {
         {/* Files area */}
         <div className="w-full md:w-[70%] flex flex-wrap items-center gap-2">
           {/* Preview image */}
-          {files.map((file) => (
-            <div>
+          {files.map((file, i) => (
+            <div key={i}>
               <Button
                 onClick={() => handleRemoveFile(file)}
                 type="transparent"

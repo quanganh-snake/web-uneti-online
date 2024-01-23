@@ -3,16 +3,12 @@
 @use '@/assets/Styles/Common/var' as *;
 @use 'sass:map';
 
-@include b(sidebar) {
+@include b(htsdpm-sidebar) {
   position: fixed;
   top: 180px;
   left: 20px;
   z-index: 2;
   transform: translateX(calc(-100% - 20px));
-
-  @include when(active) {
-    transform: translateX(0);
-  }
 
   transition: all 0.2s linear;
   width: 280px;
@@ -24,8 +20,11 @@
   display: flex;
   gap: 10px;
   flex-direction: column;
-  box-shadow: rgba(0, 0, 0, 0.04) 0px 20px 30px;
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 20px 30px -25px;
 
+  @include when(active) {
+    transform: translateX(0);
+  }
   @include e(item) {
     padding: 8px 10px;
     border-radius: 8px;
@@ -55,7 +54,7 @@
 }
 
 @include res(md) {
-  @include b(sidebar) {
+  @include b(htsdpm-sidebar) {
     position: static;
 
     transform: translateX(0);

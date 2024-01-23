@@ -14,8 +14,8 @@ export const Sidebar = ({
   showSidebar,
   setShowSidebar,
 }) => {
-  const bem = useBem('sidebar')
-  const navigate = useNavigate()
+  const bem = useBem('htsdpm-sidebar')
+
   const [categories, setCategories] = useState([])
 
   const handleSidebarItemClick = (category) => {

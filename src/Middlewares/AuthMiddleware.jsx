@@ -1,8 +1,8 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate, Outlet } from 'react-router-dom'
-import { DataSinhVien } from '../Services/Utils/dataSinhVien'
-import { DataCanBoGV } from '../Services/Utils/dataCanBoGV'
+import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
+import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 function AuthMiddleware() {
   const dataSV = DataSinhVien()
   const dataCBGV = DataCanBoGV()

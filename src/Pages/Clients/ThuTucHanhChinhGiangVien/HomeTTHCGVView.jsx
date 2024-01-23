@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import Breadcrumb from '../../../Components/Breadcumb/Breadcrumb'
+import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import { FiSearch } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import SidebarTTHCGV from './SidebarTTHCGV/SidebarTTHCGV'
-import { changeSlug } from '../../../Services/Utils/stringUtils'
+import { changeSlug } from '@/Services/Utils/stringUtils'
 import ReactPaginate from 'react-paginate'
 import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
 import clsx from 'clsx'
 import { DebounceInput } from 'react-debounce-input'
-import Loading from '../../../Components/Loading/Loading'
+import Loading from '@/Components/Loading/Loading'
 function HomeTTHCGVView(props) {
   const { home, loading, dataListHoSoThuTuc, setKeywords, setDieuKienLoc } =
     props

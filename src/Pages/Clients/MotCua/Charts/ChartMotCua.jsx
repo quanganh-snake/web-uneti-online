@@ -1,40 +1,70 @@
-import React, { useState, useEffect } from 'react'
+import { useBem } from '@/Services/Hooks'
+import React, { useState, useEffect, useRef } from 'react'
 import Chart from 'react-apexcharts'
 
+import './ChartMotCua.scss'
+
+const DEFAULT_CHAR_WIDTH = '400px'
+const DEFAULT_CHAR_HEIGHT = '400px'
+
 function ChartMotCua() {
+  const bem = useBem('uneti_chart')
+
+  const apexchartRef = useRef()
+
   const [dataAudits, setDataAudits] = useState([])
 
   const windowWidth = window.innerWidth
 
-  const [chartWidth, setChartWidth] = useState(800)
-  const [chartHeight, setChartHeight] = useState(800)
+  const [chartWidth, setChartWidth] = useState(DEFAULT_CHAR_WIDTH)
+  const [chartHeight, setChartHeight] = useState(DEFAULT_CHAR_HEIGHT)
 
   useEffect(() => {
     const updateChartSize = () => {
-      if (windowWidth < 565) {
-        setChartWidth(360)
-        setChartHeight(360)
+      if (windowWidth < 660) {
+        setChartWidth(240)
+        setChartHeight(240)
       } else {
-        setChartWidth(800)
-        setChartHeight(550)
+        setChartWidth(DEFAULT_CHAR_WIDTH)
+        setChartHeight(DEFAULT_CHAR_HEIGHT)
       }
     }
 
-    window.onresize = updateChartSize()
+    window.onresize = updateChartSize
   }, [])
 
   return (
     <React.Fragment>
       <div className="my-10 rounded-lg px-4">
-        <div className="uneti__chart-view p-5 rounded-lg bg-white flex flex-col lg:flex-row items-center">
+        <div className={bem.e('view')}>
           <Chart
             type="donut"
+            ref={apexchartRef}
             width={chartWidth}
             height={chartHeight}
             series={[45, 67, 89, 34]}
             options={{
               colors: ['#A4a4a4', '#0098EF', '#BCEBFF', '#CCC'],
+              chart: {
+                width: 400,
+                height: 400,
+              },
+              responsive: [
+                {
+                  breakpoint: 660,
+                  options: {
+                    chart: {
+                      width: 240,
+                      height: 240,
+                    },
+                  },
+                },
+              ],
               labels: ['Khảo thí', 'Đào tạo', 'CT&CTSV', 'Hành chính'],
+              fill: {
+                colors: ['#1a5cff', '#46c93a', '#ffba00', '#ff4757'],
+                opacity: [0.9, 0.9, 0.9, 0.9],
+              },
               plotOptions: {
                 pie: {
                   donut: {
@@ -43,7 +73,7 @@ function ChartMotCua() {
                       total: {
                         show: true,
                         label: 'TỔNG',
-                        fontSize: 30,
+                        fontSize: 24,
                         fontWeight: 600,
                         color: '#336699',
                       },
@@ -56,21 +86,41 @@ function ChartMotCua() {
               },
             }}
           />
-          <div className="uneti__chart-detail">
-            <div className="flex items-center gap-5 mb-4">
-              <div className="w-12 h-5 rounded-md bg-[#008EFB]"></div>
+          <div className={bem.e('details')}>
+            <div className={bem.em('details', 'item')}>
+              <div
+                className={bem.em('details', 'item-color')}
+                style={bem.cssVar({
+                  color: '#1a5cff',
+                })}
+              />
               <span>Khảo thí</span>
             </div>
-            <div className="flex items-center gap-5 mb-4">
-              <div className="w-12 h-5 rounded-md bg-[#1AE396]"></div>
+            <div className={bem.em('details', 'item')}>
+              <div
+                className={bem.em('details', 'item-color')}
+                style={bem.cssVar({
+                  color: '#46c93a',
+                })}
+              />
               <span>Đào tạo</span>
             </div>
-            <div className="flex items-center gap-5 mb-4">
-              <div className="w-12 h-5 rounded-md bg-[#FEB018]"></div>
+            <div className={bem.em('details', 'item')}>
+              <div
+                className={bem.em('details', 'item-color')}
+                style={bem.cssVar({
+                  color: '#ffba00',
+                })}
+              />
               <span>CT&CTSV</span>
             </div>
-            <div className="flex items-center gap-5 mb-4">
-              <div className="w-12 h-5 rounded-md bg-[#FE4560]"></div>
+            <div className={bem.em('details', 'item')}>
+              <div
+                className={bem.em('details', 'item-color')}
+                style={bem.cssVar({
+                  color: '#ff4757',
+                })}
+              />
               <span>Hành chính</span>
             </div>
           </div>

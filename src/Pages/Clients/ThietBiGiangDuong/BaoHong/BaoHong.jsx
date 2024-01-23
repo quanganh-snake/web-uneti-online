@@ -26,7 +26,6 @@ export default function BaoHong() {
 
   useEffect(() => {
     getTTPhongBaoHong(id).then((res) => {
-      console.log('🚀 ~ getTTPhongBaoHong ~ res:', res)
       setThongTinPhong(res?.data?.body[0])
     })
 
@@ -150,9 +149,6 @@ export default function BaoHong() {
       }
     }
   }
-
-  console.log(id)
-  console.log(thongTinPhong)
 
   return (
     <BaoHongView
