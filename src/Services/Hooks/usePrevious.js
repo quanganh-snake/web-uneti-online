@@ -2,9 +2,9 @@ import { useEffect } from 'react'
 import { useRef } from 'react'
 
 export const usePrevious = (value) => {
-  const ref = useRef()
-  useEffect(() => {
-    ref.current = value
-  })
-  return ref.current
+    const ref = useRef()
+    useEffect(() => {
+        ref.current = value
+    })
+    return ref.current
 }

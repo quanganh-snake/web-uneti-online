@@ -13,46 +13,51 @@ import './Accordion.scss'
 import { useImperativeHandle } from 'react'
 
 export const Accordion = forwardRef(
-  ({ children, className, ...attrs }, ref) => {
-    const bem = useBem('accordion')
+    ({ children, className, ...attrs }, ref) => {
+        const bem = useBem('accordion')
 
-    const [state, dispatch] = useReducer(reducer, {
-      isAccordion: true,
-      isOpen: false,
-    })
+        const [state, dispatch] = useReducer(reducer, {
+            isAccordion: true,
+            isOpen: false,
+        })
 
-    const accordionCls = useMemo(
-      () => transformCls([className, bem.b(), bem.is('open', state.isOpen)]),
-      [bem, state.isOpen],
-    )
+        const accordionCls = useMemo(
+            () =>
+                transformCls([
+                    className,
+                    bem.b(),
+                    bem.is('open', state.isOpen),
+                ]),
+            [bem, state.isOpen],
+        )
 
-    const onToggle = () => {
-      dispatch(AccordionAction.TOGGLE)
-    }
+        const onToggle = () => {
+            dispatch(AccordionAction.TOGGLE)
+        }
 
-    const open = () => {
-      dispatch(AccordionAction.OPEN)
-    }
+        const open = () => {
+            dispatch(AccordionAction.OPEN)
+        }
 
-    const close = () => {
-      dispatch(AccordionAction.CLOSE)
-    }
+        const close = () => {
+            dispatch(AccordionAction.CLOSE)
+        }
 
-    useImperativeHandle(ref, () => ({
-      isOpen: state.isOpen,
-      toggle: onToggle,
-      open,
-      close,
-    }))
+        useImperativeHandle(ref, () => ({
+            isOpen: state.isOpen,
+            toggle: onToggle,
+            open,
+            close,
+        }))
 
-    return (
-      <AccordionContext.Provider value={{ ...state, dispatch }}>
-        <div className={accordionCls} {...attrs}>
-          {children}
-        </div>
-      </AccordionContext.Provider>
-    )
-  },
+        return (
+            <AccordionContext.Provider value={{ ...state, dispatch }}>
+                <div className={accordionCls} {...attrs}>
+                    {children}
+                </div>
+            </AccordionContext.Provider>
+        )
+    },
 )
 
 Accordion.Label = AccordionLabel

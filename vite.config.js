@@ -4,22 +4,22 @@ import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  assetsInclude: ['/src/assets/*.{ico,jpg,jpeg,gif,svg,.png}'],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src/'),
-      Styles: path.resolve(__dirname, './src/assets/Styles/'),
+    plugins: [react()],
+    assetsInclude: ['/src/assets/*.{ico,jpg,jpeg,gif,svg,.png}'],
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, './src/'),
+            Styles: path.resolve(__dirname, './src/assets/Styles/'),
+        },
     },
-  },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: `@use '@/assets/Styles/Mixins/mixins' as *;
+    css: {
+        preprocessorOptions: {
+            scss: {
+                additionalData: `@use '@/assets/Styles/Mixins/mixins' as *;
                         @use '@/assets/Styles/Mixins/var' as *;
                         @use '@/assets/Styles/Commons/var' as *;`,
-      },
+            },
+        },
+        exclude: ['src/assets/Styles/**/*.scss'],
     },
-    exclude: ['src/assets/Styles/**/*.scss'],
-  },
 })

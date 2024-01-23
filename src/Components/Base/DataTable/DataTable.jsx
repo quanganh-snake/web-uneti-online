@@ -4,35 +4,35 @@ import './DataTable.scss'
 import { useMemo } from 'react'
 
 export const DataTable = (props) => {
-  const bem = useBem('data-table')
+    const bem = useBem('data-table')
 
-  const appStyles = useMemo(() => {
-    return {
-      ...props.styles,
-      maxHeight: props.maxHeight,
-      overflowX: props.scrollX && 'scroll',
-      overflowY: props.scrollY && 'scroll',
-    }
-  }, [props])
-
-  return (
-    <>
-      <div style={appStyles} className="overflow-hidden rounded-lg">
-        <table
-          className={bem.b()}
-          style={{
+    const appStyles = useMemo(() => {
+        return {
+            ...props.styles,
             maxHeight: props.maxHeight,
-          }}
-        >
-          <thead className={bem.e('thead')}>{props.thead}</thead>
+            overflowX: props.scrollX && 'scroll',
+            overflowY: props.scrollY && 'scroll',
+        }
+    }, [props])
 
-          <tbody className={bem.e('tbody')}>{props.tbody}</tbody>
-        </table>
-      </div>
+    return (
+        <>
+            <div style={appStyles} className="overflow-hidden rounded-lg">
+                <table
+                    className={bem.b()}
+                    style={{
+                        maxHeight: props.maxHeight,
+                    }}
+                >
+                    <thead className={bem.e('thead')}>{props.thead}</thead>
 
-      {props.footer}
-    </>
-  )
+                    <tbody className={bem.e('tbody')}>{props.tbody}</tbody>
+                </table>
+            </div>
+
+            {props.footer}
+        </>
+    )
 }
 
 export default DataTable

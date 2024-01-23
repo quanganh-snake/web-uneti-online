@@ -1,16 +1,16 @@
 @include b(DanhSachDeThi) {
-  @include e(toggle-sidebar) {
-    z-index: 10000;
-    position: fixed;
-    top: 240px;
-    right: 20px;
-    transition: all 0.2s linear;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 30px;
-    display: flex;
-    gap: 4px;
-  }
+    @include e(toggle-sidebar) {
+        z-index: 10000;
+        position: fixed;
+        top: 240px;
+        right: 20px;
+        transition: all 0.2s linear;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 30px;
+        display: flex;
+        gap: 4px;
+    }
 }
 
 // @include res(md) {

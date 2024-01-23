@@ -1,26 +1,26 @@
 @include b(accordion) {
-  @include when(open) {
+    @include when(open) {
+        @include e(icon) {
+            transform: rotate(90deg);
+        }
+
+        @include e(label) {
+            border-radius: 14px 14px 4px 4px;
+        }
+    }
+
     @include e(icon) {
-      transform: rotate(90deg);
+        transition: all 0.25s ease;
     }
 
     @include e(label) {
-      border-radius: 14px 14px 4px 4px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 14px;
+        padding: 8px 16px;
+        overflow: hidden;
+        transition: all 0.12s ease;
+        user-select: none;
     }
-  }
-
-  @include e(icon) {
-    transition: all 0.25s ease;
-  }
-
-  @include e(label) {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-radius: 14px;
-    padding: 8px 16px;
-    overflow: hidden;
-    transition: all 0.12s ease;
-    user-select: none;
-  }
 }

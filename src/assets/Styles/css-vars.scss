@@ -3,34 +3,34 @@
 @use './Commons/var' as *;
 
 :root {
-  @include set-component-color('', $appColor);
+    @include set-component-color('', $appColor);
 }
 
 body {
-  color: getColor(text);
+    color: getColor(text);
 }
 
 .is-color-primary {
-  // --color: 25, 91, 255;
-  --color: 4, 132, 172;
+    // --color: 25, 91, 255;
+    --color: 4, 132, 172;
 }
 
 .is-color-success {
-  --color: 70, 201, 58;
+    --color: 70, 201, 58;
 }
 
 .is-color-danger {
-  --color: 255, 71, 87;
+    --color: 255, 71, 87;
 }
 
 .is-color-warn {
-  --color: 255, 186, 0;
+    --color: 255, 186, 0;
 }
 
 .is-color-error {
-  --color: 255, 71, 87;
+    --color: 255, 71, 87;
 }
 
 .is-color-dark {
-  --color: 30, 30, 30;
+    --color: 30, 30, 30;
 }

@@ -1,75 +1,75 @@
 @include b(button) {
-  --color: var(--primary-lighter);
+    --color: var(--primary-lighter);
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 12px;
-  transition: all 0.25s ease;
-  border: 0;
-  padding: 10px 16px;
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-  user-select: none;
-  cursor: pointer;
-  outline: 0;
-  font-size: 0.8rem;
-  position: relative;
-  background-color: getColor(color);
-  color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    transition: all 0.25s ease;
+    border: 0;
+    padding: 10px 16px;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    user-select: none;
+    cursor: pointer;
+    outline: 0;
+    font-size: 0.8rem;
+    position: relative;
+    background-color: getColor(color);
+    color: white;
 
-  @include when(flat) {
-    background: getColor(color, 0.15);
-    color: getColor(color);
+    @include when(flat) {
+        background: getColor(color, 0.15);
+        color: getColor(color);
 
-    &:hover {
-      background: getColor(color, 0.25);
+        &:hover {
+            background: getColor(color, 0.25);
+        }
+
+        &:focus {
+            color: #fff;
+            background: getColor(color);
+            transition:
+                all 0.25s ease,
+                background 0.25s ease 0.25s;
+        }
     }
 
-    &:focus {
-      color: #fff;
-      background: getColor(color);
-      transition:
-        all 0.25s ease,
-        background 0.25s ease 0.25s;
-    }
-  }
-
-  @include when(icon) {
-    width: 36px !important;
-    height: 36px !important;
-    border-radius: 10px !important;
-  }
-
-  @include when(flat) {
-    color: getColor(color);
-    background-color: getColor(color, 0.1);
-  }
-
-  @include when(transparent) {
-    color: getColor(color);
-    background-color: transparent;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      transform: scale(0);
-      border-radius: 12px;
-      transition: all 0.25s ease;
-      background-color: getColor(color, 0.1);
+    @include when(icon) {
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 10px !important;
     }
 
-    &:active::before {
-      transform: scale(0.9) !important;
+    @include when(flat) {
+        color: getColor(color);
+        background-color: getColor(color, 0.1);
     }
 
-    &:hover::before {
-      transform: scale(1);
+    @include when(transparent) {
+        color: getColor(color);
+        background-color: transparent;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            transform: scale(0);
+            border-radius: 12px;
+            transition: all 0.25s ease;
+            background-color: getColor(color, 0.1);
+        }
+
+        &:active::before {
+            transform: scale(0.9) !important;
+        }
+
+        &:hover::before {
+            transform: scale(1);
+        }
     }
-  }
 }

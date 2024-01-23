@@ -12,31 +12,31 @@ import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 // import { Sidebar } from '@/Components/Sidebar/Sidebar'
 
 function MainCommon() {
-  const location = useLocation()
-  const { pathname } = location
+    const location = useLocation()
+    const { pathname } = location
 
-  const state = store.getState()
-  // const { Role } = state?.user?.currentUser?.Role;
+    const state = store.getState()
+    // const { Role } = state?.user?.currentUser?.Role;
 
-  const dataUser = DataSinhVien() ? DataSinhVien() : DataCanBoGV()
-  const dataRole = dataUser?.Role
+    const dataUser = DataSinhVien() ? DataSinhVien() : DataCanBoGV()
+    const dataRole = dataUser?.Role
 
-  return (
-    <>
-      {pathname === '/' || pathname === '/dangnhap' ? null : dataRole ==
-        'SV' ? (
-        <HeaderSV />
-      ) : (
-        <HeaderCBGV />
-      )}
+    return (
+        <>
+            {pathname === '/' || pathname === '/dangnhap' ? null : dataRole ==
+              'SV' ? (
+                <HeaderSV />
+            ) : (
+                <HeaderCBGV />
+            )}
 
-      <main className="px-5 mt-[140px] mb-[50px] max-w-7xl mx-auto gap-10">
-        <RouterCore />
-      </main>
-      {pathname === '/' || pathname === '/dangnhap' ? null : <Footer />}
-      <AutoScrollTop />
-    </>
-  )
+            <main className="px-5 mt-[140px] mb-[50px] max-w-7xl mx-auto gap-10">
+                <RouterCore />
+            </main>
+            {pathname === '/' || pathname === '/dangnhap' ? null : <Footer />}
+            <AutoScrollTop />
+        </>
+    )
 }
 
 export default MainCommon

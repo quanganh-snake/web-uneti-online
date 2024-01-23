@@ -1,28 +1,28 @@
 @use 'sass:map';
 
 @include b(posts) {
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-  margin-top: 20px;
-
-  @include e(empty) {
-    text-align: center;
-    padding: 12px;
-    font-weight: bold;
-    color: map.get($appColor, primary);
-    background-color: rgba(map.get($appColor, primary), 0.07);
-    border-radius: 12px;
-  }
-
-  @include e(pagination) {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    gap: 22px;
+    margin-top: 20px;
 
-    ul {
-      display: flex;
-      gap: 20px;
+    @include e(empty) {
+        text-align: center;
+        padding: 12px;
+        font-weight: bold;
+        color: map.get($appColor, primary);
+        background-color: rgba(map.get($appColor, primary), 0.07);
+        border-radius: 12px;
     }
-  }
+
+    @include e(pagination) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        ul {
+            display: flex;
+            gap: 20px;
+        }
+    }
 }

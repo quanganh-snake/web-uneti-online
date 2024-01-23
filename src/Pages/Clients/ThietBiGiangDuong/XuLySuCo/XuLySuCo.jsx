@@ -2,5 +2,5 @@ import XuLySuCoView from '@/Components/HoTroThietBiGiangDuong/XuLySuCo/XuLySuCoV
 import React from 'react'
 
 export default function XuLySuCo() {
-  return <XuLySuCoView />
+    return <XuLySuCoView />
 }

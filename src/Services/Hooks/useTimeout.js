@@ -1,20 +1,20 @@
 import { useEffect } from 'react'
 
 export function useTimeout() {
-  let timeoutHandle
+    let timeoutHandle
 
-  const registerTimeout = (fn, delay) => {
-    cancelTimeout()
-    timeoutHandle = setTimeout(fn, delay)
-  }
-  const cancelTimeout = () => clearTimeout(timeoutHandle)
+    const registerTimeout = (fn, delay) => {
+        cancelTimeout()
+        timeoutHandle = setTimeout(fn, delay)
+    }
+    const cancelTimeout = () => clearTimeout(timeoutHandle)
 
-  useEffect(() => {
-    return cancelTimeout
-  }, [])
+    useEffect(() => {
+        return cancelTimeout
+    }, [])
 
-  return {
-    registerTimeout,
-    cancelTimeout,
-  }
+    return {
+        registerTimeout,
+        cancelTimeout,
+    }
 }
