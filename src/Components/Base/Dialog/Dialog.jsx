@@ -4,69 +4,66 @@ import { useRef, useImperativeHandle, forwardRef } from 'react'
 import './Dialog.scss'
 
 export const Dialog = forwardRef((props, ref) => {
-    const bem = useBem('dialog')
+  const bem = useBem('dialog')
 
-    const { footer, header, children, isOpen, setIsOpen } = props
+  const { footer, header, children, isOpen, setIsOpen } = props
 
-    const dialogRef = useRef()
-    const dialogOriginalRef = useRef()
+  const dialogRef = useRef()
+  const dialogOriginalRef = useRef()
 
-    const handleCloseDialog = () => {
-        addTransitionClose()
+  const handleCloseDialog = () => {
+    addTransitionClose()
 
-        setTimeout(() => {
-            setIsOpen(false)
-        }, 140)
-    }
+    setTimeout(() => {
+      setIsOpen(false)
+    }, 140)
+  }
 
-    const addTransitionClose = () => {
-        dialogRef.current.classList.add(bem.is('close'))
-    }
+  const addTransitionClose = () => {
+    dialogRef.current.classList.add(bem.is('close'))
+  }
 
-    useClickOutside(dialogOriginalRef, handleCloseDialog)
+  useClickOutside(dialogOriginalRef, handleCloseDialog)
 
-    useImperativeHandle(ref, () => ({
-        close: handleCloseDialog,
-    }))
+  useImperativeHandle(ref, () => ({
+    close: handleCloseDialog,
+  }))
 
-    return (
-        <>
-            {isOpen && (
-                <div ref={dialogRef} className={bem.b()}>
-                    <div ref={dialogOriginalRef} className={bem.e('original')}>
-                        <div className={bem.e('header')}>
-                            {/* Btn close */}
-                            <div
-                                className={bem.e('close')}
-                                onClick={handleCloseDialog}
-                            >
-                                <svg
-                                    fill="currentColor"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M18 12.75H6c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h12c.41 0 .75.34.75.75s-.34.75-.75.75Z"
-                                        fill="currentColor"
-                                    ></path>
-                                    <path
-                                        d="M12 18.75c-.41 0-.75-.34-.75-.75V6c0-.41.34-.75.75-.75s.75.34.75.75v12c0 .41-.34.75-.75.75Z"
-                                        fill="currentColor"
-                                    ></path>
-                                </svg>
-                            </div>
+  return (
+    <>
+      {isOpen && (
+        <div ref={dialogRef} className={bem.b()}>
+          <div ref={dialogOriginalRef} className={bem.e('original')}>
+            <div className={bem.e('header')}>
+              {/* Btn close */}
+              <div className={bem.e('close')} onClick={handleCloseDialog}>
+                <svg
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M18 12.75H6c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h12c.41 0 .75.34.75.75s-.34.75-.75.75Z"
+                    fill="currentColor"
+                  ></path>
+                  <path
+                    d="M12 18.75c-.41 0-.75-.34-.75-.75V6c0-.41.34-.75.75-.75s.75.34.75.75v12c0 .41-.34.75-.75.75Z"
+                    fill="currentColor"
+                  ></path>
+                </svg>
+              </div>
 
-                            {header}
-                        </div>
+              {header}
+            </div>
 
-                        <div className={bem.e('content')}>{children}</div>
+            <div className={bem.e('content')}>{children}</div>
 
-                        <div className={bem.e('footer')}>{footer}</div>
-                    </div>
-                </div>
-            )}
-        </>
-    )
+            <div className={bem.e('footer')}>{footer}</div>
+          </div>
+        </div>
+      )}
+    </>
+  )
 })
 
 Dialog.displayName = 'Dialog'

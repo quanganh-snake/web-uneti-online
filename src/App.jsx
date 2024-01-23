@@ -5,11 +5,11 @@ import './App.css'
 import '@/assets/Styles/css-vars.scss'
 
 function App() {
-    return (
-        <BrowserRouter>
-            <MainCommon />
-        </BrowserRouter>
-    )
+  return (
+    <BrowserRouter>
+      <MainCommon />
+    </BrowserRouter>
+  )
 }
 
 export default App

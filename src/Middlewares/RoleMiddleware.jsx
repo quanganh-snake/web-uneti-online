@@ -5,27 +5,23 @@ import { DataSinhVien } from '../Services/Utils/dataSinhVien'
 import { DataCanBoGV } from '../Services/Utils/dataCanBoGV'
 
 function RoleMiddleware(props) {
-    const { allowedRoles } = props
-    const dataSV = DataSinhVien()
-    const dataCBGV = DataCanBoGV()
+  const { allowedRoles } = props
+  const dataSV = DataSinhVien()
+  const dataCBGV = DataCanBoGV()
 
-    let role = null
-    if (dataSV) {
-        role = dataSV.Role
-    } else if (dataCBGV) {
-        role = dataCBGV.Role
-    } else {
-        role = null
-    }
-    return allowedRoles?.includes(role) ? (
-        <Outlet />
-    ) : (
-        <Navigate to="/dangnhap" />
-    )
+  let role = null
+  if (dataSV) {
+    role = dataSV.Role
+  } else if (dataCBGV) {
+    role = dataCBGV.Role
+  } else {
+    role = null
+  }
+  return allowedRoles?.includes(role) ? <Outlet /> : <Navigate to="/dangnhap" />
 }
 
 RoleMiddleware.propTypes = {
-    allowedRoles: PropTypes.array,
+  allowedRoles: PropTypes.array,
 }
 
 export default RoleMiddleware

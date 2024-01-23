@@ -4,79 +4,73 @@
 @use 'sass:map';
 
 @include b(navbar-user) {
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    display: none;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  display: none;
 
-    @include e(list) {
-        display: flex;
-        flex-direction: column;
-        font-weight: 500;
-        padding: 16px;
-        margin-top: 16px;
-        border-radius: 16px;
+  @include e(list) {
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+    padding: 16px;
+    margin-top: 16px;
+    border-radius: 16px;
 
-        @include res(md) {
-            flex-direction: row;
-            gap: 32px;
-            margin-top: 0;
-            border: none;
-            background: #fff;
-        }
+    @include res(md) {
+      flex-direction: row;
+      gap: 32px;
+      margin-top: 0;
+      border: none;
+      background: #fff;
+    }
+  }
+
+  @include e(item) {
+    padding: 8px 14px;
+    border-radius: 12px;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      width: 0;
+      border-radius: 12px;
+      margin-left: auto;
+      margin-right: auto;
+      transition: all 0.2s ease;
     }
 
-    @include e(item) {
-        padding: 8px 14px;
-        border-radius: 12px;
-        position: relative;
+    &:hover {
+      color: map-get($map: $appColor, $key: 'primary-lighter');
 
-        &::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            width: 0;
-            border-radius: 12px;
-            margin-left: auto;
-            margin-right: auto;
-            transition: all 0.2s ease;
-        }
-
-        &:hover {
-            color: map-get($map: $appColor, $key: 'primary-lighter');
-
-            &::before {
-                width: 100%;
-                background-color: map-get(
-                    $map: $appColor,
-                    $key: 'primary-light'
-                );
-            }
-        }
-
-        @include when(active) {
-            color: map-get($map: $appColor, $key: 'primary-lighter');
-
-            &::before {
-                width: 100%;
-                background-color: map-get(
-                    $map: $appColor,
-                    $key: 'primary-light'
-                );
-            }
-        }
+      &::before {
+        width: 100%;
+        background-color: map-get($map: $appColor, $key: 'primary-light');
+      }
     }
 
-    // responsive
-    @include res('md') {
-        width: auto;
-        order: 1;
-    }
+    @include when(active) {
+      color: map-get($map: $appColor, $key: 'primary-lighter');
 
-    @include res('lg') {
-        display: flex;
+      &::before {
+        width: 100%;
+        background-color: map-get($map: $appColor, $key: 'primary-light');
+      }
     }
+  }
+
+  // responsive
+  @include res('md') {
+    width: auto;
+    order: 1;
+  }
+
+  @include res('lg') {
+    display: flex;
+  }
 }

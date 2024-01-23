@@ -3,5 +3,5 @@
 @use './common/var' as *;
 
 :root {
-    @include set-component-color('', $appColor);
+  @include set-component-color('', $appColor);
 }

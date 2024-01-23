@@ -2,13 +2,12 @@
 
 1. API relevant changes
 
-    - **feat**: Commits, that adds or remove a new feature
-    
-    - **fix**: Commits, that fixes a bug
+   - **feat**: Commits, that adds or remove a new feature
+   - **fix**: Commits, that fixes a bug
 
 2. **refactor** Commits, that rewrite/restructure your code, however does not change any API behaviour
-    
-    - **perf** Commits are special refactor commits, that improve performance
+
+   - **perf** Commits are special refactor commits, that improve performance
 
 3. **style** Commits, that do not affect the meaning (white-space, formatting, missing semi-colons, etc)
 

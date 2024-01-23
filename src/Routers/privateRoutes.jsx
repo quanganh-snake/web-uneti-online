@@ -73,201 +73,156 @@ import { OnLuyen } from '@/Pages/Clients/HocTap/OnLuyen'
 import { OnTapLyThuyet } from '@/Pages/Clients/HocTap/OnLuyen/OnTap'
 
 const ROLES = {
-    G0101: 'GV',
-    S0202: 'SV',
+  G0101: 'GV',
+  S0202: 'SV',
 }
 export const ROLE_VIEW_ACTION_TTHCGV = {
-    QT_TTHCGV: '15',
-    CBNV_TTHCGV: '16',
+  QT_TTHCGV: '15',
+  CBNV_TTHCGV: '16',
 }
 
 export const privateRoutes = (
-    <>
-        <Route element={<AuthMiddleware />}>
-            <Route path="/uneti">
-                <Route index element={<Home />} />
-            </Route>
-            {/* ADMIN */}
-            <Route element={<RoleMiddleware allowedRoles={[ROLES.G0101]} />}>
-                <Route path="admin">
-                    <Route index element={<HomeAdmin />} />
-                    <Route
-                        path="canbonghiepvu"
-                        element={
-                            <RoleViewActionMiddleware
-                                allowedRoleViewAction={[
-                                    ROLE_VIEW_ACTION_TTHCGV.CBNV_TTHCGV,
-                                ]}
-                            />
-                        }
-                    >
-                        <Route index element={<CanBoNghiepVu />} />
-                        <Route path="hosoxuly" element={<CanBoNghiepVu />} />
-                        <Route
-                            path="chitietyeucau/:yeucau/:id"
-                            element={<ChiTietHoSoYeuCau />}
-                        />
-                    </Route>
-                    <Route
-                        path="quantriTTHCGV"
-                        element={
-                            <RoleViewActionMiddleware
-                                allowedRoleViewAction={[
-                                    ROLE_VIEW_ACTION_TTHCGV.QT_TTHCGV,
-                                ]}
-                            />
-                        }
-                    >
-                        <Route index element={<DanhSachHoSo />} />
-                        <Route
-                            path="hosothutuc/xem/tatca"
-                            element={<DanhSachHoSo />}
-                        />
-                        <Route
-                            path="hosothutuc/them"
-                            element={<AdminTTHCGV />}
-                        />
-                        <Route
-                            path="hosothutuc/xem/chitiet/:title/:id"
-                            element={<ThongTinChiTietHoSo />}
-                        />
-                    </Route>
-                </Route>
-            </Route>
-            {/* Thủ tục hành chính giảng viên */}
-            <Route element={<RoleMiddleware allowedRoles={[ROLES.G0101]} />}>
-                <Route path="tthcgiangvien">
-                    <Route index element={<HomeTTHCGV />} />
-                    <Route
-                        path="chitiet/:tieude/:id"
-                        element={<ChiTietThuTuc />}
-                    />
-                    <Route
-                        path="soanhoso/:tieude/:id/submit"
-                        element={<SoanHoSo />}
-                    />
-                    <Route path="theodoiquytrinh">
-                        <Route index element={<TheoDoiDeNghiTTHCGV />} />
-                        <Route
-                            path="chitiet/:tieude/:id"
-                            element={<TheoDoiDeNghiTTHCGVChiTiet />}
-                        />
-                    </Route>
-                </Route>
-            </Route>
-            {/* Tài sản */}
+  <>
+    <Route element={<AuthMiddleware />}>
+      <Route path="/uneti">
+        <Route index element={<Home />} />
+      </Route>
+      {/* ADMIN */}
+      <Route element={<RoleMiddleware allowedRoles={[ROLES.G0101]} />}>
+        <Route path="admin">
+          <Route index element={<HomeAdmin />} />
+          <Route
+            path="canbonghiepvu"
+            element={
+              <RoleViewActionMiddleware
+                allowedRoleViewAction={[ROLE_VIEW_ACTION_TTHCGV.CBNV_TTHCGV]}
+              />
+            }
+          >
+            <Route index element={<CanBoNghiepVu />} />
+            <Route path="hosoxuly" element={<CanBoNghiepVu />} />
             <Route
-                element={
-                    <RoleMiddleware allowedRoles={[ROLES.G0101, ROLES.S0202]} />
-                }
-            >
-                <Route path="taisan">
-                    <Route index element={<HomeTaiSan />} />
-                </Route>
-            </Route>
-            {/* Một cửa - Sinh Viên */}
-            <Route element={<RoleMiddleware allowedRoles={[ROLES.S0202]} />}>
-                {/* Theo dõi đề nghị */}
-                <Route path="theodoidenghi">
-                    <Route index element={<TheoDoiDeNghi />} />
-                    <Route
-                        path="theodoidenghichitiet"
-                        element={<TheoDoiDeNghiChiTiet />}
-                    />
-                </Route>
-                <Route path="motcua">
-                    <Route index element={<HomeMotCua />} />
-                    <Route path="khaothi">
-                        <Route index element={<HomeKhaoThi />} />
-                        <Route
-                            path="mienhocthiTA"
-                            element={<MienHocThiTiengAnh />}
-                        />
-                        <Route path="phuckhao" element={<PhucKhao />} />
-                        <Route path="lichthi" element={<LichThi />} />
-                        <Route path="dangkythilai" element={<DangKyThiLai />} />
-                        <Route path="hoanthi" element={<HoanThi />} />
-                        <Route
-                            path="huydangkythilai"
-                            element={<HuyDangKyThiLai />}
-                        />
-                        <Route path="ketquahoctap" element={<KetQuaHocTap />} />
-                    </Route>
-                    <Route path="daotao">
-                        <Route index element={<HomeDaoTao />} />
-                        <Route path="capbangdiem" element={<CapBangDiem />} />
-                        <Route path="xacnhan" element={<XacNhanDT />} />
-                        <Route
-                            path="dangkytotnghiep"
-                            element={<DangKyTotNghiep />}
-                        />
-                        <Route path="capbansao" element={<CapBanSao />} />
-                        <Route path="suathongtin" element={<SuaThongTin />} />
-                        <Route path="mienchungchi" element={<MienChungChi />} />
-                        <Route path="chuyendiem" element={<ChuyenDiem />} />
-                        <Route path="emaillms" element={<EmailLMS />} />
-                        <Route
-                            path="dangkylopchatluong"
-                            element={<DangKyLopChatLuong />}
-                        />
-                    </Route>
-                    <Route path="ct&ctsv">
-                        <Route index element={<HomeCTSV />} />
-                        <Route path="caplai" element={<CapLai />} />
-                        <Route path="xacnhan" element={<XacNhanCTSV />} />
-                        <Route path="quatrinhhoc" element={<QuaTrinhHoc />} />
-                        <Route
-                            path="nghihoctamthoi"
-                            element={<NghiHocTamThoi />}
-                        />
-                        <Route path="xinchuyen" element={<XinChuyen />} />
-                    </Route>
-                    <Route path="hanhchinh">
-                        <Route index element={<HomeHanhChinh />} />
-                        <Route
-                            path="giaygioithieu"
-                            element={<GiayGioiThieu />}
-                        />
-                    </Route>
-                </Route>
-            </Route>
-
-            {/* Học tập - Sinh Viên */}
-            <Route element={<RoleMiddleware allowedRoles={[ROLES.S0202]} />}>
-                <Route path="/hoctap">
-                    <Route index element={<HocTap />} />
-                    <Route path="ketquahoctap">
-                        <Route index element={<KetQuaHocTapTongQuat />} />
-                        <Route
-                            path=":monhoc/:id"
-                            element={<KetQuaHocTapChiTiet />}
-                        />
-                    </Route>
-                    <Route path="onluyen">
-                        <Route index element={<OnLuyen />} />
-                        <Route
-                            path="ontaplythuyet"
-                            element={<OnTapLyThuyet />}
-                        />
-                    </Route>
-                </Route>
-            </Route>
-            {/* Hỗ trợ TBGD */}
-            <Route element={<RoleMiddleware allowedRoles={[ROLES.G0101]} />}>
-                <Route path="hotrothietbigiangduong">
-                    <Route index element={<HomeTBGD />} />
-                    <Route path="baohong/:id?" element={<BaoHong />} />
-                    <Route path="xulysuco" element={<XuLySuCo />} />
-                    <Route
-                        path="dangkysudungthietbi"
-                        element={<DangKySuDungThietBi />}
-                    />
-                    <Route path="gopy" element={<GopY />} />
-                </Route>
-            </Route>
-
-            {/* Hỗ trợ SDPM */}
-            <Route path="hotrosudungphanmem" element={<HoTroSuDungPhanMem />} />
+              path="chitietyeucau/:yeucau/:id"
+              element={<ChiTietHoSoYeuCau />}
+            />
+          </Route>
+          <Route
+            path="quantriTTHCGV"
+            element={
+              <RoleViewActionMiddleware
+                allowedRoleViewAction={[ROLE_VIEW_ACTION_TTHCGV.QT_TTHCGV]}
+              />
+            }
+          >
+            <Route index element={<DanhSachHoSo />} />
+            <Route path="hosothutuc/xem/tatca" element={<DanhSachHoSo />} />
+            <Route path="hosothutuc/them" element={<AdminTTHCGV />} />
+            <Route
+              path="hosothutuc/xem/chitiet/:title/:id"
+              element={<ThongTinChiTietHoSo />}
+            />
+          </Route>
         </Route>
-    </>
+      </Route>
+      {/* Thủ tục hành chính giảng viên */}
+      <Route element={<RoleMiddleware allowedRoles={[ROLES.G0101]} />}>
+        <Route path="tthcgiangvien">
+          <Route index element={<HomeTTHCGV />} />
+          <Route path="chitiet/:tieude/:id" element={<ChiTietThuTuc />} />
+          <Route path="soanhoso/:tieude/:id/submit" element={<SoanHoSo />} />
+          <Route path="theodoiquytrinh">
+            <Route index element={<TheoDoiDeNghiTTHCGV />} />
+            <Route
+              path="chitiet/:tieude/:id"
+              element={<TheoDoiDeNghiTTHCGVChiTiet />}
+            />
+          </Route>
+        </Route>
+      </Route>
+      {/* Tài sản */}
+      <Route
+        element={<RoleMiddleware allowedRoles={[ROLES.G0101, ROLES.S0202]} />}
+      >
+        <Route path="taisan">
+          <Route index element={<HomeTaiSan />} />
+        </Route>
+      </Route>
+      {/* Một cửa - Sinh Viên */}
+      <Route element={<RoleMiddleware allowedRoles={[ROLES.S0202]} />}>
+        {/* Theo dõi đề nghị */}
+        <Route path="theodoidenghi">
+          <Route index element={<TheoDoiDeNghi />} />
+          <Route
+            path="theodoidenghichitiet"
+            element={<TheoDoiDeNghiChiTiet />}
+          />
+        </Route>
+        <Route path="motcua">
+          <Route index element={<HomeMotCua />} />
+          <Route path="khaothi">
+            <Route index element={<HomeKhaoThi />} />
+            <Route path="mienhocthiTA" element={<MienHocThiTiengAnh />} />
+            <Route path="phuckhao" element={<PhucKhao />} />
+            <Route path="lichthi" element={<LichThi />} />
+            <Route path="dangkythilai" element={<DangKyThiLai />} />
+            <Route path="hoanthi" element={<HoanThi />} />
+            <Route path="huydangkythilai" element={<HuyDangKyThiLai />} />
+            <Route path="ketquahoctap" element={<KetQuaHocTap />} />
+          </Route>
+          <Route path="daotao">
+            <Route index element={<HomeDaoTao />} />
+            <Route path="capbangdiem" element={<CapBangDiem />} />
+            <Route path="xacnhan" element={<XacNhanDT />} />
+            <Route path="dangkytotnghiep" element={<DangKyTotNghiep />} />
+            <Route path="capbansao" element={<CapBanSao />} />
+            <Route path="suathongtin" element={<SuaThongTin />} />
+            <Route path="mienchungchi" element={<MienChungChi />} />
+            <Route path="chuyendiem" element={<ChuyenDiem />} />
+            <Route path="emaillms" element={<EmailLMS />} />
+            <Route path="dangkylopchatluong" element={<DangKyLopChatLuong />} />
+          </Route>
+          <Route path="ct&ctsv">
+            <Route index element={<HomeCTSV />} />
+            <Route path="caplai" element={<CapLai />} />
+            <Route path="xacnhan" element={<XacNhanCTSV />} />
+            <Route path="quatrinhhoc" element={<QuaTrinhHoc />} />
+            <Route path="nghihoctamthoi" element={<NghiHocTamThoi />} />
+            <Route path="xinchuyen" element={<XinChuyen />} />
+          </Route>
+          <Route path="hanhchinh">
+            <Route index element={<HomeHanhChinh />} />
+            <Route path="giaygioithieu" element={<GiayGioiThieu />} />
+          </Route>
+        </Route>
+      </Route>
+
+      {/* Học tập - Sinh Viên */}
+      <Route element={<RoleMiddleware allowedRoles={[ROLES.S0202]} />}>
+        <Route path="/hoctap">
+          <Route index element={<HocTap />} />
+          <Route path="ketquahoctap">
+            <Route index element={<KetQuaHocTapTongQuat />} />
+            <Route path=":monhoc/:id" element={<KetQuaHocTapChiTiet />} />
+          </Route>
+          <Route path="onluyen">
+            <Route index element={<OnLuyen />} />
+            <Route path="ontaplythuyet" element={<OnTapLyThuyet />} />
+          </Route>
+        </Route>
+      </Route>
+      {/* Hỗ trợ TBGD */}
+      <Route element={<RoleMiddleware allowedRoles={[ROLES.G0101]} />}>
+        <Route path="hotrothietbigiangduong">
+          <Route index element={<HomeTBGD />} />
+          <Route path="baohong/:id?" element={<BaoHong />} />
+          <Route path="xulysuco" element={<XuLySuCo />} />
+          <Route path="dangkysudungthietbi" element={<DangKySuDungThietBi />} />
+          <Route path="gopy" element={<GopY />} />
+        </Route>
+      </Route>
+
+      {/* Hỗ trợ SDPM */}
+      <Route path="hotrosudungphanmem" element={<HoTroSuDungPhanMem />} />
+    </Route>
+  </>
 )

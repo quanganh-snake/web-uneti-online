@@ -4,58 +4,58 @@
 @use 'sass:map';
 
 @include b(data-table) {
-    width: 100%;
-    font-size: 16px;
-    text-align: left;
-    color: getColor(text);
+  width: 100%;
+  font-size: 16px;
+  text-align: left;
+  color: getColor(text);
 
-    @include e(thead) {
-        tr {
-            background-color: #245d7c;
-            color: #fff;
+  @include e(thead) {
+    tr {
+      background-color: #245d7c;
+      color: #fff;
 
-            th {
-                border: 1px solid getColor(gray-2);
-                border-left: 0;
-                border-top: 0;
-                white-space: nowrap;
-                padding: 8px 14px;
-                position: sticky;
-                top: 0;
-                background-color: #245d7c;
-                z-index: 1;
-                text-align: center;
+      th {
+        border: 1px solid getColor(gray-2);
+        border-left: 0;
+        border-top: 0;
+        white-space: nowrap;
+        padding: 8px 14px;
+        position: sticky;
+        top: 0;
+        background-color: #245d7c;
+        z-index: 1;
+        text-align: center;
 
-                @include when(sticky) {
-                    left: 0;
-                    z-index: 2;
-                }
-            }
+        @include when(sticky) {
+          left: 0;
+          z-index: 2;
         }
+      }
     }
+  }
 
-    @include e(tbody) {
-        tr {
-            &:hover {
-                td {
-                    background-color: getColor(gray-1);
-                }
-            }
-
-            td {
-                border: 1px solid getColor(gray-4);
-                background-color: #fff;
-                white-space: nowrap;
-                padding: 8px 20px;
-                border-left: 0;
-
-                @include when(sticky) {
-                    position: sticky;
-                    left: 0;
-                    z-index: 1;
-                    text-align: center;
-                }
-            }
+  @include e(tbody) {
+    tr {
+      &:hover {
+        td {
+          background-color: getColor(gray-1);
         }
+      }
+
+      td {
+        border: 1px solid getColor(gray-4);
+        background-color: #fff;
+        white-space: nowrap;
+        padding: 8px 20px;
+        border-left: 0;
+
+        @include when(sticky) {
+          position: sticky;
+          left: 0;
+          z-index: 1;
+          text-align: center;
+        }
+      }
     }
+  }
 }

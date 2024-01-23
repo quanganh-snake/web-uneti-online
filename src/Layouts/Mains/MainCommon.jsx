@@ -11,31 +11,31 @@ import { DataCanBoGV } from '../../Services/Utils/dataCanBoGV'
 import AutoScrollTop from '@/Components/BackToTop/AutoScrollTop'
 
 function MainCommon() {
-    const location = useLocation()
-    const { pathname } = location
+  const location = useLocation()
+  const { pathname } = location
 
-    const state = store.getState()
-    // const { Role } = state?.user?.currentUser?.Role;
+  const state = store.getState()
+  // const { Role } = state?.user?.currentUser?.Role;
 
-    const dataUser = DataSinhVien() ? DataSinhVien() : DataCanBoGV()
-    const dataRole = dataUser?.Role
+  const dataUser = DataSinhVien() ? DataSinhVien() : DataCanBoGV()
+  const dataRole = dataUser?.Role
 
-    return (
-        <>
-            {pathname === '/' || pathname === '/dangnhap' ? null : dataRole ==
-              'SV' ? (
-                <HeaderSV />
-            ) : (
-                <HeaderCBGV />
-            )}
+  return (
+    <>
+      {pathname === '/' || pathname === '/dangnhap' ? null : dataRole ==
+        'SV' ? (
+        <HeaderSV />
+      ) : (
+        <HeaderCBGV />
+      )}
 
-            <main className="mt-[140px] mb-[50px] max-w-7xl mx-auto">
-                <RouterCore />
-            </main>
-            {pathname === '/' || pathname === '/dangnhap' ? null : <Footer />}
-            <AutoScrollTop />
-        </>
-    )
+      <main className="mt-[140px] mb-[50px] max-w-7xl mx-auto">
+        <RouterCore />
+      </main>
+      {pathname === '/' || pathname === '/dangnhap' ? null : <Footer />}
+      <AutoScrollTop />
+    </>
+  )
 }
 
 export default MainCommon
