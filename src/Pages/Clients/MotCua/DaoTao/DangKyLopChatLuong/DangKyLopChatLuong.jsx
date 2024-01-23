@@ -18,7 +18,6 @@ import {
 import { isEmpty } from 'lodash-unified'
 
 const MC_DT_DKHocChatLuong_PREFIX = 'MC_DT_DKHocChatLuong_'
-const MC_DT_DKHocChatLuong_FILE_PREFIX = `${MC_DT_DKHocChatLuong_PREFIX}YeuCau_`
 
 function DangKyLopChatLuong() {
   const home = {
