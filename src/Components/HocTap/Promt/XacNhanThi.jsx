@@ -9,9 +9,9 @@ export default function XacNhanThi(props) {
   const dialogRef = useRef()
 
   const {
+    TenMonHoc,
     TongCauHoi,
     ThoiGianThi = 60,
-    TenMonHoc,
     onConfirm = () => null,
   } = props
 
@@ -29,8 +29,8 @@ export default function XacNhanThi(props) {
         setIsOpen={setIsOpen}
         header={
           <div className="text-center">
-            <b>Bài thi môn</b>
-            <p>{TenMonHoc}</p>
+            <span className="font-medium">Bài thi môn</span>
+            <p className="font-semibold text-lg">{TenMonHoc}</p>
           </div>
         }
         footer={
@@ -46,11 +46,11 @@ export default function XacNhanThi(props) {
       >
         <div className="flex justify-between">
           <span>Tổng số câu:</span>
-          <span>{TongCauHoi}</span>
+          <span className="font-medium">{TongCauHoi}</span>
         </div>
         <div className="flex justify-between">
           <span>Thời gian làm bài:</span>
-          <span>{ThoiGianThi} phút</span>
+          <span className="font-medium">{ThoiGianThi} phút</span>
         </div>
       </Dialog>
     </>

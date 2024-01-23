@@ -1,4 +1,11 @@
-import { getAllMonHocThiThu } from '@/Apis/HocTap/apiOnLuyenThiThu'
+import {
+  getAllDeThiThiThu,
+  getAllMonHocThiThu,
+} from '@/Apis/HocTap/apiOnLuyenThiThu'
+import {
+  getCauHoiTheoDe,
+  getTongSoTrangTheoDe,
+} from '@/Apis/HocTap/apiOnLuyenTracNghiem'
 import XacNhanNopBai from '@/Components/HocTap/Promt/XacNhanNopBai'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { useEffect, useState } from 'react'
@@ -14,20 +21,70 @@ function DeThi() {
 
   const [monHoc, setMonHoc] = useState({})
   const [listCauHoi, setListCauHoi] = useState([])
+  const [deThi, setDeThi] = useState()
+
+  const [totalPage, setTotalPage] = useState(0)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
 
   useEffect(() => {
-    getAllMonHocThiThu(dataSV.MaSinhVien).then((res) => {
-      if (
-        !res?.data?.body.filter((mh) => mh.MaMonHoc.toString() === maMonHoc)
-          .length
-      ) {
+    const getMonThi = async () => {
+      const listMonThi = await getAllMonHocThiThu(dataSV.MaSinhVien)
+      const _monHoc = listMonThi?.data?.body.find(
+        (mh) => mh.MaMonHoc === maMonHoc,
+      )
+
+      if (!_monHoc) {
         navigate('/hoctap/onluyen/thithu')
       }
-      setMonHoc(
-        res?.data?.body.filter((mh) => mh.MaMonHoc.toString() === maMonHoc)[0],
-      )
-    })
-  }, [])
+
+      setMonHoc(_monHoc)
+    }
+
+    const getDeThi = async () => {
+      const _listDeThi = await getAllDeThiThiThu(maMonHoc)
+      const _deThi = _listDeThi.data.body.find((e) => e.MaDeThi == maDe)
+
+      if (!_deThi) {
+        navigate('/hoctap/onluyen/thithu')
+      }
+
+      setDeThi(_deThi)
+    }
+
+    getMonThi()
+    getDeThi()
+  }, [maMonHoc, maDe])
+
+  useEffect(() => {
+    const getCauHoi = async () => {}
+
+    const getTongSoTrang = async () => {
+      if (deThi) {
+        const _tongSoTrangResponse = await getTongSoTrangTheoDe({
+          IDDeThi: deThi.Id,
+          SoCauTrenTrang: pageSize,
+        })
+
+        setTotalPage(_tongSoTrangResponse.data.body[0].TongSoTrang)
+      }
+    }
+
+    const getListCauHoi = async () => {
+      if (deThi) {
+        const res = await getCauHoiTheoDe({
+          IDDeThi: deThi.Id,
+          SoCauTrenTrang: pageSize,
+          SoTrang: currentPage,
+        })
+
+        setListCauHoi(res.data.body)
+      }
+    }
+
+    getTongSoTrang()
+    getListCauHoi()
+  }, [deThi, pageSize])
 
   const handleXacNhanNopBai = () => {
     console.log('Nộp bài')

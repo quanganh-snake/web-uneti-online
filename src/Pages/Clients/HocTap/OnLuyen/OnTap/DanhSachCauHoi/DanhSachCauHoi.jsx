@@ -3,7 +3,6 @@ import { useEffect } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import {
-  LOAD_CAU_HOI_DIEU_KIEN_LOC,
   getAllMonHocThiThu,
   getCauHoiTheoMonHoc,
   getTongSoTrangCauHoiTheoMonHoc,
@@ -13,7 +12,7 @@ import { getAllMonHoc } from '@/Apis/HocTap/apiHocTap'
 import { useBem } from '@/Services/Hooks'
 import './DanhSachCauHoi.scss'
 import Accordion from '@/Components/Base/Accordion/Accordion'
-import { OnTapContext } from '@/Services/Tokens'
+import { LOAD_CAU_HOI_DIEU_KIEN_LOC, OnTapContext } from '@/Services/Tokens'
 
 function DanhSachDeThi() {
   const uLocation = useLocation()
