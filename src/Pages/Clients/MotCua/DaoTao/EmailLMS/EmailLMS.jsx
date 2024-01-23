@@ -8,8 +8,14 @@ import {
   postEmailLMS,
 } from '@/Apis/MotCua/DaoTao/apiEmailLMS'
 import { REGEX_EMAIL, REGEX_EMAIL_UNETI, REGEX_PHONE_NUMBER } from './constants'
+import {
+  makeDataSv,
+  makePostDataSv,
+  transformSubmitValue,
+} from '@/Services/Utils/dataSubmitUtils'
 
 function EmailLMS() {
+  const EMAIL_LMS_PREFIX = 'MC_DT_EMAILLMS_'
   const home = {
     path: '/motcua',
     title: 'Bộ phận một cửa',
@@ -139,64 +145,26 @@ function EmailLMS() {
     }
 
     let dataYeuCau = {}
-    dataYeuCau.MC_DT_EMAILLMS_TenCoSo = dataSV.CoSo ? dataSV.CoSo : 'null'
-    dataYeuCau.MC_DT_EMAILLMS_IDSinhVien = dataSV.IdSinhVien
-      ? dataSV.IdSinhVien.toString()
-      : 'null'
-    dataYeuCau.MC_DT_EMAILLMS_MaSinhVien = dataSV.MaSinhVien
-      ? dataSV.MaSinhVien
-      : 'null'
-    dataYeuCau.MC_DT_EMAILLMS_HoDem = dataSV.HoDem ? dataSV.HoDem : 'null'
-    dataYeuCau.MC_DT_EMAILLMS_Ten = dataSV.Ten ? dataSV.Ten : 'null'
-    dataYeuCau.MC_DT_EMAILLMS_GioiTinh =
-      dataSV.GioiTinh !== null ? dataSV.GioiTinh.toString() : 'null'
-    dataYeuCau.MC_DT_EMAILLMS_NgaySinh2 = dataSV.NgaySinh
-      ? new Date(
-          `${dataSV.NgaySinh.split('/')[2]}-${dataSV.NgaySinh.split('/')[1]}-${
-            dataSV.NgaySinh.split('/')[0]
-          }`,
-        ).toISOString()
-      : 'null'
-    dataYeuCau.MC_DT_EMAILLMS_TenHeDaoTao = dataSV.BacDaoTao
-      ? dataSV.BacDaoTao
-      : 'null'
-    dataYeuCau.MC_DT_EMAILLMS_TenLoaiHinhDT = dataSV.LoaiHinhDaoTao
-      ? dataSV.LoaiHinhDaoTao
-      : 'null'
-    dataYeuCau.MC_DT_EMAILLMS_TenKhoaHoc = dataSV.KhoaHoc
-      ? dataSV.KhoaHoc.toString()
-      : 'null'
-    dataYeuCau.MC_DT_EMAILLMS_TenNganh = dataSV.ChuyenNganh
-      ? dataSV.ChuyenNganh
-      : 'null'
-    dataYeuCau.MC_DT_EMAILLMS_TenLop = dataSV.LopHoc ? dataSV.LopHoc : 'null'
-    dataYeuCau.MC_DT_EMAILLMS_KhoaChuQuanLop = 'null'
-    dataYeuCau.MC_DT_EMAILLMS_DienThoai = dataSV.SoDienThoai
-      ? dataSV.SoDienThoai
-      : dataSV.SoDienThoai2
-        ? dataSV.SoDienThoai2
-        : dataSV.SoDienThoai3
-          ? dataSV.SoDienThoai3
-          : ''
-    dataYeuCau.MC_DT_EMAILLMS_Email = dataSV.Email_TruongCap
-      ? dataSV.Email_TruongCap
-      : 'null'
-    dataYeuCau.MC_DT_EMAILLMS_Loai = listDeNghi.indexOf(deNghi).toString()
-    dataYeuCau.MC_DT_EMAILLMS_YeuCau = chiTietDeNghi.toString()
-    if (chiTietDeNghi === '7') {
-      dataYeuCau.MC_DT_EMAILLMS_YeuCau_LyDo =
-        'Số điện thoại mới: ' +
-        soDienThoai.trim() +
-        ' - Lý do: ' +
-        (lyDo.length ? lyDo : 'null')
-    } else {
-      dataYeuCau.MC_DT_EMAILLMS_YeuCau_LyDo = lyDo.length ? lyDo : 'null'
-    }
-    dataYeuCau.MC_DT_EMAILLMS_EmailCaNhan = emailCaNhan.length
-      ? emailCaNhan
-      : 'null'
-    dataYeuCau.MC_DT_EMAILLMS_YeuCau_TaiKhoan = 'null'
-    dataYeuCau.MC_DT_EMAILLMS_YeuCau_Pass = 'null'
+
+    dataYeuCau = makePostDataSv(
+      makeDataSv(dataSV, EMAIL_LMS_PREFIX),
+      {
+        KhoaChuQuanLop: 'null',
+        Loai: listDeNghi.indexOf(deNghi).toString(),
+        YeuCau: chiTietDeNghi.toString(),
+        YeuCau_LyDo:
+          chiTietDeNghi === '7'
+            ? 'Số điện thoại mới: ' +
+              soDienThoai.trim() +
+              ' - Lý do: ' +
+              (lyDo.length ? lyDo : 'null')
+            : transformSubmitValue(lyDo),
+        EmailCaNhan: transformSubmitValue(emailCaNhan),
+        YeuCau_TaiKhoan: 'null',
+        YeuCau_Pass: 'null',
+      },
+      EMAIL_LMS_PREFIX,
+    )
 
     //handle post
     Swal.fire({
@@ -246,25 +214,6 @@ function EmailLMS() {
           }
         }
       }
-      // check gửi trùng yêu cầu
-      // const checkKiemTraTrung = await getKiemTraTrungEmailLMS(
-      //   dataYeuCau.MC_DT_EMAILLMS_MaSinhVien,
-      //   dataYeuCau.MC_DT_EMAILLMS_Loai,
-      //   dataYeuCau.MC_DT_EMAILLMS_YeuCau,
-      // )
-      // if (checkKiemTraTrung.status === 200) {
-      //   const body = checkKiemTraTrung.data?.body[0]
-      //   if (body) {
-      //     Swal.fire({
-      //       icon: 'error',
-      //       title: 'Thông báo trùng',
-      //       text: `Yêu cầu ${
-      //         listChiTietDeNghi.filter((e) => e.value === chiTietDeNghi)[0].text
-      //       } đã được gửi trước đấy. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
-      //     })
-      //     return
-      //   }
-      // }
 
       const resPostData = await postEmailLMS(dataYeuCau)
       if (resPostData == 'ERR_BAD_REQUEST') {
