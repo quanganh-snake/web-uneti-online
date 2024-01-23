@@ -1,4 +1,11 @@
-import { isArray, isEmpty, merge, toArray } from 'lodash-unified'
+import {
+  isArray,
+  isEmpty,
+  isNil,
+  isUndefined,
+  merge,
+  toArray,
+} from 'lodash-unified'
 import { convertDataFileToBase64 } from './stringUtils'
 
 export const dataSubmitUtils = () => {}
@@ -59,7 +66,10 @@ export const makePostDataSv = (dataSv = {}, obj = {}, prefixKey = '') => {
 
 export const transformSubmitValue = (value, fallback = 'null') => {
   value = isArray(value) ? value : [value]
-  const firstValidValue = value.find((e) => !isEmpty(e))
+  const firstValidValue = value
+    .filter((e) => e !== '' && !isNil(e))
+    .map((e) => e.toString())
+    .shift()
   return firstValidValue ? `${firstValidValue}` : `${fallback}`
 }
 

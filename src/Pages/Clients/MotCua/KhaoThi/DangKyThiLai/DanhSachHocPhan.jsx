@@ -1,6 +1,7 @@
 import { Checkbox } from '@mui/material'
+import { isEqual } from 'lodash-unified'
 
-function DanhSachHocPhan({ listHocPhan, handleRowSelection }) {
+function DanhSachHocPhan({ listHocPhan, handleRowSelection, selectedRow }) {
   return (
     <div className="w-[75%] overflow-x-auto">
       <table className="w-full min-w-[800px]">
@@ -41,8 +42,9 @@ function DanhSachHocPhan({ listHocPhan, handleRowSelection }) {
                 </td>
                 <td className="text-center p-3 border border-solid border-[#dee2e6]">
                   <Checkbox
-                    onChange={(e) => {
-                      handleRowSelection(e, hocphan)
+                    checked={isEqual(selectedRow, hocphan)}
+                    onChange={() => {
+                      handleRowSelection(hocphan)
                     }}
                   />
                 </td>
