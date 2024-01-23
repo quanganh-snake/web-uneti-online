@@ -65,7 +65,7 @@ export const homeMain = [
         title: 'Hỗ trợ thiết bị sảnh phòng',
         desc: 'Theo dõi và báo hỏng thiết bị ở sảnh, hành lang và phòng làm việc.',
         icon: icoHTTBSP,
-        path: 'https://supportthietbi.uneti.edu.vn/',
+        path: '/taisan', //https://supportthietbi.uneti.edu.vn/
         moduleActive: true,
         roleActive: ['GV'],
     },

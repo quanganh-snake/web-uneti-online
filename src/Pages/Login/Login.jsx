@@ -219,7 +219,8 @@ function Login() {
             )
         }
         setLoading(false)
-        navigate('/uneti')
+        const currentUrl = localStorage.getItem('currentUrl') ?? '/uneti'
+        navigate(currentUrl)
     }
 
     const handleEnterPressKey = (e) => {
