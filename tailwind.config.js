@@ -27,7 +27,7 @@ module.exports = {
 
     /**
      * Customizing breakpoint
-     * Need to sync with @/Styles/common/var.scss -> $breakpoints
+     * Need to sync with @/assets/Styles/Commons/var.scss -> $breakpoints
      */
     screens: {
       sm: '640px',
