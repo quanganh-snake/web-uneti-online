@@ -20,7 +20,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "Styles": ["./src/Styles/*"]
+      "Styles": ["./src/assets/*"]
     }
   },
   "include": ["src"]
