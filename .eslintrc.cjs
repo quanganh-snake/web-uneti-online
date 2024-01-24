@@ -18,5 +18,6 @@ module.exports = {
     ],
     'react/prop-types': 'off',
     semi: ['error', 'never'],
+    'react-hooks/exhaustive-deps': 'off',
   },
 }

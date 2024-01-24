@@ -17,9 +17,10 @@ export const Radio = (props) => {
     modelValue,
     label,
     name,
-    onChange,
+    onChange = () => null,
     children,
     checked,
+    onClick = () => null,
     color = 'primary',
   } = props
 
@@ -38,7 +39,7 @@ export const Radio = (props) => {
       bem.is('active', isChecked),
       bem.is(`color-${color}`),
     ])
-  }, [loading, isDisabled, isChecked, color])
+  }, [bem, loading, isDisabled, isChecked, color])
 
   const handleChange = () => {
     onChange(value)
@@ -46,7 +47,7 @@ export const Radio = (props) => {
 
   return (
     <>
-      <div className={radioCls}>
+      <div className={radioCls} onClick={onClick}>
         <div className={bem.b()}>
           <input
             id={id ?? uid}
@@ -55,6 +56,8 @@ export const Radio = (props) => {
             disabled={isDisabled}
             readOnly={isDisabled}
             name={name}
+            value={value}
+            checked={isChecked}
           />
 
           <span className={bem.e('effect')}>

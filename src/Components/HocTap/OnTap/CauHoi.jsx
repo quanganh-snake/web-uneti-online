@@ -1,6 +1,7 @@
 import { Radio } from '@/Components/Base/Radio/Radio'
+import { OnTapContext } from '@/Services/Tokens'
 import { convertRtfToText } from '@/Services/Utils/stringUtils'
-import { useMemo, useState } from 'react'
+import { useContext } from 'react'
 
 export default function CauHoi(props) {
   const {
@@ -18,7 +19,11 @@ export default function CauHoi(props) {
     IDCauTraLoi4,
   } = props
 
-  const [selected, setSelected] = useState(null)
+  const danhSachCauHoiContext = useContext(OnTapContext)
+
+  const handleChange = (IDCauTraLoi) => {
+    danhSachCauHoiContext.handleSelected(ID, IDCauTraLoi)
+  }
 
   return (
     <>
@@ -42,10 +47,10 @@ export default function CauHoi(props) {
         <div className="flex flex-col gap-3">
           <Radio
             id={IDCauTraLoi1}
-            modelValue={selected}
+            checked={danhSachCauHoiContext.selected[ID] == IDCauTraLoi1}
             name={ID}
             value={IDCauTraLoi1}
-            onChange={(id) => setSelected(id)}
+            onChange={handleChange}
           >
             <div
               dangerouslySetInnerHTML={{ __html: convertRtfToText(CauTraLoi1) }}
@@ -54,10 +59,10 @@ export default function CauHoi(props) {
 
           <Radio
             id={IDCauTraLoi2}
-            modelValue={selected}
+            checked={danhSachCauHoiContext.selected[ID] == IDCauTraLoi2}
             name={ID}
             value={IDCauTraLoi2}
-            onChange={(id) => setSelected(id)}
+            onChange={handleChange}
           >
             <div
               dangerouslySetInnerHTML={{ __html: convertRtfToText(CauTraLoi2) }}
@@ -66,10 +71,10 @@ export default function CauHoi(props) {
 
           <Radio
             id={IDCauTraLoi3}
-            modelValue={selected}
+            checked={danhSachCauHoiContext.selected[ID] == IDCauTraLoi3}
             name={ID}
             value={IDCauTraLoi3}
-            onChange={(id) => setSelected(id)}
+            onChange={handleChange}
           >
             <div
               dangerouslySetInnerHTML={{ __html: convertRtfToText(CauTraLoi3) }}
@@ -78,10 +83,10 @@ export default function CauHoi(props) {
 
           <Radio
             id={IDCauTraLoi4}
-            modelValue={selected}
+            checked={danhSachCauHoiContext.selected[ID] == IDCauTraLoi4}
             name={ID}
             value={IDCauTraLoi4}
-            onChange={(id) => setSelected(id)}
+            onChange={handleChange}
           >
             <div
               dangerouslySetInnerHTML={{ __html: convertRtfToText(CauTraLoi4) }}
