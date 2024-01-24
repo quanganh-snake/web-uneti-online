@@ -16,6 +16,8 @@ import { Pagination } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
+const listCauHoiCached = new Map()
+
 function DeThi() {
   const uLocation = useLocation()
   const dataSV = DataSinhVien()
@@ -87,13 +89,19 @@ function DeThi() {
 
     const getListCauHoi = async () => {
       if (deThi) {
-        const res = await getCauHoiTheoDe({
-          IDDeThi: deThi.Id,
-          SoCauTrenTrang: pageSize,
-          SoTrang: currentPage,
-        })
+        const key = JSON.stringify({ IDDeThi: deThi.Id, currentPage, pageSize })
 
-        setListCauHoi(res.data.body)
+        if (!listCauHoiCached.has(key)) {
+          const res = await getCauHoiTheoDe({
+            IDDeThi: deThi.Id,
+            SoCauTrenTrang: pageSize,
+            SoTrang: currentPage,
+          })
+
+          listCauHoiCached.set(key, res.data.body)
+        }
+
+        setListCauHoi(listCauHoiCached.get(key))
       }
     }
 
@@ -124,7 +132,7 @@ function DeThi() {
         <Row gutter={30}>
           <Col span={12} md={9}>
             <div className="flex flex-col gap-3 p-6 bg-white rounded-[26px] shadow-sm">
-              {listCauHoi.map((e, index) => (
+              {listCauHoi?.map((e, index) => (
                 <CauHoi
                   key={index}
                   STT={(currentPage - 1) * pageSize + index + 1}

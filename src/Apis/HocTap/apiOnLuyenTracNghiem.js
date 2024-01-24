@@ -16,6 +16,7 @@ export const getCauHoiTheoDe = ({ IDDeThi, SoTrang, SoCauTrenTrang }) =>
       SoCauTrenTrang,
       SoTrang,
     },
+    timeout: 30000, // TODO: check trang đầu tiên của tiếng Anh timeout
   })
 
 export const getTongSoTrangTheoDe = ({ IDDeThi, SoCauTrenTrang }) =>
