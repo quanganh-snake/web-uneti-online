@@ -9,10 +9,16 @@ function Error404() {
         <div className="h-full relative">
           <div className="flex flex-col">
             <div className="flex items-center gap-5 relative top-0 left-0">
-              <span className="text-[140px] font-bold text-slate-300">4</span>
-              <span className="text-[140px] font-bold text-slate-300">0</span>
-              <span className="text-[140px] font-bold text-slate-300">4</span>
-              <h3 className="text-[90px] font-bold text-slate-600 absolute bottom-0 right-0">
+              <span className="text-[140px] font-semibold text-slate-300">
+                4
+              </span>
+              <span className="text-[140px] font-semibold text-slate-300">
+                0
+              </span>
+              <span className="text-[140px] font-semibold text-slate-300">
+                4
+              </span>
+              <h3 className="text-[90px] font-semibold text-slate-600 absolute bottom-0 right-0">
                 Oops!
               </h3>
             </div>

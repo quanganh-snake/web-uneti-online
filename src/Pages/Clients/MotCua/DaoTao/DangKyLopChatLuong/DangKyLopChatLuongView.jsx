@@ -30,7 +30,7 @@ function DangKyLopChatLuongView(props) {
             onSubmit={handleSubmitData}
             className="py-8 flex flex-col justify-center items-center gap-4"
           >
-            <h2 className="mx-6 text-center uppercase text-2xl font-bold text-sky-800 mb-6">
+            <h2 className="mx-6 text-center uppercase text-2xl font-semibold text-sky-800 mb-6">
               TIẾP NHẬN - ĐĂNG KÝ LỚP HỌC CHƯƠNG TRÌNH CHẤT LƯỢNG
             </h2>
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
@@ -81,22 +81,22 @@ function DangKyLopChatLuongView(props) {
                 <table className="w-full min-w-[800px]">
                   <thead>
                     <tr>
-                      <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                      <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                         STT
                       </th>
-                      <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                      <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                         CHỌN
                       </th>
-                      <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                      <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                         MÃ LỚP HỌC
                       </th>
-                      <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                      <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                         TÊN LỚP HỌC
                       </th>
-                      <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                      <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                         KHOA CHỦ QUẢN
                       </th>
-                      <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                      <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                         SĨ SỐ
                       </th>
                     </tr>
@@ -147,7 +147,7 @@ function DangKyLopChatLuongView(props) {
                 </table>
               </div>
             )}
-            <button className="mt-8 px-5 py-3 border-2 border-solid text-[#245D7C] border-[#245D7C] rounded-md font-bold transition-all duration-200 hover:bg-[#245D7C] hover:text-white">
+            <button className="mt-8 px-5 py-3 border-2 border-solid text-[#245D7C] border-[#245D7C] rounded-md font-semibold transition-all duration-200 hover:bg-[#245D7C] hover:text-white">
               Gửi Yêu Cầu
             </button>
           </form>

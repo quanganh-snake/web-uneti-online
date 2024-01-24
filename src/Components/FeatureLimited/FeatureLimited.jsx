@@ -6,7 +6,7 @@ import Breadcrumb from '../Breadcumb/Breadcrumb'
 function FeatureLimited(props) {
   return (
     <div className="p-4 flex flex-col justify-center min-h-[500px]">
-      <div className="font-bold text-center mb-10">
+      <div className="font-semibold text-center mb-10">
         <h2 className="text-3xl uppercase text-red-600 mb-4">
           Thông báo giới hạn tính năng
         </h2>
@@ -16,7 +16,7 @@ function FeatureLimited(props) {
         </p>
       </div>
       <div className="">
-        <p className="font-bold mb-3">
+        <p className="font-semibold mb-3">
           Các giấy tờ kèm theo (click vào tên giấy tờ để tải file):
         </p>
         <ol>

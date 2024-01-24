@@ -94,7 +94,7 @@ export const HoanThiTable = (props) => {
                   {listHocPhan?.length == 0 && (
                     <tr>
                       <td colSpan={`10`}>
-                        <p className="p-4 text-center font-bold text-red-600">
+                        <p className="p-4 text-center font-semibold text-red-600">
                           Không có dữ liệu!
                         </p>
                       </td>

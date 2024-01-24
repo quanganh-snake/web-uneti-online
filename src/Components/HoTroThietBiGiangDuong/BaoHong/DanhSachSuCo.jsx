@@ -5,19 +5,19 @@ export default function DanhSachSuCo(props) {
   const { listSuCo, selectedSuCo, handleSelectSuCo } = props
   return (
     <div className="mt-4 w-full overflow-x-auto">
-      <h3 className="mb-4 font-bold text-vs-danger text-xl italic">
+      <h3 className="mb-4 font-semibold text-vs-danger text-xl italic">
         DANH SÁCH SỰ CỐ:
       </h3>
       <table className="w-full">
         <thead>
           <tr>
-            <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+            <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
               #
             </th>
-            <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+            <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
               Tên sự cố
             </th>
-            <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+            <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
               Đề xuất phương án khắc phục
             </th>
           </tr>

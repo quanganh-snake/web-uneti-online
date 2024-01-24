@@ -55,15 +55,15 @@ function KetQuaHocTapChiTiet() {
     <div>
       <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
       <div className="bg-white mt-4 p-10 rounded-md shadow-sm">
-        <h3 className="uppercase w-full text-center font-bold text-xl mb-4 text-uneti-primary">
+        <h3 className="uppercase w-full text-center font-semibold text-xl mb-4 text-uneti-primary">
           CHI TIẾT KẾT QUẢ HỌC TẬP {monHoc.TC_SV_KetQuaHocTap_TenMonHoc}
         </h3>
         <div>
-          <h4 className="font-bold mb-4">* Điểm thường kỳ</h4>
+          <h4 className="font-semibold mb-4">* Điểm thường kỳ</h4>
           <div className="overflow-auto">
             <div className="min-w-[500px] mb-4 overflow-hidden rounded-2xl border border-solid border-uneti-primary border-opacity-30">
               <table className="w-full text-vs-theme-color text-sm rounded-3xl">
-                <thead className="font-bold">
+                <thead className="font-semibold">
                   <tr>
                     <th
                       className="p-2 bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0 border-l-0"
@@ -197,11 +197,11 @@ function KetQuaHocTapChiTiet() {
           </div>
         </div>
         <div>
-          <h4 className="font-bold mb-4">* Điểm thi kỹ năng (KN)</h4>
+          <h4 className="font-semibold mb-4">* Điểm thi kỹ năng (KN)</h4>
           <div className="overflow-auto">
             <div className="mb-4 overflow-hidden rounded-2xl border border-solid border-uneti-primary border-opacity-30">
               <table className="w-full text-vs-theme-color text-sm rounded-3xl">
-                <thead className="font-bold">
+                <thead className="font-semibold">
                   <tr>
                     <th
                       className="p-2 bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0 border-l-0 border-r-0"
@@ -246,11 +246,11 @@ function KetQuaHocTapChiTiet() {
           </div>
         </div>
         <div>
-          <h4 className="font-bold mb-4">* Điểm thi</h4>
+          <h4 className="font-semibold mb-4">* Điểm thi</h4>
           <div className="overflow-auto">
             <div className=" mb-4 overflow-hidden rounded-2xl border border-solid border-uneti-primary border-opacity-30">
               <table className="w-full text-vs-theme-color text-sm rounded-3xl">
-                <thead className="font-bold">
+                <thead className="font-semibold">
                   <tr>
                     <th
                       className="p-2 bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0 border-l-0 border-r-0"
