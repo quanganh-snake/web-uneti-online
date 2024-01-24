@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import { Checkbox, Pagination, TextareaAutosize } from '@mui/material'
@@ -22,14 +21,11 @@ function ChuyenDiemView(props) {
     setGiayToKemTheo,
     listHocPhan,
     currentPage,
-    setCurrentPage,
     hocPhan,
-    setHocPhan,
     handleSelectHocPhan,
     listHocPhanTuongDuong,
     handleChangePage,
     hocPhanTuongDuong,
-    setHocPhanTuongDuong,
     handleSelectHocPhanTuongDuong,
     files,
     handleFilesChange,
@@ -59,8 +55,8 @@ function ChuyenDiemView(props) {
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10">Xin chuyển (*)</span>
               <select
-                defaultValue={xinChuyen.value}
                 disabled
+                onChange={() => null}
                 className="flex-1 px-2 py-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
               >
                 <option value={xinChuyen.value}>{xinChuyen.text}</option>
@@ -69,7 +65,6 @@ function ChuyenDiemView(props) {
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10">Loại điểm (*)</span>
               <select
-                defaultValue={loaiDiem}
                 value={loaiDiem}
                 onChange={(e) => setLoaiDiem(e.target.value)}
                 className="flex-1 px-2 py-1 md:max-w-[75%] rounded-md border border-solid border-gray-300"
@@ -295,8 +290,8 @@ function ChuyenDiemView(props) {
                       {/* Files area */}
                       <div className="w-full flex flex-wrap justify-start items-center gap-2">
                         {/* Preview image */}
-                        {files.map((file) => (
-                          <div>
+                        {files.map((file, index) => (
+                          <div key={index}>
                             <Button
                               onClick={() => handleRemoveFile(file)}
                               type="transparent"

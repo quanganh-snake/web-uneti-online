@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import ChuyenDiemView from './ChuyenDiemView'
 import {
   getAllHocPhanChuyenDiem,
@@ -9,16 +9,15 @@ import {
   postChuyenDiemChiTiet,
 } from '@/Apis/MotCua/DaoTao/apiChuyenDiem'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
-import { convertDataFileToBase64 } from '@/Services/Utils/stringUtils'
 import Swal from 'sweetalert2'
 import { isEmpty } from 'lodash-unified'
 import {
   makeDataImages,
   makeDataSv,
   makePostDataSv,
-  transformObjKey,
   transformSubmitValue,
 } from '@/Services/Utils/dataSubmitUtils'
+import { retries } from '@/Services/Utils/requestUtils'
 
 const CHUYEN_DIEM_PREFIX = 'MC_DT_ChuyenDiem_'
 const CHUYEN_DIEM_FILE_PREFIX = `${CHUYEN_DIEM_PREFIX}YeuCau_`
@@ -101,7 +100,7 @@ function ChuyenDiem() {
     })
 
     getChuyenDiemID(dataSV.MaSinhVien).then((res) => {
-      setChuyenDiemID(res?.data?.body[0].MC_DT_ChuyenDiem_ID.toString())
+      setChuyenDiemID(res?.data?.body[0]?.MC_DT_ChuyenDiem_ID.toString())
     })
 
     return () => {
@@ -139,15 +138,6 @@ function ChuyenDiem() {
   const handleSubmitData = async (e) => {
     e.preventDefault()
 
-    // if (isEmpty(hocPhan) || isEmpty(hocPhanTuongDuong)) {
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: 'Lỗi',
-    //     text: 'Vui lòng chọn học phần và học phần tương đương để gửi yêu cầu',
-    //   })
-    //   return
-    // }
-
     const dataChuyenDiem = makePostDataSv(
       makeDataSv(dataSV, CHUYEN_DIEM_PREFIX),
       {
@@ -160,9 +150,37 @@ function ChuyenDiem() {
     )
     dataChuyenDiem.images = await makeDataImages(files, CHUYEN_DIEM_FILE_PREFIX)
 
+    // handle post
+    Swal.fire({
+      title: `Bạn chắc chắn muốn gửi yêu cầu chuyển điểm môn ${hocPhanTuongDuong.HT_HPTD_MCD_TenMonHoc}?`,
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'Gửi',
+      denyButtonText: `Hủy`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await handlePostData(dataChuyenDiem)
+      } else if (result.isDenied) {
+        Swal.fire('Đã hủy gửi yêu cầu hủy đăng ký chuyển điểm', '', 'info')
+      }
+    })
+  }
+
+  const handleSubmitDataChuyenDiemChiTiet = async () => {
+    let _chuyenDiemID = chuyenDiemID
+
+    if (!_chuyenDiemID) {
+      await retries(async () => {
+        const res = await getChuyenDiemID(dataSV.MaSinhVien)
+
+        _chuyenDiemID = res?.data?.body[0]?.MC_DT_ChuyenDiem_ID.toString()
+        setChuyenDiemID(_chuyenDiemID)
+      })
+    }
+
     const dataChuyenDiemChiTiet = makePostDataSv(
       {
-        MC_DT_ChuyenDiem_ID: transformSubmitValue(chuyenDiemID),
+        MC_DT_ChuyenDiem_ID: transformSubmitValue(_chuyenDiemID),
       },
       {
         IDDot: transformSubmitValue(hocPhan.MC_DT_ChuyenDiem_ChiTiet_IDDot),
@@ -234,92 +252,94 @@ function ChuyenDiem() {
       CHUYEN_DIEM_CHI_TIET_PREFIX,
     )
 
-    // handle post
+    return dataChuyenDiemChiTiet
+  }
+
+  // useEffect(() => {
+
+  // }, [chuyenDiemID])
+
+  const handlePostChuyenDiem = async (dataChuyenDiem) => {
+    const resPostDataChuyenDiem = await postChuyenDiem(dataChuyenDiem)
+
+    if (resPostDataChuyenDiem == 'ERR_BAD_REQUEST') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi hệ thống',
+        text: `Vui lòng thử lại và gửi thông báo lỗi cho bộ phận hỗ trợ phần mềm!`,
+      })
+      return
+    }
+    if (resPostDataChuyenDiem.status !== 200) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi hệ thống',
+        text: `Vui lòng thử lại và gửi thông báo lỗi cho bộ phận hỗ trợ phần mềm!`,
+      })
+      return
+    }
+  }
+
+  const handlePostChuyenDiemChiTiet = async (dataChuyenDiemChiTiet) => {
+    const resPostDataChuyenDiemChiTiet = await postChuyenDiemChiTiet(
+      dataChuyenDiemChiTiet,
+    )
+
+    if (resPostDataChuyenDiemChiTiet == 'ERR_BAD_REQUEST') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi hệ thống',
+        text: `Vui lòng thử lại và gửi thông báo lỗi cho bộ phận hỗ trợ phần mềm!`,
+      })
+      return
+    }
+    if (resPostDataChuyenDiemChiTiet.status !== 200) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi hệ thống',
+        text: `Vui lòng thử lại và gửi thông báo lỗi cho bộ phận hỗ trợ phần mềm!`,
+      })
+      return
+    }
+
     Swal.fire({
-      title: `Bạn chắc chắn muốn gửi yêu cầu chuyển điểm môn ${dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_MTD_TenMonHoc}?`,
-      showDenyButton: true,
-      showCancelButton: false,
-      confirmButtonText: 'Gửi',
-      denyButtonText: `Hủy`,
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        await handlePostData(dataChuyenDiem, dataChuyenDiemChiTiet)
-      } else if (result.isDenied) {
-        Swal.fire('Đã hủy gửi yêu cầu hủy đăng ký chuyển điểm', '', 'info')
-      }
+      position: 'center',
+      icon: 'success',
+      title: `Yêu cầu chuyển điểm môn ${dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_MTD_TenMonHoc} đã được gửi thành công. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+      showConfirmButton: false,
+      timer: 1500,
     })
   }
 
-  const handlePostData = async (dataChuyenDiem, dataChuyenDiemChiTiet) => {
+  const handlePostData = async (dataChuyenDiem) => {
     try {
-      // kiểm tra trùng
+      // kiểm tra trùng: trong post data không kiểm tra, dùng api kiểm tra trùng riêng
       const checkTrungChuyenDiem = await getKiemTraTrungChuyenDiem(
         dataChuyenDiem.MC_DT_ChuyenDiem_MaSinhVien,
         dataChuyenDiem.MC_DT_ChuyenDiem_YeuCau,
-        dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_HocKy,
-        dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_MaMonHoc,
+        hocPhan.MC_DT_ChuyenDiem_ChiTiet_HocKy,
+        hocPhanTuongDuong.HT_HPTD_MCD_MaMonHoc,
       )
-
       if (checkTrungChuyenDiem.status === 200) {
         if (checkTrungChuyenDiem.data?.body.length) {
           Swal.fire({
             icon: 'error',
             title: 'Thông báo trùng',
-            text: `Yêu cầu chuyển điểm môn ${dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_MTD_TenMonHoc} đã được gửi trước đấy. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+            text: `Yêu cầu chuyển điểm môn ${hocPhanTuongDuong.HT_HPTD_MCD_TenMonHoc} đã được gửi trước đấy. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
           })
           return
         }
       }
 
       // post
-      const resPostDataChuyenDiem = await postChuyenDiem(dataChuyenDiem)
-      if (resPostDataChuyenDiem == 'ERR_BAD_REQUEST') {
-        Swal.fire({
-          icon: 'error',
-          title: 'Lỗi hệ thống',
-          text: `Vui lòng thử lại và gửi thông báo lỗi cho bộ phận hỗ trợ phần mềm!`,
-        })
-        return
-      }
-      if (resPostDataChuyenDiem.status !== 200) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Lỗi hệ thống',
-          text: `Vui lòng thử lại và gửi thông báo lỗi cho bộ phận hỗ trợ phần mềm!`,
-        })
-        return
-      }
-      const resPostDataChuyenDiemChiTiet = await postChuyenDiemChiTiet(
-        dataChuyenDiemChiTiet,
-      )
-      if (resPostDataChuyenDiemChiTiet == 'ERR_BAD_REQUEST') {
-        Swal.fire({
-          icon: 'error',
-          title: 'Lỗi hệ thống',
-          text: `Vui lòng thử lại và gửi thông báo lỗi cho bộ phận hỗ trợ phần mềm!`,
-        })
-        return
-      }
-      if (resPostDataChuyenDiemChiTiet.status !== 200) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Lỗi hệ thống',
-          text: `Vui lòng thử lại và gửi thông báo lỗi cho bộ phận hỗ trợ phần mềm!`,
-        })
-        return
-      }
+      await handlePostChuyenDiem(dataChuyenDiem)
 
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: `Yêu cầu chuyển điểm môn ${dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_MTD_TenMonHoc} đã được gửi thành công. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
-        showConfirmButton: false,
-        timer: 1500,
-      })
+      const dataChuyenDiemChiTiet = await handleSubmitDataChuyenDiemChiTiet()
+      await handlePostChuyenDiemChiTiet(dataChuyenDiemChiTiet)
 
-      setTimeout(() => {
-        window.location.reload()
-      }, 1000)
+      // setTimeout(() => {
+      //   window.location.reload()
+      // }, 1000)
     } catch (error) {
       console.log(error)
       if (!error.response) {
