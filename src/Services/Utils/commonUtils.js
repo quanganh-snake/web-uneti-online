@@ -7,19 +7,3 @@ export const checkConditionObject = (currentObject, newObject) => {
   }
   return false
 }
-
-// Kiểm tra object chứa giá trị rỗng hay không
-export const isEmptyKeyObject = (currentObject = {}) => {
-  for (var key in currentObject) {
-    if (currentObject.hasOwnProperty(key)) {
-      if (
-        currentObject[key] === null ||
-        currentObject[key] === undefined ||
-        currentObject[key] === ''
-      ) {
-        return true
-      }
-    }
-  }
-  return false
-}
