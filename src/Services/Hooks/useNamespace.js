@@ -15,7 +15,7 @@ const _bem = (namespace, block, blockSuffix, element, modifier) => {
   return cls
 }
 
-export const useBem = (block, namespaceOverrides = '') => {
+export const useNamespace = (block, namespaceOverrides = '') => {
   const namespace = namespaceOverrides || defaultNamespace
   const b = (blockSuffix = '') => _bem(namespace, block, blockSuffix, '', '')
   const e = (element = '') =>

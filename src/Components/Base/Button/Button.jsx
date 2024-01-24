@@ -1,4 +1,4 @@
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 
 import { transformCls } from '@/Services/Utils/reactUtils'
 
@@ -7,7 +7,7 @@ import './Button.scss'
 export default function Button(props) {
   const { children, type, icon = false, color, ...attrs } = props
 
-  const bem = useBem('button')
+  const bem = useNamespace('button')
 
   return (
     <div

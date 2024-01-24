@@ -1,4 +1,4 @@
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 import React, { useState, useEffect, useRef } from 'react'
 import Chart from 'react-apexcharts'
 
@@ -8,11 +8,11 @@ const DEFAULT_CHAR_WIDTH = '400px'
 const DEFAULT_CHAR_HEIGHT = '400px'
 
 function ChartMotCua() {
-  const bem = useBem('uneti_chart')
+  const bem = useNamespace('uneti_chart')
 
   const apexchartRef = useRef()
 
-  const [dataAudits, setDataAudits] = useState([])
+  // const [dataAudits, setDataAudits] = useState([])
 
   const windowWidth = window.innerWidth
 

@@ -1,4 +1,4 @@
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 import { isEqual, isNil } from 'lodash-unified'
 import Loading from '@/Components/Loading/Loading'
 import DataTable from '@/Components/Base/DataTable/DataTable'
@@ -7,7 +7,7 @@ import dayjs from 'dayjs'
 import FileSelect from '@/Components/Base/FileSelect/FileSelect'
 
 export const HoanThiTable = (props) => {
-  const bem = useBem('hoan-thi')
+  const bem = useNamespace('hoan-thi')
 
   const {
     loading,

@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { MdKeyboardArrowDown } from 'react-icons/md'
-import { useBem } from '@/Services/Hooks/useBem.js'
+import { useNamespace } from '@/Services/Hooks/useNamespace.js'
 // data
 import noAvatar from '@/assets/Images/noavatar.png'
 import logoUNETI from '@/assets/Images/LOGO_UNETI.ico'
@@ -10,12 +10,12 @@ import NavbarMotCua from '@/Components/Navbars/NavbarMotCua.jsx'
 import DropdownProfileStudent from '../DropdownProfileStudent.jsx'
 import MenuMobileMotCua from '@/Components/MenuMobiles/MenuMobileMotCua.jsx'
 import { logOut } from '@/Apis/apiLogout'
-import { store } from '@/Services/Redux/store.js'
+import { persistor, store } from '@/Services/Redux/store.js'
 
 import './HeaderSV.scss'
 
 function HeaderSV() {
-  const bem = useBem('header')
+  const bem = useNamespace('header')
 
   const dataSV = DataSinhVien()
 
@@ -26,7 +26,7 @@ function HeaderSV() {
   const refreshToken = state?.auth?.login?.currentToken?.refreshToken
   const handleLogout = () => {
     localStorage.removeItem('persist:root')
-    logOut(role, dispatch, navigate, refreshToken)
+    logOut(state.user.currentUser.Role, dispatch, navigate, refreshToken)
     persistor.purge()
   }
 

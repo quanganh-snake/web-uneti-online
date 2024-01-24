@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import DataTable from '@/Components/Base/DataTable/DataTable'
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 import { Checkbox } from '@mui/material'
 import { isEqual } from 'lodash-unified'
 import FileSelect from '@/Components/Base/FileSelect/FileSelect'
@@ -13,7 +13,7 @@ export const LichThiViewKhongCoLich = ({
   handleRowSelection,
   handleSubmitData,
 }) => {
-  const bem = useBem('lich-thi')
+  const bem = useNamespace('lich-thi')
 
   const [files, setFiles] = useState([])
 

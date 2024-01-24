@@ -1,11 +1,11 @@
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 import PropTypes from 'prop-types'
 
 import './SearchBox.scss'
 import { useState } from 'react'
 
 export const SearchBox = ({ onSearch }) => {
-  const bem = useBem('search')
+  const bem = useNamespace('search')
 
   const [search, setSearch] = useState('')
 

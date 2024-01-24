@@ -1,11 +1,11 @@
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 import { transformCls } from '@/Services/Utils/reactUtils'
 import { useMemo } from 'react'
 
 import './Radio.scss'
 
 export const Radio = (props) => {
-  const bem = useBem('radio')
+  const bem = useNamespace('radio')
 
   const uid = Math.floor(Math.random() * 10000)
 

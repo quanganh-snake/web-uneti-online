@@ -1,10 +1,10 @@
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 import { transformCls } from '@/Services/Utils/reactUtils'
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 
 export const SidebarItem = ({ item, onClick, modelValue }) => {
-  const bem = useBem('sidebar')
+  const bem = useNamespace('sidebar')
 
   const [isOpen, setIsOpen] = useState(false)
 

@@ -1,4 +1,4 @@
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 import DataTable from '@/Components/Base/DataTable/DataTable'
 import moment from 'moment'
 import { Checkbox } from '@mui/material'
@@ -12,7 +12,7 @@ export const LichThiViewTrungLichThi = (props) => {
   const { handleSubmitData, handleRowSelection, listHocPhan, selectedRow } =
     props
 
-  const bem = useBem('lich-thi')
+  const bem = useNamespace('lich-thi')
 
   const [files, setFiles] = useState([])
 

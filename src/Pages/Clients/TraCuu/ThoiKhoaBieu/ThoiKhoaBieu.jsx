@@ -1,13 +1,18 @@
 import { getLichHocSinhVien } from '@/Apis/TraCuu/apiLichHoc'
 import LichBieu from '@/Components/TraCuu/ThoiKhoaBieu/LichBieu'
+import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { useEffect, useState } from 'react'
 
 function ThoiKhoaBieu() {
   const [lichHoc, setLichHoc] = useState([])
 
+  const dataSV = DataSinhVien()
+
   useEffect(() => {
     const getLichHoc = async () => {
-      const res = await getLichHocSinhVien()
+      const res = await getLichHocSinhVien({
+        MaSinhVien: dataSV.MaSinhVien,
+      })
 
       setLichHoc(res.data.body)
     }
@@ -22,7 +27,9 @@ function ThoiKhoaBieu() {
 
   return (
     <div>
-      <LichBieu />
+      {lichHoc.map((e, index) => (
+        <LichBieu key={index} {...e} />
+      ))}
     </div>
   )
 }

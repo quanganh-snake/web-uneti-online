@@ -1,11 +1,10 @@
 import { SidebarItem } from '../SidebarItem/SidebarItem'
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 import PropTypes from 'prop-types'
 
 import './Sidebar.scss'
 import { useEffect, useState } from 'react'
 import { getDataMenu } from '@/Apis/HoTroSuDungPhanMem/apiHoTroSuDungPhanMem'
-import { useNavigate } from 'react-router-dom'
 
 export const Sidebar = ({
   category,
@@ -14,7 +13,7 @@ export const Sidebar = ({
   showSidebar,
   setShowSidebar,
 }) => {
-  const bem = useBem('htsdpm-sidebar')
+  const bem = useNamespace('htsdpm-sidebar')
 
   const [categories, setCategories] = useState([])
 

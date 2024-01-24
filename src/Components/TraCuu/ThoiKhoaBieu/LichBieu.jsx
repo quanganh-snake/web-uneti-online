@@ -1,3 +1,5 @@
+import { useNamespace } from '@/Services/Hooks'
+
 export default function LichBieu(props) {
   const {
     // NamHoc,
@@ -14,5 +16,12 @@ export default function LichBieu(props) {
     // NgayKetThuc,
     // Thu,
   } = props
-  return <div>{TenMonHoc}</div>
+
+  const ns = useNamespace('lich-bieu')
+
+  return (
+    <>
+      <div className={ns.b()}>{TenMonHoc}</div>
+    </>
+  )
 }
