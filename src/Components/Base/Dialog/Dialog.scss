@@ -17,7 +17,7 @@
 
   @include e(original) {
     background: #fff;
-    color: rgba(var(--vs-text), 1);
+    color: getColor(text);
     position: relative;
     min-width: 330px;
     border-radius: 20px;

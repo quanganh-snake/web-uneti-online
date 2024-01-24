@@ -1,7 +1,7 @@
 import MainCommon from './Layouts/Mains/MainCommon'
 import { BrowserRouter } from 'react-router-dom'
 import './App.css'
-import '@/assets/Styles/css-vars.scss'
+import '@/assets/Styles/index.scss'
 
 function App() {
   return (
