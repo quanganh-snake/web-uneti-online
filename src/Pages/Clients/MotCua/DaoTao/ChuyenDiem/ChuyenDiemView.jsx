@@ -3,7 +3,7 @@ import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import { Checkbox, Pagination, TextareaAutosize } from '@mui/material'
 import FileSelect from '@/Components/Base/FileSelect/FileSelect'
 import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
-import { VanBanMauId } from '@/Configs/constants'
+import { VanBanMauID } from '@/Services/Tokens/filesId'
 import Button from '@/Components/Base/Button/Button'
 import IconTrash from './IconTrash'
 
@@ -333,7 +333,7 @@ function ChuyenDiemView(props) {
           )}
           <div className="py-8 flex flex-col justify-center items-center gap-4">
             <GiayToKemTheoAlert
-              downloadId={VanBanMauId.MotCua.DaoTao.ChuyenDiem}
+              downloadId={VanBanMauID.MotCua.DaoTao.ChuyenDiem}
               downloadText={'Chuyển điểm'}
             />
           </div>

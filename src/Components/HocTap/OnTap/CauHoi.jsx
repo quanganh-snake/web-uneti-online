@@ -6,17 +6,18 @@ import { useContext } from 'react'
 export default function CauHoi(props) {
   const {
     STT = 1,
-    ID,
-    CauHoi,
-    CauHoiCha,
-    CauTraLoi1,
-    IDCauTraLoi1,
-    CauTraLoi2,
-    IDCauTraLoi2,
-    CauTraLoi3,
-    IDCauTraLoi3,
-    CauTraLoi4,
-    IDCauTraLoi4,
+    ID = null,
+    CauHoi = undefined,
+    CauHoiCha = undefined,
+    CauTraLoi1 = undefined,
+    IDCauTraLoi1 = undefined,
+    CauTraLoi2 = undefined,
+    IDCauTraLoi2 = undefined,
+    CauTraLoi3 = undefined,
+    IDCauTraLoi3 = undefined,
+    CauTraLoi4 = undefined,
+    IDCauTraLoi4 = undefined,
+    IDCauTraLoiDung = undefined,
   } = props
 
   const danhSachCauHoiContext = useContext(OnTapContext)
@@ -51,6 +52,7 @@ export default function CauHoi(props) {
             name={ID}
             value={IDCauTraLoi1}
             onChange={handleChange}
+            color={IDCauTraLoiDung == IDCauTraLoi1 ? 'success' : 'danger'}
           >
             <div
               dangerouslySetInnerHTML={{ __html: convertRtfToText(CauTraLoi1) }}
@@ -63,6 +65,7 @@ export default function CauHoi(props) {
             name={ID}
             value={IDCauTraLoi2}
             onChange={handleChange}
+            color={IDCauTraLoiDung == IDCauTraLoi2 ? 'success' : 'danger'}
           >
             <div
               dangerouslySetInnerHTML={{ __html: convertRtfToText(CauTraLoi2) }}
@@ -75,6 +78,7 @@ export default function CauHoi(props) {
             name={ID}
             value={IDCauTraLoi3}
             onChange={handleChange}
+            color={IDCauTraLoiDung == IDCauTraLoi3 ? 'success' : 'danger'}
           >
             <div
               dangerouslySetInnerHTML={{ __html: convertRtfToText(CauTraLoi3) }}
@@ -87,6 +91,7 @@ export default function CauHoi(props) {
             name={ID}
             value={IDCauTraLoi4}
             onChange={handleChange}
+            color={IDCauTraLoiDung == IDCauTraLoi4 ? 'success' : 'danger'}
           >
             <div
               dangerouslySetInnerHTML={{ __html: convertRtfToText(CauTraLoi4) }}

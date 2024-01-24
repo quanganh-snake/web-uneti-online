@@ -1,8 +1,6 @@
 @use 'sass:math';
 
-@use 'Commons/var' as *;
-@use 'Mixins/mixins' as *;
-@use 'Mixins/_col' as *;
+@use '@/assets/Styles/Mixins/_col' as *;
 
 [class*='#{$namespace}-col-'] {
   box-sizing: border-box;

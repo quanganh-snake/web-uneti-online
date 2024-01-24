@@ -7,4 +7,4 @@ export const LOAD_CAU_HOI_DIEU_KIEN_LOC = {
   PhanVan: 3,
 }
 
-export const OnTapContext = createContext({})
+export const OnTapContext = createContext()

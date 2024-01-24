@@ -1,7 +1,7 @@
 import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import PropTypes from 'prop-types'
 import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
-import { VanBanMauId } from '@/Configs/constants'
+import { VanBanMauID } from '@/Services/Tokens/filesId'
 
 function QuaTrinhHocView(props) {
   const { home, breadcrumbs } = props
@@ -24,19 +24,19 @@ function QuaTrinhHocView(props) {
         <GiayToKemTheoAlert
           download={[
             {
-              id: VanBanMauId.MotCua.CTSV.QuaTrinhHoc.QuayLaiHoc,
+              id: VanBanMauID.MotCua.CTSV.QuaTrinhHoc.QuayLaiHoc,
               text: 'Mẫu xin trở lại học',
             },
             {
-              id: VanBanMauId.MotCua.CTSV.QuaTrinhHoc.ThoiHoc,
+              id: VanBanMauID.MotCua.CTSV.QuaTrinhHoc.ThoiHoc,
               text: 'Mẫu thôi học',
             },
             {
-              id: VanBanMauId.MotCua.CTSV.QuaTrinhHoc.XinBaoLuu,
+              id: VanBanMauID.MotCua.CTSV.QuaTrinhHoc.XinBaoLuu,
               text: 'Mẫu xin bảo lưu',
             },
           ]}
-          downloadId={VanBanMauId.MotCua.CTSV.QuaTrinhHoc.MauThongTin}
+          downloadId={VanBanMauID.MotCua.CTSV.QuaTrinhHoc.MauThongTin}
           downloadText="Quá trình học"
         />
       </div>

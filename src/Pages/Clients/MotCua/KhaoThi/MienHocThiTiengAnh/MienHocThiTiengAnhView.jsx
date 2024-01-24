@@ -1,7 +1,7 @@
 import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import PropTypes from 'prop-types'
 import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
-import { VanBanMauId } from '@/Configs/constants'
+import { VanBanMauID } from '@/Services/Tokens/filesId'
 
 function MienHocThiTiengAnhView(props) {
   const { home, breadcrumbs } = props
@@ -22,7 +22,7 @@ function MienHocThiTiengAnhView(props) {
         </div>
 
         <GiayToKemTheoAlert
-          downloadId={VanBanMauId.MotCua.KhaoThi.MienHocMienThiTiengAnh}
+          downloadId={VanBanMauID.MotCua.KhaoThi.MienHocMienThiTiengAnh}
           downloadText="Miễn học, miễn thi"
         />
       </div>

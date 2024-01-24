@@ -4,13 +4,9 @@ import { XacNhanForm } from './XacNhanForm'
 import { useState } from 'react'
 import Swal from 'sweetalert2'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
-import { convertDataFileToBase64 } from '@/Services/Utils/stringUtils'
-import {
-  postYeuCauXacNhan,
-  xacNhanKiemTraTrung,
-} from '@/Apis/MotCua/CTSV/apiXacNhan'
+import { postYeuCauXacNhan } from '@/Apis/MotCua/CTSV/apiXacNhan'
 import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
-import { VanBanMauId } from '@/Configs/constants'
+import { VanBanMauID } from '@/Services/Tokens/filesId'
 import { required } from '@/Services/Validators/required'
 import {
   makeDataImages,
@@ -189,7 +185,7 @@ function XacNhanCTSV() {
           </div>
 
           <GiayToKemTheoAlert
-            downloadId={VanBanMauId.MotCua.CTSV.XacNhan}
+            downloadId={VanBanMauID.MotCua.CTSV.XacNhan}
             downloadText="Xác nhận"
           />
         </div>

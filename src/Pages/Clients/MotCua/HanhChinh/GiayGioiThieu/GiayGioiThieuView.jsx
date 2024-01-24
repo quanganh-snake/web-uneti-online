@@ -1,7 +1,7 @@
 import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import PropTypes from 'prop-types'
 import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
-import { VanBanMauId } from '@/Configs/constants'
+import { VanBanMauID } from '@/Services/Tokens/filesId'
 
 function NghiHocTamThoiView(props) {
   const { home, breadcrumbs } = props
@@ -24,20 +24,20 @@ function NghiHocTamThoiView(props) {
         <GiayToKemTheoAlert
           download={[
             {
-              id: VanBanMauId.MotCua.HanhChinh.GiayGioiThieu.DangKyXe,
+              id: VanBanMauID.MotCua.HanhChinh.GiayGioiThieu.DangKyXe,
               text: 'Giới thiệu đăng ký xe hoặc công việc khác',
             },
             {
-              id: VanBanMauId.MotCua.HanhChinh.GiayGioiThieu.ThucTapNhom,
+              id: VanBanMauID.MotCua.HanhChinh.GiayGioiThieu.ThucTapNhom,
               text: ' Giấy giới thiệu thực tập tốt nghiệp (theo nhóm)',
             },
             {
-              id: VanBanMauId.MotCua.HanhChinh.GiayGioiThieu.ThucTapCaNhan,
+              id: VanBanMauID.MotCua.HanhChinh.GiayGioiThieu.ThucTapCaNhan,
               text: ' Giấy giới thiệu thực tập tốt nghiệp (cá nhân)',
             },
           ]}
           downloadId={
-            VanBanMauId.MotCua.HanhChinh.GiayGioiThieu.MauExcelThongTin
+            VanBanMauID.MotCua.HanhChinh.GiayGioiThieu.MauExcelThongTin
           }
           downloadText="Import giới thiệu thực tập tốt nghiệp (cá nhân)"
         />

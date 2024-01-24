@@ -1,7 +1,7 @@
 import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import PropTypes from 'prop-types'
 import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
-import { VanBanMauId } from '@/Configs/constants'
+import { VanBanMauID } from '@/Services/Tokens/filesId'
 
 function XinChuyenView(props) {
   const { home, breadcrumbs } = props
@@ -24,11 +24,11 @@ function XinChuyenView(props) {
         <GiayToKemTheoAlert
           download={[
             {
-              id: VanBanMauId.MotCua.CTSV.XinChuyen.DonXinChuyen,
+              id: VanBanMauID.MotCua.CTSV.XinChuyen.DonXinChuyen,
               text: 'Mẫu đơn xin chuyển',
             },
           ]}
-          downloadId={VanBanMauId.MotCua.CTSV.XinChuyen.MauThongTin}
+          downloadId={VanBanMauID.MotCua.CTSV.XinChuyen.MauThongTin}
           downloadText="Xin chuyển"
         />
       </div>
