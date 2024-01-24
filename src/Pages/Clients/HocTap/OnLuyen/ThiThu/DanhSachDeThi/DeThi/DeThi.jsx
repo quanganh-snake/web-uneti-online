@@ -122,7 +122,7 @@ function DeThi() {
       </div>
       <div className="mt-6">
         <Row gutter={30}>
-          <Col span={9}>
+          <Col span={12} md={9}>
             <div className="flex flex-col gap-3 p-6 bg-white rounded-[26px] shadow-sm">
               {listCauHoi.map((e, index) => (
                 <CauHoi
@@ -142,7 +142,7 @@ function DeThi() {
               />
             </div>
           </Col>
-          <Col span={3}>
+          <Col span={12} md={3}>
             <XacNhanNopBai
               TenMonHoc={monHoc.TenMonHoc}
               onConfirm={handleXacNhanNopBai}
