@@ -1,5 +1,5 @@
 import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
-import { MenuItem, Pagination, Select } from '@mui/material'
+import { Pagination } from '@mui/material'
 import dayjs from 'dayjs'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
@@ -28,22 +28,21 @@ function TheoDoiDeNghiView(props) {
       <div className="p-4 flex flex-col">
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
         <div className="w-full rounded-md mt-4 p-3 flex flex-col justify-center items-center">
-          <h3 className="text-3xl uppercase text-center mb-4 font-semibold my-3">
+          <h3 className="text-3xl uppercase text-center mb-4 font-semibold my-3 text-uneti-primary">
             DANH SÁCH THÔNG TIN XỬ LÝ GỬI YÊU CẦU TIẾP NHẬN
           </h3>
           <div className="my-4 w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
-            <Select
-              defaultValue={loaiYeuCau}
+            <select
               value={loaiYeuCau}
               onChange={(e) => setLoaiYeuCau(e.target.value)}
-              className="w-full rounded-md border border-solid border-gray-300"
+              className="px-2 py-1 w-full rounded-md border border-solid border-gray-300"
             >
               {listLoaiYeuCau.map((e, index) => (
-                <MenuItem key={index} value={e.value}>
+                <option key={index} value={e.value}>
                   {e.text}
-                </MenuItem>
+                </option>
               ))}
-            </Select>
+            </select>
           </div>
           <div className="w-[75%] overflow-x-auto">
             <table className="w-full min-w-[800px]">
