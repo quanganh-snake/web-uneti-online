@@ -1,7 +1,8 @@
 const statePrefix = 'is-'
+const defaultNamespace = 'uneti'
 
-const _bem = (block, blockSuffix, element, modifier) => {
-  let cls = `${block}`
+const _bem = (namespace, block, blockSuffix, element, modifier) => {
+  let cls = `${namespace}-${block}`
   if (blockSuffix) {
     cls += `-${blockSuffix}`
   }
@@ -14,19 +15,26 @@ const _bem = (block, blockSuffix, element, modifier) => {
   return cls
 }
 
-export const useBem = (block) => {
-  const b = (blockSuffix = '') => _bem(block, blockSuffix, '', '')
-  const e = (element = '') => (element ? _bem(block, '', element, '') : '')
-  const m = (modifier = '') => (modifier ? _bem(block, '', '', modifier) : '')
+export const useBem = (block, namespaceOverrides = '') => {
+  const namespace = namespaceOverrides || defaultNamespace
+  const b = (blockSuffix = '') => _bem(namespace, block, blockSuffix, '', '')
+  const e = (element = '') =>
+    element ? _bem(namespace, block, '', element, '') : ''
+  const m = (modifier = '') =>
+    modifier ? _bem(namespace, block, '', '', modifier) : ''
   const be = (blockSuffix = '', element = '') =>
-    blockSuffix && element ? _bem(block, blockSuffix, element, '') : ''
+    blockSuffix && element
+      ? _bem(namespace, block, blockSuffix, element, '')
+      : ''
   const em = (element = '', modifier = '') =>
-    element && modifier ? _bem(block, '', element, modifier) : ''
+    element && modifier ? _bem(namespace, block, '', element, modifier) : ''
   const bm = (blockSuffix = '', modifier = '') =>
-    blockSuffix && modifier ? _bem(block, blockSuffix, '', modifier) : ''
+    blockSuffix && modifier
+      ? _bem(namespace, block, blockSuffix, '', modifier)
+      : ''
   const bem = (blockSuffix = '', element = '', modifier = '') =>
     blockSuffix && element && modifier
-      ? _bem(block, blockSuffix, element, modifier)
+      ? _bem(namespace, block, blockSuffix, element, modifier)
       : ''
   const is = (name, ...args) => {
     const state = args.length >= 1 ? args[0] : true
@@ -35,12 +43,12 @@ export const useBem = (block) => {
 
   // for css var
   // { 'color': #adcc }
-  // --color: #adcc;
+  // --uneti-color: #adcc;
   const cssVar = (object) => {
     const styles = {}
     for (const key in object) {
       if (object[key]) {
-        styles[`--${key}`] = object[key]
+        styles[`--${namespace}-${key}`] = object[key]
       }
     }
     return styles
@@ -50,14 +58,13 @@ export const useBem = (block) => {
     const styles = {}
     for (const key in object) {
       if (object[key]) {
-        styles[`--${block}-${key}`] = object[key]
+        styles[`--${namespace}-${block}-${key}`] = object[key]
       }
     }
     return styles
   }
-
-  const cssVarName = (name) => `--${name}`
-  const cssVarBlockName = (name) => `--${block}-${name}`
+  const cssVarName = (name) => `--${namespace}-${name}`
+  const cssVarBlockName = (name) => `--${namespace}-${block}-${name}`
 
   return {
     b,

@@ -45,9 +45,9 @@
 }
 
 // join var name
-// joinVarName(('button', 'text-color')) => '--vs-button-text-color'
+// joinVarName(('button', 'text-color')) => '--uneti-button-text-color'
 @function joinVarName($list) {
-  $name: '-';
+  $name: '--' + config.$namespace;
   @each $item in $list {
     @if $item != '' {
       $name: $name + '-' + $item;
@@ -56,24 +56,24 @@
   @return $name;
 }
 
-// getCssVarName('button', 'text-color') => '--vs-button-text-color'
+// getCssVarName('button', 'text-color') => '--uneti-button-text-color'
 @function getCssVarName($args...) {
   @return joinVarName($args);
 }
 
-// getCssVar('button', 'text-color') => var(--vs-button-text-color)
+// getCssVar('button', 'text-color') => var(--uneti-button-text-color)
 @function getCssVar($args...) {
   @return var(#{joinVarName($args)});
 }
 
-// getCssVarWithDefault(('button', 'text-color'), red) => var(--vs-button-text-color, red)
+// getCssVarWithDefault(('button', 'text-color'), red) => var(--uneti-button-text-color, red)
 @function getCssVarWithDefault($args, $default) {
   @return var(#{joinVarName($args)}, #{$default});
 }
 
-// bem('block', 'element', 'modifier') => 'vs-block__element--modifier'
+// bem('block', 'element', 'modifier') => 'uneti-block__element--modifier'
 @function bem($block, $element: '', $modifier: '') {
-  $name: $block;
+  $name: config.$namespace + config.$common-separator + $block;
 
   @if $element != '' {
     $name: $name + config.$element-separator + $element;

@@ -1,5 +1,5 @@
 @include b(button) {
-  --color: var(--primary-lighter);
+  @include set-var-value(color, getCssVar(primary-lighter));
 
   display: flex;
   justify-content: center;

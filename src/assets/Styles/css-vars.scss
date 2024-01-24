@@ -11,26 +11,26 @@ body {
 }
 
 .is-color-primary {
-  // --color: 25, 91, 255;
-  --color: 4, 132, 172;
+  // --#{$namespace}-color: 25, 91, 255;
+  --#{$namespace}-color: 4, 132, 172;
 }
 
 .is-color-success {
-  --color: 70, 201, 58;
+  --#{$namespace}-color: 70, 201, 58;
 }
 
 .is-color-danger {
-  --color: 255, 71, 87;
+  --#{$namespace}-color: 255, 71, 87;
 }
 
 .is-color-warn {
-  --color: 255, 186, 0;
+  --#{$namespace}-color: 255, 186, 0;
 }
 
 .is-color-error {
-  --color: 255, 71, 87;
+  --#{$namespace}-color: 255, 71, 87;
 }
 
 .is-color-dark {
-  --color: 30, 30, 30;
+  --#{$namespace}-color: 30, 30, 30;
 }
