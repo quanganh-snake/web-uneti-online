@@ -176,7 +176,7 @@ function HomeTTHCGVView(props) {
                   </table>
                   <div className="grid grid-cols-2 mt-5 items-center justify-between">
                     <div className="col-span-2 lg:col-span-1 flex flex-row items-center mb-6">
-                      <p className="font-bold text-[#336699]">
+                      <p className="font-semibold text-[#336699]">
                         Tổng số:{' '}
                         <span>{dataListHoSoThuTuc?.length} hồ sơ/thủ tục</span>
                       </p>

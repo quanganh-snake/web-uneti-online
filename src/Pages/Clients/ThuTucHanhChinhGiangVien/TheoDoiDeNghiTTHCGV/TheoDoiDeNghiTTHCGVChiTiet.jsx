@@ -77,7 +77,7 @@ function TheoDoiDeNghiTTHCGVChiTiet() {
       ) : (
         <>
           <div className="mb-4 border p-2 bg-white">
-            <h3 className="text-xl uppercase font-bold mb-4 underline">
+            <h3 className="text-xl uppercase font-semibold mb-4 underline">
               Thông tin hồ sơ:
             </h3>
             <table>
@@ -112,7 +112,7 @@ function TheoDoiDeNghiTTHCGVChiTiet() {
             </table>
           </div>
           <div className="mb-4 border p-2 bg-white">
-            <h3 className="text-xl uppercase font-bold mb-4 underline">
+            <h3 className="text-xl uppercase font-semibold mb-4 underline">
               Quá trình xử lý:
             </h3>
             <div className="w-full flex flex-col lg:flex-row justify-between gap-10">

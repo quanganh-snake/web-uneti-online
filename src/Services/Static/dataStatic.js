@@ -6,6 +6,9 @@ import icoHTSDPM from '@/assets/Icons/icoHTSDPM.png'
 import icoTCTTTS from '@/assets/Icons/icoTCTTTS.png'
 import icoQLCTCV from '@/assets/Icons/icoQLCTCV.png'
 import icoHocTap from '@/assets/Icons/icoHocTap.png'
+import iconTraCuu from '@/assets/Icons/iconTraCuu.png'
+import iconDiemDanh from '@/assets/Icons/iconDiemDanh.png'
+import iconLich from '@/assets/Icons/iconLich.png'
 
 // icons - thumbnails homeMotCua
 import icoKhaoThi from '@/assets/Icons/icoKhaoThi.png'
@@ -62,20 +65,20 @@ export const homeMain = [
     roleActive: ['SV'],
   },
   {
+    title: 'Tra cứu',
+    desc: 'bla bla...',
+    icon: iconTraCuu,
+    path: '/tracuu',
+    moduleActive: true,
+    roleActive: ['SV'],
+  },
+  {
     title: 'Hỗ trợ thiết bị sảnh phòng',
     desc: 'Theo dõi và báo hỏng thiết bị ở sảnh, hành lang và phòng làm việc.',
     icon: icoHTTBSP,
     path: '/hotrothietbisanhphong',
     moduleActive: true,
     roleActive: ['GV'],
-  },
-  {
-    title: 'Ôn luyện thi thử',
-    desc: 'Tiếp nhận ôn luyện, thi thử cho sinh viên.',
-    icon: icoTTHCSV,
-    path: '/hoctap',
-    moduleActive: true,
-    roleActive: ['SV'],
   },
   {
     title: 'Hỗ trợ sử dụng phần mềm',
@@ -1328,6 +1331,38 @@ export const homeHocTap = [
     path: '/onluyen',
     moduleActive: true,
     thumbnail: icoTTHCSV,
+    roleActive: ['SV'],
+  },
+]
+
+export const homeTraCuu = [
+  {
+    id: 1,
+    title: 'Điểm danh',
+    desc: 'Theo dõi toàn bộ quá trình điểm danh đối với các môn học tương ứng tại các học kỳ',
+    path: '/diemdanh',
+    thumbnail: iconDiemDanh,
+    roleActive: ['SV'],
+    moduleActive: true,
+  },
+
+  {
+    id: 2,
+    title: 'Rèn luyện',
+    desc: 'Theo dõi toàn bộ kết quả rèn luyện theo học kỳ',
+    path: '/renluyen',
+    moduleActive: true,
+    thumbnail: icoTTHCSV,
+    roleActive: ['SV'],
+  },
+
+  {
+    id: 3,
+    title: 'Thời khóa biểu',
+    desc: 'Theo dõi toàn bộ lịch học và lịch thi theo ngày, tuần, tháng đối với từng môn học trong học kỳ',
+    path: '/thoikhoabieu',
+    moduleActive: true,
+    thumbnail: iconLich,
     roleActive: ['SV'],
   },
 ]

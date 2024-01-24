@@ -53,7 +53,7 @@ function ChuyenDiemView(props) {
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
         <div className="border-[#336699] border border-solid mt-5 rounded-md">
           <form className="py-8 flex flex-col justify-center items-center gap-4">
-            <h2 className="text-center uppercase text-2xl font-bold text-sky-800 mb-6">
+            <h2 className="text-center uppercase text-2xl font-semibold text-sky-800 mb-6">
               TIẾP NHẬN YÊU CẦU CHUYỂN ĐIỂM
             </h2>
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
@@ -102,31 +102,31 @@ function ChuyenDiemView(props) {
               <table className="w-full min-w-[800px]">
                 <thead>
                   <tr>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       STT
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       CHỌN
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       NĂM HỌC
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       HỌC KỲ
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       MÃ HỌC PHẦN
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       MÃ MÔN HỌC
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       TÊN HỌC PHẦN
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       SỐ TÍN CHỈ
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       ĐIỂM TỔNG KẾT
                     </th>
                   </tr>
@@ -213,25 +213,25 @@ function ChuyenDiemView(props) {
                   <table className="w-full min-w-[800px]">
                     <thead>
                       <tr>
-                        <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           STT
                         </th>
-                        <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           CHỌN
                         </th>
-                        <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           TÊN KHOA
                         </th>
-                        <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           MÃ MÔN HỌC
                         </th>
-                        <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           TÊN MÔN HỌC
                         </th>
-                        <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           SỐ TÍN CHỈ
                         </th>
-                        <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           BẬC ĐÀO TẠO
                         </th>
                       </tr>
@@ -327,7 +327,7 @@ function ChuyenDiemView(props) {
                     </div>
                     <button
                       onClick={handleSubmitData}
-                      className="mt-8 px-5 py-3 border-2 border-solid text-[#245D7C] border-[#245D7C] rounded-md font-bold transition-all duration-200 hover:bg-[#245D7C] hover:text-white"
+                      className="mt-8 px-5 py-3 border-2 border-solid text-[#245D7C] border-[#245D7C] rounded-md font-semibold transition-all duration-200 hover:bg-[#245D7C] hover:text-white"
                     >
                       Gửi Yêu Cầu
                     </button>

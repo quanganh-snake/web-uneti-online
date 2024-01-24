@@ -6,7 +6,7 @@ export const Error403 = () => {
     <div className="bg-[#ecf4f7] w-full h-full">
       <div className="container">
         <div className="p-6">
-          <h1 className="text-3xl uppercase font-bold text-center my-6">
+          <h1 className="text-3xl uppercase font-semibold text-center my-6">
             Bạn không có quyền truy cập vào trang này!
           </h1>
           <div className="w-full">

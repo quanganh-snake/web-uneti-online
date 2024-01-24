@@ -34,7 +34,7 @@ function Home() {
                   className="w-20 mb-4"
                   alt={module.title}
                 />
-                <h2 className="uppercase text-2xl font-bold text-center text-sky-900 mb-4">
+                <h2 className="uppercase text-2xl font-semibold text-center text-sky-900 mb-4">
                   {module.title}
                 </h2>
                 <div className="line w-full h-[2px] bg-sky-900 mb-4"></div>

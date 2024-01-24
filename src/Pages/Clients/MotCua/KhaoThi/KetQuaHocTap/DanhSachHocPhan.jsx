@@ -30,27 +30,27 @@ function DanhSachHocPhan(props) {
         <table className="w-full min-w-[800px]">
           <thead>
             <tr>
-              <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+              <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                 STT
               </th>
               {lyDo !== 'Xem kết quả học tập' && (
-                <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                   CHỌN
                 </th>
               )}
-              <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+              <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                 MÃ MÔN HỌC
               </th>
-              <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+              <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                 TÊN HỌC PHẦN
               </th>
-              <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+              <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                 ĐIỂM THƯỜNG KỲ
               </th>
-              <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+              <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                 ĐIỂM THI
               </th>
-              <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+              <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                 ĐIỂM TỔNG KẾT
               </th>
             </tr>

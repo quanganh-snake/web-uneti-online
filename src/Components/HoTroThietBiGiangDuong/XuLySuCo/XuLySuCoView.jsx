@@ -173,7 +173,7 @@ function XuLySuCoView() {
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
 
         <div className="form-submit flex flex-col w-full justify-center">
-          <h2 className="text-center uppercase text-2xl font-bold text-sky-800 mb-6">
+          <h2 className="text-center uppercase text-2xl font-semibold text-sky-800 mb-6">
             XỬ LÝ SỰ CỐ
           </h2>
           <div className="lg:px-36">
@@ -191,34 +191,34 @@ function XuLySuCoView() {
               <table className="w-full">
                 <thead>
                   <tr>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       #
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Cơ sở
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Tên địa điểm
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Tên dãy nhà
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Tên phòng
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Mã giảng viên
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Họ tên
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[50px]">
+                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[50px]">
                       Tiết
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Ngày
                     </th>
-                    <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Danh sách sự cố
                     </th>
                   </tr>
@@ -305,7 +305,7 @@ function XuLySuCoView() {
             </div>
             <div className="flex flex-col justify-start items-start gap-4">
               <p>
-                <span className="w-full font-bold text-sky-800">
+                <span className="w-full font-semibold text-sky-800">
                   Danh sách sự cố:
                 </span>
                 <span className="ml-2">
@@ -324,7 +324,7 @@ function XuLySuCoView() {
                 </span>
               </p>
               <div className="w-full flex flex-col md:flex-row justify-between md:items-center gap-2">
-                <span className="text-red-500 block md:w-[30%] font-bold">
+                <span className="text-red-500 block md:w-[30%] font-semibold">
                   Nguyên nhân*:
                 </span>
                 <Autocomplete
@@ -351,7 +351,7 @@ function XuLySuCoView() {
                 />
               </div>
               <div className="w-full flex flex-col md:flex-row justify-between md:items-center gap-2">
-                <span className="text-red-500 block md:w-[30%] font-bold">
+                <span className="text-red-500 block md:w-[30%] font-semibold">
                   Kết quả khắc phục*:
                 </span>
                 <Autocomplete

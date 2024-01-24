@@ -28,7 +28,7 @@ function TheoDoiDeNghiView(props) {
       <div className="p-4 flex flex-col">
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
         <div className="w-full rounded-md mt-4 p-3 flex flex-col justify-center items-center">
-          <h3 className="text-3xl uppercase text-center mb-4 font-bold my-3">
+          <h3 className="text-3xl uppercase text-center mb-4 font-semibold my-3">
             DANH SÁCH THÔNG TIN XỬ LÝ GỬI YÊU CẦU TIẾP NHẬN
           </h3>
           <div className="my-4 w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
@@ -49,22 +49,22 @@ function TheoDoiDeNghiView(props) {
             <table className="w-full min-w-[800px]">
               <thead>
                 <tr>
-                  <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                  <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                     STT
                   </th>
-                  <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                  <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                     NHÓM
                   </th>
-                  <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                  <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                     TÊN YÊU CẦU XỬ LÝ
                   </th>
-                  <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                  <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                     CHI TIẾT ĐỀ NGHỊ
                   </th>
-                  <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                  <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                     NGÀY GỬI
                   </th>
-                  <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                  <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                     TÌNH TRẠNG XỬ LÝ
                   </th>
                 </tr>

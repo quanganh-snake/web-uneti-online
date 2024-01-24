@@ -17,7 +17,7 @@ export default function CommonLayout({
           <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
           <div className="bg-white mt-4 p-10 rounded-2xl shadow-sm">
             {heading ? (
-              <h3 className="uppercase w-full text-center font-bold text-xl mb-4 text-uneti-primary">
+              <h3 className="uppercase w-full text-center font-semibold text-xl mb-4 text-uneti-primary">
                 {heading}
               </h3>
             ) : null}

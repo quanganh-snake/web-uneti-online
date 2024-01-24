@@ -40,7 +40,7 @@ export const Sidebar = ({
 
   return (
     <div className={`${bem.b()} ${bem.is('active', showSidebar)}`}>
-      <h3 className={bem.e('title')}>Danh mục tài liệu</h3>
+      <h3 className={bem.e('title')}>Danh mục</h3>
 
       {categories?.map((e, index) => (
         <SidebarItem

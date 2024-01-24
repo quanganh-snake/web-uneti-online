@@ -21,7 +21,7 @@ function ModuleItemMotCua(props) {
         />
         <div className="w-full h-[2px] md:w-[1px] md:h-full bg-[#336699] my-4 md:my-0 mx-6"></div>
         <div className="uneti-motcua__content px-4 w-full">
-          <h2 className="uppercase font-bold text-[#336699] text-center text-2xl mb-4">
+          <h2 className="uppercase font-semibold text-[#336699] text-center text-2xl mb-4">
             {moduleItemMotCua.title}
           </h2>
           <p className="text-justify">

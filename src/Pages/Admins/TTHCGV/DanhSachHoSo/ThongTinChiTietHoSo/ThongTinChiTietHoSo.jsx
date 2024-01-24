@@ -113,7 +113,7 @@ function ThongTinChiTietHoSo() {
     if (type === TABS.tabTrangThai) {
       Swal.fire({
         icon: 'question',
-        html: `Bạn chắc chắn muốn xóa trạng thái <p class="font-bold uppercase text-red-600">${valueRow?.MC_TTHC_GV_TrangThai_TenTrangThai}</p> không?`,
+        html: `Bạn chắc chắn muốn xóa trạng thái <p class="font-semibold uppercase text-red-600">${valueRow?.MC_TTHC_GV_TrangThai_TenTrangThai}</p> không?`,
         showConfirmButton: true,
         showCancelButton: true,
         confirmButtonText: 'Đồng ý',
@@ -144,7 +144,7 @@ function ThongTinChiTietHoSo() {
     if (type === TABS.tabTrinhTuThucHien) {
       Swal.fire({
         icon: 'question',
-        html: `Bạn chắc chắn muốn xóa công việc <p class="font-bold uppercase text-red-600">${valueRow?.MC_TTHC_GV_TrinhTuThucHien_TenCongViec}</p> không?`,
+        html: `Bạn chắc chắn muốn xóa công việc <p class="font-semibold uppercase text-red-600">${valueRow?.MC_TTHC_GV_TrinhTuThucHien_TenCongViec}</p> không?`,
         showConfirmButton: true,
         showCancelButton: true,
         confirmButtonText: 'Đồng ý',
@@ -175,7 +175,7 @@ function ThongTinChiTietHoSo() {
     if (type === TABS.tabTPHSDeNghi) {
       Swal.fire({
         icon: 'question',
-        html: `Bạn chắc chắn muốn xóa mẫu giấy tờ kèm theo <p class="font-bold uppercase text-red-600">${valueRow?.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo}</p> không?`,
+        html: `Bạn chắc chắn muốn xóa mẫu giấy tờ kèm theo <p class="font-semibold uppercase text-red-600">${valueRow?.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo}</p> không?`,
         showConfirmButton: true,
         showCancelButton: true,
         confirmButtonText: 'Đồng ý',
@@ -202,7 +202,7 @@ function ThongTinChiTietHoSo() {
     if (type === TABS.tabPhanQuyen) {
       Swal.fire({
         icon: 'question',
-        html: `Bạn chắc chắn muốn xóa quyền của nhân sự <p class="font-bold uppercase text-red-600">${valueRow?.MC_TTHC_GV_PhanQuyen_HoTen}</p> không?`,
+        html: `Bạn chắc chắn muốn xóa quyền của nhân sự <p class="font-semibold uppercase text-red-600">${valueRow?.MC_TTHC_GV_PhanQuyen_HoTen}</p> không?`,
         showConfirmButton: true,
         showCancelButton: true,
         confirmButtonText: 'Đồng ý',
@@ -524,7 +524,7 @@ function ThongTinChiTietHoSo() {
       >
         <div className="flex flex-col">
           <div className="flex justify-between">
-            <h3 className="font-bold text-md lg:text-2xl uppercase mb-6 text-[#336699] underline">
+            <h3 className="font-semibold text-md lg:text-2xl uppercase mb-6 text-[#336699] underline">
               Chi tiết quy trình hồ sơ - thủ tục
             </h3>
             {zoomView ? (
@@ -583,7 +583,7 @@ function ThongTinChiTietHoSo() {
                       handleUpdate(TABS.tabThongTinHoSo, ThongTinHoSo)
                     }}
                   >
-                    <TfiReload className="mx-2 font-bold" />
+                    <TfiReload className="mx-2 font-semibold" />
                     Cập nhật thông tin
                   </button>
                 </div>
@@ -595,7 +595,7 @@ function ThongTinChiTietHoSo() {
                   <div className="flex flex-col gap-1">
                     <label htmlFor="MC_TTHC_GV_TenThuTuc">
                       Tên thủ tục{' '}
-                      <span className="text-red-600 font-bold">*</span>
+                      <span className="text-red-600 font-semibold">*</span>
                     </label>
                     <input
                       type="text"
@@ -614,7 +614,7 @@ function ThongTinChiTietHoSo() {
                       <div className="flex flex-col gap-1">
                         <label htmlFor="MC_TTHC_GV_MaThuTuc">
                           Mã thủ tục{' '}
-                          <span className="text-red-600 font-bold">*</span>
+                          <span className="text-red-600 font-semibold">*</span>
                         </label>
                         <input
                           type="text"
@@ -633,7 +633,7 @@ function ThongTinChiTietHoSo() {
                       <div className="flex flex-col gap-1">
                         <label htmlFor="MC_TTHC_GV_IDMucDo">
                           Mức độ{' '}
-                          <span className="text-red-600 font-bold">*</span>
+                          <span className="text-red-600 font-semibold">*</span>
                         </label>
                         <input
                           type="number"
@@ -658,7 +658,7 @@ function ThongTinChiTietHoSo() {
                       <div className="flex flex-col gap-1">
                         <label htmlFor="MC_TTHC_GV_TongThoiGianGiaiQuyet">
                           Tổng thời gian giải quyết{' '}
-                          <span className="text-red-600 font-bold">*</span>
+                          <span className="text-red-600 font-semibold">*</span>
                         </label>
                         <div className="flex items-center gap-2">
                           <input
@@ -944,7 +944,7 @@ function ThongTinChiTietHoSo() {
                           className="font-semibold"
                         >
                           Đơn vị tiếp nhận{' '}
-                          <span className="text-red-600 font-bold">*</span>
+                          <span className="text-red-600 font-semibold">*</span>
                         </label>
                         <input
                           type="text"
@@ -965,7 +965,7 @@ function ThongTinChiTietHoSo() {
                           className="font-semibold"
                         >
                           Nơi trả kết quả{' '}
-                          <span className="text-red-600 font-bold">*</span>
+                          <span className="text-red-600 font-semibold">*</span>
                         </label>
                         <input
                           type="text"

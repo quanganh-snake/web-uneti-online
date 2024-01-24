@@ -86,7 +86,7 @@ function DanhSachDeThi() {
   return (
     <OnTapContext.Provider value={{}}>
       <div className="flex flex-col text-center justify-start items-center gap-4 bg-white rounded-[26px] mb-4 p-4">
-        <h3 className="text-uneti-primary text-center font-bold text-xl">
+        <h3 className="text-uneti-primary text-center font-semibold text-xl">
           {monHoc.TenMonHoc}
         </h3>
         <span className="text-uneti-primary text-sm">

@@ -55,7 +55,7 @@ function FormYeuCauSuaDiem(props) {
       {lyDoChiTiet.length ? (
         <button
           onClick={handleSubmitData}
-          className="mt-8 px-5 py-3 border-2 border-solid text-[#245D7C] border-[#245D7C] rounded-md font-bold transition-all duration-200 hover:bg-[#245D7C] hover:text-white"
+          className="mt-8 px-5 py-3 border-2 border-solid text-[#245D7C] border-[#245D7C] rounded-md font-semibold transition-all duration-200 hover:bg-[#245D7C] hover:text-white"
         >
           Gửi Yêu Cầu
         </button>

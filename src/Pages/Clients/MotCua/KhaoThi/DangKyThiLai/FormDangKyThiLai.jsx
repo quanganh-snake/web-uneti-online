@@ -22,7 +22,7 @@ function FormDangKyThiLai(props) {
   return (
     <div className="border-[#336699] border border-solid mt-5 rounded-md">
       <form className="py-8 flex flex-col justify-center items-center gap-4">
-        <h2 className="text-center uppercase text-2xl font-bold text-sky-800 mb-6">
+        <h2 className="text-center uppercase text-2xl font-semibold text-sky-800 mb-6">
           TIẾP NHẬN YÊU CẦU ĐĂNG KÝ THI LẠI
         </h2>
         <div className="w-[75%] flex justify-between items-center">
@@ -81,7 +81,7 @@ function FormDangKyThiLai(props) {
 
       {(hocKy === '' && lyDo != '') || (hocKy != '' && lyDo === '') ? (
         <div className="flex justify-center items-center pb-4">
-          <span className="w-[75%] text-center font-bold block text-red-900 bg-red-200 p-3 rounded-md">
+          <span className="w-[75%] text-center font-semibold block text-red-900 bg-red-200 p-3 rounded-md">
             Vui lòng chọn đầy đủ thông tin học kỳ và lý do để xem lịch thi cần
             đăng ký!
           </span>
@@ -103,7 +103,7 @@ function FormDangKyThiLai(props) {
             />
             <button
               onClick={handleSubmitData}
-              className="mt-8 px-5 py-3 border-2 border-solid text-[#245D7C] border-[#245D7C] rounded-md font-bold transition-all duration-200 hover:bg-[#245D7C] hover:text-white"
+              className="mt-8 px-5 py-3 border-2 border-solid text-[#245D7C] border-[#245D7C] rounded-md font-semibold transition-all duration-200 hover:bg-[#245D7C] hover:text-white"
             >
               Gửi Yêu Cầu
             </button>
