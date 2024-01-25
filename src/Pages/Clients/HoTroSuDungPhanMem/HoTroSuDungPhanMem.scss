@@ -1,71 +1,71 @@
 @include b(main) {
-    display: flex;
-    gap: 30px;
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  @include e(title) {
+    text-align: center;
+    font-size: 22px;
+    color: #245d7c;
+    font-weight: 700;
     margin-top: 30px;
-    margin-bottom: 30px;
-    padding-left: 15px;
-    padding-right: 15px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
 
-    @include e(title) {
-        text-align: center;
-        font-size: 22px;
-        color: #245d7c;
-        font-weight: 700;
-        margin-top: 30px;
-        margin-bottom: 6px;
-        text-transform: uppercase;
+  @include e(content) {
+    padding: 20px;
+    width: 100%;
+    border-radius: 20px;
+    background-color: $color-white;
+    height: min-content;
+  }
+
+  @include e(toggle-sidebar) {
+    z-index: 10000;
+    position: fixed;
+    top: 120px;
+    left: 20px;
+    transition: all 0.2s linear;
+    background-color: #fff;
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 30px;
+    aspect-ratio: 1;
+    width: 50px;
+
+    @include e(close) {
+      @include when(active) {
+        transform: translate(-50%, -50%) scale(1) rotate(-45deg);
+      }
     }
 
-    @include e(content) {
-        padding: 20px;
-        width: 100%;
-        border-radius: 20px;
-        background-color: $color-white;
-        height: min-content;
+    @include e(show) {
+      @include when(active) {
+        transform: translate(-50%, -50%) scale(1) rotate(0);
+      }
     }
 
-    @include e(toggle-sidebar) {
-        z-index: 10000;
-        position: fixed;
-        top: 120px;
-        left: 20px;
-        transition: all 0.2s linear;
-        background-color: #fff;
-        padding: 8px;
-        border-radius: 12px;
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 30px;
-        aspect-ratio: 1;
-        width: 50px;
+    svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      text-align: center;
+      transition: all 0.2s linear;
+      transform: translate(-50%, -50%) scale(0) rotate(360deg);
 
-        @include e(close) {
-            @include when(active) {
-                transform: translate(-50%, -50%) scale(1) rotate(-45deg);
-            }
-        }
-
-        @include e(show) {
-            @include when(active) {
-                transform: translate(-50%, -50%) scale(1) rotate(0);
-            }
-        }
-
-        svg {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            text-align: center;
-            transition: all 0.2s linear;
-            transform: translate(-50%, -50%) scale(0) rotate(360deg);
-
-            @include when(active) {
-                font-size: 32px;
-            }
-        }
+      @include when(active) {
+        font-size: 32px;
+      }
     }
+  }
 }
 
 @include res(md) {
-    @include e(toggle-sidebar) {
-        transform: translateX(calc(-100% - 20px));
-    }
+  @include e(toggle-sidebar) {
+    transform: translateX(calc(-100% - 20px));
+  }
 }

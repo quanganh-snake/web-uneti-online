@@ -1,7 +1,7 @@
 import React from 'react'
 
 function HomeAdmin() {
-    return <div>HomeAdmin</div>
+  return <div>HomeAdmin</div>
 }
 
 export default HomeAdmin

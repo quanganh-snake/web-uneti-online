@@ -1,9 +1,9 @@
 div#control-dropdown {
-    &:hover div#user-dropdown {
-        display: block;
-    }
+  &:hover div#user-dropdown {
+    display: block;
+  }
 }
 
 #user-dropdown {
-    display: none;
+  display: none;
 }

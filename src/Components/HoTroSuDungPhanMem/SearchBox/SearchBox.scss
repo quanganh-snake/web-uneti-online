@@ -1,35 +1,35 @@
 @use 'sass:map';
 
 @include b(search) {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 
-    @include e(input) {
-        border: none;
-        outline: none;
-        border-radius: 12px;
-        background-color: map.get($appColor, 'gray-2');
-        color: map.get($appColor, text);
-        padding: 8px 12px;
-        width: 300px;
-        transition: all 0.25s ease;
-        font-size: 14px;
-        width: 100%;
-        margin-right: 12px;
+  @include e(input) {
+    border: none;
+    outline: none;
+    border-radius: 12px;
+    background-color: map.get($appColor, 'gray-2');
+    color: map.get($appColor, text);
+    padding: 8px 12px;
+    width: 300px;
+    transition: all 0.25s ease;
+    font-size: 14px;
+    width: 100%;
+    margin-right: 12px;
 
-        &::placeholder {
-            opacity: 0.5;
-        }
-
-        &:focus {
-            padding-left: 16px;
-        }
+    &::placeholder {
+      opacity: 0.5;
     }
 
-    @include e(button) {
-        padding: 8px 26px;
-        background-color: map.get($appColor, 'primary-lighter');
-        color: $color-white;
-        border-radius: 12px;
+    &:focus {
+      padding-left: 16px;
     }
+  }
+
+  @include e(button) {
+    padding: 8px 26px;
+    background-color: map.get($appColor, 'primary-lighter');
+    color: $color-white;
+    border-radius: 12px;
+  }
 }

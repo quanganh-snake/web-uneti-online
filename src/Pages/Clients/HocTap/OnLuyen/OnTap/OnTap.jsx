@@ -13,48 +13,48 @@ import XacNhanNopBai from '@/Components/HocTap/Promt/XacNhanNopBai'
 import KetQuaThi from '@/Components/HocTap/Promt/KetQuaThi'
 
 export default function OnTap() {
-    const [listMonHoc, setListMonHoc] = useState([])
+  const [listMonHoc, setListMonHoc] = useState([])
 
-    const dataSV = DataSinhVien()
+  const dataSV = DataSinhVien()
 
-    const danhSachMonHocTheoHocKy = useMemo(() => {
-        return listMonHoc.reduce((result, monHoc) => {
-            if (Object.prototype.hasOwnProperty.call(result, monHoc.TenDot)) {
-                result[monHoc.TenDot].push(monHoc)
-            } else {
-                result[monHoc.TenDot] = [monHoc]
-            }
+  const danhSachMonHocTheoHocKy = useMemo(() => {
+    return listMonHoc.reduce((result, monHoc) => {
+      if (Object.prototype.hasOwnProperty.call(result, monHoc.TenDot)) {
+        result[monHoc.TenDot].push(monHoc)
+      } else {
+        result[monHoc.TenDot] = [monHoc]
+      }
 
-            return result
-        }, {})
-    }, [listMonHoc])
+      return result
+    }, {})
+  }, [listMonHoc])
 
-    useEffect(() => {
-        getAllMonHocThiThu(dataSV.MaSinhVien).then((res) => {
-            setListMonHoc(res?.data?.body)
-        })
+  useEffect(() => {
+    getAllMonHocThiThu(dataSV.MaSinhVien).then((res) => {
+      setListMonHoc(res?.data?.body)
+    })
 
-        return () => {
-            setListMonHoc([])
-        }
-    }, [])
+    return () => {
+      setListMonHoc([])
+    }
+  }, [])
 
-    return (
-        <>
-            <CommonLayout
-                sidebar={hocTapSidebar}
-                breadcrumbs={breadcrumbs}
-                home={home}
-            >
-                {Object.keys(danhSachMonHocTheoHocKy).map((hk, index) => (
-                    <HocKy
-                        key={index}
-                        hocKy={hk}
-                        linkTo="danhsachcauhoi"
-                        listMonHoc={danhSachMonHocTheoHocKy[hk]}
-                    />
-                ))}
-            </CommonLayout>
-        </>
-    )
+  return (
+    <>
+      <CommonLayout
+        sidebar={hocTapSidebar}
+        breadcrumbs={breadcrumbs}
+        home={home}
+      >
+        {Object.keys(danhSachMonHocTheoHocKy).map((hk, index) => (
+          <HocKy
+            key={index}
+            hocKy={hk}
+            linkTo="danhsachcauhoi"
+            listMonHoc={danhSachMonHocTheoHocKy[hk]}
+          />
+        ))}
+      </CommonLayout>
+    </>
+  )
 }
