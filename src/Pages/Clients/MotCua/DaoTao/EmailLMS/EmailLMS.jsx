@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import EmailLMSView from './EmailLMSView'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import Swal from 'sweetalert2'
 import {
-  getKiemTraTrungEmailLMS,
   getKiemTraTrungTaiKhoanEmailLMS,
   postEmailLMS,
 } from '@/Apis/MotCua/DaoTao/apiEmailLMS'
@@ -13,6 +12,7 @@ import {
   makePostDataSv,
   transformSubmitValue,
 } from '@/Services/Utils/dataSubmitUtils'
+import { required } from '@/Services/Validators/required'
 
 function EmailLMS() {
   const EMAIL_LMS_PREFIX = 'MC_DT_EMAILLMS_'
@@ -105,8 +105,16 @@ function EmailLMS() {
 
   const dataSV = DataSinhVien()
 
+  const middlewareSubmitData = () => {
+    return [required(lyDo, 'Vui lòng nhập lý do!')].every((e) => e == true)
+  }
+
   const handleSubmitData = async (e) => {
     e.preventDefault()
+
+    if (!middlewareSubmitData()) {
+      return
+    }
 
     if (deNghi === 'Tài khoản Email UNETI') {
       let message = ''
@@ -207,8 +215,8 @@ function EmailLMS() {
           if (data.message === 'Bản ghi bị trùng.') {
             Swal.fire({
               icon: 'error',
-              title: 'Thông báo trùng',
-              text: `Bạn đã được cấp tài khoản Email/LMS trước đây, Không thể yêu cầu cấp mới`,
+              title: 'Yêu cầu quá nhiều',
+              text: `Yêu cầu đã được gửi trước đó!`,
             })
             return
           }
@@ -231,25 +239,18 @@ function EmailLMS() {
         if (data.message === 'Bản ghi bị trùng.') {
           Swal.fire({
             icon: 'error',
-            title: 'Thông báo trùng',
-            text: `Yêu cầu ${
-              listChiTietDeNghi.filter((e) => e.value === chiTietDeNghi)[0].text
-            } đã được gửi trước đấy. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+            title: 'Yêu cầu quá nhiều',
+            text: `Yêu cầu đã được gửi trước đó!`,
           })
         } else {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            text: `Yêu cầu ${
-              listChiTietDeNghi.filter((e) => e.value === chiTietDeNghi)[0].text
-            } đã được gửi thành công. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+            title: `Gửi yêu cầu thành công`,
+            text: `Vui lòng chờ kết quả xử lý từ phòng Đào tạo`,
             showConfirmButton: false,
             timer: 1500,
           })
-
-          setTimeout(() => {
-            window.location.reload()
-          }, 1000)
         }
       }
     } catch (error) {

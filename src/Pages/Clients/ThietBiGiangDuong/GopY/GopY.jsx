@@ -10,7 +10,7 @@ export default function GopY() {
 
   const [files, setFiles] = useState([])
 
-  const handleRemoveFile = (file) => {
+  const handleRemoveFile = () => {
     setFiles([])
   }
 
@@ -75,8 +75,6 @@ export default function GopY() {
         return
       }
       if (resPostData.status === 200) {
-        const data = await resPostData.data
-
         Swal.fire({
           position: 'center',
           icon: 'success',
@@ -84,10 +82,6 @@ export default function GopY() {
           showConfirmButton: false,
           timer: 1500,
         })
-
-        setTimeout(() => {
-          window.location.reload()
-        }, 1000)
       }
     } catch (error) {
       console.log(error)

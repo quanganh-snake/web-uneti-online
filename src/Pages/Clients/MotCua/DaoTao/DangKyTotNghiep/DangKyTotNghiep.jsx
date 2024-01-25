@@ -3,7 +3,6 @@ import { DangKyTotNghiepView } from './DangKyTotNghiepView'
 import { useEffect } from 'react'
 import { getTenDot } from '@/Apis/MotCua/apiTenDot'
 import Swal from 'sweetalert2'
-import { convertDataFileToBase64 } from '@/Services/Utils/stringUtils'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { postDangKyTotNghiep } from '@/Apis/MotCua/DaoTao/apiDangKyTotNghiep'
 import { required } from '@/Services/Validators/required'
@@ -23,7 +22,7 @@ function DangKyTotNghiep() {
   const [lyDo, setLyDo] = useState(
     'Hoãn tốt nghiệp (Do: 1. Có nguyện vọng học cải thiện một số học phần để có kết quả học tập tốt hơn).',
   )
-  const [yeuCau, setYeuCau] = useState(YEU_CAU_CONSTANTS.HoanTotNghiep)
+  const yeuCau = YEU_CAU_CONSTANTS.HoanTotNghiep
   const [giayToKemTheo, setGiayToKemTheo] = useState(
     '1. Đơn xin hoãn xét công nhận tốt nghiệp.',
   )
@@ -93,7 +92,7 @@ function DangKyTotNghiep() {
       if (result.isConfirmed) {
         handlePostData(data)
       } else if (result.isDenied) {
-        Swal.fire(`Đã hủy gửi yêu cầu xác nhận`, '', 'info')
+        Swal.fire(`Đã hủy gửi yêu cầu đăng ký tốt nghiệp`, '', 'info')
       }
     })
   }
@@ -124,14 +123,11 @@ function DangKyTotNghiep() {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `Đã gửi yêu cầu xác nhận thành công`,
+            title: `Gửi yêu cầu thành công`,
+            text: `Vui lòng chờ kết quả xử lý từ phòng Đào tạo`,
             showConfirmButton: false,
             timer: 1500,
           })
-
-          setTimeout(() => {
-            window.location.reload()
-          }, 1000)
         }
       }
     } catch (error) {

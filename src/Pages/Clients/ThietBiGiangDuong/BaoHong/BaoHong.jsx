@@ -5,7 +5,6 @@ import {
   updateBaoHong,
 } from '@/Apis/HoTroThietBiGiangDuong/apiBaoHong'
 import { BaoHongView } from '@/Components/HoTroThietBiGiangDuong/BaoHong/BaoHongView'
-import LichHoc from '@/Components/HoTroThietBiGiangDuong/BaoHong/LichHoc'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 import dayjs from 'dayjs'
 import { isEmpty } from 'lodash-unified'
@@ -124,8 +123,6 @@ export default function BaoHong() {
         return
       }
       if (resPostData.status === 200) {
-        const data = await resPostData.data
-
         Swal.fire({
           position: 'center',
           icon: 'success',
@@ -133,9 +130,6 @@ export default function BaoHong() {
           showConfirmButton: false,
           timer: 1500,
         })
-        setTimeout(() => {
-          window.location.reload()
-        }, 1000)
       }
     } catch (error) {
       console.log(error)

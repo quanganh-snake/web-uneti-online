@@ -18,6 +18,7 @@ import {
   transformSubmitValue,
 } from '@/Services/Utils/dataSubmitUtils'
 import { retries } from '@/Services/Utils/requestUtils'
+import { required } from '@/Services/Validators/required'
 
 const CHUYEN_DIEM_PREFIX = 'MC_DT_ChuyenDiem_'
 const CHUYEN_DIEM_FILE_PREFIX = `${CHUYEN_DIEM_PREFIX}YeuCau_`
@@ -138,6 +139,10 @@ function ChuyenDiem() {
   const handleSubmitData = async (e) => {
     e.preventDefault()
 
+    if (!middlewareSubmitData()) {
+      return
+    }
+
     const dataChuyenDiem = makePostDataSv(
       makeDataSv(dataSV, CHUYEN_DIEM_PREFIX),
       {
@@ -164,6 +169,13 @@ function ChuyenDiem() {
         Swal.fire('Đã hủy gửi yêu cầu hủy đăng ký chuyển điểm', '', 'info')
       }
     })
+  }
+
+  const middlewareSubmitData = () => {
+    return [
+      required(lyDo, 'Vui lòng nhập lý do!'),
+      required(giayToKemTheo, 'Vui lòng nhập giấy tờ kèm theo!'),
+    ].every((e) => e == true)
   }
 
   const handleSubmitDataChuyenDiemChiTiet = async () => {
@@ -255,10 +267,6 @@ function ChuyenDiem() {
     return dataChuyenDiemChiTiet
   }
 
-  // useEffect(() => {
-
-  // }, [chuyenDiemID])
-
   const handlePostChuyenDiem = async (dataChuyenDiem) => {
     const resPostDataChuyenDiem = await postChuyenDiem(dataChuyenDiem)
 
@@ -305,7 +313,8 @@ function ChuyenDiem() {
     Swal.fire({
       position: 'center',
       icon: 'success',
-      title: `Yêu cầu chuyển điểm môn ${dataChuyenDiemChiTiet.MC_DT_ChuyenDiem_ChiTiet_MTD_TenMonHoc} đã được gửi thành công. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+      title: `Gửi yêu cầu thành công`,
+      text: `Vui lòng chờ kết quả xử lý từ phòng Đào tạo`,
       showConfirmButton: false,
       timer: 1500,
     })
@@ -324,8 +333,8 @@ function ChuyenDiem() {
         if (checkTrungChuyenDiem.data?.body.length) {
           Swal.fire({
             icon: 'error',
-            title: 'Thông báo trùng',
-            text: `Yêu cầu chuyển điểm môn ${hocPhanTuongDuong.HT_HPTD_MCD_TenMonHoc} đã được gửi trước đấy. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+            title: 'Yêu cầu quá nhiều',
+            text: `Yêu cầu đã được gửi trước đó!`,
           })
           return
         }
@@ -336,10 +345,6 @@ function ChuyenDiem() {
 
       const dataChuyenDiemChiTiet = await handleSubmitDataChuyenDiemChiTiet()
       await handlePostChuyenDiemChiTiet(dataChuyenDiemChiTiet)
-
-      // setTimeout(() => {
-      //   window.location.reload()
-      // }, 1000)
     } catch (error) {
       console.log(error)
       if (!error.response) {
