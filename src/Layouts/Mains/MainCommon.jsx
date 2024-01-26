@@ -4,9 +4,10 @@ import { useLocation } from 'react-router-dom'
 import HeaderSV from '../Headers/HeaderSV/HeaderSV'
 import HeaderCBGV from '../Headers/HeaderCBGV/HeaderCBGV'
 import AutoScrollTop from '@/Components/BackToTop/AutoScrollTop'
-import { store } from '@/Services/Redux/store'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
+
+import '../Headers/Header.scss'
 
 function MainCommon() {
   const location = useLocation()
