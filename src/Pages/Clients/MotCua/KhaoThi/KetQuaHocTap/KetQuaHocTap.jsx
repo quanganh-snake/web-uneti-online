@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import KetQuaHocTapView from './KetQuaHocTapView'
 import {
   getAllHocPhanKQHT,
-  getKiemTraTrungKQHT,
   getTenDotKQHT,
   postKQHT,
 } from '@/Apis/MotCua/KhaoThi/apiKetQuaHocTap'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import Swal from 'sweetalert2'
-import { isEmpty } from 'lodash-unified'
 import { required } from '@/Services/Validators/required'
 import {
   makeDataSv,
@@ -156,21 +154,18 @@ function KetQuaHocTap() {
         if (data.message === 'Bản ghi bị trùng.') {
           Swal.fire({
             icon: 'error',
-            title: 'Thông báo trùng',
-            text: `Học phần ${dataHocPhan.MC_KT_KetQuaHT_TenMonHoc} đã được gửi yêu cầu sửa điểm trước đây. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng`,
+            title: 'Yêu cầu quá nhiều',
+            text: `Yêu cầu đã được gửi trước đó!`,
           })
         } else {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `Học phần ${dataHocPhan.MC_KT_KetQuaHT_TenMonHoc} đã được gửi yêu cầu sửa điểm thành công. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+            title: `Gửi yêu cầu thành công`,
+            text: `Vui lòng chờ kết quả xử lý từ phòng Khảo thí và Đảm bảo chất lượng`,
             showConfirmButton: false,
             timer: 1500,
           })
-
-          setTimeout(() => {
-            window.location.reload()
-          }, 1000)
         }
       }
     } catch (error) {
@@ -199,7 +194,9 @@ function KetQuaHocTap() {
         setLoading(false)
         if (tenDot !== 'Tất cả học kỳ') {
           setListHocPhan(() =>
-            (res?.data?.body).filter((hocPhan) => hocPhan.TenDot === tenDot),
+            (res?.data?.body || []).filter(
+              (hocPhan) => hocPhan.TenDot === tenDot,
+            ),
           )
         } else {
           setListHocPhan(() => res?.data?.body)

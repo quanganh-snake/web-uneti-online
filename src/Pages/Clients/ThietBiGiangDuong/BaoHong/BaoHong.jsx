@@ -130,9 +130,6 @@ export default function BaoHong() {
           showConfirmButton: false,
           timer: 1500,
         })
-        setTimeout(() => {
-          window.location.reload()
-        }, 1000)
       }
     } catch (error) {
       console.log(error)

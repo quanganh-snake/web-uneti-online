@@ -1,4 +1,3 @@
-import React from 'react'
 import PhucKhaoView from './PhucKhaoView'
 import { useState } from 'react'
 import Swal from 'sweetalert2'
@@ -127,8 +126,8 @@ function PhucKhao() {
         moment(dataHocPhan.MC_KT_PhucKhao_NgayThi).format('DD/MM/YYYY'),
       )
       if (checkQuaHanPhucKhao.status === 200) {
-        const { KetQua } = checkQuaHanPhucKhao.data?.body[0]
-        if (KetQua === 0) {
+        const body = checkQuaHanPhucKhao.data?.body
+        if (body?.[0].KetQua === 0) {
           Swal.fire({
             icon: 'error',
             title: 'Thông báo quá hạn',
@@ -153,21 +152,18 @@ function PhucKhao() {
           if (data.message === 'Bản ghi bị trùng.') {
             Swal.fire({
               icon: 'error',
-              title: 'Thông báo trùng',
-              text: `Học phần ${dataHocPhan.MC_KT_PhucKhao_TenMonHoc} đã được gửi phúc khảo trước đấy. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+              title: 'Yêu cầu quá nhiều',
+              text: `Yêu cầu đã được gửi trước đó!`,
             })
           } else {
             Swal.fire({
               position: 'center',
               icon: 'success',
-              title: `Học phần ${dataHocPhan.MC_KT_PhucKhao_TenMonHoc} đã được gửi phúc khảo thành công. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+              title: `Gửi yêu cầu thành công`,
+              text: `Vui lòng chờ kết quả xử lý từ phòng Khảo thí và Đảm bảo chất lượng`,
               showConfirmButton: false,
               timer: 1500,
             })
-
-            setTimeout(() => {
-              window.location.reload()
-            }, 1000)
           }
         }
       }

@@ -5,7 +5,6 @@ import { getTenDot } from '@/Apis/MotCua/apiTenDot'
 import {
   getAllHocPhanDKLopChatLuong,
   getKiemTraQuaHanDKLopChatLuong,
-  getKiemTraTrungDKLopChatLuong,
   postDKLopChatLuong,
 } from '@/Apis/MotCua/DaoTao/apiDangKyLopChatLuong'
 import Swal from 'sweetalert2'
@@ -16,6 +15,7 @@ import {
   transformSubmitValue,
 } from '@/Services/Utils/dataSubmitUtils'
 import { isEmpty } from 'lodash-unified'
+import { required } from '@/Services/Validators/required'
 
 const MC_DT_DKHocChatLuong_PREFIX = 'MC_DT_DKHocChatLuong_'
 
@@ -91,8 +91,17 @@ function DangKyLopChatLuong() {
     setLyDoKhac('')
   }, [lyDo])
 
+  const middlewareSubmitData = () => {
+    if (lyDo !== '1') return true
+    return [required(lyDoKhac, 'Vui lòng nhập lý do!')].every((e) => e == true)
+  }
+
   const handleSubmitData = async (e) => {
     e.preventDefault()
+
+    if (!middlewareSubmitData()) {
+      return
+    }
 
     // check chưa chọn học kỳ hoặc học phần
     if (hocKy === '' || isEmpty(hocPhan)) {
@@ -133,7 +142,7 @@ function DangKyLopChatLuong() {
       if (result.isConfirmed) {
         await handlePostData(dataHocPhan)
       } else if (result.isDenied) {
-        Swal.fire('Đã hủy gửi yêu cầu hủy đăng ký thi lại', '', 'info')
+        Swal.fire('Đã hủy gửi yêu cầu hủy đăng ký lớp chất lượng', '', 'info')
       }
     })
   }
@@ -149,30 +158,7 @@ function DangKyLopChatLuong() {
           Swal.fire({
             icon: 'error',
             title: 'Thông báo quá hạn',
-            text: `Lớp chất lượng ${
-              dataHocPhan.MC_DT_DKHocChatLuong_TenLop
-            } hiện tại không thể đăng ký (Hạn đăng ký từ ngày ${dayjs(
-              ngayBatDau,
-            ).format('DD-MM-YYYY')} đến ngày ${dayjs(ngayKetThuc).format(
-              'DD-MM-YYYY',
-            )})`,
-          })
-          return
-        }
-      }
-
-      //Kiểm tra trùng
-      const checkTrungDKLopChatLuong = await getKiemTraTrungDKLopChatLuong(
-        dataHocPhan.MC_DT_DKHocChatLuong_MaSinhVien,
-        dataHocPhan.MC_DT_DKHocChatLuong_YeuCau_LyDo,
-        dataHocPhan.MC_DT_DKHocChatLuong_MaLopHoc,
-      )
-      if (checkTrungDKLopChatLuong.status === 200) {
-        if (checkTrungDKLopChatLuong.data?.body[0]) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Thông báo trùng',
-            text: `Lớp chất lượng ${dataHocPhan.MC_DT_DKHocChatLuong_TenLop} đã được gửi yêu cầu đăng ký trước đây. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+            text: `Đã quá hạn đăng ký`,
           })
           return
         }
@@ -195,20 +181,18 @@ function DangKyLopChatLuong() {
         if (data.message === 'Bản ghi bị trùng.') {
           Swal.fire({
             icon: 'error',
-            title: 'Thông báo trùng',
-            text: `Lớp chất lượng ${dataHocPhan.MC_DT_DKHocChatLuong_TenLop} đã được gửi yêu cầu đăng ký trước đây. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+            title: 'Yêu cầu quá nhiều',
+            text: `Yêu cầu đã được gửi trước đó!`,
           })
         } else {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `Lớp chất lượng ${dataHocPhan.MC_DT_DKHocChatLuong_TenLop} đã được được gửi yêu cầu đăng ký thành công. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+            title: `Gửi yêu cầu thành công`,
+            text: `Vui lòng chờ kết quả xử lý từ phòng Đào tạo`,
             showConfirmButton: false,
             timer: 1500,
           })
-          setTimeout(() => {
-            window.location.reload()
-          }, 1000)
         }
       }
     } catch (error) {

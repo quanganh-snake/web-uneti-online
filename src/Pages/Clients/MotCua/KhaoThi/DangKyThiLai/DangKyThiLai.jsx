@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
-import FormDangKyThiLai from './FormDangKyThiLai'
+import { useEffect, useState } from 'react'
 import DangKyThiLaiView from './DangKyThiLaiView'
 import {
   getAllHocPhanDKThiLai,
-  getKiemTraTrung,
-  getTenDotDKThiLai,
   postDangKyThiLai,
 } from '@/Apis/MotCua/KhaoThi/apiDangKyThiLai'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
@@ -40,7 +36,6 @@ function DangKyThiLai() {
   ]
 
   const [loading, setLoading] = useState(true)
-  const [lichThi, setLichThi] = useState([])
   const [listHocKy, setListHocKy] = useState([])
   const [hocKy, setHocKy] = useState('')
   const [lyDo, setLyDo] = useState('0')
@@ -129,20 +124,18 @@ function DangKyThiLai() {
         if (data.message === 'Bản ghi bị trùng.') {
           Swal.fire({
             icon: 'error',
-            title: 'Thông báo trùng',
-            text: `Học phần ${dataHocPhan.MC_KT_DangKyThi_TenMonHoc} đã được gửi yêu cầu thi lại trước đây. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng`,
+            title: 'Yêu cầu quá nhiều',
+            text: `Yêu cầu đã được gửi trước đó!`,
           })
         } else {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `Học phần ${dataHocPhan.MC_KT_DangKyThi_TenMonHoc} đã được gửi yêu cầu thi lại thành công. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+            title: `Gửi yêu cầu thành công`,
+            text: `Vui lòng chờ kết quả xử lý từ phòng Khảo thí và Đảm bảo chất lượng`,
             showConfirmButton: false,
             timer: 1500,
           })
-          setTimeout(() => {
-            window.location.reload()
-          }, 1000)
         }
       } else {
         Swal.fire({

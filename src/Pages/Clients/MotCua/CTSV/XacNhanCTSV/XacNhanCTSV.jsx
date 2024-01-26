@@ -124,14 +124,11 @@ function XacNhanCTSV() {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `Đã gửi yêu cầu xác nhận thành công`,
+            title: `Gửi yêu cầu thành công`,
+            text: `Vui lòng chờ kết quả xử lý từ phòng Chính trị và Công tác sinh viên`,
             showConfirmButton: false,
             timer: 1500,
           })
-
-          setTimeout(() => {
-            window.location.reload()
-          }, 1000)
         }
       }
     } catch (error) {

@@ -14,23 +14,23 @@ export const breadcrumbs = [
   },
 ]
 
-export const LY_DO_KHAC = 3
+export const LY_DO_KHAC = '3'
 
 export const listLyDo = [
   {
     id: 0,
     title: 'Trùng lịch thi',
-    value: 0,
+    value: '0',
   },
   {
     id: 1,
     title: 'Đi viện hoặc theo y/c bác sĩ',
-    value: 1,
+    value: '1',
   },
   {
     id: 2,
     title: 'Thực hiện nhiệm vụ nhà trường giao',
-    value: 2,
+    value: '2',
   },
   {
     id: 3,
