@@ -95,6 +95,9 @@ $appColor: map.merge(
     'primary': #245d7c,
     'primary-light': #336699,
     'primary-lighter': #0484ac,
+    'warn': #ffba00,
+    'danger': #ff4757,
+    'success': #46c93a,
   ),
   $appColor
 );
@@ -108,4 +111,18 @@ $radio: map.merge(
     'min-height': 20px,
   ),
   $radio
+);
+
+$lichBieu: () !default;
+$lichBieu: map.merge(
+  (
+    'warn': #ca970b,
+    'warn-bg': #fdff9a,
+    'primary': #245d7c,
+    'primary-bg': #7fc9f1,
+
+    'border': #245d7c,
+    'background': #7fc9f1,
+  ),
+  $lichBieu
 );

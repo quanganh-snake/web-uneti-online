@@ -1,4 +1,4 @@
-import dayjs from 'dayjs'
+import { dayjs } from '@/Services/Utils/dayjs'
 import DataTable from '@/Components/Base/DataTable/DataTable'
 import { useNamespace } from '@/Services/Hooks'
 import { Checkbox } from '@mui/material'

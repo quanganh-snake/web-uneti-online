@@ -3,7 +3,7 @@ import { isEqual, isNil } from 'lodash-unified'
 import Loading from '@/Components/Loading/Loading'
 import DataTable from '@/Components/Base/DataTable/DataTable'
 import { Checkbox } from '@mui/material'
-import dayjs from 'dayjs'
+import { dayjs } from '@/Services/Utils/dayjs'
 import FileSelect from '@/Components/Base/FileSelect/FileSelect'
 
 export const HoanThiTable = (props) => {

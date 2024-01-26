@@ -5,9 +5,8 @@ import {
   updateBaoHong,
 } from '@/Apis/HoTroThietBiGiangDuong/apiBaoHong'
 import { BaoHongView } from '@/Components/HoTroThietBiGiangDuong/BaoHong/BaoHongView'
-import LichHoc from '@/Components/HoTroThietBiGiangDuong/BaoHong/LichHoc'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
-import dayjs from 'dayjs'
+import { dayjs } from '@/Services/Utils/dayjs'
 import { isEmpty } from 'lodash-unified'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -124,8 +123,6 @@ export default function BaoHong() {
         return
       }
       if (resPostData.status === 200) {
-        const data = await resPostData.data
-
         Swal.fire({
           position: 'center',
           icon: 'success',

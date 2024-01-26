@@ -1,0 +1,55 @@
+@include b(lich-bieu) {
+  @include set-component-color(lich-bieu, $lichBieu);
+  @include set-var-value(lich-bieu-color, getCssVar(lich-bieu-primary));
+
+  padding: 12px 16px;
+  border-radius: 14px;
+  background-color: getColor(lich-bieu-background, 0.04);
+  border: 1px solid getColor(lich-bieu-border, 0.6);
+  min-width: 200px;
+  height: max-content;
+
+  @include when(ca-hoc) {
+    @include set-var-value(
+      lich-bieu-background,
+      getCssVar(lich-bieu-primary-bg)
+    );
+    @include set-var-value(lich-bieu-border, getCssVar(lich-bieu-primary));
+    @include set-var-value(lich-bieu-color, getCssVar(lich-bieu-primary));
+  }
+
+  @include when(ca-thi) {
+    @include set-var-value(lich-bieu-background, getCssVar(lich-bieu-warn-bg));
+    @include set-var-value(lich-bieu-border, getCssVar(lich-bieu-warn));
+    @include set-var-value(lich-bieu-color, getCssVar(lich-bieu-warn));
+  }
+
+  @include e(name) {
+    color: getColor(lich-bieu-color);
+    border-bottom: 1px solid getColor(lich-bieu-color, 0.25);
+    font-size: 14px;
+    padding-bottom: 5px;
+    margin-bottom: 7px;
+    font-weight: 500;
+  }
+
+  @include e(content) {
+    color: getColor(text, 0.75);
+    font-size: 13px;
+
+    p {
+      margin: 4px 0;
+    }
+  }
+
+  @include e(time) {
+    padding-top: 5px;
+    margin-top: 7px;
+    color: getColor(text, 0.75);
+    border-top: 1px solid getColor(lich-bieu-color, 0.25);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
