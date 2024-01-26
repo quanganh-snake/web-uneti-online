@@ -55,7 +55,7 @@ function DiemDanhView(props) {
                               </th>
                               <th
                                 colSpan={3}
-                                className=" py-4 min-w-[300px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0"
+                                className=" py-4 min-w-[300px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0 border-r-0"
                               >
                                 Số tiết nghỉ
                               </th>
@@ -67,7 +67,7 @@ function DiemDanhView(props) {
                               <th className=" py-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30">
                                 Không phép
                               </th>
-                              <th className=" py-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30">
+                              <th className=" py-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-r-0">
                                 Tổng
                               </th>
                             </tr>
@@ -115,7 +115,7 @@ function DiemDanhView(props) {
                                         mh.TC_SV_KetQuaHocTap_DiemDanhSinhVien_KhongPhep
                                       }
                                     </td>
-                                    <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
+                                    <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0 border-r-0">
                                       {
                                         mh.TC_SV_KetQuaHocTap_DiemDanhSinhVien_TongNghi
                                       }
@@ -138,7 +138,7 @@ function DiemDanhView(props) {
                               <td className="text-center font-semibold py-2 px-4 border border-solid border-uneti-primary border-opacity-30 border-b-0 border-l-0">
                                 {hk.khongPhep}
                               </td>
-                              <td className="text-center font-semibold py-2 px-4 border border-solid border-uneti-primary border-opacity-30 border-b-0 border-l-0">
+                              <td className="text-center font-semibold py-2 px-4 border border-solid border-uneti-primary border-opacity-30 border-b-0 border-l-0 border-r-0 ">
                                 {hk.tong}
                               </td>
                             </tr>
