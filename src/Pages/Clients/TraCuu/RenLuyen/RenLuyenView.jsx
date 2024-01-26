@@ -12,7 +12,7 @@ function RenLuyenView(props) {
           </h3>
           <div className="w-full">
             <div className="w-full my-4 overflow-x-scroll rounded-2xl border border-solid border-uneti-primary border-opacity-30">
-              <table className="text-vs-text text-sm rounded-3xl font-semibold">
+              <table className="text-vs-text text-sm rounded-3xl font-semibold w-full">
                 <thead>
                   <tr>
                     <th className=" py-4 px-2 min-w-[50px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0 border-l-0">

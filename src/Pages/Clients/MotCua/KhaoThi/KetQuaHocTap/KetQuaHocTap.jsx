@@ -55,7 +55,7 @@ function KetQuaHocTap() {
   const [tenDot, setTenDot] = useState('')
   const [lyDo, setLyDo] = useState(listLyDo[0])
   const [listHocPhan, setListHocPhan] = useState([])
-  const [diemSua, setDiemSua] = useState(0)
+  const [diemSua, setDiemSua] = useState('')
   const [lyDoChiTiet, setLyDoChiTiet] = useState('')
   const [selectedRow, setSelectedRow] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
@@ -77,6 +77,24 @@ function KetQuaHocTap() {
     e.preventDefault()
 
     if (!middlewareSubmitData()) {
+      return
+    }
+
+    if (isNaN(diemSua)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi',
+        text: 'Điểm yêu cầu sửa không hợp lệ',
+      })
+      return
+    }
+
+    if (+diemSua < 0 || +diemSua > 10) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi',
+        text: 'Điểm yêu cầu sửa không hợp lệ',
+      })
       return
     }
 
@@ -213,7 +231,7 @@ function KetQuaHocTap() {
     return () => {
       setListHocPhan([])
       setSelectedRow(null)
-      setDiemSua(0)
+      setDiemSua('')
       setLyDoChiTiet('')
     }
   }, [tenDot, lyDo])
@@ -221,15 +239,6 @@ function KetQuaHocTap() {
   useEffect(() => {
     setCurrentPage(1)
   }, [tenDot])
-
-  // check điểm từ 0 -> 10
-  useEffect(() => {
-    if (diemSua < 0) {
-      setDiemSua(() => 0)
-    } else if (diemSua > 10) {
-      setDiemSua(() => 10)
-    }
-  }, [diemSua])
 
   return (
     <KetQuaHocTapView

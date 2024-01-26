@@ -1,5 +1,3 @@
-import { TextField } from '@mui/material'
-
 function FormYeuCauSuaDiem(props) {
   const {
     lyDo,
@@ -26,9 +24,6 @@ function FormYeuCauSuaDiem(props) {
         <input
           value={diemSua}
           onChange={(e) => setDiemSua(e.target.value)}
-          type="number"
-          min={0}
-          max={10}
           className="flex-1 md:max-w-[70%] px-2 py-1 rounded-md border border-solid border-gray-300"
         />
       </div>
