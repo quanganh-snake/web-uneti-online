@@ -1,24 +1,17 @@
 import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import { breadcrumbs, home } from './constants'
-import { Link, useParams } from 'react-router-dom'
-import {
-  Autocomplete,
-  Checkbox,
-  MenuItem,
-  Select,
-  TextField,
-} from '@mui/material'
+import { Link } from 'react-router-dom'
+import { Autocomplete, Checkbox, TextField } from '@mui/material'
 import HuongDanSuDung from './HuongDanSuDung'
 import { useEffect, useState } from 'react'
 import {
   getAllKhacPhucXuLySuCo,
   getAllLichDayXuLySuCo,
   getAllNguyenNhanXuLySuCo,
-  getTTPhongXuLySuCo,
   updateXuLySuCo,
 } from '@/Apis/HoTroThietBiGiangDuong/apiXuLySuCo'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
-import dayjs from 'dayjs'
+import { dayjs } from '@/Services/Utils/dayjs'
 import { isEmpty } from 'lodash-unified'
 import Swal from 'sweetalert2'
 
@@ -141,8 +134,6 @@ function XuLySuCoView() {
         return
       }
       if (resPostData.status === 200) {
-        const data = await resPostData.data
-
         Swal.fire({
           position: 'center',
           icon: 'success',

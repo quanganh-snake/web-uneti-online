@@ -8,7 +8,7 @@ import {
   postDKLopChatLuong,
 } from '@/Apis/MotCua/DaoTao/apiDangKyLopChatLuong'
 import Swal from 'sweetalert2'
-import dayjs from 'dayjs'
+import { dayjs } from '@/Services/Utils/dayjs'
 import {
   makeDataSv,
   makePostDataSv,

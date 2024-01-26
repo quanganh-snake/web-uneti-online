@@ -1,6 +1,6 @@
 import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import { Pagination } from '@mui/material'
-import dayjs from 'dayjs'
+import { dayjs } from '@/Services/Utils/dayjs'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 

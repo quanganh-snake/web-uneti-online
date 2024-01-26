@@ -1,4 +1,3 @@
-import React from 'react'
 import { AiFillFileAdd } from 'react-icons/ai'
 function ModalYeuCauHoTro(props) {
   const { isShow, onShowModal } = props
@@ -45,6 +44,31 @@ function ModalYeuCauHoTro(props) {
                 </h3>
                 <form className="flex flex-col gap-4">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div className="col-span-2 lg:col-span-1">
+                      <label
+                        htmlFor="ddlPhong"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Hình thức báo hỏng{' '}
+                        <span className="text-red-700">*</span>
+                      </label>
+                      <select
+                        defaultValue={'Chọn hình thức báo hỏng'}
+                        name="ddlHinhThucBaoHong"
+                        id="ddlHinhThucBaoHong"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-3 py-2 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                      >
+                        <option value={''} selected defaultValue={''}>
+                          Chọn hình thức báo hỏng
+                        </option>
+                        <option value={'Báo hỏng theo hiện tượng'}>
+                          Báo hỏng theo hiện tượng
+                        </option>
+                        <option value={'Báo hỏng cụ thể'}>
+                          Báo hỏng cụ thể
+                        </option>
+                      </select>
+                    </div>
                     <div className="col-span-2 lg:col-span-1">
                       <label
                         htmlFor="DT_QLTS_TS_TenTaiSan"

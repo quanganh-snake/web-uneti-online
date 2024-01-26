@@ -20,6 +20,8 @@ export const logOut = async (role, dispatch, navigate, refreshToken) => {
       navigate('/dangnhap')
     }
     navigate('/dangnhap')
+    localStorage.removeItem('persist:root')
+    localStorage.removeItem('currentUrl')
     dispatch(logOutSuccess())
     dispatch(userSuccess(null))
   } catch (error) {

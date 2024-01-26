@@ -26,7 +26,8 @@ function HeaderSV() {
   const refreshToken = state?.auth?.login?.currentToken?.refreshToken
   const handleLogout = () => {
     localStorage.removeItem('persist:root')
-    logOut(state.user.currentUser.Role, dispatch, navigate, refreshToken)
+    localStorage.removeItem('currentUrl')
+    logOut(dataSV?.Role, dispatch, navigate, refreshToken)
     persistor.purge()
   }
 

@@ -55,7 +55,9 @@ export default function CauHoi(props) {
             color={IDCauTraLoiDung == IDCauTraLoi1 ? 'success' : 'danger'}
           >
             <div
-              dangerouslySetInnerHTML={{ __html: convertRtfToText(CauTraLoi1) }}
+              dangerouslySetInnerHTML={{
+                __html: convertRtfToText(CauTraLoi1),
+              }}
             />
           </Radio>
 
@@ -68,7 +70,9 @@ export default function CauHoi(props) {
             color={IDCauTraLoiDung == IDCauTraLoi2 ? 'success' : 'danger'}
           >
             <div
-              dangerouslySetInnerHTML={{ __html: convertRtfToText(CauTraLoi2) }}
+              dangerouslySetInnerHTML={{
+                __html: convertRtfToText(CauTraLoi2),
+              }}
             />
           </Radio>
 
@@ -81,7 +85,9 @@ export default function CauHoi(props) {
             color={IDCauTraLoiDung == IDCauTraLoi3 ? 'success' : 'danger'}
           >
             <div
-              dangerouslySetInnerHTML={{ __html: convertRtfToText(CauTraLoi3) }}
+              dangerouslySetInnerHTML={{
+                __html: convertRtfToText(CauTraLoi3),
+              }}
             />
           </Radio>
 
@@ -94,7 +100,9 @@ export default function CauHoi(props) {
             color={IDCauTraLoiDung == IDCauTraLoi4 ? 'success' : 'danger'}
           >
             <div
-              dangerouslySetInnerHTML={{ __html: convertRtfToText(CauTraLoi4) }}
+              dangerouslySetInnerHTML={{
+                __html: convertRtfToText(CauTraLoi4),
+              }}
             />
           </Radio>
         </div>

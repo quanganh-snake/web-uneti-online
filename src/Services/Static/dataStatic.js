@@ -31,6 +31,7 @@ import iconHTTBGDGopY from '@/assets/Icons/icoHTTBGDGopY.png'
 import icoTeamView from '@/assets/Icons/icoTeamviewer.png'
 import icoUltraView from '@/assets/Icons/icoUltraview.png'
 import icoZalo from '@/assets/Icons/icoZalo.png'
+import icoTraCuuTS from '@/assets/Icons/icoTraCuuTS.png'
 
 // icons - thumbnails Module Học Tập
 import icoKetQuaHocTapOnLuyen from '@/assets/Icons/icoKetQuaHocTapOnLuyen.png'
@@ -73,10 +74,10 @@ export const homeMain = [
     roleActive: ['SV'],
   },
   {
-    title: 'Hỗ trợ thiết bị sảnh phòng',
+    title: 'Hỗ trợ thiết bị',
     desc: 'Theo dõi và báo hỏng thiết bị ở sảnh, hành lang và phòng làm việc.',
     icon: icoHTTBSP,
-    path: '/hotrothietbisanhphong',
+    path: '/taisan',
     moduleActive: true,
     roleActive: ['GV'],
   },
@@ -1147,7 +1148,7 @@ export const homeHTTBGD = [
     desc: '<b>Tiếp nhận</b>: Báo hỏng các thiết bị giảng đường',
     path: '/baohong',
     thumbnail: iconHTTBGDBaoHong,
-    ico: icoKhaoThi,
+    ico: iconHTTBGDBaoHong,
     moduleActive: true,
   },
   {
@@ -1156,7 +1157,7 @@ export const homeHTTBGD = [
     desc: '<b>Tiếp nhận</b>: Xử lý sự cố giảng đường',
     path: '/xulysuco',
     thumbnail: iconHTTBGDXuLySuCo,
-    ico: icoKhaoThi,
+    ico: iconHTTBGDXuLySuCo,
     moduleActive: true,
   },
   {
@@ -1165,7 +1166,7 @@ export const homeHTTBGD = [
     desc: '<b>Tiếp nhận</b>: Đăng ký sử dụng thiết bị giảng đường',
     path: '/dangkysudungthietbi',
     thumbnail: iconHTTBGDDangKySuDungThietBi,
-    ico: icoKhaoThi,
+    ico: iconHTTBGDDangKySuDungThietBi,
     moduleActive: true,
   },
   {
@@ -1174,12 +1175,54 @@ export const homeHTTBGD = [
     desc: '<b>Tiếp nhận</b>: Góp ý',
     path: '/gopy',
     thumbnail: iconHTTBGDGopY,
-    ico: icoKhaoThi,
+    ico: iconHTTBGDGopY,
     moduleActive: true,
   },
 ]
 
 export const homeTaiSan = {
+  listFeatures: [
+    {
+      id: 1,
+      title: 'Báo hỏng tài sản',
+      name: 'Báo hỏng tài sản',
+      path: '/baohongtaisan',
+      desc: '<b>Báo hỏng</b>: Các thiết bị đang sử dụng, đang quản lý.',
+      thumbnail: iconHTTBGDBaoHong,
+      roleActive: ['Admin', 'GV', 'CBNV'],
+      moduleActive: true,
+    },
+    {
+      id: 2,
+      title: 'Tra cứu tài sản',
+      name: 'Tra cứu tài sản',
+      path: '/tracuutaisan',
+      desc: '<b>Tra cứu</b>: Thông tin tài sản, thông tin nhóm thiết bị đi kèm, nhân sự quản lý, nhân sự sử dụng.',
+      thumbnail: icoTraCuuTS,
+      roleActive: ['Admin', 'GV', 'CBNV'],
+      moduleActive: true,
+    },
+    {
+      id: 3,
+      title: 'Sửa chữa tài sản',
+      name: 'Sửa chữa tài sản',
+      path: '/suachuataisan',
+      desc: '<b>Sửa chữa</b>: Những tài sản được báo hỏng.',
+      thumbnail: iconHTTBGDXuLySuCo,
+      roleActive: ['Admin', 'GV', 'CBNV'],
+      moduleActive: true,
+    },
+    {
+      id: 4,
+      title: 'Cập nhật thông tin tài sản',
+      name: 'Cập nhật thông tin tài sản',
+      path: '/capnhattaisan',
+      desc: '<b>Cập nhật</b>: Thông tin tài sản, thông tin nhóm thiết bị đi kèm, nhân sự quản lý, nhân sự sử dụng.',
+      thumbnail: iconHTTBGDGopY,
+      roleActive: ['Admin', 'GV', 'CBNV'],
+      moduleActive: true,
+    },
+  ],
   listCanBoHoTro: [
     {
       id: 1,
@@ -1402,3 +1445,48 @@ export const dataLoaiThi = [
     value: 'Thi lại',
   },
 ]
+
+export const listCoSo = [
+  {
+    id: 1,
+    title: 'Hà Nội',
+    value: 'Hà Nội',
+  },
+  {
+    id: 2,
+    title: 'Nam Định',
+    value: 'Nam Định',
+  },
+]
+
+export const listDiaDiem = {
+  haNoi: [
+    {
+      id: 1,
+      title: '1 - 456 Minh Khai',
+      value: '1 - 456 Minh Khai',
+    },
+    {
+      id: 2,
+      title: '2 - 454 Minh Khai',
+      value: '2 - 454 Minh Khai',
+    },
+    {
+      id: 3,
+      title: '3 - 218 Lĩnh Nam',
+      value: '3 - 218 Lĩnh Nam',
+    },
+  ],
+  namDinh: [
+    {
+      id: 4,
+      title: '4 - 353 Trần Hưng Đạo',
+      value: '4 - 353 Trần Hưng Đạo',
+    },
+    {
+      id: 5,
+      title: '5 - Mỹ Xá',
+      value: '5 - Mỹ Xá',
+    },
+  ],
+}

@@ -1,0 +1,41 @@
+@include b(datepicker) {
+  user-select: none;
+  color: getColor(text);
+
+  @include e(input) {
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    background-color: getColor(gray-3);
+    transition: all 0.25s ease;
+    z-index: 1;
+    height: 36px;
+    padding-left: 120px;
+    padding-right: 10px;
+
+    position: relative;
+    // color: transparent;
+
+    &:focus {
+      &::before {
+        left: 20px;
+      }
+    }
+
+    &::before {
+      transition: all 0.25s ease;
+      position: absolute;
+      top: 6px;
+      left: 16px;
+      content: attr(data-date);
+      display: inline-block;
+      color: getColor(text);
+    }
+
+    &::-webkit-datetime-edit,
+    &::-webkit-inner-spin-button,
+    &::-webkit-clear-button {
+      display: none;
+    }
+  }
+}

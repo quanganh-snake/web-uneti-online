@@ -196,7 +196,7 @@ function HoanThi() {
   }
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const res = await getTenDot()
       setListHocKy(res?.data?.body)
     })()

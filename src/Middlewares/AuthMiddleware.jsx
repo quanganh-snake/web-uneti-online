@@ -1,9 +1,11 @@
-import React from 'react'
+import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { Navigate, Outlet } from 'react-router-dom'
+import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 function AuthMiddleware() {
+  const { pathname } = useLocation()
+
   const dataSV = DataSinhVien()
   const dataCBGV = DataCanBoGV()
 
@@ -19,6 +21,11 @@ function AuthMiddleware() {
   const dataAuth = useSelector(
     (state) => state.auth?.login?.currentToken?.token,
   )
+
+  useEffect(() => {
+    localStorage.setItem('currentUrl', pathname)
+  }, [pathname])
+
   if (
     dataAuth == null ||
     dataAuth == undefined ||

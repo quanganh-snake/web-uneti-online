@@ -1,16 +1,15 @@
-import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 // data
-import noAvatar from '../../../assets/Images/noavatar.png'
-import logoUNETI from '../../../assets/Images/LOGO_UNETI.ico'
+import noAvatar from '@/assets/Images/noavatar.png'
+import logoUNETI from '@/assets/Images/LOGO_UNETI.ico'
 import { useDispatch } from 'react-redux'
 import DropdownProfileTeacher from '../DropdownProfileTeacher.jsx'
-import { DataCanBoGV } from '../../../Services/Utils/dataCanBoGV.js'
-import NavbarTTHCGV from '../../../Components/Navbars/NavbarTTHCGV.jsx'
-import { logOut } from '../../../Apis/apiLogout.js'
-import { persistor, store } from '../../../Services/Redux/store.js'
-import MenuMobileTTHCGV from '../../../Components/MenuMobiles/MenuMobileTTHCGV.jsx'
+import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV.js'
+import NavbarTTHCGV from '@/Components/Navbars/NavbarTTHCGV.jsx'
+import { logOut } from '@/Apis/apiLogout.js'
+import { persistor, store } from '@/Services/Redux/store.js'
+import MenuMobileTTHCGV from '@/Components/MenuMobiles/MenuMobileTTHCGV.jsx'
 
 function HeaderCBGV() {
   const dataCBGV = DataCanBoGV()
@@ -22,6 +21,7 @@ function HeaderCBGV() {
   const refreshToken = state?.auth?.login?.currentToken?.refreshToken
   const handleLogout = () => {
     localStorage.removeItem('persist:root')
+    localStorage.removeItem('currentUrl')
     logOut(dataCBGV.Role, dispatch, navigate, refreshToken)
     persistor.purge()
   }

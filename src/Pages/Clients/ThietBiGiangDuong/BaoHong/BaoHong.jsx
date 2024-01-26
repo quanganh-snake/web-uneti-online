@@ -6,7 +6,7 @@ import {
 } from '@/Apis/HoTroThietBiGiangDuong/apiBaoHong'
 import { BaoHongView } from '@/Components/HoTroThietBiGiangDuong/BaoHong/BaoHongView'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
-import dayjs from 'dayjs'
+import { dayjs } from '@/Services/Utils/dayjs'
 import { isEmpty } from 'lodash-unified'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'

@@ -1,6 +1,4 @@
 import { Checkbox } from '@mui/material'
-import dayjs from 'dayjs'
-import { useState } from 'react'
 
 export default function LichHoc(props) {
   const { listLichHoc, selectedLichHoc, handleSelectLichHoc } = props
