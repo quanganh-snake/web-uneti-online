@@ -12,7 +12,7 @@
     "serve": "npm run build && vite preview",
     "format": "prettier --write --cache --end-of-line=crlf .",
     "prepare": "husky install",
-    "precommit": "npm run format && lint-staged"
+    "precommit": "lint-staged"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",

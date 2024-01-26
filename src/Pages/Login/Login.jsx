@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {
   AiOutlineEye,
   AiOutlineEyeInvisible,
@@ -216,7 +216,8 @@ function Login() {
       )
     }
     setLoading(false)
-    navigate('/uneti')
+    const currentUrl = localStorage.getItem('currentUrl') ?? '/uneti'
+    navigate(currentUrl)
   }
 
   const handleEnterPressKey = (e) => {

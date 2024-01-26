@@ -2,6 +2,9 @@ import { Route } from 'react-router-dom'
 import AuthMiddleware from '@/Middlewares/AuthMiddleware'
 import Home from '@/Pages/Clients/Home/Home'
 import HomeMotCua from '@/Pages/Clients/MotCua'
+// Middlewares
+import RoleMiddleware from '@/Middlewares/RoleMiddleware.jsx'
+import RoleViewActionMiddleware from '@/Middlewares/RoleViewActionMiddleware'
 
 // Pages MC - Khảo Thí
 import HomeKhaoThi from '@/Pages/Clients/MotCua/KhaoThi'
@@ -45,8 +48,10 @@ import DangKySuDungThietBi from '@/Pages/Clients/ThietBiGiangDuong/DangKySuDungT
 import GopY from '@/Pages/Clients/ThietBiGiangDuong/GopY/GopY'
 
 // Pages Tài Sản
-import HomeTaiSan from '@/Pages/Clients/TaiSan/index'
-import RoleMiddleware from '@/Middlewares/RoleMiddleware.jsx'
+import HomeTaiSan from '@/Pages/Clients/TaiSan/'
+import BaoHongTaiSan from '@/Pages/Clients/TaiSan/BaoHongTaiSan/BaoHongTaiSan'
+
+// Page Thủ tục hành chính Giảng viên
 import HomeTTHCGV from '@/Pages/Clients/ThuTucHanhChinhGiangVien/HomeTTHCGV.jsx'
 import ChiTietThuTuc from '@/Pages/Clients/ThuTucHanhChinhGiangVien/ChiTietThuTuc/ChiTietThuTuc.jsx'
 import SoanHoSo from '@/Pages/Clients/ThuTucHanhChinhGiangVien/SoanHoSo/SoanHoSo'
@@ -65,7 +70,6 @@ import HoTroSuDungPhanMem from '@/Pages/Clients/HoTroSuDungPhanMem/HoTroSuDungPh
 // page theo dõi đề nghị SV
 import TheoDoiDeNghi from '@/Pages/Clients/TheoDoiDeNghi/TheoDoiDeNghi.jsx'
 import TheoDoiDeNghiChiTiet from '@/Pages/Clients/TheoDoiDeNghi/TheoDoiDeNghiChiTiet/TheoDoiDeNghiChiTiet.jsx'
-import RoleViewActionMiddleware from '@/Middlewares/RoleViewActionMiddleware'
 
 // Page học tập
 import HomeHocTap from '@/Pages/Clients/HocTap/index.jsx'
@@ -155,6 +159,7 @@ export const privateRoutes = (
       >
         <Route path="taisan">
           <Route index element={<HomeTaiSan />} />
+          <Route path="baohongtaisan" element={<BaoHongTaiSan />} />
         </Route>
       </Route>
       {/* Một cửa - Sinh Viên */}
