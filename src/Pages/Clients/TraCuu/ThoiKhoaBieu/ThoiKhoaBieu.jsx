@@ -4,16 +4,19 @@ import {
   getLichThiSinhVien,
 } from '@/Apis/TraCuu/apiLichHoc'
 import { Radio } from '@/Components/Base/Radio/Radio'
-import LichBieu from '@/Components/TraCuu/ThoiKhoaBieu/LichBieu/LichBieu'
 import CommonLayout from '@/Layouts/Common/CommonLayout'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { TYPE_LICH } from './constants'
 import { transformKeys } from '@/Services/Utils/objectUtils'
-import { compareWeekInYear, dayjs } from '@/Services/Utils/dayjs'
+import { dayjs } from '@/Services/Utils/dayjs'
 import Datepicker from '@/Components/Base/Datepicker/Datepicker'
 import Button from '@/Components/Base/Button/Button'
 import ThuTrongTuan from '@/Components/TraCuu/ThoiKhoaBieu/ThuTrongTuan/ThuTrongTuan'
-import { buildTableRow, getDate } from './utils'
+import { buildTableRow, isDateInWeek, getDate } from './utils'
+import { useNamespace } from '@/Services/Hooks'
+
+import './ThoiKhoaBieu.scss'
+import ListCaHoc from '@/Components/TraCuu/ThoiKhoaBieu/ListCaHoc/ListCaHoc'
 
 const LICH_HOC_PREFIX = 'TC_SV_KetQuaHocTap_LichHocSinhVien_'
 const LICH_THI_PREFIX = 'TC_SV_KetQuaHocTap_LichThiSinhVien_'
@@ -28,6 +31,8 @@ const CA_HOC = {
 }
 
 function ThoiKhoaBieu() {
+  const ns = useNamespace('thoi-khoa-bieu')
+
   const lichCached = useRef(new Map())
 
   const [lichHoc, setLichHoc] = useState([])
@@ -39,11 +44,11 @@ function ThoiKhoaBieu() {
   const dataSV = DataSinhVien()
 
   const lichHocTheoTuan = useMemo(() => {
-    return lichHoc.filter((e) => compareWeekInYear(e.NgayBatDau, currentDate))
+    return lichHoc.filter((e) => isDateInWeek(e.NgayBatDau, currentDate))
   }, [lichHoc, currentDate])
 
   const lichThiTheoTuan = useMemo(() => {
-    return lichThi.filter((e) => compareWeekInYear(e.NgayThi, currentDate))
+    return lichThi.filter((e) => isDateInWeek(e.NgayThi, currentDate))
   }, [lichThi, currentDate])
 
   const tatCaLichTheoTuan = useMemo(() => {
@@ -160,13 +165,11 @@ function ThoiKhoaBieu() {
   return (
     <>
       <CommonLayout>
-        <div className="text-center text-uneti-primary text-2xl font-semibold uppercase">
-          Tra cứ lịch học / lịch thi
-        </div>
+        <div className={ns.e('name')}>Tra cứ lịch học / lịch thi</div>
 
         {/* options */}
-        <div className="flex gap-6 items-center my-6 justify-end">
-          <div className="flex items-center gap-2">
+        <div className={ns.e('actions')}>
+          <div className={ns.em('actions', 'action')}>
             <Radio
               modelValue={loaiLich}
               name="loai-lich"
@@ -192,8 +195,10 @@ function ThoiKhoaBieu() {
               Lịch thi
             </Radio>
           </div>
+
           <div className="h-[20px] w-[2px] rounded-lg bg-slate-200" />
-          <div className="flex items-center gap-2">
+
+          <div className={ns.em('actions', 'action')}>
             <Datepicker
               modelValue={currentDate}
               onUpdateModelValue={setCurrentDate}
@@ -212,56 +217,11 @@ function ThoiKhoaBieu() {
         </div>
 
         {/* List lich hoc */}
-        <div className="overflow-x-scroll border border-uneti-primary border-opacity-30 rounded-[24px]">
-          <div>
-            <ThuTrongTuan currentDate={currentDate} />
-          </div>
-          <div>
-            <div className="flex min-h-[300px]">
-              <div className="flex flex-col w-60">
-                <div className="w-[100px] font-semibold flex justify-center items-center h-full border-b border-r border-uneti-primary border-opacity-30">
-                  Ca sáng
-                </div>
-              </div>
-              {lichCaSang.map((e, i) => {
-                return (
-                  <div
-                    className="flex flex-col w-60 min-w-[220px] py-2 px-2 border-b border-r border-uneti-primary border-opacity-30 last:border-r-0"
-                    key={`s-col-${i}`}
-                  >
-                    <div className="flex flex-col gap-4">
-                      {e.length
-                        ? e.map((x) => <LichBieu key={x.MaLopHocPhan} {...x} />)
-                        : null}
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-          <div>
-            <div className="flex min-h-[300px]">
-              <div className="flex flex-col w-60">
-                <div className="w-[100px] font-semibold flex justify-center items-center h-full border-b border-r border-uneti-primary border-opacity-30">
-                  Ca chiều
-                </div>
-              </div>
-              {lichCaChieu.map((e, i) => {
-                return (
-                  <div
-                    className="flex flex-col w-60 min-w-[220px] py-2 px-2 border-b border-r border-uneti-primary border-opacity-30 last:border-r-0"
-                    key={`c-col-${i}`}
-                  >
-                    <div className="flex flex-col gap-4">
-                      {e.length
-                        ? e.map((x) => <LichBieu key={x.MaLopHocPhan} {...x} />)
-                        : null}
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
+        <div className={ns.e('table')}>
+          <ThuTrongTuan currentDate={currentDate} />
+
+          <ListCaHoc CaHoc="Ca sáng" LichHoc={lichCaSang} />
+          <ListCaHoc CaHoc="Ca chiều" LichHoc={lichCaChieu} />
         </div>
       </CommonLayout>
     </>
