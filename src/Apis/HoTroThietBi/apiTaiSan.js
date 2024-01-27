@@ -118,3 +118,21 @@ export const getDanhSachTaiSan = async (DT_QLTS_TS_PhongHienTai = '') => {
     console.log(error)
   }
 }
+
+export const getDanhSachSuCoByHoTroThietBi = async (
+  params = {
+    DT_CVNB_TBGD_TL_Nhom1: 'HoTroThietBi',
+    DT_CVNB_TBGD_TL_Nhom2: 'DanhSachSuCo',
+  },
+) => {
+  try {
+    const response = await http.get('SP_DT_QLP_Phong_TiepNhan/DanhSachSuCo', {
+      params,
+    })
+    const data = await response.data
+    const listSuCo = await data?.body
+    return listSuCo
+  } catch (error) {
+    console.log(error.message)
+  }
+}
