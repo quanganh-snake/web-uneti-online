@@ -4,7 +4,8 @@ import { useMemo, useState } from 'react'
 import { Checkbox, Pagination } from '@mui/material'
 
 const DanhSachTaiSan = (props) => {
-  const { listTaiSan, taiSan, onSelectTaiSan } = props
+  const { listTaiSan, taiSan, onSelectTaiSan, onShowModal, onSetDataTaiSan } =
+    props
 
   const [page, setPage] = useState(1)
   const postsPerPage = 10
@@ -14,7 +15,7 @@ const DanhSachTaiSan = (props) => {
   }
 
   const totalPage = useMemo(
-    () => Math.ceil(listTaiSan.length / postsPerPage),
+    () => Math.ceil(listTaiSan?.length / postsPerPage),
     [listTaiSan],
   )
 
@@ -69,9 +70,16 @@ const DanhSachTaiSan = (props) => {
             </td>
             <td scope="row">
               <div className="flex items-center justify-center">
-                <p className="px-3 py-2 bg-sky-600 text-center text-white rounded-full cursor-pointer hover:opacity-80">
+                <button
+                  type="button"
+                  onClick={() => {
+                    onShowModal(true)
+                    onSetDataTaiSan(iTaiSan)
+                  }}
+                  className="px-3 py-2 bg-sky-600 text-center text-white rounded-full cursor-pointer hover:opacity-80"
+                >
                   Xem chi tiết
-                </p>
+                </button>
               </div>
             </td>
           </tr>

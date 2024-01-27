@@ -81,6 +81,9 @@ import KetQuaHocTapChiTiet from '@/Pages/Clients/HocTap/KetQuaHocTap/KetQuaHocTa
 import DeThi from '@/Pages/Clients/HocTap/OnLuyen/ThiThu/DanhSachDeThi/DeThi/DeThi'
 import ThiThuDanhSachDeThi from '@/Pages/Clients/HocTap/OnLuyen/ThiThu/DanhSachDeThi/DanhSachMonThi'
 import OnTapDanhSachCauHoi from '@/Pages/Clients/HocTap/OnLuyen/OnTap/DanhSachCauHoi/DanhSachCauHoi'
+import SuaChuaTaiSan from '@/Pages/Clients/TaiSan/SuaChuaTaiSan/SuaChuaTaiSan'
+import TraCuuTaiSan from '@/Pages/Clients/TaiSan/TraCuuTaiSan/TraCuuTaiSan'
+import CapNhatTaiSan from '@/Pages/Clients/TaiSan/CapNhatThongTinTaiSan/CapNhatTaiSan'
 
 const ROLES = {
   G0101: 'GV',
@@ -153,9 +156,12 @@ export const privateRoutes = (
       <Route
         element={<RoleMiddleware allowedRoles={[ROLES.G0101, ROLES.S0202]} />}
       >
-        <Route path="taisan">
+        <Route path="hotrothietbi">
           <Route index element={<HomeTaiSan />} />
           <Route path="baohongtaisan" element={<BaoHongTaiSan />} />
+          <Route path="suachuataisan" element={<SuaChuaTaiSan />} />
+          <Route path="tracuutaisan" element={<TraCuuTaiSan />} />
+          <Route path="capnhattaisan" element={<CapNhatTaiSan />} />
         </Route>
       </Route>
       {/* Một cửa - Sinh Viên */}
