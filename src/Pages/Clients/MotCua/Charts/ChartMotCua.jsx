@@ -4,6 +4,7 @@ import Chart from 'react-apexcharts'
 
 import './ChartMotCua.scss'
 import { getDanhSachThongKeYeuCau } from '@/Apis/MotCua/apiThongKe'
+import { getRGBColor } from '@/Services/Utils/colorUtils'
 
 function ChartMotCua() {
   const bem = useNamespace('uneti_chart')
@@ -96,7 +97,7 @@ function ChartMotCua() {
               <div
                 className={bem.em('details', 'item-color')}
                 style={bem.cssVar({
-                  color: '25, 92, 255',
+                  color: getRGBColor('#1a5cff'),
                 })}
               />
               <span>Khảo thí</span>
@@ -105,7 +106,7 @@ function ChartMotCua() {
               <div
                 className={bem.em('details', 'item-color')}
                 style={bem.cssVar({
-                  color: '70, 201, 58',
+                  color: getRGBColor('#46c93a'),
                 })}
               />
               <span>Đào tạo</span>
@@ -114,7 +115,7 @@ function ChartMotCua() {
               <div
                 className={bem.em('details', 'item-color')}
                 style={bem.cssVar({
-                  color: '255, 193, 47',
+                  color: getRGBColor('#ffba00'),
                 })}
               />
               <span>CT&CTSV</span>
@@ -123,7 +124,7 @@ function ChartMotCua() {
               <div
                 className={bem.em('details', 'item-color')}
                 style={bem.cssVar({
-                  color: '254, 90, 104',
+                  color: getRGBColor('#ff4757'),
                 })}
               />
               <span>Hành chính</span>

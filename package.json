@@ -9,7 +9,9 @@
     "lint": "eslint . --ext js,ts,jsx,tsx,md,json --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "serve": "npm run build && vite preview",
-    "format": "prettier --write --cache --end-of-line=crlf ."
+    "format": "prettier --write --cache --end-of-line=crlf .",
+    "prepare": "husky install",
+    "precommit": "lint-staged"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",

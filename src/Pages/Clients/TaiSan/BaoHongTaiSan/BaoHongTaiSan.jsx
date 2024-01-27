@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-
+import { useEffect, useState } from 'react'
 import {
   homeTaiSan,
   listCoSo,
@@ -16,13 +15,10 @@ import {
   getDanhSachToaNha,
   postYeuCauBaoHongTaiSan,
 } from '@/Apis/HoTroThietBi/apiTaiSan.js'
-import { tokenSuccess } from '@/Services/Redux/Slice/authSlice.js'
-import { useDispatch } from 'react-redux'
 import BaoHongTaiSanView from './BaoHongTaiSanView'
 import Swal from 'sweetalert2'
 import { required } from '@/Services/Validators/required'
-import moment from 'moment/moment'
-import dayjs from 'dayjs'
+import { dayjs } from '@/Services/Utils/dayjs'
 
 const BaoHongTaiSan = () => {
   const [loading, setLoading] = useState(true)
