@@ -6,6 +6,9 @@ import icoHTSDPM from '@/assets/Icons/icoHTSDPM.png'
 import icoTCTTTS from '@/assets/Icons/icoTCTTTS.png'
 import icoQLCTCV from '@/assets/Icons/icoQLCTCV.png'
 import icoHocTap from '@/assets/Icons/icoHocTap.png'
+import iconTraCuu from '@/assets/Icons/iconTraCuu.png'
+import iconDiemDanh from '@/assets/Icons/iconDiemDanh.png'
+import iconLich from '@/assets/Icons/iconLich.png'
 
 // icons - thumbnails homeMotCua
 import icoKhaoThi from '@/assets/Icons/icoKhaoThi.png'
@@ -63,20 +66,20 @@ export const homeMain = [
     roleActive: ['SV'],
   },
   {
-    title: 'Hỗ trợ thiết bị',
-    desc: 'Theo dõi và báo hỏng thiết bị; tra cứu thông tin thiết bị.',
-    icon: icoHTTBSP,
-    path: '/hotrothietbi',
-    moduleActive: true,
-    roleActive: ['GV', 'SV'],
-  },
-  {
-    title: 'Ôn luyện thi thử',
-    desc: 'Tiếp nhận ôn luyện, thi thử cho sinh viên.',
-    icon: icoTTHCSV,
-    path: '/hoctap',
+    title: 'Tra cứu',
+    desc: 'Tra cứu thông tin: Lịch học - Lịch thi; Điểm danh; Rèn luyện; Lịch thi; Công nợ.',
+    icon: iconTraCuu,
+    path: '/tracuu',
     moduleActive: true,
     roleActive: ['SV'],
+  },
+  {
+    title: 'Hỗ trợ thiết bị',
+    desc: 'Theo dõi và báo hỏng thiết bị ở sảnh, hành lang và phòng làm việc.',
+    icon: icoTCTTTS,
+    path: '/hotrothietbi',
+    moduleActive: true,
+    roleActive: ['GV'],
   },
   {
     title: 'Hỗ trợ sử dụng phần mềm',
@@ -116,7 +119,7 @@ export const homeMotCua = [
     childrens: [
       {
         title: 'Miễn học, thi Tiếng Anh',
-        desc: `<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">A. Mô tả:</span></span></strong></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Nếu người học cần đề nghị giải quyết các vấn đề sau:</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">1. Xin miễn học, miễn thi học phần đã đăng ký trong cùng học kỳ </span><em><span style=\"background-color:white\"><span style=\"color:red\">(chức năng này bị giới hạn không cho phép đề nghị trực tuyến, người học cần đến bộ phận Một cửa đề nghị trực tiếp)</span></span></em></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Người học tham khảo cách thực hiện theo hướng dẫn tại mục B.</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">B. Hướng dẫn thao tác:</span></span></strong></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 1: Click vào nút \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\"</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 2: Người học in đơn và điền các thông tin vào mẫu đơn</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 3: Người học mang đơn và bản chứng chỉ photo công chứng nộp tại Bộ phận hành chính Một cửa. </span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:14pt\"><strong><span style=\"color:red\">C. Ghi chú:</span></strong><strong> </strong></span></p>\n\n<p style=\"text-align:justify\"><span style=\"color:#000000\"><span style=\"font-size:16px\"><span style=\"font-family:Arial,Helvetica,sans-serif\">- Phần này chỉ tiếp nhận trước 2 tuần và sau 1 tuần kể từ thời điểm bắt đầu học kỳ.</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:14pt\"><span style=\"color:#000000\"><span style=\"font-size:12.0pt\">- Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ được mở lại trong một số trường hợp mà người học không thể đến trực tiếp như: Dịch bệnh, thiên tai …</span></span></span></p>\n\n<p> </p>\n`,
+        desc: `<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">A. Mô tả:</span></span></strong></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Nếu người học cần đề nghị giải quyết các vấn đề sau:</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">1. Xin miễn học, miễn thi học phần đã đăng ký trong cùng học kỳ </span><em><span style=\"background-color:white\"><span style=\"color:red\">(chức năng này bị giới hạn không cho phép đề nghị trực tuyến, người học cần đến bộ phận Một cửa đề nghị trực tiếp)</span></span></em></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Người học tham khảo cách thực hiện theo hướng dẫn tại mục B.</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">B. Hướng dẫn thao tác:</span></span></strong></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 1: Click vào nút \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\"</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 2: Người học in đơn và điền các thông tin vào mẫu đơn</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 3: Người học mang đơn và bản chứng chỉ photo công chứng nộp tại Bộ phận hành chính Một cửa. </span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:14pt\"><strong><span style=\"color:red\">C. Ghi chú:</span></strong><strong> </strong></span></p>\n\n<p style=\"text-align:justify\"><span style=\"color:#000000\"><span style=\"font-size:16px\"><span style=\"font-family:Arial,Helvetica,sans-serif\">- Phần này chỉ tiếp nhận trước 2 tuần và sau 1 tuần kể từ thời điểm bắt đầu học kỳ.</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:14pt\"><span style=\"color:#000000\"><span style=\"font-size:12.0pt\">- Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ được mở lại trong một số trường hợp mà người học không thể đến trực tiếp như: Dịch bệnh, thiên tai …</span></span></span></p>\n\n<p><a style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-khao-thi-va-dam-bao-chat-luong/'> - Xem chi tiết quy trình thực hiện tại đây.</a></p>\n`,
         path: '/mienhocthiTA',
         limited: true,
         visiable: true,
@@ -124,7 +127,7 @@ export const homeMotCua = [
       },
       {
         title: 'Phúc khảo',
-        desc: `<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">A. Mô tả:</span></span></strong></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Nếu người học cần đề nghị giải quyết các vấn đề sau:</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">1. Phúc khảo bài thi lần 1 </span><span style=\"color:#3498db\"><em><span style=\"background-color:white\">(cho phép đề nghị trực tuyến)</span></em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">2. Phúc khảo bài thi lại </span><span style=\"color:#3498db\"><em><span style=\"background-color:white\">(cho phép đề nghị trực tuyến)</span></em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Người học tham khảo cách thực hiện theo hướng dẫn tại mục B.</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">B. Hướng dẫn thao tác:</span></span></strong></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 1: Click vào nút \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\"</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 2: Chọn hoặc điền dữ liệu và các ô cần nhập dữ liệu</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 3: Tại lưới dữ liệu => Click \"</span><strong><span style=\"color:red\">Chọn</span></strong><span style=\"color:black\">\" dòng dữ liệu tương ứng với học phần và click \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\".</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:14pt\"><strong><span style=\"color:red\">C. Ghi chú:</span></strong><strong> </strong></span></p>\n\n<p style=\"text-align:justify\"><span style=\"color:#000000\"><span style=\"font-size:14pt\"><span style=\"font-size:12.0pt\">- <span style=\"background-color:white\">Người học thực hiện phúc khảo theo kế hoạch tổ chức thi (Ngày nộp đơn phúc khảo) trong từng học kỳ.</span></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"color:#000000\"><span style=\"font-size:14pt\"><span style=\"font-size:12.0pt\"><span style=\"background-color:white\">- Lệ phí phúc khảo kết quả học tập: Có mức thu theo quy định, được chuyển trực tiếp vào công nợ, người học nộp cùng học phí kỳ kế tiếp.</span></span></span></span></p>\n\n<p style=\"text-align:justify\"> </p>\n`,
+        desc: `<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">A. Mô tả:</span></span></strong></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Nếu người học cần đề nghị giải quyết các vấn đề sau:</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">1. Phúc khảo bài thi lần 1 </span><span style=\"color:#3498db\"><em><span style=\"background-color:white\">(cho phép đề nghị trực tuyến)</span></em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">2. Phúc khảo bài thi lại </span><span style=\"color:#3498db\"><em><span style=\"background-color:white\">(cho phép đề nghị trực tuyến)</span></em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Người học tham khảo cách thực hiện theo hướng dẫn tại mục B.</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">B. Hướng dẫn thao tác:</span></span></strong></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 1: Click vào nút \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\"</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 2: Chọn hoặc điền dữ liệu và các ô cần nhập dữ liệu</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 3: Tại lưới dữ liệu => Click \"</span><strong><span style=\"color:red\">Chọn</span></strong><span style=\"color:black\">\" dòng dữ liệu tương ứng với học phần và click \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\".</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:14pt\"><strong><span style=\"color:red\">C. Ghi chú:</span></strong><strong> </strong></span></p>\n\n<p style=\"text-align:justify\"><span style=\"color:#000000\"><span style=\"font-size:14pt\"><span style=\"font-size:12.0pt\">- <span style=\"background-color:white\">Người học thực hiện phúc khảo theo kế hoạch tổ chức thi (Ngày nộp đơn phúc khảo) trong từng học kỳ.</span></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"color:#000000\"><span style=\"font-size:14pt\"><span style=\"font-size:12.0pt\"><span style=\"background-color:white\">- Lệ phí phúc khảo kết quả học tập: Có mức thu theo quy định, được chuyển trực tiếp vào công nợ, người học nộp cùng học phí kỳ kế tiếp.</span></span></span></span></p>\n\n<p><a style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-khao-thi-va-dam-bao-chat-luong/'> - Xem chi tiết quy trình thực hiện tại đây.</a></p>\n`,
         path: '/phuckhao',
         limited: false,
         visiable: true,
@@ -132,7 +135,7 @@ export const homeMotCua = [
       },
       {
         title: 'Lịch thi',
-        desc: `<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">A. Mô tả:</span></span></strong></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Nếu người học cần đề nghị giải quyết các vấn đề sau:</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">1. Xem lịch thi </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">2. Trùng lịch thi </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">3. Không có lịch thi </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Người học tham khảo cách thực hiện theo hướng dẫn tại mục B.</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">B. Hướng dẫn thao tác:</span></span></strong></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 1: Click vào nút \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\"</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 2: Chọn hoặc điền dữ liệu và các ô cần nhập dữ liệu</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 3: Tại lưới dữ liệu => Click \"</span><strong><span style=\"color:red\">Chọn</span></strong><span style=\"color:black\">\" dòng dữ liệu tương ứng với học phần và click \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\".</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:14pt\"><strong><span style=\"color:red\">C. Ghi chú:</span></strong><strong> </strong><span style=\"color:#000000\"><span style=\"font-size:12.0pt\">Loading…</span></span></span></p>\n\n<p style=\"margin-left:.0001pt; margin-right:0\"> </p>\n`,
+        desc: `<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">A. Mô tả:</span></span></strong></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Nếu người học cần đề nghị giải quyết các vấn đề sau:</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">1. Xem lịch thi </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">2. Trùng lịch thi </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">3. Không có lịch thi </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Người học tham khảo cách thực hiện theo hướng dẫn tại mục B.</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">B. Hướng dẫn thao tác:</span></span></strong></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 1: Click vào nút \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\"</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 2: Chọn hoặc điền dữ liệu và các ô cần nhập dữ liệu</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 3: Tại lưới dữ liệu => Click \"</span><strong><span style=\"color:red\">Chọn</span></strong><span style=\"color:black\">\" dòng dữ liệu tương ứng với học phần và click \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\".</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:14pt\"><strong><span style=\"color:red\">C. Ghi chú:</span></strong><strong> </strong><span style=\"color:#000000\"><span style=\"font-size:12.0pt\">Loading…</span></span></span></p>\n\n<p><a style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-khao-thi-va-dam-bao-chat-luong/'> - Xem chi tiết quy trình thực hiện tại đây.</a></p>\n`,
         path: '/lichthi',
         limited: false,
         visiable: true,
@@ -140,7 +143,7 @@ export const homeMotCua = [
       },
       {
         title: 'Đăng ký thi lại',
-        desc: `<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">A. Mô tả:</span></span></strong></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Nếu người học cần đề nghị giải quyết các vấn đề sau:</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">1. Trùng lịch thi </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">2. Lỗi website Sinhvien.uneti.edu.vn </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">3. Khác hệ, loại hình đào tạo </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">4. Thi không theo kế hoạch </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">5. Lý do khác </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Người học tham khảo cách thực hiện theo hướng dẫn tại mục B.</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">B. Hướng dẫn thao tác:</span></span></strong></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 1: Click vào nút \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\"</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 2: Chọn hoặc điền dữ liệu và các ô cần nhập dữ liệu</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 3: Tại lưới dữ liệu => Click \"</span><strong><span style=\"color:red\">Chọn</span></strong><span style=\"color:black\">\" dòng dữ liệu tương ứng với học phần và click \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\".</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">C. Ghi chú: </span></span></strong><strong><span style=\"background-color:white\"><span style=\"color:red\"> </span></span></strong></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:16px\"><span style=\"background-color:white\"><span style=\"color:#000000\"><span style=\"background-color:white\">- Lệ phí thi lại sẽ nộp cùng học phí kỳ tiếp</span> theo.</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:#000000\">- Người học chỉ nên đăng ký thi lại tại đây, nếu gặp phải một số trường hợp như mục A.</span></span></span></p>\n\n<p style=\"text-align:justify\"> </p>\n`,
+        desc: `<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">A. Mô tả:</span></span></strong></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Nếu người học cần đề nghị giải quyết các vấn đề sau:</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">1. Trùng lịch thi </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">2. Lỗi website Sinhvien.uneti.edu.vn </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">3. Khác hệ, loại hình đào tạo </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">4. Thi không theo kế hoạch </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">5. Lý do khác </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Người học tham khảo cách thực hiện theo hướng dẫn tại mục B.</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">B. Hướng dẫn thao tác:</span></span></strong></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 1: Click vào nút \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\"</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 2: Chọn hoặc điền dữ liệu và các ô cần nhập dữ liệu</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 3: Tại lưới dữ liệu => Click \"</span><strong><span style=\"color:red\">Chọn</span></strong><span style=\"color:black\">\" dòng dữ liệu tương ứng với học phần và click \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\".</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">C. Ghi chú: </span></span></strong><strong><span style=\"background-color:white\"><span style=\"color:red\"> </span></span></strong></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:16px\"><span style=\"background-color:white\"><span style=\"color:#000000\"><span style=\"background-color:white\">- Lệ phí thi lại sẽ nộp cùng học phí kỳ tiếp</span> theo.</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:#000000\">- Người học chỉ nên đăng ký thi lại tại đây, nếu gặp phải một số trường hợp như mục A.</span></span></span></p>\n\n<p><a style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-khao-thi-va-dam-bao-chat-luong/'> - Xem chi tiết quy trình thực hiện tại đây.</a></p>\n`,
         path: '/dangkythilai',
         limited: false,
         visiable: true,
@@ -148,7 +151,7 @@ export const homeMotCua = [
       },
       {
         title: 'Hoãn thi',
-        desc: `<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">A. Mô tả:</span></span></strong></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Nếu người học cần đề nghị giải quyết các vấn đề sau:</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">1. Đi viện hoặc theo yêu cầu bác sĩ </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">2. Thực hiện nhiệm vụ nhà trường giao </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">3. Lý do khác </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Người học tham khảo cách thực hiện theo hướng dẫn tại mục B.</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">B. Hướng dẫn thao tác:</span></span></strong></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 1: Click vào nút \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\"</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 2: Chọn hoặc điền dữ liệu và các ô cần nhập dữ liệu</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 3: Tại lưới dữ liệu => Click \"</span><strong><span style=\"color:red\">Chọn</span></strong><span style=\"color:black\">\" dòng dữ liệu tương ứng với học phần, up ảnh và click \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\".</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:14pt\"><strong><span style=\"color:red\">C. Ghi chú:</span></strong><strong> </strong><span style=\"color:#000000\"><span style=\"font-size:12.0pt\">Ng<span style=\"font-size:16px\"><span style=\"font-family:Arial,Helvetica,sans-serif\">ười học làm đơn theo mẫu và giấy tờ minh chứn</span></span>g kèm theo.</span></span></span></p>\n\n<p> </p>\n`,
+        desc: `<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">A. Mô tả:</span></span></strong></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Nếu người học cần đề nghị giải quyết các vấn đề sau:</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">1. Đi viện hoặc theo yêu cầu bác sĩ </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">2. Thực hiện nhiệm vụ nhà trường giao </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">3. Lý do khác </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Người học tham khảo cách thực hiện theo hướng dẫn tại mục B.</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">B. Hướng dẫn thao tác:</span></span></strong></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 1: Click vào nút \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\"</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 2: Chọn hoặc điền dữ liệu và các ô cần nhập dữ liệu</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 3: Tại lưới dữ liệu => Click \"</span><strong><span style=\"color:red\">Chọn</span></strong><span style=\"color:black\">\" dòng dữ liệu tương ứng với học phần, up ảnh và click \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\".</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:14pt\"><strong><span style=\"color:red\">C. Ghi chú:</span></strong><strong> </strong><p style=\"color:#000000\"><span style=\"font-size:12.0pt\">- Ng<span style=\"font-size:16px\"><span style=\"font-family:Arial,Helvetica,sans-serif\">ười học làm đơn theo mẫu và giấy tờ minh chứn</span></span>g kèm theo.</span></p></span></p>\n\n<p><a style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-khao-thi-va-dam-bao-chat-luong/'> - Xem chi tiết quy trình thực hiện tại đây.</a></p>\n`,
         path: '/hoanthi',
         limited: false,
         visiable: true,
@@ -156,7 +159,7 @@ export const homeMotCua = [
       },
       {
         title: 'Hủy đăng ký thi lại',
-        desc: `<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">A. Mô tả:</span></span></strong></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Nếu người học cần đề nghị giải quyết các vấn đề sau:</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">1. Đạt điểm học phần sau khi phúc khảo </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">2. Điều chỉnh điểm thường kỳ (quá trình) </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">3. Hủy đăng ký thi lại để học lại </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">4. Lý do khác </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Người học tham khảo cách thực hiện theo hướng dẫn tại mục B.</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">B. Hướng dẫn thao tác:</span></span></strong></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 1: Click vào nút \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\"</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 2: Chọn hoặc điền dữ liệu và các ô cần nhập dữ liệu</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 3: Tại lưới dữ liệu => Click \"</span><strong><span style=\"color:red\">Chọn</span></strong><span style=\"color:black\">\" dòng dữ liệu tương ứng với học phần và click \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\".</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:14pt\"><strong><span style=\"color:red\">C. Ghi chú:</span></strong><strong> </strong></span><span style=\"color:#000000\"><span style=\"font-size:14pt\"><span style=\"font-size:12.0pt\">Thời điểm người học xin hủy đăng ký thi lại trước ngày thi 5 ngày và người học<span style=\"background-color:white\"> chưa nộp lệ phí thi lại.</span></span></span></span></p>\n\n<p> </p>\n`,
+        desc: `<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">A. Mô tả:</span></span></strong></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Nếu người học cần đề nghị giải quyết các vấn đề sau:</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">1. Đạt điểm học phần sau khi phúc khảo </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">2. Điều chỉnh điểm thường kỳ (quá trình) </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">3. Hủy đăng ký thi lại để học lại </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">4. Lý do khác </span><span style=\"color:#3498db\"><em>(cho phép đề nghị trực tuyến)</em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Người học tham khảo cách thực hiện theo hướng dẫn tại mục B.</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">B. Hướng dẫn thao tác:</span></span></strong></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 1: Click vào nút \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\"</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 2: Chọn hoặc điền dữ liệu và các ô cần nhập dữ liệu</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 3: Tại lưới dữ liệu => Click \"</span><strong><span style=\"color:red\">Chọn</span></strong><span style=\"color:black\">\" dòng dữ liệu tương ứng với học phần và click \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\".</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:14pt\"><strong><span style=\"color:red\">C. Ghi chú:</span></strong><strong> </strong></span><span style=\"color:#000000\"><p style=\"font-size:14pt\"><span style=\"font-size:12.0pt\">- Thời điểm người học xin hủy đăng ký thi lại trước ngày thi 5 ngày và người học<span style=\"background-color:white\"> chưa nộp lệ phí thi lại.</span></span></p></span></p>\n\n<p><a style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-khao-thi-va-dam-bao-chat-luong/'> - Xem chi tiết quy trình thực hiện tại đây.</a></p>\n`,
         path: '/huydangkythilai',
         limited: false,
         visiable: true,
@@ -164,7 +167,7 @@ export const homeMotCua = [
       },
       {
         title: 'Kết quả học tập',
-        desc: `<div style=\"text-align:left\">\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">A. Mô tả:</span></span></strong></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Nếu người học cần đề nghị giải quyết các vấn đề sau:</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">1. Xem kết quả học tập </span><span style=\"color:#3498db\"><em><span style=\"background-color:white\">(cho phép đề nghị trực tuyến)</span></em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">2. Điều chỉnh, bổ sung điểm thường kỳ </span><span style=\"color:#3498db\"><em><span style=\"background-color:white\">(cho phép đề nghị trực tuyến)</span></em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">3. Điều chỉnh, bổ sung điểm thi </span><span style=\"color:#3498db\"><em><span style=\"background-color:white\">(cho phép đề nghị trực tuyến)</span></em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Người học tham khảo cách thực hiện theo hướng dẫn tại mục B.</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">B. Hướng dẫn thao tác:</span></span></strong></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 1: Click vào nút \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\"</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 2: Chọn hoặc điền dữ liệu và các ô cần nhập dữ liệu</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 3: </span><span style=\"background-color:white\"><span style=\"color:black\">Tại lưới dữ liệu => Click \"</span></span><strong><span style=\"background-color:white\"><span style=\"color:red\">Chọn</span></span></strong><span style=\"background-color:white\"><span style=\"color:black\">\" dòng dữ liệu tương ứng với học phần và click \"</span></span><span style=\"color:#3498db\"><strong><span style=\"background-color:white\">Gửi yêu cầu</span></strong></span><span style=\"background-color:white\"><span style=\"color:black\">\".</span></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:14pt\"><strong><span style=\"color:red\">C. Ghi chú:</span></strong></span><span style=\"font-size:14pt\"><span style=\"font-size:12.0pt\"><span style=\"background-color:white\"><span style=\"color:#000000\"> Người học được thắc mắc điểm quá trình trong vòng 7 ngày kể từ khi điểm quá trình được công bố trên trang cá nhân và sau khi người học đã phản hồi với giảng viên giảng dạy.</span></span></span></span></p>\n\n<p style=\"text-align:justify\"> </p>\n</div>\n`,
+        desc: `<div style=\"text-align:left\">\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">A. Mô tả:</span></span></strong></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Nếu người học cần đề nghị giải quyết các vấn đề sau:</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">1. Xem kết quả học tập </span><span style=\"color:#3498db\"><em><span style=\"background-color:white\">(cho phép đề nghị trực tuyến)</span></em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">2. Điều chỉnh, bổ sung điểm thường kỳ </span><span style=\"color:#3498db\"><em><span style=\"background-color:white\">(cho phép đề nghị trực tuyến)</span></em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">3. Điều chỉnh, bổ sung điểm thi </span><span style=\"color:#3498db\"><em><span style=\"background-color:white\">(cho phép đề nghị trực tuyến)</span></em></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Người học tham khảo cách thực hiện theo hướng dẫn tại mục B.</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><strong><span style=\"font-size:14.0pt\"><span style=\"color:red\">B. Hướng dẫn thao tác:</span></span></strong></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 1: Click vào nút \"</span><span style=\"color:#3498db\"><strong>Gửi yêu cầu</strong></span><span style=\"color:black\">\"</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 2: Chọn hoặc điền dữ liệu và các ô cần nhập dữ liệu</span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:12pt\"><span style=\"background-color:white\"><span style=\"color:black\">Bước 3: </span><span style=\"background-color:white\"><span style=\"color:black\">Tại lưới dữ liệu => Click \"</span></span><strong><span style=\"background-color:white\"><span style=\"color:red\">Chọn</span></span></strong><span style=\"background-color:white\"><span style=\"color:black\">\" dòng dữ liệu tương ứng với học phần và click \"</span></span><span style=\"color:#3498db\"><strong><span style=\"background-color:white\">Gửi yêu cầu</span></strong></span><span style=\"background-color:white\"><span style=\"color:black\">\".</span></span></span></span></p>\n\n<p style=\"text-align:justify\"><span style=\"font-size:14pt\"><strong><span style=\"color:red\">C. Ghi chú:</span></strong></span><p style=\"font-size:14pt\"><span style=\"font-size:12.0pt\"><span style=\"background-color:white\"><span style=\"color:#000000\">- Người học được thắc mắc điểm quá trình trong vòng 7 ngày kể từ khi điểm quá trình được công bố trên trang cá nhân và sau khi người học đã phản hồi với giảng viên giảng dạy.</span></span></span></p></p>\n\n<p><a style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-khao-thi-va-dam-bao-chat-luong/'> - Xem chi tiết quy trình thực hiện tại đây.</a></p>\n</div>\n`,
         path: '/ketquahoctap',
         limited: false,
         visiable: true,
@@ -238,9 +241,16 @@ export const homeMotCua = [
             <span style="padding-bottom: 1rem; font-size: 1.25rem;line-height: 1.75rem; font-weight: 700; color: #EF4444;">
               C. Ghi chú:
             </span>
-            Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ
+          </p>
+          <p style="padding-bottom: 1rem; ">
+            - Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ
             được mở lại trong một số trường hợp mà người học không thể đến
             trực tiếp như: Dịch bệnh, thiên tai …
+          </p>
+          <p>
+            <a style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-dao-tao/'>
+            - Xem chi tiết quy trình thực hiện tại đây.
+            </a>
           </p>
         `,
         path: '/capbangdiem',
@@ -306,13 +316,20 @@ export const homeMotCua = [
           một cửa.
         </p>
         <p style="padding-bottom: 1rem; ">
-          <span style="padding-bottom: 1rem; font-size: 1.25rem;line-height: 1.75rem; font-weight: 700; color: #EF4444; ">
-            C. Ghi chú:
-          </span>
-          Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ
-          được mở lại trong một số trường hợp mà người học không thể đến
-          trực tiếp như: Dịch bệnh, thiên tai …
-        </p>
+            <span style="padding-bottom: 1rem; font-size: 1.25rem;line-height: 1.75rem; font-weight: 700; color: #EF4444;">
+              C. Ghi chú:
+            </span>
+          </p>
+          <p style="padding-bottom: 1rem; ">
+            - Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ
+            được mở lại trong một số trường hợp mà người học không thể đến
+            trực tiếp như: Dịch bệnh, thiên tai …
+          </p>
+          <p>
+            <a style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-dao-tao/'>
+            - Xem chi tiết quy trình thực hiện tại đây.
+            </a>
+          </p>
         `,
         path: '/xacnhan',
         limited: false,
@@ -376,12 +393,19 @@ export const homeMotCua = [
             định.
           </p>
           <p style="padding-bottom: 1rem; ">
-            <span style="padding-bottom: 1rem; font-size: 1.25rem;line-height: 1.75rem; font-weight: 700; color: #EF4444; ">
+            <span style="padding-bottom: 1rem; font-size: 1.25rem;line-height: 1.75rem; font-weight: 700; color: #EF4444;">
               C. Ghi chú:
             </span>
-            Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ
+          </p>
+          <p style="padding-bottom: 1rem; ">
+            - Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ
             được mở lại trong một số trường hợp mà người học không thể đến
             trực tiếp như: Dịch bệnh, thiên tai …
+          </p>
+          <p>
+            <a style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-dao-tao/'>
+            - Xem chi tiết quy trình thực hiện tại đây.
+            </a>
           </p>
         `,
         path: '/dangkytotnghiep',
@@ -425,12 +449,19 @@ export const homeMotCua = [
             Bước 3: Người học mang đơn và bản giấy khai sinh công chứng nộp tại Bộ phận hành chính Một cửa.
           </p>
           <p style="padding-bottom: 1rem; ">
-            <span style="padding-bottom: 1rem; font-size: 1.25rem;line-height: 1.75rem; font-weight: 700; color: #EF4444; ">
+            <span style="padding-bottom: 1rem; font-size: 1.25rem;line-height: 1.75rem; font-weight: 700; color: #EF4444;">
               C. Ghi chú:
             </span>
-            Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ
+          </p>
+          <p style="padding-bottom: 1rem; ">
+            - Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ
             được mở lại trong một số trường hợp mà người học không thể đến
             trực tiếp như: Dịch bệnh, thiên tai …
+          </p>
+          <p>
+            <a style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-dao-tao/'>
+            - Xem chi tiết quy trình thực hiện tại đây.
+            </a>
           </p>
         `,
         path: '/capbansao',
@@ -481,12 +512,19 @@ export const homeMotCua = [
             Bước 3: Người học mang đơn và photo bằng Tốt nghiệp hoặc chứng chỉ bị sai nộp tại Bộ phận hành chính Một cửa.
           </p>
           <p style="padding-bottom: 1rem; ">
-            <span style="padding-bottom: 1rem; font-size: 1.25rem;line-height: 1.75rem; font-weight: 700; color: #EF4444; ">
+            <span style="padding-bottom: 1rem; font-size: 1.25rem;line-height: 1.75rem; font-weight: 700; color: #EF4444;">
               C. Ghi chú:
             </span>
-            Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ
+          </p>
+          <p style="padding-bottom: 1rem; ">
+            - Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ
             được mở lại trong một số trường hợp mà người học không thể đến
             trực tiếp như: Dịch bệnh, thiên tai …
+          </p>
+          <p>
+            <a style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-dao-tao/'>
+            - Xem chi tiết quy trình thực hiện tại đây.
+            </a>
           </p>
         `,
         path: '/suathongtin',
@@ -537,12 +575,19 @@ export const homeMotCua = [
             Bước 3: Người học mang đơn và photo bằng Tốt nghiệp hoặc chứng chỉ bị sai nộp tại Bộ phận hành chính Một cửa.
           </p>
           <p style="padding-bottom: 1rem; ">
-            <span style="padding-bottom: 1rem; font-size: 1.25rem;line-height: 1.75rem; font-weight: 700; color: #EF4444; ">
+            <span style="padding-bottom: 1rem; font-size: 1.25rem;line-height: 1.75rem; font-weight: 700; color: #EF4444;">
               C. Ghi chú:
             </span>
-            Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ
+          </p>
+          <p style="padding-bottom: 1rem; ">
+            - Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ
             được mở lại trong một số trường hợp mà người học không thể đến
             trực tiếp như: Dịch bệnh, thiên tai …
+          </p>
+          <p>
+            <a style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-dao-tao/'>
+            - Xem chi tiết quy trình thực hiện tại đây.
+            </a>
           </p>
         `,
         path: '/mienchungchi',
@@ -636,12 +681,19 @@ export const homeMotCua = [
             - Người học in đơn và điền các thông tin vào mẫu đơn, nộp tại Bộ phận hành chính Một cửa.
           </p>
           <p style="padding-bottom: 1rem; ">
-            <span style="padding-bottom: 1rem; font-size: 1.25rem;line-height: 1.75rem; font-weight: 700; color: #EF4444; ">
+            <span style="padding-bottom: 1rem; font-size: 1.25rem;line-height: 1.75rem; font-weight: 700; color: #EF4444;">
               C. Ghi chú:
             </span>
-            Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ
+          </p>
+          <p style="padding-bottom: 1rem; ">
+            - Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ
             được mở lại trong một số trường hợp mà người học không thể đến
             trực tiếp như: Dịch bệnh, thiên tai …
+          </p>
+          <p>
+            <a style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-dao-tao/'>
+            - Xem chi tiết quy trình thực hiện tại đây.
+            </a>
           </p>
         `,
         path: '/chuyendiem',
@@ -696,6 +748,11 @@ export const homeMotCua = [
             </span>
             Loading...
           </p>
+          <p>
+            <a style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-dao-tao/'>
+            - Xem chi tiết quy trình thực hiện tại đây.
+            </a>
+          </p>
         `,
         path: '/emaillms',
         limited: false,
@@ -742,6 +799,11 @@ export const homeMotCua = [
               C. Ghi chú:
             </span>
             Loading...
+          </p>
+          <p>
+            <a style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-dao-tao/'>
+            - Xem chi tiết quy trình thực hiện tại đây.
+            </a>
           </p>
         `,
         path: '/dangkylopchatluong',
@@ -871,6 +933,9 @@ export const homeMotCua = [
           <p style="padding-bottom: 1rem; ">
           - Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ được mở lại trong một số trường hợp mà người học không thể đến trực tiếp như: Dịch bệnh, thiên tai …
           </p>
+          <p>
+           <a target="_blank" style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-cong-tac-sinh-vien/'>- Xem chi tiết quy trình thực hiện tại đây.</a>
+          </p>
         `,
         path: '/xacnhan',
         limited: false,
@@ -934,6 +999,9 @@ export const homeMotCua = [
           <p style="padding-bottom: 1rem; ">
             - Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ được mở lại trong một số trường hợp mà người học không thể đến trực tiếp như: Dịch bệnh, thiên tai …
           </p>
+          <p>
+           <a target="_blank" style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-cong-tac-sinh-vien/'>- Xem chi tiết quy trình thực hiện tại đây.</a>
+          </p>
         `,
         path: '/quatrinhhoc',
         limited: true,
@@ -979,7 +1047,12 @@ export const homeMotCua = [
             <span style="padding-bottom: 1rem; font-size: 1.25rem;line-height: 1.75rem; font-weight: 700; color: #EF4444; ">
               C. Ghi chú:
             </span>
-            Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ được mở lại trong một số trường hợp mà người học không thể đến trực tiếp như: Dịch bệnh, thiên tai …
+          </p>
+          <p style="padding-bottom: 1rem;>
+           - Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ được mở lại trong một số trường hợp mà người học không thể đến trực tiếp như: Dịch bệnh, thiên tai …
+          </p>
+          <p style="padding-bottom: 1rem;>
+           <a target="_blank" style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-cong-tac-sinh-vien/'>- Xem chi tiết quy trình thực hiện tại đây.</a>
           </p>
         `,
         path: '/nghihoctamthoi',
@@ -1035,6 +1108,9 @@ export const homeMotCua = [
             - Đối với chuyển địa điểm học chỉ áp dụng với người học cơ sở Hà Nội xin chuyển về cơ sở Nam Định học tập.          </p>
           <p style="padding-bottom: 1rem; ">
             - Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ được mở lại trong một số trường hợp mà người học không thể đến trực tiếp như: Dịch bệnh, thiên tai …
+          </p>
+          <p>
+           <a target="_blank" style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-cong-tac-sinh-vien/'>- Xem chi tiết quy trình thực hiện tại đây.</a>
           </p>
         `,
         path: '/xinchuyen',
@@ -1116,10 +1192,13 @@ export const homeMotCua = [
             <span style="padding-bottom: 1rem; font-size: 1.25rem;line-height: 1.75rem; font-weight: 700; color: #EF4444; ">
               C. Ghi chú:
             </span>
-            Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ
+          </p>
+          <p>
+                - Việc giải quyết thủ tục hành chính thực hiện trực tuyến sẽ
             được mở lại trong một số trường hợp mà người học không thể đến
             trực tiếp như: Dịch bệnh, thiên tai …
           </p>
+          <p><a target="_blank" style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-hanh-chinh-quan-tri/'>- Xem chi tiết quy trình thực hiện tại đây.</a></p>
         `,
         path: '/giaygioithieu',
         limited: true,
@@ -1363,6 +1442,38 @@ export const homeHocTap = [
     path: '/onluyen',
     moduleActive: true,
     thumbnail: icoTTHCSV,
+    roleActive: ['SV'],
+  },
+]
+
+export const homeTraCuu = [
+  {
+    id: 1,
+    title: 'Điểm danh',
+    desc: 'Theo dõi toàn bộ quá trình điểm danh đối với các môn học tương ứng tại các học kỳ',
+    path: '/diemdanh',
+    thumbnail: iconDiemDanh,
+    roleActive: ['SV'],
+    moduleActive: true,
+  },
+
+  {
+    id: 2,
+    title: 'Rèn luyện',
+    desc: 'Theo dõi toàn bộ kết quả rèn luyện theo học kỳ',
+    path: '/renluyen',
+    moduleActive: true,
+    thumbnail: icoTTHCSV,
+    roleActive: ['SV'],
+  },
+
+  {
+    id: 3,
+    title: 'Thời khóa biểu',
+    desc: 'Theo dõi toàn bộ lịch học và lịch thi theo ngày, tuần, tháng đối với từng môn học trong học kỳ',
+    path: '/thoikhoabieu',
+    moduleActive: true,
+    thumbnail: iconLich,
     roleActive: ['SV'],
   },
 ]
