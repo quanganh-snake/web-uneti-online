@@ -1,9 +1,9 @@
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 import DataTable from '@/Components/Base/DataTable/DataTable'
 import moment from 'moment'
 import { Checkbox } from '@mui/material'
 import FileSelect from '@/Components/Base/FileSelect/FileSelect'
-import dayjs from 'dayjs'
+import { dayjs } from '@/Services/Utils/dayjs'
 import { FaPlus } from 'react-icons/fa6'
 import { isEqual } from 'lodash-unified'
 import { useState } from 'react'
@@ -12,7 +12,7 @@ export const LichThiViewTrungLichThi = (props) => {
   const { handleSubmitData, handleRowSelection, listHocPhan, selectedRow } =
     props
 
-  const bem = useBem('lich-thi')
+  const bem = useNamespace('lich-thi')
 
   const [files, setFiles] = useState([])
 
@@ -104,7 +104,7 @@ export const LichThiViewTrungLichThi = (props) => {
             {listHocPhan?.length == 0 && (
               <tr>
                 <td colSpan={`10`}>
-                  <p className="p-4 text-center font-bold text-red-600">
+                  <p className="p-4 text-center font-semibold text-red-600">
                     Không có dữ liệu!
                   </p>
                 </td>

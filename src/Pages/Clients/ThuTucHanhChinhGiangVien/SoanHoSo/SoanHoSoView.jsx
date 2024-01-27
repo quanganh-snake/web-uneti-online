@@ -46,7 +46,7 @@ function SoanHoSoView({
             >
               <h2 className="text-lg col-span-2">
                 <span className="font-semibold">Tên thủ tục: </span>
-                <span className="uppercase font-bold">
+                <span className="uppercase font-semibold">
                   {dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc}
                 </span>
                 <Link
@@ -72,7 +72,7 @@ function SoanHoSoView({
                   className="font-semibold mb-2"
                 >
                   Email liên hệ{' '}
-                  <span className="font-bold text-red-500">*</span>
+                  <span className="font-semibold text-red-500">*</span>
                 </label>
                 <input
                   type="email"
@@ -96,7 +96,7 @@ function SoanHoSoView({
                   className="font-semibold mb-2"
                 >
                   Số điện thoại liên hệ{' '}
-                  <span className="font-bold text-red-500">*</span>
+                  <span className="font-semibold text-red-500">*</span>
                 </label>
                 <input
                   type="tel"
@@ -136,7 +136,7 @@ function SoanHoSoView({
               <div className="flex flex-col form-group mb-4 col-span-2 md:col-span-1">
                 <label htmlFor="quantity" className="font-semibold mb-2">
                   Nhập số lượng bản{' '}
-                  <span className="font-bold text-red-500">*</span>
+                  <span className="font-semibold text-red-500">*</span>
                 </label>
                 <input
                   type="number"
@@ -197,7 +197,7 @@ function SoanHoSoView({
               <div className="flex flex-col form-group mb-4 col-span-2">
                 <label htmlFor="price" className="font-semibold mb-2">
                   Danh sách giấy tờ kèm theo{' '}
-                  <span className="font-bold text-red-500">*</span>
+                  <span className="font-semibold text-red-500">*</span>
                 </label>
                 {dataChiTietThuTuc?.ThanhPhanHoSo?.length ? (
                   <>

@@ -1,13 +1,12 @@
 import { useState } from 'react'
-import { homeMotCua } from '../../Services/Static/dataStatic.js'
+import { homeMotCua } from '@/Services/Static/dataStatic.js'
 import { Link } from 'react-router-dom'
-import clsx from 'clsx'
-import { useBem } from '@/Services/Hooks/useBem.js'
+import { useNamespace } from '@/Services/Hooks/useNamespace.js'
 
 import './NavbarMotCua.scss'
 
 function NavbarMotCua() {
-  const bem = useBem('navbar-user')
+  const bem = useNamespace('navbar-user')
 
   const [activeIndex, setActiveIndex] = useState(0)
   return (

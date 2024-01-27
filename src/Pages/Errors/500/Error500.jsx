@@ -1,53 +1,52 @@
-import React from 'react'
 import './Error500.scss'
-import { colors } from '@mui/material'
+
 function Error500() {
   return (
     <main>
       <div id="wrap">
-        <div class="hand hand-left">
-          <span class="hand-part part-top"></span>
-          <span class="hand-part part-middle"></span>
-          <span class="hand-part part-bottom"></span>
+        <div className="hand hand-left">
+          <span className="hand-part part-top"></span>
+          <span className="hand-part part-middle"></span>
+          <span className="hand-part part-bottom"></span>
         </div>
-        <div class="hand hand-right">
-          <span class="hand-part part-top"></span>
-          <span class="hand-part part-middle"></span>
-          <span class="hand-part part-bottom"></span>
+        <div className="hand hand-right">
+          <span className="hand-part part-top"></span>
+          <span className="hand-part part-middle"></span>
+          <span className="hand-part part-bottom"></span>
         </div>
-        <div class="line line-1">
-          <div class="ball">5</div>
+        <div className="line line-1">
+          <div className="ball">5</div>
         </div>
-        <div class="line line-2">
-          <div class="ball">0</div>
+        <div className="line line-2">
+          <div className="ball">0</div>
         </div>
-        <div class="line line-3">
-          <div class="ball">0</div>
+        <div className="line line-3">
+          <div className="ball">0</div>
         </div>
         <div id="server">
-          <div class="eye eye-left">
+          <div className="eye eye-left">
             <span></span>
           </div>
-          <div class="eye eye-right">
+          <div className="eye eye-right">
             <span></span>
           </div>
-          <div class="block">
-            <div class="light"></div>
+          <div className="block">
+            <div className="light"></div>
           </div>
-          <div class="block">
-            <div class="light"></div>
+          <div className="block">
+            <div className="light"></div>
           </div>
-          <div class="block">
-            <div class="light"></div>
+          <div className="block">
+            <div className="light"></div>
           </div>
-          <div class="block">
-            <div class="light"></div>
+          <div className="block">
+            <div className="light"></div>
           </div>
-          <div class="block">
-            <div class="light"></div>
+          <div className="block">
+            <div className="light"></div>
           </div>
           <div id="bottom-block">
-            <div class="bottom-line"></div>
+            <div className="bottom-line"></div>
             <div id="bottom-light"></div>
           </div>
         </div>

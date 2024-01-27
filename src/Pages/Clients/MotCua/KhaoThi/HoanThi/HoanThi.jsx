@@ -84,6 +84,11 @@ function HoanThi() {
 
   const handleSubmitData = async (event) => {
     event.preventDefault()
+    if (lyDo === LY_DO_KHAC) {
+      if (!required(lyDoChiTiet, 'Vui lòng nhập lý do chi tiết!')) {
+        return
+      }
+    }
 
     if (!validateSubmitData()) {
       return
@@ -159,21 +164,18 @@ function HoanThi() {
         if (data.message === 'Bản ghi bị trùng.') {
           Swal.fire({
             icon: 'error',
-            title: 'Thông báo quá hạn',
-            text: `Học phần ${dataHocPhan.MC_KT_HoanThi_TenMonHoc} đã được gửi yêu cầu trước đấy. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+            title: 'Yêu cầu quá nhiều',
+            text: `Yêu cầu đã được gửi trước đó!`,
           })
         } else {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `Học phần ${dataHocPhan.MC_KT_HoanThi_TenMonHoc} đã được gửi yêu cầu thành công. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+            title: `Gửi yêu cầu thành công`,
+            text: `Vui lòng chờ kết quả xử lý từ phòng Khảo thí và Đảm bảo chất lượng`,
             showConfirmButton: false,
             timer: 1500,
           })
-
-          setTimeout(() => {
-            window.location.reload()
-          }, 1000)
         }
       }
     } catch (error) {
@@ -201,7 +203,7 @@ function HoanThi() {
 
     // --
     ;(async () => {
-      if (lyDo == LY_DO_KHAC) return
+      // if (lyDo == LY_DO_KHAC) return
 
       if (!tenDot || !loaiThi || !lyDo) {
         setListHocPhan([])
@@ -233,7 +235,7 @@ function HoanThi() {
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
 
         <div className="form-submit flex flex-col w-full justify-center">
-          <h2 className="text-center uppercase text-2xl font-bold text-sky-800 mb-6">
+          <h2 className="text-center uppercase text-2xl font-semibold text-sky-800 mb-6">
             Tiếp nhận yêu cầu hoãn thi
           </h2>
           <div className="lg:px-36">

@@ -1,24 +1,42 @@
+import { getDanhSachYeuCau } from '@/Apis/HoTroThietBi/apiTaiSan'
 import Box from '@/Components/MotCua/Box'
-import React from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 const SuaChuaTaiSanView = (props) => {
-  const {} = props
-
   const location = useLocation()
   const { pathname } = location
-
   const breadcrumbs = [
     {
       title: 'Sửa chữa tài sản',
       path: pathname,
     },
   ]
-
   const home = {
     path: '/hotrothietbi',
     title: 'Hỗ trợ thiết bị',
   }
+
+  const [loading, setLoading] = useState(true)
+  const [listBaoHong, setListBaoHong] = useState([])
+
+  // fetach data
+  const getListBaoHongTS = async () => {
+    getDanhSachYeuCau()
+      .then((res) => {
+        setLoading(false)
+        setListBaoHong(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+  // effect
+  useEffect(() => {
+    getListBaoHongTS()
+  }, [])
+
+  console.log('>>>list BaoHong: ', listBaoHong)
 
   return (
     <div className="bg-white rounded-md p-4">

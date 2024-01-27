@@ -1,4 +1,3 @@
-import React from 'react'
 import SuaChuaTaiSanView from './SuaChuaTaiSanView'
 
 const SuaChuaTaiSan = () => {

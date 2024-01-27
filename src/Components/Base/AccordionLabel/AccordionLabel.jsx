@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 
 import { AccordionContext } from '../Accordion/constants'
 import { AccordionAction } from '../Accordion/reducer'
@@ -13,7 +13,7 @@ import { transformCls } from '@/Services/Utils/reactUtils'
 export default function AccordionLabel({ children, className = '', ...attrs }) {
   const accordionCtx = useContext(AccordionContext)
 
-  const bem = useBem('accordion')
+  const bem = useNamespace('accordion')
 
   if (!accordionCtx?.isAccordion) {
     console.warn(

@@ -1,4 +1,4 @@
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 import PropTypes from 'prop-types'
 
 import './Post.scss'
@@ -13,7 +13,7 @@ export const Post = ({
   DT_CVNB_TBGD_TL_TenFile,
   DT_CVNB_TBGD_TL_DataFile,
 }) => {
-  const bem = useBem('post')
+  const bem = useNamespace('post')
 
   let video = DT_CVNB_TBGD_TL_GhiChu?.match(LINK_YOUTUBE_REGEX)?.[0]
 

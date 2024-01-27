@@ -117,7 +117,7 @@ function DanhSachHoSo() {
               <div className="flex flex-col gap-4 relative top-0 bottom-0 h-full">
                 <div className="grid grid-cols-5 items-center gap-4 justify-between">
                   <div className="col-span-5 lg:col-span-2">
-                    <h3 className="text-center lg:text-left text-lg font-bold uppercase underline">
+                    <h3 className="text-center lg:text-left text-lg font-semibold uppercase underline">
                       Danh sách quy trình hồ sơ
                     </h3>
                   </div>
@@ -163,7 +163,7 @@ function DanhSachHoSo() {
                     {displayData?.length <= 0 ? (
                       <tr>
                         <td colSpan={4}>
-                          <p className="font-bold text-[#336699] text-center border">
+                          <p className="font-semibold text-[#336699] text-center border">
                             Chưa có hồ sơ/thủ tục nào được tạo.
                           </p>
                         </td>
@@ -254,7 +254,7 @@ function DanhSachHoSo() {
                 >
                   {listHoSoThuTuc?.length == 0 ? null : (
                     <div className="flex flex-row items-center">
-                      <p className="font-bold text-[#336699]">
+                      <p className="font-semibold text-[#336699]">
                         Tổng số:{' '}
                         <span>{listHoSoThuTuc?.length} hồ sơ/thủ tục</span>
                       </p>

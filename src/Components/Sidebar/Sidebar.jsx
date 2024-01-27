@@ -1,5 +1,5 @@
 import { SidebarItem } from '../SidebarItem/SidebarItem'
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 
 import './Sidebar.scss'
 import { useState } from 'react'
@@ -12,7 +12,7 @@ export const Sidebar = ({
   items,
   title,
 }) => {
-  const bem = useBem('sidebar')
+  const bem = useNamespace('sidebar')
 
   const router = useNavigate()
 

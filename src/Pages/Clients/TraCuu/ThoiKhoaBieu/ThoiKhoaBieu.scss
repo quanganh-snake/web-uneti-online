@@ -1,0 +1,33 @@
+@include b(thoi-khoa-bieu) {
+  @include e(name) {
+    text-align: center;
+    color: getColor(primary);
+    font-size: 24px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  @include e(actions) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    justify-content: flex-end;
+
+    @include m(action) {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+
+  @include e(table) {
+    overflow-x: scroll;
+    border: 1px solid getColor(gray-2);
+    background: url('@/assets/Icons/bg-lich-hoc.png');
+    border-radius: 24px;
+  }
+}

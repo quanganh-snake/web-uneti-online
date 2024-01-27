@@ -1,13 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Box, CircularProgress, Typography } from '@mui/material'
 
 import CommonLayout from '@/Layouts/Common/CommonLayout'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { getAllMonHocThiThu } from '@/Apis/HocTap/apiOnLuyenThiThu'
 
 import { breadcrumbs, home } from './constants'
-import HocKy from '@/Components/HocTap/OnTap/HocKy'
-import { useMemo } from 'react'
 import { hocTapSidebar } from '../../constants'
+import iconThiThu from '@/assets/Icons/icon-thithu.png'
+import HocKy from '@/Components/HocTap/OnTap/HocKy'
+import MonHoc from '@/Components/HocTap/OnTap/MonHoc'
 
 export default function ThiThu() {
   const [listMonHoc, setListMonHoc] = useState([])
@@ -15,7 +18,7 @@ export default function ThiThu() {
   const dataSV = DataSinhVien()
 
   const danhSachMonHocTheoHocKy = useMemo(() => {
-    return listMonHoc.reduce((result, monHoc) => {
+    const listMonHocHocKy = listMonHoc.reduce((result, monHoc) => {
       if (Object.prototype.hasOwnProperty.call(result, monHoc.TenDot)) {
         result[monHoc.TenDot].push(monHoc)
       } else {
@@ -24,6 +27,11 @@ export default function ThiThu() {
 
       return result
     }, {})
+
+    return Object.keys(listMonHocHocKy).map((hk) => ({
+      HocKy: hk,
+      MonHoc: listMonHocHocKy[hk],
+    }))
   }, [listMonHoc])
 
   useEffect(() => {
@@ -43,13 +51,50 @@ export default function ThiThu() {
         breadcrumbs={breadcrumbs}
         home={home}
       >
-        {Object.keys(danhSachMonHocTheoHocKy).map((hk, index) => (
-          <HocKy
-            key={index}
-            hocKy={hk}
-            linkTo="danhsachdethi"
-            listMonHoc={danhSachMonHocTheoHocKy[hk]}
-          />
+        {danhSachMonHocTheoHocKy.map((hocKy, index) => (
+          <HocKy key={index} hocKy={hocKy.HocKy}>
+            {hocKy.MonHoc.map((mh, index) => (
+              <Link key={index} to={`danhsachdethi/${mh.MaMonHoc}`}>
+                <MonHoc
+                  TenMonHoc={mh.TenMonHoc}
+                  MaMonHoc={mh.MaMonHoc}
+                  icon={iconThiThu}
+                >
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      display: 'inline-flex',
+                    }}
+                  >
+                    <CircularProgress
+                      variant="determinate"
+                      value={Math.round((mh.SoCauDaLam / mh.TongCauHoi) * 100)}
+                    />
+                    <Box
+                      sx={{
+                        top: 0,
+                        left: 0,
+                        bottom: 0,
+                        right: 0,
+                        position: 'absolute',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <Typography
+                        variant="caption"
+                        component="div"
+                        color="text.secondary"
+                      >
+                        {`${Math.round((mh.SoCauDaLam / mh.TongCauHoi) * 100)}%`}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </MonHoc>
+              </Link>
+            ))}
+          </HocKy>
         ))}
       </CommonLayout>
     </>

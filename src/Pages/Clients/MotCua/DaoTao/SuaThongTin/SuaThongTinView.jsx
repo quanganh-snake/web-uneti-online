@@ -1,7 +1,7 @@
 import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import PropTypes from 'prop-types'
 import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
-import { VanBanMauId } from '@/Configs/constants'
+import { VanBanMauID } from '@/Services/Tokens/filesId'
 
 function SuaThongTinView(props) {
   const { home, breadcrumbs } = props
@@ -12,17 +12,17 @@ function SuaThongTinView(props) {
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
 
         <div className="bg-yellow-100 w-full rounded-md mt-4 p-3 flex flex-col justify-center items-center  text-[#856404]">
-          <h3 className="text-3xl uppercase text-center text-red-600 mb-4 font-bold my-3">
+          <h3 className="text-3xl uppercase text-center text-red-600 mb-4 font-semibold my-3">
             THÔNG BÁO GIỚI HẠN TÍNH NĂNG
           </h3>
-          <span className="text-center mb-2 font-bold text-sm">
+          <span className="text-center mb-2 font-semibold text-sm">
             Chức năng này bị giới hạn không cho phép đề nghị trực tuyến, người
             học cần đến bộ phận Một cửa đề nghị trực tiếp.
           </span>
         </div>
 
         <GiayToKemTheoAlert
-          downloadId={VanBanMauId.MotCua.DaoTao.SuaThongTin}
+          downloadId={VanBanMauID.MotCua.DaoTao.SuaThongTin}
           downloadText="Sửa thông tin (Văn bằng, chứng chỉ)"
         />
       </div>

@@ -2,7 +2,6 @@ import { CapBangDiemView } from './CapBangDiemView'
 import { useState } from 'react'
 import Swal from 'sweetalert2'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
-import { convertDataFileToBase64 } from '@/Services/Utils/stringUtils'
 import { postCapBangDiem } from '@/Apis/MotCua/DaoTao/apiCapBangDiem'
 import { required } from '@/Services/Validators/required'
 import {
@@ -122,14 +121,11 @@ function CapBangDiem() {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `Đã gửi yêu cầu xác nhận thành công`,
+            title: `Gửi yêu cầu thành công`,
+            text: `Vui lòng chờ kết quả xử lý từ phòng Đào tạo`,
             showConfirmButton: false,
             timer: 1500,
           })
-
-          setTimeout(() => {
-            window.location.reload()
-          }, 1000)
         }
       }
     } catch (error) {

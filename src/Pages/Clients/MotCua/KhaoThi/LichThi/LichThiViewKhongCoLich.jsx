@@ -1,6 +1,6 @@
-import dayjs from 'dayjs'
+import { dayjs } from '@/Services/Utils/dayjs'
 import DataTable from '@/Components/Base/DataTable/DataTable'
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 import { Checkbox } from '@mui/material'
 import { isEqual } from 'lodash-unified'
 import FileSelect from '@/Components/Base/FileSelect/FileSelect'
@@ -13,7 +13,7 @@ export const LichThiViewKhongCoLich = ({
   handleRowSelection,
   handleSubmitData,
 }) => {
-  const bem = useBem('lich-thi')
+  const bem = useNamespace('lich-thi')
 
   const [files, setFiles] = useState([])
 
@@ -75,7 +75,7 @@ export const LichThiViewKhongCoLich = ({
             {listHocPhan?.length == 0 && (
               <tr>
                 <td colSpan={`10`}>
-                  <p className="p-4 text-center font-bold text-red-600">
+                  <p className="p-4 text-center font-semibold text-red-600">
                     Không có dữ liệu!
                   </p>
                 </td>

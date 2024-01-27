@@ -7,7 +7,7 @@
 // set css var value, because we need translate value to string
 // for example:
 // @include set-var-value(('color', 'primary'), red);
-// --color-primary: red;
+// --uneti-color-primary: red;
 @mixin set-var-value($name, $value) {
   #{joinVarName($name)}: #{$value};
 }
@@ -17,7 +17,7 @@
 }
 
 // @include set-var-type('color', 'primary', $map);
-// --color-primary: #{map.get($map, 'primary')};
+// --uneti-color-primary: #{map.get($map, 'primary')};
 @mixin set-var-type($name, $type, $variables) {
   #{getCssVarName($name, $type)}: #{map.get($variables, $type)};
 }
@@ -59,7 +59,7 @@
 // generate css var from existing css var
 // for example:
 // @include css-var-from-global(('button', 'text-color'), ('color', $type))
-// --button-text-color: var(--color-#{$type});
+// --button-text-color: var(--uneti-color-#{$type});
 @mixin css-var-from-global($var, $gVar) {
   $varName: joinVarName($var);
   $gVarName: joinVarName($gVar);

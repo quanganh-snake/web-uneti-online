@@ -202,7 +202,7 @@ const ThongTinHoSo = memo(function ThongTinHoSo(props) {
                 value={tongThoiGianGiaiQuyet}
                 onChange={handleChangeValue}
               />
-              <span className="font-bold">Ngày</span>
+              <span className="font-semibold">Ngày</span>
             </div>
           </label>
         </div>

@@ -1,24 +1,22 @@
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useEffect } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import {
-  LOAD_CAU_HOI_DIEU_KIEN_LOC,
   getAllMonHocThiThu,
   getCauHoiTheoMonHoc,
   getTongSoTrangCauHoiTheoMonHoc,
 } from '@/Apis/HocTap/apiOnLuyenThiThu'
 import CauHoi from '@/Components/HocTap/OnTap/CauHoi'
-import { getAllMonHoc } from '@/Apis/HocTap/apiHocTap'
-import { useBem } from '@/Services/Hooks'
 import './DanhSachCauHoi.scss'
 import Accordion from '@/Components/Base/Accordion/Accordion'
-import { OnTapContext } from '@/Services/Tokens'
+import { LOAD_CAU_HOI_DIEU_KIEN_LOC, OnTapContext } from '@/Services/Tokens'
+import { Pagination } from '@mui/material'
+import { values } from 'lodash-unified'
 
 function DanhSachDeThi() {
   const uLocation = useLocation()
   const navigate = useNavigate()
-  const bem = useBem('DanhSachDeThi')
 
   const maMonHoc = uLocation.pathname.split('/').at(-1).toString()
 
@@ -35,13 +33,32 @@ function DanhSachDeThi() {
   const [monHoc, setMonHoc] = useState({})
 
   const [currentPage, setCurrentPage] = useState(1)
+  const [pageSize] = useState(15)
   const [totalPage, setTotalPage] = useState(0)
-  const [monHocPhan, setMonHocPhan] = useState()
+
   const [listCauHoi, setListCauHoi] = useState([])
-  const [soCauDaTraLoi, setSoCauDaTraLoi] = useState(0)
-  const [tongSoCau, setTongSoCau] = useState(60)
+  const [listCauTraLoi, setListCauTraLoi] = useState({})
+
+  const [tongSoCau] = useState(60)
+  const [showMenu] = useState(false)
 
   const accordionRef = useRef()
+
+  const soCauDaTraLoi = useMemo(
+    () => values(listCauTraLoi).filter((e) => e != null),
+    [listCauTraLoi],
+  )
+
+  const handleChangeCauTraLoi = (idCauHoi, idCauTraLoi) => {
+    setListCauTraLoi({
+      ...listCauTraLoi,
+      [idCauHoi]: idCauTraLoi,
+    })
+  }
+
+  const handleChangeCurrentPage = (event, value) => {
+    setCurrentPage(value)
+  }
 
   useEffect(() => {
     getAllMonHocThiThu(dataSv.MaSinhVien).then((res) => {
@@ -72,22 +89,19 @@ function DanhSachDeThi() {
       maMonHoc: maHocPhan,
       dieuKienLoc,
     }).then((data) => {
-      setTotalPage(data.data.body.TongSoTrang)
+      setTotalPage(data.data.body[0].TongSoTrang)
     })
-  }, [maHocPhan])
-
-  const [showMenu, setShowMenu] = useState(false)
-
-  // useEffect(() => {
-  //   console.log(accordionRef.current)
-  //   setShowMenu(accordionRef.current?.isOpen)
-  //   // check watchEffect
-  // }, [accordionRef.current?.isOpen])
+  }, [maHocPhan, currentPage, pageSize])
 
   return (
-    <OnTapContext.Provider value={{}}>
-      <div className="flex flex-col text-center justify-start items-center gap-4 bg-white rounded-[26px] mb-4 p-4">
-        <h3 className="text-uneti-primary text-center font-bold text-xl">
+    <OnTapContext.Provider
+      value={{
+        selected: listCauTraLoi,
+        handleSelected: handleChangeCauTraLoi,
+      }}
+    >
+      <div className="flex flex-col text-center justify-start items-center gap-4 bg-white shadow-sm rounded-[26px] mb-4 p-4">
+        <h3 className="text-uneti-primary text-center font-semibold text-xl">
           {monHoc.TenMonHoc}
         </h3>
         <span className="text-uneti-primary text-sm">
@@ -95,11 +109,23 @@ function DanhSachDeThi() {
         </span>
       </div>
       <div className="flex justify-center items-start gap-4">
-        <div className="w-full border-b-2 border-solid border-b-white">
-          <div className="flex flex-col gap-3 bg-white rounded-[26px] p-4">
-            {listCauHoi.map((e, index) => (
-              <CauHoi key={index} STT={index + 1} {...e} />
+        <div className="w-full">
+          <div className="flex flex-col gap-3 bg-white shadow-sm rounded-[26px] p-4">
+            {listCauHoi?.map((e, index) => (
+              <CauHoi
+                key={index}
+                STT={(currentPage - 1) * pageSize + index + 1}
+                {...e}
+              />
             ))}
+          </div>
+          <div className="p-4 bg-white my-5 rounded-xl shadow-sm">
+            <Pagination
+              count={totalPage}
+              page={currentPage}
+              onChange={handleChangeCurrentPage}
+              shape="rounded"
+            />
           </div>
         </div>
 

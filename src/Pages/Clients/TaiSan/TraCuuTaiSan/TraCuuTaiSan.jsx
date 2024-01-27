@@ -1,4 +1,3 @@
-import React from 'react'
 import TraCuuTaiSanView from './TraCuuTaiSanView'
 
 const TraCuuTaiSan = () => {

@@ -2,15 +2,10 @@ import { useState } from 'react'
 import { XacNhanDTView } from './XacNhanDTView'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import Swal from 'sweetalert2'
-import { convertDataFileToBase64 } from '@/Services/Utils/stringUtils'
-import {
-  postXacNhan,
-  xacNhanKiemTraTrung,
-} from '@/Apis/MotCua/DaoTao/apiXacNhanDT'
+import { postXacNhan } from '@/Apis/MotCua/DaoTao/apiXacNhanDT'
 import { required } from '@/Services/Validators/required'
 import { makePostDataSv } from '@/Services/Utils/dataSubmitUtils'
 import { makeDataSv } from '@/Services/Utils/dataSubmitUtils'
-import { transformSubmitValue } from '@/Services/Utils/dataSubmitUtils'
 import { makeDataImages } from '@/Services/Utils/dataSubmitUtils'
 
 const XAC_NHAN_PREFIX = 'MC_DT_XacNhan_'
@@ -121,7 +116,8 @@ function XacNhanDT() {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `Đã gửi yêu cầu xác nhận thành công`,
+            title: `Gửi yêu cầu thành công`,
+            text: `Vui lòng chờ kết quả xử lý từ phòng Đào tạo`,
             showConfirmButton: false,
             timer: 1500,
           })

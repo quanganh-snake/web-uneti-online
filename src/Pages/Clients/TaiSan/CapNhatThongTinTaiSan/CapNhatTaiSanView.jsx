@@ -1,5 +1,4 @@
 import Box from '@/Components/MotCua/Box'
-import React from 'react'
 import { useLocation } from 'react-router-dom'
 
 const CapNhatTaiSanView = () => {

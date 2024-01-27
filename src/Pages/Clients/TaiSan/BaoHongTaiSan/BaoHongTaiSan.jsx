@@ -14,7 +14,6 @@ import {
   getDanhSachTaiSan,
   getDanhSachTang,
   getDanhSachToaNha,
-  getDanhSachYeuCau,
   postYeuCauBaoHongTaiSan,
 } from '@/Apis/HoTroThietBi/apiTaiSan.js'
 import { tokenSuccess } from '@/Services/Redux/Slice/authSlice.js'
@@ -32,8 +31,6 @@ const BaoHongTaiSan = () => {
   const dataSinhVien = DataSinhVien()
   const dataCBGV = DataCanBoGV()
 
-  const [listYeuCauSuCo, setListYeuCauSuCo] = useState([])
-
   const [showModal, setShowModal] = useState(false)
   const [currentPage, setCurrentPage] = useState(0)
   const [selectedTaiSan, setSelectedTaiSan] = useState([])
@@ -44,6 +41,10 @@ const BaoHongTaiSan = () => {
   const [listToaNha, setListToaNha] = useState([])
   const [listTang, setListTang] = useState([])
   const [listPhong, setListPhong] = useState([])
+
+  const [searchPhong, setSearchPhong] = useState('')
+  const [selectedPhong, setSelectedPhong] = useState(null)
+  const [openSelectPhong, setOpenSelectPhong] = useState(false)
 
   const [listSuCo, setListSuCo] = useState([])
   const [tenSuCo, setTenSuCo] = useState([])
@@ -76,7 +77,7 @@ const BaoHongTaiSan = () => {
 
   const handleChangeValue = (e) => {
     const { id, value } = e.target
-
+    console.log(e)
     if (value === '') {
       setDataViTri({
         DT_QLP_Phong_CoSo: ' ',
@@ -115,7 +116,7 @@ const BaoHongTaiSan = () => {
     let currentTime = dayjs().format('YYYY-MM-DDTHH:mm:ss.SSSZ')
     if (!validateSubmitData()) return
 
-    if (selectedTaiSan.length === 0) {
+    if (hinhThucBaoHong === '2' && selectedTaiSan.length === 0) {
       return Swal.fire({
         icon: 'error',
         title: 'Lỗi',
@@ -143,7 +144,7 @@ const BaoHongTaiSan = () => {
         return Swal.fire({
           icon: 'success',
           title: 'Gửi yêu cầu báo hỏng thành công!',
-          text: `Ban đã báo hỏng thành công tài sản: ${selectedTaiSan?.DT_QLTS_TS_TenTaiSan} - mã tài sản: ${selectedTaiSan?.DT_QLTS_TS_MaTaiSan}`,
+          text: `Ban đã báo hỏng thành công!`,
         })
       } else {
         return Swal.fire({
@@ -158,20 +159,6 @@ const BaoHongTaiSan = () => {
   }
 
   // fetch data
-
-  const getAllYeuCauBaoHong = async () => {
-    setLoading(true)
-    getDanhSachYeuCau()
-      .then((res) => {
-        setListYeuCauSuCo(res)
-        setLoading(false)
-      })
-      .catch((err) => {
-        console.log([err])
-        setLoading(false)
-      })
-  }
-
   const getListTaiSan = async () => {
     getDanhSachTaiSan(idPhong.toString())
       .then((res) => {
@@ -242,8 +229,12 @@ const BaoHongTaiSan = () => {
   }
 
   useEffect(() => {
-    if (idPhong.toString().trim() !== '') {
+    if (idPhong && idPhong.toString().trim() !== '') {
       getListTaiSan()
+    }
+
+    return () => {
+      setListTaiSan([])
     }
   }, [idPhong])
 
@@ -261,9 +252,6 @@ const BaoHongTaiSan = () => {
     }
   }, [])
 
-  console.log(dataViTri)
-  console.log(idPhong)
-
   return (
     <BaoHongTaiSanView
       loading={loading}
@@ -275,13 +263,18 @@ const BaoHongTaiSan = () => {
       listPhong={listPhong}
       listTaiSan={listTaiSan}
       showModal={showModal}
-      listYeuCauSuCo={listYeuCauSuCo}
       taiSan={selectedTaiSan}
       hinhThucBaoHong={hinhThucBaoHong}
       listSuCo={listSuCo}
       tenSuCo={tenSuCo}
       moTaSuCo={moTaSuCo}
       dataTaiSan={dataTaiSan}
+      searchPhong={searchPhong}
+      selectedPhong={selectedPhong}
+      openSelectPhong={openSelectPhong}
+      onSelectedPhong={setSelectedPhong}
+      onSetSearchPhong={setSearchPhong}
+      onOpenSelectPhong={setOpenSelectPhong}
       onSetDataViTri={setDataViTri}
       onSetIdPhong={setIdPhong}
       onShowModal={handleShowModal}

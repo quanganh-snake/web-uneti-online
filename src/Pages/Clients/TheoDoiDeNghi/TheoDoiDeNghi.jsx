@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import TheoDoiDeNghiView from './TheoDoiDeNghiView'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { getAllYeuCau } from '@/Apis/TheoDoiDeNghi/apiTheoDoiDeNghi'
-import dayjs from 'dayjs'
+import { dayjs } from '@/Services/Utils/dayjs'
 
 function TheoDoiDeNghi() {
   const home = {

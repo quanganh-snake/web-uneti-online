@@ -1,26 +1,14 @@
 import { useLocation } from 'react-router-dom'
 
-import ReactPaginate from 'react-paginate'
-
-import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai'
-import { FiSearch } from 'react-icons/fi'
-import icoPhoneHotLine from '@/assets/Icons/icoPhoneTaiSan.png'
-
 import DanhSachTaiSan from './DanhSachTaiSan'
 import clsx from 'clsx'
 import Loading from '@/Components/Loading/Loading'
 import Box from '@/Components/MotCua/Box'
 import { TextareaAutosize } from '@mui/material'
-import {
-  Autocomplete,
-  Checkbox,
-  MenuItem,
-  Select,
-  TextField,
-} from '@mui/material'
-import { isEmpty } from 'lodash-unified'
+import { Autocomplete, Checkbox, TextField } from '@mui/material'
+import { IoClose } from 'react-icons/io5'
 import { listHinhThucBaoHong } from './constant'
-import ModalChiTietTaiSan from '@/Components/Modals/ModalTaiSan/ModalChiTietTaiSan'
+import ModalChiTietTaiSan from '@/Components/HoTroThietBi/ModalChiTietTaiSan'
 const BaoHongTaiSanView = (props) => {
   const {
     loading,
@@ -33,13 +21,18 @@ const BaoHongTaiSanView = (props) => {
     listTaiSan,
     currentItems,
     showModal,
-    listYeuCauSuCo,
     taiSan,
     hinhThucBaoHong,
     listSuCo,
     tenSuCo,
     moTaSuCo,
     dataTaiSan,
+    searchPhong,
+    selectedPhong,
+    openSelectPhong,
+    onSelectedPhong,
+    onSetSearchPhong,
+    onOpenSelectPhong,
     onSetDataViTri,
     onSetIdPhong,
     onShowModal,
@@ -195,33 +188,89 @@ const BaoHongTaiSanView = (props) => {
                   </select>
                 </div>
                 <div className="col-span-4 lg:col-span-2">
-                  <p>Phòng</p>
-                  <select
-                    name="DT_QLP_Phong_Phong"
-                    id="DT_QLP_Phong_Phong"
-                    onChange={onChangeValue}
-                    disabled={
-                      dataViTri?.DT_QLP_Phong_CoSo.trim() !== '' &&
-                      dataViTri?.DT_QLP_Phong_DiaDiem.trim() !== '' &&
-                      dataViTri?.DT_QLP_Phong_ToaNha.trim() !== ''
-                        ? false
-                        : true
-                    }
-                    className="w-full px-3 py-2 border focus:outline-slate-400 disabled:bg-gray-200"
-                  >
-                    <option value="">Chọn tên phòng</option>
-                    {listPhong &&
-                      listPhong?.map((iPhong) => (
-                        <option
-                          key={iPhong.DT_QLP_Phong_ID}
-                          value={iPhong.DT_QLP_Phong_ID}
-                        >
-                          {iPhong.DT_QLP_Phong_ID}
-                          &#8722;
-                          {iPhong.DT_QLP_Phong_TenPhong}
-                        </option>
-                      ))}
-                  </select>
+                  <p>Phòng (*)</p>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      className="w-full px-3 py-2 border focus:outline-slate-400 disabled:bg-gray-200"
+                      placeholder="Chọn tên phòng"
+                      value={
+                        searchPhong !== ''
+                          ? searchPhong
+                          : dataViTri.DT_QLP_Phong_Phong.trim()
+                      }
+                      disabled={
+                        dataViTri?.DT_QLP_Phong_CoSo.trim() !== '' &&
+                        dataViTri?.DT_QLP_Phong_DiaDiem.trim() !== '' &&
+                        dataViTri?.DT_QLP_Phong_ToaNha.trim() !== ''
+                          ? false
+                          : true
+                      }
+                      onChange={(e) => {
+                        onSetSearchPhong(e.target.value)
+                      }}
+                      onFocus={() => {
+                        onOpenSelectPhong(true)
+                      }}
+                    />
+                    {dataViTri.DT_QLP_Phong_Phong.trim() !== '' && (
+                      <span
+                        onClick={() => {
+                          onSetDataViTri({
+                            ...dataViTri,
+                            DT_QLP_Phong_Phong: '',
+                          })
+                          onSetIdPhong(null)
+                        }}
+                        className="flex justify-center items-center cursor-pointer absolute top-3 right-4 w-5 h-5 bg-gray-200 rounded-full hover:bg-slate-100"
+                      >
+                        <IoClose />
+                      </span>
+                    )}
+                  </div>
+                  {openSelectPhong === true && (
+                    <div className="max-h-60 overflow-y-auto">
+                      <ul>
+                        {listPhong &&
+                          listPhong
+                            .filter((iPhong) =>
+                              iPhong.DT_QLP_Phong_TenPhong.toLowerCase().includes(
+                                searchPhong.toLowerCase(),
+                              ),
+                            )
+                            ?.map((iPhong) => (
+                              <li
+                                className="px-3 py-1 cursor-pointer hover:font-medium hover:bg-slate-100 hover:text-gray-700"
+                                key={iPhong.DT_QLP_Phong_ID}
+                                onClick={() => {
+                                  onSetIdPhong(iPhong?.DT_QLP_Phong_ID)
+                                  onSetDataViTri({
+                                    ...dataViTri,
+                                    DT_QLP_Phong_Phong:
+                                      iPhong?.DT_QLP_Phong_TenPhong,
+                                  })
+                                  onSetSearchPhong('')
+                                  onSelectedPhong(iPhong)
+                                  onOpenSelectPhong(false)
+                                }}
+                              >
+                                {iPhong.DT_QLP_Phong_TenPhong}
+                              </li>
+                            ))}
+                        {listPhong &&
+                          listPhong.length > 0 &&
+                          listPhong.filter((iPhong) =>
+                            iPhong.DT_QLP_Phong_TenPhong.toLowerCase().includes(
+                              searchPhong.toLowerCase(),
+                            ),
+                          ).length === 0 && (
+                            <li className="px-3 py-1 bg-slate-100 text-gray-500">
+                              Không có dữ liệu của phòng "{searchPhong}"
+                            </li>
+                          )}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

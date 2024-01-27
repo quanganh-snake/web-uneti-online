@@ -11,6 +11,11 @@ import { hocTapSidebar } from '../../constants'
 import XacNhanThi from '@/Components/HocTap/Promt/XacNhanThi'
 import XacNhanNopBai from '@/Components/HocTap/Promt/XacNhanNopBai'
 import KetQuaThi from '@/Components/HocTap/Promt/KetQuaThi'
+import MonHoc from '@/Components/HocTap/OnTap/MonHoc'
+
+import iconOnLuyen from '@/assets/Icons/icon-onluyen.png'
+import { Link } from 'react-router-dom'
+import { Box, CircularProgress, Typography } from '@mui/material'
 
 export default function OnTap() {
   const [listMonHoc, setListMonHoc] = useState([])
@@ -18,7 +23,7 @@ export default function OnTap() {
   const dataSV = DataSinhVien()
 
   const danhSachMonHocTheoHocKy = useMemo(() => {
-    return listMonHoc.reduce((result, monHoc) => {
+    const listMonHocHocKy = listMonHoc.reduce((result, monHoc) => {
       if (Object.prototype.hasOwnProperty.call(result, monHoc.TenDot)) {
         result[monHoc.TenDot].push(monHoc)
       } else {
@@ -27,6 +32,11 @@ export default function OnTap() {
 
       return result
     }, {})
+
+    return Object.keys(listMonHocHocKy).map((hk) => ({
+      HocKy: hk,
+      MonHoc: listMonHocHocKy[hk],
+    }))
   }, [listMonHoc])
 
   useEffect(() => {
@@ -46,13 +56,50 @@ export default function OnTap() {
         breadcrumbs={breadcrumbs}
         home={home}
       >
-        {Object.keys(danhSachMonHocTheoHocKy).map((hk, index) => (
-          <HocKy
-            key={index}
-            hocKy={hk}
-            linkTo="danhsachcauhoi"
-            listMonHoc={danhSachMonHocTheoHocKy[hk]}
-          />
+        {danhSachMonHocTheoHocKy.map((hocKy, index) => (
+          <HocKy key={index} hocKy={hocKy.HocKy}>
+            {hocKy.MonHoc.map((mh, index) => (
+              <Link key={index} to={`danhsachcauhoi/${mh.MaMonHoc}`}>
+                <MonHoc
+                  TenMonHoc={mh.TenMonHoc}
+                  MaMonHoc={`Mã môn học: ${mh.MaMonHoc}`}
+                  icon={iconOnLuyen}
+                >
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      display: 'inline-flex',
+                    }}
+                  >
+                    <CircularProgress
+                      variant="determinate"
+                      value={Math.round((mh.SoCauDaLam / mh.TongCauHoi) * 100)}
+                    />
+                    <Box
+                      sx={{
+                        top: 0,
+                        left: 0,
+                        bottom: 0,
+                        right: 0,
+                        position: 'absolute',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <Typography
+                        variant="caption"
+                        component="div"
+                        color="text.secondary"
+                      >
+                        {`${Math.round((mh.SoCauDaLam / mh.TongCauHoi) * 100)}%`}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </MonHoc>
+              </Link>
+            ))}
+          </HocKy>
         ))}
       </CommonLayout>
     </>

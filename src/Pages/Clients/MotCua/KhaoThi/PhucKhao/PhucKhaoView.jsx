@@ -27,7 +27,7 @@ function PhucKhaoView(props) {
       <div className="p-4 flex flex-col gap-4">
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
         <div className="form-submit flex flex-col w-full justify-center">
-          <h2 className="text-center uppercase text-2xl font-bold text-sky-800 mb-6">
+          <h2 className="text-center uppercase text-2xl font-semibold text-sky-800 mb-6">
             Tiếp nhận yêu cầu phúc khảo kết quả học tập
           </h2>
 
@@ -88,67 +88,67 @@ function PhucKhaoView(props) {
                       <tr>
                         <th
                           rowSpan={3}
-                          className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           STT
                         </th>
                         <th
                           rowSpan={3}
-                          className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           CHỌN
                         </th>
                         <th
                           rowSpan={3}
-                          className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           MÃ LỚP HỌC PHẦN
                         </th>
                         <th
                           rowSpan={3}
-                          className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           TÊN HỌC PHẦN
                         </th>
                         <th
                           rowSpan={3}
-                          className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           HÌNH THỨC THI
                         </th>
                         <th
                           rowSpan={3}
-                          className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           NGÀY THI
                         </th>
                         <th
                           rowSpan={3}
-                          className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           NHÓM
                         </th>
                         <th
                           rowSpan={3}
-                          className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           TIẾT
                         </th>
                         <th
                           rowSpan={3}
-                          className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           PHÒNG THI
                         </th>
                         <th
                           rowSpan={3}
-                          className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           SỐ BÁO DANH
                         </th>
                         <th
                           colSpan={4}
-                          className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           ĐIỂM
                         </th>
@@ -156,28 +156,28 @@ function PhucKhaoView(props) {
                       <tr>
                         <th
                           colSpan={2}
-                          className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           ĐIỂM THI
                         </th>
                         <th
                           colSpan={2}
-                          className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           ĐIỂM TỔNG KẾT
                         </th>
                       </tr>
                       <tr>
-                        <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           LẦN 1
                         </th>
-                        <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           THI LẠI
                         </th>
-                        <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           LẦN 1
                         </th>
-                        <th className="p-2 font-bold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           THI LẠI
                         </th>
                       </tr>
@@ -265,7 +265,7 @@ function PhucKhaoView(props) {
 
             {/* END: Table học phần */}
             <div className="uneti-notify my-4">
-              <p className="w-full font-bold text-red-600">
+              <p className="w-full font-semibold text-red-600">
                 *Lưu ý: Lệ phí phúc khảo kết quả học tập: Có mức thu theo quy
                 định, được chuyển trực tiếp vào công nợ của SV.
               </p>

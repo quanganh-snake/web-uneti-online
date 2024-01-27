@@ -82,14 +82,18 @@ import HocTapOnTap from '@/Pages/Clients/HocTap/OnLuyen/OnTap/OnTap.jsx'
 import HocTapThiThu from '@/Pages/Clients/HocTap/OnLuyen/ThiThu/ThiThu.jsx'
 import KetQuaHocTapChiTiet from '@/Pages/Clients/HocTap/KetQuaHocTap/KetQuaHocTapChiTiet/KetQuaHocTapChiTiet'
 import DeThi from '@/Pages/Clients/HocTap/OnLuyen/ThiThu/DanhSachDeThi/DeThi/DeThi'
-import ThiThuDanhSachDeThi from '@/Pages/Clients/HocTap/OnLuyen/ThiThu/DanhSachDeThi/DanhSachMonThi'
+import ThiThuDanhSachDeThi from '@/Pages/Clients/HocTap/OnLuyen/ThiThu/DanhSachDeThi/DanhSachDeThi'
 import OnTapDanhSachCauHoi from '@/Pages/Clients/HocTap/OnLuyen/OnTap/DanhSachCauHoi/DanhSachCauHoi'
-
+import HomeTraCuu from '@/Pages/Clients/TraCuu'
+import ThoiKhoaBieu from '@/Pages/Clients/TraCuu/ThoiKhoaBieu/ThoiKhoaBieu'
+import DiemDanh from '@/Pages/Clients/TraCuu/DiemDanh/DiemDanh'
+import RenLuyen from '@/Pages/Clients/TraCuu/RenLuyen/RenLuyen'
 
 const ROLES = {
   G0101: 'GV',
   S0202: 'SV',
 }
+// TODO: move to constants for fix eslint:  react-refresh/only-export-components
 export const ROLE_VIEW_ACTION_TTHCGV = {
   QT_TTHCGV: '15',
   CBNV_TTHCGV: '16',
@@ -211,6 +215,12 @@ export const privateRoutes = (
             <Route index element={<HomeHanhChinh />} />
             <Route path="giaygioithieu" element={<GiayGioiThieu />} />
           </Route>
+        </Route>
+        <Route path="tracuu">
+          <Route index element={<HomeTraCuu />} />
+          <Route path="diemdanh" element={<DiemDanh />} />
+          <Route path="renluyen" element={<RenLuyen />} />
+          <Route path="thoikhoabieu" element={<ThoiKhoaBieu />} />
         </Route>
       </Route>
       {/* Hỗ trợ TBGD */}

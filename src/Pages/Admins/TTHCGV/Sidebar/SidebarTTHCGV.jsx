@@ -52,7 +52,9 @@ function SidebarTTHCGV() {
               : 'hidden',
           )}
         >
-          <h4 className="text-md font-bold uppercase mb-4">Quy trình/Hồ sơ</h4>
+          <h4 className="text-md font-semibold uppercase mb-4">
+            Quy trình/Hồ sơ
+          </h4>
           <ul>
             <li>
               <Link
@@ -77,7 +79,9 @@ function SidebarTTHCGV() {
           </ul>
         </div>
         <div className="mb-4">
-          <h4 className="text-md font-bold uppercase mb-4">Danh sách hồ sơ</h4>
+          <h4 className="text-md font-semibold uppercase mb-4">
+            Danh sách hồ sơ
+          </h4>
           <ul>
             <li>
               <Link

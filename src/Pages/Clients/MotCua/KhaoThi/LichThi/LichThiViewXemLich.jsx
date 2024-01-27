@@ -1,11 +1,11 @@
 import moment from 'moment'
 import DataTable from '@/Components/Base/DataTable/DataTable'
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 
 export const LichThiViewXemDanhSach = (props) => {
   const { listHocPhan } = props
 
-  const bem = useBem('data-table')
+  const bem = useNamespace('data-table')
 
   const thead = () => (
     <>
@@ -153,7 +153,7 @@ export const LichThiViewXemDanhSach = (props) => {
     ) : (
       <tr>
         <td colSpan={`10`}>
-          <p className="p-4 text-center font-bold text-red-600">
+          <p className="p-4 text-center font-semibold text-red-600">
             Không có dữ liệu!
           </p>
         </td>

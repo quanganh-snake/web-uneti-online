@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 import { SearchBox } from '@/Components/HoTroSuDungPhanMem/SearchBox/SearchBox'
 import { Posts } from '@/Components/HoTroSuDungPhanMem/Posts/Posts'
 import { Sidebar } from '@/Components/HoTroSuDungPhanMem/Sidebar/Sidebar'
@@ -8,7 +8,7 @@ import { Sidebar } from '@/Components/HoTroSuDungPhanMem/Sidebar/Sidebar'
 import './HoTroSuDungPhanMem.scss'
 
 export const HoTroSuDungPhanMem = () => {
-  const bem = useBem('main')
+  const bem = useNamespace('main')
 
   const [category, setCategory] = useState('')
 

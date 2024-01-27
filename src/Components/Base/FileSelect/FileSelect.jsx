@@ -1,4 +1,4 @@
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 import { useEffect, useRef } from 'react'
 
 import './FileSelect.scss'
@@ -6,7 +6,6 @@ import { store } from '@/Services/Redux/store'
 import Resumable from 'resumablejs'
 import { FaPlus } from 'react-icons/fa6'
 import Swal from 'sweetalert2'
-import { useState } from 'react'
 
 export const FileSelect = (props) => {
   const {
@@ -21,11 +20,9 @@ export const FileSelect = (props) => {
 
   const fileId = `file-${Math.random(1111, 9999) * 1000}`
 
-  const bem = useBem('file-select')
+  const bem = useNamespace('file-select')
 
   const browseFile = useRef()
-
-  const [fileCached, setFileCached] = useState([])
 
   useEffect(() => {
     const resumable = new Resumable({
@@ -86,7 +83,6 @@ export const FileSelect = (props) => {
     resumable.assignDrop(browseFile.current)
 
     resumable.on('fileAdded', (file) => {
-      setFileCached(file)
       handleFilesChange(file.file)
     })
 
@@ -113,5 +109,7 @@ export const FileSelect = (props) => {
     </div>
   )
 }
+
+FileSelect.displayName = 'FileSelect'
 
 export default FileSelect

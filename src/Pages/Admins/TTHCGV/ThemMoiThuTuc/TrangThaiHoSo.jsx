@@ -238,7 +238,7 @@ const TrangThaiHoSo = memo(function TrangThaiHoSo(props) {
           className="flex flex-row gap-2 items-center font-semibold text-md text-white bg-[#245D7C] px-3 py-2 rounded-md hover:opacity-70"
           onClick={handleAddTrangThai}
         >
-          <MdAdd size={24} className="font-bold" />
+          <MdAdd size={24} className="font-semibold" />
           Thêm trạng thái
         </button>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {
   AiOutlineEye,
   AiOutlineEyeInvisible,
@@ -243,7 +243,7 @@ function Login() {
           <div className="login-brand flex justify-center mb-6">
             <img src={logoUneti} className="w-32" alt="" />
           </div>
-          <h3 className="font-bold uppercase text-3xl text-sky-700 mb-10 text-center">
+          <h3 className="font-semibold uppercase text-3xl text-sky-700 mb-10 text-center">
             Đăng nhập hệ thống UNETI
           </h3>
           <form

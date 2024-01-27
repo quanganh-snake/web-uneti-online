@@ -16,8 +16,8 @@ export default function KetQuaThi(props) {
         setIsOpen={setIsOpen}
         header={
           <div className="text-center">
-            <b>Bài thi môn</b>
-            <p>{TenMonHoc}</p>
+            <span className="font-medium">Bài thi môn</span>
+            <p className="font-semibold text-lg">{TenMonHoc}</p>
           </div>
         }
         footer={

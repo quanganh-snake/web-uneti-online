@@ -30,7 +30,7 @@ function EmailLMSView(props) {
             onSubmit={handleSubmitData}
             className="py-8 flex flex-col justify-center items-center gap-4"
           >
-            <h2 className="text-center uppercase text-2xl font-bold text-sky-800 mb-6">
+            <h2 className="text-center uppercase text-2xl font-semibold text-sky-800 mb-6">
               TIẾP NHẬN XỬ LÝ CÁC VẤN ĐỀ EMAIL/LMS
             </h2>
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
@@ -100,7 +100,7 @@ function EmailLMSView(props) {
                 minRows="3"
               />
             </div>
-            <button className="mt-8 px-5 py-3 border-2 border-solid text-[#245D7C] border-[#245D7C] rounded-md font-bold transition-all duration-200 hover:bg-[#245D7C] hover:text-white">
+            <button className="mt-8 px-5 py-3 border-2 border-solid text-[#245D7C] border-[#245D7C] rounded-md font-semibold transition-all duration-200 hover:bg-[#245D7C] hover:text-white">
               Gửi Yêu Cầu
             </button>
           </form>

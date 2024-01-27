@@ -2,7 +2,7 @@ import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import { CapBangDiemForm } from './CapBangDiemForm'
 import { home, breadcrumbs } from './constants'
 import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
-import { VanBanMauId } from '@/Configs/constants'
+import { VanBanMauID } from '@/Services/Tokens/filesId'
 
 export const CapBangDiemView = (props) => {
   const { handleSubmitData } = props
@@ -13,7 +13,7 @@ export const CapBangDiemView = (props) => {
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
 
         <div className="form-submit flex flex-col w-full justify-center">
-          <h2 className="text-center uppercase text-2xl font-bold text-sky-800 mb-6">
+          <h2 className="text-center uppercase text-2xl font-semibold text-sky-800 mb-6">
             Tiếp nhận yêu cầu cấp bảng điểm tạm thời
           </h2>
           <div className="lg:px-36">
@@ -33,7 +33,7 @@ export const CapBangDiemView = (props) => {
 
           <div className="lg:px-36">
             <GiayToKemTheoAlert
-              downloadId={VanBanMauId.MotCua.DaoTao.CapBangDiem}
+              downloadId={VanBanMauID.MotCua.DaoTao.CapBangDiem}
               downloadText="Bảng điểm tốt nghiệp"
             />
           </div>

@@ -1,5 +1,5 @@
 import DataTable from '@/Components/Base/DataTable/DataTable'
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 import { useMemo, useState } from 'react'
 import { Checkbox, Pagination } from '@mui/material'
 
@@ -24,7 +24,7 @@ const DanhSachTaiSan = (props) => {
     postsPerPage * (page - 1) + postsPerPage,
   )
 
-  const bem = useBem('data-table')
+  const bem = useNamespace('data-table')
 
   const thead = () => (
     <>

@@ -1,10 +1,10 @@
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 
 import './DataTable.scss'
 import { useMemo } from 'react'
 
 export const DataTable = (props) => {
-  const bem = useBem('data-table')
+  const bem = useNamespace('data-table')
 
   const appStyles = useMemo(() => {
     return {

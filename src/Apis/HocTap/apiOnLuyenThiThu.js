@@ -1,4 +1,5 @@
 import http from '@/Configs/http'
+import { LOAD_CAU_HOI_DIEU_KIEN_LOC } from '@/Services/Tokens'
 
 export const getAllMonHocThiThu = (MaSinhVien = '') => {
   return http.get('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/TheoSinhVien', {
@@ -14,12 +15,6 @@ export const getAllDeThiThiThu = (MaMonHoc = '') => {
       MaMonHoc: MaMonHoc,
     },
   })
-}
-export const LOAD_CAU_HOI_DIEU_KIEN_LOC = {
-  TatCa: 0,
-  ChuaLam: 1,
-  DaLam: 2,
-  PhanVan: 3,
 }
 
 export const getCauHoiTheoMonHoc = ({

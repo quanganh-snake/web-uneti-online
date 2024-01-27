@@ -7,13 +7,14 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import iconThiThu from '@/assets/Icons/icon-thithu.png'
 import XacNhanThi from '@/Components/HocTap/Promt/XacNhanThi'
+import MonHoc from '@/Components/HocTap/OnTap/MonHoc'
 
 function DanhSachDeThi() {
   const uLocation = useLocation()
 
   const navigate = useNavigate()
 
-  const id = uLocation.pathname.split('/').at(-1)?.toString()
+  const id = uLocation.pathname.split('/').pop()
 
   const [listDeThi, setListDeThi] = useState([])
 
@@ -54,33 +55,26 @@ function DanhSachDeThi() {
 
   return (
     <div className="flex flex-col justify-start items-center gap-4">
-      <h3 className="text-uneti-primary text-center font-bold text-2xl">
+      <h3 className="text-uneti-primary text-center font-semibold text-2xl">
         {monHoc.TenMonHoc}
       </h3>
       <span className="text-uneti-primary text-sm">
         Mã Môn Học: {monHoc.MaMonHoc}
       </span>
-      <div className="w-full flex flex-col gap-4 pb-2">
+      <div className="w-full flex flex-col gap-4 p-6 rounded-[30px] shadow-sm bg-white">
         {listDeThi.map((dt, index) => (
-          <div
+          <MonHoc
             key={index}
-            className="bg-white rounded-md shadow-md duration-200 w-full flex p-4 justify-between items-center gap-4 text-vs-text"
+            icon={iconThiThu}
+            TenMonHoc={dt.TenDeThi}
+            MaMonHoc={`Mã đề: ${dt.MaDeThi}`}
           >
-            <div>
-              <img src={iconThiThu} />
-            </div>
-            <div className="flex-1 flex flex-col gap-4">
-              <span className="font-semibold">{dt.TenDeThi}</span>
-              <span className="text-sm">Mã đề: {dt.MaDeThi}</span>
-            </div>
-            <div>
-              <XacNhanThi
-                onConfirm={handleBatDauThi}
-                TenMonHoc={monHoc.TenMonHoc}
-                {...dt}
-              />
-            </div>
-          </div>
+            <XacNhanThi
+              onConfirm={handleBatDauThi}
+              TenMonHoc={monHoc.TenMonHoc}
+              {...dt}
+            />
+          </MonHoc>
         ))}
       </div>
     </div>

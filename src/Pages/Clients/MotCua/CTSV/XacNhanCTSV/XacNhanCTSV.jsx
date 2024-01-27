@@ -4,13 +4,9 @@ import { XacNhanForm } from './XacNhanForm'
 import { useState } from 'react'
 import Swal from 'sweetalert2'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
-import { convertDataFileToBase64 } from '@/Services/Utils/stringUtils'
-import {
-  postYeuCauXacNhan,
-  xacNhanKiemTraTrung,
-} from '@/Apis/MotCua/CTSV/apiXacNhan'
+import { postYeuCauXacNhan } from '@/Apis/MotCua/CTSV/apiXacNhan'
 import { GiayToKemTheoAlert } from '@/Components/MotCua/GiayToKemTheoAlert'
-import { VanBanMauId } from '@/Configs/constants'
+import { VanBanMauID } from '@/Services/Tokens/filesId'
 import { required } from '@/Services/Validators/required'
 import {
   makeDataImages,
@@ -128,14 +124,11 @@ function XacNhanCTSV() {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `Đã gửi yêu cầu xác nhận thành công`,
+            title: `Gửi yêu cầu thành công`,
+            text: `Vui lòng chờ kết quả xử lý từ phòng Chính trị và Công tác sinh viên`,
             showConfirmButton: false,
             timer: 1500,
           })
-
-          setTimeout(() => {
-            window.location.reload()
-          }, 1000)
         }
       }
     } catch (error) {
@@ -161,7 +154,7 @@ function XacNhanCTSV() {
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
 
         <div className="form-submit flex flex-col w-full justify-center">
-          <h2 className="text-center uppercase text-2xl font-bold text-sky-800 mb-6">
+          <h2 className="text-center uppercase text-2xl font-semibold text-sky-800 mb-6">
             Tiếp nhận yêu cầu xác nhận
           </h2>
           <div className="lg:px-36">
@@ -189,7 +182,7 @@ function XacNhanCTSV() {
           </div>
 
           <GiayToKemTheoAlert
-            downloadId={VanBanMauId.MotCua.CTSV.XacNhan}
+            downloadId={VanBanMauID.MotCua.CTSV.XacNhan}
             downloadText="Xác nhận"
           />
         </div>

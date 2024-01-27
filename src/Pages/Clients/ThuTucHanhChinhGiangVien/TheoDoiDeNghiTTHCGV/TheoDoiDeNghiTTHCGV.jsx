@@ -33,7 +33,7 @@ function TheoDoiDeNghiTTHCGV() {
       )}
       {listHoSoYeuCau?.length > 0 && (
         <div className="bg-white p-4 shadow-md rounded-lg w-full min-h-[500px]">
-          <h3 className="uppercase font-bold text-3xl text-center text-[#336699] mb-4">
+          <h3 className="uppercase font-semibold text-3xl text-center text-[#336699] mb-4">
             Danh sách hồ sơ đã gửi
           </h3>
           <div className="w-full">

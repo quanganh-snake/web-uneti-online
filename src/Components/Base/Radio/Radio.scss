@@ -9,7 +9,7 @@
   user-select: none;
 
   @include when(active) {
-    .radio__effect {
+    .#{$namespace}-radio__effect {
       &:after {
         border: 7px solid getColor('color', 1);
         box-shadow: 0px 3px 12px 0px getColor('color', 0.3);
@@ -21,7 +21,7 @@
     pointer-events: none;
     user-select: none;
 
-    .radio__effect {
+    .#{$namespace}-radio__effect {
       &:after {
         opacity: 0.1;
       }
@@ -36,7 +36,7 @@
     opacity: 0.5;
     pointer-events: none;
 
-    .radio__effect {
+    .#{$namespace}-radio__effect {
       background: getColor('gray-3');
     }
 
@@ -102,23 +102,15 @@
     cursor: pointer;
 
     &:active {
-      ~ .radio__effect {
+      ~ .#{$namespace}-radio__effect {
         &:after {
           transform: scale(0.9);
         }
       }
     }
 
-    &:not(:checked) ~ .radio__effect {
-      .radio__effect--loading {
-        .icon-loading {
-          color: getColor('divider');
-        }
-      }
-    }
-
     &:checked {
-      ~ .radio__effect {
+      ~ .#{$namespace}-radio__effect {
         &:after {
           border: 7px solid getColor('color', 1);
           animation-name: radio;

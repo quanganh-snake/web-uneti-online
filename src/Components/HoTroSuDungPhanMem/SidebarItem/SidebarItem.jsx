@@ -1,8 +1,8 @@
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 import PropTypes from 'prop-types'
 
 export const SidebarItem = ({ name, onClick, active }) => {
-  const bem = useBem('htsdpm-sidebar')
+  const bem = useNamespace('htsdpm-sidebar')
 
   return (
     <div

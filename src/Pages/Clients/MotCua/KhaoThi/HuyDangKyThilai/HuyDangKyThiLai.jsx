@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import HuyDangKyThiLaiView from './HuyDangKyThiLaiView'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import {
   getAllHocPhanHDKThiLai,
-  getKiemTraTrungHDKThi,
-  getTenDotHDKThiLai,
   postHDKThiLai,
 } from '@/Apis/MotCua/KhaoThi/apiHuyDangKyThiLai'
 import Swal from 'sweetalert2'
@@ -142,21 +140,18 @@ function HuyDangKyThiLai() {
         if (data.message === 'Bản ghi bị trùng.') {
           Swal.fire({
             icon: 'error',
-            title: 'Thông báo trùng',
-            text: `Học phần ${dataHocPhan.MC_KT_HDKThiLai_TenMonHoc} đã hết được gửi yêu cầu hủy đăng ký thi lại trước đây. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+            title: 'Yêu cầu quá nhiều',
+            text: `Yêu cầu đã được gửi trước đó!`,
           })
         } else {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `Học phần ${dataHocPhan.MC_KT_HDKThiLai_TenMonHoc} đã được gửi yêu cầu hủy đăng ký thi lại. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+            title: `Gửi yêu cầu thành công`,
+            text: `Vui lòng chờ kết quả xử lý từ phòng Khảo thí và Đảm bảo chất lượng`,
             showConfirmButton: false,
             timer: 1500,
           })
-
-          setTimeout(() => {
-            window.location.reload()
-          }, 1000)
         }
       }
     } catch (error) {

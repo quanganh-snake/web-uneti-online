@@ -1,13 +1,13 @@
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 import { isEqual, isNil } from 'lodash-unified'
 import Loading from '@/Components/Loading/Loading'
 import DataTable from '@/Components/Base/DataTable/DataTable'
 import { Checkbox } from '@mui/material'
-import dayjs from 'dayjs'
+import { dayjs } from '@/Services/Utils/dayjs'
 import FileSelect from '@/Components/Base/FileSelect/FileSelect'
 
 export const HoanThiTable = (props) => {
-  const bem = useBem('hoan-thi')
+  const bem = useNamespace('hoan-thi')
 
   const {
     loading,
@@ -94,7 +94,7 @@ export const HoanThiTable = (props) => {
                   {listHocPhan?.length == 0 && (
                     <tr>
                       <td colSpan={`10`}>
-                        <p className="p-4 text-center font-bold text-red-600">
+                        <p className="p-4 text-center font-semibold text-red-600">
                           Không có dữ liệu!
                         </p>
                       </td>

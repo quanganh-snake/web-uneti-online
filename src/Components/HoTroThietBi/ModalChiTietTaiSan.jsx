@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from 'react'
-
 const ModalChiTietTaiSan = (props) => {
   const { onShowModal, dataTaiSan } = props
   return (

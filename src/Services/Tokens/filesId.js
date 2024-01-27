@@ -1,4 +1,4 @@
-export const VanBanMauId = {
+export const VanBanMauID = {
   MotCua: {
     KhaoThi: {
       MienHocMienThiTiengAnh: 28,

@@ -1,6 +1,6 @@
 import { useContext, useRef } from 'react'
 
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 import { AccordionContext } from '../Accordion/constants'
 
 import './AccordionContent.scss'
@@ -16,7 +16,7 @@ export default function AccordionContent({
 }) {
   const accordionCtx = useContext(AccordionContext)
 
-  const bem = useBem('accordion')
+  const bem = useNamespace('accordion')
 
   const contentRef = useRef()
 

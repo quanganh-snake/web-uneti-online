@@ -1,5 +1,3 @@
-import { TextField } from '@mui/material'
-
 function FormYeuCauSuaDiem(props) {
   const {
     lyDo,
@@ -26,9 +24,6 @@ function FormYeuCauSuaDiem(props) {
         <input
           value={diemSua}
           onChange={(e) => setDiemSua(e.target.value)}
-          type="number"
-          min={0}
-          max={10}
           className="flex-1 md:max-w-[70%] px-2 py-1 rounded-md border border-solid border-gray-300"
         />
       </div>
@@ -55,7 +50,7 @@ function FormYeuCauSuaDiem(props) {
       {lyDoChiTiet.length ? (
         <button
           onClick={handleSubmitData}
-          className="mt-8 px-5 py-3 border-2 border-solid text-[#245D7C] border-[#245D7C] rounded-md font-bold transition-all duration-200 hover:bg-[#245D7C] hover:text-white"
+          className="mt-8 px-5 py-3 border-2 border-solid text-[#245D7C] border-[#245D7C] rounded-md font-semibold transition-all duration-200 hover:bg-[#245D7C] hover:text-white"
         >
           Gửi Yêu Cầu
         </button>

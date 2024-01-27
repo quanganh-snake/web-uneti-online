@@ -1,9 +1,9 @@
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 
 import './Tag.scss'
 
 export default function Tag({ children }) {
-  const bem = useBem('tag')
+  const bem = useNamespace('tag')
 
   return (
     <div className={bem.b()}>

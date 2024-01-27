@@ -1,4 +1,4 @@
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 import { Post } from '../Post/Post'
 import PropTypes from 'prop-types'
 
@@ -10,7 +10,7 @@ import { useMemo } from 'react'
 import { Pagination } from '@mui/material'
 
 export const Posts = ({ category, search }) => {
-  const bem = useBem('posts')
+  const bem = useNamespace('posts')
 
   const [posts, setPosts] = useState([])
 

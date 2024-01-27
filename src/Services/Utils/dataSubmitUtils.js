@@ -1,4 +1,4 @@
-import { isArray, isEmpty, isNil, merge, toArray } from 'lodash-unified'
+import { isArray, isNil, merge } from 'lodash-unified'
 import { convertDataFileToBase64 } from './stringUtils'
 
 export const dataSubmitUtils = () => {}

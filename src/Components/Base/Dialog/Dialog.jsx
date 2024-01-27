@@ -1,10 +1,10 @@
-import { useBem, useClickOutside } from '@/Services/Hooks'
+import { useNamespace, useClickOutside } from '@/Services/Hooks'
 import { useRef, useImperativeHandle, forwardRef } from 'react'
 
 import './Dialog.scss'
 
 export const Dialog = forwardRef((props, ref) => {
-  const bem = useBem('dialog')
+  const bem = useNamespace('dialog')
 
   const { footer, header, children, isOpen, setIsOpen } = props
 

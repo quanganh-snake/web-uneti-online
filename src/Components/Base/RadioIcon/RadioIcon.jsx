@@ -1,7 +1,7 @@
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 
 export const RadioIcon = ({ children }) => {
-  const bem = useBem('radio')
+  const bem = useNamespace('radio')
 
   return (
     <>

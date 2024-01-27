@@ -1,4 +1,4 @@
-import { useBem } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 
 import { forwardRef, useMemo, useReducer } from 'react'
 import { transformCls } from '@/Services/Utils/reactUtils'
@@ -14,7 +14,7 @@ import { useImperativeHandle } from 'react'
 
 export const Accordion = forwardRef(
   ({ children, className, ...attrs }, ref) => {
-    const bem = useBem('accordion')
+    const bem = useNamespace('accordion')
 
     const [state, dispatch] = useReducer(reducer, {
       isAccordion: true,
@@ -57,5 +57,6 @@ export const Accordion = forwardRef(
 
 Accordion.Label = AccordionLabel
 Accordion.Content = AccordionContent
+Accordion.displayName = 'Accordion'
 
 export default Accordion

@@ -34,7 +34,7 @@ function KetQuaHocTapView(props) {
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
         <div className="border-[#336699] border border-solid mt-5 rounded-md">
           <form className="py-8 flex flex-col justify-center items-center gap-4">
-            <h2 className="text-center uppercase text-2xl font-bold text-sky-800 mb-6">
+            <h2 className="text-center uppercase text-2xl font-semibold text-sky-800 mb-6">
               TIẾP NHẬN KẾT QUẢ HỌC TẬP
             </h2>
             <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">

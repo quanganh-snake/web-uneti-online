@@ -146,21 +146,18 @@ function LichThi() {
         if (data.message === 'Bản ghi bị trùng.') {
           Swal.fire({
             icon: 'error',
-            title: 'Thông báo quá hạn',
-            text: `Học phần ${dataHocPhan.MC_KT_LichThi_TenMonHoc} đã được gửi yêu cầu trước đấy. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+            title: 'Yêu cầu quá nhiều',
+            text: `Yêu cầu đã được gửi trước đó!`,
           })
         } else {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: `Học phần ${dataHocPhan.MC_KT_LichThi_TenMonHoc} đã được gửi yêu cầu thành công. Vui lòng chờ xử lý từ Phòng Khảo thí và Đảm bảo chất lượng!`,
+            title: `Gửi yêu cầu thành công`,
+            text: `Vui lòng chờ kết quả xử lý từ phòng Khảo thí và Đảm bảo chất lượng`,
             showConfirmButton: false,
             timer: 1500,
           })
-
-          setTimeout(() => {
-            window.location.reload()
-          }, 1000)
         }
       }
     } catch (error) {

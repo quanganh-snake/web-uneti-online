@@ -6,9 +6,9 @@ import logoUNETI from '@/assets/Images/LOGO_UNETI.ico'
 function Footer() {
   return (
     <footer className="bg-sky-800">
-      <div className="py-3 max-w-7xl mx-auto flex flex-col md:flex-row gap-y-4 justify-between items-center">
-        <div className="uneti-logo mb-5">
-          <Link to="/">
+      <div className="py-3 max-w-7xl mx-auto flex flex-col md:flex-row gap-y-4 justify-between items-start">
+        <div className="uneti-logo mb-5 self-center">
+          <Link to="/uneti">
             <img src={logoUNETI} alt="UNETI Logo" width={120} />
           </Link>
         </div>

@@ -1,4 +1,3 @@
-import React from 'react'
 import { AiFillFileAdd } from 'react-icons/ai'
 function ModalYeuCauHoTro(props) {
   const { isShow, onShowModal } = props
