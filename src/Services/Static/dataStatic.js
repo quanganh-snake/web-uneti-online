@@ -6,7 +6,6 @@ import icoHTSDPM from '@/assets/Icons/icoHTSDPM.png'
 import icoTCTTTS from '@/assets/Icons/icoTCTTTS.png'
 import icoQLCTCV from '@/assets/Icons/icoQLCTCV.png'
 import icoHocTap from '@/assets/Icons/icoHocTap.png'
-import iconTraCuu from '@/assets/Icons/iconTraCuu.png'
 import iconDiemDanh from '@/assets/Icons/iconDiemDanh.png'
 import iconLich from '@/assets/Icons/iconLich.png'
 
@@ -68,7 +67,7 @@ export const homeMain = [
   {
     title: 'Tra cứu',
     desc: 'Tra cứu thông tin: Lịch học - Lịch thi; Điểm danh; Rèn luyện; Lịch thi; Công nợ.',
-    icon: iconTraCuu,
+    icon: icoTCTTTS,
     path: '/tracuu',
     moduleActive: true,
     roleActive: ['SV'],
