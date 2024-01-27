@@ -50,6 +50,9 @@ import GopY from '@/Pages/Clients/ThietBiGiangDuong/GopY/GopY'
 // Pages Tài Sản
 import HomeTaiSan from '@/Pages/Clients/TaiSan/'
 import BaoHongTaiSan from '@/Pages/Clients/TaiSan/BaoHongTaiSan/BaoHongTaiSan'
+import SuaChuaTaiSan from '@/Pages/Clients/TaiSan/SuaChuaTaiSan/SuaChuaTaiSan'
+import TraCuuTaiSan from '@/Pages/Clients/TaiSan/TraCuuTaiSan/TraCuuTaiSan'
+import CapNhatTaiSan from '@/Pages/Clients/TaiSan/CapNhatThongTinTaiSan/CapNhatTaiSan'
 
 // Page Thủ tục hành chính Giảng viên
 import HomeTTHCGV from '@/Pages/Clients/ThuTucHanhChinhGiangVien/HomeTTHCGV.jsx'
@@ -90,6 +93,7 @@ const ROLES = {
   G0101: 'GV',
   S0202: 'SV',
 }
+// TODO: move to constants for fix eslint:  react-refresh/only-export-components
 export const ROLE_VIEW_ACTION_TTHCGV = {
   QT_TTHCGV: '15',
   CBNV_TTHCGV: '16',
@@ -157,9 +161,12 @@ export const privateRoutes = (
       <Route
         element={<RoleMiddleware allowedRoles={[ROLES.G0101, ROLES.S0202]} />}
       >
-        <Route path="taisan">
+        <Route path="hotrothietbi">
           <Route index element={<HomeTaiSan />} />
           <Route path="baohongtaisan" element={<BaoHongTaiSan />} />
+          <Route path="suachuataisan" element={<SuaChuaTaiSan />} />
+          <Route path="tracuutaisan" element={<TraCuuTaiSan />} />
+          <Route path="capnhattaisan" element={<CapNhatTaiSan />} />
         </Route>
       </Route>
       {/* Một cửa - Sinh Viên */}
