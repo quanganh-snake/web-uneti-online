@@ -2,7 +2,6 @@ import { useNamespace } from '@/Services/Hooks'
 
 import './LichBieu.scss'
 import { transformCls } from '@/Services/Utils/reactUtils'
-import { dayjs } from '@/Services/Utils/dayjs'
 
 export default function LichBieu(props) {
   const {
@@ -37,8 +36,10 @@ export default function LichBieu(props) {
   NamHoc
   TenDot
   Thu
+  NgayBatDau
   NgayKetThuc
   LoaiThi
+  NgayThi
 
   return (
     <>
@@ -51,7 +52,6 @@ export default function LichBieu(props) {
       >
         <div className={ns.e('name')}>
           <p>{TenMonHoc}</p>
-          <p>{dayjs(NgayBatDau || NgayThi).format('DD/MM/YYYY')}</p>
         </div>
 
         <div className={ns.e('content')}>
