@@ -39,7 +39,7 @@ function ThoiKhoaBieu() {
   const [lichThi, setLichThi] = useState([])
   const [loaiLich, setLoaiLich] = useState(TYPE_LICH.ALL)
 
-  const [currentDate, setCurrentDate] = useState(dayjs('2023/05/14'))
+  const [currentDate, setCurrentDate] = useState(dayjs())
 
   const dataSV = DataSinhVien()
 
