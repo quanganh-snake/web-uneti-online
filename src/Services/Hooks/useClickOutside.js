@@ -39,6 +39,9 @@ export function useClickOutside(target, handler, options = {}) {
     }
 
     const listenerKeyDown = (event) => {
+      const el = unrefElement(target)
+      if (!el) return
+
       // TODO: move magic number [27] to Constants
       if (allowEsc && event.keyCode == 27 /** 27: Phím Esc */) {
         handler(event)

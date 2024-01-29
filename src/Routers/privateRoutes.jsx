@@ -75,7 +75,7 @@ import TheoDoiDeNghi from '@/Pages/Clients/TheoDoiDeNghi/TheoDoiDeNghi.jsx'
 import TheoDoiDeNghiChiTiet from '@/Pages/Clients/TheoDoiDeNghi/TheoDoiDeNghiChiTiet/TheoDoiDeNghiChiTiet.jsx'
 
 // Page học tập
-import HomeHocTap from '@/Pages/Clients/HocTap/index.jsx'
+import HomeHocTap from '@/Pages/Clients/HocTap/HocTap.jsx'
 import HocTapKetQuaHocTap from '@/Pages/Clients/HocTap/KetQuaHocTap/KetQuaHocTap.jsx'
 import HocTapOnLuyen from '@/Pages/Clients/HocTap/OnLuyen/OnLuyen.jsx'
 import HocTapOnTap from '@/Pages/Clients/HocTap/OnLuyen/OnTap/OnTap.jsx'

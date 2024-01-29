@@ -1,6 +1,5 @@
 import { Radio } from '@/Components/Base/Radio/Radio'
 import { OnTapContext } from '@/Services/Tokens'
-import { convertRtfToText } from '@/Services/Utils/stringUtils'
 import { useContext } from 'react'
 
 export default function CauHoi(props) {
@@ -8,7 +7,6 @@ export default function CauHoi(props) {
     STT = 1,
     ID = null,
     CauHoi = undefined,
-    CauHoiCha = undefined,
     CauTraLoi1 = undefined,
     IDCauTraLoi1 = undefined,
     CauTraLoi2 = undefined,
@@ -17,7 +15,8 @@ export default function CauHoi(props) {
     IDCauTraLoi3 = undefined,
     CauTraLoi4 = undefined,
     IDCauTraLoi4 = undefined,
-    IDCauTraLoiDung = undefined,
+    // IDCauTraLoiDung = undefined,
+    color = 'primary',
   } = props
 
   const danhSachCauHoiContext = useContext(OnTapContext)
@@ -28,19 +27,12 @@ export default function CauHoi(props) {
 
   return (
     <>
-      <div className="bg-white text-vs-theme-color text-sm select-none rounded-[20px] border-2 p-5 border-slate-200 padding">
-        {CauHoiCha ? (
-          <div
-            dangerouslySetInnerHTML={{
-              __html: convertRtfToText(CauHoiCha),
-            }}
-          />
-        ) : null}
+      <div className="bg-white text-vs-theme-color text-sm select-none rounded-[20px] border-2 p-5 border-slate-100 padding focus-within:border-uneti-primary hover:border-uneti-primary">
         <div className="flex mb-3 text-base text-vs-text">
-          <span
+          <div
             className="font-semibold"
             dangerouslySetInnerHTML={{
-              __html: `<span style="margin-right: 0.2rem; color: #FF4757;">Câu hỏi ${STT}:</span> ${convertRtfToText(CauHoi)}`,
+              __html: `<span style="margin-right: 0.2rem; color: #FF4757; white-space: nowrap;">Câu hỏi ${STT}:</span> ${CauHoi}`,
             }}
           />
         </div>
@@ -52,11 +44,11 @@ export default function CauHoi(props) {
             name={ID}
             value={IDCauTraLoi1}
             onChange={handleChange}
-            color={IDCauTraLoiDung == IDCauTraLoi1 ? 'success' : 'danger'}
+            color={color}
           >
             <div
               dangerouslySetInnerHTML={{
-                __html: convertRtfToText(CauTraLoi1),
+                __html: CauTraLoi1,
               }}
             />
           </Radio>
@@ -67,11 +59,11 @@ export default function CauHoi(props) {
             name={ID}
             value={IDCauTraLoi2}
             onChange={handleChange}
-            color={IDCauTraLoiDung == IDCauTraLoi2 ? 'success' : 'danger'}
+            color={color}
           >
             <div
               dangerouslySetInnerHTML={{
-                __html: convertRtfToText(CauTraLoi2),
+                __html: CauTraLoi2,
               }}
             />
           </Radio>
@@ -82,11 +74,11 @@ export default function CauHoi(props) {
             name={ID}
             value={IDCauTraLoi3}
             onChange={handleChange}
-            color={IDCauTraLoiDung == IDCauTraLoi3 ? 'success' : 'danger'}
+            color={color}
           >
             <div
               dangerouslySetInnerHTML={{
-                __html: convertRtfToText(CauTraLoi3),
+                __html: CauTraLoi3,
               }}
             />
           </Radio>
@@ -97,11 +89,11 @@ export default function CauHoi(props) {
             name={ID}
             value={IDCauTraLoi4}
             onChange={handleChange}
-            color={IDCauTraLoiDung == IDCauTraLoi4 ? 'success' : 'danger'}
+            color={color}
           >
             <div
               dangerouslySetInnerHTML={{
-                __html: convertRtfToText(CauTraLoi4),
+                __html: CauTraLoi4,
               }}
             />
           </Radio>

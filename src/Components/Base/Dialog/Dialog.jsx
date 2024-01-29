@@ -20,7 +20,7 @@ export const Dialog = forwardRef((props, ref) => {
   }
 
   const addTransitionClose = () => {
-    dialogRef.current.classList.add(bem.is('close'))
+    dialogRef.current?.classList.add(bem.is('close'))
   }
 
   useClickOutside(dialogOriginalRef, handleCloseDialog)
