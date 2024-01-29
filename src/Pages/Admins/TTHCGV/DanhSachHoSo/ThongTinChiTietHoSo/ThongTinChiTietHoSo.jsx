@@ -1,6 +1,5 @@
-import React from 'react'
 import SidebarTTHCGV from '../../Sidebar/SidebarTTHCGV'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import {
@@ -21,7 +20,7 @@ import {
 import { TfiReload } from 'react-icons/tfi'
 import { NguonTiepNhan_WEB } from '@/Services/Static/dataStatic'
 import { toast } from 'react-toastify'
-import { checkConditionObject } from '@/Services/Utils/commonUtils'
+import { checkConditionObject } from '@/Services/Utils/objectUtils'
 import {
   delTrinhTuThucHienTTHCGV,
   putTrinhTuThucHienTTHCGV,
@@ -241,7 +240,7 @@ function ThongTinChiTietHoSo() {
   }
 
   const handleChangeValue = (tab, e) => {
-    const { id, value, checked, type, files, name } = e.target
+    const { value, checked, type, files, name } = e.target
 
     if (tab === TABS.tabThongTinHoSo) {
       setEditThongTinChung((prevObject) => ({
