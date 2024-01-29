@@ -1206,6 +1206,33 @@ export const homeMotCua = [
       },
     ],
   },
+  {
+    title: 'Hướng dẫn',
+    name: 'Hướng dẫn',
+    desc: 'Hướng dẫn biểu mẫu tham khảo; Quy trình, thủ tục.',
+    path: '/huongdan',
+    thumbnail: thumbnailKhaoThi,
+    ico: icoKhaoThi,
+    moduleActive: true,
+    childrens: [
+      {
+        title: 'Biểu mẫu tham khảo',
+        desc: `Biểu mẫu tham khảo`,
+        path: 'https://uneti.edu.vn/bieu-mau-bo-phan-hanh-chinh-mot-cua/',
+        limited: true,
+        visiable: true,
+        stt: 1,
+      },
+      {
+        title: 'Quy trình, thủ tục',
+        desc: `Quy trình, thủ tục`,
+        path: 'https://uneti.edu.vn/category/quy-trinh-bo-phan-mot-cua/',
+        limited: true,
+        visiable: true,
+        stt: 1,
+      },
+    ],
+  },
 ]
 
 export const homeHTTBGD = [
