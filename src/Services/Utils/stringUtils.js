@@ -494,3 +494,12 @@ export const convertRtfToText = (text) => {
     .replaceAll('\u0000', '')
     .replaceAll('', '_')
 }
+
+export const stringToArrayBuffer = (string) => {
+  const buffer = new ArrayBuffer(string.length)
+  const bufferView = new Uint8Array(buffer)
+  for (let i = 0; i < string.length; i++) {
+    bufferView[i] = string.charCodeAt(i)
+  }
+  return buffer
+}
