@@ -10,7 +10,7 @@ export const getMonHocTheoSinhVien = (MaSinhVien = '') => {
 }
 
 export const getCauHoiTheoDe = ({ IDDeThi, SoTrang, SoCauTrenTrang }) =>
-  http.get('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/CauHoi_TheoDeThi', {
+  http.get('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/CauHoi_TheoDeThi_Web', {
     params: {
       IDDeThi,
       SoCauTrenTrang,
