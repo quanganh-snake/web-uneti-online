@@ -40,6 +40,9 @@ import XinChuyen from '@/Pages/Clients/MotCua/CTSV/XinChuyen/XinChuyen'
 import HomeHanhChinh from '@/Pages/Clients/MotCua/HanhChinh'
 import GiayGioiThieu from '@/Pages/Clients/MotCua/HanhChinh/GiayGioiThieu/GiayGioiThieu'
 
+// Pages MC - Hướng dẫn
+import HomeHuongDan from '@/Pages/Clients/MotCua/HuongDan'
+
 // Pages Thiết Bị Giảng Đường
 import HomeTBGD from '@/Pages/Clients/ThietBiGiangDuong'
 import BaoHong from '@/Pages/Clients/ThietBiGiangDuong/BaoHong/BaoHong'
@@ -93,7 +96,6 @@ const ROLES = {
   G0101: 'GV',
   S0202: 'SV',
 }
-// TODO: move to constants for fix eslint:  react-refresh/only-export-components
 export const ROLE_VIEW_ACTION_TTHCGV = {
   QT_TTHCGV: '15',
   CBNV_TTHCGV: '16',
@@ -214,6 +216,9 @@ export const privateRoutes = (
           <Route path="hanhchinh">
             <Route index element={<HomeHanhChinh />} />
             <Route path="giaygioithieu" element={<GiayGioiThieu />} />
+          </Route>
+          <Route path="huongdan">
+            <Route index element={<HomeHuongDan />} />
           </Route>
         </Route>
         <Route path="tracuu">

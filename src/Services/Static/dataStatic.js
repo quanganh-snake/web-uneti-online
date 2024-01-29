@@ -78,7 +78,7 @@ export const homeMain = [
     icon: icoTCTTTS,
     path: '/hotrothietbi',
     moduleActive: true,
-    roleActive: ['GV'],
+    roleActive: ['GV', 'SV'],
   },
   {
     title: 'Hỗ trợ sử dụng phần mềm',
@@ -1200,6 +1200,33 @@ export const homeMotCua = [
           <p><a target="_blank" style="color: #336699; font-weight: 500" href='https://uneti.edu.vn/cac-thu-tuc-hanh-chinh-giai-quyet-tai-bo-phan-mot-cua-phong-hanh-chinh-quan-tri/'>- Xem chi tiết quy trình thực hiện tại đây.</a></p>
         `,
         path: '/giaygioithieu',
+        limited: true,
+        visiable: true,
+        stt: 1,
+      },
+    ],
+  },
+  {
+    title: 'Hướng dẫn',
+    name: 'Hướng dẫn',
+    desc: 'Hướng dẫn biểu mẫu tham khảo; Quy trình, thủ tục.',
+    path: '/huongdan',
+    thumbnail: thumbnailKhaoThi,
+    ico: icoKhaoThi,
+    moduleActive: true,
+    childrens: [
+      {
+        title: 'Biểu mẫu tham khảo',
+        desc: `Biểu mẫu tham khảo`,
+        path: 'https://uneti.edu.vn/bieu-mau-bo-phan-hanh-chinh-mot-cua/',
+        limited: true,
+        visiable: true,
+        stt: 1,
+      },
+      {
+        title: 'Quy trình, thủ tục',
+        desc: `Quy trình, thủ tục`,
+        path: 'https://uneti.edu.vn/category/quy-trinh-bo-phan-mot-cua/',
         limited: true,
         visiable: true,
         stt: 1,
