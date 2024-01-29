@@ -1,35 +1,42 @@
-import {
-  getAllDeThiThiThu,
-  getAllMonHocThiThu,
-} from '@/Apis/HocTap/apiOnLuyenThiThu'
+import { Pagination } from '@mui/material'
+import { isNil } from 'lodash-unified'
+import { useMemo, useRef } from 'react'
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+
+// import {
+//   getAllDeThiThiThu,
+//   getAllMonHocThiThu,
+// } from '@/Apis/HocTap/apiOnLuyenThiThu'
 import {
   getCauHoiTheoDe,
   getTongSoTrangTheoDe,
 } from '@/Apis/HocTap/apiOnLuyenTracNghiem'
+
 import Col from '@/Components/Base/Col/Col'
 import Row from '@/Components/Base/Row/Row'
 import CauHoi from '@/Components/HocTap/OnTap/CauHoi'
 import XacNhanNopBai from '@/Components/HocTap/Promt/XacNhanNopBai'
 import { OnTapContext } from '@/Services/Tokens'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
-import { Pagination } from '@mui/material'
-import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-
-const listCauHoiCached = new Map()
+import { convertQuestionToHtml } from '../../../utils'
 
 function DeThi() {
+  const listCauHoiCached = useRef(new Map())
   const uLocation = useLocation()
   const dataSV = DataSinhVien()
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
-  const maMonHoc = uLocation.pathname.split('/').at(-3).toString()
-  const maDe = uLocation.pathname.split('/').at(-1).toString()
+  // const maMonHoc = uLocation.pathname.split('/').at(-3).toString()
+  // const maDe = uLocation.pathname.split('/').at(-1).toString()
 
-  const [monHoc, setMonHoc] = useState({})
+  const [monHoc, setMonHoc] = useState({
+    TenMonHoc: 'Tiếng Anh',
+    MaMonHoc: '510201014',
+  })
   const [listCauHoi, setListCauHoi] = useState([])
   const [listCauTraLoi, setListCauTraLoi] = useState([])
-  const [deThi, setDeThi] = useState()
+  const [deThi, setDeThi] = useState({ Id: '413' })
 
   const [totalPage, setTotalPage] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
@@ -46,34 +53,46 @@ function DeThi() {
     setCurrentPage(value)
   }
 
-  useEffect(() => {
-    const getMonThi = async () => {
-      const listMonThi = await getAllMonHocThiThu(dataSV.MaSinhVien)
-      const _monHoc = listMonThi?.data?.body.find(
-        (mh) => mh.MaMonHoc === maMonHoc,
-      )
+  const listCauHoiGroupByParent = useMemo(() => {
+    const obj = listCauHoi.reduce((res, curr) => {
+      const key = curr.IDCauHoiCha ?? 'NoParent'
 
-      if (!_monHoc) {
-        navigate('/hoctap/onluyen/thithu')
+      if (isNil(res[key])) {
+        res[key] = []
       }
 
-      setMonHoc(_monHoc)
-    }
+      res[key].push(curr)
 
-    const getDeThi = async () => {
-      const _listDeThi = await getAllDeThiThiThu(maMonHoc)
-      const _deThi = _listDeThi.data.body.find((e) => e.MaDeThi == maDe)
+      return res
+    }, {})
 
-      if (!_deThi) {
-        navigate('/hoctap/onluyen/thithu')
-      }
+    return Object.keys(obj).map((key) => {
+      return obj[key]
+    })
+  }, [listCauHoi])
 
-      setDeThi(_deThi)
-    }
-
-    getMonThi()
-    getDeThi()
-  }, [maMonHoc, maDe])
+  // useEffect(() => {
+  // const getMonThi = async () => {
+  //   const listMonThi = await getAllMonHocThiThu(dataSV.MaSinhVien)
+  //   const _monHoc = listMonThi?.data?.body.find(
+  //     (mh) => mh.MaMonHoc === maMonHoc,
+  //   )
+  //   if (!_monHoc) {
+  //     navigate('/hoctap/onluyen/thithu')
+  //   }
+  //   setMonHoc(_monHoc)
+  // }
+  // const getDeThi = async () => {
+  //   const _listDeThi = await getAllDeThiThiThu(maMonHoc)
+  //   const _deThi = _listDeThi.data.body.find((e) => e.MaDeThi == maDe)
+  //   if (!_deThi) {
+  //     navigate('/hoctap/onluyen/thithu')
+  //   }
+  //   setDeThi(_deThi)
+  // }
+  // getMonThi()
+  // getDeThi()
+  // }, [maMonHoc, maDe])
 
   useEffect(() => {
     const getTongSoTrang = async () => {
@@ -91,17 +110,22 @@ function DeThi() {
       if (deThi) {
         const key = JSON.stringify({ IDDeThi: deThi.Id, currentPage, pageSize })
 
-        if (!listCauHoiCached.has(key)) {
+        if (!listCauHoiCached.current.has(key)) {
           const res = await getCauHoiTheoDe({
             IDDeThi: deThi.Id,
             SoCauTrenTrang: pageSize,
             SoTrang: currentPage,
           })
 
-          listCauHoiCached.set(key, res.data.body)
+          const data = []
+          for (let i = 0; i < res.data.body.length; i++) {
+            data.push(await convertQuestionToHtml(res.data.body[i]))
+          }
+
+          listCauHoiCached.current.set(key, data)
         }
 
-        setListCauHoi(listCauHoiCached.get(key))
+        setListCauHoi(listCauHoiCached.current.get(key))
       }
     }
 
@@ -131,14 +155,43 @@ function DeThi() {
       <div className="mt-6">
         <Row gutter={30}>
           <Col span={12} md={9}>
-            <div className="flex flex-col gap-3 p-6 bg-white rounded-[26px] shadow-sm">
-              {listCauHoi?.map((e, index) => (
-                <CauHoi
-                  key={index}
-                  STT={(currentPage - 1) * pageSize + index + 1}
-                  {...e}
-                />
-              ))}
+            <div className="flex flex-col gap-7 p-6 bg-white rounded-[26px] shadow-sm">
+              {listCauHoiGroupByParent?.map((question, index) => {
+                if (question?.length > 0) {
+                  return (
+                    <div
+                      key={`parent-${index}`}
+                      className="p-6 rounded-[26px] border-2 border-slate-200 flex flex-col gap-4 transition-all hover:border-opacity-90"
+                    >
+                      <div className="flex items-start gap-2 flex-wrap">
+                        <div
+                          className="flex-1 mt-[2px]"
+                          dangerouslySetInnerHTML={{
+                            __html: `<span class="text-vs-danger font-bold whitespace-nowrap">
+                            Câu hỏi ${(currentPage - 1) * pageSize + index + 1}:
+                          </span> ${question[0].CauHoiCha}`,
+                          }}
+                        />
+                      </div>
+
+                      {question.map((child, i) => (
+                        <CauHoi
+                          key={`child-${index}-${i}`}
+                          STT={`${(currentPage - 1) * pageSize + index + 1}.${i + 1}`}
+                          {...child}
+                        />
+                      ))}
+                    </div>
+                  )
+                } else
+                  return (
+                    <CauHoi
+                      key={`parent-${index}`}
+                      STT={(currentPage - 1) * pageSize + index + 1}
+                      {...question}
+                    />
+                  )
+              })}
             </div>
 
             <div className="p-4 bg-white my-5 rounded-xl shadow-sm">
