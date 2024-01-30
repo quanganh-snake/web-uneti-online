@@ -13,7 +13,12 @@ export const convertQuestionToHtml = async (question) => {
       await rtfToHtml(question.CauTraLoi3),
       await rtfToHtml(question.CauTraLoi4),
     ]).then(([...res]) => {
-      return res.map((e) => e?.[0].innerHTML.replace(str, ''))
+      return res.map((e) =>
+        e
+          .map((element) => element.innerHTML)
+          .join('')
+          .replace(str, ''),
+      )
     })
 
   return {

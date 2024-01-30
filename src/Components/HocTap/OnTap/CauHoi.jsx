@@ -48,7 +48,7 @@ export default function CauHoi(props) {
           >
             <div
               dangerouslySetInnerHTML={{
-                __html: CauTraLoi1,
+                __html: `A.  ${CauTraLoi1}`,
               }}
             />
           </Radio>
@@ -63,7 +63,7 @@ export default function CauHoi(props) {
           >
             <div
               dangerouslySetInnerHTML={{
-                __html: CauTraLoi2,
+                __html: `B.  ${CauTraLoi2}`,
               }}
             />
           </Radio>
@@ -78,7 +78,7 @@ export default function CauHoi(props) {
           >
             <div
               dangerouslySetInnerHTML={{
-                __html: CauTraLoi3,
+                __html: `C.  ${CauTraLoi3}`,
               }}
             />
           </Radio>
@@ -93,7 +93,7 @@ export default function CauHoi(props) {
           >
             <div
               dangerouslySetInnerHTML={{
-                __html: CauTraLoi4,
+                __html: `D.  ${CauTraLoi4}`,
               }}
             />
           </Radio>
