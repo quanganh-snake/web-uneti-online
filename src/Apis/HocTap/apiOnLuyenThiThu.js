@@ -44,3 +44,10 @@ export const getTongSoTrangCauHoiTheoMonHoc = ({
       DieuKienLoc: dieuKienLoc,
     },
   })
+
+export const getAudioById = ({ IDCauHoi }) =>
+  http.get(`SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/GetAudio_ByID`, {
+    params: {
+      IDCauHoi,
+    },
+  })

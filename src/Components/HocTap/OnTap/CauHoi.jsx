@@ -1,6 +1,11 @@
+import { useContext, useState } from 'react'
+
 import { Radio } from '@/Components/Base/Radio/Radio'
 import { OnTapContext } from '@/Services/Tokens'
-import { useContext } from 'react'
+import Button from '@/Components/Base/Button/Button'
+import Icon from '@/Components/Base/Icon/Icon'
+import IconAudioPlay from '@/Components/Base/Icons/AudioPlay'
+import IconAudioPause from '@/Components/Base/Icons/AudioPause'
 
 export default function CauHoi(props) {
   const {
@@ -17,7 +22,12 @@ export default function CauHoi(props) {
     IDCauTraLoi4 = undefined,
     // IDCauTraLoiDung = undefined,
     color = 'primary',
+    audio = true,
+    IsAudioCauHoiCon = true,
+    disabled = false,
   } = props
+  audio
+  const [isPlaying, setIsPlaying] = useState(false)
 
   const danhSachCauHoiContext = useContext(OnTapContext)
 
@@ -25,16 +35,34 @@ export default function CauHoi(props) {
     danhSachCauHoiContext.handleSelected(ID, IDCauTraLoi)
   }
 
+  const handlePlayAudio = () => {
+    setIsPlaying((e) => !e)
+  }
+
   return (
     <>
-      <div className="bg-white text-vs-theme-color text-sm select-none rounded-[20px] border-2 p-5 border-slate-100 padding focus-within:border-uneti-primary hover:border-uneti-primary">
-        <div className="flex mb-3 text-base text-vs-text">
+      <div
+        id={ID}
+        className={`bg-white transition-all text-vs-theme-color text-sm select-none rounded-[20px] border-2 p-5 border-slate-100 padding focus-within:border-uneti-primary hover:border-uneti-primary ${isPlaying ? 'border-uneti-primary' : ''}`}
+      >
+        <div className="flex items-center mb-3 text-base text-vs-text">
           <div
-            className="font-semibold"
+            className="font-semibold flex-1"
             dangerouslySetInnerHTML={{
               __html: `<span style="margin-right: 0.2rem; color: #FF4757; white-space: nowrap;">Câu hỏi ${STT}:</span> ${CauHoi}`,
             }}
           />
+
+          {/* Audio */}
+          {IsAudioCauHoiCon ? (
+            <div className="flex items-center">
+              <Button onClick={handlePlayAudio} type="transparent" icon>
+                <Icon size={30}>
+                  {isPlaying ? <IconAudioPause /> : <IconAudioPlay />}
+                </Icon>
+              </Button>
+            </div>
+          ) : null}
         </div>
 
         <div className="flex flex-col gap-3">
@@ -42,6 +70,7 @@ export default function CauHoi(props) {
             id={IDCauTraLoi1}
             checked={danhSachCauHoiContext.selected[ID] == IDCauTraLoi1}
             name={ID}
+            disabled={disabled}
             value={IDCauTraLoi1}
             onChange={handleChange}
             color={color}
@@ -57,6 +86,7 @@ export default function CauHoi(props) {
             id={IDCauTraLoi2}
             checked={danhSachCauHoiContext.selected[ID] == IDCauTraLoi2}
             name={ID}
+            disabled={disabled}
             value={IDCauTraLoi2}
             onChange={handleChange}
             color={color}
@@ -72,6 +102,7 @@ export default function CauHoi(props) {
             id={IDCauTraLoi3}
             checked={danhSachCauHoiContext.selected[ID] == IDCauTraLoi3}
             name={ID}
+            disabled={disabled}
             value={IDCauTraLoi3}
             onChange={handleChange}
             color={color}
@@ -87,6 +118,7 @@ export default function CauHoi(props) {
             id={IDCauTraLoi4}
             checked={danhSachCauHoiContext.selected[ID] == IDCauTraLoi4}
             name={ID}
+            disabled={disabled}
             value={IDCauTraLoi4}
             onChange={handleChange}
             color={color}

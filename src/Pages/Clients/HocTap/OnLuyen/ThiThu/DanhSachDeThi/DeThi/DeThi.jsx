@@ -1,5 +1,5 @@
 import { Pagination } from '@mui/material'
-import { isNil } from 'lodash-unified'
+import { isNil, keys } from 'lodash-unified'
 import { useMemo, useRef } from 'react'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -20,11 +20,19 @@ import XacNhanNopBai from '@/Components/HocTap/Promt/XacNhanNopBai'
 import { OnTapContext } from '@/Services/Tokens'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { convertQuestionToHtml } from '../../../utils'
+import TimePause from '@/Components/Base/Icons/TimePause'
+import Icon from '@/Components/Base/Icon/Icon'
+import TimePlay from '@/Components/Base/Icons/TimePlay'
+import Swal from 'sweetalert2'
+import { useTimeout } from '@/Services/Hooks/useTimeout'
+import { retries } from '@/Services/Utils/requestUtils'
 
 function DeThi() {
-  const listCauHoiCached = useRef(new Map())
+  const questionsCached = useRef(new Map())
   const uLocation = useLocation()
   const dataSV = DataSinhVien()
+
+  const INTERVAL_ID = useRef(null)
   // const navigate = useNavigate()
 
   // const maMonHoc = uLocation.pathname.split('/').at(-3).toString()
@@ -34,24 +42,26 @@ function DeThi() {
     TenMonHoc: 'Tiếng Anh',
     MaMonHoc: '510201014',
   })
-  const [listCauHoi, setListCauHoi] = useState([])
-  const [listCauTraLoi, setListCauTraLoi] = useState([])
-  const [deThi, setDeThi] = useState({ Id: '413' })
 
+  const [listCauHoi, setListCauHoi] = useState([])
+  const [listCauTraLoi, setListCauTraLoi] = useState({})
+  const [deThi, setDeThi] = useState({
+    Id: '413',
+    ThoiGian: 60,
+    TongSoCau: 94,
+  })
+
+  // Page
   const [totalPage, setTotalPage] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize] = useState(10)
 
-  const handleChangeCauTraLoi = (IDCauHoi, IDCauTraLoi) => {
-    setListCauTraLoi({
-      ...listCauTraLoi,
-      [IDCauHoi]: IDCauTraLoi,
-    })
-  }
+  // Timer, timer is seconds
+  const [timeCountDown, setTimeCountDown] = useState(deThi.ThoiGian * 60)
+  const isFinished = useMemo(() => timeCountDown <= 0, [timeCountDown])
 
-  const handleChangeCurrentPage = (event, value) => {
-    setCurrentPage(value)
-  }
+  const keyQuestionCached = (currentPage) =>
+    JSON.stringify({ IDDeThi: deThi.Id, currentPage, pageSize })
 
   const listCauHoiGroupByParent = useMemo(() => {
     const obj = listCauHoi.reduce((res, curr) => {
@@ -71,6 +81,99 @@ function DeThi() {
     })
   }, [listCauHoi])
 
+  // convert timeCountDown seconds to minutes and seconds like MM:SS
+  const convertTime = useMemo(() => {
+    if (isFinished) {
+      handleXacNhanNopBai()
+      return '00:00'
+    }
+
+    const minutes = Math.floor(timeCountDown / 60)
+    const seconds = timeCountDown % 60
+    return minutes + ':' + (seconds < 10 ? '0' + seconds : seconds)
+  }, [timeCountDown])
+
+  function handleXacNhanNopBai() {
+    console.log('Nộp bài')
+
+    clearInterval(INTERVAL_ID.current)
+  }
+
+  function handleChangeCauTraLoi(IDCauHoi, IDCauTraLoi) {
+    if (isFinished) {
+      Swal.fire({
+        title: 'Thông báo',
+        icon: 'error',
+        text: 'Đã hết giờ làm bài',
+      })
+
+      return
+    }
+    setListCauTraLoi({
+      ...listCauTraLoi,
+      [IDCauHoi]: IDCauTraLoi,
+    })
+  }
+
+  function handleChangeCurrentPage(event, value) {
+    setCurrentPage(value)
+  }
+
+  async function getQuestionAudio(IDCauHoi) {
+    const res = await getAudioById({
+      IDCauHoi,
+    })
+    console.log(res)
+  }
+
+  async function handleGotoQuestion(qIndex) {
+    // get page of index question
+    let questions = []
+    let page = 1
+
+    for (let i = 1; i <= totalPage; i++) {
+      const key = keyQuestionCached(i)
+      const value = questionsCached.current.get(key)
+
+      if (value.length < qIndex) {
+        qIndex = qIndex - value.length
+        continue
+      }
+
+      page = i
+      questions = value
+      break
+    }
+
+    const cauHoi = questions[qIndex - 1]
+    setListCauHoi(questions)
+    setCurrentPage(page)
+
+    // await next tick dom update, sleep 100ms
+    await new Promise((resolve) => setTimeout(resolve, 100))
+
+    // handle goto dom by ID
+    const IDCauHoi = cauHoi.ID
+    const el = document.getElementById(IDCauHoi)
+    if (!el) return
+
+    const headerOffset = 250
+    const elementPosition = el.getBoundingClientRect().top
+    const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+    window.scrollTo({
+      top: offsetPosition,
+    })
+    el.style.transform = 'scale(1.02)'
+    el.classList.add('border-uneti-primary')
+
+    setTimeout(() => {
+      el.style.transform = 'none'
+    }, 400)
+
+    setTimeout(() => {
+      el.classList.remove('border-uneti-primary')
+    }, 1000)
+  }
   // useEffect(() => {
   // const getMonThi = async () => {
   //   const listMonThi = await getAllMonHocThiThu(dataSV.MaSinhVien)
@@ -95,6 +198,49 @@ function DeThi() {
   // }, [maMonHoc, maDe])
 
   useEffect(() => {
+    const key = keyQuestionCached(currentPage)
+    if (!questionsCached.current.has(key)) return
+
+    setListCauHoi(questionsCached.current.get(key))
+  }, [currentPage])
+
+  // get total questions
+  useEffect(() => {
+    async function getTotalQuestions(currPage) {
+      if (!deThi) return
+
+      retries(async () => {
+        const res = await getCauHoiTheoDe({
+          IDDeThi: deThi.Id,
+          SoCauTrenTrang: pageSize,
+          SoTrang: currPage,
+        })
+
+        const data = []
+        for (let i = 0; i < res.data.body.length; i++) {
+          data.push(await convertQuestionToHtml(res.data.body[i]))
+          // TODO: get audio by IDCauHoi
+        }
+
+        questionsCached.current.set(keyQuestionCached(currPage), data)
+
+        if (currPage == 1) {
+          setListCauHoi(data)
+        }
+      })
+    }
+
+    ;(async () => {
+      if (totalPage == 0) return
+
+      for (let i = 1; i <= totalPage; i++) {
+        await getTotalQuestions(i)
+      }
+    })()
+  }, [deThi, totalPage])
+
+  // get total page
+  useEffect(() => {
     const getTongSoTrang = async () => {
       if (deThi) {
         const _tongSoTrangResponse = await getTongSoTrangTheoDe({
@@ -106,36 +252,18 @@ function DeThi() {
       }
     }
 
-    const getListCauHoi = async () => {
-      if (deThi) {
-        const key = JSON.stringify({ IDDeThi: deThi.Id, currentPage, pageSize })
-
-        if (!listCauHoiCached.current.has(key)) {
-          const res = await getCauHoiTheoDe({
-            IDDeThi: deThi.Id,
-            SoCauTrenTrang: pageSize,
-            SoTrang: currentPage,
-          })
-
-          const data = []
-          for (let i = 0; i < res.data.body.length; i++) {
-            data.push(await convertQuestionToHtml(res.data.body[i]))
-          }
-
-          listCauHoiCached.current.set(key, data)
-        }
-
-        setListCauHoi(listCauHoiCached.current.get(key))
-      }
-    }
-
     getTongSoTrang()
-    getListCauHoi()
-  }, [deThi, pageSize, currentPage])
+  }, [deThi, pageSize])
 
-  const handleXacNhanNopBai = () => {
-    console.log('Nộp bài')
-  }
+  useEffect(() => {
+    INTERVAL_ID.current = setInterval(() => {
+      setTimeCountDown((prev) => prev - 1)
+    }, 1000)
+
+    return () => {
+      handleXacNhanNopBai()
+    }
+  }, [])
 
   return (
     <OnTapContext.Provider
@@ -155,59 +283,103 @@ function DeThi() {
       <div className="mt-6">
         <Row gutter={30}>
           <Col span={12} md={9}>
-            <div className="flex flex-col gap-7 p-6 bg-white rounded-[26px] shadow-sm">
-              {listCauHoiGroupByParent?.map((question, index) => {
-                if (question?.length > 0) {
-                  return (
-                    <div
-                      key={`parent-${index}`}
-                      className="p-6 rounded-[26px] border-2 border-slate-200 flex flex-col gap-4 transition-all hover:border-opacity-90"
-                    >
-                      <div className="flex items-start gap-2 flex-wrap">
-                        <div
-                          className="flex-1 mt-[2px]"
-                          dangerouslySetInnerHTML={{
-                            __html: `<span class="text-vs-danger font-bold whitespace-nowrap">
+            <div
+              className={`${isFinished ? 'pointer-events-none opacity-80' : ''}`}
+            >
+              <div className="flex flex-col gap-7 p-6 bg-white rounded-[26px] shadow-sm">
+                {listCauHoiGroupByParent?.map((question, index) => {
+                  if (question?.length > 0) {
+                    return (
+                      <div
+                        id={question[0].IDCauHoiCha}
+                        key={`parent-${index}`}
+                        className="p-6 rounded-[26px] border-2 border-slate-200 flex flex-col gap-4 transition-all hover:border-opacity-90"
+                      >
+                        <div className="flex items-start gap-2 flex-wrap">
+                          <div
+                            className="flex-1 mt-[2px]"
+                            dangerouslySetInnerHTML={{
+                              __html: `<span class="text-vs-danger font-bold whitespace-nowrap">
                             Câu hỏi ${(currentPage - 1) * pageSize + index + 1}:
                           </span> ${question[0].CauHoiCha}`,
-                          }}
-                        />
+                            }}
+                          />
+                        </div>
+
+                        {question.map((child, i) => (
+                          <CauHoi
+                            key={`child-${index}-${i}`}
+                            STT={`${(currentPage - 1) * pageSize + index + 1}.${i + 1}`}
+                            {...child}
+                            disabled={timeCountDown <= 0}
+                          />
+                        ))}
                       </div>
+                    )
+                  } else
+                    return (
+                      <CauHoi
+                        key={`parent-${index}`}
+                        STT={(currentPage - 1) * pageSize + index + 1}
+                        {...question}
+                        disabled={timeCountDown <= 0}
+                      />
+                    )
+                })}
+              </div>
 
-                      {question.map((child, i) => (
-                        <CauHoi
-                          key={`child-${index}-${i}`}
-                          STT={`${(currentPage - 1) * pageSize + index + 1}.${i + 1}`}
-                          {...child}
-                        />
-                      ))}
-                    </div>
-                  )
-                } else
-                  return (
-                    <CauHoi
-                      key={`parent-${index}`}
-                      STT={(currentPage - 1) * pageSize + index + 1}
-                      {...question}
-                    />
-                  )
-              })}
-            </div>
-
-            <div className="p-4 bg-white my-5 rounded-xl shadow-sm">
-              <Pagination
-                count={totalPage}
-                page={currentPage}
-                onChange={handleChangeCurrentPage}
-                shape="rounded"
-              />
+              <div className="p-4 bg-white my-5 rounded-xl shadow-sm">
+                <Pagination
+                  count={totalPage}
+                  page={currentPage}
+                  onChange={handleChangeCurrentPage}
+                  shape="rounded"
+                />
+              </div>
             </div>
           </Col>
           <Col span={12} md={3}>
-            <XacNhanNopBai
-              TenMonHoc={monHoc.TenMonHoc}
-              onConfirm={handleXacNhanNopBai}
-            />
+            <div className="border shadow-sm sticky top-28 bg-vs-theme-layout rounded-2xl">
+              <div className="flex flex-col items-center bg-uneti-primary-lighter text-white rounded-tr-2xl rounded-tl-2xl p-3">
+                <h3>Thời gian còn lại</h3>
+
+                <div className="text-white flex items-center gap-1">
+                  <Icon size={30}>
+                    {isFinished ? <TimePlay /> : <TimePause />}
+                  </Icon>
+                  <span>{convertTime}</span>
+                </div>
+              </div>
+
+              <div className="p-2">
+                <div className="h-[36dvh] overflow-y-auto flex flex-wrap gap-2 justify-evenly">
+                  {Array.from({ length: deThi.TongSoCau }, (_, i) => i + 1).map(
+                    (e) => {
+                      return (
+                        <div
+                          key={e}
+                          className="w-8 h-8 border rounded-full cursor-pointer select-none flex items-center justify-center hover:bg-uneti-primary hover:bg-opacity-10 text-opacity-80"
+                          onClick={() => handleGotoQuestion(e)}
+                        >
+                          {e}
+                        </div>
+                      )
+                    },
+                  )}
+                </div>
+
+                <div className="pl-2 mt-3">
+                  Đã trả lời: {keys(listCauTraLoi).length}/{deThi.TongSoCau}
+                </div>
+              </div>
+
+              <div className="p-3">
+                <XacNhanNopBai
+                  TenMonHoc={monHoc.TenMonHoc}
+                  onConfirm={handleXacNhanNopBai}
+                />
+              </div>
+            </div>
           </Col>
         </Row>
       </div>

@@ -3,7 +3,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'uneti-primary': '#336699',
+        'uneti-primary': '#245d7c',
+        'uneti-primary-light': '#336699',
+        'uneti-primary-lighter': '#0484ac',
         transparent: 'transparent',
         current: 'currentColor',
         'vs-primary': '#195bff',

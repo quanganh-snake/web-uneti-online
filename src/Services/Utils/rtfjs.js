@@ -8,6 +8,6 @@ EMFJS.loggingEnabled(false)
 export { RTFJS, EMFJS, WMFJS }
 
 export function rtfToHtml(rtfFormat) {
-  const doc = new RTFJS.Document(stringToArrayBuffer(rtfFormat))
+  const doc = new RTFJS.Document(stringToArrayBuffer(rtfFormat ?? '{}'))
   return doc.render()
 }
