@@ -58,7 +58,7 @@ function DeThi() {
 
   // Timer, timer is seconds
   const [timeCountDown, setTimeCountDown] = useState(deThi.ThoiGian * 60)
-  const isFinished = useMemo(() => timeCountDown <= 0, [timeCountDown])
+  const [isFinished, setIsFinished] = useState(false)
 
   const keyQuestionCached = (currentPage) =>
     JSON.stringify({ IDDeThi: deThi.Id, currentPage, pageSize })
@@ -83,11 +83,6 @@ function DeThi() {
 
   // convert timeCountDown seconds to minutes and seconds like MM:SS
   const convertTime = useMemo(() => {
-    if (isFinished) {
-      handleXacNhanNopBai()
-      return '00:00'
-    }
-
     const minutes = Math.floor(timeCountDown / 60)
     const seconds = timeCountDown % 60
     return minutes + ':' + (seconds < 10 ? '0' + seconds : seconds)
@@ -96,7 +91,9 @@ function DeThi() {
   function handleXacNhanNopBai() {
     console.log('Nộp bài')
 
+    setIsFinished(true)
     clearInterval(INTERVAL_ID.current)
+    setTimeCountDown(0)
   }
 
   function handleChangeCauTraLoi(IDCauHoi, IDCauTraLoi) {
@@ -117,13 +114,6 @@ function DeThi() {
 
   function handleChangeCurrentPage(event, value) {
     setCurrentPage(value)
-  }
-
-  async function getQuestionAudio(IDCauHoi) {
-    const res = await getAudioById({
-      IDCauHoi,
-    })
-    console.log(res)
   }
 
   async function handleGotoQuestion(qIndex) {
@@ -219,7 +209,6 @@ function DeThi() {
         const data = []
         for (let i = 0; i < res.data.body.length; i++) {
           data.push(await convertQuestionToHtml(res.data.body[i]))
-          // TODO: get audio by IDCauHoi
         }
 
         questionsCached.current.set(keyQuestionCached(currPage), data)
@@ -255,14 +244,16 @@ function DeThi() {
     getTongSoTrang()
   }, [deThi, pageSize])
 
+  const startCountDown = () => {}
+
   useEffect(() => {
     INTERVAL_ID.current = setInterval(() => {
-      setTimeCountDown((prev) => prev - 1)
+      setTimeCountDown((prev) => {
+        return prev - 1
+      })
     }, 1000)
 
-    return () => {
-      handleXacNhanNopBai()
-    }
+    return () => clearInterval(INTERVAL_ID.current)
   }, [])
 
   return (
@@ -283,10 +274,10 @@ function DeThi() {
       <div className="mt-6">
         <Row gutter={30}>
           <Col span={12} md={9}>
-            <div
-              className={`${isFinished ? 'pointer-events-none opacity-80' : ''}`}
-            >
-              <div className="flex flex-col gap-7 p-6 bg-white rounded-[26px] shadow-sm">
+            <div>
+              <div
+                className={`flex flex-col gap-7 p-6 bg-white rounded-[26px] shadow-sm ${isFinished ? 'pointer-events-none opacity-90' : ''}`}
+              >
                 {listCauHoiGroupByParent?.map((question, index) => {
                   if (question?.length > 0) {
                     return (
@@ -311,7 +302,8 @@ function DeThi() {
                             key={`child-${index}-${i}`}
                             STT={`${(currentPage - 1) * pageSize + index + 1}.${i + 1}`}
                             {...child}
-                            disabled={timeCountDown <= 0}
+                            disabled={isFinished}
+                            isFinished={isFinished}
                           />
                         ))}
                       </div>
@@ -322,7 +314,8 @@ function DeThi() {
                         key={`parent-${index}`}
                         STT={(currentPage - 1) * pageSize + index + 1}
                         {...question}
-                        disabled={timeCountDown <= 0}
+                        disabled={isFinished}
+                        isFinished={isFinished}
                       />
                     )
                 })}

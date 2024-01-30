@@ -48,6 +48,7 @@ export default function LichBieu(props) {
           ns.b(),
           ns.is('ca-thi', CaThi),
           ns.is('ca-hoc', CaHoc),
+          'animate__animated animate__faster animate__zoomIn',
         ])}
       >
         <div className={ns.e('name')}>

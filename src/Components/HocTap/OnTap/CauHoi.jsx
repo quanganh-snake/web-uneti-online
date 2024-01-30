@@ -6,6 +6,11 @@ import Button from '@/Components/Base/Button/Button'
 import Icon from '@/Components/Base/Icon/Icon'
 import IconAudioPlay from '@/Components/Base/Icons/AudioPlay'
 import IconAudioPause from '@/Components/Base/Icons/AudioPause'
+import { createElement } from 'react'
+import { useEffect } from 'react'
+import { useRef } from 'react'
+import { getAudioById } from '@/Apis/HocTap/apiOnLuyenThiThu'
+import { decoders } from 'audio-decode'
 
 export default function CauHoi(props) {
   const {
@@ -20,24 +25,54 @@ export default function CauHoi(props) {
     IDCauTraLoi3 = undefined,
     CauTraLoi4 = undefined,
     IDCauTraLoi4 = undefined,
-    // IDCauTraLoiDung = undefined,
+    IDCauTraLoiDung = undefined,
     color = 'primary',
-    audio = true,
-    IsAudioCauHoiCon = true,
+    IsAudioCauHoiCon = false,
     disabled = false,
+    isFinished = false,
   } = props
-  audio
+
+  const [isAudioLoaded, setIsAudioLoaded] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [localSelected, setLocalSelected] = useState(null)
 
   const danhSachCauHoiContext = useContext(OnTapContext)
 
   const handleChange = (IDCauTraLoi) => {
+    if (disabled || isFinished) return
+
+    setLocalSelected(IDCauTraLoi)
     danhSachCauHoiContext.handleSelected(ID, IDCauTraLoi)
   }
 
   const handlePlayAudio = () => {
+    if (isFinished) return
+
     setIsPlaying((e) => !e)
   }
+
+  useEffect(() => {
+    setIsPlaying(false)
+  }, [isFinished])
+
+  useEffect(() => {
+    if (!IsAudioCauHoiCon || isAudioLoaded) return
+
+    async function getAudio() {
+      const audioResponse = await getAudioById({
+        IDCauHoi: ID,
+      })
+
+      // decode AudioBuffer
+      const audioBuffterDecoder = await decoders.mp3(
+        audioResponse.data.body[0]?.TC_SV_OnThi_Media_DataFile.data,
+      )
+
+      console.log(audioBuffterDecoder)
+    }
+
+    // getAudio()
+  }, [IsAudioCauHoiCon])
 
   return (
     <>
@@ -68,12 +103,22 @@ export default function CauHoi(props) {
         <div className="flex flex-col gap-3">
           <Radio
             id={IDCauTraLoi1}
-            checked={danhSachCauHoiContext.selected[ID] == IDCauTraLoi1}
+            checked={
+              (isFinished && IDCauTraLoiDung == IDCauTraLoi1) ||
+              danhSachCauHoiContext.selected[ID] == IDCauTraLoi1
+            }
             name={ID}
-            disabled={disabled}
             value={IDCauTraLoi1}
             onChange={handleChange}
-            color={color}
+            color={
+              isFinished
+                ? localSelected == null
+                  ? 'primary'
+                  : IDCauTraLoiDung === IDCauTraLoi1
+                    ? 'success'
+                    : 'danger'
+                : color
+            }
           >
             <div
               dangerouslySetInnerHTML={{
@@ -84,12 +129,22 @@ export default function CauHoi(props) {
 
           <Radio
             id={IDCauTraLoi2}
-            checked={danhSachCauHoiContext.selected[ID] == IDCauTraLoi2}
+            checked={
+              (isFinished && IDCauTraLoiDung == IDCauTraLoi2) ||
+              danhSachCauHoiContext.selected[ID] == IDCauTraLoi2
+            }
             name={ID}
-            disabled={disabled}
             value={IDCauTraLoi2}
             onChange={handleChange}
-            color={color}
+            color={
+              isFinished
+                ? localSelected == null
+                  ? 'primary'
+                  : IDCauTraLoiDung === IDCauTraLoi2
+                    ? 'success'
+                    : 'danger'
+                : color
+            }
           >
             <div
               dangerouslySetInnerHTML={{
@@ -100,12 +155,22 @@ export default function CauHoi(props) {
 
           <Radio
             id={IDCauTraLoi3}
-            checked={danhSachCauHoiContext.selected[ID] == IDCauTraLoi3}
+            checked={
+              (isFinished && IDCauTraLoiDung == IDCauTraLoi3) ||
+              danhSachCauHoiContext.selected[ID] == IDCauTraLoi3
+            }
             name={ID}
-            disabled={disabled}
             value={IDCauTraLoi3}
             onChange={handleChange}
-            color={color}
+            color={
+              isFinished
+                ? localSelected == null
+                  ? 'primary'
+                  : IDCauTraLoiDung === IDCauTraLoi3
+                    ? 'success'
+                    : 'danger'
+                : color
+            }
           >
             <div
               dangerouslySetInnerHTML={{
@@ -116,12 +181,22 @@ export default function CauHoi(props) {
 
           <Radio
             id={IDCauTraLoi4}
-            checked={danhSachCauHoiContext.selected[ID] == IDCauTraLoi4}
+            checked={
+              (isFinished && IDCauTraLoiDung == IDCauTraLoi4) ||
+              danhSachCauHoiContext.selected[ID] == IDCauTraLoi4
+            }
             name={ID}
-            disabled={disabled}
             value={IDCauTraLoi4}
             onChange={handleChange}
-            color={color}
+            color={
+              isFinished
+                ? localSelected == null
+                  ? 'primary'
+                  : IDCauTraLoiDung === IDCauTraLoi4
+                    ? 'success'
+                    : 'danger'
+                : color
+            }
           >
             <div
               dangerouslySetInnerHTML={{
