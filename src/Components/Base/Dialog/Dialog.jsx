@@ -2,6 +2,7 @@ import { useNamespace, useClickOutside } from '@/Services/Hooks'
 import { useRef, useImperativeHandle, forwardRef } from 'react'
 
 import './Dialog.scss'
+import { createPortal } from 'react-dom'
 
 export const Dialog = forwardRef((props, ref) => {
   const bem = useNamespace('dialog')
@@ -29,7 +30,7 @@ export const Dialog = forwardRef((props, ref) => {
     close: handleCloseDialog,
   }))
 
-  return (
+  return createPortal(
     <>
       {isOpen && (
         <div ref={dialogRef} className={bem.b()}>
@@ -62,7 +63,8 @@ export const Dialog = forwardRef((props, ref) => {
           </div>
         </div>
       )}
-    </>
+    </>,
+    document.body,
   )
 })
 
