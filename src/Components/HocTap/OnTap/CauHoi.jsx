@@ -35,6 +35,8 @@ export default function CauHoi(props) {
   const [isAudioLoaded, setIsAudioLoaded] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [localSelected, setLocalSelected] = useState(null)
+  const [audio, setAudio] = useState(null)
+  const audioRef = useRef(null)
 
   const danhSachCauHoiContext = useContext(OnTapContext)
 
@@ -63,12 +65,14 @@ export default function CauHoi(props) {
         IDCauHoi: ID,
       })
 
-      // decode AudioBuffer
-      const audioBuffterDecoder = await decoders.mp3(
-        audioResponse.data.body[0]?.TC_SV_OnThi_Media_DataFile.data,
-      )
+      const audioBuffer =
+        audioResponse.data?.body[0].TC_SV_OnThi_Media_DataFile.data
 
-      console.log(audioBuffterDecoder)
+      const blob = new Blob([audioBuffer], { type: 'audio/mpeg' })
+      const audioURL = URL.createObjectURL(blob)
+      const newAudio = new Audio(audioURL)
+
+      setAudio(newAudio.src)
     }
 
     // getAudio()
@@ -96,6 +100,10 @@ export default function CauHoi(props) {
                   {isPlaying ? <IconAudioPause /> : <IconAudioPlay />}
                 </Icon>
               </Button>
+
+              {/* <audio ref={audioRef} controls>
+                <source src={audio} type="audio/mpeg"></source>
+              </audio> */}
             </div>
           ) : null}
         </div>
