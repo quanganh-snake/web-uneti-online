@@ -1,5 +1,5 @@
 import { Pagination } from '@mui/material'
-import { isNil, keys } from 'lodash-unified'
+import { flatten, isNil, keys } from 'lodash-unified'
 import { useMemo, useRef } from 'react'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
@@ -42,29 +42,33 @@ function DeThi() {
     TenMonHoc: 'Tiếng Anh',
     MaMonHoc: '510201014',
   })
-
-  const [listCauHoi, setListCauHoi] = useState([])
-  const [listCauTraLoi, setListCauTraLoi] = useState({})
   const [deThi, setDeThi] = useState({
     Id: '413',
-    ThoiGian: 60,
+    ThoiGian: 0.2,
     TongSoCau: 94,
+    ThangDiem: 10,
   })
+
+  const [questions, setQuestions] = useState([])
+  /**
+   * @type {Object<IDCauHoi, IDCauTraLoi>}
+   */
+  const [answers, setAnswers] = useState({})
 
   // Page
   const [totalPage, setTotalPage] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize] = useState(10)
 
-  // Timer, timer is seconds
+  // timer is calc by seconds
   const [timeCountDown, setTimeCountDown] = useState(deThi.ThoiGian * 60)
   const [isFinished, setIsFinished] = useState(false)
 
   const keyQuestionCached = (currentPage) =>
     JSON.stringify({ IDDeThi: deThi.Id, currentPage, pageSize })
 
-  const listCauHoiGroupByParent = useMemo(() => {
-    const obj = listCauHoi.reduce((res, curr) => {
+  const questionsGroupByParent = useMemo(() => {
+    const obj = questions.reduce((res, curr) => {
       const key = curr.IDCauHoiCha ?? 'NoParent'
 
       if (isNil(res[key])) {
@@ -79,7 +83,7 @@ function DeThi() {
     return Object.keys(obj).map((key) => {
       return obj[key]
     })
-  }, [listCauHoi])
+  }, [questions])
 
   // convert timeCountDown seconds to minutes and seconds like MM:SS
   const convertTime = useMemo(() => {
@@ -88,15 +92,50 @@ function DeThi() {
     return minutes + ':' + (seconds < 10 ? '0' + seconds : seconds)
   }, [timeCountDown])
 
+  const allQuestions = useMemo(() => {
+    const _questions = []
+    // TODO: if user can change pageSize, need to update cache or other resolver
+    for (const [key, value] of questionsCached.current) {
+      _questions.push(...value)
+    }
+    return _questions
+  }, [questionsCached])
+
+  const correctAnswers = useMemo(
+    () =>
+      allQuestions.reduce((res, curr) => {
+        if (answers[curr.ID]) {
+          if (answers[curr.ID] === curr.IDCauTraLoiDung) {
+            res.push(curr)
+          }
+        }
+
+        return res
+      }, []),
+    [isFinished],
+  )
+
+  const getScore = useMemo(() => {
+    const score = (
+      (correctAnswers.length / allQuestions.length) *
+      deThi.ThangDiem
+    ).toFixed(2)
+
+    return score
+  }, [correctAnswers])
+
   function handleXacNhanNopBai() {
     console.log('Nộp bài')
 
     setIsFinished(true)
     clearInterval(INTERVAL_ID.current)
-    setTimeCountDown(0)
+
+    if (timeCountDown != 0) {
+      setTimeCountDown(0)
+    }
   }
 
-  function handleChangeCauTraLoi(IDCauHoi, IDCauTraLoi) {
+  function handleChangeAnswer(IDCauHoi, IDCauTraLoi) {
     if (isFinished) {
       Swal.fire({
         title: 'Thông báo',
@@ -106,8 +145,8 @@ function DeThi() {
 
       return
     }
-    setListCauTraLoi({
-      ...listCauTraLoi,
+    setAnswers({
+      ...answers,
       [IDCauHoi]: IDCauTraLoi,
     })
   }
@@ -136,7 +175,7 @@ function DeThi() {
     }
 
     const cauHoi = questions[qIndex - 1]
-    setListCauHoi(questions)
+    setQuestions(questions)
     setCurrentPage(page)
 
     // await next tick dom update, sleep 100ms
@@ -188,10 +227,21 @@ function DeThi() {
   // }, [maMonHoc, maDe])
 
   useEffect(() => {
+    if (timeCountDown < 0) {
+      Swal.fire({
+        title: 'Thông báo',
+        icon: 'error',
+        text: 'Đã hết thời gian làm bài',
+      })
+      handleXacNhanNopBai()
+    }
+  }, [timeCountDown])
+
+  useEffect(() => {
     const key = keyQuestionCached(currentPage)
     if (!questionsCached.current.has(key)) return
 
-    setListCauHoi(questionsCached.current.get(key))
+    setQuestions(questionsCached.current.get(key))
   }, [currentPage])
 
   // get total questions
@@ -214,7 +264,7 @@ function DeThi() {
         questionsCached.current.set(keyQuestionCached(currPage), data)
 
         if (currPage == 1) {
-          setListCauHoi(data)
+          setQuestions(data)
         }
       })
     }
@@ -244,8 +294,6 @@ function DeThi() {
     getTongSoTrang()
   }, [deThi, pageSize])
 
-  const startCountDown = () => {}
-
   useEffect(() => {
     INTERVAL_ID.current = setInterval(() => {
       setTimeCountDown((prev) => {
@@ -259,8 +307,8 @@ function DeThi() {
   return (
     <OnTapContext.Provider
       value={{
-        selected: listCauTraLoi,
-        handleSelected: handleChangeCauTraLoi,
+        selected: answers,
+        handleSelected: handleChangeAnswer,
       }}
     >
       <div className="flex justify-center items-center flex-col gap-4 rounded-md bg-white p-4">
@@ -278,7 +326,7 @@ function DeThi() {
               <div
                 className={`flex flex-col gap-7 p-6 bg-white rounded-[26px] shadow-sm ${isFinished ? 'pointer-events-none opacity-90' : ''}`}
               >
-                {listCauHoiGroupByParent?.map((question, index) => {
+                {questionsGroupByParent?.map((question, index) => {
                   if (question?.length > 0) {
                     return (
                       <div
@@ -334,7 +382,35 @@ function DeThi() {
           <Col span={12} md={3}>
             <div className="border shadow-sm sticky top-28 bg-vs-theme-layout rounded-2xl">
               <div className="flex flex-col items-center bg-uneti-primary-lighter text-white rounded-tr-2xl rounded-tl-2xl p-3">
-                <h3>Thời gian còn lại</h3>
+                <h3>
+                  {isFinished ? (
+                    <div>
+                      <div className="flex items-center gap-1">
+                        <p>Điểm của bạn: </p>{' '}
+                        <p className={`font-semibold`}>{getScore}</p>
+                      </div>
+
+                      <div className="flex items-center gap-1">
+                        <p>Số câu đúng: </p>{' '}
+                        <div className="flex gap-2">
+                          <p className="font-semibold">
+                            {correctAnswers.length}/{allQuestions.length}
+                          </p>
+                          <p>
+                            (
+                            {(
+                              (correctAnswers.length / allQuestions.length) *
+                              100
+                            ).toFixed(1)}
+                            %)
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    'Thời gian còn lại'
+                  )}
+                </h3>
 
                 <div className="text-white flex items-center gap-1">
                   <Icon size={30}>
@@ -362,7 +438,7 @@ function DeThi() {
                 </div>
 
                 <div className="pl-2 mt-3">
-                  Đã trả lời: {keys(listCauTraLoi).length}/{deThi.TongSoCau}
+                  Đã trả lời: {keys(answers).length}/{deThi.TongSoCau}
                 </div>
               </div>
 
