@@ -49,7 +49,7 @@ function DeThi() {
   })
   const [deThi, setDeThi] = useState({
     Id: '413',
-    ThoiGian: 1,
+    ThoiGian: 20,
     TongSoCau: 94,
     ThangDiem: 10,
   })
@@ -488,7 +488,9 @@ function DeThi() {
 
                 <div className="p-3">
                   {isFinished ? (
-                    <Button>Làm lại lần nữa?</Button>
+                    <Button onClick={() => window.location.reload()}>
+                      Làm lại lần nữa?
+                    </Button>
                   ) : (
                     <XacNhanNopBai
                       TenMonHoc={monHoc.TenMonHoc}

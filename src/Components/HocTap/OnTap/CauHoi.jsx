@@ -1,4 +1,9 @@
+import { useMemo } from 'react'
 import { useContext, useState } from 'react'
+import { createElement } from 'react'
+import { useEffect } from 'react'
+import { useRef } from 'react'
+import { useInterval } from 'react-use'
 
 import { Radio } from '@/Components/Base/Radio/Radio'
 import { OnTapContext } from '@/Services/Tokens'
@@ -6,11 +11,14 @@ import Button from '@/Components/Base/Button/Button'
 import Icon from '@/Components/Base/Icon/Icon'
 import IconAudioPlay from '@/Components/Base/Icons/AudioPlay'
 import IconAudioPause from '@/Components/Base/Icons/AudioPause'
-import { createElement } from 'react'
-import { useEffect } from 'react'
-import { useRef } from 'react'
 import { getAudioById } from '@/Apis/HocTap/apiOnLuyenThiThu'
-import { decoders } from 'audio-decode'
+import {
+  convertBase64ToArrayBuffer,
+  convertBufferToBase64,
+} from '@/Services/Utils/stringUtils'
+import { retries } from '@/Services/Utils/requestUtils'
+import { useNamespace } from '@/Services/Hooks'
+import Swal from 'sweetalert2'
 
 export default function CauHoi(props) {
   const {
@@ -32,50 +40,110 @@ export default function CauHoi(props) {
     isFinished = false,
   } = props
 
+  const ns = useNamespace('question')
+
   const [isAudioLoaded, setIsAudioLoaded] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [localSelected, setLocalSelected] = useState(null)
   const [audio, setAudio] = useState(null)
+  const [audioDurationCount, setAudioDurationCount] = useState(0)
+  const [audioPlayCount, setAudioPlayCount] = useState(0)
+
   const audioRef = useRef(null)
 
   const danhSachCauHoiContext = useContext(OnTapContext)
 
+  useInterval(
+    () => {
+      if (
+        isFinished ||
+        !audio ||
+        !audioRef.current ||
+        audioRef.current.duration <= audioDurationCount
+      ) {
+        setAudioDurationCount(0)
+        setIsPlaying(false)
+        setAudioPlayCount((prev) => prev + 1)
+        return
+      }
+      setAudioDurationCount((prev) => prev + 1)
+    },
+    isPlaying ? 1000 : null,
+  )
+
   const handleChange = (IDCauTraLoi) => {
     if (disabled || isFinished) return
 
-    setLocalSelected(IDCauTraLoi)
     danhSachCauHoiContext.handleSelected(ID, IDCauTraLoi)
   }
 
   const handlePlayAudio = () => {
     if (isFinished) return
 
-    setIsPlaying((e) => !e)
+    if (!audio || !audioRef.current) return
+
+    if (audioPlayCount == 2) {
+      Swal.fire({
+        title: 'Thông báo',
+        text: 'Mỗi câu chỉ được nghe 2 lần',
+        icon: 'info',
+        confirmButtonText: 'Đóng',
+      })
+      return
+    }
+
+    if (isPlaying) {
+      audioRef.current.pause()
+      setIsPlaying(false)
+    } else {
+      audioRef.current.play()
+      setIsPlaying(true)
+    }
+  }
+
+  const getSourceAudio = async (IDCauHoi) => {
+    const audioResponse = await getAudioById({
+      IDCauHoi: ID,
+    })
+
+    if (!audioResponse.data.body || audioResponse.data.body.length === 0) {
+      throw new Error('Audio data not found')
+    }
+
+    const audioData = audioResponse.data.body[0].TC_SV_OnThi_Media_DataFile.data
+    if (!audioData) {
+      throw new Error('Audio data is empty')
+    }
+
+    const dataConvert = convertBufferToBase64(audioData)
+    const arrayBufferView = convertBase64ToArrayBuffer(dataConvert)
+
+    if (!arrayBufferView) {
+      throw new Error('Error converting base64 to ArrayBuffer')
+    }
+
+    const blob = new Blob([arrayBufferView], { type: 'audio/mpeg' })
+    const audioURL = URL.createObjectURL(blob)
+
+    if (!audioURL) {
+      throw new Error('Error creating Object URL for audio')
+    }
+
+    return audioURL
   }
 
   useEffect(() => {
     setIsPlaying(false)
   }, [isFinished])
-
   useEffect(() => {
     if (!IsAudioCauHoiCon || isAudioLoaded) return
 
-    async function getAudio() {
-      const audioResponse = await getAudioById({
-        IDCauHoi: ID,
-      })
-
-      const audioBuffer =
-        audioResponse.data?.body[0].TC_SV_OnThi_Media_DataFile.data
-
-      const blob = new Blob([audioBuffer], { type: 'audio/mpeg' })
-      const audioURL = URL.createObjectURL(blob)
-      const newAudio = new Audio(audioURL)
-
-      setAudio(newAudio.src)
+    const getAudio = async () => {
+      const audioSrc = await getSourceAudio(ID)
+      setAudio(audioSrc)
+      audioRef.current = new Audio(audioSrc)
     }
 
-    // getAudio()
+    retries(getAudio)
   }, [IsAudioCauHoiCon])
 
   return (
@@ -93,17 +161,28 @@ export default function CauHoi(props) {
           />
 
           {/* Audio */}
-          {!isFinished && IsAudioCauHoiCon ? (
+          {!isFinished && IsAudioCauHoiCon && audio ? (
             <div className="flex items-center">
-              <Button onClick={handlePlayAudio} type="transparent" icon>
+              <div
+                onClick={handlePlayAudio}
+                className="relative w-[36px] h-[36px] hover:bg-uneti-primary-lighter hover:bg-opacity-10 flex items-center justify-center transition-all rounded-full"
+                style={ns.cssVar({
+                  color: `var(${ns.cssVarName('primary-lighter')})`,
+                })}
+              >
                 <Icon size={30}>
                   {isPlaying ? <IconAudioPause /> : <IconAudioPlay />}
                 </Icon>
-              </Button>
 
-              {/* <audio ref={audioRef} controls>
-                <source src={audio} type="audio/mpeg"></source>
-              </audio> */}
+                <div className="absolute transition-all rounded-full duration-1000 top-full left-0 h-1 w-full bg-slate-300">
+                  <div
+                    className="absolute transition-all rounded-full duration-1000 top-0 left-0 h-1 bg-uneti-primary"
+                    style={{
+                      width: `${(audioDurationCount / audioRef.current.duration) * 100}%`,
+                    }}
+                  />
+                </div>
+              </div>
             </div>
           ) : null}
         </div>
@@ -112,15 +191,15 @@ export default function CauHoi(props) {
           <Radio
             id={IDCauTraLoi1}
             checked={
-              (isFinished && IDCauTraLoiDung == IDCauTraLoi1) ||
-              danhSachCauHoiContext.selected[ID] == IDCauTraLoi1
+              danhSachCauHoiContext.selected[ID] == IDCauTraLoi1 ||
+              (isFinished && IDCauTraLoiDung == IDCauTraLoi1)
             }
             name={ID}
             value={IDCauTraLoi1}
             onChange={handleChange}
             color={
               isFinished
-                ? localSelected == null
+                ? !danhSachCauHoiContext.selected[ID]
                   ? 'primary'
                   : IDCauTraLoiDung === IDCauTraLoi1
                     ? 'success'
@@ -138,15 +217,15 @@ export default function CauHoi(props) {
           <Radio
             id={IDCauTraLoi2}
             checked={
-              (isFinished && IDCauTraLoiDung == IDCauTraLoi2) ||
-              danhSachCauHoiContext.selected[ID] == IDCauTraLoi2
+              danhSachCauHoiContext.selected[ID] == IDCauTraLoi2 ||
+              (isFinished && IDCauTraLoiDung == IDCauTraLoi2)
             }
             name={ID}
             value={IDCauTraLoi2}
             onChange={handleChange}
             color={
               isFinished
-                ? localSelected == null
+                ? !danhSachCauHoiContext.selected[ID]
                   ? 'primary'
                   : IDCauTraLoiDung === IDCauTraLoi2
                     ? 'success'
@@ -164,15 +243,15 @@ export default function CauHoi(props) {
           <Radio
             id={IDCauTraLoi3}
             checked={
-              (isFinished && IDCauTraLoiDung == IDCauTraLoi3) ||
-              danhSachCauHoiContext.selected[ID] == IDCauTraLoi3
+              danhSachCauHoiContext.selected[ID] == IDCauTraLoi3 ||
+              (isFinished && IDCauTraLoiDung == IDCauTraLoi3)
             }
             name={ID}
             value={IDCauTraLoi3}
             onChange={handleChange}
             color={
               isFinished
-                ? localSelected == null
+                ? !danhSachCauHoiContext.selected[ID]
                   ? 'primary'
                   : IDCauTraLoiDung === IDCauTraLoi3
                     ? 'success'
@@ -190,15 +269,15 @@ export default function CauHoi(props) {
           <Radio
             id={IDCauTraLoi4}
             checked={
-              (isFinished && IDCauTraLoiDung == IDCauTraLoi4) ||
-              danhSachCauHoiContext.selected[ID] == IDCauTraLoi4
+              danhSachCauHoiContext.selected[ID] == IDCauTraLoi4 ||
+              (isFinished && IDCauTraLoiDung == IDCauTraLoi4)
             }
             name={ID}
             value={IDCauTraLoi4}
             onChange={handleChange}
             color={
               isFinished
-                ? localSelected == null
+                ? !danhSachCauHoiContext.selected[ID]
                   ? 'primary'
                   : IDCauTraLoiDung === IDCauTraLoi4
                     ? 'success'
