@@ -89,7 +89,7 @@ export default function CauHoi(props) {
           />
 
           {/* Audio */}
-          {IsAudioCauHoiCon ? (
+          {!isFinished && IsAudioCauHoiCon ? (
             <div className="flex items-center">
               <Button onClick={handlePlayAudio} type="transparent" icon>
                 <Icon size={30}>
