@@ -132,6 +132,9 @@ export default function CauHoi(props) {
   }
 
   useEffect(() => {
+    if (!isPlaying) audioRef.current?.pause()
+  }, [isPlaying])
+  useEffect(() => {
     setIsPlaying(false)
   }, [isFinished])
   useEffect(() => {

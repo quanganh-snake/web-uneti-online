@@ -17,7 +17,8 @@ export const convertQuestionToHtml = async (question) => {
         e
           .map((element) => element.innerHTML)
           .join('')
-          .replace(str, ''),
+          .replace(str, '')
+          .replace(/\[[^\]]+\.mp3\]/g, ''),
       )
     })
 

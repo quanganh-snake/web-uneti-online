@@ -195,12 +195,20 @@ function DeThi() {
     }
   }
 
-  function isCorrectAnswer(index) {
+  function questionStatus(index) {
     const { question } = getQuestionsAndPageByIndexQuestion(index)
-    if (question.IDCauTraLoiDung === answers[question.ID]) {
-      return 'bg-vs-success !text-white !hover:bg-vs-success'
+
+    if (!isFinished) {
+      if (answers[question.ID]) {
+        return 'bg-uneti-primary text-white'
+      }
+      return 'hover:bg-uneti-primary hover:bg-opacity-10 '
+    } else {
+      if (question.IDCauTraLoiDung === answers[question.ID]) {
+        return 'bg-vs-success !text-white !hover:bg-vs-success'
+      }
+      return 'bg-vs-danger !text-white !hover:bg-vs-danger'
     }
-    return 'bg-vs-danger !text-white !hover:bg-vs-danger'
   }
 
   async function handleGotoQuestion(qIndex) {
@@ -471,7 +479,7 @@ function DeThi() {
                         return (
                           <div
                             key={e}
-                            className={`${isFinished ? isCorrectAnswer(e) : 'hover:bg-uneti-primary hover:bg-opacity-10'} animate__animated animate__zoomInUp animate_faster active:scale-95 transition-all w-8 h-8 border rounded-full cursor-pointer select-none flex items-center justify-center text-opacity-80`}
+                            className={`${questionStatus(e)} animate__animated animate__zoomInUp animate_faster active:scale-95 transition-all w-8 h-8 border rounded-full cursor-pointer select-none flex items-center justify-center text-opacity-80`}
                             onClick={() => handleGotoQuestion(e)}
                           >
                             {e + 1}
