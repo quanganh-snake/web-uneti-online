@@ -26,13 +26,18 @@ import TimePlay from '@/Components/Base/Icons/TimePlay'
 import Swal from 'sweetalert2'
 import { useTimeout } from '@/Services/Hooks/useTimeout'
 import { retries } from '@/Services/Utils/requestUtils'
+import Button from '@/Components/Base/Button/Button'
+import Loading from '@/Components/Loading/Loading'
 
+const DETHI_QUESTION_CACHED = new Map()
 function DeThi() {
   const questionsCached = useRef(new Map())
   const uLocation = useLocation()
   const dataSV = DataSinhVien()
 
   const INTERVAL_ID = useRef(null)
+
+  const [isMounted, setIsMounted] = useState(false)
   // const navigate = useNavigate()
 
   // const maMonHoc = uLocation.pathname.split('/').at(-3).toString()
@@ -44,7 +49,7 @@ function DeThi() {
   })
   const [deThi, setDeThi] = useState({
     Id: '413',
-    ThoiGian: 0.2,
+    ThoiGian: 1,
     TongSoCau: 94,
     ThangDiem: 10,
   })
@@ -85,7 +90,10 @@ function DeThi() {
     })
   }, [questions])
 
-  // convert timeCountDown seconds to minutes and seconds like MM:SS
+  /**
+   * convert timeCountDown seconds to minutes and seconds like MM:SS
+   * @returns {string}
+   */
   const convertTime = useMemo(() => {
     const minutes = Math.floor(timeCountDown / 60)
     const seconds = timeCountDown % 60
@@ -98,8 +106,9 @@ function DeThi() {
     for (const [key, value] of questionsCached.current) {
       _questions.push(...value)
     }
+
     return _questions
-  }, [questionsCached])
+  }, [isFinished, questionsCached.current])
 
   const correctAnswers = useMemo(
     () =>
@@ -112,7 +121,7 @@ function DeThi() {
 
         return res
       }, []),
-    [isFinished],
+    [isFinished, allQuestions],
   )
 
   const getScore = useMemo(() => {
@@ -135,6 +144,12 @@ function DeThi() {
     }
   }
 
+  /**
+   *
+   * @param {Number} IDCauHoi
+   * @param {Number} IDCauTraLoi
+   * @returns
+   */
   function handleChangeAnswer(IDCauHoi, IDCauTraLoi) {
     if (isFinished) {
       Swal.fire({
@@ -155,8 +170,7 @@ function DeThi() {
     setCurrentPage(value)
   }
 
-  async function handleGotoQuestion(qIndex) {
-    // get page of index question
+  function getQuestionsAndPageByIndexQuestion(index) {
     let questions = []
     let page = 1
 
@@ -164,8 +178,8 @@ function DeThi() {
       const key = keyQuestionCached(i)
       const value = questionsCached.current.get(key)
 
-      if (value.length < qIndex) {
-        qIndex = qIndex - value.length
+      if (value.length <= index) {
+        index = index - value.length
         continue
       }
 
@@ -174,7 +188,27 @@ function DeThi() {
       break
     }
 
-    const cauHoi = questions[qIndex - 1]
+    return {
+      questions,
+      page,
+      question: questions[index],
+    }
+  }
+
+  function isCorrectAnswer(index) {
+    const { question } = getQuestionsAndPageByIndexQuestion(index)
+    if (question.IDCauTraLoiDung === answers[question.ID]) {
+      return 'bg-vs-success !text-white !hover:bg-vs-success'
+    }
+    return 'bg-vs-danger !text-white !hover:bg-vs-danger'
+  }
+
+  async function handleGotoQuestion(qIndex) {
+    // get page of index question
+    const { questions, page, question } =
+      getQuestionsAndPageByIndexQuestion(qIndex)
+
+    if (!question) return
     setQuestions(questions)
     setCurrentPage(page)
 
@@ -182,7 +216,7 @@ function DeThi() {
     await new Promise((resolve) => setTimeout(resolve, 100))
 
     // handle goto dom by ID
-    const IDCauHoi = cauHoi.ID
+    const IDCauHoi = question.ID
     const el = document.getElementById(IDCauHoi)
     if (!el) return
 
@@ -266,6 +300,9 @@ function DeThi() {
         if (currPage == 1) {
           setQuestions(data)
         }
+        if (questionsCached.current.size == totalPage) {
+          setIsMounted(true)
+        }
       })
     }
 
@@ -295,6 +332,8 @@ function DeThi() {
   }, [deThi, pageSize])
 
   useEffect(() => {
+    if (!isMounted) return
+
     INTERVAL_ID.current = setInterval(() => {
       setTimeCountDown((prev) => {
         return prev - 1
@@ -302,7 +341,7 @@ function DeThi() {
     }, 1000)
 
     return () => clearInterval(INTERVAL_ID.current)
-  }, [])
+  }, [isMounted])
 
   return (
     <OnTapContext.Provider
@@ -311,7 +350,7 @@ function DeThi() {
         handleSelected: handleChangeAnswer,
       }}
     >
-      <div className="flex justify-center items-center flex-col gap-4 rounded-md bg-white p-4">
+      <div className="flex justify-center items-center flex-col gap-4 rounded-2xl bg-white p-4">
         <h3 className="text-uneti-primary text-center font-semibold text-2xl">
           {monHoc.TenMonHoc}
         </h3>
@@ -319,139 +358,149 @@ function DeThi() {
           Mã Môn Học: {monHoc.MaMonHoc}
         </span>
       </div>
-      <div className="mt-6">
-        <Row gutter={30}>
-          <Col span={12} md={9}>
-            <div>
-              <div
-                className={`flex flex-col gap-7 p-6 bg-white rounded-[26px] shadow-sm ${isFinished ? 'pointer-events-none opacity-90' : ''}`}
-              >
-                {questionsGroupByParent?.map((question, index) => {
-                  if (question?.length > 0) {
-                    return (
-                      <div
-                        id={question[0].IDCauHoiCha}
-                        key={`parent-${index}`}
-                        className="p-6 rounded-[26px] border-2 border-slate-200 flex flex-col gap-4 transition-all hover:border-opacity-90"
-                      >
-                        <div className="flex items-start gap-2 flex-wrap">
-                          <div
-                            className="flex-1 mt-[2px]"
-                            dangerouslySetInnerHTML={{
-                              __html: `<span class="text-vs-danger font-bold whitespace-nowrap">
-                            Câu hỏi ${(currentPage - 1) * pageSize + index + 1}:
-                          </span> ${question[0].CauHoiCha}`,
-                            }}
-                          />
-                        </div>
-
-                        {question.map((child, i) => (
-                          <CauHoi
-                            key={`child-${index}-${i}`}
-                            STT={`${(currentPage - 1) * pageSize + index + 1}.${i + 1}`}
-                            {...child}
-                            disabled={isFinished}
-                            isFinished={isFinished}
-                          />
-                        ))}
-                      </div>
-                    )
-                  } else
-                    return (
-                      <CauHoi
-                        key={`parent-${index}`}
-                        STT={(currentPage - 1) * pageSize + index + 1}
-                        {...question}
-                        disabled={isFinished}
-                        isFinished={isFinished}
-                      />
-                    )
-                })}
-              </div>
-
-              <div className="p-4 bg-white my-5 rounded-xl shadow-sm">
-                <Pagination
-                  count={totalPage}
-                  page={currentPage}
-                  onChange={handleChangeCurrentPage}
-                  shape="rounded"
-                />
-              </div>
-            </div>
-          </Col>
-          <Col span={12} md={3}>
-            <div className="border shadow-sm sticky top-28 bg-vs-theme-layout rounded-2xl">
-              <div className="flex flex-col items-center bg-uneti-primary-lighter text-white rounded-tr-2xl rounded-tl-2xl p-3">
-                <h3>
-                  {isFinished ? (
-                    <div>
-                      <div className="flex items-center gap-1">
-                        <p>Điểm của bạn: </p>{' '}
-                        <p className={`font-semibold`}>{getScore}</p>
-                      </div>
-
-                      <div className="flex items-center gap-1">
-                        <p>Số câu đúng: </p>{' '}
-                        <div className="flex gap-2">
-                          <p className="font-semibold">
-                            {correctAnswers.length}/{allQuestions.length}
-                          </p>
-                          <p>
-                            (
-                            {(
-                              (correctAnswers.length / allQuestions.length) *
-                              100
-                            ).toFixed(1)}
-                            %)
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    'Thời gian còn lại'
-                  )}
-                </h3>
-
-                <div className="text-white flex items-center gap-1">
-                  <Icon size={30}>
-                    {isFinished ? <TimePlay /> : <TimePause />}
-                  </Icon>
-                  <span>{convertTime}</span>
-                </div>
-              </div>
-
-              <div className="p-2">
-                <div className="h-[36dvh] overflow-y-auto flex flex-wrap gap-2 justify-evenly">
-                  {Array.from({ length: deThi.TongSoCau }, (_, i) => i + 1).map(
-                    (e) => {
+      {!isMounted ? (
+        <div className="flex items-center justify-center">
+          <Loading />
+        </div>
+      ) : (
+        <div className="mt-6">
+          <Row gutter={30}>
+            <Col span={12} md={9}>
+              <div className="z-1">
+                <div
+                  className={`flex flex-col gap-7 p-6 bg-white rounded-[26px] shadow-sm ${isFinished ? 'pointer-events-none opacity-90' : ''}`}
+                >
+                  {questionsGroupByParent?.map((question, index) => {
+                    if (question?.length > 0) {
                       return (
                         <div
-                          key={e}
-                          className="w-8 h-8 border rounded-full cursor-pointer select-none flex items-center justify-center hover:bg-uneti-primary hover:bg-opacity-10 text-opacity-80"
-                          onClick={() => handleGotoQuestion(e)}
+                          id={question[0].IDCauHoiCha}
+                          key={`parent-${index}`}
+                          className="p-6 rounded-[26px] border-2 border-slate-200 flex flex-col gap-4 transition-all hover:border-opacity-90"
                         >
-                          {e}
+                          <div className="flex items-start gap-2 flex-wrap">
+                            <div
+                              className="flex-1 mt-[2px]"
+                              dangerouslySetInnerHTML={{
+                                __html: `<span class="text-vs-danger font-bold whitespace-nowrap">
+                            Câu hỏi ${(currentPage - 1) * pageSize + index + 1}:
+                          </span> ${question[0].CauHoiCha}`,
+                              }}
+                            />
+                          </div>
+
+                          {question.map((child, i) => (
+                            <CauHoi
+                              key={`child-${index}-${i}`}
+                              STT={`${(currentPage - 1) * pageSize + index + 1}.${i + 1}`}
+                              {...child}
+                              disabled={isFinished}
+                              isFinished={isFinished}
+                            />
+                          ))}
                         </div>
                       )
-                    },
+                    } else
+                      return (
+                        <CauHoi
+                          key={`parent-${index}`}
+                          STT={(currentPage - 1) * pageSize + index + 1}
+                          {...question}
+                          disabled={isFinished}
+                          isFinished={isFinished}
+                        />
+                      )
+                  })}
+                </div>
+
+                <div className="p-4 bg-white my-5 rounded-xl shadow-sm">
+                  <Pagination
+                    count={totalPage}
+                    page={currentPage}
+                    onChange={handleChangeCurrentPage}
+                    shape="rounded"
+                  />
+                </div>
+              </div>
+            </Col>
+            <Col span={12} md={3}>
+              <div className="z-100 border shadow-sm sticky top-28 bg-vs-theme-layout rounded-2xl">
+                <div className="flex flex-col gap-3 items-center bg-uneti-primary-lighter text-white rounded-tr-2xl rounded-tl-2xl p-3">
+                  <h3>
+                    {isFinished ? (
+                      <div>
+                        <div className="flex items-center gap-1">
+                          <p>Điểm của bạn: </p>{' '}
+                          <p className={`font-semibold`}>{getScore}</p>
+                        </div>
+
+                        <div className="flex items-center gap-1">
+                          <p>Số câu đúng: </p>{' '}
+                          <div className="flex gap-2">
+                            <p className="font-semibold">
+                              {correctAnswers.length}/{allQuestions.length}
+                            </p>
+                            <p>
+                              (
+                              {(
+                                (correctAnswers.length / allQuestions.length) *
+                                100
+                              ).toFixed(1)}
+                              %)
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      'Thời gian còn lại'
+                    )}
+                  </h3>
+
+                  <div className="text-white flex items-center gap-1">
+                    <Icon size={30}>
+                      {isFinished ? <TimePlay /> : <TimePause />}
+                    </Icon>
+                    <span>{convertTime}</span>
+                  </div>
+                </div>
+
+                <div className="p-2">
+                  <div className="h-[36dvh] overflow-y-auto flex flex-wrap gap-2 justify-evenly">
+                    {Array.from({ length: deThi.TongSoCau }, (_, i) => i).map(
+                      (e) => {
+                        return (
+                          <div
+                            key={e}
+                            className={`${isFinished ? isCorrectAnswer(e) : 'hover:bg-uneti-primary hover:bg-opacity-10'} animate__animated animate__zoomInUp animate_faster active:scale-95 transition-all w-8 h-8 border rounded-full cursor-pointer select-none flex items-center justify-center text-opacity-80`}
+                            onClick={() => handleGotoQuestion(e)}
+                          >
+                            {e + 1}
+                          </div>
+                        )
+                      },
+                    )}
+                  </div>
+
+                  <div className="pl-2 mt-6">
+                    Đã trả lời: {keys(answers).length}/{deThi.TongSoCau}
+                  </div>
+                </div>
+
+                <div className="p-3">
+                  {isFinished ? (
+                    <Button>Làm lại lần nữa?</Button>
+                  ) : (
+                    <XacNhanNopBai
+                      TenMonHoc={monHoc.TenMonHoc}
+                      onConfirm={handleXacNhanNopBai}
+                    />
                   )}
                 </div>
-
-                <div className="pl-2 mt-3">
-                  Đã trả lời: {keys(answers).length}/{deThi.TongSoCau}
-                </div>
               </div>
-
-              <div className="p-3">
-                <XacNhanNopBai
-                  TenMonHoc={monHoc.TenMonHoc}
-                  onConfirm={handleXacNhanNopBai}
-                />
-              </div>
-            </div>
-          </Col>
-        </Row>
-      </div>
+            </Col>
+          </Row>
+        </div>
+      )}
     </OnTapContext.Provider>
   )
 }
