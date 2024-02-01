@@ -29,6 +29,7 @@ import { retries } from '@/Services/Utils/requestUtils'
 import Button from '@/Components/Base/Button/Button'
 import Loading from '@/Components/Loading/Loading'
 import GroupCauHoi from '@/Components/HocTap/OnTap/GroupCauHoi'
+import { FILTER_ACTIONS } from '../../constants'
 
 const DETHI_QUESTION_CACHED = new Map()
 function DeThi() {
@@ -61,6 +62,7 @@ function DeThi() {
    */
   const [answers, setAnswers] = useState({})
   const [questionsTick, setQuestionsTick] = useState({})
+  const [filterState, setFilterState] = useState(null)
 
   // Page
   const [totalPage, setTotalPage] = useState(0)
@@ -149,7 +151,7 @@ function DeThi() {
     }
   }
 
-  function markIndexQuestions() {
+  function transformQuestions() {
     let index = 1
 
     for (let i = 1; i <= totalPage; i++) {
@@ -163,6 +165,12 @@ function DeThi() {
         }),
       )
     }
+  }
+
+  function handleFilter(e) {
+    const value = e.target.value
+
+    setFilterState(value)
   }
 
   /**
@@ -330,7 +338,7 @@ function DeThi() {
 
         if (questionsCached.current.size == totalPage) {
           setIsMounted(true)
-          markIndexQuestions()
+          transformQuestions()
 
           const data = questionsCached.current.get(keyQuestionCached(1))
           setQuestions(data)
@@ -516,6 +524,21 @@ function DeThi() {
 
                   <div className="pl-2 mt-6">
                     Đã trả lời: {keys(answers).length}/{deThi.TongSoCau}
+                  </div>
+
+                  <div className="mt-4 p-1">
+                    <select
+                      onChange={handleFilter}
+                      className="p-2 pl-3 outline-none rounded-xl border w-full"
+                    >
+                      <option value={FILTER_ACTIONS.ALL}>Tất cả</option>
+                      <option value={FILTER_ACTIONS.ChuaTraLoi}>
+                        Chưa trả lời
+                      </option>
+                      <option value={FILTER_ACTIONS.DangPhanVan}>
+                        Đang phân vân
+                      </option>
+                    </select>
                   </div>
                 </div>
 
