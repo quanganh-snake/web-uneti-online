@@ -383,7 +383,7 @@ function DeThi() {
                       return (
                         <div
                           id={question[0].IDCauHoiCha}
-                          key={`parent-${index}`}
+                          key={`question-parent-${question[0].IDCauHoiCha}`}
                           className="p-6 rounded-[26px] border-2 border-slate-200 flex flex-col gap-4 transition-all hover:border-opacity-90"
                         >
                           <div className="flex items-start gap-2 flex-wrap">
@@ -399,7 +399,7 @@ function DeThi() {
 
                           {question.map((child, i) => (
                             <CauHoi
-                              key={`child-${index}-${i}`}
+                              key={`p-question-${child.ID}`}
                               STT={`${(currentPage - 1) * pageSize + index + 1}.${i + 1}`}
                               {...child}
                               disabled={isFinished}
@@ -411,7 +411,7 @@ function DeThi() {
                     } else
                       return (
                         <CauHoi
-                          key={`parent-${index}`}
+                          key={`n-question-${question[0].ID}`}
                           STT={(currentPage - 1) * pageSize + index + 1}
                           {...question}
                           disabled={isFinished}
