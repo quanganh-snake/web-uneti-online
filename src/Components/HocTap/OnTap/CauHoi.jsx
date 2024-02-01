@@ -19,10 +19,15 @@ import {
 import { retries } from '@/Services/Utils/requestUtils'
 import { useNamespace } from '@/Services/Hooks'
 import Swal from 'sweetalert2'
+import ArchiveBook from '@/Components/Base/Icons/ArchiveBook'
+import { transformCls } from '@/Services/Utils/reactUtils'
+
+import './CauHoi.scss'
+import ArchiveBookFilled from '@/Components/Base/Icons/ArchiveBookFilled'
 
 export default function CauHoi(props) {
   const {
-    STT = 1,
+    STT = null,
     ID = null,
     CauHoi = undefined,
     CauTraLoi1 = undefined,
@@ -93,11 +98,22 @@ export default function CauHoi(props) {
 
     if (isPlaying) {
       audioRef.current.pause()
+      danhSachCauHoiContext.setAudioPlaying(null)
       setIsPlaying(false)
     } else {
       audioRef.current.play()
+      danhSachCauHoiContext.setAudioPlaying(ID)
       setIsPlaying(true)
     }
+  }
+
+  const handleArchiveQuestion = () => {
+    danhSachCauHoiContext.setQuestionsTick((prev) => {
+      return {
+        ...prev,
+        [ID]: !prev[ID],
+      }
+    })
   }
 
   const getSourceAudio = async (IDCauHoi) => {
@@ -132,6 +148,11 @@ export default function CauHoi(props) {
   }
 
   useEffect(() => {
+    if (danhSachCauHoiContext.audioPlaying !== ID) {
+      setIsPlaying(false)
+    }
+  }, [danhSachCauHoiContext.audioPlaying])
+  useEffect(() => {
     if (!isPlaying) audioRef.current?.pause()
   }, [isPlaying])
   useEffect(() => {
@@ -153,9 +174,13 @@ export default function CauHoi(props) {
     <>
       <div
         id={ID}
-        className={`bg-white transition-all text-vs-theme-color text-sm select-none rounded-[20px] border-2 p-5 border-slate-100 padding focus-within:border-uneti-primary hover:border-uneti-primary ${isPlaying ? 'border-uneti-primary' : ''}`}
+        className={transformCls([
+          ns.b(),
+          ns.is('playing', isPlaying),
+          ns.is('tick', danhSachCauHoiContext.questionsTick[ID]),
+        ])}
       >
-        <div className="flex items-center mb-3 text-base text-vs-text">
+        <div className={ns.e('heading')}>
           <div
             className="font-semibold flex-1"
             dangerouslySetInnerHTML={{
@@ -163,31 +188,45 @@ export default function CauHoi(props) {
             }}
           />
 
-          {/* Audio */}
-          {!isFinished && IsAudioCauHoiCon && audio ? (
-            <div className="flex items-center">
-              <div
-                onClick={handlePlayAudio}
-                className="relative w-[36px] h-[36px] hover:bg-uneti-primary-lighter hover:bg-opacity-10 flex items-center justify-center transition-all rounded-full"
-                style={ns.cssVar({
-                  color: `var(${ns.cssVarName('primary-lighter')})`,
-                })}
-              >
-                <Icon size={30}>
-                  {isPlaying ? <IconAudioPause /> : <IconAudioPlay />}
-                </Icon>
-
-                <div className="absolute transition-all rounded-full duration-1000 top-full left-0 h-1 w-full bg-slate-300">
+          <div className="flex items-center gap-3">
+            {/* Audio */}
+            {!isFinished ? (
+              <>
+                {IsAudioCauHoiCon && audio ? (
                   <div
-                    className="absolute transition-all rounded-full duration-1000 top-0 left-0 h-1 bg-uneti-primary"
-                    style={{
-                      width: `${(audioDurationCount / audioRef.current.duration) * 100}%`,
-                    }}
-                  />
+                    onClick={handlePlayAudio}
+                    className="relative w-9 h-9 hover:bg-uneti-primary-lighter hover:bg-opacity-10 flex items-center justify-center transition-all rounded-full"
+                    style={ns.cssVar({
+                      color: `var(${ns.cssVarName('primary-lighter')})`,
+                    })}
+                  >
+                    <Icon size={30}>
+                      {isPlaying ? <IconAudioPause /> : <IconAudioPlay />}
+                    </Icon>
+
+                    <div className="absolute transition-all rounded-full duration-1000 top-full left-0 h-1 w-full bg-slate-300">
+                      <div
+                        className="absolute transition-all rounded-full duration-1000 top-0 left-0 h-1 bg-uneti-primary"
+                        style={{
+                          width: `${(audioDurationCount / audioRef.current.duration) * 100}%`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                ) : null}
+
+                <div className={ns.e('tick')} onClick={handleArchiveQuestion}>
+                  <Icon size={30}>
+                    {danhSachCauHoiContext.questionsTick[ID] ? (
+                      <ArchiveBookFilled />
+                    ) : (
+                      <ArchiveBook />
+                    )}
+                  </Icon>
                 </div>
-              </div>
-            </div>
-          ) : null}
+              </>
+            ) : null}
+          </div>
         </div>
 
         <div className="flex flex-col gap-3">
@@ -202,11 +241,9 @@ export default function CauHoi(props) {
             onChange={handleChange}
             color={
               isFinished
-                ? !danhSachCauHoiContext.selected[ID]
-                  ? 'primary'
-                  : IDCauTraLoiDung === IDCauTraLoi1
-                    ? 'success'
-                    : 'danger'
+                ? IDCauTraLoiDung === IDCauTraLoi1
+                  ? 'success'
+                  : 'danger'
                 : color
             }
           >
@@ -228,11 +265,9 @@ export default function CauHoi(props) {
             onChange={handleChange}
             color={
               isFinished
-                ? !danhSachCauHoiContext.selected[ID]
-                  ? 'primary'
-                  : IDCauTraLoiDung === IDCauTraLoi2
-                    ? 'success'
-                    : 'danger'
+                ? IDCauTraLoiDung === IDCauTraLoi2
+                  ? 'success'
+                  : 'danger'
                 : color
             }
           >
@@ -254,11 +289,9 @@ export default function CauHoi(props) {
             onChange={handleChange}
             color={
               isFinished
-                ? !danhSachCauHoiContext.selected[ID]
-                  ? 'primary'
-                  : IDCauTraLoiDung === IDCauTraLoi3
-                    ? 'success'
-                    : 'danger'
+                ? IDCauTraLoiDung === IDCauTraLoi3
+                  ? 'success'
+                  : 'danger'
                 : color
             }
           >
@@ -269,31 +302,31 @@ export default function CauHoi(props) {
             />
           </Radio>
 
-          <Radio
-            id={IDCauTraLoi4}
-            checked={
-              danhSachCauHoiContext.selected[ID] == IDCauTraLoi4 ||
-              (isFinished && IDCauTraLoiDung == IDCauTraLoi4)
-            }
-            name={ID}
-            value={IDCauTraLoi4}
-            onChange={handleChange}
-            color={
-              isFinished
-                ? !danhSachCauHoiContext.selected[ID]
-                  ? 'primary'
-                  : IDCauTraLoiDung === IDCauTraLoi4
+          {IDCauTraLoi4 ? (
+            <Radio
+              id={IDCauTraLoi4}
+              checked={
+                danhSachCauHoiContext.selected[ID] == IDCauTraLoi4 ||
+                (isFinished && IDCauTraLoiDung == IDCauTraLoi4)
+              }
+              name={ID}
+              value={IDCauTraLoi4}
+              onChange={handleChange}
+              color={
+                isFinished
+                  ? IDCauTraLoiDung === IDCauTraLoi4
                     ? 'success'
                     : 'danger'
-                : color
-            }
-          >
-            <div
-              dangerouslySetInnerHTML={{
-                __html: `D.  ${CauTraLoi4}`,
-              }}
-            />
-          </Radio>
+                  : color
+              }
+            >
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: `D.  ${CauTraLoi4}`,
+                }}
+              />
+            </Radio>
+          ) : null}
         </div>
       </div>
     </>

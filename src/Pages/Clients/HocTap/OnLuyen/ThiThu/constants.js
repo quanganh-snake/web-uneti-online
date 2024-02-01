@@ -13,3 +13,9 @@ export const breadcrumbs = [
     title: 'Thi thử',
   },
 ]
+
+export const FILTER_ACTIONS = {
+  ALL: '0',
+  ChuaTraLoi: '1',
+  DangPhanVan: '2',
+}

@@ -3,11 +3,10 @@ import { useEffect } from 'react'
 
 import './AudioPause.scss'
 
-export default function IconAudioPause({ children, ...attrs }) {
+export default function IconAudioPause() {
   const [isActive, setIsActive] = useState(false)
 
   useEffect(() => {
-    children
     setIsActive(true)
   }, [])
 
@@ -20,7 +19,6 @@ export default function IconAudioPause({ children, ...attrs }) {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className={isActive ? 'active' : null}
-        {...attrs}
       >
         <path
           d="M16.23 13.27V10.73C16.23 8.61002 15.38 7.77002 13.27 7.77002H10.73C8.61002 7.77002 7.77002 8.62002 7.77002 10.73V13.27C7.77002 15.39 8.62002 16.23 10.73 16.23H12.51"
