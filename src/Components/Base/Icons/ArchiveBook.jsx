@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useEffect } from 'react'
 
-import './AudioPlay.scss'
+import './ArchiveBook.scss'
 
-export default function IconAudioPlay() {
+export default function ArchiveBook() {
   const [isActive, setIsActive] = useState(false)
 
   useEffect(() => {
@@ -20,36 +20,40 @@ export default function IconAudioPlay() {
       className={isActive ? 'active' : null}
     >
       <path
-        d="M15 7.41003C15 4.43003 12.93 3.29003 10.41 4.87003L7.49 6.70003C7.17 6.89003 6.8 7.00003 6.43 7.00003H5C3 7.00003 2 8.00003 2 10V14C2 16 3 17 5 17H6.43C6.8 17 7.17 17.11 7.49 17.3L10.41 19.13C12.93 20.71 15 19.56 15 16.59V11.47"
+        d="M3 7C3 4 4.5 2 8 2H16C19.5 2 21 4 21 7V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V10.95"
         stroke="currentColor"
         strokeWidth="1.5"
+        strokeMiterlimit="10"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="audio-play-svg-elem-1"
+        className="archive-book-svg-elem-1"
       ></path>
       <path
-        d="M18 8C19.78 10.37 19.78 13.63 18 16"
+        d="M15.5 5.98999V9.85999C15.5 10.3 14.98 10.52 14.66 10.23L12.34 8.09003C12.15 7.91003 11.85 7.91003 11.66 8.09003L9.34003 10.23C9.02003 10.52 8.5 10.3 8.5 9.85999V2H15.5"
         stroke="currentColor"
         strokeWidth="1.5"
+        strokeMiterlimit="10"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="audio-play-svg-elem-2"
+        className="archive-book-svg-elem-2"
       ></path>
       <path
-        d="M19.8301 18.5C21.2801 16.57 22.0001 14.29 22.0001 12"
+        d="M13.25 14H17.5"
         stroke="currentColor"
         strokeWidth="1.5"
+        strokeMiterlimit="10"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="audio-play-svg-elem-3"
+        className="archive-book-svg-elem-3"
       ></path>
       <path
-        d="M19.8301 5.5C20.4201 6.28 20.8801 7.12 21.2301 8"
+        d="M9 18H17.5"
         stroke="currentColor"
         strokeWidth="1.5"
+        strokeMiterlimit="10"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="audio-play-svg-elem-4"
+        className="archive-book-svg-elem-4"
       ></path>
     </svg>
   )

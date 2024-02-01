@@ -1,0 +1,47 @@
+@include b(question) {
+  @include set-var-value(color, getCssVar(text));
+  @include set-var-value(tick, getCssVar(color));
+
+  background: #fff;
+  transition: all 0.25s ease;
+  color: getColor(color);
+  font-size: 13px;
+  user-select: none;
+  border-radius: 20px;
+  border: 2px solid getColor(gray-3);
+  padding: 20px;
+
+  &:hover,
+  &:focus-within {
+    border-color: getColor(primary-light);
+  }
+
+  @include when(playing) {
+    border-color: getColor(primary-lighter);
+  }
+
+  @include when(tick) {
+    @include e(tick) {
+      @include set-var-value(color, getCssVar(warn));
+    }
+  }
+
+  @include e(tick) {
+    transition: all 0.25s ease;
+    height: 36px;
+    width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: getColor(color);
+  }
+
+  @include e(heading) {
+    position: relative;
+    display: flex;
+    align-items: start;
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: getColor(text);
+  }
+}

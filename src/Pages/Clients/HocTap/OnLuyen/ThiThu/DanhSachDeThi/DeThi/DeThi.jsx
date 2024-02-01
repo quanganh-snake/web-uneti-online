@@ -28,6 +28,7 @@ import { useTimeout } from '@/Services/Hooks/useTimeout'
 import { retries } from '@/Services/Utils/requestUtils'
 import Button from '@/Components/Base/Button/Button'
 import Loading from '@/Components/Loading/Loading'
+import GroupCauHoi from '@/Components/HocTap/OnTap/GroupCauHoi'
 
 const DETHI_QUESTION_CACHED = new Map()
 function DeThi() {
@@ -49,7 +50,7 @@ function DeThi() {
   })
   const [deThi, setDeThi] = useState({
     Id: '413',
-    ThoiGian: 20,
+    ThoiGian: 120,
     TongSoCau: 94,
     ThangDiem: 10,
   })
@@ -59,6 +60,7 @@ function DeThi() {
    * @type {Object<IDCauHoi, IDCauTraLoi>}
    */
   const [answers, setAnswers] = useState({})
+  const [questionsTick, setQuestionsTick] = useState({})
 
   // Page
   const [totalPage, setTotalPage] = useState(0)
@@ -68,6 +70,9 @@ function DeThi() {
   // timer is calc by seconds
   const [timeCountDown, setTimeCountDown] = useState(deThi.ThoiGian * 60)
   const [isFinished, setIsFinished] = useState(false)
+
+  // audio playing
+  const [audioPlaying, setAudioPlaying] = useState(null)
 
   const keyQuestionCached = (currentPage) =>
     JSON.stringify({ IDDeThi: deThi.Id, currentPage, pageSize })
@@ -144,6 +149,22 @@ function DeThi() {
     }
   }
 
+  function markIndexQuestions() {
+    let index = 1
+
+    for (let i = 1; i <= totalPage; i++) {
+      const key = keyQuestionCached(i)
+      const value = questionsCached.current.get(key)
+
+      questionsCached.current.set(
+        key,
+        value.map((question) => {
+          return { ...question, STT: index++ }
+        }),
+      )
+    }
+  }
+
   /**
    *
    * @param {Number} IDCauHoi
@@ -198,17 +219,19 @@ function DeThi() {
   function questionStatus(index) {
     const { question } = getQuestionsAndPageByIndexQuestion(index)
 
-    if (!isFinished) {
-      if (answers[question.ID]) {
-        return 'bg-uneti-primary text-white'
-      }
-      return 'hover:bg-uneti-primary hover:bg-opacity-10 '
-    } else {
+    if (isFinished) {
       if (question.IDCauTraLoiDung === answers[question.ID]) {
         return 'bg-vs-success !text-white !hover:bg-vs-success'
       }
       return 'bg-vs-danger !text-white !hover:bg-vs-danger'
     }
+
+    if (!!questionsTick[question.ID]) {
+      return 'bg-vs-warn text-white'
+    } else if (answers[question.ID]) {
+      return 'bg-uneti-primary text-white'
+    }
+    return 'hover:bg-uneti-primary hover:bg-opacity-10 '
   }
 
   async function handleGotoQuestion(qIndex) {
@@ -305,11 +328,12 @@ function DeThi() {
 
         questionsCached.current.set(keyQuestionCached(currPage), data)
 
-        if (currPage == 1) {
-          setQuestions(data)
-        }
         if (questionsCached.current.size == totalPage) {
           setIsMounted(true)
+          markIndexQuestions()
+
+          const data = questionsCached.current.get(keyQuestionCached(1))
+          setQuestions(data)
         }
       })
     }
@@ -318,7 +342,7 @@ function DeThi() {
       if (totalPage == 0) return
 
       for (let i = 1; i <= totalPage; i++) {
-        await getTotalQuestions(i)
+        getTotalQuestions(i)
       }
     })()
   }, [deThi, totalPage])
@@ -356,6 +380,10 @@ function DeThi() {
       value={{
         selected: answers,
         handleSelected: handleChangeAnswer,
+        audioPlaying,
+        setAudioPlaying,
+        questionsTick,
+        setQuestionsTick,
       }}
     >
       <div className="flex justify-center items-center flex-col gap-4 rounded-2xl bg-white p-4">
@@ -378,29 +406,26 @@ function DeThi() {
                 <div
                   className={`flex flex-col gap-7 p-6 bg-white rounded-[26px] shadow-sm ${isFinished ? 'pointer-events-none opacity-90' : ''}`}
                 >
-                  {questionsGroupByParent?.map((question, index) => {
+                  {questionsGroupByParent.map((question, rootIndex) => {
                     if (question?.length > 0) {
                       return (
                         <div
                           id={question[0].IDCauHoiCha}
-                          key={`question-parent-${question[0].IDCauHoiCha}`}
+                          key={`question-parent-${rootIndex}`}
                           className="p-6 rounded-[26px] border-2 border-slate-200 flex flex-col gap-4 transition-all hover:border-opacity-90"
                         >
                           <div className="flex items-start gap-2 flex-wrap">
                             <div
                               className="flex-1 mt-[2px]"
                               dangerouslySetInnerHTML={{
-                                __html: `<span class="text-vs-danger font-bold whitespace-nowrap">
-                            Câu hỏi ${(currentPage - 1) * pageSize + index + 1}:
-                          </span> ${question[0].CauHoiCha}`,
+                                __html: `<div>${question[0].CauHoiCha}</div>`,
                               }}
                             />
                           </div>
 
                           {question.map((child, i) => (
                             <CauHoi
-                              key={`p-question-${child.ID}`}
-                              STT={`${(currentPage - 1) * pageSize + index + 1}.${i + 1}`}
+                              key={`p-question-${rootIndex}-${i}`}
                               {...child}
                               disabled={isFinished}
                               isFinished={isFinished}
@@ -408,16 +433,16 @@ function DeThi() {
                           ))}
                         </div>
                       )
-                    } else
-                      return (
-                        <CauHoi
-                          key={`n-question-${question[0].ID}`}
-                          STT={(currentPage - 1) * pageSize + index + 1}
-                          {...question}
-                          disabled={isFinished}
-                          isFinished={isFinished}
-                        />
-                      )
+                    }
+
+                    return (
+                      <CauHoi
+                        key={`n-question-${rootIndex}`}
+                        {...question}
+                        disabled={isFinished}
+                        isFinished={isFinished}
+                      />
+                    )
                   })}
                 </div>
 
