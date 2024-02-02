@@ -7,7 +7,7 @@ function ModuleItem(props) {
 
   return (
     <Link to={`${pathname}${item.path}`}>
-      <div className="bg-white p-8 rounded-[22px] h-full flex md:flex-col md:justify-start flex-row justify-center items-center shadow-sm">
+      <div className="bg-white p-8 rounded-[22px] w-full h-full flex md:flex-col md:justify-start flex-row justify-center items-center shadow-sm">
         <img
           src={item.thumbnail}
           className="inline-block w-8 h-8 md:w-20 md:h-20"

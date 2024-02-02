@@ -9,7 +9,7 @@ function HomeHocTap() {
         <h2 className="text-uneti-primary uppercase text-center font-semibold text-2xl mb-10">
           Tra cứu kết quả học tập và ôn luyện
         </h2>
-        <div className="flex flex-col md:flex-row px-4 gap-7">
+        <div className="flex flex-col md:flex-row md:justify-center px-4 gap-10">
           {homeHocTap.map((item, index) => {
             return (
               <React.Fragment key={index}>

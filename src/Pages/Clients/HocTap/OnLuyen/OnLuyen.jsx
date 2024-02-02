@@ -1,7 +1,6 @@
 import ModuleItem from '@/Components/ModuleItem/ModuleItem'
 import { Sidebar } from '@/Components/Sidebar/Sidebar'
 import { homeOnLuyen } from '@/Services/Static/dataStatic'
-import React from 'react'
 import { hocTapSidebar } from '../constants'
 
 export default function OnLuyen() {
@@ -12,12 +11,12 @@ export default function OnLuyen() {
           <Sidebar items={hocTapSidebar} />
         </div>
 
-        <div className="flex flex-col md:flex-row gap-10">
+        <div className="w-full grid grid-cols-2 gap-10">
           {homeOnLuyen.map((item, index) => {
             return (
-              <React.Fragment key={index}>
+              <div className="col-span-1" key={index}>
                 <ModuleItem item={item} />
-              </React.Fragment>
+              </div>
             )
           })}
         </div>
