@@ -1,13 +1,21 @@
 import { Pagination } from '@mui/material'
-import { flatten, isNil, keys } from 'lodash-unified'
+import {
+  flatten,
+  isArray,
+  isNil,
+  keys,
+  mapValues,
+  toArray,
+  values,
+} from 'lodash-unified'
 import { useMemo, useRef } from 'react'
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
-// import {
-//   getAllDeThiThiThu,
-//   getAllMonHocThiThu,
-// } from '@/Apis/HocTap/apiOnLuyenThiThu'
+import {
+  getAllDeThiThiThu,
+  getAllMonHocThiThu,
+} from '@/Apis/HocTap/apiOnLuyenThiThu'
 import {
   getCauHoiTheoDe,
   getTongSoTrangTheoDe,
@@ -31,7 +39,6 @@ import Loading from '@/Components/Loading/Loading'
 import GroupCauHoi from '@/Components/HocTap/OnTap/GroupCauHoi'
 import { FILTER_ACTIONS } from '../../constants'
 
-const DETHI_QUESTION_CACHED = new Map()
 function DeThi() {
   const questionsCached = useRef(new Map())
   const uLocation = useLocation()
@@ -40,22 +47,13 @@ function DeThi() {
   const INTERVAL_ID = useRef(null)
 
   const [isMounted, setIsMounted] = useState(false)
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
-  // const maMonHoc = uLocation.pathname.split('/').at(-3).toString()
-  // const maDe = uLocation.pathname.split('/').at(-1).toString()
+  const maMonHoc = uLocation.pathname.split('/').at(-3).toString()
+  const maDe = uLocation.pathname.split('/').at(-1).toString()
 
-  const [monHoc, setMonHoc] = useState({
-    TenMonHoc: 'Tiếng Anh',
-    MaMonHoc: '510201014',
-  })
-  const [deThi, setDeThi] = useState({
-    Id: '413',
-    ThoiGian: 120,
-    TongSoCau: 94,
-    ThangDiem: 10,
-  })
-
+  const [monHoc, setMonHoc] = useState()
+  const [deThi, setDeThi] = useState()
   const [questions, setQuestions] = useState([])
   /**
    * @type {Object<IDCauHoi, IDCauTraLoi>}
@@ -67,35 +65,14 @@ function DeThi() {
   // Page
   const [totalPage, setTotalPage] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
-  const [pageSize] = useState(10)
+  const [pageSize, setPageSize] = useState(10)
 
   // timer is calc by seconds
-  const [timeCountDown, setTimeCountDown] = useState(deThi.ThoiGian * 60)
+  const [timeCountDown, setTimeCountDown] = useState(0)
   const [isFinished, setIsFinished] = useState(false)
 
   // audio playing
   const [audioPlaying, setAudioPlaying] = useState(null)
-
-  const keyQuestionCached = (currentPage) =>
-    JSON.stringify({ IDDeThi: deThi.Id, currentPage, pageSize })
-
-  const questionsGroupByParent = useMemo(() => {
-    const obj = questions.reduce((res, curr) => {
-      const key = curr.IDCauHoiCha ?? 'NoParent'
-
-      if (isNil(res[key])) {
-        res[key] = []
-      }
-
-      res[key].push(curr)
-
-      return res
-    }, {})
-
-    return Object.keys(obj).map((key) => {
-      return obj[key]
-    })
-  }, [questions])
 
   /**
    * convert timeCountDown seconds to minutes and seconds like MM:SS
@@ -107,19 +84,9 @@ function DeThi() {
     return minutes + ':' + (seconds < 10 ? '0' + seconds : seconds)
   }, [timeCountDown])
 
-  const allQuestions = useMemo(() => {
-    const _questions = []
-    // TODO: if user can change pageSize, need to update cache or other resolver
-    for (const [key, value] of questionsCached.current) {
-      _questions.push(...value)
-    }
-
-    return _questions
-  }, [isFinished, questionsCached.current])
-
   const correctAnswers = useMemo(
     () =>
-      allQuestions.reduce((res, curr) => {
+      flatten(questions).reduce((res, curr) => {
         if (answers[curr.ID]) {
           if (answers[curr.ID] === curr.IDCauTraLoiDung) {
             res.push(curr)
@@ -128,42 +95,76 @@ function DeThi() {
 
         return res
       }, []),
-    [isFinished, allQuestions],
+    [isFinished, questions],
   )
 
+  const questionsFiltered = useMemo(() => {
+    switch (filterState) {
+      case FILTER_ACTIONS.ChuaTraLoi:
+        return questions.reduce((res, curr) => {
+          if (isArray(curr)) {
+            const notAnswered = curr.filter((question) => !answers[question.ID])
+            if (notAnswered.length) {
+              res.push(notAnswered)
+            }
+          } else {
+            if (!answers[curr.ID]) {
+              res.push(curr)
+            }
+          }
+          return res
+        }, [])
+
+      case FILTER_ACTIONS.DangPhanVan:
+        return questions.reduce((res, curr) => {
+          if (isArray(curr)) {
+            const questionsTicked = curr.filter(
+              (question) => questionsTick[question.ID],
+            )
+            if (questionsTicked.length) {
+              res.push(questionsTicked)
+            }
+          } else {
+            if (questionsTick[curr.ID]) {
+              res.push(curr)
+            }
+          }
+          return res
+        }, [])
+
+      case FILTER_ACTIONS.ALL:
+      default:
+        return questions
+    }
+  }, [filterState, questions])
+
+  const questionsPaginated = useMemo(() => {
+    return questionsFiltered.slice(
+      (currentPage - 1) * pageSize,
+      currentPage * pageSize,
+    )
+  }, [currentPage, questionsFiltered])
+
   const getScore = useMemo(() => {
+    if (!deThi?.ThangDiem) return
+
     const score = (
-      (correctAnswers.length / allQuestions.length) *
+      (correctAnswers.length / flatten(questions).length) *
       deThi.ThangDiem
     ).toFixed(2)
 
     return score
-  }, [correctAnswers])
+  }, [isFinished])
 
   function handleXacNhanNopBai() {
-    console.log('Nộp bài')
+    console.log('post Nộp bài')
 
     setIsFinished(true)
+    setFilterState(FILTER_ACTIONS.ALL)
     clearInterval(INTERVAL_ID.current)
 
     if (timeCountDown != 0) {
       setTimeCountDown(0)
-    }
-  }
-
-  function transformQuestions() {
-    let index = 1
-
-    for (let i = 1; i <= totalPage; i++) {
-      const key = keyQuestionCached(i)
-      const value = questionsCached.current.get(key)
-
-      questionsCached.current.set(
-        key,
-        value.map((question) => {
-          return { ...question, STT: index++ }
-        }),
-      )
     }
   }
 
@@ -199,34 +200,7 @@ function DeThi() {
     setCurrentPage(value)
   }
 
-  function getQuestionsAndPageByIndexQuestion(index) {
-    let questions = []
-    let page = 1
-
-    for (let i = 1; i <= totalPage; i++) {
-      const key = keyQuestionCached(i)
-      const value = questionsCached.current.get(key)
-
-      if (value.length <= index) {
-        index = index - value.length
-        continue
-      }
-
-      page = i
-      questions = value
-      break
-    }
-
-    return {
-      questions,
-      page,
-      question: questions[index],
-    }
-  }
-
-  function questionStatus(index) {
-    const { question } = getQuestionsAndPageByIndexQuestion(index)
-
+  function questionStatus(question) {
     if (isFinished) {
       if (question.IDCauTraLoiDung === answers[question.ID]) {
         return 'bg-vs-success !text-white !hover:bg-vs-success'
@@ -242,17 +216,29 @@ function DeThi() {
     return 'hover:bg-uneti-primary hover:bg-opacity-10 '
   }
 
-  async function handleGotoQuestion(qIndex) {
-    // get page of index question
-    const { questions, page, question } =
-      getQuestionsAndPageByIndexQuestion(qIndex)
+  function getPageOfQuestion(question) {
+    for (let i = 0; i < totalPage; i++) {
+      const _questions = questionsFiltered.slice(
+        i * pageSize,
+        (i + 1) * pageSize,
+      )
 
-    if (!question) return
-    setQuestions(questions)
-    setCurrentPage(page)
+      if (_questions.includes(question)) {
+        return i + 1
+      }
+    }
+  }
 
-    // await next tick dom update, sleep 100ms
-    await new Promise((resolve) => setTimeout(resolve, 100))
+  async function handleGotoQuestion(question) {
+    // get page of question
+    const page = getPageOfQuestion(question)
+    console.log(page, currentPage)
+    if (page !== currentPage) {
+      setCurrentPage(page)
+
+      // await next tick dom update, sleep 100ms
+      await new Promise((resolve) => setTimeout(resolve, 100))
+    }
 
     // handle goto dom by ID
     const IDCauHoi = question.ID
@@ -264,7 +250,10 @@ function DeThi() {
     const offsetPosition = elementPosition + window.pageYOffset - headerOffset
     window.scrollTo({
       top: offsetPosition,
+      behavior: 'smooth',
     })
+
+    await new Promise((resolve) => setTimeout(resolve, 500))
     el.style.transform = 'scale(1.02)'
     el.classList.add('border-uneti-primary')
 
@@ -276,28 +265,38 @@ function DeThi() {
       el.classList.remove('border-uneti-primary')
     }, 1000)
   }
-  // useEffect(() => {
-  // const getMonThi = async () => {
-  //   const listMonThi = await getAllMonHocThiThu(dataSV.MaSinhVien)
-  //   const _monHoc = listMonThi?.data?.body.find(
-  //     (mh) => mh.MaMonHoc === maMonHoc,
-  //   )
-  //   if (!_monHoc) {
-  //     navigate('/hoctap/onluyen/thithu')
-  //   }
-  //   setMonHoc(_monHoc)
-  // }
-  // const getDeThi = async () => {
-  //   const _listDeThi = await getAllDeThiThiThu(maMonHoc)
-  //   const _deThi = _listDeThi.data.body.find((e) => e.MaDeThi == maDe)
-  //   if (!_deThi) {
-  //     navigate('/hoctap/onluyen/thithu')
-  //   }
-  //   setDeThi(_deThi)
-  // }
-  // getMonThi()
-  // getDeThi()
-  // }, [maMonHoc, maDe])
+
+  useEffect(() => {
+    setTotalPage(Math.ceil(questionsFiltered.length / pageSize))
+
+    if (currentPage > totalPage) {
+      setCurrentPage(1)
+    }
+  }, [questionsFiltered])
+
+  useEffect(() => {
+    const getMonThi = async () => {
+      const listMonThi = await getAllMonHocThiThu(dataSV.MaSinhVien)
+      const _monHoc = listMonThi?.data?.body.find(
+        (mh) => mh.MaMonHoc === maMonHoc,
+      )
+      if (!_monHoc) {
+        navigate('/hoctap/onluyen/thithu')
+      }
+      setMonHoc(_monHoc)
+    }
+    const getDeThi = async () => {
+      const _listDeThi = await getAllDeThiThiThu(maMonHoc)
+      const _deThi = _listDeThi.data.body.find((e) => e.MaDeThi == maDe)
+      if (!_deThi) {
+        navigate('/hoctap/onluyen/thithu')
+      }
+      setDeThi(_deThi)
+    }
+
+    getMonThi()
+    getDeThi()
+  }, [maMonHoc, maDe])
 
   useEffect(() => {
     if (timeCountDown < 0) {
@@ -311,65 +310,69 @@ function DeThi() {
   }, [timeCountDown])
 
   useEffect(() => {
-    const key = keyQuestionCached(currentPage)
-    if (!questionsCached.current.has(key)) return
+    if (!deThi) return
 
-    setQuestions(questionsCached.current.get(key))
-  }, [currentPage])
+    // Time count down must be in seconds
+    setTimeCountDown(deThi.ThoiGianThi * 60)
 
-  // get total questions
-  useEffect(() => {
-    async function getTotalQuestions(currPage) {
+    async function getTotalQuestions() {
       if (!deThi) return
 
-      retries(async () => {
+      await retries(async () => {
         const res = await getCauHoiTheoDe({
           IDDeThi: deThi.Id,
-          SoCauTrenTrang: pageSize,
-          SoTrang: currPage,
+          SoCauTrenTrang: deThi.TongCauHoi,
+          SoTrang: 1,
         })
 
-        const data = []
-        for (let i = 0; i < res.data.body.length; i++) {
-          data.push(await convertQuestionToHtml(res.data.body[i]))
+        let data = res.data.body.reduce(
+          (res, curr) => {
+            const key = curr.IDCauHoiCha ?? 'NoParent'
+            if (isNil(res[key])) {
+              res[key] = []
+            }
+            res[key].push(curr)
+            return res
+          },
+          {
+            NoParent: [],
+          },
+        )
+
+        // remove NoParent and put to root, and put other children to root
+        const questionsNoParent = data.NoParent
+        delete data.NoParent
+
+        data = [...values(data), ...questionsNoParent]
+
+        let STT = 1
+        let questionsMapped = []
+        for (let i = 0; i < data.length; i++) {
+          const _questions = data[i]
+
+          if (_questions.length) {
+            questionsMapped.push([])
+            for (let j = 0; j < _questions.length; j++) {
+              const question = await convertQuestionToHtml(_questions[j])
+              question.STT = STT++
+              questionsMapped[i].push(question)
+            }
+          } else {
+            const question = await convertQuestionToHtml(_questions)
+            question.STT = STT++
+
+            questionsMapped.push(question)
+          }
         }
 
-        questionsCached.current.set(keyQuestionCached(currPage), data)
+        setQuestions(questionsMapped)
 
-        if (questionsCached.current.size == totalPage) {
-          setIsMounted(true)
-          transformQuestions()
-
-          const data = questionsCached.current.get(keyQuestionCached(1))
-          setQuestions(data)
-        }
+        setIsMounted(true)
       })
     }
 
-    ;(async () => {
-      if (totalPage == 0) return
-
-      for (let i = 1; i <= totalPage; i++) {
-        getTotalQuestions(i)
-      }
-    })()
-  }, [deThi, totalPage])
-
-  // get total page
-  useEffect(() => {
-    const getTongSoTrang = async () => {
-      if (deThi) {
-        const _tongSoTrangResponse = await getTongSoTrangTheoDe({
-          IDDeThi: deThi.Id,
-          SoCauTrenTrang: pageSize,
-        })
-
-        setTotalPage(_tongSoTrangResponse.data.body[0].TongSoTrang)
-      }
-    }
-
-    getTongSoTrang()
-  }, [deThi, pageSize])
+    getTotalQuestions()
+  }, [deThi])
 
   useEffect(() => {
     if (!isMounted) return
@@ -396,75 +399,83 @@ function DeThi() {
     >
       <div className="flex justify-center items-center flex-col gap-4 rounded-2xl bg-white p-4">
         <h3 className="text-uneti-primary text-center font-semibold text-2xl">
-          {monHoc.TenMonHoc}
+          {monHoc?.TenMonHoc}
         </h3>
         <span className="text-uneti-primary text-sm">
-          Mã Môn Học: {monHoc.MaMonHoc}
+          Mã Môn Học: {monHoc?.MaMonHoc}
         </span>
       </div>
-      {!isMounted ? (
-        <div className="flex items-center justify-center">
-          <Loading />
-        </div>
-      ) : (
-        <div className="mt-6">
-          <Row gutter={30}>
-            <Col span={12} md={9}>
+      <div className="mt-6">
+        <Row gutter={30}>
+          <Col span={12} md={9}>
+            {isMounted ? (
               <div className="z-1">
                 <div
                   className={`flex flex-col gap-7 p-6 bg-white rounded-[26px] shadow-sm ${isFinished ? 'pointer-events-none opacity-90' : ''}`}
                 >
-                  {questionsGroupByParent.map((question, rootIndex) => {
-                    if (question?.length > 0) {
-                      return (
-                        <div
-                          id={question[0].IDCauHoiCha}
-                          key={`question-parent-${rootIndex}`}
-                          className="p-6 rounded-[26px] border-2 border-slate-200 flex flex-col gap-4 transition-all hover:border-opacity-90"
-                        >
-                          <div className="flex items-start gap-2 flex-wrap">
-                            <div
-                              className="flex-1 mt-[2px]"
-                              dangerouslySetInnerHTML={{
-                                __html: `<div>${question[0].CauHoiCha}</div>`,
-                              }}
-                            />
+                  {questionsPaginated.length ? (
+                    questionsPaginated.map((question, rootIndex) => {
+                      if (question?.length > 0) {
+                        return (
+                          <div
+                            id={question[0].IDCauHoiCha}
+                            key={`question-parent-${rootIndex}`}
+                            className="p-6 rounded-[26px] border-2 border-slate-200 flex flex-col gap-4 transition-all hover:border-opacity-90"
+                          >
+                            <div className="flex items-start gap-2 flex-wrap">
+                              <div
+                                className="flex-1 mt-[2px]"
+                                dangerouslySetInnerHTML={{
+                                  __html: `<div>${question[0].CauHoiCha}</div>`,
+                                }}
+                              />
+                            </div>
+
+                            {question.map((child, i) => (
+                              <CauHoi
+                                key={`p-question-${rootIndex}-${i}`}
+                                {...child}
+                                disabled={isFinished}
+                                isFinished={isFinished}
+                              />
+                            ))}
                           </div>
+                        )
+                      }
 
-                          {question.map((child, i) => (
-                            <CauHoi
-                              key={`p-question-${rootIndex}-${i}`}
-                              {...child}
-                              disabled={isFinished}
-                              isFinished={isFinished}
-                            />
-                          ))}
-                        </div>
+                      return (
+                        <CauHoi
+                          key={`n-question-${rootIndex}`}
+                          {...question}
+                          disabled={isFinished}
+                          isFinished={isFinished}
+                        />
                       )
-                    }
-
-                    return (
-                      <CauHoi
-                        key={`n-question-${rootIndex}`}
-                        {...question}
-                        disabled={isFinished}
-                        isFinished={isFinished}
-                      />
-                    )
-                  })}
+                    })
+                  ) : (
+                    <div>Không có câu hỏi</div>
+                  )}
                 </div>
 
-                <div className="p-4 bg-white my-5 rounded-xl shadow-sm">
-                  <Pagination
-                    count={totalPage}
-                    page={currentPage}
-                    onChange={handleChangeCurrentPage}
-                    shape="rounded"
-                  />
-                </div>
+                {questionsPaginated.length ? (
+                  <div className="p-4 bg-white my-5 rounded-xl shadow-sm">
+                    <Pagination
+                      count={totalPage}
+                      page={currentPage}
+                      onChange={handleChangeCurrentPage}
+                      shape="rounded"
+                    />
+                  </div>
+                ) : null}
               </div>
-            </Col>
-            <Col span={12} md={3}>
+            ) : (
+              <div className="flex items-center justify-center">
+                <Loading />
+              </div>
+            )}
+          </Col>
+          <Col span={12} md={3}>
+            {deThi ? (
               <div className="z-100 border shadow-sm sticky top-28 bg-vs-theme-layout rounded-2xl">
                 <div className="flex flex-col gap-3 items-center bg-uneti-primary-lighter text-white rounded-tr-2xl rounded-tl-2xl p-3">
                   <h3>
@@ -479,12 +490,14 @@ function DeThi() {
                           <p>Số câu đúng: </p>{' '}
                           <div className="flex gap-2">
                             <p className="font-semibold">
-                              {correctAnswers.length}/{allQuestions.length}
+                              {correctAnswers.length}/
+                              {flatten(questions).length}
                             </p>
                             <p>
                               (
                               {(
-                                (correctAnswers.length / allQuestions.length) *
+                                (correctAnswers.length /
+                                  flatten(questions).length) *
                                 100
                               ).toFixed(1)}
                               %)
@@ -506,40 +519,43 @@ function DeThi() {
                 </div>
 
                 <div className="p-2">
-                  <div className="h-[36dvh] overflow-y-auto flex flex-wrap gap-2 justify-evenly">
-                    {Array.from({ length: deThi.TongSoCau }, (_, i) => i).map(
-                      (e) => {
-                        return (
-                          <div
-                            key={e}
-                            className={`${questionStatus(e)} animate__animated animate__zoomInUp animate_faster active:scale-95 transition-all w-8 h-8 border rounded-full cursor-pointer select-none flex items-center justify-center text-opacity-80`}
-                            onClick={() => handleGotoQuestion(e)}
-                          >
-                            {e + 1}
-                          </div>
-                        )
-                      },
-                    )}
+                  <div className="max-h-[36dvh] overflow-y-auto flex flex-wrap gap-2 justify-evenly">
+                    {flatten(questions).map((e) => {
+                      return (
+                        <div
+                          key={e.STT}
+                          className={`${questionStatus(e)} animate__animated animate__zoomInUp animate_faster active:scale-95 transition-all w-8 h-8 border rounded-full cursor-pointer select-none flex items-center justify-center text-opacity-80`}
+                          onClick={() => handleGotoQuestion(e)}
+                        >
+                          {e.STT}
+                        </div>
+                      )
+                    })}
                   </div>
 
-                  <div className="pl-2 mt-6">
-                    Đã trả lời: {keys(answers).length}/{deThi.TongSoCau}
-                  </div>
+                  {!isFinished ? (
+                    <>
+                      <div className="pl-2 mt-6">
+                        Đã trả lời: {keys(answers).length}/
+                        {flatten(questions).length}
+                      </div>
 
-                  <div className="mt-4 p-1">
-                    <select
-                      onChange={handleFilter}
-                      className="p-2 pl-3 outline-none rounded-xl border w-full"
-                    >
-                      <option value={FILTER_ACTIONS.ALL}>Tất cả</option>
-                      <option value={FILTER_ACTIONS.ChuaTraLoi}>
-                        Chưa trả lời
-                      </option>
-                      <option value={FILTER_ACTIONS.DangPhanVan}>
-                        Đang phân vân
-                      </option>
-                    </select>
-                  </div>
+                      <div className="mt-4 p-1">
+                        <select
+                          onChange={handleFilter}
+                          className="p-2 pl-3 outline-none rounded-xl border w-full"
+                        >
+                          <option value={FILTER_ACTIONS.ALL}>Tất cả</option>
+                          <option value={FILTER_ACTIONS.ChuaTraLoi}>
+                            Chưa trả lời
+                          </option>
+                          <option value={FILTER_ACTIONS.DangPhanVan}>
+                            Đang phân vân
+                          </option>
+                        </select>
+                      </div>
+                    </>
+                  ) : null}
                 </div>
 
                 <div className="p-3">
@@ -549,16 +565,16 @@ function DeThi() {
                     </Button>
                   ) : (
                     <XacNhanNopBai
-                      TenMonHoc={monHoc.TenMonHoc}
+                      TenMonHoc={monHoc?.TenMonHoc}
                       onConfirm={handleXacNhanNopBai}
                     />
                   )}
                 </div>
               </div>
-            </Col>
-          </Row>
-        </div>
-      )}
+            ) : null}
+          </Col>
+        </Row>
+      </div>
     </OnTapContext.Provider>
   )
 }

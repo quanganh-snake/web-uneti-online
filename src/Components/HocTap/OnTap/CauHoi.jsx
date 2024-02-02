@@ -81,10 +81,17 @@ export default function CauHoi(props) {
     danhSachCauHoiContext.handleSelected(ID, IDCauTraLoi)
   }
 
-  const handlePlayAudio = () => {
+  const handlePlayAudio = async () => {
     if (isFinished) return
 
-    if (!audio || !audioRef.current) return
+    let audioSrc = audio
+    if (!audio && IsAudioCauHoiCon) {
+      audioSrc = await getSourceAudio(ID)
+      setAudio(audioSrc)
+      audioRef.current = new Audio(audioSrc)
+    }
+
+    if (!audioSrc || !audioRef.current) return
 
     if (audioPlayCount == 2) {
       Swal.fire({
@@ -158,17 +165,16 @@ export default function CauHoi(props) {
   useEffect(() => {
     setIsPlaying(false)
   }, [isFinished])
+
+  const [transitionEnter, setTransitionEnter] = useState(false)
+
   useEffect(() => {
-    if (!IsAudioCauHoiCon || isAudioLoaded) return
+    setTransitionEnter(true)
 
-    const getAudio = async () => {
-      const audioSrc = await getSourceAudio(ID)
-      setAudio(audioSrc)
-      audioRef.current = new Audio(audioSrc)
-    }
-
-    retries(getAudio)
-  }, [IsAudioCauHoiCon])
+    setTimeout(() => {
+      setTransitionEnter(false)
+    }, 500)
+  }, [])
 
   return (
     <>
@@ -178,7 +184,11 @@ export default function CauHoi(props) {
           ns.b(),
           ns.is('playing', isPlaying),
           ns.is('tick', danhSachCauHoiContext.questionsTick[ID]),
+          transitionEnter && 'animate__animated animate__zoomIn',
         ])}
+        style={{
+          '--animate-duration': '0.25s',
+        }}
       >
         <div className={ns.e('heading')}>
           <div
@@ -192,7 +202,7 @@ export default function CauHoi(props) {
             {/* Audio */}
             {!isFinished ? (
               <>
-                {IsAudioCauHoiCon && audio ? (
+                {IsAudioCauHoiCon ? (
                   <div
                     onClick={handlePlayAudio}
                     className="relative w-9 h-9 hover:bg-uneti-primary-lighter hover:bg-opacity-10 flex items-center justify-center transition-all rounded-full"
@@ -204,14 +214,16 @@ export default function CauHoi(props) {
                       {isPlaying ? <IconAudioPause /> : <IconAudioPlay />}
                     </Icon>
 
-                    <div className="absolute transition-all rounded-full duration-1000 top-full left-0 h-1 w-full bg-slate-300">
-                      <div
-                        className="absolute transition-all rounded-full duration-1000 top-0 left-0 h-1 bg-uneti-primary"
-                        style={{
-                          width: `${(audioDurationCount / audioRef.current.duration) * 100}%`,
-                        }}
-                      />
-                    </div>
+                    {audio ? (
+                      <div className="absolute transition-all rounded-full duration-1000 top-full left-0 h-1 w-full bg-slate-300">
+                        <div
+                          className="absolute transition-all rounded-full duration-1000 top-0 left-0 h-1 bg-uneti-primary"
+                          style={{
+                            width: `${(audioDurationCount / audioRef.current.duration) * 100}%`,
+                          }}
+                        />
+                      </div>
+                    ) : null}
                   </div>
                 ) : null}
 
