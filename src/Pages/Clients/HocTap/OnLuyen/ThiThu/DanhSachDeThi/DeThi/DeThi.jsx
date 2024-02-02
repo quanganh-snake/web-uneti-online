@@ -15,6 +15,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import {
   getAllDeThiThiThu,
   getAllMonHocThiThu,
+  postDanhSachOnThi,
+  postKetQuaOnThi,
 } from '@/Apis/HocTap/apiOnLuyenThiThu'
 import {
   getCauHoiTheoDe,
@@ -38,9 +40,18 @@ import Button from '@/Components/Base/Button/Button'
 import Loading from '@/Components/Loading/Loading'
 import GroupCauHoi from '@/Components/HocTap/OnTap/GroupCauHoi'
 import { FILTER_ACTIONS } from '../../constants'
+import {
+  makeDataSv,
+  makePostDataSv,
+  transformObjKey,
+} from '@/Services/Utils/dataSubmitUtils'
 
+const DANH_SACH_ON_THI_PREFIX = 'TC_SV_OnThi_DanhSachOnThi_'
+const DANH_SACH_ON_THI_NGUON_TIEP_NHAN = {
+  WEB: '1',
+}
 function DeThi() {
-  const questionsCached = useRef(new Map())
+  const STT = useRef(1)
   const uLocation = useLocation()
   const dataSV = DataSinhVien()
 
@@ -60,12 +71,15 @@ function DeThi() {
    */
   const [answers, setAnswers] = useState({})
   const [questionsTick, setQuestionsTick] = useState({})
-  const [filterState, setFilterState] = useState(null)
+  const [filterState, setFilterState] = useState(FILTER_ACTIONS.ALL)
 
   // Page
-  const [totalPage, setTotalPage] = useState(0)
+  const [selfTotalPage, setSelfTotalPage] = useState(1)
+  const [totalPage, setTotalPage] = useState(1)
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
+  const [pageLoaded, setPageLoaded] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   // timer is calc by seconds
   const [timeCountDown, setTimeCountDown] = useState(0)
@@ -146,26 +160,66 @@ function DeThi() {
   }, [currentPage, questionsFiltered])
 
   const getScore = useMemo(() => {
-    if (!deThi?.ThangDiem) return
+    if (!deThi?.ThangDiemQuyDoi) return 0
 
     const score = (
-      (correctAnswers.length / flatten(questions).length) *
-      deThi.ThangDiem
+      (correctAnswers.length / deThi.TongCauHoi) *
+      deThi.ThangDiemQuyDoi
     ).toFixed(2)
 
     return score
   }, [isFinished])
 
-  function handleXacNhanNopBai() {
-    console.log('post Nộp bài')
+  async function handleXacNhanNopBai() {
+    // // query all questions
+    for (let page = 1; page <= totalPage; page++) {
+      getQuestions(page)
+    }
 
-    setIsFinished(true)
     setFilterState(FILTER_ACTIONS.ALL)
+    setIsFinished(true)
     clearInterval(INTERVAL_ID.current)
 
     if (timeCountDown != 0) {
       setTimeCountDown(0)
     }
+  }
+
+  async function handlePostData() {
+    if (keys(answers).length === 0) {
+      return
+    }
+
+    // post danh sach on thi
+    postDanhSachOnThi(
+      transformObjKey(
+        {
+          IDDeThi: `${deThi.Id}`,
+          IDSinhVien: `${dataSV.IdSinhVien}`,
+          ThoiGianPhut: `${deThi.ThoiGianThi}`,
+          Diem: `${getScore}`,
+          NguonTiepNhan: DANH_SACH_ON_THI_NGUON_TIEP_NHAN.WEB,
+        },
+        DANH_SACH_ON_THI_PREFIX,
+      ),
+    )
+    // post ket qua on thi
+    postKetQuaOnThi(
+      flatten(questions)
+        .filter((question) => answers[question.ID])
+        .map((question) =>
+          transformObjKey(
+            {
+              IDDeThi: `${deThi.Id}`,
+              IDSinhVien: `${dataSV.IdSinhVien}`,
+              IDCauHoi: `${question.ID}`,
+              IDCauTraLoi: `${answers[question.ID]}`,
+              Dung: `${correctAnswers.includes(question)}`,
+            },
+            DANH_SACH_ON_THI_PREFIX,
+          ),
+        ),
+    )
   }
 
   function handleFilter(e) {
@@ -196,8 +250,17 @@ function DeThi() {
     })
   }
 
-  function handleChangeCurrentPage(event, value) {
-    setCurrentPage(value)
+  function handleChangeCurrentPage(value) {
+    if (value === 'PREV') {
+      if (currentPage > 1) {
+        setCurrentPage((prev) => prev - 1)
+      }
+    }
+    if (value === 'NEXT') {
+      if (currentPage < selfTotalPage) {
+        setCurrentPage((prev) => prev + 1)
+      }
+    }
   }
 
   function questionStatus(question) {
@@ -206,6 +269,17 @@ function DeThi() {
         return 'bg-vs-success !text-white !hover:bg-vs-success'
       }
       return 'bg-vs-danger !text-white !hover:bg-vs-danger'
+    }
+
+    if (filterState === FILTER_ACTIONS.DangPhanVan) {
+      if (!questionsTick[question.ID]) {
+        return 'hidden'
+      }
+    }
+    if (filterState === FILTER_ACTIONS.ChuaTraLoi) {
+      if (!!answers[question.ID]) {
+        return 'hidden'
+      }
     }
 
     if (!!questionsTick[question.ID]) {
@@ -217,13 +291,13 @@ function DeThi() {
   }
 
   function getPageOfQuestion(question) {
-    for (let i = 0; i < totalPage; i++) {
+    for (let i = 0; i < selfTotalPage; i++) {
       const _questions = questionsFiltered.slice(
         i * pageSize,
         (i + 1) * pageSize,
       )
 
-      if (_questions.includes(question)) {
+      if (_questions.some((q) => q.includes(question))) {
         return i + 1
       }
     }
@@ -232,7 +306,6 @@ function DeThi() {
   async function handleGotoQuestion(question) {
     // get page of question
     const page = getPageOfQuestion(question)
-    console.log(page, currentPage)
     if (page !== currentPage) {
       setCurrentPage(page)
 
@@ -267,13 +340,19 @@ function DeThi() {
   }
 
   useEffect(() => {
-    setTotalPage(Math.ceil(questionsFiltered.length / pageSize))
+    if (isFinished && pageLoaded.length === totalPage) {
+      handlePostData()
+    }
+  }, [deThi, isFinished, pageLoaded])
+  useEffect(() => {
+    if (filterState === FILTER_ACTIONS.ALL) {
+      setSelfTotalPage(totalPage)
+    } else setSelfTotalPage(Math.ceil(questionsFiltered.length / pageSize))
 
-    if (currentPage > totalPage) {
+    if (currentPage > selfTotalPage) {
       setCurrentPage(1)
     }
   }, [questionsFiltered])
-
   useEffect(() => {
     const getMonThi = async () => {
       const listMonThi = await getAllMonHocThiThu(dataSV.MaSinhVien)
@@ -297,7 +376,6 @@ function DeThi() {
     getMonThi()
     getDeThi()
   }, [maMonHoc, maDe])
-
   useEffect(() => {
     if (timeCountDown < 0) {
       Swal.fire({
@@ -308,72 +386,89 @@ function DeThi() {
       handleXacNhanNopBai()
     }
   }, [timeCountDown])
+  async function getQuestions(currentPage) {
+    if (!deThi || !currentPage || pageLoaded.includes(currentPage)) return
 
+    await retries(async () => {
+      setIsLoading(true)
+      const res = await getCauHoiTheoDe({
+        IDDeThi: deThi.Id,
+        SoCauTrenTrang: pageSize,
+        SoTrang: currentPage,
+      })
+
+      let data = res.data.body.reduce(
+        (res, curr) => {
+          const key = curr.IDCauHoiCha ?? 'NoParent'
+          if (isNil(res[key])) {
+            res[key] = []
+          }
+          res[key].push(curr)
+          return res
+        },
+        {
+          NoParent: [],
+        },
+      )
+
+      // remove NoParent and put to root, and put other children to root
+      const questionsNoParent = data.NoParent
+      delete data.NoParent
+
+      data = [...values(data), ...questionsNoParent]
+
+      let questionsMapped = []
+      for (let i = 0; i < data.length; i++) {
+        const _questions = data[i]
+
+        if (_questions.length) {
+          questionsMapped.push([])
+          for (let j = 0; j < _questions.length; j++) {
+            const question = await convertQuestionToHtml(_questions[j])
+            question.STT = STT.current++
+            questionsMapped[i].push(question)
+          }
+        } else {
+          const question = await convertQuestionToHtml(_questions)
+          question.STT = STT.current++
+
+          questionsMapped.push(question)
+        }
+      }
+
+      setQuestions((prev) => [...prev, ...questionsMapped])
+
+      setIsLoading(false)
+      setPageLoaded((prev) => [...prev, currentPage])
+      setIsMounted(true)
+    })
+  }
   useEffect(() => {
-    if (!deThi) return
-
-    // Time count down must be in seconds
-    setTimeCountDown(deThi.ThoiGianThi * 60)
-
-    async function getTotalQuestions() {
-      if (!deThi) return
-
-      await retries(async () => {
-        const res = await getCauHoiTheoDe({
+    if (filterState === FILTER_ACTIONS.ALL) {
+      getQuestions(currentPage)
+    }
+  }, [currentPage, deThi])
+  // get total page
+  useEffect(() => {
+    const getTongSoTrang = async () => {
+      if (deThi) {
+        const _tongSoTrangResponse = await getTongSoTrangTheoDe({
           IDDeThi: deThi.Id,
-          SoCauTrenTrang: deThi.TongCauHoi,
-          SoTrang: 1,
+          SoCauTrenTrang: pageSize,
         })
 
-        let data = res.data.body.reduce(
-          (res, curr) => {
-            const key = curr.IDCauHoiCha ?? 'NoParent'
-            if (isNil(res[key])) {
-              res[key] = []
-            }
-            res[key].push(curr)
-            return res
-          },
-          {
-            NoParent: [],
-          },
-        )
-
-        // remove NoParent and put to root, and put other children to root
-        const questionsNoParent = data.NoParent
-        delete data.NoParent
-
-        data = [...values(data), ...questionsNoParent]
-
-        let STT = 1
-        let questionsMapped = []
-        for (let i = 0; i < data.length; i++) {
-          const _questions = data[i]
-
-          if (_questions.length) {
-            questionsMapped.push([])
-            for (let j = 0; j < _questions.length; j++) {
-              const question = await convertQuestionToHtml(_questions[j])
-              question.STT = STT++
-              questionsMapped[i].push(question)
-            }
-          } else {
-            const question = await convertQuestionToHtml(_questions)
-            question.STT = STT++
-
-            questionsMapped.push(question)
-          }
-        }
-
-        setQuestions(questionsMapped)
-
-        setIsMounted(true)
-      })
+        setTotalPage(_tongSoTrangResponse.data.body[0].TongSoTrang)
+        setSelfTotalPage(_tongSoTrangResponse.data.body[0].TongSoTrang)
+      }
     }
 
-    getTotalQuestions()
+    getTongSoTrang()
+  }, [deThi, pageSize])
+  useEffect(() => {
+    if (!deThi) return
+    // Time count down must be in seconds
+    setTimeCountDown(deThi.ThoiGianThi * 60)
   }, [deThi])
-
   useEffect(() => {
     if (!isMounted) return
 
@@ -452,19 +547,27 @@ function DeThi() {
                         />
                       )
                     })
+                  ) : isLoading ? (
+                    <Loading />
                   ) : (
                     <div>Không có câu hỏi</div>
                   )}
                 </div>
 
                 {questionsPaginated.length ? (
-                  <div className="p-4 bg-white my-5 rounded-xl shadow-sm">
-                    <Pagination
-                      count={totalPage}
-                      page={currentPage}
-                      onChange={handleChangeCurrentPage}
-                      shape="rounded"
-                    />
+                  <div className="flex gap-2 my-5 justify-between">
+                    <Button
+                      disabled={currentPage == 1}
+                      onClick={() => handleChangeCurrentPage('PREV')}
+                    >
+                      Trang trước
+                    </Button>
+                    <Button
+                      disabled={currentPage == selfTotalPage}
+                      onClick={() => handleChangeCurrentPage('NEXT')}
+                    >
+                      Trang sau
+                    </Button>
                   </div>
                 ) : null}
               </div>
@@ -490,14 +593,12 @@ function DeThi() {
                           <p>Số câu đúng: </p>{' '}
                           <div className="flex gap-2">
                             <p className="font-semibold">
-                              {correctAnswers.length}/
-                              {flatten(questions).length}
+                              {correctAnswers.length}/{deThi.TongCauHoi}
                             </p>
                             <p>
                               (
                               {(
-                                (correctAnswers.length /
-                                  flatten(questions).length) *
+                                (correctAnswers.length / deThi.TongCauHoi) *
                                 100
                               ).toFixed(1)}
                               %)
@@ -566,6 +667,8 @@ function DeThi() {
                   ) : (
                     <XacNhanNopBai
                       TenMonHoc={monHoc?.TenMonHoc}
+                      DaLam={keys(answers).length}
+                      TongCauHoi={deThi.TongCauHoi}
                       onConfirm={handleXacNhanNopBai}
                     />
                   )}
