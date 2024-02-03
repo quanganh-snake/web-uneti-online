@@ -81,6 +81,7 @@ function DeThi() {
   const [pageSize, setPageSize] = useState(10)
   const [pageLoaded, setPageLoaded] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [pageJumpByBtn, setPageJumpByBtn] = useState(false)
 
   // timer is calc by seconds
   const [timeCountDown, setTimeCountDown] = useState(0)
@@ -262,6 +263,7 @@ function DeThi() {
         setCurrentPage((prev) => prev + 1)
       }
     }
+    setPageJumpByBtn(true)
   }
 
   function questionStatus(question) {
@@ -449,6 +451,13 @@ function DeThi() {
     })
   }
   useEffect(() => {
+    if (pageJumpByBtn) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      })
+      setPageJumpByBtn
+    }
     if (filterState === FILTER_ACTIONS.ALL) {
       getQuestions(currentPage)
     }
