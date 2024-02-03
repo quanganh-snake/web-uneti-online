@@ -57,3 +57,11 @@ export const postDanhSachOnThi = (data) =>
 
 export const postKetQuaOnThi = (data) =>
   http.post('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/KetQuaOnThi_Add_Para', data)
+
+export const getTongSoTrangTheoDe = ({ IDDeThi, SoCauTrenTrang }) =>
+  http.get('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/TongSoTrangCauHoi_TheoDe_Web', {
+    params: {
+      IDDeThi,
+      SoCauTrenTrang,
+    },
+  })

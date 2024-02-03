@@ -24,6 +24,7 @@ import { transformCls } from '@/Services/Utils/reactUtils'
 
 import './CauHoi.scss'
 import ArchiveBookFilled from '@/Components/Base/Icons/ArchiveBookFilled'
+import UAudio from './Audio'
 
 export default function CauHoi(props) {
   const {
@@ -42,81 +43,27 @@ export default function CauHoi(props) {
     color = 'primary',
     IsAudioCauHoiCon = false,
     disabled = false,
-    isFinished = false,
 
     AnhCauHoiCon_1 = null,
+    AnhCauHoiCon_2 = null,
+    AnhCauHoiCon_3 = null,
+    AnhCauHoiCon_4 = null,
+    AnhCauHoiCon_5 = null,
   } = props
 
   const ns = useNamespace('question')
-
-  const [isAudioLoading, setIsAudioLoading] = useState(false)
-  const [isAudioLoaded, setIsAudioLoaded] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [audio, setAudio] = useState(null)
-  const [audioDurationCount, setAudioDurationCount] = useState(0)
-  const [audioPlayCount, setAudioPlayCount] = useState(0)
-
-  const audioRef = useRef(null)
-
   const danhSachCauHoiContext = useContext(OnTapContext)
 
-  useInterval(
-    () => {
-      if (
-        isFinished ||
-        !audio ||
-        !audioRef.current ||
-        audioRef.current.duration <= audioDurationCount
-      ) {
-        setAudioDurationCount(0)
-        setIsPlaying(false)
-        setAudioPlayCount((prev) => prev + 1)
-        return
-      }
-      setAudioDurationCount((prev) => prev + 1)
-    },
-    isPlaying ? 1000 : null,
-  )
-
   const handleChange = (IDCauTraLoi) => {
-    if (disabled || isFinished) return
+    if (disabled) return
 
     danhSachCauHoiContext.handleSelected(ID, IDCauTraLoi)
   }
 
-  const handlePlayAudio = async () => {
-    if (isFinished) return
-
-    let audioSrc = audio
-    if (!audio && IsAudioCauHoiCon) {
-      setIsAudioLoading(true)
-      audioSrc = await getSourceAudio(ID)
-      setAudio(audioSrc)
-      audioRef.current = new Audio(audioSrc)
-      setIsAudioLoading(false)
-    }
-
-    if (!audioSrc || !audioRef.current) return
-
-    if (audioPlayCount == 2) {
-      Swal.fire({
-        title: 'Thông báo',
-        text: 'Mỗi câu chỉ được nghe 2 lần',
-        icon: 'info',
-        confirmButtonText: 'Đóng',
-      })
-      return
-    }
-
-    if (isPlaying) {
-      audioRef.current.pause()
-      danhSachCauHoiContext.setAudioPlaying(null)
-      setIsPlaying(false)
-    } else {
-      audioRef.current.play()
-      danhSachCauHoiContext.setAudioPlaying(ID)
-      setIsPlaying(true)
-    }
+  const handlePlayAudio = (ID) => {
+    danhSachCauHoiContext.setAudioPlaying(ID)
+    setIsPlaying(ID)
   }
 
   const handleArchiveQuestion = () => {
@@ -128,50 +75,13 @@ export default function CauHoi(props) {
     })
   }
 
-  const getSourceAudio = async (IDCauHoi) => {
-    const audioResponse = await getAudioById({
-      IDCauHoi: ID,
-    })
-
-    if (!audioResponse.data.body || audioResponse.data.body.length === 0) {
-      throw new Error('Audio data not found')
-    }
-
-    const audioData = audioResponse.data.body[0].TC_SV_OnThi_Media_DataFile.data
-    if (!audioData) {
-      throw new Error('Audio data is empty')
-    }
-
-    const dataConvert = convertBufferToBase64(audioData)
-    const arrayBufferView = convertBase64ToArrayBuffer(dataConvert)
-
-    if (!arrayBufferView) {
-      throw new Error('Error converting base64 to ArrayBuffer')
-    }
-
-    const blob = new Blob([arrayBufferView], { type: 'audio/mpeg' })
-    const audioURL = URL.createObjectURL(blob)
-
-    if (!audioURL) {
-      throw new Error('Error creating Object URL for audio')
-    }
-
-    return audioURL
-  }
+  const [transitionEnter, setTransitionEnter] = useState(false)
 
   useEffect(() => {
     if (danhSachCauHoiContext.audioPlaying !== ID) {
       setIsPlaying(false)
     }
   }, [danhSachCauHoiContext.audioPlaying])
-  useEffect(() => {
-    if (!isPlaying) audioRef.current?.pause()
-  }, [isPlaying])
-  useEffect(() => {
-    setIsPlaying(false)
-  }, [isFinished])
-
-  const [transitionEnter, setTransitionEnter] = useState(false)
 
   useEffect(() => {
     setTransitionEnter(true)
@@ -205,31 +115,15 @@ export default function CauHoi(props) {
 
           <div className="flex items-center gap-3">
             {/* Audio */}
-            {!isFinished ? (
+            {!disabled ? (
               <>
                 {IsAudioCauHoiCon ? (
-                  <div
-                    onClick={handlePlayAudio}
-                    className={`${isAudioLoading ? 'pointer-events-none' : ''} relative w-9 h-9 hover:bg-uneti-primary-lighter hover:bg-opacity-10 flex items-center justify-center transition-all rounded-full`}
-                    style={ns.cssVar({
-                      color: `var(${ns.cssVarName('primary-lighter')})`,
-                    })}
-                  >
-                    <Icon size={30}>
-                      {isPlaying ? <IconAudioPause /> : <IconAudioPlay />}
-                    </Icon>
-
-                    {audio ? (
-                      <div className="absolute transition-all rounded-full duration-1000 top-full left-0 h-1 w-full bg-slate-300">
-                        <div
-                          className="absolute transition-all rounded-full duration-1000 top-0 left-0 h-1 bg-uneti-primary"
-                          style={{
-                            width: `${(audioDurationCount / audioRef.current.duration) * 100}%`,
-                          }}
-                        />
-                      </div>
-                    ) : null}
-                  </div>
+                  <UAudio
+                    id={ID}
+                    isPlaying={isPlaying}
+                    onPlaying={handlePlayAudio}
+                    disabled={disabled}
+                  />
                 ) : null}
 
                 <div className={ns.e('tick')} onClick={handleArchiveQuestion}>
@@ -249,78 +143,104 @@ export default function CauHoi(props) {
         <div className="flex flex-col gap-3">
           <Radio
             id={IDCauTraLoi1}
+            align="start"
             checked={
               danhSachCauHoiContext.selected[ID] == IDCauTraLoi1 ||
-              (isFinished && IDCauTraLoiDung == IDCauTraLoi1)
+              (disabled && IDCauTraLoiDung == IDCauTraLoi1)
             }
             name={ID}
             value={IDCauTraLoi1}
             onChange={handleChange}
             color={
-              isFinished
+              disabled
                 ? IDCauTraLoiDung === IDCauTraLoi1
                   ? 'success'
                   : 'danger'
                 : color
             }
           >
-            <div>
+            <div className="flex gap-4">
               <div
                 dangerouslySetInnerHTML={{
                   __html: `A.  ${CauTraLoi1}`,
                 }}
               />
 
-              {AnhCauHoiCon_1 ? <img src={AnhCauHoiCon_1} /> : null}
+              {AnhCauHoiCon_1 ? (
+                <img
+                  className="rounded-md max-h-52"
+                  src={`data:image/png;base64,${AnhCauHoiCon_1}`}
+                />
+              ) : null}
             </div>
           </Radio>
 
           <Radio
             id={IDCauTraLoi2}
+            align="start"
             checked={
               danhSachCauHoiContext.selected[ID] == IDCauTraLoi2 ||
-              (isFinished && IDCauTraLoiDung == IDCauTraLoi2)
+              (disabled && IDCauTraLoiDung == IDCauTraLoi2)
             }
             name={ID}
             value={IDCauTraLoi2}
             onChange={handleChange}
             color={
-              isFinished
+              disabled
                 ? IDCauTraLoiDung === IDCauTraLoi2
                   ? 'success'
                   : 'danger'
                 : color
             }
           >
-            <div
-              dangerouslySetInnerHTML={{
-                __html: `B.  ${CauTraLoi2}`,
-              }}
-            />
+            <div className="flex gap-4">
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: `B.  ${CauTraLoi2}`,
+                }}
+              />
+
+              {AnhCauHoiCon_1 ? (
+                <img
+                  className="rounded-md max-h-52"
+                  src={`data:image/png;base64,${AnhCauHoiCon_2}`}
+                />
+              ) : null}
+            </div>
           </Radio>
 
           <Radio
             id={IDCauTraLoi3}
+            align="start"
             checked={
               danhSachCauHoiContext.selected[ID] == IDCauTraLoi3 ||
-              (isFinished && IDCauTraLoiDung == IDCauTraLoi3)
+              (disabled && IDCauTraLoiDung == IDCauTraLoi3)
             }
             name={ID}
             value={IDCauTraLoi3}
             onChange={handleChange}
             color={
-              isFinished
+              disabled
                 ? IDCauTraLoiDung === IDCauTraLoi3
                   ? 'success'
                   : 'danger'
                 : color
             }
           >
-            <div
-              dangerouslySetInnerHTML={{
-                __html: `C.  ${CauTraLoi3}`,
-              }}
-            />
+            <div className="flex gap-4">
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: `C.  ${CauTraLoi3}`,
+                }}
+              />
+
+              {AnhCauHoiCon_1 ? (
+                <img
+                  className="rounded-md max-h-52"
+                  src={`data:image/png;base64,${AnhCauHoiCon_3}`}
+                />
+              ) : null}
+            </div>
           </Radio>
 
           {IDCauTraLoi4 ? (
@@ -328,24 +248,33 @@ export default function CauHoi(props) {
               id={IDCauTraLoi4}
               checked={
                 danhSachCauHoiContext.selected[ID] == IDCauTraLoi4 ||
-                (isFinished && IDCauTraLoiDung == IDCauTraLoi4)
+                (disabled && IDCauTraLoiDung == IDCauTraLoi4)
               }
               name={ID}
               value={IDCauTraLoi4}
               onChange={handleChange}
               color={
-                isFinished
+                disabled
                   ? IDCauTraLoiDung === IDCauTraLoi4
                     ? 'success'
                     : 'danger'
                   : color
               }
             >
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: `D.  ${CauTraLoi4}`,
-                }}
-              />
+              <div className="flex gap-4">
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: `B.  ${CauTraLoi4}`,
+                  }}
+                />
+
+                {AnhCauHoiCon_1 ? (
+                  <img
+                    className="rounded-md max-h-52"
+                    src={`data:image/png;base64,${AnhCauHoiCon_4}`}
+                  />
+                ) : null}
+              </div>
             </Radio>
           ) : null}
         </div>

@@ -16,13 +16,11 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import {
   getAllDeThiThiThu,
   getAllMonHocThiThu,
+  getTongSoTrangTheoDe,
   postDanhSachOnThi,
   postKetQuaOnThi,
 } from '@/Apis/HocTap/apiOnLuyenThiThu'
-import {
-  getCauHoiTheoDe,
-  getTongSoTrangTheoDe,
-} from '@/Apis/HocTap/apiOnLuyenTracNghiem'
+import { getCauHoiTheoDe } from '@/Apis/HocTap/apiOnLuyenTracNghiem'
 
 import Col from '@/Components/Base/Col/Col'
 import Row from '@/Components/Base/Row/Row'
@@ -46,6 +44,7 @@ import {
   makePostDataSv,
   transformObjKey,
 } from '@/Services/Utils/dataSubmitUtils'
+import CauHoiCha from '@/Components/HocTap/OnTap/CauHoiCha'
 
 const DANH_SACH_ON_THI_PREFIX = 'TC_SV_OnThi_DanhSachOnThi_'
 const DANH_SACH_ON_THI_NGUON_TIEP_NHAN = {
@@ -443,6 +442,8 @@ function DeThi() {
         }
       }
 
+      // sort questions by PART
+
       setQuestions((prev) => [...prev, ...questionsMapped])
 
       setIsLoading(false)
@@ -526,29 +527,11 @@ function DeThi() {
                     questionsPaginated.map((question, rootIndex) => {
                       if (question?.length > 0) {
                         return (
-                          <div
-                            id={question[0].IDCauHoiCha}
+                          <CauHoiCha
                             key={`question-parent-${rootIndex}`}
-                            className="p-6 rounded-[26px] border-2 border-slate-200 flex flex-col gap-4 transition-all hover:border-opacity-90"
-                          >
-                            <div className="flex items-start gap-2 flex-wrap">
-                              <div
-                                className="flex-1 mt-[2px]"
-                                dangerouslySetInnerHTML={{
-                                  __html: `<div>${question[0].CauHoiCha}</div>`,
-                                }}
-                              />
-                            </div>
-
-                            {question.map((child, i) => (
-                              <CauHoi
-                                key={`p-question-${rootIndex}-${i}`}
-                                {...child}
-                                disabled={isFinished}
-                                isFinished={isFinished}
-                              />
-                            ))}
-                          </div>
+                            questions={question}
+                            disabled={isFinished}
+                          />
                         )
                       }
 
@@ -557,7 +540,6 @@ function DeThi() {
                           key={`n-question-${rootIndex}`}
                           {...question}
                           disabled={isFinished}
-                          isFinished={isFinished}
                         />
                       )
                     })

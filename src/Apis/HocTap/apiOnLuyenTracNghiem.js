@@ -18,11 +18,3 @@ export const getCauHoiTheoDe = ({ IDDeThi, SoTrang, SoCauTrenTrang }) =>
     },
     timeout: 30000, // TODO: check trang đầu tiên của tiếng Anh timeout
   })
-
-export const getTongSoTrangTheoDe = ({ IDDeThi, SoCauTrenTrang }) =>
-  http.get('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/TongSoTrangCauHoi_TheoDe', {
-    params: {
-      IDDeThi,
-      SoCauTrenTrang,
-    },
-  })
