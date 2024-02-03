@@ -32,7 +32,21 @@ const CA_HOC = {
 
 function ThoiKhoaBieu() {
   const ns = useNamespace('thoi-khoa-bieu')
+  const home = {
+    path: '/uneti',
+    title: 'Trang chủ',
+  }
 
+  const breadcrumbs = [
+    {
+      path: '/tracuu',
+      title: 'Tra cứu',
+    },
+    {
+      path: '/tracuu/thoikhoabieu',
+      title: 'Thời khóa biểu',
+    },
+  ]
   const lichCached = useRef(new Map())
 
   const [lichHoc, setLichHoc] = useState([])
@@ -164,7 +178,7 @@ function ThoiKhoaBieu() {
 
   return (
     <>
-      <CommonLayout>
+      <CommonLayout home={home} breadcrumbs={breadcrumbs}>
         <div className={ns.e('name')}>Tra cứ lịch học / lịch thi</div>
 
         {/* options */}

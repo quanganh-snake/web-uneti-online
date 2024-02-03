@@ -52,7 +52,7 @@ const DanhSachTaiSan = (props) => {
             <td scope="row" className={bem.is('sticky')}>
               <div>{(page - 1) * postsPerPage + index + 1}</div>
             </td>
-            <td className="text-center p-3 border border-solid border-[#dee2e6]">
+            <td className="border border-solid border-[#dee2e6] p-3 text-center">
               <Checkbox
                 onChange={(e) => {
                   onSelectTaiSan(e, iTaiSan)
@@ -76,7 +76,7 @@ const DanhSachTaiSan = (props) => {
                     onShowModal(true)
                     onSetDataTaiSan(iTaiSan)
                   }}
-                  className="px-3 py-2 bg-sky-600 text-center text-white rounded-full cursor-pointer hover:opacity-80"
+                  className="cursor-pointer rounded-full bg-sky-600 px-3 py-2 text-center text-white hover:opacity-80"
                 >
                   Xem chi tiết
                 </button>

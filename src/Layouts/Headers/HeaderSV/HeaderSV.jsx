@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 import { useNamespace } from '@/Services/Hooks/useNamespace.js'
 // data
@@ -21,6 +21,7 @@ function HeaderSV() {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { pathname } = useLocation()
 
   const state = store.getState()
   const refreshToken = state?.auth?.login?.currentToken?.refreshToken
@@ -81,7 +82,46 @@ function HeaderSV() {
           </div>
           {/* END: USER - Profile */}
           {/* START: Navbar Pages */}
-          <NavbarMotCua />
+
+          {pathname === '/uneti' && <div className="col-span-7"></div>}
+          {pathname.includes('/motcua') && (
+            <div className="col-span-7">
+              <div className="flex items-center justify-center">
+                <NavbarMotCua />
+              </div>
+            </div>
+          )}
+          {pathname.includes('/hoctap') && (
+            <div className="col-span-8 lg:col-span-7">
+              <p className="w-full text-center text-2xl font-bold uppercase text-uneti-primary">
+                TRA CỨU KẾT QUẢ HỌC TẬP VÀ ÔN LUYỆN
+              </p>
+            </div>
+          )}
+          {pathname.includes('/tracuu') && (
+            <div className="col-span-8 lg:col-span-7">
+              <p className="w-full text-center text-2xl font-bold uppercase text-uneti-primary">
+                TRA CỨU
+              </p>
+            </div>
+          )}
+          {pathname.includes('/hotrothietbi') && (
+            <div className="col-span-8 lg:col-span-7">
+              <p className="w-full text-center text-2xl font-bold uppercase text-uneti-primary">
+                Hỗ Trợ Thiết Bị
+              </p>
+            </div>
+          )}
+          {pathname.includes('/hotrosudungphanmem') && (
+            <div className="col-span-8 lg:col-span-7">
+              <p className="w-full text-center text-2xl font-bold uppercase text-uneti-primary">
+                HỖ TRỢ SỬ DỤNG PHẦN MỀM
+              </p>
+            </div>
+          )}
+          {pathname.includes('/error') && (
+            <div className="col-span-8 lg:col-span-7"></div>
+          )}
           {/* END: Navbar Pages */}
         </div>
       </nav>

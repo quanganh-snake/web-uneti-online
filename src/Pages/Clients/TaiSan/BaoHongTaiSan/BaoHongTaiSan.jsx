@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import {
+  NguonTiepNhan_WEB,
   homeTaiSan,
   listCoSo,
   listDiaDiem,
@@ -73,7 +74,6 @@ const BaoHongTaiSan = () => {
 
   const handleChangeValue = (e) => {
     const { id, value } = e.target
-    console.log(e)
     if (value === '') {
       setDataViTri({
         DT_QLP_Phong_CoSo: ' ',
@@ -130,8 +130,10 @@ const BaoHongTaiSan = () => {
       DT_QLTS_TS_HoTroThietBi_BaoHong_MoTa: moTaSuCo,
       DT_QLTS_TS_HoTroThietBi_XuLy_MaNhanSu: '',
       DT_QLTS_TS_HoTroThietBi_XuLy_NgayXuLy: '',
+      DT_QLTS_TS_HoTroThietBi_XuLy_GuiMail: 'null',
       DT_QLTS_TS_HoTroThietBi_XacNhan_HoanThanh: '',
       DT_QLTS_TS_HoTroThietBi_XacNhan_NgayXacNhan: '',
+      DT_QLTS_TS_HoTroThietBi_NguonTiepNhan: NguonTiepNhan_WEB,
     }
 
     try {

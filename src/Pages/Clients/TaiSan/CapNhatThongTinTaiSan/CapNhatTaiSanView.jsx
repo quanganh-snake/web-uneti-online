@@ -18,10 +18,10 @@ const CapNhatTaiSanView = () => {
   }
 
   return (
-    <div className="bg-white rounded-md p-4">
+    <div className="rounded-md bg-white p-4">
       <Box home={home} breadcrumbs={breadcrumbs}>
         <div className="col-span-2">
-          <h2 className="text-center uppercase text-4xl font-bold text-uneti-primary mb-10">
+          <h2 className="mb-10 text-center text-4xl font-bold uppercase text-uneti-primary">
             Cập nhật tài sản
           </h2>
           <div className=""></div>

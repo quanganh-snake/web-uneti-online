@@ -28,7 +28,7 @@ function TheoDoiDeNghiView(props) {
       <div className="p-4 flex flex-col">
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
         <div className="w-full rounded-md mt-4 p-3 flex flex-col justify-center items-center">
-          <h3 className="text-3xl uppercase text-center mb-4 font-semibold my-3 text-uneti-primary">
+          <h3 className="text-xl md:text-2xl lg:text-3xl uppercase text-center mb-4 font-semibold my-3 text-uneti-primary">
             DANH SÁCH THÔNG TIN XỬ LÝ GỬI YÊU CẦU TIẾP NHẬN
           </h3>
           <div className="my-4 w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">

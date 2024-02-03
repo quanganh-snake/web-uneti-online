@@ -67,7 +67,7 @@ http.interceptors.request.use(
         const resNewDataToken = await requestToRefreshToken()
         const refreshUser = {
           ...dataToken,
-          token: resNewDataToken.token,
+          token: resNewDataToken?.token,
         }
         store.dispatch(tokenSuccess(refreshUser))
         config.headers.Authorization = `Bearer ${resNewDataToken.token}`
@@ -78,6 +78,7 @@ http.interceptors.request.use(
   (error) => {
     localStorage.setItem('>>>Error http.js', error.message)
     Promise.reject(error)
+    window.location.href = '/'
   },
 )
 

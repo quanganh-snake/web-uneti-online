@@ -61,22 +61,22 @@ const BaoHongTaiSanView = (props) => {
   }
 
   return (
-    <div className="bg-white rounded-md p-4">
+    <div className="rounded-md bg-white p-4">
       <Box home={home} breadcrumbs={breadcrumbs}>
         <div className="col-span-2">
-          <h2 className="text-center uppercase text-4xl font-bold text-uneti-primary mb-10">
+          <h2 className="mb-10 text-center text-4xl font-bold uppercase text-uneti-primary">
             Báo hỏng tài sản
           </h2>
           <div className="flex flex-col gap-4">
             <div className="hinhthucbaohong mb-4">
-              <p className="font-semibold mb-4">Hình thức báo hỏng (*)</p>
-              <div className="flex flex-row justify-between sm:justify-center lg:justify-normal sm:gap-20">
+              <p className="mb-4 font-semibold">Hình thức báo hỏng (*)</p>
+              <div className="flex flex-row justify-between sm:justify-center sm:gap-20 lg:justify-normal">
                 {listHinhThucBaoHong.map((iHinhThuc) => (
                   <label
                     key={iHinhThuc.id}
                     htmlFor={iHinhThuc.id}
                     onClick={onSelectHinhThuc}
-                    className="flex items-center gap-4 cursor-pointer"
+                    className="flex cursor-pointer items-center gap-4"
                   >
                     <input
                       type="radio"
@@ -98,7 +98,7 @@ const BaoHongTaiSanView = (props) => {
                     name="DT_QLP_Phong_CoSo"
                     id="DT_QLP_Phong_CoSo"
                     onChange={onChangeValue}
-                    className="w-full px-3 py-2 border focus:outline-slate-400"
+                    className="w-full border px-3 py-2 focus:outline-slate-400"
                   >
                     <option value="">Chọn cơ sở</option>
                     {listCoSo.map((iCoSo) => (
@@ -117,7 +117,7 @@ const BaoHongTaiSanView = (props) => {
                     disabled={
                       dataViTri?.DT_QLP_Phong_CoSo.trim() !== '' ? false : true
                     }
-                    className="w-full px-3 py-2 border focus:outline-slate-400 disabled:bg-gray-200"
+                    className="w-full border px-3 py-2 focus:outline-slate-400 disabled:bg-gray-200"
                   >
                     <option value="">Chọn địa điểm</option>
                     {dataViTri?.DT_QLP_Phong_CoSo === 'Hà Nội' &&
@@ -146,7 +146,7 @@ const BaoHongTaiSanView = (props) => {
                         ? false
                         : true
                     }
-                    className="w-full px-3 py-2 border focus:outline-slate-400 disabled:bg-gray-200"
+                    className="w-full border px-3 py-2 focus:outline-slate-400 disabled:bg-gray-200"
                   >
                     <option value="">Chọn tòa nhà</option>
                     {listToaNha &&
@@ -173,7 +173,7 @@ const BaoHongTaiSanView = (props) => {
                         ? false
                         : true
                     }
-                    className="w-full px-3 py-2 border focus:outline-slate-400 disabled:bg-gray-200"
+                    className="w-full border px-3 py-2 focus:outline-slate-400 disabled:bg-gray-200"
                   >
                     <option value="">Chọn tầng</option>
                     {listTang &&
@@ -192,7 +192,7 @@ const BaoHongTaiSanView = (props) => {
                   <div className="relative">
                     <input
                       type="text"
-                      className="w-full px-3 py-2 border focus:outline-slate-400 disabled:bg-gray-200"
+                      className="w-full border px-3 py-2 focus:outline-slate-400 disabled:bg-gray-200"
                       placeholder="Chọn tên phòng"
                       value={
                         searchPhong !== ''
@@ -222,7 +222,7 @@ const BaoHongTaiSanView = (props) => {
                           })
                           onSetIdPhong(null)
                         }}
-                        className="flex justify-center items-center cursor-pointer absolute top-3 right-4 w-5 h-5 bg-gray-200 rounded-full hover:bg-slate-100"
+                        className="absolute right-4 top-3 flex h-5 w-5 cursor-pointer items-center justify-center rounded-full bg-gray-200 hover:bg-slate-100"
                       >
                         <IoClose />
                       </span>
@@ -240,7 +240,7 @@ const BaoHongTaiSanView = (props) => {
                             )
                             ?.map((iPhong) => (
                               <li
-                                className="px-3 py-1 cursor-pointer hover:font-medium hover:bg-slate-100 hover:text-gray-700"
+                                className="cursor-pointer px-3 py-1 hover:bg-slate-100 hover:font-medium hover:text-gray-700"
                                 key={iPhong.DT_QLP_Phong_ID}
                                 onClick={() => {
                                   onSetIdPhong(iPhong?.DT_QLP_Phong_ID)
@@ -264,7 +264,7 @@ const BaoHongTaiSanView = (props) => {
                               searchPhong.toLowerCase(),
                             ),
                           ).length === 0 && (
-                            <li className="px-3 py-1 bg-slate-100 text-gray-500">
+                            <li className="bg-slate-100 px-3 py-1 text-gray-500">
                               Không có dữ liệu của phòng "{searchPhong}"
                             </li>
                           )}
@@ -280,7 +280,7 @@ const BaoHongTaiSanView = (props) => {
                 className="w-full"
                 size="small"
                 multiple
-                options={listSuCo.map((sc) => sc.DT_CVNB_TBGD_TL_Ten)}
+                options={listSuCo?.map((sc) => sc.DT_CVNB_TBGD_TL_Ten)}
                 value={tenSuCo}
                 onChange={(event, newValue) => {
                   onSetTenSuCo([...newValue])
@@ -303,7 +303,7 @@ const BaoHongTaiSanView = (props) => {
             <div className="motasuco">
               <p className="mb-2 font-semibold">Mô tả sự cố (*)</p>
               <TextareaAutosize
-                className="flex-1 w-full p-2 rounded-md border border-solid border-gray-300 focus:outline-slate-400"
+                className="w-full flex-1 rounded-md border border-solid border-gray-300 p-2 focus:outline-slate-400"
                 value={moTaSuCo}
                 onChange={(e) => onReceiveMoTaSuCo(e.target.value)}
                 minRows="3"
@@ -337,7 +337,7 @@ const BaoHongTaiSanView = (props) => {
                 <button
                   type="button"
                   onClick={onSubmit}
-                  className="px-3 py-2 font-medium bg-white border border-sky-700 rounded-full text-sky-700 hover:bg-sky-700 hover:text-white hover:opacity-80"
+                  className="rounded-full border border-sky-700 bg-white px-3 py-2 font-medium text-sky-700 hover:bg-sky-700 hover:text-white hover:opacity-80"
                 >
                   Gửi yêu cầu
                 </button>

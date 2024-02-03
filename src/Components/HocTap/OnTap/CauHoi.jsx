@@ -25,6 +25,7 @@ import { transformCls } from '@/Services/Utils/reactUtils'
 import './CauHoi.scss'
 import ArchiveBookFilled from '@/Components/Base/Icons/ArchiveBookFilled'
 import UAudio from './Audio'
+import { BsFlag, BsFlagFill } from 'react-icons/bs'
 
 export default function CauHoi(props) {
   const {
@@ -43,7 +44,6 @@ export default function CauHoi(props) {
     color = 'primary',
     IsAudioCauHoiCon = false,
     disabled = false,
-
     AnhCauHoiCon_1 = null,
     AnhCauHoiCon_2 = null,
     AnhCauHoiCon_3 = null,
@@ -129,9 +129,9 @@ export default function CauHoi(props) {
                 <div className={ns.e('tick')} onClick={handleArchiveQuestion}>
                   <Icon size={30}>
                     {danhSachCauHoiContext.questionsTick[ID] ? (
-                      <ArchiveBookFilled />
+                      <BsFlagFill size={24} className="cursor-pointer" />
                     ) : (
-                      <ArchiveBook />
+                      <BsFlag size={24} className="cursor-pointer" />
                     )}
                   </Icon>
                 </div>
@@ -139,111 +139,132 @@ export default function CauHoi(props) {
             ) : null}
           </div>
         </div>
+        <div className="w-full flex items-center justify-center gap-2">
+          {AnhCauHoiCon_1 && (
+            <img
+              className="rounded-md mb-4 w-1/2"
+              src={`data:image/png;base64,${AnhCauHoiCon_1}`}
+            />
+          )}
+
+          {AnhCauHoiCon_2 && (
+            <img
+              className="rounded-md mb-4 w-1/2"
+              src={`data:image/png;base64,${AnhCauHoiCon_2}`}
+            />
+          )}
+
+          {AnhCauHoiCon_3 && (
+            <img
+              className="rounded-md mb-4 w-1/2"
+              src={`data:image/png;base64,${AnhCauHoiCon_3}`}
+            />
+          )}
+
+          {AnhCauHoiCon_4 && (
+            <img
+              className="rounded-md mb-4 w-1/2"
+              src={`data:image/png;base64,${AnhCauHoiCon_4}`}
+            />
+          )}
+
+          {AnhCauHoiCon_5 && (
+            <img
+              className="rounded-md mb-4 w-1/2"
+              src={`data:image/png;base64,${AnhCauHoiCon_5}`}
+            />
+          )}
+        </div>
 
         <div className="flex flex-col gap-3">
-          <Radio
-            id={IDCauTraLoi1}
-            align="start"
-            checked={
-              danhSachCauHoiContext.selected[ID] == IDCauTraLoi1 ||
-              (disabled && IDCauTraLoiDung == IDCauTraLoi1)
-            }
-            name={ID}
-            value={IDCauTraLoi1}
-            onChange={handleChange}
-            color={
-              disabled
-                ? IDCauTraLoiDung === IDCauTraLoi1
-                  ? 'success'
-                  : 'danger'
-                : color
-            }
-          >
-            <div className="flex gap-4">
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: `A.  ${CauTraLoi1}`,
-                }}
-              />
-
-              {AnhCauHoiCon_1 ? (
-                <img
-                  className="rounded-md max-h-52"
-                  src={`data:image/png;base64,${AnhCauHoiCon_1}`}
+          {IDCauTraLoi1 && (
+            <Radio
+              id={IDCauTraLoi1}
+              align="start"
+              checked={
+                danhSachCauHoiContext.selected[ID] == IDCauTraLoi1 ||
+                (disabled && IDCauTraLoiDung == IDCauTraLoi1)
+              }
+              name={ID}
+              value={IDCauTraLoi1}
+              onChange={handleChange}
+              color={
+                disabled
+                  ? IDCauTraLoiDung === IDCauTraLoi1
+                    ? 'success'
+                    : 'danger'
+                  : color
+              }
+            >
+              <div className="flex gap-4">
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: `A.  ${CauTraLoi1}`,
+                  }}
                 />
-              ) : null}
-            </div>
-          </Radio>
+              </div>
+            </Radio>
+          )}
 
-          <Radio
-            id={IDCauTraLoi2}
-            align="start"
-            checked={
-              danhSachCauHoiContext.selected[ID] == IDCauTraLoi2 ||
-              (disabled && IDCauTraLoiDung == IDCauTraLoi2)
-            }
-            name={ID}
-            value={IDCauTraLoi2}
-            onChange={handleChange}
-            color={
-              disabled
-                ? IDCauTraLoiDung === IDCauTraLoi2
-                  ? 'success'
-                  : 'danger'
-                : color
-            }
-          >
-            <div className="flex gap-4">
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: `B.  ${CauTraLoi2}`,
-                }}
-              />
-
-              {AnhCauHoiCon_1 ? (
-                <img
-                  className="rounded-md max-h-52"
-                  src={`data:image/png;base64,${AnhCauHoiCon_2}`}
+          {IDCauTraLoi2 && (
+            <Radio
+              id={IDCauTraLoi2}
+              align="start"
+              checked={
+                danhSachCauHoiContext.selected[ID] == IDCauTraLoi2 ||
+                (disabled && IDCauTraLoiDung == IDCauTraLoi2)
+              }
+              name={ID}
+              value={IDCauTraLoi2}
+              onChange={handleChange}
+              color={
+                disabled
+                  ? IDCauTraLoiDung === IDCauTraLoi2
+                    ? 'success'
+                    : 'danger'
+                  : color
+              }
+            >
+              <div className="flex gap-4">
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: `B.  ${CauTraLoi2}`,
+                  }}
                 />
-              ) : null}
-            </div>
-          </Radio>
+              </div>
+            </Radio>
+          )}
 
-          <Radio
-            id={IDCauTraLoi3}
-            align="start"
-            checked={
-              danhSachCauHoiContext.selected[ID] == IDCauTraLoi3 ||
-              (disabled && IDCauTraLoiDung == IDCauTraLoi3)
-            }
-            name={ID}
-            value={IDCauTraLoi3}
-            onChange={handleChange}
-            color={
-              disabled
-                ? IDCauTraLoiDung === IDCauTraLoi3
-                  ? 'success'
-                  : 'danger'
-                : color
-            }
-          >
-            <div className="flex gap-4">
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: `C.  ${CauTraLoi3}`,
-                }}
-              />
-
-              {AnhCauHoiCon_1 ? (
-                <img
-                  className="rounded-md max-h-52"
-                  src={`data:image/png;base64,${AnhCauHoiCon_3}`}
+          {IDCauTraLoi3 && (
+            <Radio
+              id={IDCauTraLoi3}
+              align="start"
+              checked={
+                danhSachCauHoiContext.selected[ID] == IDCauTraLoi3 ||
+                (disabled && IDCauTraLoiDung == IDCauTraLoi3)
+              }
+              name={ID}
+              value={IDCauTraLoi3}
+              onChange={handleChange}
+              color={
+                disabled
+                  ? IDCauTraLoiDung === IDCauTraLoi3
+                    ? 'success'
+                    : 'danger'
+                  : color
+              }
+            >
+              <div className="flex gap-4">
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: `C.  ${CauTraLoi3}`,
+                  }}
                 />
-              ) : null}
-            </div>
-          </Radio>
+              </div>
+            </Radio>
+          )}
 
-          {IDCauTraLoi4 ? (
+          {IDCauTraLoi4 && (
             <Radio
               id={IDCauTraLoi4}
               checked={
@@ -264,19 +285,12 @@ export default function CauHoi(props) {
               <div className="flex gap-4">
                 <div
                   dangerouslySetInnerHTML={{
-                    __html: `B.  ${CauTraLoi4}`,
+                    __html: `D.  ${CauTraLoi4}`,
                   }}
                 />
-
-                {AnhCauHoiCon_1 ? (
-                  <img
-                    className="rounded-md max-h-52"
-                    src={`data:image/png;base64,${AnhCauHoiCon_4}`}
-                  />
-                ) : null}
               </div>
             </Radio>
-          ) : null}
+          )}
         </div>
       </div>
     </>
