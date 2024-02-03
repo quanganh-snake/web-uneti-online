@@ -2,6 +2,7 @@ import { Pagination } from '@mui/material'
 import {
   flatten,
   isArray,
+  isEqual,
   isNil,
   keys,
   mapValues,
@@ -297,7 +298,11 @@ function DeThi() {
         (i + 1) * pageSize,
       )
 
-      if (_questions.some((q) => q.includes(question))) {
+      if (
+        _questions.some((q) =>
+          isArray(q) ? q.includes(question) : isEqual(q, question),
+        )
+      ) {
         return i + 1
       }
     }
