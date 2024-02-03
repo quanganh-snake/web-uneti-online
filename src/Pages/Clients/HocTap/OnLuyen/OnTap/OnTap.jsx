@@ -56,8 +56,8 @@ export default function OnTap() {
         {danhSachMonHocTheoHocKy.map((hocKy, index) => (
           <HocKy key={index} hocKy={hocKy.HocKy}>
             {hocKy.MonHoc.map((mh, index) => (
-              // <Link key={index} to={`danhsachcauhoi/${mh.MaMonHoc}`}>
-              <Link key={index} to={`danhsachphan/001942`}>
+              <Link key={index} to={`danhsachphan/${mh.MaMonHoc}`}>
+                {/* <Link key={index} to={`danhsachphan/001942`}> */}
                 <MonHoc
                   TenMonHoc={mh.TenMonHoc}
                   MaMonHoc={`Mã môn học: ${mh.MaMonHoc}`}

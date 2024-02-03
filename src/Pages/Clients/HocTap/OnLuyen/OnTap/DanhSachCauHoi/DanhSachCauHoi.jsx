@@ -11,7 +11,10 @@ import { isNil } from 'lodash-unified'
 import { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { NguonTiepNhan_WEB } from '@/Services/Static/dataStatic'
-import { convertBufferToBase64 } from '@/Services/Utils/stringUtils'
+import {
+  convertBase64ToArrayBuffer,
+  convertBufferToBase64,
+} from '@/Services/Utils/stringUtils'
 import { rtfToHtml } from '@/Services/Utils/rtfjs'
 
 function DanhSachDeThi() {
@@ -35,13 +38,13 @@ function DanhSachDeThi() {
   const [totalPage, setTotalPage] = useState(1)
   const [currPage, setCurrPage] = useState(1)
 
-  monHoc
-  chuong
-  listCauTraLoi
-  setDieuKienLoc(LOAD_CAU_HOI_DIEU_KIEN_LOC.TatCa)
-  totalPage
-  setTotalPage(1)
-  setCurrPage(1)
+  // monHoc
+  // chuong
+  // listCauTraLoi
+  // setDieuKienLoc(LOAD_CAU_HOI_DIEU_KIEN_LOC.TatCa)
+  // totalPage
+  // setTotalPage(1)
+  // setCurrPage(1)
 
   useEffect(() => {
     // lấy thông tin môn học
@@ -381,13 +384,13 @@ function DanhSachDeThi() {
                   </div>
                   <div className="flex">
                     <input
-                      value={element.IdCauTraLoi1}
-                      id={element.IdCauTraLoi1}
-                      name={element.Id}
+                      value={e.IdCauTraLoi1}
+                      id={e.IdCauTraLoi1}
+                      name={e.Id}
                       type="radio"
                       className="aspect-square w-[20px] mr-2"
                     />
-                    <label htmlFor={element.IdCauTraLoi1}>
+                    <label htmlFor={e.IdCauTraLoi1}>
                       <span>A. </span>
                       {(() => {
                         if (e.CauTraLoi1.type === 'image') {
@@ -409,13 +412,13 @@ function DanhSachDeThi() {
                   </div>
                   <div className="flex">
                     <input
-                      value={element.IdCauTraLoi2}
-                      id={element.IdCauTraLoi2}
-                      name={element.Id}
+                      value={e.IdCauTraLoi2}
+                      id={e.IdCauTraLoi2}
+                      name={e.Id}
                       type="radio"
                       className="aspect-square w-[20px] mr-2"
                     />
-                    <label htmlFor={element.IdCauTraLoi2}>
+                    <label htmlFor={e.IdCauTraLoi2}>
                       <span>B. </span>
                       {(() => {
                         if (e.CauTraLoi2.type === 'image') {
@@ -437,13 +440,13 @@ function DanhSachDeThi() {
                   </div>
                   <div className="flex">
                     <input
-                      value={element.IdCauTraLoi3}
-                      id={element.IdCauTraLoi3}
-                      name={element.Id}
+                      value={e.IdCauTraLoi3}
+                      id={e.IdCauTraLoi3}
+                      name={e.Id}
                       type="radio"
                       className="aspect-square w-[20px] mr-2"
                     />
-                    <label htmlFor={element.IdCauTraLoi3}>
+                    <label htmlFor={e.IdCauTraLoi3}>
                       <span>C. </span>
                       {(() => {
                         if (e.CauTraLoi3.type === 'image') {
@@ -465,13 +468,13 @@ function DanhSachDeThi() {
                   </div>
                   <div className="flex">
                     <input
-                      value={element.IdCauTraLoi4}
-                      id={element.IdCauTraLoi4}
-                      name={element.Id}
+                      value={e.IdCauTraLoi4}
+                      id={e.IdCauTraLoi4}
+                      name={e.Id}
                       type="radio"
                       className="aspect-square w-[20px] mr-2"
                     />
-                    <label htmlFor={element.IdCauTraLoi4}>
+                    <label htmlFor={e.IdCauTraLoi4}>
                       <span>D. </span>
                       {(() => {
                         if (e.CauTraLoi4.type === 'image') {

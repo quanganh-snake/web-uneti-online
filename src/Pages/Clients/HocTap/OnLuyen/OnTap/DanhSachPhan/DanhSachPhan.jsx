@@ -62,8 +62,8 @@ function DanhSachPhan() {
       <div className="flex flex-col text-center justify-start items-center gap-4 bg-white shadow-sm rounded-[26px] mb-4 p-4">
         {listPhanCauHoi.map((element, index) => (
           <Link
-            // to={`danhsachchuong/${element.Id}`}
-            to={`danhsachchuong/774`}
+            to={`danhsachchuong/${element.Id}`}
+            // to={`danhsachchuong/774`}
             key={index}
             className="w-full"
           >
