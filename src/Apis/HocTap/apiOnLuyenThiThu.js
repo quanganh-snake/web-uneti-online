@@ -25,7 +25,7 @@ export const getCauHoiTheoMonHoc = ({
 }) =>
   http.get('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/TheoMonHoc', {
     params: {
-      IDSinhVien,
+      IDSinhVien: IDSinhVien,
       SoTrang: soTrang,
       MaMonHoc: maMonHoc,
       DieuKienLoc: dieuKienLoc,
@@ -49,5 +49,22 @@ export const getAudioById = ({ IDCauHoi }) =>
   http.get(`SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/GetAudio_ByID`, {
     params: {
       IDCauHoi,
+    },
+  })
+
+export const getCauHoiTheoChuong = ({
+  IDSinhVien,
+  IDChuong,
+  SoTrang = '10',
+  SoCauTrenTrang,
+  DieuKienLoc,
+}) =>
+  http.get('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/CauHoi_TheoChuong_Web', {
+    params: {
+      IDSinhVien,
+      IDChuong,
+      SoTrang,
+      SoCauTrenTrang,
+      DieuKienLoc,
     },
   })

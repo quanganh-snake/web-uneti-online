@@ -91,6 +91,8 @@ import HomeTraCuu from '@/Pages/Clients/TraCuu'
 import ThoiKhoaBieu from '@/Pages/Clients/TraCuu/ThoiKhoaBieu/ThoiKhoaBieu'
 import DiemDanh from '@/Pages/Clients/TraCuu/DiemDanh/DiemDanh'
 import RenLuyen from '@/Pages/Clients/TraCuu/RenLuyen/RenLuyen'
+import DanhSachPhan from '@/Pages/Clients/HocTap/OnLuyen/OnTap/DanhSachPhan/DanhSachPhan'
+import DanhSachChuong from '@/Pages/Clients/HocTap/OnLuyen/OnTap/DanhSachChuong/DanhSachChuong'
 
 const ROLES = {
   G0101: 'GV',
@@ -253,10 +255,16 @@ export const privateRoutes = (
 
             <Route path="ontap">
               <Route index element={<HocTapOnTap />} />
-              <Route
-                path="danhsachcauhoi/:id?"
-                element={<OnTapDanhSachCauHoi />}
-              />
+              <Route path="danhsachphan/:id?">
+                <Route index element={<DanhSachPhan />} />
+                <Route path="danhsachchuong/:id?">
+                  <Route index element={<DanhSachChuong />} />
+                  <Route
+                    path="danhsachcauhoi/:id?"
+                    element={<OnTapDanhSachCauHoi />}
+                  />
+                </Route>
+              </Route>
             </Route>
             <Route path="thithu">
               <Route index element={<HocTapThiThu />} />

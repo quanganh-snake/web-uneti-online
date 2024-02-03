@@ -26,3 +26,17 @@ export const getTongSoTrangTheoDe = ({ IDDeThi, SoCauTrenTrang }) =>
       SoCauTrenTrang,
     },
   })
+
+export const getPhanTheoMonHoc = (MaMonHoc = '') =>
+  http.get('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/PhanCauHoi_TheoMonHoc', {
+    params: {
+      MaMonHoc: MaMonHoc,
+    },
+  })
+
+export const getChuongTheoPhanCauHoi = (IDPhan = '') =>
+  http.get('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/ChuongCauHoi_TheoPhan', {
+    params: {
+      IDPhan,
+    },
+  })

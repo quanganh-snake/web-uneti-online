@@ -8,9 +8,6 @@ import { breadcrumbs, home } from './constants'
 import HocKy from '@/Components/HocTap/OnTap/HocKy'
 import { useMemo } from 'react'
 import { hocTapSidebar } from '../../constants'
-import XacNhanThi from '@/Components/HocTap/Promt/XacNhanThi'
-import XacNhanNopBai from '@/Components/HocTap/Promt/XacNhanNopBai'
-import KetQuaThi from '@/Components/HocTap/Promt/KetQuaThi'
 import MonHoc from '@/Components/HocTap/OnTap/MonHoc'
 
 import iconOnLuyen from '@/assets/Icons/icon-onluyen.png'
@@ -59,7 +56,8 @@ export default function OnTap() {
         {danhSachMonHocTheoHocKy.map((hocKy, index) => (
           <HocKy key={index} hocKy={hocKy.HocKy}>
             {hocKy.MonHoc.map((mh, index) => (
-              <Link key={index} to={`danhsachcauhoi/${mh.MaMonHoc}`}>
+              // <Link key={index} to={`danhsachcauhoi/${mh.MaMonHoc}`}>
+              <Link key={index} to={`danhsachphan/001942`}>
                 <MonHoc
                   TenMonHoc={mh.TenMonHoc}
                   MaMonHoc={`Mã môn học: ${mh.MaMonHoc}`}
