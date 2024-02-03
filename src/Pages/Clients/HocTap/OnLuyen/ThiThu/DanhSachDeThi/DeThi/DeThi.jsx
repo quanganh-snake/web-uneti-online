@@ -45,12 +45,16 @@ import {
   transformObjKey,
 } from '@/Services/Utils/dataSubmitUtils'
 import CauHoiCha from '@/Components/HocTap/OnTap/CauHoiCha'
+import { useNamespace } from '@/Services/Hooks'
+
+import './DeThi.scss'
 
 const DANH_SACH_ON_THI_PREFIX = 'TC_SV_OnThi_DanhSachOnThi_'
 const DANH_SACH_ON_THI_NGUON_TIEP_NHAN = {
   WEB: '1',
 }
 function DeThi() {
+  const ns = useNamespace('de-thi')
   const STT = useRef(1)
   const uLocation = useLocation()
   const dataSV = DataSinhVien()
@@ -515,6 +519,7 @@ function DeThi() {
           Mã Môn Học: {monHoc?.MaMonHoc}
         </span>
       </div>
+
       <div className="mt-6">
         <Row gutter={30}>
           <Col span={12} md={9}>
@@ -575,8 +580,8 @@ function DeThi() {
           </Col>
           <Col span={12} md={3}>
             {deThi ? (
-              <div className="z-100 border shadow-sm sticky top-28 bg-vs-theme-layout rounded-2xl">
-                <div className="flex flex-col gap-3 items-center bg-uneti-primary-lighter text-white rounded-tr-2xl rounded-tl-2xl p-3">
+              <div className={ns.em('questions', 'viewlist')}>
+                <div className={ns.em('questions', 'heading')}>
                   <h3>
                     {isFinished ? (
                       <div>
@@ -607,7 +612,7 @@ function DeThi() {
                     )}
                   </h3>
 
-                  <div className="text-white flex items-center gap-1">
+                  <div className="shadow-sm text-white flex items-center gap-1">
                     <Icon size={30}>
                       {isFinished ? <TimePlay /> : <TimePause />}
                     </Icon>
@@ -615,7 +620,7 @@ function DeThi() {
                   </div>
                 </div>
 
-                <div className="p-2">
+                <div className={ns.em('questions', 'body')}>
                   <div className="max-h-[36dvh] overflow-y-auto flex flex-wrap gap-2 justify-evenly">
                     {flatten(questions).map((e) => {
                       return (
@@ -655,7 +660,7 @@ function DeThi() {
                   ) : null}
                 </div>
 
-                <div className="p-3">
+                <div className={ns.em('questions', 'footer')}>
                   {isFinished ? (
                     <Button onClick={() => window.location.reload()}>
                       Làm lại lần nữa?

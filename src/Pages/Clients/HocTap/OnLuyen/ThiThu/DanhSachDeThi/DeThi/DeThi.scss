@@ -1,0 +1,55 @@
+@include b(de-thi) {
+  @include e(questions) {
+    @include m(heading) {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      background-color: getColor(primary-lighter);
+      color: #fff;
+      border-radius: 20px 20px 0 0;
+      padding: 12px;
+    }
+
+    @include m(body) {
+      padding: 8px;
+    }
+
+    @include m(footer) {
+      padding: 12px;
+    }
+
+    @include m(viewlist) {
+      position: fixed;
+      width: 120px;
+      height: 44px;
+      overflow: hidden;
+      z-index: 10;
+      border: 1px solid rgb(0 0 0 / 0.1);
+      box-shadow: rgb(0 0 0 / 0.04) 0 4px 32px 0;
+      top: 112px;
+      background: getColor(background);
+      border-radius: 14px;
+      transition:
+        width 0.2s ease,
+        height 0.1s ease 0.2s;
+
+      &:hover {
+        height: auto;
+        width: 300px;
+        box-shadow: rgb(0 0 0 / 0.1) 0 4px 32px 0;
+      }
+
+      @include res(md) {
+        width: auto;
+        height: auto;
+        position: sticky;
+
+        &:hover {
+          width: auto;
+          height: auto;
+        }
+      }
+    }
+  }
+}
