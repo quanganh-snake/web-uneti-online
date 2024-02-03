@@ -43,10 +43,13 @@ export default function CauHoi(props) {
     IsAudioCauHoiCon = false,
     disabled = false,
     isFinished = false,
+
+    AnhCauHoiCon_1 = null,
   } = props
 
   const ns = useNamespace('question')
 
+  const [isAudioLoading, setIsAudioLoading] = useState(false)
   const [isAudioLoaded, setIsAudioLoaded] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [audio, setAudio] = useState(null)
@@ -86,9 +89,11 @@ export default function CauHoi(props) {
 
     let audioSrc = audio
     if (!audio && IsAudioCauHoiCon) {
+      setIsAudioLoading(true)
       audioSrc = await getSourceAudio(ID)
       setAudio(audioSrc)
       audioRef.current = new Audio(audioSrc)
+      setIsAudioLoading(false)
     }
 
     if (!audioSrc || !audioRef.current) return
@@ -205,7 +210,7 @@ export default function CauHoi(props) {
                 {IsAudioCauHoiCon ? (
                   <div
                     onClick={handlePlayAudio}
-                    className="relative w-9 h-9 hover:bg-uneti-primary-lighter hover:bg-opacity-10 flex items-center justify-center transition-all rounded-full"
+                    className={`${isAudioLoading ? 'pointer-events-none' : ''} relative w-9 h-9 hover:bg-uneti-primary-lighter hover:bg-opacity-10 flex items-center justify-center transition-all rounded-full`}
                     style={ns.cssVar({
                       color: `var(${ns.cssVarName('primary-lighter')})`,
                     })}
@@ -259,11 +264,15 @@ export default function CauHoi(props) {
                 : color
             }
           >
-            <div
-              dangerouslySetInnerHTML={{
-                __html: `A.  ${CauTraLoi1}`,
-              }}
-            />
+            <div>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: `A.  ${CauTraLoi1}`,
+                }}
+              />
+
+              {AnhCauHoiCon_1 ? <img src={AnhCauHoiCon_1} /> : null}
+            </div>
           </Radio>
 
           <Radio
