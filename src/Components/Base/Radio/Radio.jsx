@@ -11,6 +11,10 @@ export const Radio = (props) => {
 
   const {
     id,
+    /**
+     * @value `start` | `center` | `end`
+     */
+    align = 'center',
     disabled,
     loading,
     value,
@@ -38,6 +42,7 @@ export const Radio = (props) => {
       bem.is('disabled', isDisabled),
       bem.is('active', isChecked),
       bem.is(`color-${color}`),
+      bem.is(`align-${align}`),
     ])
   }, [bem, loading, isDisabled, isChecked, color])
 

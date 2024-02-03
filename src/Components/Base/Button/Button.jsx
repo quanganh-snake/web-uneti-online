@@ -5,7 +5,14 @@ import { transformCls } from '@/Services/Utils/reactUtils'
 import './Button.scss'
 
 export default function Button(props) {
-  const { children, type, icon = false, color, ...attrs } = props
+  const {
+    children,
+    type,
+    disabled = false,
+    icon = false,
+    color,
+    ...attrs
+  } = props
 
   const bem = useNamespace('button')
 
@@ -17,6 +24,7 @@ export default function Button(props) {
         bem.is('icon', icon),
         bem.is(type),
         bem.is(`color-${color}`),
+        bem.is(`disabled`, disabled),
       ])}
     >
       {children}

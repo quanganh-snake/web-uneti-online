@@ -8,6 +8,18 @@
   gap: 10px;
   user-select: none;
 
+  @include when(align-start) {
+    align-items: flex-start;
+  }
+
+  @include when(align-end) {
+    align-items: flex-end;
+  }
+
+  @include when(align-center) {
+    align-items: center;
+  }
+
   @include when(active) {
     .#{$namespace}-radio__effect {
       &:after {

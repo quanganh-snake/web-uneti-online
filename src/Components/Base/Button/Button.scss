@@ -36,6 +36,12 @@
     }
   }
 
+  @include when(disabled) {
+    pointer-events: none;
+    cursor: default;
+    background-color: getColor(color, 0.5);
+  }
+
   @include when(icon) {
     width: 36px !important;
     height: 36px !important;

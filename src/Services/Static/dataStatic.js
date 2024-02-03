@@ -1454,7 +1454,7 @@ export const homeHocTap = [
   {
     id: 1,
     title: 'Kết quả học tập',
-    desc: 'Theo dõi toàn bộ quá trình điểm danh đối với các môn học tương ứng tại các học kỳ',
+    desc: 'Kết quả đánh giá chi tiết của từng môn học trong học kỳ.',
     path: '/ketquahoctap',
     thumbnail: icoHTTBGD,
     roleActive: ['SV'],
@@ -1463,8 +1463,8 @@ export const homeHocTap = [
 
   {
     id: 2,
-    title: 'Ôn luyện',
-    desc: 'Theo dõi toàn bộ lịch học theo ngày, tuần, tháng đối với từng môn học trong học kỳ',
+    title: 'Ôn luyện trắc nghiệm',
+    desc: 'Ôn tập: Thi thử : Dành cho các học phần đã đăng ký.',
     path: '/onluyen',
     moduleActive: true,
     thumbnail: icoTTHCSV,
@@ -1508,7 +1508,7 @@ export const homeOnLuyen = [
   {
     id: 1,
     title: 'Ôn tập',
-    desc: 'Theo dõi toàn bộ quá trình điểm danh đối với các môn học tương ứng tại các học kỳ',
+    desc: 'Ôn tập lý thuyết',
     path: '/ontap',
     thumbnail: icoHTTBGD,
     roleActive: ['SV'],
@@ -1518,7 +1518,7 @@ export const homeOnLuyen = [
   {
     id: 2,
     title: 'Thi thử',
-    desc: 'Theo dõi toàn bộ lịch học theo ngày, tuần, tháng đối với từng môn học trong học kỳ',
+    desc: 'Thi thử đánh giá',
     path: '/thithu',
     moduleActive: true,
     thumbnail: icoTTHCSV,

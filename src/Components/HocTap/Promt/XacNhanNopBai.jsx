@@ -8,7 +8,7 @@ export default function XacNhanNopBai(props) {
 
   const dialogRef = useRef()
 
-  const { TenMonHoc, onConfirm } = props
+  const { TenMonHoc, onConfirm, DaLam, TongCauHoi } = props
 
   const handleClose = () => {
     dialogRef.current.close()
@@ -39,7 +39,14 @@ export default function XacNhanNopBai(props) {
           </div>
         }
       >
-        Thời gian làm bài của bạn vẫn còn. Bạn vẫn muốn tiếp tục nộp bài?
+        {DaLam < TongCauHoi ? (
+          <p>
+            Bạn đã làm {DaLam}/{TongCauHoi} câu
+          </p>
+        ) : null}
+        <p>Thời gian làm bài của bạn vẫn còn. </p>
+
+        <p>Bạn vẫn muốn tiếp tục nộp bài?</p>
       </Dialog>
     </>
   )
