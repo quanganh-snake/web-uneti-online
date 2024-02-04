@@ -7,7 +7,6 @@ import {
   convertBase64ToArrayBuffer,
   convertBufferToBase64,
 } from '@/Services/Utils/stringUtils'
-import React from 'react'
 import { useRef } from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
@@ -17,7 +16,7 @@ import Swal from 'sweetalert2'
 export default function UAudio(props) {
   const {
     id,
-    playCount = 2,
+    playCount = 2, // playCount == 0 => play infinity
     disabled = false,
     onPlaying = () => null,
     isPlaying,
@@ -77,14 +76,16 @@ export default function UAudio(props) {
 
     if (!audioSrc || !audioRef.current) return
 
-    if (audioPlayCount >= playCount) {
-      Swal.fire({
-        title: 'Thông báo',
-        text: 'Mỗi câu chỉ được nghe 2 lần',
-        icon: 'info',
-        confirmButtonText: 'Đóng',
-      })
-      return
+    if (playCount != 0) {
+      if (audioPlayCount >= playCount) {
+        Swal.fire({
+          title: 'Thông báo',
+          text: `Mỗi câu chỉ được nghe ${playCount} lần`,
+          icon: 'info',
+          confirmButtonText: 'Đóng',
+        })
+        return
+      }
     }
 
     if (isPlaying) {

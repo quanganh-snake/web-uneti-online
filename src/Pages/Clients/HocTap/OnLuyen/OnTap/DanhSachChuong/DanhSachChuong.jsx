@@ -79,22 +79,34 @@ function DanhSachChuong() {
       </div>
       <div className="flex flex-col text-center justify-start items-center gap-4 bg-white shadow-sm rounded-[26px] mb-4 p-4">
         {listChuong.map((element, index) => (
-          <Link
-            to={`danhsachcauhoi/${element.Id}`}
-            // to={`danhsachcauhoi/2415`}
+          <div
             key={index}
-            className="w-full"
+            className="cursor-pointer rounded-[32px] border-2 border-slate-200 transition-all hover:border-vs-primary hover:shadow-sm duration-200 w-full flex p-4 justify-between items-center gap-4"
           >
-            <div className="cursor-pointer rounded-[32px] border-2 border-slate-200 transition-all hover:border-vs-primary hover:shadow-sm duration-200 w-full flex p-4 justify-between items-center gap-4">
-              <div>
-                <img src={IconOnLuyen} />
-              </div>
-              <div className="flex-1 flex flex-col justify-between items-start gap-4">
-                <span className="font-semibold">{element.TenChuong}</span>
-                <span className="text-sm">{element.MaChuong}</span>
-              </div>
+            <div>
+              <img src={IconOnLuyen} />
             </div>
-          </Link>
+            <div className="flex-1 flex flex-col justify-between items-start gap-4">
+              <span className="font-semibold">{element.TenChuong}</span>
+              <span className="text-sm">{element.MaChuong}</span>
+            </div>
+            <div>
+              <Link
+                to={`danhsachcauhoi/${element.Id}`}
+                // to={`danhsachcauhoi/2415`}
+                className="w-full"
+              >
+                <button>Ôn luyện</button>
+              </Link>
+              <Link
+                to={`dapan/${element.Id}`}
+                // to={`dapan/2415`}
+                className="w-full"
+              >
+                <button>Đáp án</button>
+              </Link>
+            </div>
+          </div>
         ))}
       </div>
     </div>

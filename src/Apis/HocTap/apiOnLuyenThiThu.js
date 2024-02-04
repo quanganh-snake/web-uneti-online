@@ -52,23 +52,6 @@ export const getAudioById = ({ IDCauHoi }) =>
     },
   })
 
-export const getCauHoiTheoChuong = ({
-  IDSinhVien,
-  IDChuong,
-  SoTrang = '10',
-  SoCauTrenTrang,
-  DieuKienLoc,
-}) =>
-  http.get('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/CauHoi_TheoChuong_Web', {
-    params: {
-      IDSinhVien,
-      IDChuong,
-      SoTrang,
-      SoCauTrenTrang,
-      DieuKienLoc,
-    },
-  })
-
 export const postDanhSachOnThi = (data) =>
   http.post('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/DanhSachOnThi_Add_Para', data)
 

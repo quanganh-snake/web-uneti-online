@@ -40,3 +40,35 @@ export const getChuongTheoPhanCauHoi = (IDPhan = '') =>
       IDPhan,
     },
   })
+
+export const getCauHoiTheoChuong = ({
+  IDSinhVien,
+  IDChuong,
+  SoTrang,
+  SoCauTrenTrang = '10',
+  DieuKienLoc,
+}) =>
+  http.get('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/CauHoi_TheoChuong', {
+    params: {
+      IDSinhVien,
+      IDChuong,
+      SoTrang,
+      SoCauTrenTrang,
+      DieuKienLoc,
+    },
+  })
+
+export const getTongSoTrangTheoChuong = ({
+  IDSinhVien,
+  IDChuong,
+  SoCauTrenTrang = '10',
+  DieuKienLoc,
+}) =>
+  http.get('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/TongSoTrangCauHoi_TheoChuong', {
+    params: {
+      IDSinhVien,
+      IDChuong,
+      SoCauTrenTrang,
+      DieuKienLoc,
+    },
+  })

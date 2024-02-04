@@ -1,13 +1,14 @@
-import { getCauHoiTheoChuong } from '@/Apis/HocTap/apiOnLuyenThiThu'
 import {
+  getCauHoiTheoChuong,
   getChuongTheoPhanCauHoi,
   getMonHocTheoSinhVien,
   getPhanTheoMonHoc,
+  getTongSoTrangTheoChuong,
 } from '@/Apis/HocTap/apiOnLuyenTracNghiem'
 import { LOAD_CAU_HOI_DIEU_KIEN_LOC } from '@/Services/Tokens'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import dayjs from 'dayjs'
-import { isNil } from 'lodash-unified'
+import { isArray, isNil, values } from 'lodash-unified'
 import { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { NguonTiepNhan_WEB } from '@/Services/Static/dataStatic'
@@ -16,6 +17,11 @@ import {
   convertBufferToBase64,
 } from '@/Services/Utils/stringUtils'
 import { rtfToHtml } from '@/Services/Utils/rtfjs'
+import Button from '@/Components/Base/Button/Button'
+import http from '@/Configs/http'
+import { retries } from '@/Services/Utils/requestUtils'
+import Loading from '@/Components/Loading/Loading'
+import UAudio from '@/Components/HocTap/OnTap/Audio'
 
 function DanhSachDeThi() {
   const { pathname } = useLocation()
@@ -30,23 +36,18 @@ function DanhSachDeThi() {
   const [phanCauHoi, setPhanCauHoi] = useState(null)
   const [chuong, setChuong] = useState(null)
   const [listCauHoi, setListCauHoi] = useState([])
-  const [listCauTraLoi, setListCauTraLoi] = useState([])
+  const [listCauTraLoi, setListCauTraLoi] = useState({})
   const thoiGianBatDau = useRef(dayjs().toISOString())
   const [dieuKienLoc, setDieuKienLoc] = useState(
     LOAD_CAU_HOI_DIEU_KIEN_LOC.TatCa,
   )
   const [totalPage, setTotalPage] = useState(1)
   const [currPage, setCurrPage] = useState(1)
-
-  // monHoc
-  // chuong
-  // listCauTraLoi
-  // setDieuKienLoc(LOAD_CAU_HOI_DIEU_KIEN_LOC.TatCa)
-  // totalPage
-  // setTotalPage(1)
-  // setCurrPage(1)
+  const [isLoading, setIsLoading] = useState(false)
+  const listCauTraLoiPost = useRef([])
 
   useEffect(() => {
+    if (!dataSV || !maMonHoc || !idChuong) return
     // lấy thông tin môn học
     const getThongTinMonHoc = async () => {
       const resData = await getMonHocTheoSinhVien(dataSV.MaSinhVien)
@@ -98,12 +99,13 @@ function DanhSachDeThi() {
 
     // lấy danh sách câu hỏi
     const getAllCauHoi = async () => {
+      setIsLoading(true)
       const resData = await getCauHoiTheoChuong({
         IDSinhVien: dataSV.IdSinhVien.toString(),
-        IDChuong: idChuong,
-        SoTrang: currPage,
+        IDChuong: idChuong.toString(),
+        SoTrang: currPage.toString(),
         SoCauTrenTrang: '10',
-        DieuKienLoc: dieuKienLoc,
+        DieuKienLoc: dieuKienLoc.toString(),
       })
 
       const data = await resData?.data?.body
@@ -118,26 +120,49 @@ function DanhSachDeThi() {
 
       setListCauHoi(groupData)
 
-      const answersData = convertData.map((element) => {
-        return {
-          TC_SV_OnThi_KetQuaOnTap_IDSinhVien: dataSV.IdSinhVien.toString(),
-          TC_SV_OnThi_KetQuaOnTap_MaMonHoc: maMonHoc,
-          TC_SV_OnThi_KetQuaOnTap_IDCauHoi: element.Id,
-          TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi: 'null',
-          TC_SV_OnThi_KetQuaOnTap_CauPhanVan: 'null',
-        }
+      let answerData = {}
+
+      groupData.forEach((e) => {
+        e?.listCauHoiCon.forEach((e1) => {
+          answerData[e1.Id] = {
+            TC_SV_OnThi_KetQuaOnTap_IDSinhVien: dataSV.IdSinhVien.toString(),
+            TC_SV_OnThi_KetQuaOnTap_MaMonHoc: maMonHoc,
+            TC_SV_OnThi_KetQuaOnTap_IDCauHoi: e1.Id,
+            TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi:
+              e1.CauTraLoi == null ? 'null' : e1.CauTraLoi.toString(),
+            TC_SV_OnThi_KetQuaOnTap_CauPhanVan:
+              e1.CauPhanVan == null ? 'null' : e1.CauPhanVan.toString(),
+          }
+        })
       })
 
-      setListCauTraLoi(answersData)
+      setListCauTraLoi(answerData)
+
+      setIsLoading(falses)
+    }
+
+    // lấy danh tổng số trang câu hỏi
+    const getTotalPage = async () => {
+      const resData = await getTongSoTrangTheoChuong({
+        IDSinhVien: dataSV.IdSinhVien,
+        IDChuong: idChuong,
+        SoCauTrenTrang: '10',
+        DieuKienLoc: dieuKienLoc,
+      })
+
+      const { TongSoTrang } = await resData?.data?.body[0]
+
+      setTotalPage(TongSoTrang)
     }
 
     //auto post data
     const autoPostData = setInterval(handlePostData, 60 * 10 * 1000)
 
-    getThongTinMonHoc()
-    getPhanCauHoi()
-    getChuong()
-    getAllCauHoi()
+    retries(getThongTinMonHoc)
+    retries(getPhanCauHoi)
+    retries(getChuong)
+    retries(getAllCauHoi)
+    retries(getTotalPage)
 
     return () => {
       clearInterval(autoPostData)
@@ -145,15 +170,94 @@ function DanhSachDeThi() {
     }
   }, [])
 
+  useEffect(() => {
+    // lấy danh sách câu hỏi
+    const getAllCauHoi = async () => {
+      setIsLoading(true)
+      const resData = await getCauHoiTheoChuong({
+        IDSinhVien: dataSV.IdSinhVien.toString(),
+        IDChuong: idChuong.toString(),
+        SoTrang: currPage.toString(),
+        SoCauTrenTrang: '10',
+        DieuKienLoc: dieuKienLoc.toString(),
+      })
+
+      const data = await resData?.data?.body
+
+      const convertData = []
+
+      for (let i = 0; i < data.length; i++) {
+        convertData.push(await convertQuestion(data[i]))
+      }
+
+      const groupData = groupByCauHoiCha(convertData)
+
+      setListCauHoi(groupData)
+
+      let answerData = {}
+
+      groupData.forEach((e) => {
+        e?.listCauHoiCon.forEach((e1) => {
+          answerData[e1.Id] = {
+            TC_SV_OnThi_KetQuaOnTap_IDSinhVien: dataSV.IdSinhVien.toString(),
+            TC_SV_OnThi_KetQuaOnTap_MaMonHoc: maMonHoc,
+            TC_SV_OnThi_KetQuaOnTap_IDCauHoi: e1.Id,
+            TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi:
+              e1.CauTraLoi == null ? 'null' : e1.CauTraLoi.toString(),
+            TC_SV_OnThi_KetQuaOnTap_CauPhanVan:
+              e1.CauPhanVan == null ? 'null' : e1.CauPhanVan.toString(),
+          }
+        })
+      })
+
+      setListCauTraLoi(answerData)
+
+      setIsLoading(false)
+    }
+
+    // lấy danh tổng số trang câu hỏi
+    const getTotalPage = async () => {
+      const resData = await getTongSoTrangTheoChuong({
+        IDSinhVien: dataSV.IdSinhVien,
+        IDChuong: idChuong,
+        SoCauTrenTrang: '10',
+        DieuKienLoc: dieuKienLoc,
+      })
+
+      const { TongSoTrang } = await resData?.data?.body[0]
+
+      setTotalPage(TongSoTrang)
+    }
+
+    retries(getAllCauHoi)
+    retries(getTotalPage)
+  }, [dieuKienLoc])
+
+  useEffect(() => {
+    listCauTraLoiPost.current = values(listCauTraLoi)
+  }, [listCauTraLoi])
+
   const handlePostData = () => {
+    if (listCauTraLoiPost.current.length == 0) return
     const data = {
-      TC_SV_OnThi_DanhSachOnTap_IDSinhVien: dataSV.IdSinhVien,
-      TC_SV_OnThi_DanhSachOnTap_MaMonHoc: maMonHoc,
+      TC_SV_OnThi_DanhSachOnTap_IDSinhVien: dataSV.IdSinhVien.toString(),
+      TC_SV_OnThi_DanhSachOnTap_IdChuong: idChuong,
       TC_SV_OnThi_DanhSachOnTap_ThoiGianGioBatDau: thoiGianBatDau.current,
       TC_SV_OnThi_DanhSachOnTap_ThoiGianGioKetThuc: dayjs().toISOString(),
-      TC_SV_OnThi_DanhSachOnTap_NguonTiepNhan: NguonTiepNhan_WEB,
+      TC_SV_OnThi_DanhSachOnTap_NguonTiepNhan: NguonTiepNhan_WEB.toString(),
     }
-    console.log(data)
+
+    // danh sách ôn tập
+    http.post(
+      'https://api.uneti.edu.vn/api/SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/DanhSachOnTap_GuiKetQua_Add_Para',
+      data,
+    )
+
+    // kết quả ôn tập
+    http.post(
+      'https://api.uneti.edu.vn/api/SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/KetQuaOnTap_GuiKetQua_Add_Para',
+      listCauTraLoiPost.current,
+    )
 
     thoiGianBatDau.current = dayjs().toISOString()
   }
@@ -188,7 +292,7 @@ function DanhSachDeThi() {
     const CauTraLoi4 = await convertQuestionElement(question.CauTraLoi4)
 
     return {
-      Id: question.Id.toString(),
+      Id: (question.Id || question.ID).toString(),
       IdPage: question.IDPage,
       IdCauHoiCha: question.IDCauHoiCha,
       IdCauTraLoi1: question.IDCauTraLoi1,
@@ -231,15 +335,18 @@ function DanhSachDeThi() {
     } else {
       CauHoi = {
         type: 'html',
-        data: await rtfToHtml(element).then((res) =>
-          res.map((e) =>
-            e
-              .map((e1) => e1.innerHTML)
+        data: await rtfToHtml(element).then((res) => {
+          const arr = isArray(res) ? res : [res]
+
+          return (
+            arr
+              .map((e) => e.innerHTML)
               .join('')
               .replace(str, '')
-              .replace(/\[[^\]]+\.mp3\]/g, ''),
-          ),
-        ),
+              // replace [Img_xxxxx.xxx] or [Audio_xxxxx.xxx] from questions
+              .replace(/\[(Img|Audio)_[^\]]+\]/g, '')
+          )
+        }),
       }
     }
 
@@ -327,6 +434,31 @@ function DanhSachDeThi() {
     return groupArray
   }
 
+  const handleChangePage = (val) => {
+    setCurrPage((_currPage) => _currPage + val)
+  }
+
+  const handleSelectAnswer = (question, answer) => {
+    setListCauTraLoi((_listCauTraLoi) => ({
+      ..._listCauTraLoi,
+      [question.Id]: {
+        TC_SV_OnThi_KetQuaOnTap_IDSinhVien: dataSV.IdSinhVien.toString(),
+        TC_SV_OnThi_KetQuaOnTap_MaMonHoc: maMonHoc,
+        TC_SV_OnThi_KetQuaOnTap_IDCauHoi: question.Id,
+        TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi: answer.toString(),
+        TC_SV_OnThi_KetQuaOnTap_CauPhanVan:
+          question.CauPhanVan == null ? 'null' : question.CauPhanVan.toString(),
+      },
+    }))
+  }
+
+  // audio playing
+  const [audioPlaying, setAudioPlaying] = useState(null)
+
+  const handlePlayAudio = (ID) => {
+    setAudioPlaying((_ID) => (_ID == ID ? null : ID))
+  }
+
   console.log(listCauHoi)
 
   return (
@@ -339,168 +471,348 @@ function DanhSachDeThi() {
           Mã phần câu hỏi: {phanCauHoi?.MaPhan}
         </span>
       </div>
-      <div className="flex flex-col text-center justify-start items-center gap-4 bg-white shadow-sm rounded-[26px] mb-4 p-4">
-        {listCauHoi.map((element, index) => (
-          <div
-            key={index}
-            className="w-full bg-white transition-all text-vs-theme-color text-sm select-none rounded-[20px] border-2 p-5 border-slate-100 padding focus-within:border-uneti-primary hover:border-uneti-primary"
-          >
-            <div className="flex flex-col gap-4 items-start mb-3 text-base text-vs-text">
-              <div className="font-semibold text-left flex-1">
-                {(() => {
-                  if (element.CauHoiCha.type === 'image') {
-                    return (
-                      <img
-                        src={`data:image/png;base64,${element.CauHoiCha.data}`}
-                      />
-                    )
-                  }
-                  return (
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: `${element.CauHoiCha}`,
-                      }}
-                    />
-                  )
-                })()}
-              </div>
-              {element.listCauHoiCon.map((e, i) => (
-                <div key={i}>
-                  <div>
-                    {(() => {
-                      if (e.CauHoi.type === 'image') {
-                        return (
-                          <img src={`data:image/png;base64,${e.CauHoi.data}`} />
-                        )
-                      }
-                      return (
-                        <span
-                          dangerouslySetInnerHTML={{
-                            __html: `${e.CauHoi}`,
-                          }}
+      {!isLoading ? (
+        <div>
+          <div className="flex flex-col text-center justify-start items-center gap-4 bg-white shadow-sm rounded-[26px] mb-4 p-4">
+            <div className="w-full flex items-center justify-end">
+              <select
+                value={dieuKienLoc}
+                className="px-2 py-1 w-full max-w-[200px] border-2 p-5 rounded-md cursor-pointer border-slate-100"
+                onChange={(e) => setDieuKienLoc(e.target.value)}
+              >
+                <option value={LOAD_CAU_HOI_DIEU_KIEN_LOC.TatCa}>Tất cả</option>
+                <option value={LOAD_CAU_HOI_DIEU_KIEN_LOC.DaLam}>Đã làm</option>
+                <option value={LOAD_CAU_HOI_DIEU_KIEN_LOC.ChuaLam}>
+                  Chưa làm
+                </option>
+                <option value={LOAD_CAU_HOI_DIEU_KIEN_LOC.PhanVan}>
+                  Phân vân
+                </option>
+              </select>
+            </div>
+            {listCauHoi.length ? (
+              listCauHoi.map((element, index) => (
+                <div
+                  key={index}
+                  className="w-full bg-white transition-all text-vs-theme-color text-sm select-none rounded-[20px] border-2 p-5 border-slate-100 padding"
+                >
+                  <div className="relative flex flex-col gap-4 items-start mb-3 text-base text-vs-text">
+                    {element.IsAudioCauHoiCha ? (
+                      <div className="absolute top-0 right-0">
+                        <UAudio
+                          playCount={0}
+                          id={element.IdCauHoiCha}
+                          isPlaying={element.IdCauHoiCha == audioPlaying}
+                          onPlaying={() => handlePlayAudio(element.IdCauHoiCha)}
                         />
-                      )
-                    })()}
-                  </div>
-                  <div className="flex">
-                    <input
-                      value={e.IdCauTraLoi1}
-                      id={e.IdCauTraLoi1}
-                      name={e.Id}
-                      type="radio"
-                      className="aspect-square w-[20px] mr-2"
-                    />
-                    <label htmlFor={e.IdCauTraLoi1}>
-                      <span>A. </span>
-                      {(() => {
-                        if (e.CauTraLoi1.type === 'image') {
+                      </div>
+                    ) : null}
+
+                    <div className="text-left flex-1">
+                      {
+                        // hiển thị câu hỏi cha
+                        (() => {
+                          if (element.CauHoiCha.type === 'image') {
+                            return (
+                              <img
+                                className="w-full"
+                                src={`data:image/png;base64,${element.CauHoiCha.data}`}
+                              />
+                            )
+                          }
                           return (
-                            <img
-                              src={`data:image/png;base64,${e.CauTraLoi1.data}`}
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html: `${element.CauHoiCha.data}`,
+                              }}
                             />
                           )
-                        }
-                        return (
-                          <span
-                            dangerouslySetInnerHTML={{
-                              __html: `${e.CauTraLoi1}`,
-                            }}
+                        })()
+                      }
+                      {
+                        // hiển thị ảnh câu hỏi cha
+                        element.listAnhCauHoiCha.map((e, i) => (
+                          <img
+                            className="w-full"
+                            key={i}
+                            src={`data:image/png;base64,${e}`}
                           />
-                        )
-                      })()}
-                    </label>
-                  </div>
-                  <div className="flex">
-                    <input
-                      value={e.IdCauTraLoi2}
-                      id={e.IdCauTraLoi2}
-                      name={e.Id}
-                      type="radio"
-                      className="aspect-square w-[20px] mr-2"
-                    />
-                    <label htmlFor={e.IdCauTraLoi2}>
-                      <span>B. </span>
-                      {(() => {
-                        if (e.CauTraLoi2.type === 'image') {
-                          return (
-                            <img
-                              src={`data:image/png;base64,${e.CauTraLoi2.data}`}
+                        ))
+                      }
+                    </div>
+                    {element.listCauHoiCon.map((e, i) => (
+                      <div
+                        key={i}
+                        className="relative w-full flex flex-col md:flex-row gap-3 bg-white transition-all text-vs-theme-color text-sm select-none rounded-[20px] border-2 p-5 border-slate-100 padding focus-within:border-uneti-primary hover:border-uneti-primary"
+                      >
+                        {e.IsAudioCauHoiCon ? (
+                          <div className="absolute top-2 right-2">
+                            <UAudio
+                              playCount={0}
+                              id={e.Id}
+                              isPlaying={e.Id == audioPlaying}
+                              onPlaying={() => handlePlayAudio(e.Id)}
                             />
-                          )
-                        }
-                        return (
-                          <span
-                            dangerouslySetInnerHTML={{
-                              __html: `${e.CauTraLoi2}`,
-                            }}
-                          />
-                        )
-                      })()}
-                    </label>
-                  </div>
-                  <div className="flex">
-                    <input
-                      value={e.IdCauTraLoi3}
-                      id={e.IdCauTraLoi3}
-                      name={e.Id}
-                      type="radio"
-                      className="aspect-square w-[20px] mr-2"
-                    />
-                    <label htmlFor={e.IdCauTraLoi3}>
-                      <span>C. </span>
-                      {(() => {
-                        if (e.CauTraLoi3.type === 'image') {
-                          return (
-                            <img
-                              src={`data:image/png;base64,${e.CauTraLoi3.data}`}
+                          </div>
+                        ) : null}
+                        <div className="flex flex-col gap-3 flex-1 md:max-w-[50%]">
+                          <div className="text-left">
+                            <span className="text-vs-danger font-semibold mr-1">
+                              Câu hỏi ID {e.Id}:{' '}
+                            </span>
+                            {(() => {
+                              if (e.CauHoi.type === 'image') {
+                                return (
+                                  <img
+                                    className="w-full"
+                                    src={`data:image/png;base64,${e.CauHoi.data}`}
+                                  />
+                                )
+                              }
+                              return (
+                                <span
+                                  dangerouslySetInnerHTML={{
+                                    __html: `${e.CauHoi.data}`,
+                                  }}
+                                />
+                              )
+                            })()}
+                          </div>
+                          <div>
+                            {
+                              // hiển thị ảnh câu hỏi
+                              e.listAnhCauHoiCon.map((e1, i1) => (
+                                <img
+                                  className="w-full mx-auto"
+                                  key={i1}
+                                  src={`data:image/png;base64,${e1}`}
+                                />
+                              ))
+                            }
+                          </div>
+                        </div>
+                        <div className="flex-1 flex flex-col justify-center items-start gap-4">
+                          <div className="flex">
+                            <input
+                              onChange={() =>
+                                handleSelectAnswer(e, e.IdCauTraLoi1)
+                              }
+                              value={e.IdCauTraLoi1}
+                              id={e.IdCauTraLoi1}
+                              name={e.Id}
+                              checked={
+                                listCauTraLoi[e.Id]
+                                  ?.TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi ==
+                                e.IdCauTraLoi1
+                              }
+                              type="radio"
+                              className="aspect-square cursor-pointer w-[20px] mr-2"
                             />
-                          )
-                        }
-                        return (
-                          <span
-                            dangerouslySetInnerHTML={{
-                              __html: `${e.CauTraLoi3}`,
-                            }}
-                          />
-                        )
-                      })()}
-                    </label>
-                  </div>
-                  <div className="flex">
-                    <input
-                      value={e.IdCauTraLoi4}
-                      id={e.IdCauTraLoi4}
-                      name={e.Id}
-                      type="radio"
-                      className="aspect-square w-[20px] mr-2"
-                    />
-                    <label htmlFor={e.IdCauTraLoi4}>
-                      <span>D. </span>
-                      {(() => {
-                        if (e.CauTraLoi4.type === 'image') {
-                          return (
-                            <img
-                              src={`data:image/png;base64,${e.CauTraLoi4.data}`}
+                            <label
+                              className="cursor-pointer"
+                              htmlFor={e.IdCauTraLoi1}
+                            >
+                              <span className="text-xs mr-2">A.</span>
+                              {(() => {
+                                if (e.CauTraLoi1.type === 'image') {
+                                  return (
+                                    <img
+                                      className="w-full"
+                                      src={`data:image/png;base64,${e.CauTraLoi1.data}`}
+                                    />
+                                  )
+                                }
+                                return (
+                                  <span
+                                    dangerouslySetInnerHTML={{
+                                      __html: `${e.CauTraLoi1.data}`,
+                                    }}
+                                  />
+                                )
+                              })()}
+                              {e.anhCauTraLoi1 !== null ? (
+                                <img
+                                  className="w-full"
+                                  src={`data:image/png;base64,${e.anhCauTraLoi1}`}
+                                />
+                              ) : null}
+                            </label>
+                          </div>
+                          <div className="flex">
+                            <input
+                              onChange={() =>
+                                handleSelectAnswer(e, e.IdCauTraLoi2)
+                              }
+                              value={e.IdCauTraLoi2}
+                              id={e.IdCauTraLoi2}
+                              name={e.Id}
+                              checked={
+                                listCauTraLoi[e.Id]
+                                  ?.TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi ==
+                                e.IdCauTraLoi2
+                              }
+                              type="radio"
+                              className="aspect-square cursor-pointer w-[20px] mr-2"
                             />
-                          )
-                        }
-                        return (
-                          <span
-                            dangerouslySetInnerHTML={{
-                              __html: `${e.CauTraLoi4}`,
-                            }}
-                          />
-                        )
-                      })()}
-                    </label>
+                            <label
+                              className="cursor-pointer"
+                              htmlFor={e.IdCauTraLoi2}
+                            >
+                              <span className="text-xs mr-2">B.</span>
+                              {(() => {
+                                if (e.CauTraLoi2.type === 'image') {
+                                  return (
+                                    <img
+                                      className="w-full"
+                                      src={`data:image/png;base64,${e.CauTraLoi2.data}`}
+                                    />
+                                  )
+                                }
+                                return (
+                                  <span
+                                    dangerouslySetInnerHTML={{
+                                      __html: `${e.CauTraLoi2.data}`,
+                                    }}
+                                  />
+                                )
+                              })()}
+                              {e.anhCauTraLoi2 !== null ? (
+                                <img
+                                  className="w-full"
+                                  src={`data:image/png;base64,${e.anhCauTraLoi2}`}
+                                />
+                              ) : null}
+                            </label>
+                          </div>
+                          <div className="flex">
+                            <input
+                              onChange={() =>
+                                handleSelectAnswer(e, e.IdCauTraLoi3)
+                              }
+                              value={e.IdCauTraLoi3}
+                              id={e.IdCauTraLoi3}
+                              name={e.Id}
+                              checked={
+                                listCauTraLoi[e.Id]
+                                  ?.TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi ==
+                                e.IdCauTraLoi3
+                              }
+                              type="radio"
+                              className="aspect-square cursor-pointer w-[20px] mr-2"
+                            />
+                            <label
+                              className="cursor-pointer"
+                              htmlFor={e.IdCauTraLoi3}
+                            >
+                              <span className="text-xs mr-2">C.</span>
+                              {(() => {
+                                if (e.CauTraLoi3.type === 'image') {
+                                  return (
+                                    <img
+                                      className="w-full"
+                                      src={`data:image/png;base64,${e.CauTraLoi3.data}`}
+                                    />
+                                  )
+                                }
+                                return (
+                                  <span
+                                    dangerouslySetInnerHTML={{
+                                      __html: `${e.CauTraLoi3.data}`,
+                                    }}
+                                  />
+                                )
+                              })()}
+                              {e.anhCauTraLoi3 !== null ? (
+                                <img
+                                  className="w-full"
+                                  src={`data:image/png;base64,${e.anhCauTraLoi3}`}
+                                />
+                              ) : null}
+                            </label>
+                          </div>
+                          {e.CauTraLoi4.data.length > 0 ? (
+                            <div className="flex">
+                              <input
+                                onChange={() =>
+                                  handleSelectAnswer(e, e.IdCauTraLoi4)
+                                }
+                                value={e.IdCauTraLoi4}
+                                id={e.IdCauTraLoi4}
+                                name={e.Id}
+                                checked={
+                                  listCauTraLoi[e.Id]
+                                    ?.TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi ==
+                                  e.IdCauTraLoi4
+                                }
+                                type="radio"
+                                className="aspect-square cursor-pointer w-[20px] mr-2"
+                              />
+                              <label
+                                className="cursor-pointer"
+                                htmlFor={e.IdCauTraLoi4}
+                              >
+                                <span className="text-xs mr-2">D.</span>
+                                {(() => {
+                                  if (e.CauTraLoi4.type === 'image') {
+                                    return (
+                                      <img
+                                        className="w-full"
+                                        src={`data:image/png;base64,${e.CauTraLoi4.data}`}
+                                      />
+                                    )
+                                  }
+                                  return (
+                                    <span
+                                      dangerouslySetInnerHTML={{
+                                        __html: `${e.CauTraLoi4.data}`,
+                                      }}
+                                    />
+                                  )
+                                })()}
+                                {
+                                  // hiển thị ảnh câu hỏi
+                                  e.anhCauTraLoi4 !== null ? (
+                                    <img
+                                      className="w-full"
+                                      src={`data:image/png;base64,${e.anhCauTraLoi4}`}
+                                    />
+                                  ) : null
+                                }
+                              </label>
+                            </div>
+                          ) : null}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              ))}
-            </div>
+              ))
+            ) : (
+              <div>Không có câu hỏi</div>
+            )}
           </div>
-        ))}
-      </div>
-      <button onClick={handlePostData}>Nộp bài</button>
+          {totalPage > 1 ? (
+            <div className="flex justify-between items-center">
+              <Button
+                disabled={currPage == 1}
+                onClick={() => handleChangePage(-1)}
+              >
+                Trang trước
+              </Button>
+              <Button
+                disabled={currPage == totalPage}
+                onClick={() => handleChangePage(1)}
+              >
+                Trang sau
+              </Button>
+            </div>
+          ) : null}
+        </div>
+      ) : (
+        <div className="w-full flex justify-center items-center">
+          <Loading />
+        </div>
+      )}
     </div>
   )
 }
