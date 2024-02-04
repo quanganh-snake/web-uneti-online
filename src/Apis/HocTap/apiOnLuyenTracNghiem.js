@@ -2,7 +2,7 @@ import http from '@/Configs/http'
 
 // GET
 export const getMonHocTheoSinhVien = (MaSinhVien = '') => {
-  return http.get('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/TheoSinhVien', {
+  return http.get('/SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/TheoSinhVien', {
     params: {
       MaSinhVien,
     },
@@ -10,7 +10,7 @@ export const getMonHocTheoSinhVien = (MaSinhVien = '') => {
 }
 
 export const getCauHoiTheoDe = ({ IDDeThi, SoTrang, SoCauTrenTrang }) =>
-  http.get('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/CauHoi_TheoDeThi_Web', {
+  http.get('/SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/CauHoi_TheoDeThi_Web', {
     params: {
       IDDeThi,
       SoCauTrenTrang,
@@ -20,7 +20,7 @@ export const getCauHoiTheoDe = ({ IDDeThi, SoTrang, SoCauTrenTrang }) =>
   })
 
 export const getTongSoTrangTheoDe = ({ IDDeThi, SoCauTrenTrang }) =>
-  http.get('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/TongSoTrangCauHoi_TheoDe', {
+  http.get('/SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/TongSoTrangCauHoi_TheoDe', {
     params: {
       IDDeThi,
       SoCauTrenTrang,
@@ -28,14 +28,14 @@ export const getTongSoTrangTheoDe = ({ IDDeThi, SoCauTrenTrang }) =>
   })
 
 export const getPhanTheoMonHoc = (MaMonHoc = '') =>
-  http.get('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/PhanCauHoi_TheoMonHoc', {
+  http.get('/SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/PhanCauHoi_TheoMonHoc', {
     params: {
       MaMonHoc: MaMonHoc,
     },
   })
 
 export const getChuongTheoPhanCauHoi = (IDPhan = '') =>
-  http.get('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/ChuongCauHoi_TheoPhan', {
+  http.get('/SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/ChuongCauHoi_TheoPhan', {
     params: {
       IDPhan,
     },
@@ -48,7 +48,7 @@ export const getCauHoiTheoChuong = ({
   SoCauTrenTrang = '10',
   DieuKienLoc,
 }) =>
-  http.get('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/CauHoi_TheoChuong', {
+  http.get('/SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/CauHoi_TheoChuong', {
     params: {
       IDSinhVien,
       IDChuong,
@@ -64,11 +64,26 @@ export const getTongSoTrangTheoChuong = ({
   SoCauTrenTrang = '10',
   DieuKienLoc,
 }) =>
-  http.get('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/TongSoTrangCauHoi_TheoChuong', {
-    params: {
-      IDSinhVien,
-      IDChuong,
-      SoCauTrenTrang,
-      DieuKienLoc,
+  http.get(
+    '/SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/TongSoTrangCauHoi_TheoChuong',
+    {
+      params: {
+        IDSinhVien,
+        IDChuong,
+        SoCauTrenTrang,
+        DieuKienLoc,
+      },
     },
-  })
+  )
+
+export const postDanhSachOnTap = (data = {}) =>
+  http.post(
+    '/SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/DanhSachOnTap_GuiKetQua_Add_Para',
+    data,
+  )
+
+export const postKetQuaOnTap = (data = {}) =>
+  http.post(
+    '/SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/KetQuaOnTap_GuiKetQua_Add_Para',
+    data,
+  )

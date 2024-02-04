@@ -1,0 +1,37 @@
+.radio {
+  --color: red;
+  aspect-ratio: 1;
+  width: 20px;
+  margin-right: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.true {
+  --color: green;
+}
+
+.active::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  aspect-ratio: 1;
+  background-color: #fff;
+  border: 7px solid var(--color);
+  border-radius: 100%;
+}
+
+.radio::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  aspect-ratio: 1;
+  border: 1px solid #f1f5f9;
+  border-radius: 100%;
+}

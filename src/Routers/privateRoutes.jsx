@@ -93,7 +93,6 @@ import DiemDanh from '@/Pages/Clients/TraCuu/DiemDanh/DiemDanh'
 import RenLuyen from '@/Pages/Clients/TraCuu/RenLuyen/RenLuyen'
 import DanhSachPhan from '@/Pages/Clients/HocTap/OnLuyen/OnTap/DanhSachPhan/DanhSachPhan'
 import DanhSachChuong from '@/Pages/Clients/HocTap/OnLuyen/OnTap/DanhSachChuong/DanhSachChuong'
-import DapAn from '@/Pages/Clients/HocTap/OnLuyen/OnTap/DanhSachCauHoi/DapAn'
 
 export const ROLES = {
   G0101: 'GV',
@@ -264,7 +263,6 @@ export const privateRoutes = (
                     path="danhsachcauhoi/:id?"
                     element={<OnTapDanhSachCauHoi />}
                   />
-                  <Route path="dapan/:id?" element={<DapAn />} />
                 </Route>
               </Route>
             </Route>
