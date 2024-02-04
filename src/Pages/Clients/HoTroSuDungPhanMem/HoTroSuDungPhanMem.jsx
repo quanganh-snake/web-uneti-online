@@ -22,7 +22,6 @@ export const HoTroSuDungPhanMem = () => {
 
   return (
     <>
-      <h2 className={bem.e('title')}>Hỗ trợ sử dụng phần mềm</h2>
       <main className={bem.b()}>
         <Sidebar
           category={category}

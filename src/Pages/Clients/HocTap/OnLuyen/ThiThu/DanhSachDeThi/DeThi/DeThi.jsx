@@ -188,6 +188,7 @@ function DeThi() {
     if (timeCountDown != 0) {
       setTimeCountDown(0)
     }
+    setTimeCountDown(0)
   }
 
   async function handlePostData() {
@@ -461,7 +462,7 @@ function DeThi() {
         top: 0,
         behavior: 'smooth',
       })
-      setPageJumpByBtn
+      setPageJumpByBtn(false)
     }
     if (filterState === FILTER_ACTIONS.ALL) {
       getQuestions(currentPage)
@@ -526,7 +527,7 @@ function DeThi() {
             {isMounted ? (
               <div className="z-1">
                 <div
-                  className={`flex flex-col gap-7 p-6 bg-white rounded-[26px] shadow-sm ${isFinished ? 'pointer-events-none opacity-90' : ''}`}
+                  className={`flex flex-col gap-7 p-1 bg-white rounded-[26px] shadow-sm ${isFinished ? 'pointer-events-none opacity-90' : ''}`}
                 >
                   {questionsPaginated.length ? (
                     questionsPaginated.map((question, rootIndex) => {
@@ -585,9 +586,15 @@ function DeThi() {
                   <h3>
                     {isFinished ? (
                       <div>
-                        <div className="flex items-center gap-1">
-                          <p>Điểm của bạn: </p>{' '}
-                          <p className={`font-semibold`}>{getScore}</p>
+                        <div className="flex flex-col md:flex-row items-center justify-center mb-4 md:mb-0 gap-0 md:gap-1">
+                          <p className="text-center text-xs md:text-lg">
+                            Điểm của bạn:{' '}
+                          </p>{' '}
+                          <p
+                            className={`font-semibold text-center text-xs md:text-lg`}
+                          >
+                            {getScore}
+                          </p>
                         </div>
 
                         <div className="flex items-center gap-1">
@@ -608,7 +615,9 @@ function DeThi() {
                         </div>
                       </div>
                     ) : (
-                      'Thời gian còn lại'
+                      <span className="text-center text-xs md:text-lg">
+                        Thời gian còn lại
+                      </span>
                     )}
                   </h3>
 

@@ -78,7 +78,7 @@ export const homeMain = [
     icon: icoTCTTTS,
     path: '/hotrothietbi',
     moduleActive: true,
-    roleActive: ['GV', 'SV'],
+    roleActive: ['GV'],
   },
   {
     title: 'Hỗ trợ sử dụng phần mềm',

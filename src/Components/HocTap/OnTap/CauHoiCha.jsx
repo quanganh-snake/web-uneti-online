@@ -28,11 +28,11 @@ export default function CauHoiCha(props) {
   return (
     <div
       id={firstQuestion.IDCauHoiCha}
-      className="p-6 rounded-[26px] border-2 border-slate-200 flex flex-col gap-4 transition-all hover:border-opacity-90"
+      className="p-2 rounded-[26px] border-2 border-slate-200 flex flex-col gap-4 transition-all hover:border-opacity-90"
     >
-      <div className="flex items-start gap-2 flex-wrap">
+      <div className="flex flex-col items-start gap-2 flex-wrap">
         <div
-          className="flex-1 mt-[2px]"
+          className="flex-1 mt-[2px] max-w-[320px] max-h-[300px] overflow-y-auto md:max-w-full md:max-h-full shadow-md p-2 rounded-md md:shadow-none"
           dangerouslySetInnerHTML={{
             __html: `<div>${firstQuestion.CauHoiCha}</div>`,
           }}
@@ -40,36 +40,36 @@ export default function CauHoiCha(props) {
 
         {/* images */}
         <div className="flex gap-2">
-          {firstQuestion.AnhCauHoiCha_1 ? (
+          {firstQuestion.AnhCauHoiCha_1 && (
             <img
-              className="rounded-md max-h-52"
-              src={`data:image/png;base64,${AnhCauHoiCha_1}`}
+              className="rounded-md max-h-96"
+              src={`data:image/png;base64,${firstQuestion.AnhCauHoiCha_1}`}
             />
-          ) : null}
-          {firstQuestion.AnhCauHoiCha_2 ? (
+          )}
+          {firstQuestion.AnhCauHoiCha_2 && (
             <img
-              className="rounded-md max-h-52"
-              src={`data:image/png;base64,${AnhCauHoiCha_2}`}
+              className="rounded-md max-h-96"
+              src={`data:image/png;base64,${firstQuestion.AnhCauHoiCha_2}`}
             />
-          ) : null}
-          {firstQuestion.AnhCauHoiCha_3 ? (
+          )}
+          {firstQuestion.AnhCauHoiCha_3 && (
             <img
-              className="rounded-md max-h-52"
-              src={`data:image/png;base64,${AnhCauHoiCha_3}`}
+              className="rounded-md max-h-96"
+              src={`data:image/png;base64,${firstQuestion.AnhCauHoiCha_3}`}
             />
-          ) : null}
-          {firstQuestion.AnhCauHoiCha_4 ? (
+          )}
+          {firstQuestion.AnhCauHoiCha_4 && (
             <img
-              className="rounded-md max-h-52"
-              src={`data:image/png;base64,${AnhCauHoiCha_4}`}
+              className="rounded-md max-h-96"
+              src={`data:image/png;base64,${firstQuestion.AnhCauHoiCha_4}`}
             />
-          ) : null}
-          {firstQuestion.AnhCauHoiCha_5 ? (
+          )}
+          {firstQuestion.AnhCauHoiCha_5 && (
             <img
-              className="rounded-md max-h-52"
-              src={`data:image/png;base64,${AnhCauHoiCha_5}`}
+              className="rounded-md max-h-96"
+              src={`data:image/png;base64,${firstQuestion.AnhCauHoiCha_5}`}
             />
-          ) : null}
+          )}
         </div>
 
         {/* Audio */}

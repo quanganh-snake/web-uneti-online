@@ -14,7 +14,7 @@ export default function OnLuyen() {
         <div className="w-full grid grid-cols-2 gap-10">
           {homeOnLuyen.map((item, index) => {
             return (
-              <div className="col-span-1" key={index}>
+              <div className="col-span-2 md:col-span-1" key={index}>
                 <ModuleItem item={item} />
               </div>
             )

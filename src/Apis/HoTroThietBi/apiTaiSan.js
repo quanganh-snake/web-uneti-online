@@ -1,4 +1,5 @@
 import http from '@/Configs/http'
+import { NguonTiepNhan_WEB } from '@/Services/Static/dataStatic'
 
 // POST
 export const postYeuCauBaoHongTaiSan = async (
@@ -11,8 +12,10 @@ export const postYeuCauBaoHongTaiSan = async (
     DT_QLTS_TS_HoTroThietBi_BaoHong_MoTa: '',
     DT_QLTS_TS_HoTroThietBi_XuLy_MaNhanSu: '',
     DT_QLTS_TS_HoTroThietBi_XuLy_NgayXuLy: '',
+    DT_QLTS_TS_HoTroThietBi_XuLy_GuiMail: 'null',
     DT_QLTS_TS_HoTroThietBi_XacNhan_HoanThanh: '',
     DT_QLTS_TS_HoTroThietBi_XacNhan_NgayXacNhan: '',
+    DT_QLTS_TS_HoTroThietBi_NguonTiepNhan: NguonTiepNhan_WEB,
   },
 ) => {
   try {
@@ -29,10 +32,42 @@ export const postYeuCauBaoHongTaiSan = async (
   }
 }
 
+// DELETE
+export const deleteYeuCauBaoHongTaiSan = async (DT_QLTS_TS_HoTroThietBi_ID) => {
+  return http.delete('SP_DT_QLP_Phong_TiepNhan/HoTroThietBi_Del_Para', {
+    data: {
+      DT_QLTS_TS_HoTroThietBi_ID: DT_QLTS_TS_HoTroThietBi_ID.toString(),
+    },
+  })
+}
+
+// PUT
+// 1. Cập nhật ngày xử lý báo hỏng
+export const putNgayXuLyYeuCauBaoHong = async (
+  data = {
+    DT_QLTS_TS_HoTroThietBi_ID,
+    DT_QLTS_TS_HoTroThietBi_XuLy_MaNhanSu,
+    DT_QLTS_TS_HoTroThietBi_XuLy_NgayXuLy,
+    DT_QLTS_TS_HoTroThietBi_XuLy_GuiMail,
+  },
+) => {
+  return await http.put(
+    'SP_DT_QLP_Phong_TiepNhan/HoTroThietBi_XuLy_Edit_Para',
+    data,
+  )
+}
+
 // GET
-export const getDanhSachYeuCau = async () => {
+export const getDanhSachBaoHong = async (MaNhanSu = '') => {
   try {
-    const response = await http.get(`SP_DT_QLTS_TiepNhan/Load`)
+    const response = await http.get(
+      `SP_DT_QLP_Phong_TiepNhan/HoTroThietBi_Load_BaoHong`,
+      {
+        params: {
+          MaNhanSu,
+        },
+      },
+    )
     const data = await response.data
     const listData = await data.body
     return listData

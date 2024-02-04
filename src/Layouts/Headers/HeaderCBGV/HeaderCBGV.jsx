@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 // data
 import noAvatar from '@/assets/Images/noavatar.png'
@@ -16,6 +16,7 @@ function HeaderCBGV() {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { pathname } = useLocation()
 
   const state = store.getState()
   const refreshToken = state?.auth?.login?.currentToken?.refreshToken
@@ -77,7 +78,40 @@ function HeaderCBGV() {
           {/* END: USER - Profile */}
 
           {/* START: Navbar Pages */}
-          <NavbarTTHCGV />
+          {(pathname === '/hotrothietbi' ||
+            pathname.includes('/hotrothietbi/')) && (
+            <div className="col-span-8 lg:col-span-7">
+              <p className="w-full text-center text-2xl font-bold uppercase text-uneti-primary">
+                Hỗ trợ thiết bị
+              </p>
+            </div>
+          )}
+          {pathname.includes('/hotrothietbigiangduong') && (
+            <div className="col-span-8 lg:col-span-7">
+              <p className="w-full text-center text-2xl font-bold uppercase text-uneti-primary">
+                Hỗ trợ thiết bị giảng đường
+              </p>
+            </div>
+          )}
+          {pathname.includes('/hotrosudungphanmem') && (
+            <div className="col-span-8 lg:col-span-7">
+              <p className="w-full text-center text-2xl font-bold uppercase text-uneti-primary">
+                Hỗ trợ sử dụng phần mềm
+              </p>
+            </div>
+          )}
+          {pathname === '/uneti' && <div className="col-span-7"></div>}
+          {(pathname.includes('/tthcgiangvien') ||
+            pathname.includes('/admin')) && (
+            <div className="col-span-7">
+              <div className="flex items-center justify-center">
+                <NavbarTTHCGV />
+              </div>
+            </div>
+          )}
+          {pathname.includes('/error') && (
+            <div className="col-span-8 lg:col-span-7"></div>
+          )}
           {/* END: Navbar Pages */}
         </div>
       </nav>
