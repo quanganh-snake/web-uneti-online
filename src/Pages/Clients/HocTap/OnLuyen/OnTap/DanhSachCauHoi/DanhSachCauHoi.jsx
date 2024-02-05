@@ -38,6 +38,7 @@ function DanhSachDeThi() {
   const idPhanCauHoi = pathname.split('/').at(-3)
   const idChuong = pathname.split('/').at(-1)
 
+  const [isShowAnswer, setIsShowAnswer] = useState(false)
   const [monHoc, setMonHoc] = useState(null)
   const [phanCauHoi, setPhanCauHoi] = useState(null)
   const [chuong, setChuong] = useState(null)
@@ -239,7 +240,7 @@ function DanhSachDeThi() {
 
     retries(getAllCauHoi)
     retries(getTotalPage)
-  }, [dieuKienLoc, currPage])
+  }, [dieuKienLoc, currPage, isShowAnswer])
 
   useEffect(() => {
     listCauTraLoiPost.current = values(listCauTraLoi)
@@ -259,6 +260,7 @@ function DanhSachDeThi() {
     await postDanhSachOnTap(data)
 
     // kết quả ôn tập
+    console.log(listCauTraLoiPost)
     await postKetQuaOnTap(listCauTraLoiPost.current)
 
     thoiGianBatDau.current = dayjs().toISOString()
@@ -467,10 +469,10 @@ function DanhSachDeThi() {
       [question.Id]: {
         ..._listCauTraLoi[question.Id],
         TC_SV_OnThi_KetQuaOnTap_CauPhanVan:
-          _listCauTraLoi[question.Id].TC_SV_OnThi_KetQuaOnTap_CauPhanVan ==
+          _listCauTraLoi[question?.Id]?.TC_SV_OnThi_KetQuaOnTap_CauPhanVan ==
           'true'
-            ? 'null'
-            : 'true',
+            ? false
+            : true,
       },
     }))
   }
@@ -503,13 +505,16 @@ function DanhSachDeThi() {
   }
 
   const handleSaveData = async () => {
-    await handlePostData()
-    Swal.fire({
-      title: 'Thông báo',
-      text: 'Đã lưu thành công',
-      icon: 'success',
-      confirmButtonText: 'Đóng',
-    })
+    if (!isShowAnswer) {
+      await handlePostData()
+      Swal.fire({
+        title: 'Thông báo',
+        text: 'Đã lưu thành công',
+        icon: 'success',
+        confirmButtonText: 'Đóng',
+      })
+    }
+    setIsShowAnswer((_isShowAnswer) => !_isShowAnswer)
   }
 
   return (
@@ -538,7 +543,9 @@ function DanhSachDeThi() {
                 Phân vân
               </option>
             </select>
-            <Button onClick={handleSaveData}>Lưu đáp án</Button>
+            <Button onClick={handleSaveData}>
+              {isShowAnswer ? 'Tiếp tục làm' : 'Lưu đáp án'}
+            </Button>
           </div>
           {isLoading ? (
             <div className="w-full flex justify-center items-center">
@@ -631,7 +638,7 @@ function DanhSachDeThi() {
                       <div className="flex flex-col gap-3 flex-1 md:max-w-[50%]">
                         <div className="text-left">
                           <span className="text-vs-danger font-semibold mr-1">
-                            Câu hỏi ID {e.Id}:{' '}
+                            Câu hỏi {i + 1}:{' '}
                           </span>
                           {(() => {
                             if (e.CauHoi.type === 'image') {
@@ -655,7 +662,6 @@ function DanhSachDeThi() {
                           {
                             // hiển thị ảnh câu hỏi
                             e.listAnhCauHoiCon.map((e1, i1) => {
-                              console.log(e1)
                               return (
                                 <img
                                   className="mx-auto"
@@ -670,6 +676,14 @@ function DanhSachDeThi() {
                       <div className="flex-1 flex flex-col justify-center items-start gap-4">
                         <div className="flex items-start justify-start">
                           <Radio
+                            color={
+                              isShowAnswer
+                                ? e.Dung
+                                  ? 'primary'
+                                  : 'danger'
+                                : 'primary'
+                            }
+                            disabled={isShowAnswer}
                             align="start"
                             onChange={(IDCauTraLoi) =>
                               handleSelectAnswer(e, IDCauTraLoi)
@@ -714,6 +728,14 @@ function DanhSachDeThi() {
                         </div>
                         <div className="flex items-start justify-start">
                           <Radio
+                            color={
+                              isShowAnswer
+                                ? e.Dung
+                                  ? 'primary'
+                                  : 'danger'
+                                : 'primary'
+                            }
+                            disabled={isShowAnswer}
                             align="start"
                             onChange={(IDCauTraLoi) =>
                               handleSelectAnswer(e, IDCauTraLoi)
@@ -758,6 +780,14 @@ function DanhSachDeThi() {
                         </div>
                         <div className="flex items-start justify-start">
                           <Radio
+                            color={
+                              isShowAnswer
+                                ? e.Dung
+                                  ? 'primary'
+                                  : 'danger'
+                                : 'primary'
+                            }
+                            disabled={isShowAnswer}
                             align="start"
                             onChange={(IDCauTraLoi) =>
                               handleSelectAnswer(e, IDCauTraLoi)
@@ -803,6 +833,14 @@ function DanhSachDeThi() {
                         {e.CauTraLoi4.data.length > 0 ? (
                           <div className="flex items-start justify-start">
                             <Radio
+                              color={
+                                isShowAnswer
+                                  ? e.Dung
+                                    ? 'primary'
+                                    : 'danger'
+                                  : 'primary'
+                              }
+                              disabled={isShowAnswer}
                               align="start"
                               onChange={(IDCauTraLoi) =>
                                 handleSelectAnswer(e, IDCauTraLoi)

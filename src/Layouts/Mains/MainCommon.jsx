@@ -25,7 +25,7 @@ function MainCommon() {
         <HeaderCBGV />
       )}
 
-      <main className="px-5 mt-[140px] mb-[50px] max-w-7xl mx-auto gap-10 min-h-[500px]">
+      <main className="px-5 mt-20 xl:mt-30 mb-[50px] max-w-7xl mx-auto gap-10 min-h-[500px]">
         <RouterCore />
       </main>
       {pathname === '/' || pathname === '/dangnhap' ? null : <Footer />}

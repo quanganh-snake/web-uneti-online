@@ -6,6 +6,9 @@ import path from 'path'
 export default defineConfig({
   plugins: [react()],
   assetsInclude: ['/src/assets/*.{ico,jpg,jpeg,gif,svg,.png}'],
+  server: {
+    forceHttps: true,
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src/'),
