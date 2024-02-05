@@ -1,4 +1,3 @@
-import React from 'react'
 import UAudio from './Audio'
 import CauHoi from './CauHoi'
 import { OnTapContext } from '@/Services/Tokens'
@@ -28,7 +27,7 @@ export default function CauHoiCha(props) {
   return (
     <div
       id={firstQuestion.IDCauHoiCha}
-      className="p-2 rounded-[26px] border-2 border-slate-200 flex flex-col gap-4 transition-all hover:border-opacity-90"
+      className="px-2 py-3 md:px-3 bg-white shadow-sm rounded-[26px] border border-slate-200 flex flex-col gap-4 transition-all hover:border-opacity-90"
     >
       <div className="flex flex-col items-start gap-2 flex-wrap">
         <div

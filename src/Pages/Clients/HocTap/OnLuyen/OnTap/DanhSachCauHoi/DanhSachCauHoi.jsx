@@ -23,6 +23,8 @@ import UAudio from '@/Components/HocTap/OnTap/Audio'
 import { BsFlag, BsFlagFill } from 'react-icons/bs'
 
 import './DanhSachCauHoi.scss'
+import { Radio } from '@/Components/Base/Radio/Radio'
+import Swal from 'sweetalert2'
 
 const BASE64_ICON_LOA = `iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAG8SURBVDhPrZJLq0FRGIb9GLmUe0IhJTMDEyMDMxMzhiYGzJDLSCZGSiRySYqJlHINP+g9fV+t1d7OcuRk19Ne69vvfvZe31qGx+OBb2GgS/VAS7fbhcvlQqfTUT7X8lbYbrfh9XoxHA4Ri8WUGS1/CpvNJoLBIA6HA7bbLcLhsDKn5aVQyI7HI8+fhbvdDrfbTc4FSmGj0dDJiGdhq9WC3+/Her2WNYKF9XodoVAIgUAADocDPp8P+/1eF1QteTAYwO126z7MQqPRiPl8juVyCY/H80tGCOFms0EqleI51QuFAvL5vMyx0GKxyILdbpdjLUJ4v99Rq9V4JdTD0+mke+djoZgnk0n0ej0eO51OXK9XHv9bGI/HMRqNeEzviB3/WHi5XJDL5RCNRrlO/aaNETkWmkwmVKtV7o3NZsNisZABgRDSvVQq4Xw+cz2bzaJYLMocC/v9Pn+VSKfTMJvNvOMiRDwvmahUKohEIroDzkJtiJhOp6A2TCYTWXsW0moSiYTuDBJKITGbzWC1WqVU9YcqXgoJOuwkHY/H3xES9Ie0UeVymY+KKqPlrZBYrVbIZDK6nr6Chd+9DIYfXVBcwSrtT6gAAAAASUVORK5CYII=`
 
@@ -35,7 +37,6 @@ function DanhSachDeThi() {
   const idPhanCauHoi = pathname.split('/').at(-3)
   const idChuong = pathname.split('/').at(-1)
 
-  const [isShowAnswer, setIsShowAnswer] = useState(false)
   const [monHoc, setMonHoc] = useState(null)
   const [phanCauHoi, setPhanCauHoi] = useState(null)
   const [chuong, setChuong] = useState(null)
@@ -236,7 +237,7 @@ function DanhSachDeThi() {
 
     retries(getAllCauHoi)
     retries(getTotalPage)
-  }, [dieuKienLoc, isShowAnswer, currPage])
+  }, [dieuKienLoc, currPage])
 
   useEffect(() => {
     listCauTraLoiPost.current = values(listCauTraLoi)
@@ -434,13 +435,13 @@ function DanhSachDeThi() {
     return groupArray
   }
 
-  const handleChangePage = (val) => {
-    handlePostData()
+  const handleChangePage = async (val) => {
+    await handlePostData()
     setCurrPage((_currPage) => _currPage + val)
   }
 
-  const handleChangeDieuKienLoc = (e) => {
-    handlePostData()
+  const handleChangeDieuKienLoc = async (e) => {
+    await handlePostData()
     setDieuKienLoc(e.target.value)
   }
 
@@ -449,7 +450,11 @@ function DanhSachDeThi() {
       ..._listCauTraLoi,
       [question.Id]: {
         ..._listCauTraLoi[question.Id],
-        TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi: answer.toString(),
+        TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi:
+          `${answer}` ==
+          _listCauTraLoi[question.Id]?.TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi
+            ? undefined
+            : `${answer}`,
       },
     }))
   }
@@ -475,9 +480,14 @@ function DanhSachDeThi() {
     setAudioPlaying((_ID) => (_ID == ID ? null : ID))
   }
 
-  const toggleShowAnswer = async () => {
+  const handleSaveData = async () => {
     await handlePostData()
-    setIsShowAnswer((_isShowAnswer) => !_isShowAnswer)
+    Swal.fire({
+      title: 'Thông báo',
+      text: 'Đã lưu thành công',
+      icon: 'success',
+      confirmButtonText: 'Đóng',
+    })
   }
 
   return (
@@ -490,177 +500,160 @@ function DanhSachDeThi() {
           {phanCauHoi?.TenPhan} - {chuong?.TenChuong}
         </span>
       </div>
-      {!isLoading ? (
-        <div>
-          <div className="flex flex-col text-center justify-start items-center gap-4 bg-white shadow-sm rounded-[26px] mb-4 p-4">
-            <div className="w-full flex items-center justify-end gap-2">
-              {!isShowAnswer ? (
-                <select
-                  value={dieuKienLoc}
-                  className="px-2 py-1 w-full max-w-[200px] border-2 p-5 rounded-md cursor-pointer border-slate-100"
-                  onChange={(e) => handleChangeDieuKienLoc(e)}
-                >
-                  <option value={LOAD_CAU_HOI_DIEU_KIEN_LOC.TatCa}>
-                    Tất cả
-                  </option>
-                  <option value={LOAD_CAU_HOI_DIEU_KIEN_LOC.DaLam}>
-                    Đã làm
-                  </option>
-                  <option value={LOAD_CAU_HOI_DIEU_KIEN_LOC.ChuaLam}>
-                    Chưa làm
-                  </option>
-                  <option value={LOAD_CAU_HOI_DIEU_KIEN_LOC.PhanVan}>
-                    Phân vân
-                  </option>
-                </select>
-              ) : null}
-              <Button onClick={() => toggleShowAnswer()}>
-                {isShowAnswer ? 'Trở lại bài làm' : 'kiểm tra kết quả'}
-              </Button>
+      <div>
+        <div className="flex flex-col text-center justify-start items-center gap-4 rounded-[26px] mb-4">
+          <div className="w-full flex items-center justify-end gap-2">
+            <select
+              value={dieuKienLoc}
+              className="px-3 py-2 shadow-sm w-full max-w-[200px] outline-none border-none p-5 rounded-xl cursor-pointer"
+              onChange={handleChangeDieuKienLoc}
+            >
+              <option value={LOAD_CAU_HOI_DIEU_KIEN_LOC.TatCa}>Tất cả</option>
+              <option value={LOAD_CAU_HOI_DIEU_KIEN_LOC.DaLam}>Đã làm</option>
+              <option value={LOAD_CAU_HOI_DIEU_KIEN_LOC.ChuaLam}>
+                Chưa làm
+              </option>
+              <option value={LOAD_CAU_HOI_DIEU_KIEN_LOC.PhanVan}>
+                Phân vân
+              </option>
+            </select>
+            <Button onClick={handleSaveData}>Lưu đáp án</Button>
+          </div>
+          {isLoading ? (
+            <div className="w-full flex justify-center items-center">
+              <Loading />
             </div>
-            {listCauHoi.length ? (
-              listCauHoi.map((element, index) => (
-                <div
-                  key={index}
-                  className="w-full bg-white transition-all text-vs-theme-color text-sm select-none rounded-[20px] border-2 p-5 border-slate-100 padding"
-                >
-                  <div className="relative flex flex-col gap-4 items-start mb-3 text-base text-vs-text">
-                    {element.IsAudioCauHoiCha ? (
-                      <div className="absolute top-0 right-0">
-                        <UAudio
-                          playCount={0}
-                          id={element.IdCauHoiCha}
-                          isPlaying={element.IdCauHoiCha == audioPlaying}
-                          onPlaying={() => handlePlayAudio(element.IdCauHoiCha)}
-                        />
-                      </div>
-                    ) : null}
+          ) : listCauHoi.length ? (
+            listCauHoi.map((element, index) => (
+              <div
+                key={index}
+                className="w-full bg-white transition-all text-vs-theme-color text-sm select-none rounded-[26px] border-2 p-3 border-slate-200 padding"
+              >
+                <div className="relative flex flex-col mb-3 last-of-type:mb-0 gap-4 items-start text-base text-vs-text">
+                  {element.IsAudioCauHoiCha ? (
+                    <div className="absolute top-0 right-0">
+                      <UAudio
+                        playCount={0}
+                        id={element.IdCauHoiCha}
+                        isPlaying={element.IdCauHoiCha == audioPlaying}
+                        onPlaying={() => handlePlayAudio(element.IdCauHoiCha)}
+                      />
+                    </div>
+                  ) : null}
 
-                    <div className="text-left flex-1">
-                      {
-                        // hiển thị câu hỏi cha
-                        (() => {
-                          if (element.CauHoiCha.type === 'image') {
-                            return (
-                              <img
-                                className="w-full"
-                                src={`data:image/png;base64,${element.CauHoiCha.data}`}
-                              />
-                            )
-                          }
+                  <div className="text-left flex-1">
+                    {
+                      // hiển thị câu hỏi cha
+                      (() => {
+                        if (element.CauHoiCha.type === 'image') {
                           return (
-                            <span
-                              dangerouslySetInnerHTML={{
-                                __html: `${element.CauHoiCha.data}`,
-                              }}
+                            <img
+                              className="w-full"
+                              src={`data:image/png;base64,${element.CauHoiCha.data}`}
                             />
                           )
-                        })()
-                      }
-                      {
-                        // hiển thị ảnh câu hỏi cha
-                        element.listAnhCauHoiCha.map((e, i) => (
-                          <img
-                            className="w-full"
-                            key={i}
-                            src={`data:image/png;base64,${e}`}
+                        }
+                        return (
+                          <span
+                            dangerouslySetInnerHTML={{
+                              __html: `${element.CauHoiCha.data}`,
+                            }}
                           />
-                        ))
-                      }
-                    </div>
-                    {element.listCauHoiCon.map((e, i) => (
-                      <div
-                        key={i}
-                        className="relative w-full flex flex-col md:flex-row gap-3 bg-white transition-all text-vs-theme-color text-sm select-none rounded-[20px] border-2 p-5 border-slate-100 padding focus-within:border-uneti-primary hover:border-uneti-primary"
-                      >
-                        <div className="absolute top-2 right-2 flex justify-end items-start">
-                          {e.IsAudioCauHoiCon && (
-                            <div className="cursor-pointer">
-                              <UAudio
-                                playCount={0}
-                                id={e.Id}
-                                isPlaying={e.Id == audioPlaying}
-                                onPlaying={() => handlePlayAudio(e.Id)}
-                              />
-                            </div>
-                          )}
-                          <div
-                            onClick={() => handleWonderQuestion(e)}
-                            className="w-[36px] text-vs-warn cursor-pointer aspect-square flex justify-center items-center rounded-full hover:bg-vs-warn hover:bg-opacity-20 transition-all duration-200"
-                          >
-                            {listCauTraLoi[e.Id]
-                              .TC_SV_OnThi_KetQuaOnTap_CauPhanVan == 'true' ? (
-                              <BsFlagFill size={24} />
-                            ) : (
-                              <BsFlag size={24} />
-                            )}
+                        )
+                      })()
+                    }
+                    {
+                      // hiển thị ảnh câu hỏi cha
+                      element.listAnhCauHoiCha.map((e, i) => (
+                        <img
+                          className="w-full"
+                          key={i}
+                          src={`data:image/png;base64,${e}`}
+                        />
+                      ))
+                    }
+                  </div>
+                  {element.listCauHoiCon.map((e, i) => (
+                    <div
+                      key={i}
+                      className="relative w-full flex flex-col md:flex-row gap-3 bg-white transition-all text-vs-theme-color text-sm select-none rounded-[20px] border-2 p-5 border-slate-100 padding focus-within:border-uneti-primary hover:border-uneti-primary"
+                    >
+                      <div className="absolute top-2 right-2 flex justify-end items-start">
+                        {e.IsAudioCauHoiCon && (
+                          <div className="cursor-pointer">
+                            <UAudio
+                              playCount={0}
+                              id={e.Id}
+                              isPlaying={e.Id == audioPlaying}
+                              onPlaying={() => handlePlayAudio(e.Id)}
+                            />
                           </div>
+                        )}
+                        <div
+                          onClick={() => handleWonderQuestion(e)}
+                          className="w-[36px] text-vs-warn cursor-pointer aspect-square flex justify-center items-center rounded-full hover:bg-vs-warn hover:bg-opacity-20 transition-all duration-200"
+                        >
+                          {listCauTraLoi[e.Id]
+                            .TC_SV_OnThi_KetQuaOnTap_CauPhanVan == 'true' ? (
+                            <BsFlagFill size={24} />
+                          ) : (
+                            <BsFlag size={24} />
+                          )}
                         </div>
-                        <div className="flex flex-col gap-3 flex-1 md:max-w-[50%]">
-                          <div className="text-left">
-                            <span className="text-vs-danger font-semibold mr-1">
-                              Câu hỏi ID {e.Id}:{' '}
-                            </span>
-                            {(() => {
-                              if (e.CauHoi.type === 'image') {
-                                return (
-                                  <img
-                                    className="w-full"
-                                    src={`data:image/png;base64,${e.CauHoi.data}`}
-                                  />
-                                )
-                              }
+                      </div>
+                      <div className="flex flex-col gap-3 flex-1 md:max-w-[50%]">
+                        <div className="text-left">
+                          <span className="text-vs-danger font-semibold mr-1">
+                            Câu hỏi ID {e.Id}:{' '}
+                          </span>
+                          {(() => {
+                            if (e.CauHoi.type === 'image') {
                               return (
-                                <span
-                                  dangerouslySetInnerHTML={{
-                                    __html: `${e.CauHoi.data}`,
-                                  }}
+                                <img
+                                  className="w-full"
+                                  src={`data:image/png;base64,${e.CauHoi.data}`}
                                 />
                               )
-                            })()}
-                          </div>
-                          <div>
-                            {
-                              // hiển thị ảnh câu hỏi
-                              e.listAnhCauHoiCon.map((e1, i1) => {
-                                console.log(e1)
-                                return (
-                                  <img
-                                    className="mx-auto"
-                                    key={i1}
-                                    src={`data:image/png;base64,${e1}`}
-                                  />
-                                )
-                              })
                             }
-                          </div>
-                        </div>
-                        <div className="flex-1 flex flex-col justify-center items-start gap-4">
-                          <div className="flex items-start justify-start">
-                            <div>
-                              <input
-                                disabled={isShowAnswer}
-                                onChange={() =>
-                                  handleSelectAnswer(e, e.IdCauTraLoi1)
-                                }
-                                value={e.IdCauTraLoi1}
-                                id={e.IdCauTraLoi1}
-                                name={e.Id}
-                                checked={
-                                  listCauTraLoi[e.Id]
-                                    ?.TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi ==
-                                  e.IdCauTraLoi1
-                                }
-                                type="radio"
-                                className={`radio ${
-                                  isShowAnswer && e.CauTraLoi == e.IdCauTraLoi1
-                                    ? e.Dung
-                                      ? 'active true'
-                                      : 'active'
-                                    : ''
-                                }`}
+                            return (
+                              <span
+                                dangerouslySetInnerHTML={{
+                                  __html: `${e.CauHoi.data}`,
+                                }}
                               />
-                            </div>
+                            )
+                          })()}
+                        </div>
+                        <div>
+                          {
+                            // hiển thị ảnh câu hỏi
+                            e.listAnhCauHoiCon.map((e1, i1) => {
+                              console.log(e1)
+                              return (
+                                <img
+                                  className="mx-auto"
+                                  key={i1}
+                                  src={`data:image/png;base64,${e1}`}
+                                />
+                              )
+                            })
+                          }
+                        </div>
+                      </div>
+                      <div className="flex-1 flex flex-col justify-center items-start gap-4">
+                        <div className="flex items-start justify-start">
+                          <Radio
+                            align="start"
+                            onChange={(IDCauTraLoi) =>
+                              handleSelectAnswer(e, IDCauTraLoi)
+                            }
+                            value={e.IdCauTraLoi1}
+                            modelValue={
+                              listCauTraLoi[e.Id]
+                                ?.TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi
+                            }
+                            id={e.IdCauTraLoi1}
+                          >
                             <label
                               className="cursor-pointer text-left"
                               htmlFor={e.IdCauTraLoi1}
@@ -690,32 +683,21 @@ function DanhSachDeThi() {
                                 />
                               ) : null}
                             </label>
-                          </div>
-                          <div className="flex items-start justify-start">
-                            <div>
-                              <input
-                                disabled={isShowAnswer}
-                                onChange={() =>
-                                  handleSelectAnswer(e, e.IdCauTraLoi2)
-                                }
-                                value={e.IdCauTraLoi2}
-                                id={e.IdCauTraLoi2}
-                                name={e.Id}
-                                checked={
-                                  listCauTraLoi[e.Id]
-                                    ?.TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi ==
-                                  e.IdCauTraLoi2
-                                }
-                                type="radio"
-                                className={`radio ${
-                                  isShowAnswer && e.CauTraLoi == e.IdCauTraLoi2
-                                    ? e.Dung
-                                      ? 'active true'
-                                      : 'active'
-                                    : ''
-                                }`}
-                              />
-                            </div>
+                          </Radio>
+                        </div>
+                        <div className="flex items-start justify-start">
+                          <Radio
+                            align="start"
+                            onChange={(IDCauTraLoi) =>
+                              handleSelectAnswer(e, IDCauTraLoi)
+                            }
+                            value={e.IdCauTraLoi2}
+                            modelValue={
+                              listCauTraLoi[e.Id]
+                                ?.TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi
+                            }
+                            id={e.IdCauTraLoi2}
+                          >
                             <label
                               className="cursor-pointer text-left"
                               htmlFor={e.IdCauTraLoi2}
@@ -745,34 +727,21 @@ function DanhSachDeThi() {
                                 />
                               ) : null}
                             </label>
-                          </div>
-                          <div className="flex items-start justify-start">
-                            <input
-                              disabled={isShowAnswer}
-                              onChange={() =>
-                                handleSelectAnswer(e, e.IdCauTraLoi3)
-                              }
-                              value={e.IdCauTraLoi3}
-                              id={e.IdCauTraLoi3}
-                              name={e.Id}
-                              checked={
-                                listCauTraLoi[e.Id]
-                                  ?.TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi ==
-                                e.IdCauTraLoi3
-                              }
-                              type="radio"
-                              className={`radio ${
-                                isShowAnswer &&
-                                listCauTraLoi[e.Id]
-                                  ?.TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi ==
-                                  e.IdCauTraLoi3
-                                  ? e.Dung
-                                    ? 'active true'
-                                    : 'active'
-                                  : ''
-                              }`}
-                            />
-
+                          </Radio>
+                        </div>
+                        <div className="flex items-start justify-start">
+                          <Radio
+                            align="start"
+                            onChange={(IDCauTraLoi) =>
+                              handleSelectAnswer(e, IDCauTraLoi)
+                            }
+                            value={e.IdCauTraLoi3}
+                            modelValue={
+                              listCauTraLoi[e.Id]
+                                ?.TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi
+                            }
+                            id={e.IdCauTraLoi3}
+                          >
                             <label
                               className="cursor-pointer text-left"
                               htmlFor={e.IdCauTraLoi3}
@@ -802,32 +771,22 @@ function DanhSachDeThi() {
                                 />
                               ) : null}
                             </label>
-                          </div>
-                          {e.CauTraLoi4.data.length > 0 ? (
-                            <div className="flex items-start justify-start">
-                              <input
-                                disabled={isShowAnswer}
-                                onChange={() =>
-                                  handleSelectAnswer(e, e.IdCauTraLoi4)
-                                }
-                                value={e.IdCauTraLoi4}
-                                id={e.IdCauTraLoi4}
-                                name={e.Id}
-                                checked={
-                                  listCauTraLoi[e.Id]
-                                    ?.TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi ==
-                                  e.IdCauTraLoi4
-                                }
-                                type="radio"
-                                className={`radio ${
-                                  isShowAnswer && e.CauTraLoi == e.IdCauTraLoi4
-                                    ? e.Dung
-                                      ? 'active true'
-                                      : 'active'
-                                    : ''
-                                }`}
-                              />
-
+                          </Radio>
+                        </div>
+                        {e.CauTraLoi4.data.length > 0 ? (
+                          <div className="flex items-start justify-start">
+                            <Radio
+                              align="start"
+                              onChange={(IDCauTraLoi) =>
+                                handleSelectAnswer(e, IDCauTraLoi)
+                              }
+                              value={e.IdCauTraLoi4}
+                              modelValue={
+                                listCauTraLoi[e.Id]
+                                  ?.TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi
+                              }
+                              id={e.IdCauTraLoi4}
+                            >
                               <label
                                 className="cursor-pointer text-left"
                                 htmlFor={e.IdCauTraLoi4}
@@ -860,40 +819,36 @@ function DanhSachDeThi() {
                                   ) : null
                                 }
                               </label>
-                            </div>
-                          ) : null}
-                        </div>
+                            </Radio>
+                          </div>
+                        ) : null}
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
-              ))
-            ) : (
-              <div>Không có câu hỏi</div>
-            )}
+              </div>
+            ))
+          ) : (
+            <div>Không có câu hỏi</div>
+          )}
+        </div>
+        {totalPage > 1 ? (
+          <div className="flex justify-between items-center">
+            <Button
+              disabled={currPage == 1}
+              onClick={() => handleChangePage(-1)}
+            >
+              Trang trước
+            </Button>
+            <Button
+              disabled={currPage == totalPage}
+              onClick={() => handleChangePage(1)}
+            >
+              Trang sau
+            </Button>
           </div>
-          {totalPage > 1 ? (
-            <div className="flex justify-between items-center">
-              <Button
-                disabled={currPage == 1}
-                onClick={() => handleChangePage(-1)}
-              >
-                Trang trước
-              </Button>
-              <Button
-                disabled={currPage == totalPage}
-                onClick={() => handleChangePage(1)}
-              >
-                Trang sau
-              </Button>
-            </div>
-          ) : null}
-        </div>
-      ) : (
-        <div className="w-full flex justify-center items-center">
-          <Loading />
-        </div>
-      )}
+        ) : null}
+      </div>
     </div>
   )
 }

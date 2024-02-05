@@ -7,10 +7,7 @@ import './Radio.scss'
 export const Radio = (props) => {
   const bem = useNamespace('radio')
 
-  const uid = Math.floor(Math.random() * 10000)
-
   const {
-    id,
     /**
      * @value `start` | `center` | `end`
      */
@@ -20,7 +17,6 @@ export const Radio = (props) => {
     value,
     modelValue,
     label,
-    name,
     onChange = () => null,
     children,
     checked,
@@ -47,37 +43,24 @@ export const Radio = (props) => {
   }, [bem, loading, isDisabled, isChecked, color])
 
   const handleChange = () => {
+    onClick()
+
+    if (disabled || loading) return
+
     onChange(value)
   }
 
   return (
     <>
-      <div className={radioCls} onClick={onClick}>
+      <div className={radioCls} onClick={handleChange}>
         <div className={bem.b()}>
-          <input
-            id={id ?? uid}
-            onChange={handleChange}
-            type="radio"
-            disabled={isDisabled}
-            readOnly={isDisabled}
-            name={name}
-            value={value}
-            checked={isChecked}
-          />
+          <div className={bem.e('original')} />
 
-          <span className={bem.e('effect')}>
-            {/* {loading ? (
-              <span className={bem.em('effect', 'loading')}>
-                <icon-loading />
-              </span>
-            ) : null} */}
-          </span>
+          <span className={bem.e('effect')}></span>
         </div>
 
         {/* Ưu tiên hiển thị label, sau đó mới tới default slot */}
-        <label htmlFor={id ?? uid} className={bem.e('label')}>
-          {label ? label : children}
-        </label>
+        <div className={bem.e('label')}>{label ? label : children}</div>
       </div>
     </>
   )

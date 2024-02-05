@@ -1,29 +1,13 @@
-import { useMemo } from 'react'
 import { useContext, useState } from 'react'
-import { createElement } from 'react'
 import { useEffect } from 'react'
-import { useRef } from 'react'
-import { useInterval } from 'react-use'
 
 import { Radio } from '@/Components/Base/Radio/Radio'
 import { OnTapContext } from '@/Services/Tokens'
-import Button from '@/Components/Base/Button/Button'
 import Icon from '@/Components/Base/Icon/Icon'
-import IconAudioPlay from '@/Components/Base/Icons/AudioPlay'
-import IconAudioPause from '@/Components/Base/Icons/AudioPause'
-import { getAudioById } from '@/Apis/HocTap/apiOnLuyenThiThu'
-import {
-  convertBase64ToArrayBuffer,
-  convertBufferToBase64,
-} from '@/Services/Utils/stringUtils'
-import { retries } from '@/Services/Utils/requestUtils'
 import { useNamespace } from '@/Services/Hooks'
-import Swal from 'sweetalert2'
-import ArchiveBook from '@/Components/Base/Icons/ArchiveBook'
 import { transformCls } from '@/Services/Utils/reactUtils'
 
 import './CauHoi.scss'
-import ArchiveBookFilled from '@/Components/Base/Icons/ArchiveBookFilled'
 import UAudio from './Audio'
 import { BsFlag, BsFlagFill } from 'react-icons/bs'
 
@@ -58,7 +42,12 @@ export default function CauHoi(props) {
   const handleChange = (IDCauTraLoi) => {
     if (disabled) return
 
-    danhSachCauHoiContext.handleSelected(ID, IDCauTraLoi)
+    danhSachCauHoiContext.handleSelected(
+      ID,
+      IDCauTraLoi == danhSachCauHoiContext.selected[ID]
+        ? undefined
+        : IDCauTraLoi,
+    )
   }
 
   const handlePlayAudio = (ID) => {
@@ -181,10 +170,8 @@ export default function CauHoi(props) {
             <Radio
               id={IDCauTraLoi1}
               align="start"
-              checked={
-                danhSachCauHoiContext.selected[ID] == IDCauTraLoi1 ||
-                (disabled && IDCauTraLoiDung == IDCauTraLoi1)
-              }
+              checked={disabled && IDCauTraLoiDung == IDCauTraLoi1}
+              modelValue={danhSachCauHoiContext.selected[ID]}
               name={ID}
               value={IDCauTraLoi1}
               onChange={handleChange}
@@ -210,10 +197,8 @@ export default function CauHoi(props) {
             <Radio
               id={IDCauTraLoi2}
               align="start"
-              checked={
-                danhSachCauHoiContext.selected[ID] == IDCauTraLoi2 ||
-                (disabled && IDCauTraLoiDung == IDCauTraLoi2)
-              }
+              checked={disabled && IDCauTraLoiDung == IDCauTraLoi2}
+              modelValue={danhSachCauHoiContext.selected[ID]}
               name={ID}
               value={IDCauTraLoi2}
               onChange={handleChange}
@@ -239,10 +224,8 @@ export default function CauHoi(props) {
             <Radio
               id={IDCauTraLoi3}
               align="start"
-              checked={
-                danhSachCauHoiContext.selected[ID] == IDCauTraLoi3 ||
-                (disabled && IDCauTraLoiDung == IDCauTraLoi3)
-              }
+              checked={disabled && IDCauTraLoiDung == IDCauTraLoi3}
+              modelValue={danhSachCauHoiContext.selected[ID]}
               name={ID}
               value={IDCauTraLoi3}
               onChange={handleChange}
@@ -267,10 +250,8 @@ export default function CauHoi(props) {
           {IDCauTraLoi4 && (
             <Radio
               id={IDCauTraLoi4}
-              checked={
-                danhSachCauHoiContext.selected[ID] == IDCauTraLoi4 ||
-                (disabled && IDCauTraLoiDung == IDCauTraLoi4)
-              }
+              checked={disabled && IDCauTraLoiDung == IDCauTraLoi4}
+              modelValue={danhSachCauHoiContext.selected[ID]}
               name={ID}
               value={IDCauTraLoi4}
               onChange={handleChange}

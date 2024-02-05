@@ -1,12 +1,9 @@
-import { Pagination } from '@mui/material'
 import {
   flatten,
   isArray,
   isEqual,
   isNil,
   keys,
-  mapValues,
-  toArray,
   values,
 } from 'lodash-unified'
 import { useMemo, useRef } from 'react'
@@ -33,15 +30,11 @@ import TimePause from '@/Components/Base/Icons/TimePause'
 import Icon from '@/Components/Base/Icon/Icon'
 import TimePlay from '@/Components/Base/Icons/TimePlay'
 import Swal from 'sweetalert2'
-import { useTimeout } from '@/Services/Hooks/useTimeout'
 import { retries } from '@/Services/Utils/requestUtils'
 import Button from '@/Components/Base/Button/Button'
 import Loading from '@/Components/Loading/Loading'
-import GroupCauHoi from '@/Components/HocTap/OnTap/GroupCauHoi'
 import { FILTER_ACTIONS } from '../../constants'
 import {
-  makeDataSv,
-  makePostDataSv,
   transformObjKey,
 } from '@/Services/Utils/dataSubmitUtils'
 import CauHoiCha from '@/Components/HocTap/OnTap/CauHoiCha'
@@ -81,7 +74,7 @@ function DeThi() {
   const [selfTotalPage, setSelfTotalPage] = useState(1)
   const [totalPage, setTotalPage] = useState(1)
   const [currentPage, setCurrentPage] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
+  const [pageSize] = useState(10)
   const [pageLoaded, setPageLoaded] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [pageJumpByBtn, setPageJumpByBtn] = useState(false)
@@ -284,12 +277,12 @@ function DeThi() {
       }
     }
     if (filterState === FILTER_ACTIONS.ChuaTraLoi) {
-      if (!!answers[question.ID]) {
+      if (answers[question.ID]) {
         return 'hidden'
       }
     }
 
-    if (!!questionsTick[question.ID]) {
+    if (questionsTick[question.ID]) {
       return 'bg-vs-warn text-white'
     } else if (answers[question.ID]) {
       return 'bg-uneti-primary text-white'
@@ -527,7 +520,7 @@ function DeThi() {
             {isMounted ? (
               <div className="z-1">
                 <div
-                  className={`flex flex-col gap-7 p-1 bg-white rounded-[26px] shadow-sm ${isFinished ? 'pointer-events-none opacity-90' : ''}`}
+                  className={`flex flex-col gap-3 md:gap-7 rounded-[26px] ${isFinished ? 'pointer-events-none opacity-90' : ''}`}
                 >
                   {questionsPaginated.length ? (
                     questionsPaginated.map((question, rootIndex) => {
