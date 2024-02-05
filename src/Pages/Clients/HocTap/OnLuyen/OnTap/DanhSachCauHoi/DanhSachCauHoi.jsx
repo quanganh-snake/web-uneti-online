@@ -37,6 +37,7 @@ function DanhSachDeThi() {
   const idPhanCauHoi = pathname.split('/').at(-3)
   const idChuong = pathname.split('/').at(-1)
 
+  const [isShowAnswer, setIsShowAnswer] = useState(false)
   const [monHoc, setMonHoc] = useState(null)
   const [phanCauHoi, setPhanCauHoi] = useState(null)
   const [chuong, setChuong] = useState(null)
@@ -237,7 +238,7 @@ function DanhSachDeThi() {
 
     retries(getAllCauHoi)
     retries(getTotalPage)
-  }, [dieuKienLoc, currPage])
+  }, [dieuKienLoc, currPage, isShowAnswer])
 
   useEffect(() => {
     listCauTraLoiPost.current = values(listCauTraLoi)
@@ -481,13 +482,16 @@ function DanhSachDeThi() {
   }
 
   const handleSaveData = async () => {
-    await handlePostData()
-    Swal.fire({
-      title: 'Thông báo',
-      text: 'Đã lưu thành công',
-      icon: 'success',
-      confirmButtonText: 'Đóng',
-    })
+    if (!isShowAnswer) {
+      await handlePostData()
+      Swal.fire({
+        title: 'Thông báo',
+        text: 'Đã lưu thành công',
+        icon: 'success',
+        confirmButtonText: 'Đóng',
+      })
+    }
+    setIsShowAnswer((_isShowAnswer) => !_isShowAnswer)
   }
 
   return (
@@ -517,7 +521,9 @@ function DanhSachDeThi() {
                 Phân vân
               </option>
             </select>
-            <Button onClick={handleSaveData}>Lưu đáp án</Button>
+            <Button onClick={handleSaveData}>
+              {isShowAnswer ? 'Tiếp tục làm' : 'Lưu đáp án'}
+            </Button>
           </div>
           {isLoading ? (
             <div className="w-full flex justify-center items-center">
@@ -643,6 +649,14 @@ function DanhSachDeThi() {
                       <div className="flex-1 flex flex-col justify-center items-start gap-4">
                         <div className="flex items-start justify-start">
                           <Radio
+                            color={
+                              isShowAnswer
+                                ? e.Dung
+                                  ? 'success'
+                                  : 'danger'
+                                : 'primary'
+                            }
+                            disabled={isShowAnswer}
                             align="start"
                             onChange={(IDCauTraLoi) =>
                               handleSelectAnswer(e, IDCauTraLoi)
@@ -687,6 +701,14 @@ function DanhSachDeThi() {
                         </div>
                         <div className="flex items-start justify-start">
                           <Radio
+                            color={
+                              isShowAnswer
+                                ? e.Dung
+                                  ? 'success'
+                                  : 'danger'
+                                : 'primary'
+                            }
+                            disabled={isShowAnswer}
                             align="start"
                             onChange={(IDCauTraLoi) =>
                               handleSelectAnswer(e, IDCauTraLoi)
@@ -731,6 +753,14 @@ function DanhSachDeThi() {
                         </div>
                         <div className="flex items-start justify-start">
                           <Radio
+                            color={
+                              isShowAnswer
+                                ? e.Dung
+                                  ? 'success'
+                                  : 'danger'
+                                : 'primary'
+                            }
+                            disabled={isShowAnswer}
                             align="start"
                             onChange={(IDCauTraLoi) =>
                               handleSelectAnswer(e, IDCauTraLoi)
@@ -776,6 +806,14 @@ function DanhSachDeThi() {
                         {e.CauTraLoi4.data.length > 0 ? (
                           <div className="flex items-start justify-start">
                             <Radio
+                              color={
+                                isShowAnswer
+                                  ? e.Dung
+                                    ? 'success'
+                                    : 'danger'
+                                  : 'primary'
+                              }
+                              disabled={isShowAnswer}
                               align="start"
                               onChange={(IDCauTraLoi) =>
                                 handleSelectAnswer(e, IDCauTraLoi)
