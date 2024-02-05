@@ -1,11 +1,4 @@
-import {
-  flatten,
-  isArray,
-  isEqual,
-  isNil,
-  keys,
-  values,
-} from 'lodash-unified'
+import { flatten, isArray, isEqual, isNil, keys, values } from 'lodash-unified'
 import { useMemo, useRef } from 'react'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -34,9 +27,7 @@ import { retries } from '@/Services/Utils/requestUtils'
 import Button from '@/Components/Base/Button/Button'
 import Loading from '@/Components/Loading/Loading'
 import { FILTER_ACTIONS } from '../../constants'
-import {
-  transformObjKey,
-} from '@/Services/Utils/dataSubmitUtils'
+import { transformObjKey } from '@/Services/Utils/dataSubmitUtils'
 import CauHoiCha from '@/Components/HocTap/OnTap/CauHoiCha'
 import { useNamespace } from '@/Services/Hooks'
 
@@ -84,6 +75,16 @@ function DeThi() {
   const [isFinished, setIsFinished] = useState(false)
 
   // audio playing
+  /**
+   * @type {
+   *  Record<string, {
+   *    SoLanNghe: number
+   *    src: string
+   *  }>[]
+   * }
+   */
+
+  const [listAudio, setListAudio] = useState({})
   const [audioPlaying, setAudioPlaying] = useState(null)
 
   /**
@@ -450,6 +451,7 @@ function DeThi() {
     })
   }
   useEffect(() => {
+    setAudioPlaying(null)
     if (pageJumpByBtn) {
       window.scrollTo({
         top: 0,
@@ -460,7 +462,7 @@ function DeThi() {
     if (filterState === FILTER_ACTIONS.ALL) {
       getQuestions(currentPage)
     }
-  }, [currentPage, deThi])
+  }, [currentPage, deThi, filterState])
   // get total page
   useEffect(() => {
     const getTongSoTrang = async () => {
@@ -503,6 +505,8 @@ function DeThi() {
         setAudioPlaying,
         questionsTick,
         setQuestionsTick,
+        listAudio,
+        setListAudio,
       }}
     >
       <div className="flex justify-center items-center flex-col gap-4 rounded-2xl bg-white p-4">
@@ -552,13 +556,15 @@ function DeThi() {
                 {questionsPaginated.length ? (
                   <div className="flex gap-2 my-5 justify-between">
                     <Button
-                      disabled={currentPage == 1}
+                      disabled={currentPage == 1 || audioPlaying != null}
                       onClick={() => handleChangeCurrentPage('PREV')}
                     >
                       Trang trước
                     </Button>
                     <Button
-                      disabled={currentPage == selfTotalPage}
+                      disabled={
+                        currentPage == selfTotalPage || audioPlaying != null
+                      }
                       onClick={() => handleChangeCurrentPage('NEXT')}
                     >
                       Trang sau

@@ -1,3 +1,4 @@
+import { getSourceAudio } from '@/Pages/Clients/HocTap/OnLuyen/utils'
 import UAudio from './Audio'
 import CauHoi from './CauHoi'
 import { OnTapContext } from '@/Services/Tokens'
@@ -12,10 +13,41 @@ export default function CauHoiCha(props) {
 
   const [isPlaying, setIsPlaying] = useState(false)
   const danhSachCauHoiContext = useContext(OnTapContext)
+  const [isAudioLoading, setIsAudioLoading] = useState(false)
 
-  const handlePlayAudio = (ID) => {
-    danhSachCauHoiContext.setAudioPlaying(ID)
-    setIsPlaying(ID)
+  const handlePlayAudio = async (ID) => {
+    if (ID !== null && !danhSachCauHoiContext.listAudio[ID]) {
+      const obj = {
+        ID,
+        src: null,
+        playCount: 0,
+      }
+
+      await setIsAudioLoading(() => true)
+      obj.src = await getSourceAudio(ID)
+      await danhSachCauHoiContext.setListAudio((prev) => ({
+        ...prev,
+        [ID]: obj,
+      }))
+      await setIsAudioLoading(() => false)
+    }
+
+    setTimeout(() => {
+      setIsPlaying(() => ID)
+      danhSachCauHoiContext.setAudioPlaying(() => ID)
+    }, 150)
+  }
+
+  const handleOnAudioFinish = (ID) => {
+    danhSachCauHoiContext.setListAudio((prev) => ({
+      ...prev,
+      [ID]: {
+        ...prev[ID],
+        playCount: prev[ID].playCount + 1,
+      },
+    }))
+    setIsPlaying(false)
+    danhSachCauHoiContext.setAudioPlaying(null)
   }
 
   useEffect(() => {
@@ -75,9 +107,18 @@ export default function CauHoiCha(props) {
         {firstQuestion.IsAudioCauHoiCha ? (
           <UAudio
             id={firstQuestion.IDCauHoiCha}
+            isLoading={isAudioLoading}
             isPlaying={isPlaying}
             onPlaying={handlePlayAudio}
             disabled={disabled}
+            src={
+              danhSachCauHoiContext.listAudio[firstQuestion.IDCauHoiCha]?.src
+            }
+            selfPlayCount={
+              danhSachCauHoiContext.listAudio[firstQuestion.IDCauHoiCha]
+                ?.playCount
+            }
+            onFinish={handleOnAudioFinish}
           />
         ) : null}
       </div>
