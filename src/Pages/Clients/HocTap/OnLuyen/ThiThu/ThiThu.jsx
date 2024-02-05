@@ -99,7 +99,7 @@ export default function ThiThu() {
         <div>
           <strong>Chú thích *:</strong>
           <ul>
-            <li>&#8226; Không hiển thị phương án trả lời đúng.</li>
+            <li>&#8226; Có hiển thị phương án trả lời đúng.</li>
             <li>
               <p className="mb-4">&#8226; Quy định màu:</p>
               <ul className="px-6">
