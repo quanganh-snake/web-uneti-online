@@ -99,6 +99,38 @@ export default function OnTap() {
             ))}
           </HocKy>
         ))}
+        <div>
+          <strong>Chú thích *:</strong>
+          <ul>
+            <li>&#8226; Không hiển thị phương án trả lời đúng.</li>
+            <li>
+              <p className="mb-4">&#8226; Quy định màu:</p>
+              <ul className="px-6">
+                <li>
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="w-6 h-6 bg-vs-danger rounded-md"></div>
+                    &#58;
+                    <p>Câu hỏi/phương án trả lời sai</p>
+                  </div>
+                </li>
+                <li>
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="w-6 h-6 bg-uneti-primary rounded-md"></div>
+                    &#58;
+                    <p>Câu hỏi/phương án trả lời đã chọn</p>
+                  </div>
+                </li>
+                <li>
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="w-6 h-6 bg-vs-warn rounded-md"></div>
+                    &#58;
+                    <p>Câu hỏi/phương án phân vân</p>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
       </CommonLayout>
     </>
   )

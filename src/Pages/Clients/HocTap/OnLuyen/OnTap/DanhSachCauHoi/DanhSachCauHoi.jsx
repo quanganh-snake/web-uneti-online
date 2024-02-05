@@ -258,6 +258,7 @@ function DanhSachDeThi() {
     await postDanhSachOnTap(data)
 
     // kết quả ôn tập
+    console.log(listCauTraLoiPost)
     await postKetQuaOnTap(listCauTraLoiPost.current)
 
     thoiGianBatDau.current = dayjs().toISOString()
@@ -466,10 +467,10 @@ function DanhSachDeThi() {
       [question.Id]: {
         ..._listCauTraLoi[question.Id],
         TC_SV_OnThi_KetQuaOnTap_CauPhanVan:
-          _listCauTraLoi[question.Id].TC_SV_OnThi_KetQuaOnTap_CauPhanVan ==
+          _listCauTraLoi[question?.Id]?.TC_SV_OnThi_KetQuaOnTap_CauPhanVan ==
           'true'
-            ? 'null'
-            : 'true',
+            ? false
+            : true,
       },
     }))
   }
@@ -610,7 +611,7 @@ function DanhSachDeThi() {
                       <div className="flex flex-col gap-3 flex-1 md:max-w-[50%]">
                         <div className="text-left">
                           <span className="text-vs-danger font-semibold mr-1">
-                            Câu hỏi ID {e.Id}:{' '}
+                            Câu hỏi {i + 1}:{' '}
                           </span>
                           {(() => {
                             if (e.CauHoi.type === 'image') {
@@ -634,7 +635,6 @@ function DanhSachDeThi() {
                           {
                             // hiển thị ảnh câu hỏi
                             e.listAnhCauHoiCon.map((e1, i1) => {
-                              console.log(e1)
                               return (
                                 <img
                                   className="mx-auto"
@@ -652,7 +652,7 @@ function DanhSachDeThi() {
                             color={
                               isShowAnswer
                                 ? e.Dung
-                                  ? 'success'
+                                  ? 'primary'
                                   : 'danger'
                                 : 'primary'
                             }
@@ -704,7 +704,7 @@ function DanhSachDeThi() {
                             color={
                               isShowAnswer
                                 ? e.Dung
-                                  ? 'success'
+                                  ? 'primary'
                                   : 'danger'
                                 : 'primary'
                             }
@@ -756,7 +756,7 @@ function DanhSachDeThi() {
                             color={
                               isShowAnswer
                                 ? e.Dung
-                                  ? 'success'
+                                  ? 'primary'
                                   : 'danger'
                                 : 'primary'
                             }
@@ -809,7 +809,7 @@ function DanhSachDeThi() {
                               color={
                                 isShowAnswer
                                   ? e.Dung
-                                    ? 'success'
+                                    ? 'primary'
                                     : 'danger'
                                   : 'primary'
                               }

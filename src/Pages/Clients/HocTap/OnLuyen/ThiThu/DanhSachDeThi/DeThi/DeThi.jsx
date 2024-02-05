@@ -1,11 +1,4 @@
-import {
-  flatten,
-  isArray,
-  isEqual,
-  isNil,
-  keys,
-  values,
-} from 'lodash-unified'
+import { flatten, isArray, isEqual, isNil, keys, values } from 'lodash-unified'
 import { useMemo, useRef } from 'react'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -34,9 +27,7 @@ import { retries } from '@/Services/Utils/requestUtils'
 import Button from '@/Components/Base/Button/Button'
 import Loading from '@/Components/Loading/Loading'
 import { FILTER_ACTIONS } from '../../constants'
-import {
-  transformObjKey,
-} from '@/Services/Utils/dataSubmitUtils'
+import { transformObjKey } from '@/Services/Utils/dataSubmitUtils'
 import CauHoiCha from '@/Components/HocTap/OnTap/CauHoiCha'
 import { useNamespace } from '@/Services/Hooks'
 
