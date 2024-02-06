@@ -251,7 +251,7 @@ function DanhSachDeThi() {
     if (listCauTraLoiPost.current.length == 0) return
     const data = {
       TC_SV_OnThi_DanhSachOnTap_IDSinhVien: dataSV.IdSinhVien.toString(),
-      TC_SV_OnThi_DanhSachOnTap_IdChuong: idChuong,
+      TC_SV_OnThi_DanhSachOnTap_IdChuong: parseInt(idChuong),
       TC_SV_OnThi_DanhSachOnTap_ThoiGianGioBatDau: thoiGianBatDau.current,
       TC_SV_OnThi_DanhSachOnTap_ThoiGianGioKetThuc: dayjs().toISOString(),
       TC_SV_OnThi_DanhSachOnTap_NguonTiepNhan: NguonTiepNhan_WEB.toString(),
@@ -265,6 +265,10 @@ function DanhSachDeThi() {
       ...item,
       TC_SV_OnThi_KetQuaOnTap_CauPhanVan:
         item.TC_SV_OnThi_KetQuaOnTap_CauPhanVan === 'true' ? true : false,
+      TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi:
+        item.TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi
+          ? parseInt(item.TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi)
+          : null,
     }))
     await postKetQuaOnTap(convertedListCauTraLoiPost)
 
