@@ -567,20 +567,6 @@ function DanhSachDeThi() {
                 className="w-full bg-white transition-all text-vs-theme-color text-sm select-none rounded-[26px] border-2 p-3 border-slate-200 padding"
               >
                 <div className="relative flex flex-col mb-3 last-of-type:mb-0 gap-4 items-start text-base text-vs-text">
-                  {element.IsAudioCauHoiCha ? (
-                    <div className="absolute top-0 right-0">
-                      <UAudio
-                        id={element.IdCauHoiCha}
-                        isPlaying={element.IdCauHoiCha == audioPlaying}
-                        maxPlayCount={0}
-                        isLoading={audioLoading === element.IdCauHoiCha}
-                        onPlaying={handlePlayAudio}
-                        src={listAudio[element.IdCauHoiCha]}
-                        onFinish={handleOnAudioFinish}
-                      />
-                    </div>
-                  ) : null}
-
                   <div className="text-left flex-1">
                     {
                       // hiển thị câu hỏi cha
@@ -602,6 +588,19 @@ function DanhSachDeThi() {
                         )
                       })()
                     }
+                    {element.IsAudioCauHoiCha ? (
+                      <div className="">
+                        <UAudio
+                          id={element.IdCauHoiCha}
+                          isPlaying={element.IdCauHoiCha == audioPlaying}
+                          maxPlayCount={0}
+                          isLoading={audioLoading === element.IdCauHoiCha}
+                          onPlaying={handlePlayAudio}
+                          src={listAudio[element.IdCauHoiCha]}
+                          onFinish={handleOnAudioFinish}
+                        />
+                      </div>
+                    ) : null}
                     {
                       // hiển thị ảnh câu hỏi cha
                       element.listAnhCauHoiCha.map((e, i) => (
@@ -915,7 +914,7 @@ function DanhSachDeThi() {
               Trang trước
             </Button>
             <Button
-              disabled={currPage == totalPage}
+              disabled={currPage >= totalPage}
               onClick={() => handleChangePage(1)}
             >
               Trang sau
