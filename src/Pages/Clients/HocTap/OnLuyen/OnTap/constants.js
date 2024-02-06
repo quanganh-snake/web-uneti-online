@@ -13,3 +13,5 @@ export const breadcrumbs = [
     title: 'Ôn tập',
   },
 ]
+
+export const ONTAP_SOCAUTRENTRANG = '10'

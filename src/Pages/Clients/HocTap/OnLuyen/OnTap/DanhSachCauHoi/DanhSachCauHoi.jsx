@@ -26,6 +26,7 @@ import './DanhSachCauHoi.scss'
 import { Radio } from '@/Components/Base/Radio/Radio'
 import Swal from 'sweetalert2'
 import { getSourceAudio } from '../../utils'
+import { ONTAP_SOCAUTRENTRANG } from '../constants'
 
 const BASE64_ICON_LOA = `iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAG8SURBVDhPrZJLq0FRGIb9GLmUe0IhJTMDEyMDMxMzhiYGzJDLSCZGSiRySYqJlHINP+g9fV+t1d7OcuRk19Ne69vvfvZe31qGx+OBb2GgS/VAS7fbhcvlQqfTUT7X8lbYbrfh9XoxHA4Ri8WUGS1/CpvNJoLBIA6HA7bbLcLhsDKn5aVQyI7HI8+fhbvdDrfbTc4FSmGj0dDJiGdhq9WC3+/Her2WNYKF9XodoVAIgUAADocDPp8P+/1eF1QteTAYwO126z7MQqPRiPl8juVyCY/H80tGCOFms0EqleI51QuFAvL5vMyx0GKxyILdbpdjLUJ4v99Rq9V4JdTD0+mke+djoZgnk0n0ej0eO51OXK9XHv9bGI/HMRqNeEzviB3/WHi5XJDL5RCNRrlO/aaNETkWmkwmVKtV7o3NZsNisZABgRDSvVQq4Xw+cz2bzaJYLMocC/v9Pn+VSKfTMJvNvOMiRDwvmahUKohEIroDzkJtiJhOp6A2TCYTWXsW0moSiYTuDBJKITGbzWC1WqVU9YcqXgoJOuwkHY/H3xES9Ie0UeVymY+KKqPlrZBYrVbIZDK6nr6Chd+9DIYfXVBcwSrtT6gAAAAASUVORK5CYII=`
 
@@ -111,7 +112,7 @@ function DanhSachDeThi() {
         IDSinhVien: dataSV.IdSinhVien.toString(),
         IDChuong: idChuong.toString(),
         SoTrang: currPage.toString(),
-        SoCauTrenTrang: '10',
+        SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
         DieuKienLoc: dieuKienLoc.toString(),
       })
 
@@ -153,7 +154,7 @@ function DanhSachDeThi() {
       const resData = await getTongSoTrangTheoChuong({
         IDSinhVien: dataSV.IdSinhVien,
         IDChuong: idChuong,
-        SoCauTrenTrang: '10',
+        SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
         DieuKienLoc: dieuKienLoc,
       })
 
@@ -187,7 +188,7 @@ function DanhSachDeThi() {
         IDSinhVien: dataSV.IdSinhVien.toString(),
         IDChuong: idChuong.toString(),
         SoTrang: currPage.toString(),
-        SoCauTrenTrang: '10',
+        SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
         DieuKienLoc: dieuKienLoc.toString(),
       })
 
@@ -229,7 +230,7 @@ function DanhSachDeThi() {
       const resData = await getTongSoTrangTheoChuong({
         IDSinhVien: dataSV.IdSinhVien,
         IDChuong: idChuong,
-        SoCauTrenTrang: '10',
+        SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
         DieuKienLoc: dieuKienLoc,
       })
 
@@ -260,8 +261,12 @@ function DanhSachDeThi() {
     await postDanhSachOnTap(data)
 
     // kết quả ôn tập
-    console.log(listCauTraLoiPost)
-    await postKetQuaOnTap(listCauTraLoiPost.current)
+    let convertedListCauTraLoiPost = listCauTraLoiPost.current?.map((item) => ({
+      ...item,
+      TC_SV_OnThi_KetQuaOnTap_CauPhanVan:
+        item.TC_SV_OnThi_KetQuaOnTap_CauPhanVan === 'true' ? true : false,
+    }))
+    await postKetQuaOnTap(convertedListCauTraLoiPost)
 
     thoiGianBatDau.current = dayjs().toISOString()
   }
