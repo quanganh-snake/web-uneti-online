@@ -476,8 +476,8 @@ function DanhSachDeThi() {
         TC_SV_OnThi_KetQuaOnTap_CauPhanVan:
           _listCauTraLoi[question?.Id]?.TC_SV_OnThi_KetQuaOnTap_CauPhanVan ==
           'true'
-            ? false
-            : true,
+            ? 'false'
+            : 'true',
       },
     }))
   }
