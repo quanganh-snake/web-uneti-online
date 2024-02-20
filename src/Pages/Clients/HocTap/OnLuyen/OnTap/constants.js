@@ -14,4 +14,4 @@ export const breadcrumbs = [
   },
 ]
 
-export const ONTAP_SOCAUTRENTRANG = '10'
+export const ONTAP_SOCAUTRENTRANG = '1'

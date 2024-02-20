@@ -77,7 +77,7 @@ export const homeMain = [
     desc: 'Theo dõi và báo hỏng thiết bị ở sảnh, hành lang và phòng làm việc.',
     icon: icoTCTTTS,
     path: '/hotrothietbi',
-    moduleActive: true,
+    moduleActive: false,
     roleActive: ['GV'],
   },
   {
@@ -85,7 +85,7 @@ export const homeMain = [
     desc: 'Tổng hợp file cài đặt, tài liệu hướng dẫn sử dụng các phần mềm.',
     icon: icoHTSDPM,
     path: '/hotrosudungphanmem',
-    moduleActive: true,
+    moduleActive: false,
     roleActive: ['GV', 'SV'],
   },
   {
@@ -101,7 +101,7 @@ export const homeMain = [
     desc: 'Tiếp nhận giải quyết các thủ tục hành chính cho giảng viên.',
     icon: icoTTHCSV,
     path: '/tthcgiangvien',
-    moduleActive: true,
+    moduleActive: false,
     roleActive: ['GV'],
   },
 ]

@@ -7,7 +7,7 @@ function FeatureItem(props) {
   const { pathname } = location
 
   return (
-    <div className="text-vs-theme-color feature__item min-h-[200px] h-full bg-white p-4 pb-20 rounded-exclude-tl shadow-sm flex flex-col relative">
+    <div className="text-vs-theme-color feature__item min-h-[200px] h-full bg-white p-4 pb-20 rounded-exclude-tl shadow-lg border border-uneti-primary flex flex-col relative">
       <div className="feature--header flex items-center gap-4 border-b-2 pb-2 border-uneti-primary">
         <img src={icon} className="w-14" alt={featureItem.title} />
         <h2 className="text-xl font-semibold">{featureItem.title}</h2>

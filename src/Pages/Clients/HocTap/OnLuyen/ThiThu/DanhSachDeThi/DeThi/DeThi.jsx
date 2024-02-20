@@ -65,7 +65,7 @@ function DeThi() {
   const [selfTotalPage, setSelfTotalPage] = useState(1)
   const [totalPage, setTotalPage] = useState(1)
   const [currentPage, setCurrentPage] = useState(1)
-  const [pageSize] = useState(10)
+  const [pageSize] = useState(2)
   const [pageLoaded, setPageLoaded] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [pageJumpByBtn, setPageJumpByBtn] = useState(false)
