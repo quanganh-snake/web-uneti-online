@@ -36,7 +36,7 @@ function HeaderSV() {
     <header
       className={[
         bem.b(),
-        ' fixed left-0 right-0 top-0 z-10 w-full border-gray-200 bg-white shadow-md dark:bg-gray-900',
+        ' fixed left-0 right-0 top-0 z-10 w-full border-gray-200 bg-white shadow-md',
       ]}
     >
       <nav className={[bem.e('nav'), 'container mx-auto']}>
