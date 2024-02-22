@@ -1314,7 +1314,7 @@ export const homeTaiSan = {
       desc: '<b>Cập nhật</b>: Thông tin tài sản, thông tin nhóm thiết bị đi kèm, nhân sự quản lý, nhân sự sử dụng.',
       thumbnail: iconHTTBGDGopY,
       roleActive: ['Admin', 'GV', 'CBNV'],
-      moduleActive: true,
+      moduleActive: false,
     },
   ],
   listCanBoHoTro: [
