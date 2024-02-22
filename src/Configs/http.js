@@ -46,28 +46,28 @@ http.interceptors.request.use(
 
       // Check expire
       const decodedToken = jwtDecode(accessToken)
-      console.log('🚀 ~ file: http.js:92 ~ check accessToken expire: ', {
-        expire: decodedToken.exp < currentDate.getTime() / 1000,
-        timeout:
-          currentDate.getHours() +
-          ':' +
-          currentDate.getMinutes() +
-          ':' +
-          currentDate.getSeconds() +
-          's',
-      })
+      //   console.log('🚀 ~ file: http.js:92 ~ check accessToken expire: ', {
+      //     expire: decodedToken.exp < currentDate.getTime() / 1000,
+      //     timeout:
+      //       currentDate.getHours() +
+      //       ':' +
+      //       currentDate.getMinutes() +
+      //       ':' +
+      //       currentDate.getSeconds() +
+      //       's',
+      //   })
 
       const decodedRefreshToken = jwtDecode(refreshToken)
-      console.log('🚀 ~ file: http.js:92 ~ check refreshToken expire: ', {
-        expire: decodedRefreshToken.exp < currentDate.getTime() / 1000,
-        timeout:
-          currentDate.getHours() +
-          ':' +
-          currentDate.getMinutes() +
-          ':' +
-          currentDate.getSeconds() +
-          's',
-      })
+      //   console.log('🚀 ~ file: http.js:92 ~ check refreshToken expire: ', {
+      //     expire: decodedRefreshToken.exp < currentDate.getTime() / 1000,
+      //     timeout:
+      //       currentDate.getHours() +
+      //       ':' +
+      //       currentDate.getMinutes() +
+      //       ':' +
+      //       currentDate.getSeconds() +
+      //       's',
+      //   })
 
       if (decodedRefreshToken.exp < currentDate.getTime() / 1000) {
         window.location.href = '/'
@@ -111,16 +111,16 @@ http.interceptors.response.use(
 
           const { refreshToken } = resNewDataToken
           const decodedRefreshToken = jwtDecode(refreshToken)
-          console.log('🚀 ~ file: http.js:81 ~ check refreshToken expire: ', {
-            expire: decodedRefreshToken.exp < currentDate.getTime() / 1000,
-            timeout:
-              currentDate.getHours() +
-              ':' +
-              currentDate.getMinutes() +
-              ':' +
-              currentDate.getSeconds() +
-              's',
-          })
+          //   console.log('🚀 ~ file: http.js:81 ~ check refreshToken expire: ', {
+          //     expire: decodedRefreshToken.exp < currentDate.getTime() / 1000,
+          //     timeout:
+          //       currentDate.getHours() +
+          //       ':' +
+          //       currentDate.getMinutes() +
+          //       ':' +
+          //       currentDate.getSeconds() +
+          //       's',
+          //   })
 
           if (decodedRefreshToken.exp < currentDate.getTime() / 1000) {
             window.location.href = '/'

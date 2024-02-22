@@ -93,7 +93,7 @@ export const homeMain = [
     desc: 'Hệ thống quản lý chi tiết công việc cán bộ phòng, ban.',
     icon: icoQLCTCV,
     path: '/uneti',
-    moduleActive: true,
+    moduleActive: false,
     roleActive: ['GV'],
   },
   {
