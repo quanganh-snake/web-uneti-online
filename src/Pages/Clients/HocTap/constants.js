@@ -5,7 +5,7 @@ export const hocTapSidebar = [
   },
   {
     name: '/hoctap/onluyen',
-    label: 'Ôn luyện',
+    label: 'Ôn luyện trắc nghiệm',
     children: [
       {
         name: '/ontap',

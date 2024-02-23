@@ -7,16 +7,21 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Provider } from 'react-redux'
 import { persistor, store } from './Services/Redux/store.js'
 import { PersistGate } from 'redux-persist/integration/react'
-import { StrictMode } from 'react'
+
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import 'dayjs/locale/vi'
+import { LocalizationProvider } from '@mui/x-date-pickers'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <StrictMode>
   <>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <App />
-      </PersistGate>
-    </Provider>
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="vi">
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
+      </Provider>
+    </LocalizationProvider>
     <ToastContainer />
   </>,
   // </StrictMode>,

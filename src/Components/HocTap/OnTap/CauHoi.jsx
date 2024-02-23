@@ -10,6 +10,7 @@ import { transformCls } from '@/Services/Utils/reactUtils'
 import './CauHoi.scss'
 import UAudio from './Audio'
 import { BsFlag, BsFlagFill } from 'react-icons/bs'
+import { getSourceAudio } from '@/Pages/Clients/HocTap/OnLuyen/utils'
 
 export default function CauHoi(props) {
   const {
@@ -37,6 +38,8 @@ export default function CauHoi(props) {
 
   const ns = useNamespace('question')
   const [isPlaying, setIsPlaying] = useState(false)
+  const [isAudioLoading, setIsAudioLoading] = useState(false)
+
   const danhSachCauHoiContext = useContext(OnTapContext)
 
   const handleChange = (IDCauTraLoi) => {
@@ -50,9 +53,26 @@ export default function CauHoi(props) {
     )
   }
 
-  const handlePlayAudio = (ID) => {
-    danhSachCauHoiContext.setAudioPlaying(ID)
-    setIsPlaying(ID)
+  const handlePlayAudio = async (ID) => {
+    if (ID !== null && !danhSachCauHoiContext.listAudio[ID]) {
+      const obj = {
+        ID,
+        src: null,
+        playCount: 0,
+      }
+
+      await setIsAudioLoading(() => true)
+      obj.src = await getSourceAudio(ID)
+      await danhSachCauHoiContext.setListAudio((prev) => ({
+        ...prev,
+        [ID]: obj,
+      }))
+      await setIsAudioLoading(() => false)
+    }
+    setTimeout(() => {
+      setIsPlaying(() => ID)
+      danhSachCauHoiContext.setAudioPlaying(() => ID)
+    }, 150)
   }
 
   const handleArchiveQuestion = () => {
@@ -62,6 +82,21 @@ export default function CauHoi(props) {
         [ID]: !prev[ID],
       }
     })
+  }
+
+  const handleOnAudioFinish = (ID) => {
+    const audioContext = danhSachCauHoiContext.listAudio[ID]
+
+    danhSachCauHoiContext.setListAudio((prev) => ({
+      ...prev,
+      [ID]: {
+        ...audioContext,
+        playCount: audioContext.playCount + 1,
+      },
+    }))
+
+    setIsPlaying(false)
+    danhSachCauHoiContext.setAudioPlaying(null)
   }
 
   const [transitionEnter, setTransitionEnter] = useState(false)
@@ -110,8 +145,14 @@ export default function CauHoi(props) {
                   <UAudio
                     id={ID}
                     isPlaying={isPlaying}
+                    isLoading={isAudioLoading}
                     onPlaying={handlePlayAudio}
                     disabled={disabled}
+                    src={danhSachCauHoiContext.listAudio[ID]?.src}
+                    selfPlayCount={
+                      danhSachCauHoiContext.listAudio[ID]?.playCount
+                    }
+                    onFinish={handleOnAudioFinish}
                   />
                 ) : null}
 

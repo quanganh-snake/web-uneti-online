@@ -1,14 +1,10 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import SidebarTTHCGV from '../SidebarTTHCGV/SidebarTTHCGV'
 import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import { Link } from 'react-router-dom'
-import { FaUpload, FaSave } from 'react-icons/fa'
-import { FcCancel } from 'react-icons/fc'
 import { BsSend } from 'react-icons/bs'
 import { MdCancel } from 'react-icons/md'
 import Loading from '@/Components/Loading/Loading'
-import { IoMdClose } from 'react-icons/io'
 import { convertBufferToBase64 } from '@/Services/Utils/stringUtils'
 import { handlePreviewFileBase64 } from '@/Services/Utils/fileUtils'
 import Swal from 'sweetalert2'
@@ -21,8 +17,6 @@ function SoanHoSoView({
   dataChiTietThuTuc,
   dataHoSoYeuCau,
   setDataHoSoYeuCau,
-  itemThanhPhanHoSoFile,
-  inputTextRef,
   handleChangeInputFileTPHS,
   handleSubmitForm,
   handleCancelSubmit,
@@ -200,7 +194,7 @@ function SoanHoSoView({
                   <span className="font-semibold text-red-500">*</span>
                 </label>
                 {dataChiTietThuTuc?.ThanhPhanHoSo?.length ? (
-                  <>
+                  <div className='overflow-x-auto'>
                     <table className="hidden lg:block rounded-xl">
                       <thead className="bg-[#0C4A6E] text-white">
                         <tr className=" rounded-xl border-b">
@@ -517,7 +511,7 @@ function SoanHoSoView({
                         },
                       )}
                     </div>
-                  </>
+                  </div>
                 ) : (
                   <p className="italic text-red-700 border p-2 font-medium rounded-md">
                     Không có thành phần hồ sơ kèm theo!

@@ -33,8 +33,13 @@ function HeaderSV() {
   }
 
   return (
-    <header className={bem.b()}>
-      <nav className={bem.e('nav')}>
+    <header
+      className={[
+        bem.b(),
+        ' fixed left-0 right-0 top-0 z-10 w-full border-gray-200 bg-white shadow-md',
+      ]}
+    >
+      <nav className={[bem.e('nav'), 'container mx-auto']}>
         <div className="max-w-7xl flex flex-wrap items-center justify-between mx-auto relative">
           {/* START: MENU - Mobile */}
           <div className="menu-mobile w-12 h-12 flex justify-center items-center lg:hidden">
@@ -83,44 +88,56 @@ function HeaderSV() {
           {/* END: USER - Profile */}
           {/* START: Navbar Pages */}
 
-          {pathname === '/uneti' && <div className="col-span-7"></div>}
+          {pathname === '/uneti' && (
+            <div className="hidden lg:block col-span-7">
+              <div className="py-4 border-b-4 border-sky-600 text-left text-md">
+                <p className="w-full text-left text-md lg:text-2xl font-bold uppercase text-uneti-primary">
+                  Trường Đại Học Kinh Tế - Kỹ Thuật Công Nghiệp
+                </p>
+                <p>University of Economics - Technology for Industries</p>
+              </div>
+              <p className="hidden lg:inline-block uppercase text-md xl:text-3xl font-bold my-2 text-red-600">
+                Cổng tổng hợp hỗ trợ tra cứu - dịch vụ công UNETI
+              </p>
+            </div>
+          )}
           {pathname.includes('/motcua') && (
-            <div className="col-span-7">
+            <div className="hidden lg:block col-span-7">
               <div className="flex items-center justify-center">
                 <NavbarMotCua />
               </div>
             </div>
           )}
           {pathname.includes('/hoctap') && (
-            <div className="col-span-8 lg:col-span-7">
-              <p className="w-full text-center text-2xl font-bold uppercase text-uneti-primary">
-                TRA CỨU KẾT QUẢ HỌC TẬP VÀ ÔN LUYỆN
+            <div className="hidden lg:block col-span-8 lg:col-span-7">
+              <p className="hidden md:inline-block w-full text-center text-2xl font-bold uppercase text-uneti-primary">
+                HỌC TẬP
               </p>
             </div>
           )}
           {pathname.includes('/tracuu') && (
-            <div className="col-span-8 lg:col-span-7">
-              <p className="w-full text-center text-2xl font-bold uppercase text-uneti-primary">
+            <div className="hidden lg:block col-span-8 lg:col-span-7">
+              <p className="hidden md:inline-block w-full text-center text-2xl font-bold uppercase text-uneti-primary">
                 TRA CỨU
               </p>
             </div>
           )}
           {pathname.includes('/hotrothietbi') && (
-            <div className="col-span-8 lg:col-span-7">
-              <p className="w-full text-center text-2xl font-bold uppercase text-uneti-primary">
+            <div className="hidden lg:block col-span-8 lg:col-span-7">
+              <p className="hidden md:inline-block w-full text-center text-2xl font-bold uppercase text-uneti-primary">
                 Hỗ Trợ Thiết Bị
               </p>
             </div>
           )}
           {pathname.includes('/hotrosudungphanmem') && (
-            <div className="col-span-8 lg:col-span-7">
-              <p className="w-full text-center text-2xl font-bold uppercase text-uneti-primary">
+            <div className="hidden lg:block col-span-8 lg:col-span-7">
+              <p className="hidden md:inline-block w-full text-center text-2xl font-bold uppercase text-uneti-primary">
                 HỖ TRỢ SỬ DỤNG PHẦN MỀM
               </p>
             </div>
           )}
           {pathname.includes('/error') && (
-            <div className="col-span-8 lg:col-span-7"></div>
+            <div className="hidden lg:block col-span-8 lg:col-span-7"></div>
           )}
           {/* END: Navbar Pages */}
         </div>

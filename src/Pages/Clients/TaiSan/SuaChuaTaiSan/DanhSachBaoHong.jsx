@@ -1,8 +1,6 @@
-import { useEffect, useMemo, useState } from 'react'
 import {
   Box,
   Checkbox,
-  Pagination,
   Paper,
   Table,
   TableBody,
@@ -14,10 +12,8 @@ import {
 } from '@mui/material'
 
 import moment from 'moment'
-import Loading from '@/Components/Loading/Loading'
-import { DateTimePicker } from '@mui/x-date-pickers'
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import dayjs from 'dayjs'
-import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 import Swal from 'sweetalert2'
 import { DebounceInput } from 'react-debounce-input'
 import { filterData } from '@/Services/Utils/filterData'
@@ -44,11 +40,6 @@ const DanhSachBaoHong = (props) => {
     onSetItemPerPage(parseInt(event.target.value, 10))
     onSetPage(0)
   }
-
-  const totalPage = useMemo(
-    () => Math.ceil(listBaoHong?.length / itemPerPage),
-    [listBaoHong],
-  )
 
   const filteredBaoHong = filterData(listBaoHong, filters)
 
@@ -104,9 +95,6 @@ const DanhSachBaoHong = (props) => {
 
   function EnhancedTableHead(props) {
     const { onSelectAllClick, numSelected, rowCount } = props
-    const createSortHandler = (property) => (event) => {
-      onRequestSort(event, property)
-    }
 
     return (
       <TableHead sx={{ backgroundColor: '#336699' }}>
@@ -866,33 +854,35 @@ const DanhSachBaoHong = (props) => {
                     <TableCell align="center" sx={{ minWidth: '280px' }}>
                       {row.DT_QLTS_TS_HoTroThietBi_XuLy_NgayXuLy ? (
                         dayjs(row.DT_QLTS_TS_HoTroThietBi_XuLy_NgayXuLy).format(
-                          'DD/MM/YYYY HH:mm:ss',
+                          'DD/MM/YYYY HH:mm',
                         )
                       ) : (
-                        <DateTimePicker
-                          id="DT_QLTS_TS_HoTroThietBi_XuLy_NgayXuLy"
-                          name="DT_QLTS_TS_HoTroThietBi_XuLy_NgayXuLy"
-                          label="Xác nhận ngày xử lý"
-                          slotProps={{
-                            openPickerIcon: { fontSize: 'medium' },
-                            openPickerButton: { color: 'info' },
-                            textField: {
-                              variant: 'filled',
-                              focused: true,
-                              color: 'info',
-                            },
-                          }}
-                          views={['day', 'month', 'year', 'hours', 'minutes']}
-                          minDateTime={dayjs()}
-                          disabled={isObjectInArray ? false : true}
-                          onChange={(newValue) => {
-                            onUpdateNgayXuLy(row, {
-                              DT_QLTS_TS_HoTroThietBi_XuLy_NgayXuLy: moment(
-                                newValue.$d,
-                              ).format('YYYY-MM-DDTHH:mm:00.000Z'),
-                            })
-                          }}
-                        />
+                        <div className="w-full">
+                          <DateTimePicker
+                            id="DT_QLTS_TS_HoTroThietBi_XuLy_NgayXuLy"
+                            name="DT_QLTS_TS_HoTroThietBi_XuLy_NgayXuLy"
+                            label="Xác nhận ngày xử lý"
+                            slotProps={{
+                              openPickerIcon: { fontSize: 'medium' },
+                              openPickerButton: { color: 'info' },
+                              textField: {
+                                variant: 'filled',
+                                focused: true,
+                                color: 'info',
+                              },
+                            }}
+                            views={['day', 'month', 'year', 'hours', 'minutes']}
+                            minDateTime={dayjs()}
+                            disabled={isObjectInArray ? false : true}
+                            onChange={(newValue) => {
+                              onUpdateNgayXuLy(row, {
+                                DT_QLTS_TS_HoTroThietBi_XuLy_NgayXuLy: moment(
+                                  newValue.$d,
+                                ).format('YYYY-MM-DDTHH:mm:00.000Z'),
+                              })
+                            }}
+                          />
+                        </div>
                       )}
                     </TableCell>
                   </TableRow>

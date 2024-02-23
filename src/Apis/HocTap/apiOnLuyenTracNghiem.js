@@ -82,7 +82,7 @@ export const postDanhSachOnTap = (data = {}) =>
     data,
   )
 
-export const postKetQuaOnTap = (data = {}) =>
+export const postKetQuaOnTap = (data = []) =>
   http.post(
     '/SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/KetQuaOnTap_GuiKetQua_Add_Para',
     data,

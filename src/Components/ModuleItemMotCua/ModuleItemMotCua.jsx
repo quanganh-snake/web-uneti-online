@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { Link, useLocation } from 'react-router-dom'
 
@@ -12,7 +11,7 @@ function ModuleItemMotCua(props) {
       to={`${pathname}${moduleItemMotCua.path}`}
       className="uneti-motcua__module "
     >
-      <div className="bg-white p-8 rounded-exclude-tl h-full flex flex-col justify-center md:flex-row md:justify-start items-center shadow-sm">
+      <div className="bg-white p-8 rounded-2xl h-full flex flex-col justify-center md:flex-row md:justify-start items-center shadow-lg border-2 border-uneti-primary">
         <img
           src={moduleItemMotCua.thumbnail}
           className="inline-block w-20 h-20"

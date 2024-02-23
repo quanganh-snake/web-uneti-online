@@ -1,5 +1,9 @@
+import { getAudioById } from '@/Apis/HocTap/apiOnLuyenThiThu'
 import { rtfToHtml } from '@/Services/Utils/rtfjs'
-import { convertBufferToBase64 } from '@/Services/Utils/stringUtils'
+import {
+  convertBase64ToArrayBuffer,
+  convertBufferToBase64,
+} from '@/Services/Utils/stringUtils'
 import { isArray } from 'lodash-unified'
 
 // icon Loa ở trong câu hỏi, xoá đi vì nó ....xấu
@@ -49,4 +53,35 @@ export const convertQuestionToHtml = async (question) => {
     AnhCauHoiCha_4: convertBufferToBase64(question.AnhCauHoiCha_4?.data),
     AnhCauHoiCha_5: convertBufferToBase64(question.AnhCauHoiCha_5?.data),
   }
+}
+
+export const getSourceAudio = async (ID) => {
+  const audioResponse = await getAudioById({
+    IDCauHoi: ID,
+  })
+
+  if (!audioResponse.data.body || audioResponse.data.body.length === 0) {
+    throw new Error('Audio data not found')
+  }
+
+  const audioData = audioResponse.data.body[0].TC_SV_OnThi_Media_DataFile.data
+  if (!audioData) {
+    throw new Error('Audio data is empty')
+  }
+
+  const dataConvert = convertBufferToBase64(audioData)
+  const arrayBufferView = convertBase64ToArrayBuffer(dataConvert)
+
+  if (!arrayBufferView) {
+    throw new Error('Error converting base64 to ArrayBuffer')
+  }
+
+  const blob = new Blob([arrayBufferView], { type: 'audio/mpeg' })
+  const audioURL = URL.createObjectURL(blob)
+
+  if (!audioURL) {
+    throw new Error('Error creating Object URL for audio')
+  }
+
+  return audioURL
 }

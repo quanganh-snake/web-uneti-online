@@ -10,8 +10,11 @@ import NavbarTTHCGV from '@/Components/Navbars/NavbarTTHCGV.jsx'
 import { logOut } from '@/Apis/apiLogout.js'
 import { persistor, store } from '@/Services/Redux/store.js'
 import MenuMobileTTHCGV from '@/Components/MenuMobiles/MenuMobileTTHCGV.jsx'
+import { useNamespace } from '@/Services/Hooks/useNamespace.js'
 
 function HeaderCBGV() {
+  const bem = useNamespace('header')
+
   const dataCBGV = DataCanBoGV()
 
   const dispatch = useDispatch()
@@ -28,8 +31,13 @@ function HeaderCBGV() {
   }
 
   return (
-    <header className="shadow-md fixed left-0 right-0 top-0 w-[100%] z-10">
-      <nav className="bg-white border-gray-200 dark:bg-gray-900">
+    <header
+      className={[
+        bem.b(),
+        ' fixed left-0 right-0 top-0 z-10 w-full border-gray-200 bg-white shadow-md',
+      ]}
+    >
+      <nav className="bg-white border-gray-200">
         <div className="max-w-7xl flex flex-wrap items-center justify-between mx-auto relative">
           {/* START: MENU - Mobile */}
           <div className="menu-mobile w-12 h-12 flex justify-center items-center lg:hidden">
@@ -50,7 +58,7 @@ function HeaderCBGV() {
           >
             <button
               type="button"
-              className="flex items-center gap-4 mr-3 text-sm rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+              className="flex items-center gap-4 mr-3 text-sm rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"
               id="user-menu-button"
               aria-expanded="false"
               data-dropdown-toggle="user-dropdown"
@@ -69,7 +77,7 @@ function HeaderCBGV() {
             </button>
             {/* Dropdown menu */}
             <div
-              className={`min-w-[220px] z-50 absolute top-[80%] my-4 right-0 text-base list-none bg-white divide-y divide-gray-100 rounded-b-lg shadow dark:bg-gray-700 dark:divide-gray-600`}
+              className={`min-w-[220px] z-50 absolute top-[80%] my-4 right-0 text-base list-none bg-white divide-y divide-gray-100 rounded-b-lg shadow`}
               id="user-dropdown"
             >
               <DropdownProfileTeacher handleLogout={handleLogout} />
@@ -100,7 +108,19 @@ function HeaderCBGV() {
               </p>
             </div>
           )}
-          {pathname === '/uneti' && <div className="col-span-7"></div>}
+          {pathname === '/uneti' && (
+            <div className="hidden lg:block col-span-7">
+              <div className="py-4 border-b-4 border-sky-600 text-left text-md">
+                <p className="w-full text-left text-md lg:text-2xl font-bold uppercase text-uneti-primary">
+                  Trường Đại Học Kinh Tế - Kỹ Thuật Công Nghiệp
+                </p>
+                <p>University of Economics - Technology for Industries</p>
+              </div>
+              <p className="hidden lg:inline-block uppercase text-md xl:text-3xl font-bold my-2 text-red-600">
+                Cổng tổng hợp hỗ trợ tra cứu - dịch vụ công UNETI
+              </p>
+            </div>
+          )}
           {(pathname.includes('/tthcgiangvien') ||
             pathname.includes('/admin')) && (
             <div className="col-span-7">

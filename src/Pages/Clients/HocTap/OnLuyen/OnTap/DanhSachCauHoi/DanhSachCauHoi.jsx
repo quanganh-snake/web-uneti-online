@@ -25,6 +25,8 @@ import { BsFlag, BsFlagFill } from 'react-icons/bs'
 import './DanhSachCauHoi.scss'
 import { Radio } from '@/Components/Base/Radio/Radio'
 import Swal from 'sweetalert2'
+import { getSourceAudio } from '../../utils'
+import { ONTAP_SOCAUTRENTRANG } from '../constants'
 
 const BASE64_ICON_LOA = `iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAG8SURBVDhPrZJLq0FRGIb9GLmUe0IhJTMDEyMDMxMzhiYGzJDLSCZGSiRySYqJlHINP+g9fV+t1d7OcuRk19Ne69vvfvZe31qGx+OBb2GgS/VAS7fbhcvlQqfTUT7X8lbYbrfh9XoxHA4Ri8WUGS1/CpvNJoLBIA6HA7bbLcLhsDKn5aVQyI7HI8+fhbvdDrfbTc4FSmGj0dDJiGdhq9WC3+/Her2WNYKF9XodoVAIgUAADocDPp8P+/1eF1QteTAYwO126z7MQqPRiPl8juVyCY/H80tGCOFms0EqleI51QuFAvL5vMyx0GKxyILdbpdjLUJ4v99Rq9V4JdTD0+mke+djoZgnk0n0ej0eO51OXK9XHv9bGI/HMRqNeEzviB3/WHi5XJDL5RCNRrlO/aaNETkWmkwmVKtV7o3NZsNisZABgRDSvVQq4Xw+cz2bzaJYLMocC/v9Pn+VSKfTMJvNvOMiRDwvmahUKohEIroDzkJtiJhOp6A2TCYTWXsW0moSiYTuDBJKITGbzWC1WqVU9YcqXgoJOuwkHY/H3xES9Ie0UeVymY+KKqPlrZBYrVbIZDK6nr6Chd+9DIYfXVBcwSrtT6gAAAAASUVORK5CYII=`
 
@@ -110,7 +112,7 @@ function DanhSachDeThi() {
         IDSinhVien: dataSV.IdSinhVien.toString(),
         IDChuong: idChuong.toString(),
         SoTrang: currPage.toString(),
-        SoCauTrenTrang: '10',
+        SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
         DieuKienLoc: dieuKienLoc.toString(),
       })
 
@@ -152,7 +154,7 @@ function DanhSachDeThi() {
       const resData = await getTongSoTrangTheoChuong({
         IDSinhVien: dataSV.IdSinhVien,
         IDChuong: idChuong,
-        SoCauTrenTrang: '10',
+        SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
         DieuKienLoc: dieuKienLoc,
       })
 
@@ -177,6 +179,7 @@ function DanhSachDeThi() {
   }, [])
 
   useEffect(() => {
+    setAudioPlaying(null)
     // lấy danh sách câu hỏi
     const getAllCauHoi = async () => {
       setIsLoading(true)
@@ -185,7 +188,7 @@ function DanhSachDeThi() {
         IDSinhVien: dataSV.IdSinhVien.toString(),
         IDChuong: idChuong.toString(),
         SoTrang: currPage.toString(),
-        SoCauTrenTrang: '10',
+        SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
         DieuKienLoc: dieuKienLoc.toString(),
       })
 
@@ -227,7 +230,7 @@ function DanhSachDeThi() {
       const resData = await getTongSoTrangTheoChuong({
         IDSinhVien: dataSV.IdSinhVien,
         IDChuong: idChuong,
-        SoCauTrenTrang: '10',
+        SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
         DieuKienLoc: dieuKienLoc,
       })
 
@@ -248,7 +251,7 @@ function DanhSachDeThi() {
     if (listCauTraLoiPost.current.length == 0) return
     const data = {
       TC_SV_OnThi_DanhSachOnTap_IDSinhVien: dataSV.IdSinhVien.toString(),
-      TC_SV_OnThi_DanhSachOnTap_IdChuong: idChuong,
+      TC_SV_OnThi_DanhSachOnTap_IdChuong: parseInt(idChuong),
       TC_SV_OnThi_DanhSachOnTap_ThoiGianGioBatDau: thoiGianBatDau.current,
       TC_SV_OnThi_DanhSachOnTap_ThoiGianGioKetThuc: dayjs().toISOString(),
       TC_SV_OnThi_DanhSachOnTap_NguonTiepNhan: NguonTiepNhan_WEB.toString(),
@@ -258,7 +261,16 @@ function DanhSachDeThi() {
     await postDanhSachOnTap(data)
 
     // kết quả ôn tập
-    await postKetQuaOnTap(listCauTraLoiPost.current)
+    let convertedListCauTraLoiPost = listCauTraLoiPost.current?.map((item) => ({
+      ...item,
+      TC_SV_OnThi_KetQuaOnTap_CauPhanVan:
+        item.TC_SV_OnThi_KetQuaOnTap_CauPhanVan === 'true' ? true : false,
+      TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi:
+        item.TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi
+          ? parseInt(item.TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi)
+          : null,
+    }))
+    await postKetQuaOnTap(convertedListCauTraLoiPost)
 
     thoiGianBatDau.current = dayjs().toISOString()
   }
@@ -466,9 +478,9 @@ function DanhSachDeThi() {
       [question.Id]: {
         ..._listCauTraLoi[question.Id],
         TC_SV_OnThi_KetQuaOnTap_CauPhanVan:
-          _listCauTraLoi[question.Id].TC_SV_OnThi_KetQuaOnTap_CauPhanVan ==
+          _listCauTraLoi[question?.Id]?.TC_SV_OnThi_KetQuaOnTap_CauPhanVan ==
           'true'
-            ? 'null'
+            ? 'false'
             : 'true',
       },
     }))
@@ -476,9 +488,29 @@ function DanhSachDeThi() {
 
   // audio playing
   const [audioPlaying, setAudioPlaying] = useState(null)
+  const [listAudio, setListAudio] = useState({})
+  const [audioLoading, setAudioLoading] = useState(null)
 
-  const handlePlayAudio = (ID) => {
-    setAudioPlaying((_ID) => (_ID == ID ? null : ID))
+  const handlePlayAudio = async (ID) => {
+    if (audioLoading == ID) return
+
+    if (ID !== null && !listAudio[ID]) {
+      await setAudioLoading(ID)
+      const src = await getSourceAudio(ID)
+      await setListAudio((prev) => ({
+        ...prev,
+        [ID]: src,
+      }))
+      await setAudioLoading(() => null)
+    }
+
+    setTimeout(() => {
+      setAudioPlaying(ID)
+    })
+  }
+
+  const handleOnAudioFinish = () => {
+    setAudioPlaying(null)
   }
 
   const handleSaveData = async () => {
@@ -535,17 +567,6 @@ function DanhSachDeThi() {
                 className="w-full bg-white transition-all text-vs-theme-color text-sm select-none rounded-[26px] border-2 p-3 border-slate-200 padding"
               >
                 <div className="relative flex flex-col mb-3 last-of-type:mb-0 gap-4 items-start text-base text-vs-text">
-                  {element.IsAudioCauHoiCha ? (
-                    <div className="absolute top-0 right-0">
-                      <UAudio
-                        playCount={0}
-                        id={element.IdCauHoiCha}
-                        isPlaying={element.IdCauHoiCha == audioPlaying}
-                        onPlaying={() => handlePlayAudio(element.IdCauHoiCha)}
-                      />
-                    </div>
-                  ) : null}
-
                   <div className="text-left flex-1">
                     {
                       // hiển thị câu hỏi cha
@@ -567,6 +588,19 @@ function DanhSachDeThi() {
                         )
                       })()
                     }
+                    {element.IsAudioCauHoiCha ? (
+                      <div className="">
+                        <UAudio
+                          id={element.IdCauHoiCha}
+                          isPlaying={element.IdCauHoiCha == audioPlaying}
+                          maxPlayCount={0}
+                          isLoading={audioLoading === element.IdCauHoiCha}
+                          onPlaying={handlePlayAudio}
+                          src={listAudio[element.IdCauHoiCha]}
+                          onFinish={handleOnAudioFinish}
+                        />
+                      </div>
+                    ) : null}
                     {
                       // hiển thị ảnh câu hỏi cha
                       element.listAnhCauHoiCha.map((e, i) => (
@@ -587,10 +621,13 @@ function DanhSachDeThi() {
                         {e.IsAudioCauHoiCon && (
                           <div className="cursor-pointer">
                             <UAudio
-                              playCount={0}
                               id={e.Id}
                               isPlaying={e.Id == audioPlaying}
-                              onPlaying={() => handlePlayAudio(e.Id)}
+                              maxPlayCount={0}
+                              isLoading={audioLoading === e.Id}
+                              onPlaying={handlePlayAudio}
+                              src={listAudio[e.Id]}
+                              onFinish={handleOnAudioFinish}
                             />
                           </div>
                         )}
@@ -609,7 +646,7 @@ function DanhSachDeThi() {
                       <div className="flex flex-col gap-3 flex-1 md:max-w-[50%]">
                         <div className="text-left">
                           <span className="text-vs-danger font-semibold mr-1">
-                            Câu hỏi ID {e.Id}:{' '}
+                            Câu hỏi {i + 1}:{' '}
                           </span>
                           {(() => {
                             if (e.CauHoi.type === 'image') {
@@ -650,7 +687,7 @@ function DanhSachDeThi() {
                             color={
                               isShowAnswer
                                 ? e.Dung
-                                  ? 'success'
+                                  ? 'primary'
                                   : 'danger'
                                 : 'primary'
                             }
@@ -702,7 +739,7 @@ function DanhSachDeThi() {
                             color={
                               isShowAnswer
                                 ? e.Dung
-                                  ? 'success'
+                                  ? 'primary'
                                   : 'danger'
                                 : 'primary'
                             }
@@ -754,7 +791,7 @@ function DanhSachDeThi() {
                             color={
                               isShowAnswer
                                 ? e.Dung
-                                  ? 'success'
+                                  ? 'primary'
                                   : 'danger'
                                 : 'primary'
                             }
@@ -807,7 +844,7 @@ function DanhSachDeThi() {
                               color={
                                 isShowAnswer
                                   ? e.Dung
-                                    ? 'success'
+                                    ? 'primary'
                                     : 'danger'
                                   : 'primary'
                               }
@@ -877,7 +914,7 @@ function DanhSachDeThi() {
               Trang trước
             </Button>
             <Button
-              disabled={currPage == totalPage}
+              disabled={currPage >= totalPage}
               onClick={() => handleChangePage(1)}
             >
               Trang sau
