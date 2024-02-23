@@ -508,9 +508,8 @@ function DanhSachDeThi() {
         <div className="flex flex-col text-center justify-start items-center gap-4 rounded-[26px] mb-4">
           <div className="w-full flex items-center justify-end gap-2">
             <select
-              value={dieuKienLoc}
               className="px-3 py-2 shadow-sm w-full max-w-[200px] outline-none border-none p-5 rounded-xl cursor-pointer"
-              onChange={handleChangeDieuKienLoc}
+              onChange={(e) => handleChangeDieuKienLoc(e)}
             >
               <option value={LOAD_CAU_HOI_DIEU_KIEN_LOC.TatCa}>Tất cả</option>
               <option value={LOAD_CAU_HOI_DIEU_KIEN_LOC.DaLam}>Đã làm</option>
@@ -634,7 +633,6 @@ function DanhSachDeThi() {
                           {
                             // hiển thị ảnh câu hỏi
                             e.listAnhCauHoiCon.map((e1, i1) => {
-                              console.log(e1)
                               return (
                                 <img
                                   className="mx-auto"
