@@ -178,10 +178,6 @@ function DeThi() {
     setFilterState(FILTER_ACTIONS.ALL)
     setIsFinished(true)
     clearInterval(INTERVAL_ID.current)
-
-    if (timeCountDown != 0) {
-      setTimeCountDown(0)
-    }
     setTimeCountDown(0)
   }
 

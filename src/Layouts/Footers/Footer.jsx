@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import { MdOutlineLocationOn, MdPhone, MdOutlinePublic } from 'react-icons/md'
 // data
@@ -98,7 +97,7 @@ function Footer() {
       <div className="bg-[#134156]">
         <div className="max-w-7xl mx-auto text-white flex items-center justify-between font-semibold p-3">
           <p>&#169; Copyright Trường Đại học Kinh tế - Kỹ thuật Công nghiệp</p>
-          <p className="text-center">Version: 2.0.0.0</p>
+          <p className="text-center">Version: 2.0.0.1</p>
         </div>
       </div>
     </footer>
