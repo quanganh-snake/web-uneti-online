@@ -71,7 +71,7 @@ export const transformSubmitValue = (value, fallback = 'null') => {
 export const makeDataImages = async (images = [], prefixKey = '') => {
   const getDataFile = images.map(async (e) => {
     const fileURL = URL.createObjectURL(e)
-    const fileName = fileURL.split('/').pop()
+    const fileName = e?.name
 
     const data = await convertDataFileToBase64(e)
     return {
