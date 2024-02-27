@@ -72,6 +72,7 @@ function DeThi() {
 
   // timer is calc by seconds
   const [timeCountDown, setTimeCountDown] = useState(0)
+  const [timeUsed, setTimeUsed] = useState(0)
   const [isFinished, setIsFinished] = useState(false)
 
   // audio playing
@@ -178,6 +179,8 @@ function DeThi() {
     setFilterState(FILTER_ACTIONS.ALL)
     setIsFinished(true)
     clearInterval(INTERVAL_ID.current)
+
+    setTimeUsed(() => deThi.ThoiGianThi * 60 - timeCountDown)
     setTimeCountDown(0)
   }
 
@@ -186,13 +189,14 @@ function DeThi() {
       return
     }
 
+    console.log(timeUsed)
     // post danh sach on thi
     postDanhSachOnThi(
       transformObjKey(
         {
           IDDeThi: `${deThi.Id}`,
           IDSinhVien: `${dataSV.IdSinhVien}`,
-          ThoiGianPhut: `${deThi.ThoiGianThi}`,
+          ThoiGianPhut: `${Number(timeUsed / 60).toFixed(2)}`,
           Diem: `${getScore}`,
           NguonTiepNhan: DANH_SACH_ON_THI_NGUON_TIEP_NHAN.WEB,
         },
