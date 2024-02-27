@@ -80,7 +80,7 @@ function HeaderSV() {
             </button>
             {/* Dropdown menu */}
             <div
-              className={`min-w-[220px] z-50 absolute top-[80%] my-4 right-0 text-base list-none bg-white divide-y divide-gray-100 rounded-b-lg shadow`}
+              className={`min-w-[220px] z-50 border shadow-icon absolute top-[80%] my-4 right-0 text-base list-none bg-white rounded-[14px]`}
               id="user-dropdown"
             >
               <DropdownProfileStudent handleLogout={handleLogout} />
