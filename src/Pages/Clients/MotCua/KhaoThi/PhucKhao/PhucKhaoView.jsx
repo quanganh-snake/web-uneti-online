@@ -23,7 +23,7 @@ function PhucKhaoView(props) {
   } = props
 
   return (
-    <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
+    <div className="bg-white shadow-module-item rounded-md">
       <div className="p-4 flex flex-col gap-4">
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
         <div className="form-submit flex flex-col w-full justify-center">
@@ -88,67 +88,67 @@ function PhucKhaoView(props) {
                       <tr>
                         <th
                           rowSpan={3}
-                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           STT
                         </th>
                         <th
                           rowSpan={3}
-                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           CHỌN
                         </th>
                         <th
                           rowSpan={3}
-                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           MÃ LỚP HỌC PHẦN
                         </th>
                         <th
                           rowSpan={3}
-                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           TÊN HỌC PHẦN
                         </th>
                         <th
                           rowSpan={3}
-                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           HÌNH THỨC THI
                         </th>
                         <th
                           rowSpan={3}
-                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           NGÀY THI
                         </th>
                         <th
                           rowSpan={3}
-                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           NHÓM
                         </th>
                         <th
                           rowSpan={3}
-                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           TIẾT
                         </th>
                         <th
                           rowSpan={3}
-                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           PHÒNG THI
                         </th>
                         <th
                           rowSpan={3}
-                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           SỐ BÁO DANH
                         </th>
                         <th
                           colSpan={4}
-                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           ĐIỂM
                         </th>
@@ -156,28 +156,28 @@ function PhucKhaoView(props) {
                       <tr>
                         <th
                           colSpan={2}
-                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           ĐIỂM THI
                         </th>
                         <th
                           colSpan={2}
-                          className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
+                          className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]"
                         >
                           ĐIỂM TỔNG KẾT
                         </th>
                       </tr>
                       <tr>
-                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           LẦN 1
                         </th>
-                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           THI LẠI
                         </th>
-                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           LẦN 1
                         </th>
-                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           THI LẠI
                         </th>
                       </tr>

@@ -182,34 +182,34 @@ function XuLySuCoView() {
               <table className="w-full">
                 <thead>
                   <tr>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       #
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Cơ sở
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Tên địa điểm
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Tên dãy nhà
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Tên phòng
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Mã giảng viên
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Họ tên
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[50px]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[50px]">
                       Tiết
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Ngày
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Danh sách sự cố
                     </th>
                   </tr>

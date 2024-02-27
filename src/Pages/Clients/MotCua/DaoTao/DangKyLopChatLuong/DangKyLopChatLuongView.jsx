@@ -21,11 +21,11 @@ function DangKyLopChatLuongView(props) {
     handleSubmitData,
   } = props
   return (
-    <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
+    <div className="bg-white shadow-module-item rounded-md">
       <div className="p-4 flex flex-col">
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
 
-        <div className="border-[#336699] border border-solid mt-5 rounded-md">
+        <div className="mt-5 rounded-md">
           <form
             onSubmit={handleSubmitData}
             className="py-8 flex flex-col justify-center items-center gap-4"
@@ -33,7 +33,7 @@ function DangKyLopChatLuongView(props) {
             <h2 className="mx-6 text-center uppercase text-2xl font-semibold text-sky-800 mb-6">
               TIẾP NHẬN - ĐĂNG KÝ LỚP HỌC CHƯƠNG TRÌNH CHẤT LƯỢNG
             </h2>
-            <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+            <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10 w-[175px]">Học kỳ (*)</span>
               <select
                 value={hocKy}
@@ -49,7 +49,7 @@ function DangKyLopChatLuongView(props) {
               </select>
             </div>
 
-            <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+            <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10 w-[175px]">Lý do (*)</span>
               <select
                 defaultValue={listLyDo[0].value}
@@ -81,22 +81,22 @@ function DangKyLopChatLuongView(props) {
                 <table className="w-full min-w-[800px]">
                   <thead>
                     <tr>
-                      <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                      <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                         STT
                       </th>
-                      <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                      <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                         CHỌN
                       </th>
-                      <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                      <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                         MÃ LỚP HỌC
                       </th>
-                      <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                      <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                         TÊN LỚP HỌC
                       </th>
-                      <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                      <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                         KHOA CHỦ QUẢN
                       </th>
-                      <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                      <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                         SĨ SỐ
                       </th>
                     </tr>

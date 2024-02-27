@@ -7,7 +7,7 @@ function CapBanSaoView(props) {
   const { home, breadcrumbs } = props
 
   return (
-    <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
+    <div className="bg-white shadow-module-item rounded-md">
       <div className="p-4 flex flex-col">
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
 

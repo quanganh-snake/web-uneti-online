@@ -44,15 +44,15 @@ function ChuyenDiemView(props) {
   )
 
   return (
-    <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
+    <div className="bg-white shadow-module-item rounded-md">
       <div className="p-4 flex flex-col">
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
-        <div className="border-[#336699] border border-solid mt-5 rounded-md">
+        <div className="mt-5 rounded-md">
           <form className="py-8 flex flex-col justify-center items-center gap-4">
             <h2 className="text-center uppercase text-2xl font-semibold text-sky-800 mb-6">
               TIẾP NHẬN YÊU CẦU CHUYỂN ĐIỂM
             </h2>
-            <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+            <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10">Xin chuyển (*)</span>
               <select
                 disabled
@@ -62,7 +62,7 @@ function ChuyenDiemView(props) {
                 <option value={xinChuyen.value}>{xinChuyen.text}</option>
               </select>
             </div>
-            <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+            <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10">Loại điểm (*)</span>
               <select
                 value={loaiDiem}
@@ -85,7 +85,7 @@ function ChuyenDiemView(props) {
                 minRows="3"
               />
             </div>
-            <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+            <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10">Giấy tờ kèm theo</span>
               <input
                 value={giayToKemTheo}
@@ -97,31 +97,31 @@ function ChuyenDiemView(props) {
               <table className="w-full min-w-[800px]">
                 <thead>
                   <tr>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       STT
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       CHỌN
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       NĂM HỌC
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       HỌC KỲ
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       MÃ HỌC PHẦN
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       MÃ MÔN HỌC
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       TÊN HỌC PHẦN
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       SỐ TÍN CHỈ
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       ĐIỂM TỔNG KẾT
                     </th>
                   </tr>
@@ -208,25 +208,25 @@ function ChuyenDiemView(props) {
                   <table className="w-full min-w-[800px]">
                     <thead>
                       <tr>
-                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           STT
                         </th>
-                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           CHỌN
                         </th>
-                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           TÊN KHOA
                         </th>
-                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           MÃ MÔN HỌC
                         </th>
-                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           TÊN MÔN HỌC
                         </th>
-                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           SỐ TÍN CHỈ
                         </th>
-                        <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                        <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                           BẬC ĐÀO TẠO
                         </th>
                       </tr>
