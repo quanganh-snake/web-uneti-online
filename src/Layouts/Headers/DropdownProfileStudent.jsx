@@ -17,9 +17,12 @@ function DropdownProfileStudent(props) {
 
   useEffect(() => {
     setModuleItems([])
-    if (pathname.includes('mot-cua')) setModuleItems(homeMotCua)
-    if (pathname.includes('hoc-tap')) setModuleItems(homeHocTap)
-    if (pathname.includes('tra-cuu')) setModuleItems(homeTraCuu)
+    if (pathname.includes('mot-cua')) 
+      setModuleItems(homeMotCua.map(e => ({...e, path: `mot-cua${e.path}`})))
+    if (pathname.includes('hoc-tap')) 
+      setModuleItems(homeHocTap.map(e => ({...e, path: `hoc-tap${e.path}`})))
+    if (pathname.includes('tra-cuu')) 
+      setModuleItems(homeTraCuu.map(e => ({...e, path: `tra-cuu${e.path}`})))
 
   }, [pathname])
 
@@ -49,8 +52,6 @@ function DropdownProfileStudent(props) {
             text={item.title}
           />
         ))}
-
-
       </div>
     </>
   )
