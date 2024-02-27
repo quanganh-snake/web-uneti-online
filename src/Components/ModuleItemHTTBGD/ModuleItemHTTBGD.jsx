@@ -7,7 +7,7 @@ function ModuleItemHTTBGD(props) {
 
   return (
     <Link to={`${pathname}${item.path}`}>
-      <div className="bg-white p-8 rounded-[22px] h-full flex flex-col justify-center md:flex-row md:justify-start items-center shadow-sm">
+      <div className="bg-white p-8 rounded-[22px] w-full h-full flex md:flex-col md:justify-start flex-row justify-center items-center shadow-module-item hover:shadow-none transition-all hover:border-uneti-primary-lighter border">
         <img
           src={item.thumbnail}
           className="inline-block w-20 h-20"
