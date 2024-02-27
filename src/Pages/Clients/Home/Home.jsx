@@ -71,7 +71,7 @@ function Home() {
       </div>
     )
   } else {
-    navigate('/dangnhap')
+    navigate('/dang-nhap')
     return
   }
 }

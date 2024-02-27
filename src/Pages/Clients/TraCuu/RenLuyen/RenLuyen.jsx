@@ -11,11 +11,11 @@ function RenLuyen() {
 
   const breadcrumbs = [
     {
-      path: '/tracuu',
+      path: '/tra-cuu',
       title: 'Tra cứu',
     },
     {
-      path: '/tracuu/renluyen',
+      path: '/tra-cuu/ren-luyen',
       title: 'Rèn luyện',
     },
   ]

@@ -1,7 +1,6 @@
 import { useLocation } from 'react-router-dom'
 import TheoDoiDeNghiChiTietView from './TheoDoiDeNghiChiTietView'
 import { useEffect, useState } from 'react'
-import { isEmpty } from 'lodash-unified'
 import {
   getChiTietYeuCau,
   updateXemYeuCau,
@@ -16,27 +15,27 @@ function TheoDoiDeNghiChiTiet() {
 
   const breadcrumbs = [
     {
-      path: '/theodoidenghi',
+      path: '/theo-doi-de-nghi',
       title: 'Theo dõi đề nghị',
     },
     {
-      path: '/theodoidenghi/theodoidenghichitiet',
+      path: '/theo-doi-de-nghi/theo-doi-de-nghi-chi-tiet',
       title: 'Theo dõi đề nghị chi tiết',
     },
   ]
   const uLocation = useLocation()
-  const [yeuCau, setYeuCau] = useState(uLocation.state?.yeuCau)
+  const [yeuCau] = useState(uLocation.state?.yeuCau)
   const [chiTiet, setChiTiet] = useState({})
   const dataSV = DataSinhVien()
 
   if (!uLocation.state) {
-    location.href = '/theodoidenghi'
+    location.href = '/theo-doi-de-nghi'
     return
   }
 
   const handleXemYeuCau = async () => {
     if (yeuCau.MC_TrangThai_YeuCau_SinhVien_XemThongBao) {
-      const xemYeuCau = await updateXemYeuCau({
+      await updateXemYeuCau({
         MC_TrangThai_YeuCau_SinhVien_ID:
           yeuCau.MC_TrangThai_YeuCau_SinhVien_ID.toString(),
         MC_TrangThai_YeuCau_SinhVien_TrangThai:

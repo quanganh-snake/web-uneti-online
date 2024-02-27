@@ -1,10 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import {
-  MdLogout,
-  MdNotificationImportant,
-} from 'react-icons/md'
+import { MdLogout, MdNotificationImportant } from 'react-icons/md'
 import { FaYoutube } from 'react-icons/fa6'
 
 function DropdownProfileTeacher(props) {
@@ -14,7 +11,7 @@ function DropdownProfileTeacher(props) {
       <ul className="py-2" aria-labelledby="user-menu-button">
         <li>
           <Link
-            to="tthcgiangvien/theodoiquytrinh"
+            to="tthc-giang-vien/theo-doi-quy-trinh"
             className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:font-bold hover:text-white hover:bg-sky-800"
           >
             <MdNotificationImportant className="text-xl" />

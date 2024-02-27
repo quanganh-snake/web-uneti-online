@@ -17,17 +17,17 @@ import { required } from '@/Services/Validators/required'
 function EmailLMS() {
   const EMAIL_LMS_PREFIX = 'MC_DT_EMAILLMS_'
   const home = {
-    path: '/motcua',
+    path: '/mot-cua',
     title: 'Bộ phận một cửa',
   }
 
   const breadcrumbs = [
     {
-      path: '/motcua/daotao',
+      path: '/mot-cua/dao-tao',
       title: 'Đào tạo',
     },
     {
-      path: '/motcua/daotao/emaillms',
+      path: '/mot-cua/dao-tao/email-lms',
       title: 'Email, LMS',
     },
   ]

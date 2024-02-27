@@ -2,17 +2,17 @@ import MienHocThiTiengAnhView from './MienHocThiTiengAnhView'
 
 function MienHocThiTiengAnh() {
   const home = {
-    path: '/motcua',
+    path: '/mot-cua',
     title: 'Bộ phận một cửa',
   }
 
   const breadcrumbs = [
     {
-      path: '/motcua/khaothi',
+      path: '/mot-cua/khao-thi',
       title: 'Khảo thí',
     },
     {
-      path: '/motcua/khaothi/mienhocthiTA',
+      path: '/mot-cua/khao-thi/mien-hoc-thi-tieng-anh',
       title: 'Miễn học, thi Tiếng Anh',
     },
   ]

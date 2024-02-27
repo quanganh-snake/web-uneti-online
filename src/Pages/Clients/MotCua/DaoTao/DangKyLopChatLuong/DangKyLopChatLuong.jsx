@@ -21,17 +21,17 @@ const MC_DT_DKHocChatLuong_PREFIX = 'MC_DT_DKHocChatLuong_'
 
 function DangKyLopChatLuong() {
   const home = {
-    path: '/motcua',
+    path: '/mot-cua',
     title: 'Bộ phận một cửa',
   }
 
   const breadcrumbs = [
     {
-      path: '/motcua/daotao',
+      path: '/mot-cua/dao-tao',
       title: 'Đào tạo',
     },
     {
-      path: '/motcua/daotao/dangkylopchatluong',
+      path: '/mot-cua/dao-tao/dang-ky-lop-chat-luong',
       title: 'Đăng ký lớp chất lượng',
     },
   ]

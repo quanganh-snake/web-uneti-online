@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import logoUNETI from '../../../assets/Images/LOGO_UNETI.ico'
 

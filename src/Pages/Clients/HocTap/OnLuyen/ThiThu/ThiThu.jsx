@@ -54,7 +54,7 @@ export default function ThiThu() {
         {danhSachMonHocTheoHocKy.map((hocKy, index) => (
           <HocKy key={index} hocKy={hocKy.HocKy}>
             {hocKy.MonHoc.map((mh, index) => (
-              <Link key={index} to={`danhsachdethi/${mh.MaMonHoc}`}>
+              <Link key={index} to={`danh-sach-de-thi/${mh.MaMonHoc}`}>
                 <MonHoc
                   TenMonHoc={mh.TenMonHoc}
                   MaMonHoc={mh.MaMonHoc}

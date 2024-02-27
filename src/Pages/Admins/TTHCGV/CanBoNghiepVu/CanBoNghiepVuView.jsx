@@ -146,7 +146,7 @@ function CanBoNghiepVuView({
                                 </ul>
                                 <div className="flex flex-wrap items-center gap-4">
                                   <Link
-                                    to={`/admin/canbonghiepvu/chitietyeucau/${titleSlug}/${itemYeuCau.MC_TTHC_GV_GuiYeuCau_ID}`}
+                                    to={`/admin/can-bo-nghiep-vu/chi-tiet-yeu-cau/${titleSlug}/${itemYeuCau.MC_TTHC_GV_GuiYeuCau_ID}`}
                                     className="whitespace-nowrap lg:whitespace-normal text-white font-semibold bg-[#336699] px-3 py-1 rounded-full hover:opacity-70"
                                   >
                                     Xử lý/Xem chi tiết

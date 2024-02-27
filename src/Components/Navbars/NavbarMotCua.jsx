@@ -24,7 +24,7 @@ function NavbarMotCua() {
           return (
             <li key={index}>
               <Link
-                to={'/motcua' + module.path}
+                to={'/mot-cua' + module.path}
                 className={[bem.e('item'), bem.is('active', isActive)].join(
                   ' ',
                 )}

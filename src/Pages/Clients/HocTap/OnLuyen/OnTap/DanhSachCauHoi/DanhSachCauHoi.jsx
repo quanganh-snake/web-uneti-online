@@ -66,7 +66,7 @@ function DanhSachDeThi() {
 
       if (isNil(filterData)) {
         //   nếu không tìm thấy môn học nào thì trở lại trang danh sách
-        navigate('/hoctap/onluyen/ontap')
+        navigate('/hoc-tap/on-luyen/on-tap')
       } else {
         setMonHoc(filterData)
       }
@@ -82,7 +82,7 @@ function DanhSachDeThi() {
 
       if (isNil(filterData)) {
         //   nếu không tìm thấy môn học nào thì trở lại trang danh sách
-        navigate(`/hoctap/onluyen/ontap/danhsachphan/${maMonHoc}`)
+        navigate(`/hoc-tap/on-luyen/on-tap/danh-sach-phan/${maMonHoc}`)
       } else {
         setPhanCauHoi(filterData)
       }
@@ -98,7 +98,7 @@ function DanhSachDeThi() {
       if (isNil(filterData)) {
         //   nếu không tìm thấy môn học nào thì trở lại trang danh sách
         navigate(
-          `/hoctap/onluyen/ontap/danhsachphan/${maMonHoc}/danhsachchuong/${idPhanCauHoi}`,
+          `/hoc-tap/on-luyen/on-tap/danh-sach-phan/${maMonHoc}/danh-sach-chuong/${idPhanCauHoi}`,
         )
       } else {
         setChuong(filterData)

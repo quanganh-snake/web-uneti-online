@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 import ChartThongKe from './ThongKeBaoHong/ChartThongKe'
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa6'
 import clsx from 'clsx'
-import DanhSachBaoHong from './SuaChuaTaiSan/DanhSachBaoHong'
 import ThongKeBaoHong from './DanhSachThongKeBaoHong/ThongKeBaoHong'
 
 const HomeTaiSan = () => {
@@ -58,7 +57,7 @@ const HomeTaiSan = () => {
                 !openSupporter && 'hidden lg:block',
               )}
             >
-              {listCanBoHoTro.map((item, index) => (
+              {listCanBoHoTro.map((item) => (
                 <p key={item.id} className="mb-2">
                   <Link
                     to={`tel:${item.phone}`}
@@ -105,7 +104,7 @@ const HomeTaiSan = () => {
                   !openSupportHotline && 'hidden lg:block',
                 )}
               >
-                {listHotlines.map((item, index) => (
+                {listHotlines.map((item) => (
                   <li key={item.id}>
                     <Link
                       to={`tel:${item.phone}`}
@@ -142,7 +141,7 @@ const HomeTaiSan = () => {
                 )}
               </h3>
               <ul className={clsx('p-2', !openSupportApp && 'hidden lg:block')}>
-                {listAppSupport.map((item, index) => (
+                {listAppSupport.map((item) => (
                   <li key={item.id}>
                     <Link
                       to={item.link}

@@ -1,18 +1,18 @@
 export const hocTapSidebar = [
   {
-    name: '/hoctap/ketquahoctap',
+    name: '/hoc-tap/ket-qua-hoc-tap',
     label: 'Kết quả học tập',
   },
   {
-    name: '/hoctap/onluyen',
+    name: '/hoc-tap/on-luyen',
     label: 'Ôn luyện trắc nghiệm',
     children: [
       {
-        name: '/ontap',
+        name: '/on-tap',
         label: 'Ôn tập',
       },
       {
-        name: '/thithu',
+        name: '/thi-thu',
         label: 'Thi thử',
       },
     ],

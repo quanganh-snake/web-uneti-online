@@ -1,4 +1,3 @@
-import React from 'react'
 import img_error403 from '@/assets/Images/error403.png'
 
 export const Error403 = () => {

@@ -18,7 +18,7 @@ function HomeDaoTao() {
   ]
 
   const home = {
-    path: '/motcua',
+    path: '/mot-cua',
     title: 'Bộ phận Một cửa',
   }
 

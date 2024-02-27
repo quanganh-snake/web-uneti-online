@@ -20,7 +20,7 @@ import Swal from 'sweetalert2'
 import { toast } from 'react-toastify'
 import Loading from '../../../../Components/Loading/Loading'
 
-const PATH_TTHCGV = '/admin/quantriTTHCGV/hosothutuc'
+const PATH_TTHCGV = '/admin/quan-tri-TTHCGV/ho-so-thu-tuc'
 
 function DanhSachHoSo() {
   // variables
@@ -185,7 +185,7 @@ function DanhSachHoSo() {
                             <td className="px-2 py-1 border-r border-slate-300">
                               <div className="flex flex-col gap-1">
                                 <Link
-                                  to={`${PATH_TTHCGV}/xem/chitiet/${titleSlug}/${itemThuTuc.MC_TTHC_GV_ID}`}
+                                  to={`${PATH_TTHCGV}/xem/chi-tiet/${titleSlug}/${itemThuTuc.MC_TTHC_GV_ID}`}
                                   className="font-semibold text-sky-700 hover:opacity-70"
                                 >
                                   {itemThuTuc.MC_TTHC_GV_TenThuTuc}
@@ -224,7 +224,7 @@ function DanhSachHoSo() {
                             <td className="px-2 py-1 border-r border-slate-300">
                               <div className="flex gap-4">
                                 <Link
-                                  to={`${PATH_TTHCGV}/xem/chitiet/${titleSlug}/${itemThuTuc.MC_TTHC_GV_ID}`}
+                                  to={`${PATH_TTHCGV}/xem/chi-tiet/${titleSlug}/${itemThuTuc.MC_TTHC_GV_ID}`}
                                   className="bg-white text-[#336699] font-semibold rounded-md border px-2 py-1 hover:bg-[#336699] hover:text-white"
                                 >
                                   Sửa

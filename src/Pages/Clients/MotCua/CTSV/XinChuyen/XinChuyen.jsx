@@ -2,17 +2,17 @@ import XinChuyenView from './XinChuyenView'
 
 function XinChuyen() {
   const home = {
-    path: '/motcua',
+    path: '/mot-cua',
     title: 'Bộ phận một cửa',
   }
 
   const breadcrumbs = [
     {
-      path: '/motcua/ct&ctsv',
+      path: '/mot-cua/ct&ctsv',
       title: 'Công tác sinh viên',
     },
     {
-      path: '/motcua/ct&ctsv/xinchuyen',
+      path: '/mot-cua/ct&ctsv/xin-chuyen',
       title: 'Xin chuyển',
     },
   ]

@@ -1,7 +1,7 @@
 import DataTable from '@/Components/Base/DataTable/DataTable'
 import { useNamespace } from '@/Services/Hooks'
 import { useEffect, useMemo, useState } from 'react'
-import { Checkbox, Pagination } from '@mui/material'
+import { Pagination } from '@mui/material'
 
 const DanhSachTaiSanTraCuu = (props) => {
   const { listTaiSan, itemPerPage, textSearch } = props

@@ -361,7 +361,7 @@ function DeThi() {
         (mh) => mh.MaMonHoc === maMonHoc,
       )
       if (!_monHoc) {
-        navigate('/hoctap/onluyen/thithu')
+        navigate('/hoc-tap/on-luyen/thi-thu')
       }
       setMonHoc(_monHoc)
     }
@@ -369,7 +369,7 @@ function DeThi() {
       const _listDeThi = await getAllDeThiThiThu(maMonHoc)
       const _deThi = _listDeThi.data.body.find((e) => e.MaDeThi == maDe)
       if (!_deThi) {
-        navigate('/hoctap/onluyen/thithu')
+        navigate('/hoc-tap/on-luyen/thi-thu')
       }
       setDeThi(_deThi)
     }

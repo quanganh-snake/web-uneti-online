@@ -11,14 +11,11 @@ function ChartThongKe() {
 
   const apexchartRef = useRef()
 
-  const windowWidth = window.innerWidth
-  const [loading, setLoading] = useState(true)
   const [dataThongKe, setDataThongKe] = useState([])
   // effect
   useEffect(() => {
     getDanhSachThongKeYeuCau()
       .then((res) => {
-        setLoading(false)
         setDataThongKe(res)
       })
       .catch((err) => console.log(err))

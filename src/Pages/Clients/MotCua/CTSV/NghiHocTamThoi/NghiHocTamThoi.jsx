@@ -3,17 +3,17 @@ import NghiHocTamThoiView from './NghiHocTamThoiView'
 
 function NghiHocTamThoi() {
   const home = {
-    path: '/motcua',
+    path: '/mot-cua',
     title: 'Bộ phận một cửa',
   }
 
   const breadcrumbs = [
     {
-      path: '/motcua/ct&ctsv',
+      path: '/mot-cua/ct&ctsv',
       title: 'Công tác sinh viên',
     },
     {
-      path: '/motcua/ct&ctsv/nghihoctamthoi',
+      path: '/mot-cua/ct&ctsv/nghi-hoc-tam-thoi',
       title: 'Nghỉ học tạm thời',
     },
   ]

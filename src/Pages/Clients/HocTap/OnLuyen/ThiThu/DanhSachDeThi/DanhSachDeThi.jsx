@@ -25,7 +25,7 @@ function DanhSachDeThi() {
   useEffect(() => {
     getAllDeThiThiThu(id).then((res) => {
       if (!res?.data?.body[0]) {
-        navigate('/hoctap/onluyen/thithu')
+        navigate('/hoc-tap/on-luyen/thi-thu')
         return
       }
 
@@ -36,7 +36,7 @@ function DanhSachDeThi() {
       if (
         !res?.data?.body.filter((mh) => mh.MaMonHoc.toString() === id).length
       ) {
-        navigate('/hoctap/onluyen/thithu')
+        navigate('/hoc-tap/on-luyen/thi-thu')
       }
       setMonHoc(
         res?.data?.body.filter((mh) => mh.MaMonHoc.toString() === id)[0],
@@ -50,7 +50,7 @@ function DanhSachDeThi() {
   }, [])
 
   const handleBatDauThi = (deThi) => {
-    navigate(`dethi/${deThi.MaDeThi}`)
+    navigate(`de-thi/${deThi.MaDeThi}`)
   }
 
   return (

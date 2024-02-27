@@ -114,7 +114,7 @@ export const privateRoutes = (
         <Route path="admin">
           <Route index element={<HomeAdmin />} />
           <Route
-            path="canbonghiepvu"
+            path="can-bo-nghiep-vu"
             element={
               <RoleViewActionMiddleware
                 allowedRoleViewAction={[ROLE_VIEW_ACTION_TTHCGV.CBNV_TTHCGV]}
@@ -122,14 +122,14 @@ export const privateRoutes = (
             }
           >
             <Route index element={<CanBoNghiepVu />} />
-            <Route path="hosoxuly" element={<CanBoNghiepVu />} />
+            <Route path="ho-so-xu-ly" element={<CanBoNghiepVu />} />
             <Route
-              path="chitietyeucau/:yeucau/:id"
+              path="chi-tiet-yeu-cau/:yeucau/:id"
               element={<ChiTietHoSoYeuCau />}
             />
           </Route>
           <Route
-            path="quantriTTHCGV"
+            path="quan-tri-TTHCGV"
             element={
               <RoleViewActionMiddleware
                 allowedRoleViewAction={[ROLE_VIEW_ACTION_TTHCGV.QT_TTHCGV]}
@@ -137,10 +137,10 @@ export const privateRoutes = (
             }
           >
             <Route index element={<DanhSachHoSo />} />
-            <Route path="hosothutuc/xem/tatca" element={<DanhSachHoSo />} />
-            <Route path="hosothutuc/them" element={<AdminTTHCGV />} />
+            <Route path="ho-so-thu-tuc/xem/tat-ca" element={<DanhSachHoSo />} />
+            <Route path="ho-so-thu-tuc/them" element={<AdminTTHCGV />} />
             <Route
-              path="hosothutuc/xem/chitiet/:title/:id"
+              path="ho-so-thu-tuc/xem/chi-tiet/:title/:id"
               element={<ThongTinChiTietHoSo />}
             />
           </Route>
@@ -148,14 +148,14 @@ export const privateRoutes = (
       </Route>
       {/* Thủ tục hành chính giảng viên */}
       <Route element={<RoleMiddleware allowedRoles={[ROLES.G0101]} />}>
-        <Route path="tthcgiangvien">
+        <Route path="tthc-giang-vien">
           <Route index element={<HomeTTHCGV />} />
-          <Route path="chitiet/:tieude/:id" element={<ChiTietThuTuc />} />
-          <Route path="soanhoso/:tieude/:id/submit" element={<SoanHoSo />} />
-          <Route path="theodoiquytrinh">
+          <Route path="chi-tiet/:tieude/:id" element={<ChiTietThuTuc />} />
+          <Route path="soan-ho-so/:tieude/:id/submit" element={<SoanHoSo />} />
+          <Route path="theo-doi-quy-trinh">
             <Route index element={<TheoDoiDeNghiTTHCGV />} />
             <Route
-              path="chitiet/:tieude/:id"
+              path="chi-tiet/:tieude/:id"
               element={<TheoDoiDeNghiTTHCGVChiTiet />}
             />
           </Route>
@@ -165,119 +165,128 @@ export const privateRoutes = (
       <Route
         element={<RoleMiddleware allowedRoles={[ROLES.G0101, ROLES.S0202]} />}
       >
-        <Route path="hotrothietbi">
+        <Route path="ho-tro-thiet-bi">
           <Route index element={<HomeTaiSan />} />
-          <Route path="baohongtaisan" element={<BaoHongTaiSan />} />
-          <Route path="suachuataisan" element={<SuaChuaTaiSan />} />
-          <Route path="tracuutaisan" element={<TraCuuTaiSan />} />
-          <Route path="capnhattaisan" element={<CapNhatTaiSan />} />
+          <Route path="bao-hong-tai-san" element={<BaoHongTaiSan />} />
+          <Route path="sua-chua-tai-san" element={<SuaChuaTaiSan />} />
+          <Route path="tra-cuu-tai-san" element={<TraCuuTaiSan />} />
+          <Route path="cap-nhat-tai-san" element={<CapNhatTaiSan />} />
         </Route>
       </Route>
       {/* Một cửa - Sinh Viên */}
       <Route element={<RoleMiddleware allowedRoles={[ROLES.S0202]} />}>
         {/* Theo dõi đề nghị */}
-        <Route path="theodoidenghi">
+        <Route path="theo-doi-de-nghi">
           <Route index element={<TheoDoiDeNghi />} />
           <Route
-            path="theodoidenghichitiet"
+            path="theo-doi-de-nghi-chi-tiet"
             element={<TheoDoiDeNghiChiTiet />}
           />
         </Route>
-        <Route path="motcua">
+        <Route path="mot-cua">
           <Route index element={<HomeMotCua />} />
-          <Route path="khaothi">
+          <Route path="khao-thi">
             <Route index element={<HomeKhaoThi />} />
-            <Route path="mienhocthiTA" element={<MienHocThiTiengAnh />} />
-            <Route path="phuckhao" element={<PhucKhao />} />
-            <Route path="lichthi" element={<LichThi />} />
-            <Route path="dangkythilai" element={<DangKyThiLai />} />
-            <Route path="hoanthi" element={<HoanThi />} />
-            <Route path="huydangkythilai" element={<HuyDangKyThiLai />} />
-            <Route path="ketquahoctap" element={<KetQuaHocTap />} />
+            <Route
+              path="mien-hoc-thi-tieng-anh"
+              element={<MienHocThiTiengAnh />}
+            />
+            <Route path="phuc-khao" element={<PhucKhao />} />
+            <Route path="lich-thi" element={<LichThi />} />
+            <Route path="dang-ky-thi-lai" element={<DangKyThiLai />} />
+            <Route path="hoan-thi" element={<HoanThi />} />
+            <Route path="huy-dang-ky-thi-lai" element={<HuyDangKyThiLai />} />
+            <Route path="ket-qua-hoc-tap" element={<KetQuaHocTap />} />
           </Route>
-          <Route path="daotao">
+          <Route path="dao-tao">
             <Route index element={<HomeDaoTao />} />
-            <Route path="capbangdiem" element={<CapBangDiem />} />
-            <Route path="xacnhan" element={<XacNhanDT />} />
-            <Route path="dangkytotnghiep" element={<DangKyTotNghiep />} />
-            <Route path="capbansao" element={<CapBanSao />} />
-            <Route path="suathongtin" element={<SuaThongTin />} />
-            <Route path="mienchungchi" element={<MienChungChi />} />
-            <Route path="chuyendiem" element={<ChuyenDiem />} />
-            <Route path="emaillms" element={<EmailLMS />} />
-            <Route path="dangkylopchatluong" element={<DangKyLopChatLuong />} />
+            <Route path="cap-bang-diem" element={<CapBangDiem />} />
+            <Route path="xac-nhan" element={<XacNhanDT />} />
+            <Route path="dang-ky-tot-nghiep" element={<DangKyTotNghiep />} />
+            <Route path="cap-ban-sao" element={<CapBanSao />} />
+            <Route path="sua-thong-tin" element={<SuaThongTin />} />
+            <Route path="mien-chung-chi" element={<MienChungChi />} />
+            <Route path="chuyen-diem" element={<ChuyenDiem />} />
+            <Route path="email-lms" element={<EmailLMS />} />
+            <Route
+              path="dang-ky-lop-chat-luong"
+              element={<DangKyLopChatLuong />}
+            />
           </Route>
           <Route path="ct&ctsv">
             <Route index element={<HomeCTSV />} />
-            <Route path="caplai" element={<CapLai />} />
-            <Route path="xacnhan" element={<XacNhanCTSV />} />
-            <Route path="quatrinhhoc" element={<QuaTrinhHoc />} />
-            <Route path="nghihoctamthoi" element={<NghiHocTamThoi />} />
-            <Route path="xinchuyen" element={<XinChuyen />} />
+            <Route path="cap-lai" element={<CapLai />} />
+            <Route path="xac-nhan" element={<XacNhanCTSV />} />
+            <Route path="qua-trinh-hoc" element={<QuaTrinhHoc />} />
+            <Route path="nghi-hoc-tam-thoi" element={<NghiHocTamThoi />} />
+            <Route path="xin-chuyen" element={<XinChuyen />} />
           </Route>
-          <Route path="hanhchinh">
+          <Route path="hanh-chinh">
             <Route index element={<HomeHanhChinh />} />
-            <Route path="giaygioithieu" element={<GiayGioiThieu />} />
+            <Route path="giay-gioi-thieu" element={<GiayGioiThieu />} />
           </Route>
-          <Route path="huongdan">
+          <Route path="huong-dan">
             <Route index element={<HomeHuongDan />} />
           </Route>
         </Route>
-        <Route path="tracuu">
+        <Route path="tra-cuu">
           <Route index element={<HomeTraCuu />} />
-          <Route path="diemdanh" element={<DiemDanh />} />
-          <Route path="renluyen" element={<RenLuyen />} />
-          <Route path="thoikhoabieu" element={<ThoiKhoaBieu />} />
+          <Route path="diem-danh" element={<DiemDanh />} />
+          <Route path="ren-luyen" element={<RenLuyen />} />
+          <Route path="thoi-khoa-bieu" element={<ThoiKhoaBieu />} />
         </Route>
       </Route>
       {/* Hỗ trợ TBGD */}
       <Route element={<RoleMiddleware allowedRoles={[ROLES.G0101]} />}>
-        <Route path="hotrothietbigiangduong">
+        <Route path="ho-tro-thiet-bi-giang-duong">
           <Route index element={<HomeTBGD />} />
-          <Route path="baohong/:id?" element={<BaoHong />} />
-          <Route path="xulysuco" element={<XuLySuCo />} />
-          <Route path="dangkysudungthietbi" element={<DangKySuDungThietBi />} />
-          <Route path="gopy" element={<GopY />} />
+          <Route path="bao-hong/:id?" element={<BaoHong />} />
+          <Route path="xu-ly-su-co" element={<XuLySuCo />} />
+          <Route
+            path="dang-ky-su-dung-thiet-bi"
+            element={<DangKySuDungThietBi />}
+          />
+          <Route path="gop-y" element={<GopY />} />
         </Route>
       </Route>
 
       {/* Học tập - Sinh Viên */}
       <Route element={<RoleMiddleware allowedRoles={[ROLES.S0202]} />}>
-        <Route path="hoctap">
+        <Route path="hoc-tap">
           <Route index element={<HomeHocTap />} />
-          <Route path="ketquahoctap" element={<HocTapKetQuaHocTap />} />
+          <Route path="ket-qua-hoc-tap" element={<HocTapKetQuaHocTap />} />
           <Route
-            path="ketquahoctap/ketquahoctapchitiet/:id?"
+            path="ket-qua-hoc-tap/ket-qua-hoc-tap-chi-tiet/:id?"
             element={<KetQuaHocTapChiTiet />}
           />
-          <Route path="onluyen">
+          <Route path="on-luyen">
             <Route index element={<HocTapOnLuyen />} />
 
-            <Route path="ontap">
+            <Route path="on-tap">
               <Route index element={<HocTapOnTap />} />
-              <Route path="danhsachphan/:id?">
+              <Route path="danh-sach-phan/:id?">
                 <Route index element={<DanhSachPhan />} />
-                <Route path="danhsachchuong/:id?">
+                <Route path="danh-sach-chuong/:id?">
                   <Route index element={<DanhSachChuong />} />
                   <Route
-                    path="danhsachcauhoi/:id?"
+                    path="danh-sach-cau-hoi/:id?"
                     element={<OnTapDanhSachCauHoi />}
                   />
                 </Route>
               </Route>
             </Route>
-            <Route path="thithu">
+            <Route path="thi-thu">
               <Route index element={<HocTapThiThu />} />
-              <Route path="danhsachdethi/:id?">
+              <Route path="danh-sach-de-thi/:id?">
                 <Route index element={<ThiThuDanhSachDeThi />} />
-                <Route path="dethi/:id?" element={<DeThi />}></Route>
+                <Route path="de-thi/:id?" element={<DeThi />}></Route>
               </Route>
             </Route>
           </Route>
         </Route>
       </Route>
       {/* Hỗ trợ SDPM */}
-      <Route path="hotrosudungphanmem" element={<HoTroSuDungPhanMem />} />
+      <Route path="ho-tro-su-dung-phan-mem" element={<HoTroSuDungPhanMem />} />
     </Route>
   </>
 )

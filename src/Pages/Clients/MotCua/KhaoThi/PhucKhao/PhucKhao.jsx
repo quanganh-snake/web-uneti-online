@@ -21,17 +21,17 @@ import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 function PhucKhao() {
   const PHUC_KHAO_PREFIX = 'MC_KT_PhucKhao_'
   const home = {
-    path: '/motcua',
+    path: '/mot-cua',
     title: 'Bộ phận một cửa',
   }
 
   const breadcrumbs = [
     {
-      path: '/motcua/khaothi',
+      path: '/mot-cua/khao-thi',
       title: 'Khảo thí',
     },
     {
-      path: '/motcua/khaothi/phuckhao',
+      path: '/mot-cua/khao-thi/phuc-khao',
       title: 'Phúc khảo',
     },
   ]

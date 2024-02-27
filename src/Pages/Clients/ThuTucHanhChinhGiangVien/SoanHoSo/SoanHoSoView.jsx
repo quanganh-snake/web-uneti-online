@@ -44,7 +44,7 @@ function SoanHoSoView({
                   {dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc}
                 </span>
                 <Link
-                  to={`/tthcgiangvien/chitiet/${tieude}/${id}`}
+                  to={`/tthc-giang-vien/chi-tiet/${tieude}/${id}`}
                   className="font-semibold text-[#245D7C] hover:opacity-70 mx-3"
                 >
                   (Xem chi tiết)
@@ -194,7 +194,7 @@ function SoanHoSoView({
                   <span className="font-semibold text-red-500">*</span>
                 </label>
                 {dataChiTietThuTuc?.ThanhPhanHoSo?.length ? (
-                  <div className='overflow-x-auto'>
+                  <div className="overflow-x-auto">
                     <table className="hidden lg:block rounded-xl">
                       <thead className="bg-[#0C4A6E] text-white">
                         <tr className=" rounded-xl border-b">

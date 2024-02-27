@@ -1,15 +1,15 @@
 export const home = {
-  path: '/motcua',
+  path: '/mot-cua',
   title: 'Bộ phận một cửa',
 }
 
 export const breadcrumbs = [
   {
-    path: '/motcua/khaothi',
+    path: '/mot-cua/khao-thi',
     title: 'Khảo thí',
   },
   {
-    path: '/motcua/khaothi/hoanthi',
+    path: '/mot-cua/khao-thi/hoan-thi',
     title: 'Hoãn thi',
   },
 ]

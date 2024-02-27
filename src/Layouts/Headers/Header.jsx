@@ -53,7 +53,7 @@ function Header() {
         <div className="max-w-7xl flex flex-wrap items-center justify-between mx-auto relative">
           {/* START: MENU - Mobile */}
           <div className="menu-mobile w-12 h-12 flex justify-center items-center lg:hidden">
-            {listPath && listPath.includes('/motcua') ? (
+            {listPath && listPath.includes('/mot-cua') ? (
               <MenuMobileMotCua />
             ) : null}
             {listPath.includes('/admin') ? <MenuMobileTTHCGV /> : null}
@@ -107,8 +107,8 @@ function Header() {
           {/* END: USER - Profile */}
 
           {/* START: Navbar Pages */}
-          {listPath && listPath.includes('/motcua') ? <NavbarMotCua /> : null}
-          {listPath.includes('/tthcgiangvien') ? (
+          {listPath && listPath.includes('/mot-cua') ? <NavbarMotCua /> : null}
+          {listPath.includes('/tthc-giang-vien') ? (
             <NavbarTTHCGV />
           ) : listPath.includes('/admin') ? (
             <NavbarTTHCGV />

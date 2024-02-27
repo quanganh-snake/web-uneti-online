@@ -108,7 +108,8 @@ function TheoDoiDeNghiView(props) {
                         'Đã xử lý' ? (
                           <Link
                             to={{
-                              pathname: '/theodoidenghi/theodoidenghichitiet',
+                              pathname:
+                                '/theo-doi-de-nghi/theo-doi-de-nghi-chi-tiet',
                             }}
                             state={{ yeuCau: yc }}
                           >

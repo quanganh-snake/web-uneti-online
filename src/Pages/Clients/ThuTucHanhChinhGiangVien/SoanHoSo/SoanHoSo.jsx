@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import SoanHoSoView from './SoanHoSoView'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
@@ -12,20 +12,17 @@ import moment from 'moment-timezone'
 import { DataCanBoGV } from '../../../../Services/Utils/dataCanBoGV'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
-import {
-  isValidEmail,
-  validateEmail,
-} from '../../../../Services/Utils/emailUtils'
+import { validateEmail } from '../../../../Services/Utils/emailUtils'
 import { convertDataFileToBase64 } from '../../../../Services/Utils/stringUtils'
 function SoanHoSo() {
   const home = {
-    path: '/tthcgiangvien',
+    path: '/tthc-giang-vien',
     title: 'TTHC Giảng Viên',
   }
 
   const breadcrumbs = [
     {
-      path: '/tthcgiangvien/submit',
+      path: '/tthc-giang-vien/submit',
       title: 'Soạn hồ sơ',
     },
   ]
@@ -176,8 +173,6 @@ function SoanHoSo() {
               )
               const dataIDGuiYeuCau = await getIDGuiYeuCau.data?.body[0]
               idGuiYeuCau = await dataIDGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_ID
-              let khoaGiangVien =
-                await dataIDGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Khoa
               // UI-POST: Thanh Phan Ho So
               for (let i = 0; i < listThanhPhanHoSoFiles.length; i++) {
                 listThanhPhanHoSoFiles[

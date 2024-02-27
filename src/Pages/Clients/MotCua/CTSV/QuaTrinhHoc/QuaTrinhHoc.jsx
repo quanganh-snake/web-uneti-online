@@ -3,17 +3,17 @@ import QuaTrinhHocView from './QuaTrinhHocView'
 
 function QuaTrinhHoc() {
   const home = {
-    path: '/motcua',
+    path: '/mot-cua',
     title: 'Bộ phận một cửa',
   }
 
   const breadcrumbs = [
     {
-      path: '/motcua/ct&ctsv',
+      path: '/mot-cua/ct&ctsv',
       title: 'Công tác sinh viên',
     },
     {
-      path: '/motcua/ct&ctsv/quatrinhhoc',
+      path: '/mot-cua/ct&ctsv/qua-trinh-hoc',
       title: 'Quá trình học',
     },
   ]

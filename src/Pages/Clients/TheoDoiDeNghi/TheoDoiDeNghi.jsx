@@ -12,7 +12,7 @@ function TheoDoiDeNghi() {
 
   const breadcrumbs = [
     {
-      path: '/theodoidenghi',
+      path: '/theo-doi-de-nghi',
       title: 'Theo dõi đề nghị',
     },
   ]

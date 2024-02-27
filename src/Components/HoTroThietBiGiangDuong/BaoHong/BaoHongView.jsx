@@ -38,7 +38,7 @@ export const BaoHongView = (props) => {
                   Gửi yêu cầu
                 </button>
 
-                <Link to={'/hotrothietbigiangduong'}>
+                <Link to={'/ho-tro-thiet-bi-giang-duong'}>
                   <button className="cursor-pointer duration-200 px-3 py-2 bg-white text-sky-800 font-semibold border border-sky-800 rounded-xl hover:bg-sky-800 hover:text-white">
                     Trở lại
                   </button>

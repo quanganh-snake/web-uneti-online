@@ -20,17 +20,17 @@ function DangKyThiLai() {
   const dataSV = DataSinhVien()
 
   const home = {
-    path: '/motcua',
+    path: '/mot-cua',
     title: 'Bộ phận một cửa',
   }
 
   const breadcrumbs = [
     {
-      path: '/motcua/khaothi',
+      path: '/mot-cua/khao-thi',
       title: 'Khảo thí',
     },
     {
-      path: '/motcua/khaothi/dangkythilai',
+      path: '/mot-cua/khao-thi/dang-ky-thi-lai',
       title: 'Đăng ký thi lại',
     },
   ]

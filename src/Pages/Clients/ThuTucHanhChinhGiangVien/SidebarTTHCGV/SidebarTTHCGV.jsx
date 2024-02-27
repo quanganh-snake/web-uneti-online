@@ -134,7 +134,7 @@ function SidebarTTHCGV({ setKeywords, setDieuKienLoc }) {
                 key={index}
               >
                 <Link
-                  to={'/tthcgiangvien'}
+                  to={'/tthc-giang-vien'}
                   onClick={() => {
                     setKeywords(iData.MC_TTHC_GV_NoiTiepNhan)
                     setDieuKienLoc('NoiTiepNhan')

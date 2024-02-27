@@ -6,8 +6,6 @@ import {
 } from '@/Apis/HoTroThietBi/apiTaiSan'
 import Swal from 'sweetalert2'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
-import dayjs from 'dayjs'
-import moment from 'moment'
 
 const SuaChuaTaiSan = () => {
   const [loading, setLoading] = useState(true)
@@ -77,7 +75,7 @@ const SuaChuaTaiSan = () => {
       })
     }
     let hasError = false // Biến để kiểm tra xem có lỗi nào không
-    let hasAlreadyProcessed = false // Biến để kiểm tra xem đã xử lý trước đó chưa
+    // let hasAlreadyProcessed = false // Biến để kiểm tra xem đã xử lý trước đó chưa
     try {
       const fetchListUpdate = selected.map((obj) => {
         if (!obj.DT_QLTS_TS_HoTroThietBi_XuLy_NgayXuLy) {
@@ -188,7 +186,6 @@ const SuaChuaTaiSan = () => {
       })
   }
 
-  const [audio, setAudio] = useState(null)
   // effect
   useEffect(() => {
     getListBaoHongTS()

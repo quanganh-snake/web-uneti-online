@@ -8,7 +8,7 @@ const TraCuuTaiSan = () => {
   const [textSearch, setTextSearch] = useState('')
   const [listTaiSan, setListTaiSan] = useState([])
   const initialItemPerPage = 10
-  const [itemPerPage, setItemPerPage] = useState(initialItemPerPage)
+  const [itemPerPage] = useState(initialItemPerPage)
 
   // fetach data
   const getListTaiSan = () => {
@@ -21,7 +21,7 @@ const TraCuuTaiSan = () => {
 
   // event handlers
   const handleSearch = (e) => {
-    const { id, name, value } = e.target
+    const { id, value } = e.target
 
     if (id === 'text-search') {
       setTextSearch(value)

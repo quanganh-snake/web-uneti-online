@@ -101,35 +101,35 @@ function HeaderSV() {
               </p>
             </div>
           )}
-          {pathname.includes('/motcua') && (
+          {pathname.includes('/mot-cua') && (
             <div className="hidden lg:block col-span-7">
               <div className="flex items-center justify-center">
                 <NavbarMotCua />
               </div>
             </div>
           )}
-          {pathname.includes('/hoctap') && (
+          {pathname.includes('/hoc-tap') && (
             <div className="hidden lg:block col-span-8 lg:col-span-7">
               <p className="hidden md:inline-block w-full text-center text-2xl font-bold uppercase text-uneti-primary">
                 HỌC TẬP
               </p>
             </div>
           )}
-          {pathname.includes('/tracuu') && (
+          {pathname.includes('/tra-cuu') && (
             <div className="hidden lg:block col-span-8 lg:col-span-7">
               <p className="hidden md:inline-block w-full text-center text-2xl font-bold uppercase text-uneti-primary">
                 TRA CỨU
               </p>
             </div>
           )}
-          {pathname.includes('/hotrothietbi') && (
+          {pathname.includes('/ho-tro-thiet-bi') && (
             <div className="hidden lg:block col-span-8 lg:col-span-7">
               <p className="hidden md:inline-block w-full text-center text-2xl font-bold uppercase text-uneti-primary">
                 Hỗ Trợ Thiết Bị
               </p>
             </div>
           )}
-          {pathname.includes('/hotrosudungphanmem') && (
+          {pathname.includes('/ho-tro-su-dung-phan-mem') && (
             <div className="hidden lg:block col-span-8 lg:col-span-7">
               <p className="hidden md:inline-block w-full text-center text-2xl font-bold uppercase text-uneti-primary">
                 HỖ TRỢ SỬ DỤNG PHẦN MỀM
