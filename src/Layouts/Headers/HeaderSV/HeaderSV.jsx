@@ -13,6 +13,7 @@ import { logOut } from '@/Apis/apiLogout'
 import { persistor, store } from '@/Services/Redux/store.js'
 
 import './HeaderSV.scss'
+import { transformCls } from '@/Services/Utils/reactUtils.js'
 
 function HeaderSV() {
   const bem = useNamespace('header')
@@ -34,10 +35,10 @@ function HeaderSV() {
 
   return (
     <header
-      className={[
+      className={transformCls([
         bem.b(),
-        ' fixed left-0 right-0 top-0 z-10 w-full border-gray-200 bg-white shadow-md',
-      ]}
+        'border border-gray-200 bg-white shadow-module-item',
+      ])}
     >
       <nav className={[bem.e('nav'), 'container mx-auto']}>
         <div className="max-w-7xl flex flex-wrap items-center justify-between mx-auto relative">
