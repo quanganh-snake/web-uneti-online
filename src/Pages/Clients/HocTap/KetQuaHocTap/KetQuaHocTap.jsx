@@ -4,7 +4,6 @@ import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import CommonLayout from '@/Layouts/Common/CommonLayout'
-import { hocTapSidebar } from '../constants'
 
 export default function KetQuaHocTap() {
   const home = {
@@ -57,7 +56,6 @@ export default function KetQuaHocTap() {
         heading="KẾT QUẢ HỌC TẬP"
         home={home}
         breadcrumbs={breadcrumbs}
-        sidebar={hocTapSidebar}
       >
         {listHocKy.length
           ? listHocKy.map((hk, index) => (

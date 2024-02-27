@@ -7,7 +7,6 @@ import { getAllMonHocThiThu } from '@/Apis/HocTap/apiOnLuyenThiThu'
 import { breadcrumbs, home } from './constants'
 import HocKy from '@/Components/HocTap/OnTap/HocKy'
 import { useMemo } from 'react'
-import { hocTapSidebar } from '../../constants'
 import MonHoc from '@/Components/HocTap/OnTap/MonHoc'
 
 import iconOnLuyen from '@/assets/Icons/icon-onluyen.png'
@@ -49,7 +48,6 @@ export default function OnTap() {
   return (
     <>
       <CommonLayout
-        sidebar={hocTapSidebar}
         breadcrumbs={breadcrumbs}
         home={home}
       >

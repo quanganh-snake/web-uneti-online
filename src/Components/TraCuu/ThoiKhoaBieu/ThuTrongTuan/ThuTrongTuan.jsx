@@ -29,17 +29,17 @@ export default function ThuTrongTuan(props) {
     <div>
       <div className="flex">
         <div className="flex flex-col w-60">
-          <div className="w-[100px] bg-uneti-primary text-white font-semibold flex justify-center items-center h-full border-b border-r border-white border-opacity-30">
+          <div className="text-sm md:text-base w-[60px] md:w-[100px] bg-uneti-primary text-white font-semibold flex justify-center items-center h-full border-b border-r border-white border-opacity-30">
             Ca
           </div>
         </div>
         {list.map((e, i) => {
           return (
             <div
-              className="flex flex-col bg-uneti-primary text-white w-60 min-w-[220px] px-2 border-b border-r border-white border-opacity-30 last:border-r-0"
+              className="flex flex-col bg-uneti-primary text-white w-60 min-w-[160px] md:min-w-[220px] px-2 border-b border-r border-white border-opacity-30 last:border-r-0"
               key={`s-col-${i}`}
             >
-              <div className="flex flex-col justify-center items-center font-semibold  py-2">
+              <div className="flex flex-col justify-center items-center font-medium text-sm md:text-base py-2">
                 <span>{e.name}</span>
                 <span>{dayjs(e.date).format('DD/MM/YYYY')}</span>
               </div>

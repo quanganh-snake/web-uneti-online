@@ -7,7 +7,6 @@ import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { getAllMonHocThiThu } from '@/Apis/HocTap/apiOnLuyenThiThu'
 
 import { breadcrumbs, home } from './constants'
-import { hocTapSidebar } from '../../constants'
 import iconThiThu from '@/assets/Icons/icon-thithu.png'
 import HocKy from '@/Components/HocTap/OnTap/HocKy'
 import MonHoc from '@/Components/HocTap/OnTap/MonHoc'
@@ -47,7 +46,6 @@ export default function ThiThu() {
   return (
     <>
       <CommonLayout
-        sidebar={hocTapSidebar}
         breadcrumbs={breadcrumbs}
         home={home}
       >

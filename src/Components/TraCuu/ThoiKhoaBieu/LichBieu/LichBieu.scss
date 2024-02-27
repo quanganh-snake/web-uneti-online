@@ -6,9 +6,13 @@
   border-radius: 14px;
   background-color: getColor(lich-bieu-background, 0.3);
   border: 2px solid getColor(lich-bieu-border, 0.6);
-  min-width: 200px;
-  height: max-content;
 
+  min-width: 140px;
+  height: max-content;
+  
+  @include res(md) {
+    min-width: 200px;
+  }
   @include when(ca-hoc) {
     @include set-var-value(
       lich-bieu-background,
@@ -51,5 +55,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+
+  @include e(room) {
+    p {
+      word-wrap: break-word;
+    }
   }
 }

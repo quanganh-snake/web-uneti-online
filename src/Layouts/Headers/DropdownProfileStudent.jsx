@@ -17,18 +17,31 @@ function DropdownProfileStudent(props) {
 
   useEffect(() => {
     setModuleItems([])
-    if (pathname.includes('mot-cua')) 
-      setModuleItems(homeMotCua.map(e => ({...e, path: `mot-cua${e.path}`})))
-    if (pathname.includes('hoc-tap')) 
-      setModuleItems(homeHocTap.map(e => ({...e, path: `hoc-tap${e.path}`})))
-    if (pathname.includes('tra-cuu')) 
-      setModuleItems(homeTraCuu.map(e => ({...e, path: `tra-cuu${e.path}`})))
+    if (pathname.includes('mot-cua'))
+      setModuleItems(homeMotCua.map(e => ({ ...e, path: `mot-cua${e.path}` })))
+    if (pathname.includes('hoc-tap'))
+      setModuleItems(homeHocTap.map(e => ({ ...e, path: `hoc-tap${e.path}` })))
+    if (pathname.includes('tra-cuu'))
+      setModuleItems(homeTraCuu.map(e => ({ ...e, path: `tra-cuu${e.path}` })))
 
   }, [pathname])
 
   return (
     <>
       <div className="p-3" aria-labelledby="user-menu-button">
+        {moduleItems.map((item, index) => (
+          item.moduleActive && <DropdownProfileItem
+            key={index}
+            to={item.path}
+            icon={<img height="20" width="20" src={item.thumbnail} /> || item.ico}
+            text={item.title}
+          />
+        ))}
+
+        {moduleItems.length > 0 &&
+          <div className='h-[2px] w-full bg-gray-100 my-2' />
+        }
+
         <DropdownProfileItem to="theo-doi-de-nghi" icon={<MdNotificationImportant className="text-xl" />} text="Theo dõi đề nghị" />
 
         <DropdownProfileItem
@@ -39,19 +52,6 @@ function DropdownProfileStudent(props) {
           onClick={handleLogout}
           icon={<MdLogout className="text-xl" />} text="Đăng xuất"
         />
-
-        {moduleItems.length > 0 &&
-          <div className='h-[2px] w-full bg-gray-100 my-2' />
-        }
-
-        {moduleItems.map((item, index) => (
-          item.moduleActive && <DropdownProfileItem
-            key={index}
-            to={item.path}
-            icon={<img height="20" width="20" src={item.thumbnail} /> || item.ico}
-            text={item.title}
-          />
-        ))}
       </div>
     </>
   )
