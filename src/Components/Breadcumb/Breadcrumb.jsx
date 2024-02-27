@@ -18,7 +18,7 @@ function Breadcrumb(props) {
             id="homeDropdown"
             data-dropdown-toggle="dropdown"
             to={home.path}
-            className="inline-flex items-center text-sm font-medium text-vs-theme-color opacity-70 hover:opacity-90"
+            className="inline-flex items-center text-xs md:text-sm font-medium text-vs-theme-color opacity-70 hover:opacity-90"
           >
             <svg
               className="w-3 h-3 me-2.5"
@@ -54,7 +54,7 @@ function Breadcrumb(props) {
                 <Link
                   to={breadcrumb.path}
                   className={clsx(
-                    'ms-1 text-sm font-medium  opacity-70 hover:opacity-90 md:ms-2',
+                    'ms-1 text-xs md:text-sm font-medium  opacity-70 hover:opacity-90 md:ms-2',
                     pathname === breadcrumb.path
                       ? 'text-blue-600'
                       : 'text-vs-theme-color',
