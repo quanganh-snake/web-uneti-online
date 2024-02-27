@@ -8,14 +8,20 @@
   color: getColor(text, 0.9);
   border-radius: 10px;
   font-weight: 500;
+  border: 1px solid transparent;
 
   &:hover {
-    background-color: getColor(primary);
-    color: #fff;
+    // background-color: getColor(primary, 0.8);
+    border: 1px solid getColor(primary, 0.2);
+    // color: #fff;
 
     @include e(text) {
-      margin-left: 3px;
-      color: #fff;
+      transform: translateX(3px);
+      // color: #fff;
+    }
+
+    @include e(icon) {
+
     }
   }
 
