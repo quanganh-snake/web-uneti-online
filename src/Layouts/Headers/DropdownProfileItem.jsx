@@ -12,23 +12,16 @@ const DropdownProfileItem = (props) => {
 
   return (
     <>
-      <Link
-        onClick={onClick}
-        to={to}
-        className={ns.b()}
-      >
-        {children ?
+      <Link onClick={onClick} to={to} className={ns.b()}>
+        {children ? (
           children
-          : <>
-            {icon && <DropdownProfileItemIcon>
-              {icon}
-            </DropdownProfileItemIcon>}
+        ) : (
+          <>
+            {icon && <DropdownProfileItemIcon>{icon}</DropdownProfileItemIcon>}
 
-            <DropdownProfileItemText>
-              {text}
-            </DropdownProfileItemText>
-          </>}
-
+            <DropdownProfileItemText>{text}</DropdownProfileItemText>
+          </>
+        )}
       </Link>
     </>
   )

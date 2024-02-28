@@ -24,7 +24,7 @@ function TheoDoiDeNghiTTHCGV() {
   }, [])
 
   return (
-    <div className="bg-white w-full h-[100vh]">
+    <div className="w-full h-[100vh]">
       {listHoSoYeuCau?.length < 1 && (
         <p className="p-2 text-center text-[#336699] border font-semibold">
           Bạn chưa có yêu cầu đề nghị nào!

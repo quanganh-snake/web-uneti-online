@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { homeTTHCGV } from '../../Services/Static/dataStatic.js'
-import { Link } from 'react-router-dom'
-import clsx from 'clsx'
+import { NavLink } from 'react-router-dom'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV.js'
 import { ROLE_VIEW_ACTION_TTHCGV } from '@/Routers/privateRoutes.jsx'
 
@@ -34,23 +33,24 @@ function NavbarTTHCGV() {
                 setActiveIndex(index)
               }
             }
-            const isActive = index === activeIndex
             return (
               <li key={module.id}>
-                <Link
+                <NavLink
                   to={module.path}
-                  className={clsx(
-                    'block hover:bg-sky-800 hover:text-white px-4 py-2 rounded-[99px]',
-                    isActive
-                      ? 'bg-sky-800 text-white'
-                      : 'bg-transparent text-black',
-                    module?.roleActive.includes(roleViewAction) ? '' : 'hidden',
-                  )}
+                  className={
+                    module?.roleActive.includes(roleViewAction)
+                      ? ({ isActive}) => {
+                          return isActive
+                            ? 'bg-sky-800 text-white px-3 py-2 rounded-full'
+                            : 'hover:bg-sky-800 hover:text-white px-3 py-2 rounded-full'
+                        }
+                      : 'hidden'
+                  }
                   aria-current="page"
                   onClick={handleActive}
                 >
                   {module.name}
-                </Link>
+                </NavLink>
               </li>
             )
           })}

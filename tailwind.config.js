@@ -24,7 +24,7 @@ module.exports = {
       },
       boxShadow: {
         icon: '0 8px 25px 0 rgba(0, 0, 0, 0.04)',
-        'module-item': '0 15px 30px -8px #00000006'
+        'module-item': '0 15px 30px -8px #00000006',
       },
     },
 

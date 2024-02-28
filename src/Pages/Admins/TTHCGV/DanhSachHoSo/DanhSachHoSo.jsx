@@ -1,12 +1,8 @@
-import React from 'react'
 import SidebarTTHCGV from '../Sidebar/SidebarTTHCGV'
 import {
   delThuTucHanhChinhByID,
-  getAllThuTucHanhChinhGV,
   getThuTucHanhChinhByKeyWords,
 } from '../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
-import { DataCanBoGV } from '../../../../Services/Utils/dataCanBoGV'
-import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import ReactPaginate from 'react-paginate'
@@ -156,7 +152,7 @@ function DanhSachHoSo() {
                       <th className="px-2 py-1 rounded-tl-lg border-r">STT</th>
                       <th className="px-2 py-1 border-r">Thủ tục</th>
                       <th className="px-2 py-1 border-r">Lĩnh vực</th>
-                      <th className="px-2 py-1 rounded-tr-lg"></th>
+                      <th className="px-2 py-1 rounded-tr-lg">Tác vụ</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -222,10 +218,10 @@ function DanhSachHoSo() {
                               {itemThuTuc.MC_TTHC_GV_LinhVuc}
                             </td>
                             <td className="px-2 py-1 border-r border-slate-300">
-                              <div className="flex gap-4">
+                              <div className="flex flex-col gap-2">
                                 <Link
                                   to={`${PATH_TTHCGV}/xem/chi-tiet/${titleSlug}/${itemThuTuc.MC_TTHC_GV_ID}`}
-                                  className="bg-white text-[#336699] font-semibold rounded-md border px-2 py-1 hover:bg-[#336699] hover:text-white"
+                                  className="bg-white text-[#336699] text-center font-semibold rounded-md border px-2 py-1 hover:bg-[#336699] hover:text-white"
                                 >
                                   Sửa
                                 </Link>
@@ -234,9 +230,16 @@ function DanhSachHoSo() {
                                   onClick={() => {
                                     handleDeleteThuTuc(itemThuTuc.MC_TTHC_GV_ID)
                                   }}
-                                  className="bg-red-500 text-white font-semibold px-2 py-1 rounded-md hover:opacity-70"
+                                  className={clsx(
+                                    ' text-white text-center font-semibold py-2 px-5 rounded-md hover:opacity-70',
+                                    itemThuTuc.MC_TTHC_GV_HienThi
+                                      ? 'bg-red-500'
+                                      : 'bg-green-500',
+                                  )}
                                 >
-                                  Xóa
+                                  {itemThuTuc.MC_TTHC_GV_HienThi
+                                    ? 'Ẩn'
+                                    : 'Hiển thị'}
                                 </button>
                               </div>
                             </td>

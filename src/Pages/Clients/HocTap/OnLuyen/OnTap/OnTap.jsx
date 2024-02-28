@@ -47,10 +47,7 @@ export default function OnTap() {
 
   return (
     <>
-      <CommonLayout
-        breadcrumbs={breadcrumbs}
-        home={home}
-      >
+      <CommonLayout breadcrumbs={breadcrumbs} home={home}>
         {danhSachMonHocTheoHocKy.map((hocKy, index) => (
           <HocKy key={index} hocKy={hocKy.HocKy}>
             {hocKy.MonHoc.map((mh, index) => (

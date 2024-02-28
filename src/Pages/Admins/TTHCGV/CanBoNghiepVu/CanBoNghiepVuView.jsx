@@ -1,5 +1,4 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import SidebarTTHCGV from '../Sidebar/SidebarTTHCGV'
 import { Link } from 'react-router-dom'
 import { changeSlug } from '../../../../Services/Utils/stringUtils'
@@ -58,7 +57,7 @@ function CanBoNghiepVuView({
                     id=""
                   >
                     <option value="">Tất cả hồ sơ</option>
-                    {listTrangThaiHoSo?.map((iTrangThai, index) => {
+                    {listTrangThaiHoSo?.map((iTrangThai) => {
                       return (
                         <option
                           value={iTrangThai.MC_TTHC_GV_TrangThai_TenTrangThai}
@@ -132,7 +131,7 @@ function CanBoNghiepVuView({
                                     </span>
                                   </li>
                                   <li>
-                                    - Ngày tiếp nhận:{' '}
+                                    - Ngày nộp hồ sơ:{' '}
                                     {moment(
                                       itemYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayGui,
                                     ).format('DD/MM/YYYY')}
@@ -159,12 +158,12 @@ function CanBoNghiepVuView({
                                       onClick={() => {
                                         handleTiepNhanHoSo(itemYeuCau)
                                       }}
-                                      className="whitespace-nowrap lg:whitespace-normal text-white font-semibold bg-[#0484AC] px-3 py-1 rounded-full hover:opacity-70"
+                                      className="hidden whitespace-nowrap lg:whitespace-normal text-white font-semibold bg-[#0484AC] px-3 py-1 rounded-full hover:opacity-70"
                                     >
                                       Tiếp nhận
                                     </button>
                                   ) : (
-                                    <p className="whitespace-nowrap lg:whitespace-normal text-white font-semibold bg-green-700 px-3 py-1 rounded-full">
+                                    <p className="hidden whitespace-nowrap lg:whitespace-normal text-white font-semibold bg-green-700 px-3 py-1 rounded-full">
                                       Đã tiếp nhận
                                     </p>
                                   )}
