@@ -48,8 +48,8 @@ function ChuyenDiemView(props) {
       <div className="p-4 flex flex-col">
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
         <div className="mt-5 rounded-md">
-          <form className="py-8 flex flex-col justify-center items-center gap-4">
-            <h2 className="text-center uppercase text-2xl font-semibold text-sky-800 mb-6">
+          <form className="md:py-8 flex flex-col justify-center items-center gap-4">
+            <h2 className="text-center uppercase text-lg md:text-2xl font-semibold text-sky-800 mb-3 md:mb-6">
               TIẾP NHẬN YÊU CẦU CHUYỂN ĐIỂM
             </h2>
             <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
@@ -202,7 +202,7 @@ function ChuyenDiemView(props) {
           </form>
 
           {!isEmpty(hocPhan) && (
-            <div className="py-8 flex flex-col justify-center items-center gap-4">
+            <div className="md:py-8 flex flex-col justify-center items-center gap-4">
               <div className="w-[75%] flex flex-col md:justify-between md:items-center gap-2">
                 <div className="w-full overflow-x-auto">
                   <table className="w-full min-w-[800px]">
@@ -331,7 +331,7 @@ function ChuyenDiemView(props) {
               </div>
             </div>
           )}
-          <div className="py-8 flex flex-col justify-center items-center gap-4">
+          <div className="md:py-8 flex flex-col justify-center items-center gap-4">
             <GiayToKemTheoAlert
               downloadId={VanBanMauID.MotCua.DaoTao.ChuyenDiem}
               downloadText={'Chuyển điểm'}

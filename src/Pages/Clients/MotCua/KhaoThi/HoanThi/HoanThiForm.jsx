@@ -7,17 +7,14 @@ export const HoanThiForm = (props) => {
   return (
     <>
       {/* Start: Tên đọt - Học kỳ */}
-      <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
-        <label
-          htmlFor={'MC_KT_HoanThi_TenDot'}
-          className="md:w-[30%] mb-2 md:mb-0"
-        >
+      <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+        <label htmlFor={'MC_KT_HoanThi_TenDot'} className="block pr-10">
           Học kỳ (*)
         </label>
         <select
           id={'MC_KT_HoanThi_TenDot'}
           onChange={handleChangeValue}
-          className="md:w-[70%] border px-2 py-1 rounded-lg outline-sky-800"
+          className="flex-1 md:max-w-[75%] px-2 py-1 rounded-md border border-solid border-gray-300"
         >
           <option value={''}>Chọn học kỳ</option>
           {listHocKy?.map((option) => (
@@ -29,17 +26,14 @@ export const HoanThiForm = (props) => {
       </div>
       {/* END: Tên đợt - Học kỳ */}
       {/* Start: Tên đọt - Học kỳ */}
-      <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
-        <label
-          htmlFor={'MC_KT_HoanThi_LoaiThi'}
-          className="md:w-[30%] mb-2 md:mb-0"
-        >
+      <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+        <label htmlFor={'MC_KT_HoanThi_LoaiThi'} className="block pr-10">
           Loại thi (*)
         </label>
         <select
           id={'MC_KT_HoanThi_LoaiThi'}
           onChange={handleChangeValue}
-          className="md:w-[70%] border px-2 py-1 rounded-lg outline-sky-800"
+          className="flex-1 md:max-w-[75%] px-2 py-1 rounded-md border border-solid border-gray-300"
         >
           <option value={''}>Chọn loại thi</option>
           {dataLoaiThi.map((option) => (
@@ -51,17 +45,14 @@ export const HoanThiForm = (props) => {
       </div>
       {/* END: Tên đợt - Học kỳ */}
       {/* START: Lý do */}
-      <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
-        <label
-          htmlFor={'MC_KT_HoanThi_YeuCau'}
-          className="md:w-[30%] mb-2 md:mb-0"
-        >
+      <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+        <label htmlFor={'MC_KT_HoanThi_YeuCau'} className="block pr-10">
           Lý do (*)
         </label>
         <select
           id={'MC_KT_HoanThi_YeuCau'}
           onChange={handleChangeValue}
-          className="md:w-[70%] border px-2 py-1 rounded-lg outline-sky-800"
+          className="flex-1 md:max-w-[75%] px-2 py-1 rounded-md border border-solid border-gray-300"
         >
           <option value={''}>Chọn lý do</option>
           {listLyDo.map((itemLyDo) => (
@@ -73,10 +64,10 @@ export const HoanThiForm = (props) => {
       </div>
 
       {lyDo == LY_DO_KHAC && (
-        <div className="w-100 flex flex-col mb-4 md:flex-row justify-start md:justify-between">
+        <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
           <label
             htmlFor={'MC_KT_HoanThi_YeuCau_LyDoKhac_LyDoChiTiet'}
-            className="md:w-[30%] mb-2 md:mb-0"
+            className="block pr-10"
           >
             Lý do khác (*)
           </label>
@@ -85,7 +76,7 @@ export const HoanThiForm = (props) => {
             placeholder="Nhập lý do khác tại đây..."
             id="MC_KT_HoanThi_YeuCau_LyDoKhac_LyDoChiTiet"
             rows="3"
-            className="md:w-[70%] border px-2 py-1 rounded-lg outline-sky-800"
+            className="flex-1 md:max-w-[75%] px-2 py-1 rounded-md border border-solid border-gray-300"
             onChange={handleChangeValue}
           />
         </div>

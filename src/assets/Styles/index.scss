@@ -1,1 +1,23 @@
 @use './css-vars.scss';
+
+body {
+  font-size: 12px;
+}
+
+@include res(sm) {
+  body {
+    font-size: 13px;
+  }
+}
+
+@include res(md) {
+  body {
+    font-size: 14px;
+  }
+}
+
+@include res(lg) {
+  body {
+    font-size: 16px;
+  }
+}

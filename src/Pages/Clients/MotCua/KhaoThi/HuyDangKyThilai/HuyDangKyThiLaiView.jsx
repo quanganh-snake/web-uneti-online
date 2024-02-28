@@ -29,11 +29,11 @@ function HuyDangKyThiLaiView(props) {
       <div className="p-4 flex flex-col gap-4">
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
         <div className="mt-5 rounded-md">
-          <form className="py-8 flex flex-col justify-center items-center gap-4">
+          <form className="md:py-8 flex flex-col justify-center items-center gap-4">
             <h2 className="text-center uppercase text-xl md:text-2xl font-medium text-sky-800 mb-6">
               TIẾP NHẬN YÊU CẦU ĐĂNG KÝ HỦY THI LẠI
             </h2>
-            <div className="w-[90%] md:w-[90%] md:w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+            <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10">Học kỳ (*)</span>
               <select
                 value={tenDot}
@@ -90,7 +90,7 @@ function HuyDangKyThiLaiView(props) {
 
           {(tenDot === '' && lyDo != '') || (tenDot != '' && lyDo === '') ? (
             <div className="flex justify-center items-center pb-4">
-              <span className="w-[75%] text-center font-medium block text-red-900 bg-red-200 p-3 rounded-md">
+              <span className="w-[75%] mt-4 text-center font-medium block text-red-900 bg-red-200 p-3 rounded-md">
                 Vui lòng chọn học kỳ để xem lịch thi cần đăng ký!
               </span>
             </div>

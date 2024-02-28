@@ -7,7 +7,7 @@ function TheoDoiDeNghiChiTietView(props) {
       <div className="p-4 flex flex-col">
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
         <div className="mt-5 rounded-md">
-          <div className="py-8 flex flex-col justify-center items-center gap-4">
+          <div className="md:py-8 flex flex-col justify-center items-center gap-4">
             <h2 className="text-center px-4 uppercase text-2xl font-semibold text-sky-800 mb-6">
               CHI TIẾT THÔNG TIN XỬ LÝ GỬI YÊU CẦU TIẾP NHẬN
             </h2>

@@ -13,7 +13,7 @@ export const DangKyTotNghiepView = (props) => {
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
 
         <div className="form-submit flex flex-col w-full justify-center">
-          <h2 className="text-center uppercase text-2xl font-semibold text-sky-800 mb-6">
+          <h2 className="text-center uppercase text-lg md:text-2xl font-semibold text-sky-800 mb-3 md:mb-6">
             Tiếp nhận yêu cầu đăng ký thi, hoãn, xét tốt nghiệp
           </h2>
           <div className="lg:px-36">

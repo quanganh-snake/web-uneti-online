@@ -28,9 +28,9 @@ function DangKyLopChatLuongView(props) {
         <div className="mt-5 rounded-md">
           <form
             onSubmit={handleSubmitData}
-            className="py-8 flex flex-col justify-center items-center gap-4"
+            className="md:py-8 flex flex-col justify-center items-center gap-4"
           >
-            <h2 className="mx-6 text-center uppercase text-2xl font-semibold text-sky-800 mb-6">
+            <h2 className="mx-6 text-center uppercase text-lg md:text-2xl font-semibold text-sky-800 mb-3 md:mb-6">
               TIẾP NHẬN - ĐĂNG KÝ LỚP HỌC CHƯƠNG TRÌNH CHẤT LƯỢNG
             </h2>
             <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">

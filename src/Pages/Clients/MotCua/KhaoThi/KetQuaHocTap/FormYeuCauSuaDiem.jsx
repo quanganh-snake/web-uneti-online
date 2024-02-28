@@ -14,7 +14,7 @@ function FormYeuCauSuaDiem(props) {
     lyDo === 'Điều chỉnh, bổ sung: Điểm thường kỳ' ? listLyDoDTK : listLyDoDT
 
   return (
-    <form className="py-8 flex flex-col justify-center items-center gap-4">
+    <form className="md:py-8 flex flex-col justify-center items-center gap-4">
       <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
         <span className="block pr-10 md:w-[30%]">
           {lyDo === 'Điều chỉnh, bổ sung: Điểm thường kỳ'
