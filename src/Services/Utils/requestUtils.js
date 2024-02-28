@@ -1,6 +1,6 @@
 export const retries = async (callback, numRetries = 3) => {
   try {
-    callback()
+    await callback()
   } catch (e) {
     if (numRetries > 0) {
       retries(callback, numRetries - 1)

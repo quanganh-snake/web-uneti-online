@@ -189,7 +189,6 @@ function DeThi() {
       return
     }
 
-    console.log(timeUsed)
     // post danh sach on thi
     postDanhSachOnThi(
       transformObjKey(
@@ -391,10 +390,10 @@ function DeThi() {
       handleXacNhanNopBai()
     }
   }, [timeCountDown])
-  async function getQuestions(currentPage) {
+  function getQuestions(currentPage) {
     if (!deThi || !currentPage || pageLoaded.includes(currentPage)) return
 
-    await retries(async () => {
+    retries(async () => {
       setIsLoading(true)
       const res = await getCauHoiTheoDe({
         IDDeThi: deThi.Id,
