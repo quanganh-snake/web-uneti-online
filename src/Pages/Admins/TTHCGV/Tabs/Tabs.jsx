@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { MdOutlineZoomInMap, MdOutlineZoomOutMap } from 'react-icons/md'
@@ -9,7 +8,7 @@ function Tabs(props) {
     thongTinActive,
     tpHoSoDeNghiActive,
     trinhTuThucHienActive,
-    phiActive,
+    // phiActive,
     phanQuyenActive,
     trangThaiActive,
     zoomView,
@@ -30,7 +29,7 @@ function Tabs(props) {
             className={clsx(
               'inline-block p-4  border-b-2 rounded-t-lg',
               thongTinActive
-                ? 'active text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
+                ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
                 : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300',
             )}
           >
@@ -45,7 +44,7 @@ function Tabs(props) {
             className={clsx(
               'inline-block p-4 border-b-2 rounded-t-lg',
               tpHoSoDeNghiActive
-                ? 'active text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
+                ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
                 : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300',
             )}
             aria-current="page"
@@ -61,7 +60,7 @@ function Tabs(props) {
             className={clsx(
               'inline-block p-4 border-b-2',
               trinhTuThucHienActive
-                ? 'active text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
+                ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
                 : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300',
             )}
           >
@@ -91,7 +90,7 @@ function Tabs(props) {
             className={clsx(
               'inline-block p-4 border-b-2',
               phanQuyenActive
-                ? 'active text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
+                ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
                 : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300',
             )}
           >
@@ -106,7 +105,7 @@ function Tabs(props) {
             className={clsx(
               'inline-block p-4 border-b-2',
               trangThaiActive
-                ? 'active text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
+                ? 'text-blue-600 border-blue-600 dark:text-blue-500 dark:border-blue-500'
                 : 'border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300',
             )}
           >

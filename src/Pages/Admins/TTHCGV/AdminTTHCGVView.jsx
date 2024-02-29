@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import PropTypes from 'prop-types'
+import { useEffect, useRef, useState } from 'react'
+// import PropTypes from 'prop-types'
 import Tabs from './Tabs/Tabs'
 import ThongTinHoSo from './ThemMoiThuTuc/ThongTinHoSo'
 import ThanhPhanHoSoDeNghi from './ThemMoiThuTuc/ThanhPhanHoSoDeNghi'
 import TrinhTuThucHien from './ThemMoiThuTuc/TrinhTuThucHien'
-import PhiLePhi from './ThemMoiThuTuc/PhiLePhi'
+// import PhiLePhi from './ThemMoiThuTuc/PhiLePhi'
 import TrangThaiHoSo from './ThemMoiThuTuc/TrangThaiHoSo'
 import PhanQuyen from './ThemMoiThuTuc/PhanQuyen'
 import SidebarTTHCGV from './Sidebar/SidebarTTHCGV'
@@ -13,12 +13,12 @@ import { NguonTiepNhan_WEB } from '../../../Services/Static/dataStatic'
 import Swal from 'sweetalert2'
 import { postThanhPhanHoSoTTHCGV } from './../../../Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo'
 import { postTrinhTuThucHienTTHCGV } from './../../../Apis/ThuTucHanhChinhGiangVien/apiTrinhTuThucHien'
-import { postLePhi } from './../../../Apis/ThuTucHanhChinhGiangVien/apiLePhi'
+// import { postLePhi } from './../../../Apis/ThuTucHanhChinhGiangVien/apiLePhi'
 import { postTrangThaiTTHCGV } from './../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai'
 import { getThuTucHanhChinhByMaThuTuc } from './../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
 import { postPhanQuyenTTHCGV } from '../../../Apis/ThuTucHanhChinhGiangVien/apiPhanQuyen'
 import { toast } from 'react-toastify'
-import { FaSave } from 'react-icons/fa'
+// import { FaSave } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
 
@@ -56,12 +56,14 @@ function AdminTTHCGVView({
   const [linhVuc, setLinhVuc] = useState('')
   const [donViTiepNhan, setDonViTiepNhan] = useState('')
   const [noiTraKetQua, setNoiTraKetQua] = useState('')
+  const [isTruongPhongPheDuyet, setIsTruongPhongPheDuyet] = useState(false)
+  const [isBGHPheDuyet, setIsBGHPheDuyet] = useState(false)
   const [thuTucLienThong, setThuTucLienThong] = useState(false)
-  const [thuTucKhongApDungMotCua, setThuTucLienThongApDungMotCua] =
+  const [thuTucKhongApDungTrucTuyen, setThuTucKhongApDungTrucTuyen] =
     useState(false)
   const [thanhPhanHoSo, setThanhPhanHoSo] = useState([])
   const [quyTrinh, setQuyTrinh] = useState([])
-  const [phiLePhi, setPhiLePhi] = useState([])
+  //   const [phiLePhi, setPhiLePhi] = useState([])
   const [trangThai, setTrangThai] = useState([])
   const [phanQuyen, setPhanQuyen] = useState([])
   const [tenTepThuTuc, setTenTepThuTuc] = useState('')
@@ -128,7 +130,7 @@ function AdminTTHCGVView({
   }
 
   const handleChangeValue = (e) => {
-    const { id, value, checked, files } = e.target
+    const { id, value, checked } = e.target
     if (id === 'MC_TTHC_GV_TenThuTuc') {
       setTenThuTuc(value)
     }
@@ -161,12 +163,19 @@ function AdminTTHCGVView({
       setNoiTraKetQua(value)
     }
 
+    if (id === 'MC_TTHC_GV_IsTruongPhongPheDuyet') {
+      setIsTruongPhongPheDuyet(checked)
+    }
+    if (id === 'MC_TTHC_GV_IsBGHPheDuyet') {
+      setIsBGHPheDuyet(checked)
+    }
+
     if (id === 'MC_TTHC_GV_ThuTucLienThong') {
       setThuTucLienThong(checked)
     }
 
-    if (id === 'MC_TTHC_GV_ThuTucKhongApDungMC') {
-      setThuTucLienThongApDungMotCua(checked)
+    if (id === 'MC_TTHC_GV_ThuTucKhongApDungTrucTuyen') {
+      setThuTucKhongApDungTrucTuyen(checked)
     }
 
     if (id === 'MC_TTHC_GV_SoBoHoSo') {
@@ -191,8 +200,8 @@ function AdminTTHCGVView({
       MC_TTHC_GV_ThanhPhanHoSo_IDTTHC: '',
       MC_TTHC_GV_ThanhPhanHoSo_STT: '',
       MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo: '',
-      MC_TTHC_GV_ThanhPhanHoSo_BanChinh: false,
-      MC_TTHC_GV_ThanhPhanHoSo_BanSao: false,
+      MC_TTHC_GV_ThanhPhanHoSo_BanChinh: 0,
+      MC_TTHC_GV_ThanhPhanHoSo_BanSao: 0,
       MC_TTHC_GV_ThanhPhanHoSo_BatBuoc: false,
       MC_TTHC_GV_ThanhPhanHoSo_DataFile: null,
       MC_TTHC_GV_ThanhPhanHoSo_TenFile: '',
@@ -219,21 +228,22 @@ function AdminTTHCGVView({
     setEditRowIndex(quyTrinh.length)
   }
 
-  const handleAddLePhi = () => {
-    const newLePhi = {
-      MC_TTHC_GV_LePhi_STT: null,
-      MC_TTHC_GV_LePhi_MucPhi: null,
-      MC_TTHC_GV_LePhi_MoTa: '',
-    }
+  //   const handleAddLePhi = () => {
+  //     const newLePhi = {
+  //       MC_TTHC_GV_LePhi_STT: null,
+  //       MC_TTHC_GV_LePhi_MucPhi: null,
+  //       MC_TTHC_GV_LePhi_MoTa: '',
+  //     }
 
-    setPhiLePhi([...phiLePhi, newLePhi])
-  }
+  //     setPhiLePhi([...phiLePhi, newLePhi])
+  //   }
 
   const handleAddTrangThai = () => {
     const newTrangThai = {
       MC_TTHC_GV_TrangThai_IDTTHC: '',
       MC_TTHC_GV_TrangThai_STT: '',
       MC_TTHC_GV_TrangThai_TenTrangThai: '',
+      MC_TTHC_GV_TrangThai_DoiTuongXuLy: '',
       MC_TTHC_GV_TrangThai_MoTa: '',
     }
 
@@ -250,8 +260,10 @@ function AdminTTHCGVView({
       MC_TTHC_GV_GhiChu: '',
       MC_TTHC_GV_IDMucDo: mucDo,
       MC_TTHC_GV_LinhVuc: linhVuc,
+      MC_TTHC_GV_IsTruongPhongPheDuyet: isTruongPhongPheDuyet,
+      MC_TTHC_GV_IsBGHPheDuyet: isBGHPheDuyet,
       MC_TTHC_GV_ThuTucLienThong: thuTucLienThong,
-      MC_TTHC_GV_ThuTucKhongApDungMC: thuTucKhongApDungMotCua,
+      MC_TTHC_GV_ThuTucKhongApDungTrucTuyen: thuTucKhongApDungTrucTuyen,
       MC_TTHC_GV_SoBoHoSo: soBoHoSo,
       MC_TTHC_GV_TongThoiGianGiaiQuyet: tongThoiGianGiaiQuyet,
       MC_TTHC_GV_CanCuPhapLyCuaTTHC: canCuPhapLyCuaTTHC,
@@ -315,13 +327,39 @@ function AdminTTHCGVView({
       return
     }
 
-    if (
-      dataThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua == '' ||
-      dataThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua == null ||
-      dataThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua == undefined
-    ) {
-      toast.error('Vui lòng chọn nơi trả kết quả!')
-      inputNoiTraKetQuaRef.current.focus()
+    // if (
+    //   dataThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua == '' ||
+    //   dataThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua == null ||
+    //   dataThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua == undefined
+    // ) {
+    //   toast.error('Vui lòng chọn nơi trả kết quả!')
+    //   inputNoiTraKetQuaRef.current.focus()
+    //   return
+    // }
+    //   Bổ sung thông báo nếu hồ sơ chọn cần trưởng phòng/BGH phê duyệt
+    let flagCheckTTPheDuyet = false
+
+    if (dataThongTinHoSo?.MC_TTHC_GV_IsTruongPhongPheDuyet === true) {
+      flagCheckTTPheDuyet = trangThai.some((iTrangThai) => {
+        if (
+          iTrangThai?.MC_TTHC_GV_TrangThai_DoiTuongXuLy &&
+          iTrangThai?.MC_TTHC_GV_TrangThai_DoiTuongXuLy === '24'
+        ) {
+          return true
+        }
+      })
+    }
+    if (flagCheckTTPheDuyet === false) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi thiết lập',
+        text: 'Vui lòng thiết lập "Đối tượng phê duyệt" hồ sơ tại trạng thái cần phê duyệt!',
+      })
+      setThongTinActive(false)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(false)
+      setPhanQuyenActive(false)
+      setTrangThaiActive(true)
       return
     }
 
@@ -358,8 +396,8 @@ function AdminTTHCGVView({
             text: 'Vui lòng thiết lập đầy đủ thông tin tên công việc của trình tự thực hiện!',
           })
           setThongTinActive(false)
-          setTPHoSoDeNghiActive(true)
-          setTrinhTuThucHienActive(false)
+          setTPHoSoDeNghiActive(false)
+          setTrinhTuThucHienActive(true)
           setPhanQuyenActive(false)
           setTrangThaiActive(false)
           return
@@ -397,9 +435,11 @@ function AdminTTHCGVView({
     }
 
     if (checkDataTrangThai == true) {
-      return toast.error(
-        'Vui lòng thiết lập thông tin tên trạng thái cho hồ sơ thủ tục!',
-      )
+      return Swal.fire({
+        icon: 'error',
+        title: 'Lỗi thiết lập trạng thái',
+        text: 'Vui lòng thiết lập thông tin tên trạng thái cho hồ sơ thủ tục!',
+      })
     }
 
     let idTTHCGV
@@ -576,8 +616,10 @@ function AdminTTHCGVView({
               noiTraKetQua={noiTraKetQua}
               setNoiTraKetQua={setNoiTraKetQua}
               diaChiNhanTraHoSo={listNoiTraKetQua}
+              isTruongPhongPheDuyet={isTruongPhongPheDuyet}
+              isBGHPheDuyet={isBGHPheDuyet}
               thuTucLienThong={thuTucLienThong}
-              thuTucKhongApDungMotCua={thuTucKhongApDungMotCua}
+              thuTucKhongApDungTrucTuyen={thuTucKhongApDungTrucTuyen}
               dataFilesTepThuTuc={dataFilesTepThuTuc}
               tenTepThuTuc={tenTepThuTuc}
               setDataFilesTepThuTuc={setDataFilesTepThuTuc}

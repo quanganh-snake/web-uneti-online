@@ -6,7 +6,7 @@ import DropdownProfileItem from './DropdownProfileItem'
 
 function DropdownProfileTeacher(props) {
   const { handleLogout } = props
-//   const { pathname } = useLocation()
+  //   const { pathname } = useLocation()
   return (
     <>
       <div className="p-3" aria-labelledby="user-menu-button">

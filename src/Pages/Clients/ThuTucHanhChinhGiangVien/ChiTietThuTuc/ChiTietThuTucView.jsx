@@ -95,7 +95,7 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                         type="checkbox"
                         defaultChecked={
                           dataThuTuc?.ThongTinHoSo
-                            ?.MC_TTHC_GV_ThuTucKhongApDungMC
+                            ?.MC_TTHC_GV_ThuTucKhongApDungTrucTuyen
                         }
                         disabled
                         name=""

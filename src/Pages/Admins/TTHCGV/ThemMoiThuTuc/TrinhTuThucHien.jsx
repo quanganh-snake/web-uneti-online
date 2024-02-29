@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import React, { memo, useState } from 'react'
+import { memo, useState } from 'react'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { FaArrowLeft, FaArrowRight, FaDeleteLeft } from 'react-icons/fa6'
 import { MdAdd } from 'react-icons/md'
@@ -20,13 +20,10 @@ const TrinhTuThucHien = memo(function TrinhTuThucHien(props) {
   } = props
   const [editValueRow, setEditValueRow] = useState({})
 
-  const [diaChiNhanTraSelected, setDiaChiNhanTraSelected] = useState('')
   const [searchDiaChiNhanTra, setSearchDiaChiNhanTra] = useState('')
 
-  const [donViSelected, setDonViSelected] = useState('')
   const [searchDonVi, setSearchDonVi] = useState('')
 
-  const [donViPhoiHopSelected, setDonViPhoiHopSelected] = useState('')
   const [searchDonViPhoiHop, setSearchDonViPhoiHop] = useState('')
 
   const handleEditRow = (index) => {
@@ -69,7 +66,7 @@ const TrinhTuThucHien = memo(function TrinhTuThucHien(props) {
           text: 'Xóa thành công dữ liệu',
           icon: 'success',
         })
-        setThanhPhanHoSo((prevDataRow) => {
+        setQuyTrinh((prevDataRow) => {
           const newData = [...prevDataRow]
           newData.splice(rowIndex, 1)
           return newData
@@ -79,7 +76,7 @@ const TrinhTuThucHien = memo(function TrinhTuThucHien(props) {
   }
 
   const handleChangeValue = (e, fieldName) => {
-    const { value, checked, type, files } = e.target
+    const { value, checked, type } = e.target
     let fieldValue
     if (type === 'checkbox') {
       fieldValue = checked
@@ -87,19 +84,6 @@ const TrinhTuThucHien = memo(function TrinhTuThucHien(props) {
         ...prevEditValueRow,
         [fieldName]: fieldValue,
       }))
-    } else if (type === 'file') {
-      if (files && files.length > 0) {
-        setEditValueRow((prevEditValueRow) => ({
-          ...prevEditValueRow,
-          MC_TTHC_GV_ThanhPhanHoSo_TenFile: files[0].name,
-        }))
-        getDataFileToBase64(files[0]).then((dataFileBase64) => {
-          setEditValueRow((prevEditValueRow) => ({
-            ...prevEditValueRow,
-            MC_TTHC_GV_ThanhPhanHoSo_DataFile: dataFileBase64,
-          }))
-        })
-      }
     } else {
       fieldValue = value
       setEditValueRow((prevEditValueRow) => ({
@@ -150,10 +134,16 @@ const TrinhTuThucHien = memo(function TrinhTuThucHien(props) {
                 <p className="w-56">Cách thức thực hiện</p>
               </th>
               <th className="border-r px-2 py-1">
-                <p className="w-[200px]">Địa chỉ tiếp nhận/trả hồ sơ</p>
+                <p className="w-[200px]">
+                  Địa chỉ tiếp nhận <br />
+                  trả hồ sơ
+                </p>
               </th>
               <th className="border-r px-2 py-1">
-                <p className="w-56">Đơn vị thực hiện/được ủy quyền thực hiện</p>
+                <p className="w-56">
+                  Đơn vị thực hiện <br />
+                  được ủy quyền thực hiện
+                </p>
               </th>
               <th className="border-r px-2 py-1">
                 <p className="w-56">Đơn vị phối hợp</p>
@@ -162,7 +152,7 @@ const TrinhTuThucHien = memo(function TrinhTuThucHien(props) {
                 <p className="w-44">Thời gian (ngày)</p>
               </th>
               <th className="border-r px-2 py-1">Kết quả</th>
-              <th className="px-2 py-1 rounded-tr-xl">Actions</th>
+              <th className="px-2 py-1 rounded-tr-xl">Tác vụ</th>
             </tr>
           </thead>
           <tbody className="divide-y">
@@ -240,7 +230,6 @@ const TrinhTuThucHien = memo(function TrinhTuThucHien(props) {
                             <FaDeleteLeft
                               className="cursor-pointer hover:text-red-600"
                               onClick={() => {
-                                setDiaChiNhanTraSelected('')
                                 setEditValueRow({
                                   ...editValueRow,
                                   MC_TTHC_GV_TrinhTuThucHien_DiaChiNhanTra: '',
@@ -332,7 +321,6 @@ const TrinhTuThucHien = memo(function TrinhTuThucHien(props) {
                             <FaDeleteLeft
                               className="cursor-pointer hover:text-red-600"
                               onClick={() => {
-                                setDonViSelected('')
                                 setEditValueRow({
                                   ...editValueRow,
                                   MC_TTHC_GV_TrinhTuThucHien_DonViThucHien: '',
@@ -407,7 +395,6 @@ const TrinhTuThucHien = memo(function TrinhTuThucHien(props) {
                             <FaDeleteLeft
                               className="cursor-pointer hover:text-red-600"
                               onClick={() => {
-                                setDonViPhoiHopSelected('')
                                 setEditValueRow({
                                   ...editValueRow,
                                   MC_TTHC_GV_TrinhTuThucHien_DonViPhoiHop: '',

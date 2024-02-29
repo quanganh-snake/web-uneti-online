@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import {
   getAllNhanSuByTenPhongBan,
   getAllPhongBan,
@@ -191,27 +191,6 @@ const PhanQuyen = memo(function PhanQuyen(props) {
           </div>
         </div>
         {/* END: Select Tổ nghiệp vụ */}
-
-        {/* START: Select Nhóm thực hiện */}
-        <div className="col-span-4 md:col-span-2">
-          <div className="flex flex-col gap-2">
-            <label htmlFor="MC_TTHC_GV_PhanQuyen_Nhom">
-              <p className="font-semibold mb-2">Nhóm thực hiện (Nếu có)</p>
-              <input
-                className="px-3 py-2 w-full rounded-lg border border-slate-300 focus:outline-slate-300"
-                type="text"
-                placeholder="Nhập nhóm thực hiện"
-                name="MC_TTHC_GV_PhanQuyen_Nhom"
-                id="MC_TTHC_GV_PhanQuyen_Nhom"
-                onChange={(e) => {
-                  setInputNhomThucHien(e.target.value)
-                }}
-              />
-            </label>
-          </div>
-        </div>
-        {/* END: Select Nhóm thực hiện */}
-
         {/* START: Select Nhân sự thực hiện */}
         <div className="col-span-4 md:col-span-2">
           <div className="flex flex-col gap-2">
@@ -297,6 +276,26 @@ const PhanQuyen = memo(function PhanQuyen(props) {
           </div>
         </div>
         {/* END: Select Nhân sự thực hiện */}
+        {/* START: Select Nhóm thực hiện */}
+        <div className="col-span-4 md:col-span-2">
+          <div className="flex flex-col gap-2">
+            <label htmlFor="MC_TTHC_GV_PhanQuyen_Nhom">
+              <p className="font-semibold mb-2">Nhóm thực hiện (Nếu có)</p>
+              <input
+                className="px-3 py-2 w-full rounded-lg border border-slate-300 focus:outline-slate-300"
+                type="text"
+                placeholder="Nhập nhóm thực hiện"
+                name="MC_TTHC_GV_PhanQuyen_Nhom"
+                id="MC_TTHC_GV_PhanQuyen_Nhom"
+                onChange={(e) => {
+                  setInputNhomThucHien(e.target.value)
+                }}
+              />
+            </label>
+          </div>
+        </div>
+        {/* END: Select Nhóm thực hiện */}
+
         {phanQuyen && phanQuyen.length ? (
           <div className="col-span-4">
             <div className="flex flex-col gap-4">
@@ -318,7 +317,7 @@ const PhanQuyen = memo(function PhanQuyen(props) {
                         color="red"
                         className="cursor-pointer hover:opacity-70"
                         onClick={() => {
-                          const newPhanQuyen = phanQuyen.splice(index, 1)
+                          //   const newPhanQuyen = phanQuyen.splice(index, 1)
                           setPhanQuyen([...phanQuyen])
                         }}
                       />

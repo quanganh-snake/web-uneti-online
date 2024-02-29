@@ -288,10 +288,13 @@ function ThongTinChiTietHoSo() {
         MC_TTHC_GV_GhiChu: editThongTinChung?.MC_TTHC_GV_GhiChu,
         MC_TTHC_GV_IDMucDo: editThongTinChung?.MC_TTHC_GV_IDMucDo,
         MC_TTHC_GV_LinhVuc: editThongTinChung?.MC_TTHC_GV_LinhVuc,
+        MC_TTHC_GV_IsTruongPhongPheDuyet:
+          editThongTinChung?.MC_TTHC_GV_IsTruongPhongPheDuyet,
+        MC_TTHC_GV_IsBGHPheDuyet: editThongTinChung?.MC_TTHC_GV_IsBGHPheDuyet,
         MC_TTHC_GV_ThuTucLienThong:
           editThongTinChung?.MC_TTHC_GV_ThuTucLienThong,
-        MC_TTHC_GV_ThuTucKhongApDungMC:
-          editThongTinChung?.MC_TTHC_GV_ThuTucKhongApDungMC,
+        MC_TTHC_GV_ThuTucKhongApDungTrucTuyen:
+          editThongTinChung?.MC_TTHC_GV_ThuTucKhongApDungTrucTuyen,
         MC_TTHC_GV_SoBoHoSo: editThongTinChung?.MC_TTHC_GV_SoBoHoSo,
         MC_TTHC_GV_TongThoiGianGiaiQuyet:
           editThongTinChung?.MC_TTHC_GV_TongThoiGianGiaiQuyet,
@@ -724,7 +727,8 @@ function ThongTinChiTietHoSo() {
                           type="text"
                           className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-slate-400"
                           defaultValue={
-                            ThongTinHoSo?.MC_TTHC_GV_CanCuPhapLyCuaTTHC
+                            ThongTinHoSo?.MC_TTHC_GV_CanCuPhapLyCuaTTHC ??
+                            'Không có'
                           }
                           name="MC_TTHC_GV_CanCuPhapLyCuaTTHC"
                           id="MC_TTHC_GV_CanCuPhapLyCuaTTHC"
@@ -746,7 +750,8 @@ function ThongTinChiTietHoSo() {
                           type="text"
                           className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-slate-400"
                           defaultValue={
-                            ThongTinHoSo?.MC_TTHC_GV_DieuKienThucHien
+                            ThongTinHoSo?.MC_TTHC_GV_DieuKienThucHien ??
+                            'Không có'
                           }
                           name="MC_TTHC_GV_DieuKienThucHien"
                           id="MC_TTHC_GV_DieuKienThucHien"
@@ -757,8 +762,53 @@ function ThongTinChiTietHoSo() {
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-col md:flex-row items-center gap-4">
-                    <div className="w-full flex items-center gap-4 border px-3 py-1 rounded-md">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    {/* START: Thủ tục cần trưởng phòng phê duyệt */}
+                    <div className="col-span-4 lg:col-span-2 w-full flex-1 flex items-center gap-4 border px-3 py-1 rounded-md">
+                      <input
+                        type="checkbox"
+                        className="w-4 h-4 px-3 py-1 bg-slate-300 border border-slate-200 rounded-md focus:outline-none"
+                        defaultChecked={
+                          ThongTinHoSo?.MC_TTHC_GV_IsTruongPhongPheDuyet
+                        }
+                        name="MC_TTHC_GV_IsTruongPhongPheDuyet"
+                        id="MC_TTHC_GV_IsTruongPhongPheDuyet"
+                        onChange={(e) => {
+                          setEditThongTinChung({
+                            ...editThongTinChung,
+                            MC_TTHC_GV_IsTruongPhongPheDuyet: e.target.checked,
+                          })
+                        }}
+                      />
+                      <label htmlFor="MC_TTHC_GV_IsTruongPhongPheDuyet">
+                        Thủ tục cần trưởng phòng phê duyệt
+                      </label>
+                    </div>
+                    {/* END: Thủ tục cần trưởng phòng phê duyệt */}
+
+                    {/* START: Thủ tục cần BGH phê duyệt */}
+                    <div className="col-span-4 lg:col-span-2 w-full flex items-center gap-4 border px-3 py-1 rounded-md">
+                      <input
+                        type="checkbox"
+                        className="w-4 h-4 px-3 py-1 bg-slate-300 border border-slate-200 rounded-md focus:outline-none"
+                        defaultChecked={ThongTinHoSo?.MC_TTHC_GV_IsBGHPheDuyet}
+                        name="MC_TTHC_GV_IsBGHPheDuyet"
+                        id="MC_TTHC_GV_IsBGHPheDuyet"
+                        onChange={(e) => {
+                          setEditThongTinChung({
+                            ...editThongTinChung,
+                            MC_TTHC_GV_IsBGHPheDuyet: e.target.checked,
+                          })
+                        }}
+                      />
+                      <label htmlFor="MC_TTHC_GV_IsBGHPheDuyet">
+                        Thủ tục cần Ban giám hiệu phê duyệt
+                      </label>
+                    </div>
+                    {/* END: Thủ tục cần BGH phê duyệt */}
+
+                    {/* START: Thủ tục liên thông */}
+                    <div className="col-span-4 lg:col-span-2 w-full flex items-center gap-4 border px-3 py-1 rounded-md">
                       <input
                         type="checkbox"
                         className="w-4 h-4 px-3 py-1 bg-slate-300 border border-slate-200 rounded-md focus:outline-none"
@@ -778,28 +828,34 @@ function ThongTinChiTietHoSo() {
                         Thủ tục liên thông
                       </label>
                     </div>
-                    <div className="w-full flex items-center gap-4 border px-3 py-1 rounded-md">
+                    {/* END: Thủ tục liên thông */}
+
+                    {/* START: Thủ tục không áp dụng trực tuyến */}
+                    <div className="col-span-4 lg:col-span-2 w-full flex items-center gap-4 border px-3 py-1 rounded-md">
                       <input
                         type="checkbox"
                         className="w-4 h-4 px-3 py-1 bg-slate-300 border border-slate-200 rounded-md focus:outline-none"
                         defaultChecked={
-                          ThongTinHoSo?.MC_TTHC_GV_ThuTucKhongApDungMC
+                          ThongTinHoSo?.MC_TTHC_GV_ThuTucKhongApDungTrucTuyen
                         }
-                        name="MC_TTHC_GV_ThuTucKhongApDungMC"
-                        id="MC_TTHC_GV_ThuTucKhongApDungMC"
+                        name="MC_TTHC_GV_ThuTucKhongApDungTrucTuyen"
+                        id="MC_TTHC_GV_ThuTucKhongApDungTrucTuyen"
                         onChange={(e) => {
                           setEditThongTinChung({
                             ...editThongTinChung,
-                            MC_TTHC_GV_ThuTucKhongApDungMC: e.target.checked,
+                            MC_TTHC_GV_ThuTucKhongApDungTrucTuyen:
+                              e.target.checked,
                           })
                         }}
                       />
-                      <label htmlFor="MC_TTHC_GV_ThuTucKhongApDungMC">
-                        Thủ tục không áp dụng Một cửa
+                      <label htmlFor="MC_TTHC_GV_ThuTucKhongApDungTrucTuyen">
+                        Thủ tục không áp dụng trực tuyến
                       </label>
                     </div>
+                    {/* END: thủ tục không áp dụng trực tuyến */}
                   </div>
 
+                  {/* START: Tệp thủ tục kèm theo */}
                   <div className="flex flex-col gap-1">
                     <label htmlFor="MC_TTHC_GV_TepThuTuc_TenFile">
                       <span className="font-semibold">
@@ -935,8 +991,10 @@ function ThongTinChiTietHoSo() {
                       </div>
                     ) : null}
                   </div>
+                  {/* END: Tệp thủ tục kèm theo */}
                   <div className="flex flex-col md:flex-row items-center gap-4">
-                    <div className="w-full">
+                    {/* START: Đơn vị tiếp nhận */}
+                    <div className="w-1/2">
                       <div className="flex flex-col gap-1">
                         <label
                           htmlFor="MC_TTHC_GV_NoiTiepNhan"
@@ -957,7 +1015,10 @@ function ThongTinChiTietHoSo() {
                         />
                       </div>
                     </div>
-                    <div className="w-full">
+                    {/* END: Đơn vị tiếp nhận */}
+
+                    {/* START: Nơi trả kết quả */}
+                    <div className="hidden w-full">
                       <div className="flex flex-col gap-1">
                         <label
                           htmlFor="MC_TTHC_GV_NoiTraKetQua"
@@ -978,6 +1039,7 @@ function ThongTinChiTietHoSo() {
                         />
                       </div>
                     </div>
+                    {/* END: Nơi trả kết quả */}
                   </div>
                 </div>
               </div>
@@ -1182,10 +1244,11 @@ function ThongTinChiTietHoSo() {
                                 <td className="border-r px-2 py-1 text-center">
                                   <div className="">
                                     <input
-                                      type="checkbox"
-                                      checked={
-                                        editValueRow.MC_TTHC_GV_ThanhPhanHoSo_BanChinh ||
-                                        false
+                                      type="number"
+                                      className="w-12 border border-slate-200 focus:outline-slate-400"
+                                      value={
+                                        +editValueRow.MC_TTHC_GV_ThanhPhanHoSo_BanChinh ??
+                                        0
                                       }
                                       name="MC_TTHC_GV_ThanhPhanHoSo_BanChinh"
                                       id="MC_TTHC_GV_ThanhPhanHoSo_BanChinh"
@@ -1198,9 +1261,11 @@ function ThongTinChiTietHoSo() {
                                 <td className="border-r px-2 py-1 text-center">
                                   <div className="">
                                     <input
-                                      type="checkbox"
-                                      defaultChecked={
-                                        editValueRow.MC_TTHC_GV_ThanhPhanHoSo_BanSao
+                                      type="number"
+                                      className="w-12 border border-slate-200 focus:outline-slate-400"
+                                      value={
+                                        +editValueRow.MC_TTHC_GV_ThanhPhanHoSo_BanSao ??
+                                        0
                                       }
                                       name="MC_TTHC_GV_ThanhPhanHoSo_BanSao"
                                       id="MC_TTHC_GV_ThanhPhanHoSo_BanSao"
@@ -1300,10 +1365,12 @@ function ThongTinChiTietHoSo() {
                                 </td>
                                 <td className="border-r px-2 py-1 text-center">
                                   <input
-                                    type="checkbox"
+                                    type="number"
                                     disabled={true}
-                                    defaultChecked={
-                                      iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_BanChinh
+                                    className="w-10 text-center"
+                                    value={
+                                      iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_BanChinh ??
+                                      0
                                     }
                                     name=""
                                     id=""
@@ -1311,10 +1378,12 @@ function ThongTinChiTietHoSo() {
                                 </td>
                                 <td className="border-r px-2 py-1 text-center">
                                   <input
-                                    type="checkbox"
+                                    type="number"
                                     disabled={true}
-                                    defaultChecked={
-                                      iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_BanSao
+                                    className="w-10 text-center"
+                                    value={
+                                      iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_BanSao ??
+                                      0
                                     }
                                     name=""
                                     id=""

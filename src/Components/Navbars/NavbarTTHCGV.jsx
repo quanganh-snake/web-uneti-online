@@ -39,7 +39,7 @@ function NavbarTTHCGV() {
                   to={module.path}
                   className={
                     module?.roleActive.includes(roleViewAction)
-                      ? ({ isActive}) => {
+                      ? ({ isActive }) => {
                           return isActive
                             ? 'bg-sky-800 text-white px-3 py-2 rounded-full'
                             : 'hover:bg-sky-800 hover:text-white px-3 py-2 rounded-full'
