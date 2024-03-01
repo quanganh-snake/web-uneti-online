@@ -7,6 +7,7 @@ import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
 import moment from 'moment'
 import Loading from './../../../../Components/Loading/Loading'
 import { DebounceInput } from 'react-debounce-input'
+import clsx from 'clsx'
 function CanBoNghiepVuView({
   loading,
   listHoSoYeuCau,
@@ -181,11 +182,18 @@ function CanBoNghiepVuView({
                               </p>
                             </td>
                             <td className="px-2 py-1">
-                              <p className="font-semibold flex flex-col">
+                              <p
+                                className={clsx(
+                                  'font-semibold flex flex-col text-white p-2 rounded-md',
+                                  itemYeuCau?.IsHoanThanh
+                                    ? 'bg-green-500'
+                                    : 'bg-orange-400',
+                                )}
+                              >
                                 <span className="text-center">
-                                  {
-                                    itemYeuCau?.MC_TTHC_GV_TrangThai_TenTrangThai
-                                  }
+                                  {itemYeuCau?.IsHoanThanh
+                                    ? 'Đã hoàn thành'
+                                    : itemYeuCau?.MC_TTHC_GV_TrangThai_TenTrangThai}
                                 </span>
                               </p>
                             </td>

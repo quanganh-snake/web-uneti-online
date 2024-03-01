@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import HomeTTHCGVView from './HomeTTHCGVView'
 import { getThuTucHanhChinhByKeyWords } from '@/Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
 
@@ -20,7 +20,10 @@ function HomeTTHCGV() {
         )
         if (resultListHoSoThuTuc.status === 200) {
           const dataListHoSoThuTuc = await resultListHoSoThuTuc?.data?.body
-          setListHoSoThuTuc(dataListHoSoThuTuc)
+          const dataListHoSoThuTucHienThi = await dataListHoSoThuTuc.filter(
+            (tt) => tt.MC_TTHC_GV_HienThi === true,
+          )
+          setListHoSoThuTuc(dataListHoSoThuTucHienThi)
         }
       } catch (error) {
         // console.log(error);

@@ -52,6 +52,14 @@ export const putThongTinHoSoThuTuc = (data = {}) => {
   return http.put('SP_MC_TTHC_GV_TiepNhan/Edit_Para', data)
 }
 
+// PUT: update Hồ sơ Ẩn/Hiển thị
+export const putHienThiHoSoThuTuc = (idThuTuc, type) => {
+  return http.put('SP_MC_TTHC_GV_TiepNhan/HienThi_ThuTuc_Edit_para', {
+    MC_TTHC_GV_ID: parseInt(idThuTuc),
+    MC_TTHC_GV_HienThi: parseInt(type),
+  })
+}
+
 // GET DATA
 // GET: Tất cả hồ sơ thủ tục hành chính Giảng Viên
 export const getAllThuTucHanhChinhGV = () => {

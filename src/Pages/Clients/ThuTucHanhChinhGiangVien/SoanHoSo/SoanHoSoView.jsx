@@ -55,7 +55,7 @@ function SoanHoSoView({
                   <span className="underline">Đơn vị tiếp nhận</span>:{' '}
                   {dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_NoiTiepNhan}
                 </p>
-                <p className="font-semibold">
+                <p className="hidden font-semibold">
                   <span className="underline">Nơi trả kết quả</span>:{' '}
                   {dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua}
                 </p>
@@ -74,6 +74,9 @@ function SoanHoSoView({
                   rows={4}
                   name="MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email"
                   id="MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email"
+                  defaultValue={
+                    dataHoSoYeuCau.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email
+                  }
                   placeholder="Ví dụ: example@example.com"
                   required={true}
                   onChange={(e) => {
@@ -99,6 +102,9 @@ function SoanHoSoView({
                   name="MC_TTHC_GV_GuiYeuCau_NhanSuGui_SDT"
                   id="MC_TTHC_GV_GuiYeuCau_NhanSuGui_SDT"
                   placeholder="Ví dụ: +8434350166 hoặc 0334350166"
+                  defaultValue={
+                    dataHoSoYeuCau.MC_TTHC_GV_GuiYeuCau_NhanSuGui_SDT
+                  }
                   pattern="^(\+84|0)\d{9}$"
                   required={true}
                   onChange={(e) => {
@@ -128,9 +134,13 @@ function SoanHoSoView({
                 ></textarea>
               </div>
               <div className="flex flex-col form-group mb-4 col-span-2 md:col-span-1">
-                <label htmlFor="quantity" className="font-semibold mb-2">
-                  Nhập số lượng bản{' '}
+                <label htmlFor="quantity" className="mb-2">
+                  <span className="font-semibold">Nhập số lượng bản in </span>
                   <span className="font-semibold text-red-500">*</span>
+                  <br />
+                  <i>
+                    (Ví dụ: 2 bộ lý lịch khoa học, 3 bộ giấy giới thiệu, ...)
+                  </i>
                 </label>
                 <input
                   type="number"

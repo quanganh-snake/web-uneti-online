@@ -4,19 +4,20 @@ import { Link, useParams } from 'react-router-dom'
 import Loading from './../../../../Components/Loading/Loading'
 import { convertBufferToBase64 } from '../../../../Services/Utils/stringUtils'
 import { handlePreviewFileBase64 } from '../../../../Services/Utils/fileUtils'
-
+import clsx from 'clsx'
+import { useMemo } from 'react'
 function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
   const { tieude, id } = useParams()
-  let totalTime = 0
-
-  for (let i = 0; i < dataThuTuc?.TrinhTuThucHien.length; i++) {
-    totalTime =
-      totalTime +
-      parseFloat(
-        dataThuTuc?.TrinhTuThucHien[i]?.MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay,
+  const totalTime = useMemo(() => {
+    let sum = 0
+    for (let i = 0; i < dataThuTuc?.TrinhTuThucHien.length; i++) {
+      sum += parseFloat(
+        dataThuTuc?.TrinhTuThucHien[i]
+          ?.MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay || 0,
       )
-  }
-
+    }
+    return sum
+  }, [dataThuTuc?.TrinhTuThucHien])
   return (
     <>
       {loading ? (
@@ -36,7 +37,10 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
               </p>
               <Link
                 to={`/tthc-giang-vien/soan-ho-so/${tieude}/${id}/submit`}
-                className="px-3 py-1 bg-[#336699] text-white rounded-md hover:opacity-70"
+                className={clsx(
+                  'px-3 py-1 bg-[#336699] text-white rounded-md hover:opacity-70',
+                  dataThuTuc?.ThongTinHoSo.MC_TTHC_GV_IDMucDo < 2 && 'hidden',
+                )}
               >
                 Nộp hồ sơ
               </Link>

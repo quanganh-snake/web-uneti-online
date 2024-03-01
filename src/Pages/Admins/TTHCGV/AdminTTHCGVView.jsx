@@ -337,10 +337,11 @@ function AdminTTHCGVView({
     //   return
     // }
     //   Bổ sung thông báo nếu hồ sơ chọn cần trưởng phòng/BGH phê duyệt
-    let flagCheckTTPheDuyet = false
-
+    let flagCheckTTTPPheDuyet = false
+    let flagCheckTTBGHPheDuyet = false
+    console.log('342::dataThongTinHoSo: ', dataThongTinHoSo)
     if (dataThongTinHoSo?.MC_TTHC_GV_IsTruongPhongPheDuyet === true) {
-      flagCheckTTPheDuyet = trangThai.some((iTrangThai) => {
+      flagCheckTTTPPheDuyet = trangThai.some((iTrangThai) => {
         if (
           iTrangThai?.MC_TTHC_GV_TrangThai_DoiTuongXuLy &&
           iTrangThai?.MC_TTHC_GV_TrangThai_DoiTuongXuLy === '24'
@@ -348,12 +349,41 @@ function AdminTTHCGVView({
           return true
         }
       })
+    } else {
+      flagCheckTTTPPheDuyet = true
     }
-    if (flagCheckTTPheDuyet === false) {
+
+    if (dataThongTinHoSo?.MC_TTHC_GV_IsBGHPheDuyet === true) {
+      flagCheckTTBGHPheDuyet = trangThai.some((iTrangThai) => {
+        if (
+          iTrangThai?.MC_TTHC_GV_TrangThai_DoiTuongXuLy &&
+          iTrangThai?.MC_TTHC_GV_TrangThai_DoiTuongXuLy === '25'
+        ) {
+          return true
+        }
+      })
+    } else {
+      flagCheckTTBGHPheDuyet = true
+    }
+
+    if (flagCheckTTTPPheDuyet === false) {
       Swal.fire({
         icon: 'error',
         title: 'Lỗi thiết lập',
-        text: 'Vui lòng thiết lập "Đối tượng phê duyệt" hồ sơ tại trạng thái cần phê duyệt!',
+        text: 'Vui lòng thiết lập "Đối tượng phê duyệt" hồ sơ là "Trưởng phòng" tại trạng thái cần phê duyệt!',
+      })
+      setThongTinActive(false)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(false)
+      setPhanQuyenActive(false)
+      setTrangThaiActive(true)
+      return
+    }
+    if (flagCheckTTBGHPheDuyet === false) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi thiết lập',
+        text: 'Vui lòng thiết lập "Đối tượng phê duyệt" hồ sơ là "Ban giám hiệu" tại trạng thái cần phê duyệt!',
       })
       setThongTinActive(false)
       setTPHoSoDeNghiActive(false)
