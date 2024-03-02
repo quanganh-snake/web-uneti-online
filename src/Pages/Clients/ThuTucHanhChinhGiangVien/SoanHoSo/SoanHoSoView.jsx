@@ -274,10 +274,11 @@ function SoanHoSoView({
                                 </td>
                                 <td className="px-2 py-1 border border-slate-300 text-center">
                                   <input
-                                    type="checkbox"
-                                    defaultChecked={
+                                    type="number"
+                                    defaultValue={
                                       iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BanChinh
                                     }
+                                    className="w-6 text-center"
                                     disabled
                                     name=""
                                     id=""
@@ -285,10 +286,11 @@ function SoanHoSoView({
                                 </td>
                                 <td className="px-2 py-1 border border-slate-300 text-center">
                                   <input
-                                    type="checkbox"
-                                    defaultChecked={
+                                    type="number"
+                                    defaultValue={
                                       iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BanSao
                                     }
+                                    className="w-8 text-center"
                                     disabled
                                     name=""
                                     id=""
@@ -416,8 +418,8 @@ function SoanHoSoView({
                                 </p>
                                 <p className="p-2 w-full">
                                   <input
-                                    type="checkbox"
-                                    defaultChecked={
+                                    type="number"
+                                    defaultValue={
                                       iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BanChinh
                                     }
                                     disabled
@@ -432,8 +434,8 @@ function SoanHoSoView({
                                 </p>
                                 <p className="p-2 w-full">
                                   <input
-                                    type="checkbox"
-                                    defaultChecked={
+                                    type="number"
+                                    defaultValue={
                                       iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BanSao
                                     }
                                     disabled

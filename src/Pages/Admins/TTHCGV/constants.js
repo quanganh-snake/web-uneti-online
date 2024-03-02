@@ -9,6 +9,24 @@ export const MC_TTHC_GV_DoiTuongXuLy_PheDuyet = [
   },
 ]
 
+export const listYeuCauPheDuyet = [
+  {
+    id: 0,
+    value: 0,
+    label: 'Phê duyệt',
+  },
+  {
+    id: 1,
+    value: 1,
+    label: 'Không phê duyệt',
+  },
+  {
+    id: 2,
+    value: 2,
+    label: 'Trình duyệt',
+  },
+]
+
 export const typeEditThuTuc = {
   typeHidden: 0,
   typeShow: 1,

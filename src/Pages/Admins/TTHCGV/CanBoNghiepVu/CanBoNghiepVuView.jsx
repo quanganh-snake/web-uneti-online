@@ -187,13 +187,23 @@ function CanBoNghiepVuView({
                                   'font-semibold flex flex-col text-white p-2 rounded-md',
                                   itemYeuCau?.IsHoanThanh
                                     ? 'bg-green-500'
-                                    : 'bg-orange-400',
+                                    : itemYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID ===
+                                        -1
+                                      ? 'bg-red-500'
+                                      : itemYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID !==
+                                          0
+                                        ? 'bg-sky-500'
+                                        : 'bg-orange-500',
                                 )}
                               >
                                 <span className="text-center">
                                   {itemYeuCau?.IsHoanThanh
                                     ? 'Đã hoàn thành'
-                                    : itemYeuCau?.MC_TTHC_GV_TrangThai_TenTrangThai}
+                                    : itemYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID !==
+                                        -1 &&
+                                      itemYeuCau?.MC_TTHC_GV_TrangThai_TenTrangThai}
+                                  {itemYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID ===
+                                    -1 && 'Đã hủy trả'}
                                 </span>
                               </p>
                             </td>

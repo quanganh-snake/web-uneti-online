@@ -92,7 +92,7 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                   </tr>
                   <tr>
                     <td className="px-4 py-1 border border-slate-500 font-semibold">
-                      Thủ tục không áp dụng Một cửa
+                      Thủ tục không áp dụng trực tuyến
                     </td>
                     <td className="px-4 py-1 border border-slate-500">
                       <input
@@ -592,7 +592,7 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                       {/* END: View Mobile - Trình Tực Thực Hiện */}
                     </td>
                   </tr>
-                  <tr>
+                  <tr className="hidden">
                     <td className="px-4 py-1 border border-slate-500 font-semibold">
                       Phí, lệ phí
                     </td>

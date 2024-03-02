@@ -23,6 +23,7 @@ export const TEMPLATE_SUBJECT_CANCEL_EMAIL = 'CANCEL'
 // 4. Trả lời hoàn thành
 export const sendEmailTTHCGiangVien = async (
   action = '',
+  contentSubject = '',
   dataUserSuggest = {},
   dataUserHandle = {},
   listThanhPhanHoSo = [],
@@ -37,19 +38,23 @@ export const sendEmailTTHCGiangVien = async (
   let listThanhPhanHoSoHtml = ``
 
   for (let i = 0; i < listThanhPhanHoSo.length; i++) {
-    listThanhPhanHoSoHtml += `<p>${listThanhPhanHoSo[i]?.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo}</p>`
+    listThanhPhanHoSoHtml += `<p> &#160;&#160;&#160;&#160;&#160; &#8722; ${listThanhPhanHoSo[i]?.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo}</p>`
   }
 
   let subjectEmail = ''
-
+  let contentTitle = ''
   if (action == TEMPLATE_SUBJECT_RECEIVED_EMAIL) {
-    subjectEmail = `Thông báo trả lời tiếp nhận đề nghị ${dataUserSuggest?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`
+    subjectEmail = `Thông báo trả lời ${contentSubject.toLowerCase()} - đề nghị ${dataUserSuggest?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`
+    contentTitle = 'tiếp nhận'
   } else if (action == TEMPLATE_SUBJECT_PENDING_EMAIL) {
-    subjectEmail = `Thông báo trả lời xử lý đề nghị ${dataUserSuggest?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`
+    subjectEmail = `Thông báo trả lời ${contentSubject.toLowerCase()} - đề nghị ${dataUserSuggest?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`
+    contentTitle = 'xử lý'
   } else if (action == TEMPLATE_SUBJECT_SUCCESS_EMAIL) {
     subjectEmail = `Thông báo hoàn thành đề nghị ${dataUserSuggest?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`
+    contentTitle = 'hoàn thành'
   } else if (action == TEMPLATE_SUBJECT_CANCEL_EMAIL) {
     subjectEmail = `Thông báo hủy/trả hồ sơ đề nghị ${dataUserSuggest?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`
+    contentTitle = 'hủy/trả'
   }
 
   let emailHtml = `
@@ -57,7 +62,7 @@ export const sendEmailTTHCGiangVien = async (
             <p>Kính gửi thầy/cô: <b>${dataUserSuggest?.HoTen}</b>,</p>
         </div>
         <div>
-            <p>Chúng tôi đã tiếp nhận đề nghị ${dataUserSuggest?.MC_TTHC_GV_TenThuTuc.toUpperCase()} của quý thầy/cô, với thông tin như sau:</p>
+            <p>Chúng tôi đã ${contentTitle} đề nghị ${dataUserSuggest?.MC_TTHC_GV_TenThuTuc.toUpperCase()} của quý thầy/cô, với thông tin như sau:</p>
         </div>
         <div>
             <h4>A. THÔNG TIN NGƯỜI GỬI:</h4>
@@ -89,7 +94,7 @@ export const sendEmailTTHCGiangVien = async (
             <h4>LƯU Ý:</h4>
             <p>- Đây là email tự động, vui lòng không trả lời (no reply), chúng tôi sẽ không nhận được email của bạn,</p>
             <p>- Nếu bạn không hiểu nội dung email này, đơn giản hãy xóa nó đi. Hoặc liên hệ lại với chúng tôi theo thông tin bên dưới,</p>
-            <p>- Nếu cần tư vấn hoặc giải đáp thắc mắc về NỘI DUNG GIẢI QUYẾT ĐỀ NGHỊ. Bạn vui lòng liên hệ (trong giờ hành chính) với Thầy/Cô sau:</p>
+            <p>- Nếu cần tư vấn hoặc giải đáp thắc mắc về NỘI DUNG GIẢI QUYẾT ĐỀ NGHỊ. Thầy/Cô vui lòng liên hệ (trong giờ hành chính) với nhân sự sau:</p>
             <p>&emsp;+ Họ và tên: ${
               dataUserHandle?.HoDem + ' ' + dataUserHandle?.Ten
             }</p>

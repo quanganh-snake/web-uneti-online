@@ -69,6 +69,14 @@ function ChiTietHoSoYeuCau() {
     MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile: '',
     MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile: '',
   })
+  const [isTPXacNhanPheDuyet, setIsTPXacNhanPheDuyet] = useState({
+    isPheDuyet: null,
+    contentPheDuyet: '',
+  })
+  const [isBGHXacNhanPheDuyet, setIsBGHXacNhanPheDuyet] = useState({
+    isPheDuyet: null,
+    contentPheDuyet: '',
+  })
   //   const navigate = useNavigate()
 
   //   let khoaGiangVien = ''
@@ -91,7 +99,6 @@ function ChiTietHoSoYeuCau() {
       setDataDetailYeuCau(data)
       setNgayHenTra(data?.MC_TTHC_GV_GuiYeuCau_NgayHenTra)
       setNgayGiaoTra(data?.MC_TTHC_GV_GuiYeuCau_NgayGiaoTra)
-      setTrangThaiGhiChu(data?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu)
     }
   }
   const getDataTPHSDeNghiYeuCauByIDGoc = async (id) => {
@@ -110,16 +117,9 @@ function ChiTietHoSoYeuCau() {
     }
   }
   const getDataTrangThaiYeuCauByIDGoc = async (id) => {
-    console.log('>>>id TTHC: ', id)
     const res = await getListTrangThaiTTHCGVByIDGoc(id)
     if (res.status === 200) {
       const data = await res.data?.body
-
-      console.log(
-        '🚀 ~ file: ChiTietHoSoYeuCau.jsx:124 ~ getDataTrangThaiYeuCauByIDGoc ~ data:',
-        data,
-      )
-
       setListTrangThaiYeuCau(data)
       setLoading(false)
     }
@@ -700,7 +700,6 @@ function ChiTietHoSoYeuCau() {
     return []
   }, [paginateListQuyTrinhXuLy, showQuaTrinhXuLy])
 
-  console.log('>>dataDetailYeuCau: ', dataDetailYeuCau)
   if (dataDetailYeuCau) {
     return (
       <div className="px-5 lg:px-0 grid grid-cols-12 gap-4 ">
@@ -1224,22 +1223,29 @@ function ChiTietHoSoYeuCau() {
                   <p className="col-span-2 md:col-span-1 mb-3">
                     Trạng thái hồ sơ:{' '}
                     <span className="font-semibold text-red-600">
-                      {dataDetailYeuCau?.MC_TTHC_GV_TrangThai_TenTrangThai}
+                      {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID ===
+                        -1 && 'Hồ sơ đã được hủy trả'}
+                      {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID !==
+                        -1 &&
+                        dataDetailYeuCau?.MC_TTHC_GV_TrangThai_TenTrangThai}
                     </span>
                   </p>
                   <ol className="relative m-10 text-gray-500 border-s border-gray-200 dark:border-gray-700 dark:text-gray-400">
                     {listTrangThaiYeuCau.map((tt, index) => {
-                      console.log('>>> trạng thái: ', tt)
                       return (
                         <li className="mb-10 ms-10" key={index}>
                           <span className="absolute flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full -start-5 ring-10 ring-white border">
-                            {tt?.MC_TTHC_GV_TrangThai_ID ===
-                              dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID && (
+                            {tt?.MC_TTHC_GV_TrangThai_STT ===
+                              dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT ||
+                            dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT >
+                              index ? (
                               <FaCheck className="text-green-600" />
+                            ) : (
+                              ''
                             )}
                           </span>
                           <div className="flex flex-row items-center gap-2 bg-[#0484AC] text-white px-5 rounded-2xl">
-                            {showThongTinNguoiNop ? (
+                            {tt.MC_TTHC_GV_TrangThai_STT === index ? (
                               <FaCaretDown
                                 className="text-white cursor-pointer"
                                 onClick={handleShowThongTinNguoiNop}
@@ -1255,20 +1261,46 @@ function ChiTietHoSoYeuCau() {
                               {tt.MC_TTHC_GV_TrangThai_TenTrangThai}
                             </h3>
                           </div>
-                          <div className="">
+                          <div
+                            className={clsx(
+                              dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID ===
+                                -1
+                                ? 'hidden'
+                                : dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT ===
+                                    tt.MC_TTHC_GV_TrangThai_STT
+                                  ? 'hidden'
+                                  : index + 1 ===
+                                      dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT +
+                                        1
+                                    ? 'block'
+                                    : 'hidden',
+                            )}
+                          >
                             <FormGuiEmailThongBaoXuLy
+                              idGocTTHCGV={id}
+                              dataDetailYeuCau={dataDetailYeuCau}
+                              dataDetailTPHSYeuCau={dataDetailTPHSYeuCau}
                               currentStatusId={
                                 dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID
                               }
+                              infoStatus={tt}
+                              currentStep={tt.MC_TTHC_GV_TrangThai_STT}
                               stepHandle={index + 1}
                               listStatus={listTrangThaiYeuCau}
-                              isTPPheDuyet={
-                                dataDetailYeuCau.MC_TTHC_GV_IsTruongPhongPheDuyet
-                              }
-                              isBGHPheDuyet={
-                                dataDetailYeuCau.MC_TTHC_GV_IsBGHPheDuyet
+                              isDTPheDuyet={
+                                tt.MC_TTHC_GV_TrangThai_DoiTuongXuLy
                               }
                               mucDoId={dataDetailYeuCau?.MC_TTHC_GV_IDMucDo}
+                              contentEmail={trangThaiGhiChu}
+                              onContentEmail={setTrangThaiGhiChu}
+                              linkAttachedFile={linkFileTraKetQuaOnline}
+                              dataAttachedFile={dataFileTraKetQuaKemTheo}
+                              onLinkAttachedFile={setLinkFileTraKetQuaOnline}
+                              onAttachedFile={setDataFileTraKetQuaKemTheo}
+                              isTPXacNhanPheDuyet={isBGHXacNhanPheDuyet}
+                              onTPXacNhanPheDuyet={setIsTPXacNhanPheDuyet}
+                              isBGHXacNhanPheDuyet={isBGHXacNhanPheDuyet}
+                              onBGHXacNhanPheDuyet={setIsBGHXacNhanPheDuyet}
                             />
                           </div>
                         </li>
