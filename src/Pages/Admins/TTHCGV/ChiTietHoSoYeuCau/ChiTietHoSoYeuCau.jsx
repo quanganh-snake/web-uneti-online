@@ -69,14 +69,6 @@ function ChiTietHoSoYeuCau() {
     MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile: '',
     MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile: '',
   })
-  const [isTPXacNhanPheDuyet, setIsTPXacNhanPheDuyet] = useState({
-    isPheDuyet: null,
-    contentPheDuyet: '',
-  })
-  const [isBGHXacNhanPheDuyet, setIsBGHXacNhanPheDuyet] = useState({
-    isPheDuyet: null,
-    contentPheDuyet: '',
-  })
   //   const navigate = useNavigate()
 
   //   let khoaGiangVien = ''
@@ -1297,10 +1289,6 @@ function ChiTietHoSoYeuCau() {
                               dataAttachedFile={dataFileTraKetQuaKemTheo}
                               onLinkAttachedFile={setLinkFileTraKetQuaOnline}
                               onAttachedFile={setDataFileTraKetQuaKemTheo}
-                              isTPXacNhanPheDuyet={isBGHXacNhanPheDuyet}
-                              onTPXacNhanPheDuyet={setIsTPXacNhanPheDuyet}
-                              isBGHXacNhanPheDuyet={isBGHXacNhanPheDuyet}
-                              onBGHXacNhanPheDuyet={setIsBGHXacNhanPheDuyet}
                             />
                           </div>
                         </li>
