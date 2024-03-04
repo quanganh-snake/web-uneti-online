@@ -43,6 +43,7 @@ import { listMucDoThuTuc } from '../constants'
 import FormGuiEmailThongBaoXuLy from './FormGuiEmailThongBaoXuLy'
 import { FaCheck } from 'react-icons/fa'
 import { handlePreviewFileBase64 } from '@/Services/Utils/fileUtils'
+import { getInfoPhanQuyenCBNV } from '@/Apis/ThuTucHanhChinhGiangVien/apiPhanQuyen'
 
 function ChiTietHoSoYeuCau() {
   const { id } = useParams()
@@ -69,6 +70,7 @@ function ChiTietHoSoYeuCau() {
     MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile: '',
     MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile: '',
   })
+  const [listDataCBNVPhanQuyen, setListDataCBNVPhanQuyen] = useState([])
   //   const navigate = useNavigate()
 
   //   let khoaGiangVien = ''
@@ -123,6 +125,19 @@ function ChiTietHoSoYeuCau() {
       if (res.status === 200) {
         const data = await res.data?.body
         setListNoiTraKetQua(data)
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
+  const getListDataPhanQuyenByIDGoc = async (id) => {
+    try {
+      const res = await getInfoPhanQuyenCBNV(id)
+      if (res.status === 200) {
+        const data = await res.data?.body
+        setListDataCBNVPhanQuyen(data)
+        setLoading(false)
       }
     } catch (error) {
       console.log(error.message)
@@ -683,6 +698,9 @@ function ChiTietHoSoYeuCau() {
     getDataTrangThaiYeuCauByIDGoc(
       dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
     )
+    getListDataPhanQuyenByIDGoc(
+      dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
+    )
   }, [dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID])
 
   const displayedListQuyTrinhXuLy = useMemo(() => {
@@ -1236,7 +1254,17 @@ function ChiTietHoSoYeuCau() {
                               ''
                             )}
                           </span>
-                          <div className="flex flex-row items-center gap-2 bg-[#0484AC] text-white px-5 rounded-2xl">
+                          <div
+                            className={clsx(
+                              'flex flex-row items-center gap-2 px-5 rounded-2xl',
+                              tt?.MC_TTHC_GV_TrangThai_STT ===
+                                dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT ||
+                                dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT >
+                                  index
+                                ? 'bg-[#0484AC] text-white '
+                                : 'bg-gray-200 text-uneti-primary',
+                            )}
+                          >
                             {tt.MC_TTHC_GV_TrangThai_STT === index ? (
                               <FaCaretDown
                                 className="text-white cursor-pointer"
@@ -1289,6 +1317,7 @@ function ChiTietHoSoYeuCau() {
                               dataAttachedFile={dataFileTraKetQuaKemTheo}
                               onLinkAttachedFile={setLinkFileTraKetQuaOnline}
                               onAttachedFile={setDataFileTraKetQuaKemTheo}
+                              listDataCBNVPhanQuyen={listDataCBNVPhanQuyen}
                             />
                           </div>
                         </li>

@@ -20,13 +20,13 @@ import { useLocation } from 'react-router-dom'
 import { getThanhPhanHoSoByIdTTHCGV } from '@/Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo'
 
 function CanBoNghiepVu() {
-  const [listHoSoYeuCau, setListHoSoYeuCau] = useState(null)
+  const [listHoSoYeuCau, setListHoSoYeuCau] = useState([])
   const [listTrangThaiHoSo, setListTrangThaiHoSo] = useState(null)
 
   const [keywordSearch, setKeywordSearch] = useState('')
   const [selectedTrangThai, setSelectedTrangThai] = useState('')
   const [currentPage, setCurrentPage] = useState(0)
-  const [itemsPerPage, setItemsPerPage] = useState(5)
+  const [itemsPerPage, setItemsPerPage] = useState(20)
   const [paginatedData, setPaginatedData] = useState([])
 
   const [loading, setLoading] = useState(true)
@@ -133,6 +133,11 @@ function CanBoNghiepVu() {
   }
 
   const handlePageChange = (selectedPage) => {
+    console.log(
+      '🚀 ~ file: CanBoNghiepVu.jsx:137 ~ handlePageChange ~ selectedPage:',
+      selectedPage,
+    )
+
     setCurrentPage(selectedPage)
   }
 
@@ -159,8 +164,8 @@ function CanBoNghiepVu() {
       )
     }
 
-    const startIndex = currentPage * itemsPerPage
-    const endIndex = startIndex + itemsPerPage
+    let startIndex = +currentPage * itemsPerPage
+    let endIndex = startIndex + itemsPerPage
     setPaginatedData(filteredData?.slice(startIndex, endIndex))
   }, [
     listHoSoYeuCau,

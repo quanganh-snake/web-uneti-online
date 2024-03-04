@@ -30,6 +30,7 @@ export const sendEmailTTHCGiangVien = async (
   contentReply = '',
   tenFileKemTheo = '',
   dataFileKemTheo = '',
+  toEmail = null,
 ) => {
   if (contentReply == '') {
     contentReply = `Chúng tôi sẽ hồi âm lại kết quả ${dataUserSuggest?.MC_TTHC_GV_TenThuTuc.toUpperCase()} hoặc hướng giải quyết phù hợp trong thời gian sớm nhất.`
@@ -104,7 +105,9 @@ export const sendEmailTTHCGiangVien = async (
     `
 
   const dataSendEmail = {
-    to: dataUserSuggest?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
+    to: toEmail
+      ? toEmail
+      : dataUserSuggest.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
     subject: subjectEmail,
     text: '',
     tenfile: tenFileKemTheo,

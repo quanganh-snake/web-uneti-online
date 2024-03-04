@@ -23,6 +23,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
     dataDetailYeuCau,
     dataDetailTPHSYeuCau,
     currentStatusId,
+    currentStep,
     stepHandle,
     listStatus,
     mucDoId,
@@ -32,6 +33,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
     dataAttachedFile,
     onLinkAttachedFile,
     onAttachedFile,
+    listDataCBNVPhanQuyen,
   } = props
 
   const dataCBGV = DataCanBoGV()
@@ -40,10 +42,31 @@ const FormGuiEmailThongBaoXuLy = (props) => {
   const [isBGHPheDuyet, setIsBGHPheDuyet] = useState(null)
   const [contentBGHPheDuyet, setContentBGHPheDuyet] = useState('')
   const [checkListPheDuyet, setCheckListPheDuyet] = useState(null)
+
+  console.log('1. listDataCBNVPhanQuyen:', {
+    listDataCBNVPhanQuyen,
+  })
   // Event handlers
   // Tiếp nhận hồ sơ
   const handleTiepNhanHoSo = () => {
     let newDataUpdate
+    //   Xét hồ sơ đã xử lý xong || đã hủy trả
+    if (
+      dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT ===
+      dataDetailYeuCau.MC_TTHC_GV_TrangThai_STTMAX
+    ) {
+      return Swal.fire({
+        icon: 'info',
+        title: 'Yêu cầu này đã được xử lý xong!',
+      })
+    }
+
+    if (dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT < 0) {
+      return Swal.fire({
+        icon: 'info',
+        title: 'Yêu cầu này đã được hủy/trả!',
+      })
+    }
     if (currentStatusId === 0) {
       Swal.fire({
         icon: 'question',
@@ -190,6 +213,23 @@ const FormGuiEmailThongBaoXuLy = (props) => {
         dataDetailYeuCau.MC_TTHC_GV_GuiYeuCau_NoiTraKetQua,
       MC_TTHC_GV_GuiYeuCau_NguonTiepNhan: NguonTiepNhan_WEB,
     }
+    //   Xét hồ sơ đã xử lý xong || đã hủy trả
+    if (
+      dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT ===
+      dataDetailYeuCau.MC_TTHC_GV_TrangThai_STTMAX
+    ) {
+      return Swal.fire({
+        icon: 'info',
+        title: 'Yêu cầu này đã được xử lý xong!',
+      })
+    }
+
+    if (dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT < 0) {
+      return Swal.fire({
+        icon: 'info',
+        title: 'Yêu cầu này đã được hủy/trả!',
+      })
+    }
     if (currentStatusId !== 0) {
       // TH1: Trạng thái không có đối tượng phê duyệt
       if (
@@ -217,122 +257,41 @@ const FormGuiEmailThongBaoXuLy = (props) => {
               dataDetailYeuCau.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
               dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT + 1,
             )
+
             if (resNewTrangThaiID.status === 200) {
               const dataTrangThaiIDNew = await resNewTrangThaiID.data?.body[0]
 
               const newDataTiepNhanUpdate = {
                 ...dataYeuCauTTHCGV,
                 MC_TTHC_GV_GuiYeuCau_TrangThai_ID:
-                  dataTrangThaiIDNew?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID,
+                  dataTrangThaiIDNew?.MC_TTHC_GV_TrangThai_ID,
                 MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu:
-                  dataTrangThaiIDNew?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
+                  dataTrangThaiIDNew?.MC_TTHC_GV_TrangThai_TenTrangThai,
               }
-            }
 
-            const resPutHoSoThuTuc = await putHoSoThuTucGuiYeuCauById(
-              newDataTiepNhanUpdate,
-            )
-            if (resPutHoSoThuTuc.status === 200) {
-              Swal.fire({
-                title: 'Thông báo',
-                text: `Đã tiếp hoàn thành bước ${infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai} sơ! Tiếp tục xử lý yêu cầu!`,
-                icon: 'success',
-              })
-
-              sendEmailTTHCGiangVien(
-                TEMPLATE_SUBJECT_PENDING_EMAIL,
-                infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai,
-                { ...dataDetailYeuCau, ...newDataTiepNhanUpdate },
-                dataCBGV,
-                dataDetailTPHSYeuCau,
-                contentEmail,
-                newDataTiepNhanUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
-                  ''
-                  ? newDataTiepNhanUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
-                  : null,
-                newDataTiepNhanUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                  ? newDataTiepNhanUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                  : null,
-              ).then(() => console.log('SEND EMAIL OK'))
-            } else {
-              return Swal.fire({
-                icon: 'error',
-                title:
-                  'Không tìm thấy trạng thái được thiết lập cho hồ sơ này để tiến hành cập nhật!',
-              })
-            }
-          } else {
-            Swal.fire('Đã dừng việc tiếp nhận hồ sơ', '', 'info')
-          }
-        })
-      } else if (
-        infoStatus.MC_TTHC_GV_TrangThai_DoiTuongXuLy ===
-        parseInt(MC_TTHC_GV_DoiTuongXuLy_PheDuyet[0].id)
-      ) {
-        //   TH2: Trạng thái có đối tượng phê duyệt là Trưởng phòng
-        if (isTPPheDuyet === 0) {
-          //   TH2.1: TP Phê duyệt
-          const resNewTrangThaiID = await getTrangThaiIDBySTTYeuCauId(
-            dataDetailYeuCau.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
-            dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT + 1,
-          )
-          if (resNewTrangThaiID.status === 200) {
-            const dataTrangThaiIDNew = await resNewTrangThaiID.data?.body[0]
-
-            const newDataTPPheDuyetUpdate = {
-              ...dataYeuCauTTHCGV,
-              MC_TTHC_GV_GuiYeuCau_TrangThai_ID:
-                dataTrangThaiIDNew?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID,
-              MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu:
-                dataTrangThaiIDNew?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
-              MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile:
-                dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile,
-              MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile:
-                dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile,
-              MC_TTHC_GV_GuiYeuCau_TrangThaiPheDuyetTruongPhong: isTPPheDuyet,
-              MC_TTHC_GV_GuiYeuCau_MoTaTTPheDuyetTruongPhong: contentTPPheDuyet,
-            }
-          }
-
-          Swal.fire({
-            icon: 'question',
-            title: 'Xác nhận phê duyệt bước này và chuyển tới bước tiếp theo?',
-            html: `
-                  <ul style='display: flex; flex-direction: column; align-items: flex-start'>
-                      ${contentEmail.trim() === '' ? '<li>- Nội dung thông báo email không có.</li>' : ''}
-                      ${linkAttachedFile.trim() === '' ? '<li>- Link tệp đính kèm không có.</li>' : ''}
-                      ${dataAttachedFile.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() === '' ? '<li>- Tệp đính kèm không có.</li>' : ''}
-                  </ul>
-                  <b style='color: red'>${contentEmail.trim() === '' || linkAttachedFile.trim() === '' || dataAttachedFile.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() === '' ? 'Bạn vẫn muốn gửi thông báo email mà không cần đầy đủ thông tin trên?' : 'Gửi email thông báo đến người nộp hồ sơ'}</b>
-              `,
-            showConfirmButton: true,
-            confirmButtonText: 'Đồng ý',
-            showCancelButton: true,
-            cancelButtonText: 'Hủy',
-          }).then(async (result) => {
-            if (result.isConfirmed) {
-              const resPutHoSoThuTuc =
-                await putHoSoThuTucGuiYeuCauById(newDataUpdate)
+              const resPutHoSoThuTuc = await putHoSoThuTucGuiYeuCauById(
+                newDataTiepNhanUpdate,
+              )
               if (resPutHoSoThuTuc.status === 200) {
                 Swal.fire({
                   title: 'Thông báo',
-                  text: `Đã phê duyệt bước ${infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai}! Tiếp tục xử lý yêu cầu!`,
+                  text: `Đã tiếp hoàn thành bước ${infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai} sơ! Tiếp tục xử lý yêu cầu!`,
                   icon: 'success',
                 })
 
                 sendEmailTTHCGiangVien(
                   TEMPLATE_SUBJECT_PENDING_EMAIL,
                   infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai,
-                  { ...dataDetailYeuCau, ...newDataTPPheDuyetUpdate },
+                  { ...dataDetailYeuCau, ...newDataTiepNhanUpdate },
                   dataCBGV,
                   dataDetailTPHSYeuCau,
                   contentEmail,
-                  newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
+                  newDataTiepNhanUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
                     ''
-                    ? newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
+                    ? newDataTiepNhanUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
                     : null,
-                  newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                    ? newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                  newDataTiepNhanUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                    ? newDataTiepNhanUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
                     : null,
                 ).then(() => console.log('SEND EMAIL OK'))
               } else {
@@ -342,11 +301,103 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                     'Không tìm thấy trạng thái được thiết lập cho hồ sơ này để tiến hành cập nhật!',
                 })
               }
-            } else {
-              Swal.fire('Đã dừng việc phê duyệt hồ sơ', '', 'info')
             }
+          } else {
+            Swal.fire('Đã dừng việc xác nhận hồ sơ', '', 'info')
+          }
+        })
+      } else if (
+        infoStatus.MC_TTHC_GV_TrangThai_DoiTuongXuLy ===
+        parseInt(MC_TTHC_GV_DoiTuongXuLy_PheDuyet[0].id)
+      ) {
+        //   TH2: Trạng thái có đối tượng phê duyệt là Trưởng phòng
+        if (!dataCBGV.HT_GROUPUSER_ID.includes('24')) {
+          return Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: 'Bạn không có quyền được xử lý bước này.',
           })
-        } else if (isTPPheDuyet === 1) {
+        }
+        if (+isTPPheDuyet === 0) {
+          //   TH2.1: TP Phê duyệt
+          const resNewTrangThaiID = await getTrangThaiIDBySTTYeuCauId(
+            dataDetailYeuCau.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
+            parseInt(dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT) + 1,
+          )
+          if (resNewTrangThaiID.status === 200) {
+            const dataTrangThaiIDNew = await resNewTrangThaiID.data?.body[0]
+
+            const newDataTPPheDuyetUpdate = {
+              ...dataYeuCauTTHCGV,
+              MC_TTHC_GV_GuiYeuCau_TrangThai_ID:
+                dataTrangThaiIDNew?.MC_TTHC_GV_TrangThai_ID,
+              MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu:
+                dataTrangThaiIDNew?.MC_TTHC_GV_TrangThai_TenTrangThai,
+              MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile:
+                dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile,
+              MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile:
+                dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile,
+              MC_TTHC_GV_GuiYeuCau_TrangThaiPheDuyetTruongPhong: isTPPheDuyet,
+              MC_TTHC_GV_GuiYeuCau_MoTaTTPheDuyetTruongPhong: contentTPPheDuyet,
+            }
+
+            Swal.fire({
+              icon: 'question',
+              title:
+                'Xác nhận phê duyệt bước này và chuyển tới bước tiếp theo?',
+              html: `
+                    <ul style='display: flex; flex-direction: column; align-items: flex-start'>
+                        ${contentEmail.trim() === '' ? '<li>- Nội dung thông báo email không có.</li>' : ''}
+                        ${linkAttachedFile.trim() === '' ? '<li>- Link tệp đính kèm không có.</li>' : ''}
+                        ${dataAttachedFile.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() === '' ? '<li>- Tệp đính kèm không có.</li>' : ''}
+                    </ul>
+                    <b style='color: red'>${contentEmail.trim() === '' || linkAttachedFile.trim() === '' || dataAttachedFile.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() === '' ? 'Bạn vẫn muốn gửi thông báo email mà không cần đầy đủ thông tin trên?' : 'Gửi email thông báo đến người nộp hồ sơ'}</b>
+                `,
+              showConfirmButton: true,
+              confirmButtonText: 'Đồng ý',
+              showCancelButton: true,
+              cancelButtonText: 'Hủy',
+            }).then(async (result) => {
+              if (result.isConfirmed) {
+                const resPutHoSoThuTuc = await putHoSoThuTucGuiYeuCauById(
+                  newDataTPPheDuyetUpdate,
+                )
+                if (resPutHoSoThuTuc.status === 200) {
+                  Swal.fire({
+                    title: 'Thông báo',
+                    text: `Đã phê duyệt bước ${infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai}! Tiếp tục xử lý yêu cầu!`,
+                    icon: 'success',
+                  })
+
+                  sendEmailTTHCGiangVien(
+                    TEMPLATE_SUBJECT_PENDING_EMAIL,
+                    infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai,
+                    { ...dataDetailYeuCau, ...newDataTPPheDuyetUpdate },
+                    dataCBGV,
+                    dataDetailTPHSYeuCau,
+                    contentEmail,
+                    newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
+                      ''
+                      ? newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
+                      : null,
+                    newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                      ? newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                      : null,
+                    null,
+                  ).then(() => console.log('SEND EMAIL OK'))
+                } else {
+                  return Swal.fire({
+                    icon: 'error',
+                    title:
+                      'Không tìm thấy trạng thái được thiết lập cho hồ sơ này để tiến hành cập nhật!',
+                  })
+                }
+              } else {
+                Swal.fire('Đã dừng việc phê duyệt hồ sơ', '', 'info')
+              }
+            })
+          }
+        } else if (+isTPPheDuyet === 1) {
           //   TH2.2: TP Không phê duyệt
           const resNewTrangThaiID = await getTrangThaiIDBySTTYeuCauId(
             dataDetailYeuCau.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
@@ -354,13 +405,274 @@ const FormGuiEmailThongBaoXuLy = (props) => {
           )
           if (resNewTrangThaiID.status === 200) {
             const dataTrangThaiIDNew = await resNewTrangThaiID.data?.body[0]
-
             const newDataTPKhongPheDuyetUpdate = {
               ...dataYeuCauTTHCGV,
               MC_TTHC_GV_GuiYeuCau_TrangThai_ID:
-                dataTrangThaiIDNew?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID,
+                dataTrangThaiIDNew?.MC_TTHC_GV_TrangThai_ID,
               MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu:
-                dataTrangThaiIDNew?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
+                dataTrangThaiIDNew?.MC_TTHC_GV_TrangThai_TenTrangThai,
+              MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile:
+                dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile,
+              MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile:
+                dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile,
+              MC_TTHC_GV_GuiYeuCau_TrangThaiPheDuyetTruongPhong: isTPPheDuyet,
+              MC_TTHC_GV_GuiYeuCau_MoTaTTPheDuyetTruongPhong: contentTPPheDuyet,
+            }
+            Swal.fire({
+              icon: 'question',
+              title:
+                'Xác nhận không phê duyệt hồ sơ và quay lại bước trước đấy?',
+              html: `
+                    <ul style='display: flex; flex-direction: column; align-items: flex-start'>
+                        ${contentEmail.trim() === '' ? '<li>- Nội dung thông báo email không có.</li>' : ''}
+                        ${linkAttachedFile.trim() === '' ? '<li>- Link tệp đính kèm không có.</li>' : ''}
+                        ${dataAttachedFile.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() === '' ? '<li>- Tệp đính kèm không có.</li>' : ''}
+                    </ul>
+                    <b style='color: red'>${contentEmail.trim() === '' || linkAttachedFile.trim() === '' || dataAttachedFile.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() === '' ? 'Bạn vẫn muốn gửi thông báo email mà không cần đầy đủ thông tin trên?' : 'Gửi email thông báo đến người nộp hồ sơ'}</b>
+                `,
+              showConfirmButton: true,
+              confirmButtonText: 'Đồng ý',
+              showCancelButton: true,
+              cancelButtonText: 'Hủy',
+            }).then(async (result) => {
+              if (result.isConfirmed) {
+                const resPutHoSoThuTuc = await putHoSoThuTucGuiYeuCauById(
+                  newDataTPKhongPheDuyetUpdate,
+                )
+                if (resPutHoSoThuTuc.status === 200) {
+                  Swal.fire({
+                    title: 'Thông báo',
+                    text: `Đã không phê duyệt hồ sơ và quay về bước trước! Tiếp tục xử lý yêu cầu!`,
+                    icon: 'success',
+                  })
+
+                  sendEmailTTHCGiangVien(
+                    TEMPLATE_SUBJECT_PENDING_EMAIL,
+                    infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai,
+                    { ...dataDetailYeuCau, ...newDataTPKhongPheDuyetUpdate },
+                    dataCBGV,
+                    dataDetailTPHSYeuCau,
+                    contentEmail,
+                    newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
+                      ''
+                      ? newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
+                      : null,
+                    newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                      ? newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                      : null,
+                    null,
+                  ).then(() => console.log('SEND EMAIL OK'))
+                } else {
+                  return Swal.fire({
+                    icon: 'error',
+                    title:
+                      'Không tìm thấy trạng thái được thiết lập cho hồ sơ này để tiến hành cập nhật!',
+                  })
+                }
+              } else {
+                Swal.fire('Đã dừng việc không phê duyệt hồ sơ', '', 'info')
+              }
+            })
+          }
+        } else if (+isTPPheDuyet === 2) {
+          //   TH2.3: TP Trình duyệt
+          const resNewTrangThaiID = await getTrangThaiIDBySTTYeuCauId(
+            dataDetailYeuCau.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
+            dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT + 1,
+          )
+
+          if (resNewTrangThaiID.status === 200) {
+            const dataTrangThaiIDNew = await resNewTrangThaiID.data?.body[0]
+            const newDataTPKhongPheDuyetUpdate = {
+              ...dataYeuCauTTHCGV,
+              MC_TTHC_GV_GuiYeuCau_TrangThai_ID:
+                dataTrangThaiIDNew?.MC_TTHC_GV_TrangThai_ID,
+              MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu:
+                dataTrangThaiIDNew?.MC_TTHC_GV_TrangThai_TenTrangThai,
+              MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile:
+                dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile,
+              MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile:
+                dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile,
+              MC_TTHC_GV_GuiYeuCau_TrangThaiPheDuyetTruongPhong: isTPPheDuyet,
+              MC_TTHC_GV_GuiYeuCau_MoTaTTPheDuyetTruongPhong: contentTPPheDuyet,
+            }
+            Swal.fire({
+              icon: 'question',
+              title:
+                'Xác nhận trình duyệt bước này và chuyển đến bước tiếp theo?',
+              html: `
+                    <ul style='display: flex; flex-direction: column; align-items: flex-start'>
+                        ${contentEmail.trim() === '' ? '<li>- Nội dung thông báo email không có.</li>' : ''}
+                        ${linkAttachedFile.trim() === '' ? '<li>- Link tệp đính kèm không có.</li>' : ''}
+                        ${dataAttachedFile.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() === '' ? '<li>- Tệp đính kèm không có.</li>' : ''}
+                    </ul>
+                    <b style='color: red'>${contentEmail.trim() === '' || linkAttachedFile.trim() === '' || dataAttachedFile.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() === '' ? 'Bạn vẫn muốn gửi thông báo email mà không cần đầy đủ thông tin trên?' : 'Gửi email thông báo đến người nộp hồ sơ'}</b>
+                `,
+              showConfirmButton: true,
+              confirmButtonText: 'Đồng ý',
+              showCancelButton: true,
+              cancelButtonText: 'Hủy',
+            }).then(async (result) => {
+              if (result.isConfirmed) {
+                const resPutHoSoThuTuc = await putHoSoThuTucGuiYeuCauById(
+                  newDataTPKhongPheDuyetUpdate,
+                )
+                if (resPutHoSoThuTuc.status === 200) {
+                  Swal.fire({
+                    title: 'Thông báo',
+                    text: `Hồ sơ đã trình duyệt!`,
+                    icon: 'success',
+                  })
+
+                  sendEmailTTHCGiangVien(
+                    TEMPLATE_SUBJECT_PENDING_EMAIL,
+                    infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai,
+                    { ...dataDetailYeuCau, ...newDataTPKhongPheDuyetUpdate },
+                    dataCBGV,
+                    dataDetailTPHSYeuCau,
+                    contentEmail,
+                    newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
+                      ''
+                      ? newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
+                      : null,
+                    newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                      ? newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                      : null,
+                    null,
+                  ).then(() => console.log('TP SEND EMAIL TO CBNV OK'))
+                  sendEmailTTHCGiangVien(
+                    TEMPLATE_SUBJECT_PENDING_EMAIL,
+                    infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai,
+                    { ...dataDetailYeuCau, ...newDataTPKhongPheDuyetUpdate },
+                    dataCBGV,
+                    dataDetailTPHSYeuCau,
+                    contentEmail,
+                    newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
+                      ''
+                      ? newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
+                      : null,
+                    newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                      ? newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                      : null,
+                    dataDetailYeuCau.MC_TTHC_GV_EmailBGHPheDuyet,
+                  ).then(() => console.log('TP SEND EMAIL TO BGH OK'))
+                } else {
+                  return Swal.fire({
+                    icon: 'error',
+                    title:
+                      'Không tìm thấy trạng thái được thiết lập cho hồ sơ này để tiến hành cập nhật!',
+                  })
+                }
+              } else {
+                Swal.fire('Đã dừng việc trình duyệt hồ sơ', '', 'info')
+              }
+            })
+          }
+        }
+      } else if (
+        infoStatus.MC_TTHC_GV_TrangThai_DoiTuongXuLy ===
+        parseInt(MC_TTHC_GV_DoiTuongXuLy_PheDuyet[1].id)
+      ) {
+        //   TH3: Trạng thái có đối tượng phê duyệt là BGH
+        if (!dataCBGV.HT_GROUPUSER_ID.includes('25')) {
+          return Swal.fire({
+            icon: 'error',
+            title: 'Lỗi',
+            text: 'Bạn không có quyền được xử lý bước này.',
+          })
+        }
+        if (+isBGHPheDuyet === 0) {
+          //   TH3.1: TP Phê duyệt
+          const resNewTrangThaiID = await getTrangThaiIDBySTTYeuCauId(
+            dataDetailYeuCau.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
+            parseInt(dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT) + 1,
+          )
+          if (resNewTrangThaiID.status === 200) {
+            const dataTrangThaiIDNew = await resNewTrangThaiID.data?.body[0]
+
+            const newDataTPPheDuyetUpdate = {
+              ...dataYeuCauTTHCGV,
+              MC_TTHC_GV_GuiYeuCau_TrangThai_ID:
+                dataTrangThaiIDNew?.MC_TTHC_GV_TrangThai_ID,
+              MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu:
+                dataTrangThaiIDNew?.MC_TTHC_GV_TrangThai_TenTrangThai,
+              MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile:
+                dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile,
+              MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile:
+                dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile,
+              MC_TTHC_GV_GuiYeuCau_TrangThaiPheDuyetTruongPhong: isTPPheDuyet,
+              MC_TTHC_GV_GuiYeuCau_MoTaTTPheDuyetTruongPhong: contentTPPheDuyet,
+            }
+
+            Swal.fire({
+              icon: 'question',
+              title:
+                'Xác nhận phê duyệt bước này và chuyển tới bước tiếp theo?',
+              html: `
+                    <ul style='display: flex; flex-direction: column; align-items: flex-start'>
+                        ${contentEmail.trim() === '' ? '<li>- Nội dung thông báo email không có.</li>' : ''}
+                        ${linkAttachedFile.trim() === '' ? '<li>- Link tệp đính kèm không có.</li>' : ''}
+                        ${dataAttachedFile.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() === '' ? '<li>- Tệp đính kèm không có.</li>' : ''}
+                    </ul>
+                    <b style='color: red'>${contentEmail.trim() === '' || linkAttachedFile.trim() === '' || dataAttachedFile.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() === '' ? 'Bạn vẫn muốn gửi thông báo email mà không cần đầy đủ thông tin trên?' : 'Gửi email thông báo đến người nộp hồ sơ'}</b>
+                `,
+              showConfirmButton: true,
+              confirmButtonText: 'Đồng ý',
+              showCancelButton: true,
+              cancelButtonText: 'Hủy',
+            }).then(async (result) => {
+              if (result.isConfirmed) {
+                const resPutHoSoThuTuc = await putHoSoThuTucGuiYeuCauById(
+                  newDataTPPheDuyetUpdate,
+                )
+                if (resPutHoSoThuTuc.status === 200) {
+                  Swal.fire({
+                    title: 'Thông báo',
+                    text: `Đã phê duyệt bước ${infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai}! Tiếp tục xử lý yêu cầu!`,
+                    icon: 'success',
+                  })
+
+                  sendEmailTTHCGiangVien(
+                    TEMPLATE_SUBJECT_PENDING_EMAIL,
+                    infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai,
+                    { ...dataDetailYeuCau, ...newDataTPPheDuyetUpdate },
+                    dataCBGV,
+                    dataDetailTPHSYeuCau,
+                    contentEmail,
+                    newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
+                      ''
+                      ? newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
+                      : null,
+                    newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                      ? newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                      : null,
+                  ).then(() => console.log('SEND EMAIL OK'))
+                } else {
+                  return Swal.fire({
+                    icon: 'error',
+                    title:
+                      'Không tìm thấy trạng thái được thiết lập cho hồ sơ này để tiến hành cập nhật!',
+                  })
+                }
+              } else {
+                Swal.fire('Đã dừng việc phê duyệt hồ sơ', '', 'info')
+              }
+            })
+          }
+        } else if (+isBGHPheDuyet === 1) {
+          //   TH3.2: BGH Không phê duyệt
+          const resNewTrangThaiID = await getTrangThaiIDBySTTYeuCauId(
+            dataDetailYeuCau.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
+            dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT - 1,
+          )
+          if (resNewTrangThaiID.status === 200) {
+            const dataTrangThaiIDNew = await resNewTrangThaiID.data?.body[0]
+            const newDataTPKhongPheDuyetUpdate = {
+              ...dataYeuCauTTHCGV,
+              MC_TTHC_GV_GuiYeuCau_TrangThai_ID:
+                dataTrangThaiIDNew?.MC_TTHC_GV_TrangThai_ID,
+              MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu:
+                dataTrangThaiIDNew?.MC_TTHC_GV_TrangThai_TenTrangThai,
               MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile:
                 dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile,
               MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile:
@@ -423,91 +735,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
               }
             })
           }
-        } else if (isTPPheDuyet === 2) {
-          //   TH2.3: TP Trình duyệt
-          const resNewTrangThaiID = await getTrangThaiIDBySTTYeuCauId(
-            dataDetailYeuCau.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
-            dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT + 1,
-          )
-          if (resNewTrangThaiID.status === 200) {
-            const dataTrangThaiIDNew = await resNewTrangThaiID.data?.body[0]
-
-            const newDataTPKhongPheDuyetUpdate = {
-              ...dataYeuCauTTHCGV,
-              MC_TTHC_GV_GuiYeuCau_TrangThai_ID:
-                dataTrangThaiIDNew?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID,
-              MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu:
-                dataTrangThaiIDNew?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
-              MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile:
-                dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile,
-              MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile:
-                dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile,
-              MC_TTHC_GV_GuiYeuCau_TrangThaiPheDuyetTruongPhong: isTPPheDuyet,
-              MC_TTHC_GV_GuiYeuCau_MoTaTTPheDuyetTruongPhong: contentTPPheDuyet,
-            }
-            Swal.fire({
-              icon: 'question',
-              title:
-                'Xác nhận trình duyệt bước này và chuyển đến bước tiếp theo?',
-              html: `
-                    <ul style='display: flex; flex-direction: column; align-items: flex-start'>
-                        ${contentEmail.trim() === '' ? '<li>- Nội dung thông báo email không có.</li>' : ''}
-                        ${linkAttachedFile.trim() === '' ? '<li>- Link tệp đính kèm không có.</li>' : ''}
-                        ${dataAttachedFile.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() === '' ? '<li>- Tệp đính kèm không có.</li>' : ''}
-                    </ul>
-                    <b style='color: red'>${contentEmail.trim() === '' || linkAttachedFile.trim() === '' || dataAttachedFile.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() === '' ? 'Bạn vẫn muốn gửi thông báo email mà không cần đầy đủ thông tin trên?' : 'Gửi email thông báo đến người nộp hồ sơ'}</b>
-                `,
-              showConfirmButton: true,
-              confirmButtonText: 'Đồng ý',
-              showCancelButton: true,
-              cancelButtonText: 'Hủy',
-            }).then(async (result) => {
-              if (result.isConfirmed) {
-                const resPutHoSoThuTuc = await putHoSoThuTucGuiYeuCauById(
-                  newDataTPKhongPheDuyetUpdate,
-                )
-                if (resPutHoSoThuTuc.status === 200) {
-                  Swal.fire({
-                    title: 'Thông báo',
-                    text: `Hồ sơ đã trình duyệt!`,
-                    icon: 'success',
-                  })
-
-                  sendEmailTTHCGiangVien(
-                    TEMPLATE_SUBJECT_PENDING_EMAIL,
-                    infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai,
-                    { ...dataDetailYeuCau, ...newDataTPKhongPheDuyetUpdate },
-                    dataCBGV,
-                    dataDetailTPHSYeuCau,
-                    contentEmail,
-                    newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
-                      ''
-                      ? newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
-                      : null,
-                    newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                      ? newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                      : null,
-                  ).then(() => console.log('SEND EMAIL OK'))
-                } else {
-                  return Swal.fire({
-                    icon: 'error',
-                    title:
-                      'Không tìm thấy trạng thái được thiết lập cho hồ sơ này để tiến hành cập nhật!',
-                  })
-                }
-              } else {
-                Swal.fire('Đã dừng việc trình duyệt hồ sơ', '', 'info')
-              }
-            })
-          }
         }
-      } else if (
-        infoStatus.MC_TTHC_GV_TrangThai_DoiTuongXuLy ===
-        parseInt(MC_TTHC_GV_DoiTuongXuLy_PheDuyet[1].id)
-      ) {
-        //   TH: Trạng thái có đối tượng phê duyệt là Trưởng phòng
-
-        return alert('Bước này cần BGH phê duyệt!')
       }
     } else {
       return Swal.fire({
@@ -622,95 +850,139 @@ const FormGuiEmailThongBaoXuLy = (props) => {
     return exists
   }
 
-  const renderRadioPheDuyetJSX = (isTPPheDuyet, isBGHPheDuyet) => {
-    if (isTPPheDuyet && !isBGHPheDuyet) {
-      return (
-        <div className="flex items-center gap-10 mb-2">
-          <label htmlFor="isPheDuyet" className="flex items-center gap-2">
-            <input
-              onChange={() => {
-                setIsTPPheDuyet(0)
-              }}
-              type="radio"
-              id="isPheDuyet"
-              name="isTPXacNhanPheDuyet"
-            />
-            <span>Phê duyệt</span>
-          </label>
-          <label htmlFor="isKhongPheDuyet" className="flex items-center gap-2">
-            <input
-              onChange={() => {
-                setIsTPPheDuyet(1)
-              }}
-              type="radio"
-              id="isKhongPheDuyet"
-              name="isTPXacNhanPheDuyet"
-            />
-            <span>Không duyệt</span>
-          </label>
-        </div>
-      )
-    } else if (!isTPPheDuyet && isBGHPheDuyet) {
-      return (
-        <div className="flex items-center gap-10 mb-2">
-          <label htmlFor="isPheDuyet" className="flex items-center gap-2">
-            <input
-              onChange={() => {
-                setIsBGHPheDuyet(0)
-              }}
-              type="radio"
-              id="isPheDuyet"
-              name="isBGHXacNhanPheDuyet"
-            />
-            <span>Phê duyệt</span>
-          </label>
-          <label htmlFor="isKhongPheDuyet" className="flex items-center gap-2">
-            <input
-              onChange={() => {
-                setIsBGHPheDuyet(1)
-              }}
-              type="radio"
-              id="isKhongPheDuyet"
-              name="isBGHXacNhanPheDuyet"
-            />
-            <span>Không duyệt</span>
-          </label>
-        </div>
-      )
+  const renderRadioPheDuyetJSX = (
+    isTPPheDuyet,
+    isBGHPheDuyet,
+    isDoiTuongXuLy,
+  ) => {
+    if (isTPPheDuyet === true) {
+      if (isBGHPheDuyet === true) {
+        if (isDoiTuongXuLy === 24) {
+          return (
+            <div className="flex items-center gap-10 mb-2">
+              <label htmlFor="isTrinhDuyet" className="flex items-center gap-2">
+                <input
+                  onChange={() => {
+                    setIsTPPheDuyet(2)
+                  }}
+                  type="radio"
+                  id="isTrinhDuyet"
+                  name="isTPXacNhanPheDuyet"
+                />
+                <span>Trình duyệt</span>
+              </label>
+            </div>
+          )
+        } else if (isDoiTuongXuLy === 25) {
+          return (
+            <div className="flex items-center gap-10 mb-2">
+              <label htmlFor="isPheDuyet" className="flex items-center gap-2">
+                <input
+                  onChange={() => {
+                    setIsBGHPheDuyet(0)
+                  }}
+                  type="radio"
+                  id="isPheDuyet"
+                  name="isBGHXacNhanPheDuyet"
+                />
+                <span>Phê duyệt</span>
+              </label>
+              <label
+                htmlFor="isKhongPheDuyet"
+                className="flex items-center gap-2"
+              >
+                <input
+                  onChange={() => {
+                    setIsBGHPheDuyet(1)
+                  }}
+                  type="radio"
+                  id="isKhongPheDuyet"
+                  name="isBGHXacNhanPheDuyet"
+                />
+                <span>Không duyệt</span>
+              </label>
+            </div>
+          )
+        }
+      } else {
+        if (isDoiTuongXuLy === 24) {
+          return (
+            <div className="flex items-center gap-10 mb-2">
+              <label htmlFor="isPheDuyet" className="flex items-center gap-2">
+                <input
+                  onChange={() => {
+                    setIsTPPheDuyet(0)
+                  }}
+                  type="radio"
+                  id="isPheDuyet"
+                  name="isTPXacNhanPheDuyet"
+                />
+                <span>Phê duyệt</span>
+              </label>
+              <label
+                htmlFor="isKhongPheDuyet"
+                className="flex items-center gap-2"
+              >
+                <input
+                  onChange={() => {
+                    setIsTPPheDuyet(1)
+                  }}
+                  type="radio"
+                  id="isKhongPheDuyet"
+                  name="isTPXacNhanPheDuyet"
+                />
+                <span>Không duyệt</span>
+              </label>
+            </div>
+          )
+        }
+      }
     } else {
-      return (
-        <div className="flex items-center gap-10 mb-2">
-          <label htmlFor="isKhongPheDuyet" className="flex items-center gap-2">
-            <input
-              onChange={() => {
-                setIsTPPheDuyet(1)
-              }}
-              type="radio"
-              id="isKhongPheDuyet"
-              name="isTPXacNhanPheDuyet"
-            />
-            <span>Không duyệt</span>
-          </label>
-          <label htmlFor="isTrinhDuyet" className="flex items-center gap-2">
-            <input
-              onChange={() => {
-                setIsTPPheDuyet(2)
-              }}
-              type="radio"
-              id="isTrinhDuyet"
-              name="isTPXacNhanPheDuyet"
-            />
-            <span>Trình duyệt</span>
-          </label>
-        </div>
-      )
+      if (isBGHPheDuyet === true) {
+        if (isDoiTuongXuLy === 25) {
+          return (
+            <div className="flex items-center gap-10 mb-2">
+              <label htmlFor="isPheDuyet" className="flex items-center gap-2">
+                <input
+                  onChange={() => {
+                    setIsBGHPheDuyet(0)
+                  }}
+                  type="radio"
+                  id="isPheDuyet"
+                  name="isBGHXacNhanPheDuyet"
+                />
+                <span>Phê duyệt</span>
+              </label>
+              <label
+                htmlFor="isKhongPheDuyet"
+                className="flex items-center gap-2"
+              >
+                <input
+                  onChange={() => {
+                    setIsBGHPheDuyet(1)
+                  }}
+                  type="radio"
+                  id="isKhongPheDuyet"
+                  name="isBGHXacNhanPheDuyet"
+                />
+                <span>Không duyệt</span>
+              </label>
+            </div>
+          )
+        }
+      }
     }
   }
 
   const _isTPPheDuyet = checkExistenceDTPD(listStatus, [24])
   const _isBGHPheDuyet = checkExistenceDTPD(listStatus, [25])
 
-  const radioPheDuyetJSX = renderRadioPheDuyetJSX(_isTPPheDuyet, _isBGHPheDuyet)
+  const radioPheDuyetJSX = renderRadioPheDuyetJSX(
+    dataDetailYeuCau?.MC_TTHC_GV_IsTruongPhongPheDuyet,
+    dataDetailYeuCau?.MC_TTHC_GV_IsBGHPheDuyet,
+    listStatus[currentStep - 1]?.MC_TTHC_GV_TrangThai_DoiTuongXuLy,
+  )
+
   return (
     <div className="my-4">
       <div className="form__content border border-gray-400 p-4 rounded-lg mb-4">
