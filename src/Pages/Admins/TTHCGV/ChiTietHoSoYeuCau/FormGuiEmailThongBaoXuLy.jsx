@@ -4,6 +4,9 @@ import clsx from 'clsx'
 import { useEffect, useState } from 'react'
 import { DebounceInput } from 'react-debounce-input'
 import Swal from 'sweetalert2'
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
+import Select from 'react-select'
+
 import { FaTrash } from 'react-icons/fa6'
 import { NguonTiepNhan_WEB } from '@/Services/Static/dataStatic'
 import {
@@ -16,6 +19,13 @@ import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 import { putHoSoThuTucGuiYeuCauById } from '@/Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
 import { getTrangThaiIDBySTTYeuCauId } from '@/Apis/ThuTucHanhChinhGiangVien/apiTrangThai'
 import { MC_TTHC_GV_DoiTuongXuLy_PheDuyet } from '../constants'
+import dayjs from 'dayjs'
+
+const optionSelect = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' },
+]
 
 const FormGuiEmailThongBaoXuLy = (props) => {
   const {
@@ -34,6 +44,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
     onLinkAttachedFile,
     onAttachedFile,
     listDataCBNVPhanQuyen,
+    onLoading,
   } = props
 
   const dataCBGV = DataCanBoGV()
@@ -42,10 +53,6 @@ const FormGuiEmailThongBaoXuLy = (props) => {
   const [isBGHPheDuyet, setIsBGHPheDuyet] = useState(null)
   const [contentBGHPheDuyet, setContentBGHPheDuyet] = useState('')
   const [checkListPheDuyet, setCheckListPheDuyet] = useState(null)
-
-  console.log('1. listDataCBNVPhanQuyen:', {
-    listDataCBNVPhanQuyen,
-  })
   // Event handlers
   // Tiếp nhận hồ sơ
   const handleTiepNhanHoSo = () => {
@@ -156,6 +163,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                 ? newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
                 : null,
             ).then(() => console.log('SEND EMAIL OK'))
+            onLoading(true)
           } else {
             return Swal.fire({
               icon: 'error',
@@ -359,6 +367,8 @@ const FormGuiEmailThongBaoXuLy = (props) => {
               cancelButtonText: 'Hủy',
             }).then(async (result) => {
               if (result.isConfirmed) {
+                let hasSendEmailErr = false
+
                 const resPutHoSoThuTuc = await putHoSoThuTucGuiYeuCauById(
                   newDataTPPheDuyetUpdate,
                 )
@@ -369,22 +379,51 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                     icon: 'success',
                   })
 
-                  sendEmailTTHCGiangVien(
-                    TEMPLATE_SUBJECT_PENDING_EMAIL,
-                    infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai,
-                    { ...dataDetailYeuCau, ...newDataTPPheDuyetUpdate },
-                    dataCBGV,
-                    dataDetailTPHSYeuCau,
-                    contentEmail,
-                    newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
-                      ''
-                      ? newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
-                      : null,
-                    newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                      ? newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                      : null,
-                    null,
-                  ).then(() => console.log('SEND EMAIL OK'))
+                  //   sendEmailTTHCGiangVien(
+                  //     TEMPLATE_SUBJECT_PENDING_EMAIL,
+                  //     infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai,
+                  //     { ...dataDetailYeuCau, ...newDataTPPheDuyetUpdate },
+                  //     dataCBGV,
+                  //     dataDetailTPHSYeuCau,
+                  //     contentEmail,
+                  //     newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
+                  //       ''
+                  //       ? newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
+                  //       : null,
+                  //     newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                  //       ? newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                  //       : null,
+                  //     null,
+                  //       ).then(() => console.log('SEND EMAIL OK'))
+                  // SEND EMAIL FOR List CBNV
+                  try {
+                    const listSendEmailCBNV = listDataCBNVPhanQuyen.map(
+                      (cbnv) => {
+                        return sendEmailTTHCGiangVien(
+                          TEMPLATE_SUBJECT_PENDING_EMAIL,
+                          infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai,
+                          {
+                            ...dataDetailYeuCau,
+                            ...newDataTPPheDuyetUpdate,
+                          },
+                          dataCBGV,
+                          dataDetailTPHSYeuCau,
+                          contentEmail,
+                          newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
+                            ''
+                            ? newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
+                            : null,
+                          newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                            ? newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                            : null,
+                          cbnv?.QTPM_QLEMAIL_EmailUneti,
+                        ).then(() => console.log('SEND EMAIL OK'))
+                      },
+                    )
+                  } catch (error) {
+                    console.error('Error send email CBNV:', error.message)
+                  }
+                  onLoading(true)
                 } else {
                   return Swal.fire({
                     icon: 'error',
@@ -462,6 +501,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                       : null,
                     null,
                   ).then(() => console.log('SEND EMAIL OK'))
+                  onLoading(true)
                 } else {
                   return Swal.fire({
                     icon: 'error',
@@ -523,23 +563,6 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                     text: `Hồ sơ đã trình duyệt!`,
                     icon: 'success',
                   })
-
-                  sendEmailTTHCGiangVien(
-                    TEMPLATE_SUBJECT_PENDING_EMAIL,
-                    infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai,
-                    { ...dataDetailYeuCau, ...newDataTPKhongPheDuyetUpdate },
-                    dataCBGV,
-                    dataDetailTPHSYeuCau,
-                    contentEmail,
-                    newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
-                      ''
-                      ? newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
-                      : null,
-                    newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                      ? newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                      : null,
-                    null,
-                  ).then(() => console.log('TP SEND EMAIL TO CBNV OK'))
                   sendEmailTTHCGiangVien(
                     TEMPLATE_SUBJECT_PENDING_EMAIL,
                     infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai,
@@ -556,6 +579,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                       : null,
                     dataDetailYeuCau.MC_TTHC_GV_EmailBGHPheDuyet,
                   ).then(() => console.log('TP SEND EMAIL TO BGH OK'))
+                  onLoading(true)
                 } else {
                   return Swal.fire({
                     icon: 'error',
@@ -582,7 +606,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
           })
         }
         if (+isBGHPheDuyet === 0) {
-          //   TH3.1: TP Phê duyệt
+          //   TH3.1: BGH Phê duyệt
           const resNewTrangThaiID = await getTrangThaiIDBySTTYeuCauId(
             dataDetailYeuCau.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
             parseInt(dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT) + 1,
@@ -646,7 +670,9 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                     newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
                       ? newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
                       : null,
+                    dataDetailYeuCau.MC_TTHC_GV_EmailTPPheDuyet,
                   ).then(() => console.log('SEND EMAIL OK'))
+                  onLoading(true)
                 } else {
                   return Swal.fire({
                     icon: 'error',
@@ -722,7 +748,9 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                     newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
                       ? newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
                       : null,
+                    dataDetailYeuCau.MC_TTHC_GV_EmailTPPheDuyet,
                   ).then(() => console.log('SEND EMAIL OK'))
+                  onLoading(true)
                 } else {
                   return Swal.fire({
                     icon: 'error',
@@ -823,6 +851,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
               newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile,
               newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile,
             ).then(() => console.log('SEND EMAIL OK'))
+            onLoading(true)
           } else {
             return Swal.fire({
               icon: 'error',
@@ -841,13 +870,6 @@ const FormGuiEmailThongBaoXuLy = (props) => {
         text: 'Vui lòng thao tác xử lý tại các bước tiếp theo!',
       })
     }
-  }
-
-  const checkExistenceDTPD = (array, values) => {
-    const exists = values.every((value) =>
-      array.some((item) => item.MC_TTHC_GV_TrangThai_DoiTuongXuLy === value),
-    )
-    return exists
   }
 
   const renderRadioPheDuyetJSX = (
@@ -974,9 +996,6 @@ const FormGuiEmailThongBaoXuLy = (props) => {
     }
   }
 
-  const _isTPPheDuyet = checkExistenceDTPD(listStatus, [24])
-  const _isBGHPheDuyet = checkExistenceDTPD(listStatus, [25])
-
   const radioPheDuyetJSX = renderRadioPheDuyetJSX(
     dataDetailYeuCau?.MC_TTHC_GV_IsTruongPhongPheDuyet,
     dataDetailYeuCau?.MC_TTHC_GV_IsBGHPheDuyet,
@@ -988,7 +1007,45 @@ const FormGuiEmailThongBaoXuLy = (props) => {
       <div className="form__content border border-gray-400 p-4 rounded-lg mb-4">
         <h4 className="text-center font-bold mb-2">Thông báo (Gửi Email)</h4>
         {/* START: Chọn Thời gian - Địa điểm (đối với hồ sơ mức độ 2, 3) */}
-        {mucDoId === 2 && <p>Thêm mục chọn thời gian và địa điểm tại đây</p>}
+        {mucDoId === 2 && (
+          <div className="grid grid-cols-2 gap-4 items-center mb-4">
+            <div className="col-span-2 lg:col-span-1">
+              <div className="flex items-center gap-2">
+                <label htmlFor="" className="inline-block min-w-max">
+                  {stepHandle === 1 && 'Chọn ngày giờ nộp:'}
+                  {stepHandle === 2 && 'Chọn ngày giờ làm việc:'}
+                  {stepHandle === 3 && 'Chọn ngày giờ trả:'}
+                </label>
+                <DateTimePicker
+                  label=""
+                  sx={{
+                    padding: '2px',
+                  }}
+                  className="p-2"
+                  minDate={dayjs()}
+                  minTime={dayjs().set('hour', 8).startOf('hour')}
+                  maxTime={dayjs().set('hour', 17).startOf('hour')}
+                />
+              </div>
+            </div>
+
+            <div className="col-span-2 lg:col-span-1">
+              <div className="flex items-center gap-2">
+                <label htmlFor="" className="inline-block min-w-max">
+                  {stepHandle === 1 && 'Chọn địa điểm nộp:'}
+                  {stepHandle === 2 && 'Chọn địa điểm làm việc:'}
+                  {stepHandle === 3 && 'Chọn địa điểm trả:'}
+                </label>
+                <Select
+                  styles={{ width: '100%' }}
+                  options={optionSelect}
+                  isClearable={true}
+                  isSearchable={true}
+                />
+              </div>
+            </div>
+          </div>
+        )}
         {/* START: Chọn phê duyệt */}
         {radioPheDuyetJSX}
         {/* START: Nhập nội dung */}

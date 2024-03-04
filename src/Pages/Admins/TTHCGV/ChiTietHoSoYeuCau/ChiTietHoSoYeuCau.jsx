@@ -1318,6 +1318,7 @@ function ChiTietHoSoYeuCau() {
                               onLinkAttachedFile={setLinkFileTraKetQuaOnline}
                               onAttachedFile={setDataFileTraKetQuaKemTheo}
                               listDataCBNVPhanQuyen={listDataCBNVPhanQuyen}
+                              onLoading={setLoading}
                             />
                           </div>
                         </li>
