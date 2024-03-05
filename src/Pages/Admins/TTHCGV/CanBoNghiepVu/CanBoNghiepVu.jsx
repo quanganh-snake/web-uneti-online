@@ -26,7 +26,7 @@ function CanBoNghiepVu() {
   const [keywordSearch, setKeywordSearch] = useState('')
   const [selectedTrangThai, setSelectedTrangThai] = useState('')
   const [currentPage, setCurrentPage] = useState(0)
-  const [itemsPerPage, setItemsPerPage] = useState(20)
+  const [itemsPerPage, setItemsPerPage] = useState(5)
   const [paginatedData, setPaginatedData] = useState([])
 
   const [loading, setLoading] = useState(true)
@@ -133,12 +133,7 @@ function CanBoNghiepVu() {
   }
 
   const handlePageChange = (selectedPage) => {
-    console.log(
-      '🚀 ~ file: CanBoNghiepVu.jsx:137 ~ handlePageChange ~ selectedPage:',
-      selectedPage,
-    )
-
-    setCurrentPage(selectedPage)
+    setCurrentPage(selectedPage.selected)
   }
 
   // effects
@@ -174,6 +169,8 @@ function CanBoNghiepVu() {
     currentPage,
     itemsPerPage,
   ])
+
+  console.log(currentPage)
 
   return (
     <CanBoNghiepVuView
