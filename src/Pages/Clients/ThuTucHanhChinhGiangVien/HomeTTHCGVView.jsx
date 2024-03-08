@@ -109,7 +109,7 @@ function HomeTTHCGVView(props) {
                                 {index + 1}
                               </td>
                               <td className="border border-slate-300">
-                                <div className="px-2">
+                                <div className="p-3">
                                   <ul>
                                     <li>
                                       <Link
@@ -149,11 +149,6 @@ function HomeTTHCGVView(props) {
                                         >
                                           {iData.MC_TTHC_GV_IDMucDo}
                                         </span>
-                                      </span>
-                                    </li>
-                                    <li>
-                                      <span className="font-semibold italic text-red-600">
-                                        {'Nộp hồ sơ'}
                                       </span>
                                     </li>
                                   </ul>

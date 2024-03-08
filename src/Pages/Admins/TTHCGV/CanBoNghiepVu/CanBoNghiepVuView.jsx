@@ -119,7 +119,7 @@ function CanBoNghiepVuView({
                                   {itemYeuCau.MC_TTHC_GV_TenThuTuc}
                                 </p>
                                 <ul>
-                                  <li>
+                                  <li className="hidden">
                                     - Số biên tiếp nhận:{' '}
                                     {
                                       itemYeuCau?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong
@@ -137,7 +137,7 @@ function CanBoNghiepVuView({
                                       itemYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayGui,
                                     ).format('DD/MM/YYYY')}
                                   </li>
-                                  <li>
+                                  <li className="hidden">
                                     - Ngày hẹn trả:{' '}
                                     {itemYeuCau.ngayHenTra
                                       ? itemYeuCau.ngayHenTra

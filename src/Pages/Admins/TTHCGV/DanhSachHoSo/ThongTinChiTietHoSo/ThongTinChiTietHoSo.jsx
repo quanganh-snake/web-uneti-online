@@ -312,6 +312,9 @@ function ThongTinChiTietHoSo() {
         MC_TTHC_GV_NoiTiepNhan: editThongTinChung?.MC_TTHC_GV_NoiTiepNhan,
         MC_TTHC_GV_NoiTraKetQua: editThongTinChung?.MC_TTHC_GV_NoiTraKetQua,
       }
+
+      // const checkMaThuTucResponse = await
+
       const isEqualValue = checkConditionObject(
         detailHoSoThuTuc?.ThongTinHoSo,
         newDataUpdateThongTinHoSo,

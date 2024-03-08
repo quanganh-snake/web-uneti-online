@@ -166,6 +166,7 @@ function AdminTTHCGVView({
     if (id === 'MC_TTHC_GV_IsTruongPhongPheDuyet') {
       setIsTruongPhongPheDuyet(checked)
     }
+
     if (id === 'MC_TTHC_GV_IsBGHPheDuyet') {
       setIsBGHPheDuyet(checked)
     }
@@ -283,6 +284,11 @@ function AdminTTHCGVView({
       dataThongTinHoSo?.MC_TTHC_GV_TenThuTuc == undefined
     ) {
       toast.error('Vui lòng nhập tên thủ tục!')
+      setThongTinActive(true)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(false)
+      setPhanQuyenActive(false)
+      setTrangThaiActive(false)
       inputTenThuTucRef.current.focus()
       return
     }
@@ -293,7 +299,12 @@ function AdminTTHCGVView({
       dataThongTinHoSo?.MC_TTHC_GV_MaThuTuc == undefined
     ) {
       toast.error('Vui lòng nhập mã thủ tục!')
-      inputMaThuTucRef.current.focus()
+      setThongTinActive(true)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(false)
+      setPhanQuyenActive(false)
+      setTrangThaiActive(false)
+      inputMaThuTucRef.current?.focus()
       return
     }
 
@@ -303,6 +314,11 @@ function AdminTTHCGVView({
       dataThongTinHoSo?.MC_TTHC_GV_IDMucDo == undefined
     ) {
       toast.error('Vui lòng chọn mức độ thủ tục!')
+      setThongTinActive(true)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(false)
+      setPhanQuyenActive(false)
+      setTrangThaiActive(false)
       inputMucDoRef.current.focus()
       return
     }
@@ -313,6 +329,11 @@ function AdminTTHCGVView({
       dataThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet == undefined
     ) {
       toast.error('Vui lòng nhập tổng thời gian giải quyết!')
+      setThongTinActive(true)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(false)
+      setPhanQuyenActive(false)
+      setTrangThaiActive(false)
       inputTongThoiGianRef.current.focus()
       return
     }
@@ -323,6 +344,11 @@ function AdminTTHCGVView({
       dataThongTinHoSo?.MC_TTHC_GV_NoiTiepNhan == undefined
     ) {
       toast.error('Vui lòng chọn đơn vị tiếp nhận!')
+      setThongTinActive(true)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(false)
+      setPhanQuyenActive(false)
+      setTrangThaiActive(false)
       inputDonViTiepNhanRef.current.focus()
       return
     }
@@ -339,7 +365,6 @@ function AdminTTHCGVView({
     //   Bổ sung thông báo nếu hồ sơ chọn cần trưởng phòng/BGH phê duyệt
     let flagCheckTTTPPheDuyet = false
     let flagCheckTTBGHPheDuyet = false
-    console.log('342::dataThongTinHoSo: ', dataThongTinHoSo)
     if (dataThongTinHoSo?.MC_TTHC_GV_IsTruongPhongPheDuyet === true) {
       flagCheckTTTPPheDuyet = trangThai.some((iTrangThai) => {
         if (

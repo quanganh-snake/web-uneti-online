@@ -170,8 +170,6 @@ function CanBoNghiepVu() {
     itemsPerPage,
   ])
 
-  console.log(currentPage)
-
   return (
     <CanBoNghiepVuView
       loading={loading}

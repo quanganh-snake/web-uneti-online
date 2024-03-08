@@ -26,6 +26,7 @@ import {
   listYeuCauPheDuyet,
 } from '../constants'
 import dayjs from 'dayjs'
+import { compareDateTime } from '@/Services/Utils/dateTimeUtils'
 
 const optionSelect = [
   { value: 'chocolate', label: 'Chocolate' },
@@ -60,11 +61,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
   const [contentBGHPheDuyet, setContentBGHPheDuyet] = useState('')
   const [checkListPheDuyet, setCheckListPheDuyet] = useState(null)
   const [timeWork, setTimeWork] = useState(null)
-
-  console.log(
-    '🚀 ~ file: FormGuiEmailThongBaoXuLy.jsx:59 ~ FormGuiEmailThongBaoXuLy ~ timeWork:',
-    timeWork,
-  )
+  const [errorTimeWork, setErrorTimeWork] = useState(null)
 
   const [locationWork, setLocationWork] = useState('')
   // Event handlers
@@ -98,7 +95,6 @@ const FormGuiEmailThongBaoXuLy = (props) => {
         text: 'Vui lòng nhập nội dung thông báo!',
       })
     }
-
     if (currentStatusId === 0) {
       Swal.fire({
         icon: 'question',
@@ -120,14 +116,24 @@ const FormGuiEmailThongBaoXuLy = (props) => {
           if (timeWork === null && mucDoId === 2) {
             return Swal.fire({
               icon: 'error',
-              title: 'Vui lòng chọn thời gian tiếp nhận hồ sơ!',
+              title: 'Lỗi!',
+              text: 'Vui lòng chọn thời gian tiếp nhận hồ sơ!',
+            })
+          }
+
+          if (errorTimeWork !== null) {
+            return Swal.fire({
+              icon: 'error',
+              title: 'Lỗi!',
+              text: 'Thời gian hẹn nhận hồ sơ chưa hợp lệ!',
             })
           }
 
           if (locationWork.trim() === '' && mucDoId === 2) {
             return Swal.fire({
               icon: 'error',
-              title: 'Vui lòng nhập địa điểm tiếp nhận hồ sơ!',
+              title: 'Lỗi!',
+              text: 'Vui lòng nhập địa điểm tiếp nhận hồ sơ!',
             })
           }
 
@@ -227,6 +233,13 @@ const FormGuiEmailThongBaoXuLy = (props) => {
             }
 
             onLoading(true)
+            onContentEmail('')
+            setContentBGHPheDuyet('')
+            setContentTPPheDuyet('')
+            setTimeWork(null)
+            setIsTPPheDuyet(null)
+            setIsBGHPheDuyet(null)
+            setErrorTimeWork(null)
           } else {
             return Swal.fire({
               icon: 'error',
@@ -302,6 +315,14 @@ const FormGuiEmailThongBaoXuLy = (props) => {
       })
     }
 
+    if (contentEmail.trim() === '' || !contentEmail) {
+      return Swal.fire({
+        icon: 'error',
+        title: 'Lỗi',
+        text: 'Vui lòng nhập nội dung gửi thông báo!',
+      })
+    }
+
     if (currentStatusId !== 0) {
       // TH1: Trạng thái không có đối tượng phê duyệt
       if (
@@ -329,6 +350,14 @@ const FormGuiEmailThongBaoXuLy = (props) => {
               return Swal.fire({
                 icon: 'error',
                 title: 'Vui lòng chọn thời gian xử lý hồ sơ!',
+              })
+            }
+
+            if (errorTimeWork !== null && mucDoId === 2) {
+              return Swal.fire({
+                icon: 'error',
+                title: 'Lỗi!',
+                text: 'Thời gian hẹn nhận hồ sơ chưa hợp lệ!',
               })
             }
 
@@ -406,6 +435,13 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                   // Gửi EMAIL cho trưởng phòng
                 }
                 onLoading(true)
+                onContentEmail('')
+                setContentBGHPheDuyet('')
+                setContentTPPheDuyet('')
+                setTimeWork(null)
+                setIsTPPheDuyet(null)
+                setIsBGHPheDuyet(null)
+                setErrorTimeWork(null)
               } else {
                 return Swal.fire({
                   icon: 'error',
@@ -517,6 +553,13 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                     console.error('Error send email CBNV:', error.message)
                   }
                   onLoading(true)
+                  onContentEmail('')
+                  setContentBGHPheDuyet('')
+                  setContentTPPheDuyet('')
+                  setTimeWork(null)
+                  setIsTPPheDuyet(null)
+                  setIsBGHPheDuyet(null)
+                  setErrorTimeWork(null)
                 } else {
                   return Swal.fire({
                     icon: 'error',
@@ -606,6 +649,13 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                     console.error('Error send email CBNV:', error.message)
                   }
                   onLoading(true)
+                  onContentEmail('')
+                  setContentBGHPheDuyet('')
+                  setContentTPPheDuyet('')
+                  setTimeWork(null)
+                  setIsTPPheDuyet(null)
+                  setIsBGHPheDuyet(null)
+                  setErrorTimeWork(null)
                 } else {
                   return Swal.fire({
                     icon: 'error',
@@ -713,6 +763,13 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                     dataDetailYeuCau?.MC_TTHC_GV_EmailBGHPheDuyet,
                   )
                   onLoading(true)
+                  onContentEmail('')
+                  setContentBGHPheDuyet('')
+                  setContentTPPheDuyet('')
+                  setTimeWork(null)
+                  setIsTPPheDuyet(null)
+                  setIsBGHPheDuyet(null)
+                  setErrorTimeWork(null)
                 } else {
                   return Swal.fire({
                     icon: 'error',
@@ -806,6 +863,13 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                     dataDetailYeuCau.MC_TTHC_GV_EmailTruongPhongPheDuyet,
                   ).then(() => console.log('SEND EMAIL OK'))
                   onLoading(true)
+                  onContentEmail('')
+                  setContentBGHPheDuyet('')
+                  setContentTPPheDuyet('')
+                  setTimeWork(null)
+                  setIsTPPheDuyet(null)
+                  setIsBGHPheDuyet(null)
+                  setErrorTimeWork(null)
                 } else {
                   return Swal.fire({
                     icon: 'error',
@@ -884,6 +948,13 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                     dataDetailYeuCau.MC_TTHC_GV_EmailTruongPhongPheDuyet,
                   ).then(() => console.log('SEND EMAIL OK'))
                   onLoading(true)
+                  onContentEmail('')
+                  setContentBGHPheDuyet('')
+                  setContentTPPheDuyet('')
+                  setTimeWork(null)
+                  setIsTPPheDuyet(null)
+                  setIsBGHPheDuyet(null)
+                  setErrorTimeWork(null)
                 } else {
                   return Swal.fire({
                     icon: 'error',
@@ -909,6 +980,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
 
   // Hủy trả hồ sơ
   const handleCancelHoSo = () => {
+    setErrorTimeWork(null)
     let newDataUpdate
     if (currentStatusId !== -1) {
       Swal.fire({
@@ -965,6 +1037,14 @@ const FormGuiEmailThongBaoXuLy = (props) => {
             MC_TTHC_GV_GuiYeuCau_NguonTiepNhan: NguonTiepNhan_WEB,
           }
 
+          if (contentEmail.trim() === '' || !contentEmail) {
+            return Swal.fire({
+              icon: 'error',
+              title: 'Lỗi',
+              text: 'Vui lòng nhập nội dung gửi thông báo!',
+            })
+          }
+
           const resPutHoSoThuTuc =
             await putHoSoThuTucGuiYeuCauById(newDataUpdate)
           if (resPutHoSoThuTuc.status === 200) {
@@ -985,6 +1065,13 @@ const FormGuiEmailThongBaoXuLy = (props) => {
               newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile,
             ).then(() => console.log('SEND EMAIL OK'))
             onLoading(true)
+            onContentEmail('')
+            setContentBGHPheDuyet('')
+            setContentTPPheDuyet('')
+            setTimeWork(null)
+            setIsTPPheDuyet(null)
+            setIsBGHPheDuyet(null)
+            setErrorTimeWork(null)
           } else {
             return Swal.fire({
               icon: 'error',
@@ -1015,6 +1102,20 @@ const FormGuiEmailThongBaoXuLy = (props) => {
         if (isDoiTuongXuLy === 24) {
           return (
             <div className="flex items-center gap-10 mb-2">
+              <label
+                htmlFor="isKhongPheDuyet"
+                className="flex items-center gap-2"
+              >
+                <input
+                  onChange={() => {
+                    setIsBGHPheDuyet(1)
+                  }}
+                  type="radio"
+                  id="isKhongPheDuyet"
+                  name="isBGHXacNhanPheDuyet"
+                />
+                <span>Không duyệt</span>
+              </label>
               <label htmlFor="isTrinhDuyet" className="flex items-center gap-2">
                 <input
                   onChange={() => {
@@ -1153,6 +1254,9 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                   label=""
                   onChange={(newValue) => {
                     setTimeWork(dayjs(newValue).format('DD/MM/YYYY HH:mm'))
+                  }}
+                  onError={(newError) => {
+                    setErrorTimeWork(newError)
                   }}
                   className="p-2"
                   minDate={dayjs()}

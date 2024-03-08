@@ -9,6 +9,8 @@ import { AiOutlineSearch } from 'react-icons/ai'
 import { MdClose } from 'react-icons/md'
 import clsx from 'clsx'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
+import { isDuplicateValueObjectInArray } from '@/Services/Utils/filterData'
+import Swal from 'sweetalert2'
 
 const PhanQuyen = memo(function PhanQuyen(props) {
   const {
@@ -40,6 +42,7 @@ const PhanQuyen = memo(function PhanQuyen(props) {
 
     if (idSelect === 'nhansu') {
       setNhanSuSelected(value)
+      console.log(phanQuyen)
       let dataNhanSuPhanQuyen = {
         ...value,
         MC_TTHC_GV_PhanQuyen_DonVi: donViSelected?.TenPhongBan
@@ -53,7 +56,62 @@ const PhanQuyen = memo(function PhanQuyen(props) {
         MC_TTHC_GV_PhanQuyen_QuyenSua: true,
         MC_TTHC_GV_PhanQuyen_QuyenXoa: true,
       }
-      setPhanQuyen([...phanQuyen, dataNhanSuPhanQuyen])
+
+      const dataTruongPhong = phanQuyen.filter((item) => {
+        if (item?.IsTruongPhong === true) {
+          return item
+        }
+      })
+
+      const dataBanGiamHieu = phanQuyen.filter((item) => {
+        if (item?.IsBanGiamHieu === true) {
+          return item
+        }
+      })
+
+      const checkExistTruongPhong = phanQuyen.some((item) => {
+        if (
+          item.MC_TTHC_GV_PhanQuyen_MaNhanSu !==
+            dataNhanSuPhanQuyen.MC_TTHC_GV_PhanQuyen_MaNhanSu &&
+          dataNhanSuPhanQuyen.IsTruongPhong === true
+        ) {
+          return true
+        }
+      })
+
+      const checkExistBanGiamHieu = phanQuyen.some((item) => {
+        if (
+          item.MC_TTHC_GV_PhanQuyen_MaNhanSu !==
+            dataNhanSuPhanQuyen.MC_TTHC_GV_PhanQuyen_MaNhanSu &&
+          dataNhanSuPhanQuyen.IsBanGiamHieu === true
+        ) {
+          return true
+        }
+      })
+
+      if (checkExistTruongPhong && dataTruongPhong?.length > 0) {
+        return Swal.fire({
+          icon: 'error',
+          title: 'Thông báo',
+          html: `Mỗi hồ sơ chỉ có duy nhất 1 Trưởng phòng xử lý! <br/> Trưởng phòng xử lý hiện tại là: ${dataTruongPhong[0]?.MC_TTHC_GV_PhanQuyen_MaNhanSu} - ${dataTruongPhong[0]?.MC_TTHC_GV_PhanQuyen_HoTen}`,
+        })
+      }
+
+      if (checkExistBanGiamHieu && dataBanGiamHieu?.length > 0) {
+        return Swal.fire({
+          icon: 'error',
+          title: 'Thông báo',
+          html: `Mỗi hồ sơ chỉ có duy nhất 1 Ban giám hiệu xử lý! <br/> Ban giám hiệu xử lý hiện tại là: ${dataBanGiamHieu[0]?.MC_TTHC_GV_PhanQuyen_MaNhanSu} - ${dataBanGiamHieu[0]?.MC_TTHC_GV_PhanQuyen_HoTen}`,
+        })
+      }
+
+      const checkDuplicatePhanQuyen = isDuplicateValueObjectInArray(
+        dataNhanSuPhanQuyen,
+        phanQuyen,
+        'MC_TTHC_GV_PhanQuyen_MaNhanSu',
+      )
+      !checkDuplicatePhanQuyen &&
+        setPhanQuyen((prevArray) => [...phanQuyen, dataNhanSuPhanQuyen])
     }
   }
 
@@ -128,7 +186,7 @@ const PhanQuyen = memo(function PhanQuyen(props) {
               </div>
               <ul
                 className={clsx(
-                  'bg-white mt-2 border shadow-md overflow-y-auto absolute right-0 left-0 top-full',
+                  'bg-white mt-2 border shadow-md overflow-y-auto absolute right-0 left-0 top-full z-20',
                   openSelectDonVi ? 'max-h-60' : 'hidden',
                 )}
               >
@@ -260,6 +318,8 @@ const PhanQuyen = memo(function PhanQuyen(props) {
                             {
                               MC_TTHC_GV_PhanQuyen_MaNhanSu: iNhanSu.MaNhanSu,
                               MC_TTHC_GV_PhanQuyen_HoTen: iNhanSu.HoVaTen,
+                              IsTruongPhong: iNhanSu.IsTruongPhong,
+                              IsBanGiamHieu: iNhanSu.IsBanGiamHieu,
                             },
                             'nhansu',
                           )
@@ -317,7 +377,7 @@ const PhanQuyen = memo(function PhanQuyen(props) {
                         color="red"
                         className="cursor-pointer hover:opacity-70"
                         onClick={() => {
-                          //   const newPhanQuyen = phanQuyen.splice(index, 1)
+                          phanQuyen.splice(index, 1)
                           setPhanQuyen([...phanQuyen])
                         }}
                       />

@@ -16,3 +16,11 @@ export const filterData = (array, filters) => {
     return true
   })
 }
+
+export const isDuplicateValueObjectInArray = (
+  newObject,
+  array = [],
+  keyObject,
+) => {
+  return array.some((item) => item[keyObject] === newObject[keyObject])
+}
