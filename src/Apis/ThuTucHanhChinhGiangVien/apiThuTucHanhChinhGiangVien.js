@@ -66,6 +66,15 @@ export const getAllThuTucHanhChinhGV = () => {
   return http.get('SP_MC_TTHC_GV_TiepNhan/Load')
 }
 
+// GET: Kiểm tra trùng Mã Thủ Tục GV
+export const getKiemTraTrungMaTTHCGV = (MC_TTHC_GV_MaThuTuc) => {
+  return http.get('SP_MC_TTHC_GV_TiepNhan/Add_Para_KiemTraTrung', {
+    params: {
+      MC_TTHC_GV_MaThuTuc,
+    },
+  })
+}
+
 // GET: hồ sơ thủ tục hành chính Giảng Viên theo ID
 export const getThuTucHanhChinhByID = (id) => {
   return http.get('SP_MC_TTHC_GV_TiepNhan/LoadChiTietHoSoTTHC_ByID', {

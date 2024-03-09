@@ -40,7 +40,9 @@ import { BiChevronDown } from 'react-icons/bi'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { getListNoiTraKetQua } from '@/Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
 import { listMucDoThuTuc } from '../constants'
-import FormGuiEmailThongBaoXuLy from './FormGuiEmailThongBaoXuLy'
+const FormGuiEmailThongBaoXuLy = lazy(
+  () => import('./FormGuiEmailThongBaoXuLy'),
+)
 import { FaCheck } from 'react-icons/fa'
 import { handlePreviewFileBase64 } from '@/Services/Utils/fileUtils'
 import { getInfoPhanQuyenCBNV } from '@/Apis/ThuTucHanhChinhGiangVien/apiPhanQuyen'

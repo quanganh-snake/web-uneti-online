@@ -65,7 +65,7 @@ function HomeTTHCGVView(props) {
                   <FiSearch size={24} className="font-semibold" />
                 </form>
                 <select
-                  className="w-full md:w-auto px-3 py-2 border rounded-full font-semibold text-white bg-[#0484AC] focus:outline-none"
+                  className="w-full md:w-auto px-3 py-2 border rounded-full font-semibold focus:outline-none"
                   name="records-number"
                   id="records-number"
                   onChange={handleChangeValue}

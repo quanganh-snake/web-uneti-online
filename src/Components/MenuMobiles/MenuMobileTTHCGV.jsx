@@ -50,13 +50,13 @@ function MenuMobileTTHCGV() {
           </li>
           <li>
             <Link
-              to={'/admin/can-bo-nghiep-vu'}
+              to={'/admin/xu-ly-nghiep-vu'}
               onClick={() => {
                 setShowMenu(false)
               }}
               className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
             >
-              Cán bộ nghiệp vụ
+              Xử lý nghiệp vụ
             </Link>
           </li>
           <li>
@@ -67,7 +67,7 @@ function MenuMobileTTHCGV() {
               }}
               className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
             >
-              Quản trị hệ thống
+              Quản trị đơn vị
             </Link>
           </li>
         </ul>
