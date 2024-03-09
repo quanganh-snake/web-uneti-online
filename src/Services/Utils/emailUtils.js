@@ -222,7 +222,7 @@ export const sendEmailTTHCGV_TP_CBNV = async (
         </div>
         <div>
             <b>A. THÔNG TIN ĐỀ NGHỊ:</b>
-            <b>1. Người đề nghị</b>
+            <p><b>1. Người đề nghị</b></p>
             <p>&emsp;&emsp;1.1. Mã nhân sự: <b>${
               dataUserSuggest?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_MaNhanSu
             }</b></p>
@@ -242,8 +242,8 @@ export const sendEmailTTHCGV_TP_CBNV = async (
         </div>
         <div>
             <b>B. THÔNG TIN PHÊ DUYỆT:</b>
-            <b>1. Trạng thái phê duyệt: ${contentSubject}</b>
-            <b>2. Lý do:</b>
+            <p><b>1. Trạng thái phê duyệt: ${contentSubject}</b></p>
+            <p><b>2. Lý do:</b></p>
             <p>&emsp;&emsp;${noiDungLyDo}</p>
         </div>
         <div>
@@ -300,7 +300,7 @@ export const sendEmailTTHCGV_TP_BGH = async (
         </div>
         <div>
             <b>A. THÔNG TIN ĐỀ NGHỊ:</b>
-            <b>1. Người đề nghị</b>
+            <p><b>1. Người đề nghị</b></p>
             <p>&emsp;&emsp;1.1. Mã nhân sự: <b>${
               dataUserSuggest?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_MaNhanSu
             }</b></p>
@@ -320,7 +320,7 @@ export const sendEmailTTHCGV_TP_BGH = async (
         </div>
         <div>
             <b>B. THÔNG TIN TRÌNH DUYỆT:</b>
-            <b>1. Người trình duyệt</b>
+            <p><b>1. Người trình duyệt</b></p>
             <p>&emsp;&emsp;1.1. Mã nhân sự: <b>${
               dataUserHandle?.MaNhanSu
             }</b></p>
