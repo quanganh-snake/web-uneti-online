@@ -18,6 +18,7 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
     }
     return sum
   }, [dataThuTuc?.TrinhTuThucHien])
+
   return (
     <>
       {loading ? (
@@ -100,7 +101,7 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                             type="checkbox"
                             defaultChecked={
                               dataThuTuc?.ThongTinHoSo
-                                ?.MC_TTHC_GV_ThuTucLienThong
+                                ?.MC_TTHC_GV_ThuTucKhongApDungTrucTuyen
                             }
                             disabled
                             name=""
@@ -115,7 +116,7 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                             type="checkbox"
                             defaultChecked={
                               dataThuTuc?.ThongTinHoSo
-                                ?.MC_TTHC_GV_ThuTucLienThong
+                                ?.MC_TTHC_GV_IsTruongPhongPheDuyet
                             }
                             disabled
                             name=""
@@ -129,8 +130,7 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                           <input
                             type="checkbox"
                             defaultChecked={
-                              dataThuTuc?.ThongTinHoSo
-                                ?.MC_TTHC_GV_ThuTucLienThong
+                              dataThuTuc?.ThongTinHoSo?.MC_TTHC_GV_IsBGHPheDuyet
                             }
                             disabled
                             name=""
@@ -384,7 +384,7 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                                       <p className="w-full">
                                         {iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenFile ? (
                                           <p>
-                                            Xem mẫu/hướng dẫn: (
+                                            Xem mẫu/hướng dẫn:
                                             <p
                                               onClick={() => {
                                                 const base64StringWithoutPrefix =
@@ -404,7 +404,6 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                                                 iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenFile
                                               }
                                             </p>
-                                            )
                                           </p>
                                         ) : null}
                                       </p>
@@ -508,7 +507,7 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                                   Địa chỉ tiếp nhận / trả hồ sơ
                                 </th>
                                 <th className="border border-slate-300 p-1">
-                                  Đơn vị thực hiện
+                                  <div className="w-20">Đơn vị thực hiện</div>
                                 </th>
                                 <th className="border border-slate-300 p-1">
                                   Đơn vị phối hợp
@@ -563,7 +562,7 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                                         </div>
                                       </td>
                                       <td className="border border-slate-300">
-                                        <div className="text-left">
+                                        <div className="text-left p-1">
                                           {
                                             iTrinhTu?.MC_TTHC_GV_TrinhTuThucHien_DonViThucHien
                                           }

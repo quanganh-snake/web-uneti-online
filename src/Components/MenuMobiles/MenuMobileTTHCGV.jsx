@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import clsx from 'clsx'
 import { IoMdMenu, IoMdClose } from 'react-icons/io'
 import { Link } from 'react-router-dom'
+import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 
 function MenuMobileTTHCGV() {
   const [showMenu, setShowMenu] = useState(false)
-
+  const dataCBGV = DataCanBoGV()
   return (
     <>
       {showMenu ? (
@@ -54,7 +55,10 @@ function MenuMobileTTHCGV() {
               onClick={() => {
                 setShowMenu(false)
               }}
-              className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
+              className={clsx(
+                'block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600',
+                dataCBGV.HT_GROUPUSER_ID.includes('16') === false && 'hidden',
+              )}
             >
               Xử lý nghiệp vụ
             </Link>
@@ -65,7 +69,10 @@ function MenuMobileTTHCGV() {
               onClick={() => {
                 setShowMenu(false)
               }}
-              className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
+              className={clsx(
+                'block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600',
+                dataCBGV.HT_GROUPUSER_ID.includes('15') === false && 'hidden',
+              )}
             >
               Quản trị đơn vị
             </Link>

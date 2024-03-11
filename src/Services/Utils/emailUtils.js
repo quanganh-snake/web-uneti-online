@@ -164,7 +164,7 @@ export const sendEmailTTHCGV_MucDo2 = async (
         </div>
         <div>
             <h4>C. NỘI DUNG TRẢ LỜI:</h4>
-            <p>- Quý thầy/cô vui lòng đến địa điểm: <b>${locationWork}</b>, ngày ${timeWork.slice(0, 10)} - lúc ${timeWork.slice(10)}</p>
+            ${locationWork || timeWork ? `<p>- Quý thầy/cô vui lòng đến địa điểm: <b>${locationWork}</b>, ngày ${timeWork.slice(0, 10)} - lúc ${timeWork.slice(10)}</p>` : ''}
             ${contentReply ? `<p>- ${contentReply} <p>` : ''}
 
         </div>
