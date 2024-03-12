@@ -9,7 +9,7 @@
 
   min-width: 140px;
   height: max-content;
-  
+
   @include res(md) {
     min-width: 200px;
   }

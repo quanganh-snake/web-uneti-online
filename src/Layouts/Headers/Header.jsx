@@ -107,7 +107,7 @@ function Header() {
           {/* END: USER - Profile */}
 
           {/* START: Navbar Pages */}
-          {listPath && listPath.includes('/mot-cua') ? <NavbarMotCua /> : null}
+          {listPath && listPath.includes('/mot-cua/') ? <NavbarMotCua /> : null}
           {listPath.includes('/tthc-giang-vien') ? (
             <NavbarTTHCGV />
           ) : listPath.includes('/admin') ? (

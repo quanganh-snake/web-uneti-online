@@ -88,21 +88,21 @@ function HeaderCBGV() {
           {/* START: Navbar Pages */}
           {(pathname === '/ho-tro-thiet-bi' ||
             pathname.includes('/ho-tro-thiet-bi/')) && (
-            <div className="col-span-8 lg:col-span-7">
+            <div className="hidden lg:block col-span-8 lg:col-span-7">
               <p className="w-full text-center text-2xl font-bold uppercase text-uneti-primary">
                 Hỗ trợ thiết bị
               </p>
             </div>
           )}
           {pathname.includes('/ho-tro-thiet-bi-giang-duong') && (
-            <div className="col-span-8 lg:col-span-7">
+            <div className="hidden lg:block col-span-8 lg:col-span-7">
               <p className="w-full text-center text-2xl font-bold uppercase text-uneti-primary">
                 Hỗ trợ thiết bị giảng đường
               </p>
             </div>
           )}
           {pathname.includes('/ho-tro-su-dung-phan-mem') && (
-            <div className="col-span-8 lg:col-span-7">
+            <div className="hidden lg:block col-span-8 lg:col-span-7">
               <p className="w-full text-center text-2xl font-bold uppercase text-uneti-primary">
                 Hỗ trợ sử dụng phần mềm
               </p>
@@ -123,8 +123,8 @@ function HeaderCBGV() {
           )}
           {(pathname.includes('/tthc-giang-vien') ||
             pathname.includes('/admin')) && (
-            <div className="col-span-7">
-              <div className="flex items-center justify-center">
+            <div className="lg:block col-span-8 lg:col-span-7">
+              <div className="flex items-center justify-between">
                 <NavbarTTHCGV />
               </div>
             </div>

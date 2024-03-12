@@ -38,6 +38,10 @@ import icoOnLuyenTracNghiem from '@/assets/Icons/icoOnLuyenTracNghiem.png'
 
 // data Static NguonTiepNhan
 export const NguonTiepNhan_WEB = 1
+
+// data Static WEB Version
+export const WEB_VERSION = '2.0.0.2'
+
 // data Static homeMain
 export const homeMain = [
   {
@@ -85,7 +89,7 @@ export const homeMain = [
     desc: 'Tổng hợp file cài đặt, tài liệu hướng dẫn sử dụng các phần mềm.',
     icon: icoHTSDPM,
     path: '/ho-tro-su-dung-phan-mem',
-    moduleActive: true,
+    moduleActive: false,
     roleActive: ['GV', 'SV'],
   },
   {

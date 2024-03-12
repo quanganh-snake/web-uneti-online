@@ -1,6 +1,5 @@
 import React from 'react'
 import { homeMotCua } from '../../../Services/Static/dataStatic.js'
-import ModuleItemMotCua from '../../../Components/ModuleItemMotCua/ModuleItemMotCua.jsx'
 import SlideMotCua from './Slides/SlideMotCua.jsx'
 import ChartMotCua from './Charts/ChartMotCua.jsx'
 import ModuleItem from '@/Components/ModuleItem/ModuleItem.jsx'
@@ -12,12 +11,14 @@ function HomeMotCua() {
         {homeMotCua.map((moduleItemMotCua, index) => {
           return (
             <React.Fragment key={index}>
-              <ModuleItem item={
-                {
+              <ModuleItem
+                item={{
                   ...moduleItemMotCua,
-                  desc: moduleItemMotCua.childrens.map((feature, index) => feature.title).join(', ')
-                }
-              }/>
+                  desc: moduleItemMotCua.childrens
+                    .map((feature) => feature.title)
+                    .join(', '),
+                }}
+              />
             </React.Fragment>
           )
         })}
