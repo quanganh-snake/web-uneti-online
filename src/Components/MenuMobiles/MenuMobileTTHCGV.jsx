@@ -57,7 +57,7 @@ function MenuMobileTTHCGV() {
               }}
               className={clsx(
                 'block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600',
-                dataCBGV.HT_GROUPUSER_ID.includes('16') === false && 'hidden',
+                dataCBGV.HT_GROUPUSER_ID?.includes('16') === false && 'hidden',
               )}
             >
               Xử lý nghiệp vụ
@@ -71,7 +71,7 @@ function MenuMobileTTHCGV() {
               }}
               className={clsx(
                 'block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600',
-                dataCBGV.HT_GROUPUSER_ID.includes('15') === false && 'hidden',
+                dataCBGV.HT_GROUPUSER_ID?.includes('15') === false && 'hidden',
               )}
             >
               Quản trị đơn vị

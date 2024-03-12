@@ -478,7 +478,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
         parseInt(MC_TTHC_GV_DoiTuongXuLy_PheDuyet[0].id)
       ) {
         //   TH2: Trạng thái có đối tượng phê duyệt là Trưởng phòng
-        if (dataCBGV.HT_GROUPUSER_ID.includes('24') === false) {
+        if (dataCBGV.HT_GROUPUSER_ID?.includes('24') === false) {
           return Swal.fire({
             icon: 'error',
             title: 'Lỗi',
@@ -816,7 +816,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
         parseInt(MC_TTHC_GV_DoiTuongXuLy_PheDuyet[1].id)
       ) {
         //   TH3: Trạng thái có đối tượng phê duyệt là BGH
-        if (dataCBGV.HT_GROUPUSER_ID.includes('25') === false) {
+        if (dataCBGV.HT_GROUPUSER_ID?.includes('25') === false) {
           return Swal.fire({
             icon: 'error',
             title: 'Lỗi',
