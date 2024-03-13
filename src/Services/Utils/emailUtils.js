@@ -93,8 +93,7 @@ export const sendEmailTTHCGiangVien = async (
         </div>
         <div>
             <h4>LƯU Ý:</h4>
-            <p>- Đây là email tự động, vui lòng không trả lời (no reply), chúng tôi sẽ không nhận được email của bạn,</p>
-            <p>- Nếu bạn không hiểu nội dung email này, đơn giản hãy xóa nó đi. Hoặc liên hệ lại với chúng tôi theo thông tin bên dưới,</p>
+            <p>- Đây là email tự động, vui lòng không trả lời (no reply), chúng tôi sẽ không nhận được email của Thầy/Cô,</p>
             <p>- Nếu cần tư vấn hoặc giải đáp thắc mắc về NỘI DUNG GIẢI QUYẾT ĐỀ NGHỊ. Thầy/Cô vui lòng liên hệ (trong giờ hành chính) với nhân sự sau:</p>
             <p>&emsp;+ Họ và tên: ${
               dataUserHandle?.HoDem + ' ' + dataUserHandle?.Ten
@@ -107,7 +106,7 @@ export const sendEmailTTHCGiangVien = async (
   const dataSendEmail = {
     to: toEmail
       ? toEmail
-      : dataUserSuggest.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
+      : dataUserSuggest?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
     subject: subjectEmail,
     text: '',
     tenfile: tenFileKemTheo,
@@ -185,6 +184,80 @@ export const sendEmailTTHCGV_MucDo2 = async (
 
   const dataSendEmail = {
     to: toEmail,
+    subject: subjectEmail,
+    text: '',
+    tenfile: tenFileKemTheo,
+    dulieu: dataFileKemTheo,
+    html: emailHtml,
+  }
+  const res = await apiSendEmailUNETI(dataSendEmail)
+  return res
+}
+
+export const sendEmailTTHCGV_CBNV_TP = async (
+  contentSubject = '',
+  dataUserSuggest = {},
+  dataUserHandle = {},
+  listThanhPhanHoSo = [],
+  contentEmail,
+  tenFileKemTheo = '',
+  dataFileKemTheo = '',
+  toEmailTruongPhong = null,
+) => {
+  let listThanhPhanHoSoHtml = ``
+
+  for (let i = 0; i < listThanhPhanHoSo.length; i++) {
+    listThanhPhanHoSoHtml += `<p> &#160;&#160;&#160;&#160;&#160; &#8722; ${listThanhPhanHoSo[i]?.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo}</p>`
+  }
+
+  let subjectEmail = `Thông báo ${contentSubject.toLowerCase()} - đề nghị ${dataUserSuggest?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`
+
+  let emailHtml = `
+        <div>
+            <p>Kính gửi Thầy/Cô Trưởng phòng,</p>
+        </div>
+        <div>
+            <p>Chúng tôi đã xem xét đề nghị ${dataUserSuggest?.MC_TTHC_GV_TenThuTuc.toUpperCase()} của quý Thầy/Cô ${dataUserSuggest?.HoTen}, với thông tin như sau:</p>
+        </div>
+        <div>
+            <b>A. THÔNG TIN ĐỀ NGHỊ:</b>
+            <p>&emsp;&emsp;1. Mã nhân sự: <b>${
+              dataUserSuggest?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_MaNhanSu
+            }</b></p>
+            <p>&emsp;&emsp;2. Họ và tên: <b>${dataUserSuggest?.HoTen}</b></p>
+            <p>&emsp;&emsp;3. Đơn vị quản lý nhân sự: <b>${
+              dataUserSuggest?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Khoa
+            }</b></p>
+
+            <b>B. NỘI DUNG ĐỀ NGHỊ:</b>
+            <p>&emsp;&emsp;1. Danh sách hồ sơ tiếp nhận: <b>${listThanhPhanHoSoHtml}</b></p>
+            <p>&emsp;&emsp;2. Nội dung đề nghị: ${
+              dataUserSuggest?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu
+            }</p>
+            <p>&emsp;&emsp;3. Số lượng bản in: <b>${
+              dataUserSuggest?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong
+            }</b></p>
+
+            <b>C. NỘI DUNG TRẢ LỜI:</b>
+            <p>&emsp;&emsp;${contentEmail}</p>
+        </div>
+        <div>
+            <p>Trân trọng!</p>
+        </div>
+        <div>
+            <b>LƯU Ý:</b>
+            <p>- Đây là email tự động, vui lòng không trả lời (no reply), chúng tôi sẽ không nhận được email của Thầy/Cô,</p>
+            <p>- Nếu cần tư vấn hoặc giải đáp thắc mắc về NỘI DUNG GIẢI QUYẾT ĐỀ NGHỊ. Thầy/Cô vui lòng liên hệ (trong giờ hành chính) với nhân sự sau:</p>
+            <p>&emsp;+ Họ và tên: ${
+              dataUserHandle?.HoDem + ' ' + dataUserHandle?.Ten
+            }</p>
+            <p>&emsp;+ Điện thoại: ${dataUserHandle?.SoDienThoai}</p>
+            <p>&emsp;+ Email: ${dataUserHandle?.Email}</p>
+        </div>
+    `
+
+  const dataSendEmail = {
+    to: toEmailTruongPhong,
     subject: subjectEmail,
     text: '',
     tenfile: tenFileKemTheo,

@@ -471,13 +471,17 @@ function AdminTTHCGVView({
 
     let checkDataTrangThai = false
 
-    if (trangThai.length < 1) {
+    if (trangThai.length < 3 || trangThai.length > 5) {
       setThongTinActive(false)
       setTPHoSoDeNghiActive(false)
       setTrinhTuThucHienActive(false)
       setPhanQuyenActive(false)
       setTrangThaiActive(true)
-      return toast.error('Vui lòng thiết lập trạng thái cho hồ sơ thủ tục!')
+      return Swal.fire({
+        icon: 'error',
+        title: 'Lỗi thiết lập trạng thái',
+        text: 'Vui lòng thiết lập trạng thái hồ sơ. Mỗi hồ sơ cần ít nhất là 3 trạng thái & nhiều nhất là 5 trạng thái!',
+      })
     } else {
       trangThai.forEach((iTrangThai) => {
         if (

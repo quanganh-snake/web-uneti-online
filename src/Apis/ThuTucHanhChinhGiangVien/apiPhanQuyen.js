@@ -23,7 +23,7 @@ export const putPhanQuyenTTHCGV = (data = {}) => {
 export const getInfoPhanQuyenCBNV = (idGocTTHC = '') => {
   return http.get('SP_MC_TTHC_GV_TiepNhan/PhanQuyen_Load_CanBoXuLy_ByIDGoc', {
     params: {
-      MC_TTHC_GV_PhanQuyen_IDTTHC: idGocTTHC,
+      MC_TTHC_GV_PhanQuyen_IDTTHC: parseInt(idGocTTHC),
     },
   })
 }

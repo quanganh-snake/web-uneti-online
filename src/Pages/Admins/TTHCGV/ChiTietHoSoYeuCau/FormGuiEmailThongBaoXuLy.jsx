@@ -13,6 +13,7 @@ import {
   TEMPLATE_SUBJECT_CANCEL_EMAIL,
   TEMPLATE_SUBJECT_PENDING_EMAIL,
   TEMPLATE_SUBJECT_RECEIVED_EMAIL,
+  sendEmailTTHCGV_CBNV_TP,
   sendEmailTTHCGV_MucDo2,
   sendEmailTTHCGV_TP_BGH,
   sendEmailTTHCGV_TP_CBNV,
@@ -63,7 +64,12 @@ const FormGuiEmailThongBaoXuLy = (props) => {
   const [checkListPheDuyet, setCheckListPheDuyet] = useState(null)
   const [timeWork, setTimeWork] = useState(null)
   const [errorTimeWork, setErrorTimeWork] = useState(null)
-  const [isSendEmail, setIsSendEmail] = useState(null)
+
+  const [isSendEmail, setIsSendEmail] = useState(true)
+  const [isSendEmailNguoiDung, setSendEmailNguoiDung] = useState(true)
+  const [isSendEmailCBNV, setSendEmailCBNV] = useState(false)
+  const [isSendEmailTruongPhong, setSendEmailTruongPhong] = useState(false)
+  const [isSendEmailBGH, setSendEmailBGH] = useState(false)
 
   const [locationWork, setLocationWork] = useState('')
 
@@ -208,12 +214,12 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                 dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
                 timeWork,
                 locationWork,
-                newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
+                dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
                   ''
-                  ? newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
+                  ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
                   : null,
-                newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                  ? newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                  ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
                   : null,
                 dataDetailTPHSYeuCau,
               ).then(() => console.log('SEND EMAIL TIẾP NHẬN HSMD2 OK'))
@@ -225,12 +231,12 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                 dataCBGV,
                 dataDetailTPHSYeuCau,
                 contentEmail,
-                newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
+                dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
                   ''
-                  ? newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
+                  ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
                   : null,
-                newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                  ? newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                  ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
                   : null,
               ).then(() => console.log('SEND EMAIL OK'))
             }
@@ -244,6 +250,10 @@ const FormGuiEmailThongBaoXuLy = (props) => {
             setIsBGHPheDuyet(null)
             setErrorTimeWork(null)
             setIsSendEmail(null)
+            onAttachedFile({
+              MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile: '',
+              MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile: '',
+            })
           } else {
             return Swal.fire({
               icon: 'error',
@@ -266,13 +276,6 @@ const FormGuiEmailThongBaoXuLy = (props) => {
 
   // Gửi thông báo xử lý yêu cầu
   const handleThongBaoXuLyHoSo = async () => {
-    if (!isSendEmail) {
-      return Swal.fire({
-        icon: 'error',
-        title: 'Lỗi',
-        text: 'Vui lòng chọn hình thức thông báo!',
-      })
-    }
     let dataYeuCauTTHCGV = {
       MC_TTHC_GV_GuiYeuCau_ID: dataDetailYeuCau.MC_TTHC_GV_GuiYeuCau_ID,
       MC_TTHC_GV_GuiYeuCau_NhanSuGui_MaNhanSu:
@@ -296,8 +299,18 @@ const FormGuiEmailThongBaoXuLy = (props) => {
       MC_TTHC_GV_GuiYeuCau_DaNop: dataDetailYeuCau.MC_TTHC_GV_GuiYeuCau_DaNop,
       MC_TTHC_GV_GuiYeuCau_NgayHenTra:
         dataDetailYeuCau.MC_TTHC_GV_GuiYeuCau_NgayHenTra,
-      MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile: '',
-      MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile: null,
+      MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile:
+        dataAttachedFile.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile
+          ? dataAttachedFile.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile
+          : linkAttachedFile
+            ? linkAttachedFile
+            : '',
+      MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile:
+        dataAttachedFile.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+          ? dataAttachedFile.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+          : linkAttachedFile
+            ? linkAttachedFile
+            : '',
       MC_TTHC_GV_GuiYeuCau_TrangThaiPheDuyetTruongPhong: null,
       MC_TTHC_GV_GuiYeuCau_MoTaTTPheDuyetTruongPhong: '',
       MC_TTHC_GV_GuiYeuCau_TrangThaiPheDuyetBGH: null,
@@ -384,7 +397,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                   icon: 'success',
                 })
 
-                if (isSendEmail.includes(0)) {
+                if (isSendEmailNguoiDung === true) {
                   if (mucDoId === 2) {
                     sendEmailTTHCGV_MucDo2(
                       infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai,
@@ -397,12 +410,12 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                       dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
                       timeWork,
                       locationWork,
-                      newDataTiepNhanUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
+                      dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
                         ''
-                        ? newDataTiepNhanUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
+                        ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
                         : null,
-                      newDataTiepNhanUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                        ? newDataTiepNhanUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                      dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                        ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
                         : null,
                       dataDetailTPHSYeuCau,
                     ).then(() => console.log('SEND EMAIL XỬ LÝ HSMD2 OK'))
@@ -415,24 +428,22 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                       dataCBGV,
                       dataDetailTPHSYeuCau,
                       contentEmail,
-                      newDataTiepNhanUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
+                      dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
                         ''
-                        ? newDataTiepNhanUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
+                        ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
                         : null,
-                      newDataTiepNhanUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                        ? newDataTiepNhanUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                      dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                        ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
                         : null,
                     ).then(() => console.log('SEND EMAIL OK'))
-                    // Gửi EMAIL cho trưởng phòng
                   }
                 }
 
                 //   GỬI EMAIL CHO TRƯỞNG PHÒNG
                 if (
-                  dataDetailYeuCau.MC_TTHC_GV_IsTruongPhongPheDuyet === true
+                  dataDetailYeuCau?.MC_TTHC_GV_IsTruongPhongPheDuyet === true
                 ) {
-                  sendEmailTTHCGiangVien(
-                    TEMPLATE_SUBJECT_PENDING_EMAIL,
+                  sendEmailTTHCGV_CBNV_TP(
                     infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai,
                     {
                       ...dataDetailYeuCau,
@@ -441,12 +452,12 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                     dataCBGV,
                     dataDetailTPHSYeuCau,
                     contentEmail,
-                    newDataTiepNhanUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
+                    dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
                       ''
-                      ? newDataTiepNhanUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
+                      ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
                       : null,
-                    newDataTiepNhanUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                      ? newDataTiepNhanUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                    dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                      ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
                       : null,
                     dataDetailYeuCau.MC_TTHC_GV_EmailTruongPhongPheDuyet,
                   ).then(() => console.log('SEND EMAIL OK'))
@@ -461,6 +472,10 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                 setIsBGHPheDuyet(null)
                 setErrorTimeWork(null)
                 setIsSendEmail(null)
+                onAttachedFile({
+                  MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile: '',
+                  MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile: '',
+                })
               } else {
                 return Swal.fire({
                   icon: 'error',
@@ -544,10 +559,8 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                     text: `Đã phê duyệt bước ${infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai}! Tiếp tục xử lý yêu cầu!`,
                     icon: 'success',
                   })
-                  // GỬI THÔNG BÁO EMAIL PHÊ DUYỆT CHO CBNV XỬ LÝ HỒ SƠ
-                  //   if (isSendEmail === 'true' || isSendEmail === true) {
                   try {
-                    const listSendEmailCBNV = listDataCBNVPhanQuyen.map(
+                    const listSendEmailCBNV = listDataCBNVPhanQuyen?.map(
                       (cbnv) => {
                         return sendEmailTTHCGV_TP_CBNV(
                           listYeuCauPheDuyet[0].label,
@@ -558,12 +571,12 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                           dataCBGV,
                           dataDetailTPHSYeuCau,
                           contentEmail,
-                          newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
+                          dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
                             ''
-                            ? newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
+                            ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
                             : null,
-                          newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                            ? newDataTPPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                          dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                            ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
                             : null,
                           cbnv?.QTPM_QLEMAIL_EmailUneti,
                         ).then(() => console.log('SEND EMAIL OK'))
@@ -572,7 +585,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                   } catch (error) {
                     console.error('Error send email CBNV:', error.message)
                   }
-                  //   }
+
                   onLoading(true)
                   onContentEmail('')
                   setContentBGHPheDuyet('')
@@ -582,6 +595,10 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                   setIsBGHPheDuyet(null)
                   setErrorTimeWork(null)
                   setIsSendEmail(null)
+                  onAttachedFile({
+                    MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile: '',
+                    MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile: '',
+                  })
                 } else {
                   return Swal.fire({
                     icon: 'error',
@@ -644,34 +661,33 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                   })
 
                   // GỬI THÔNG BÁO EMAIL KHÔNG PHÊ DUYỆT CHO CBNV XỬ LÝ HỒ SƠ
-                  if (isSendEmail === 'true' || isSendEmail === true) {
-                    try {
-                      const listSendEmailCBNV = listDataCBNVPhanQuyen.map(
-                        (cbnv) => {
-                          return sendEmailTTHCGV_TP_CBNV(
-                            listYeuCauPheDuyet[0].label,
-                            {
-                              ...dataDetailYeuCau,
-                              ...newDataTPKhongPheDuyetUpdate,
-                            },
-                            dataCBGV,
-                            dataDetailTPHSYeuCau,
-                            contentEmail,
-                            newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
-                              ''
-                              ? newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
-                              : null,
-                            newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                              ? newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                              : null,
-                            cbnv?.QTPM_QLEMAIL_EmailUneti,
-                          ).then(() => console.log('SEND EMAIL OK'))
-                        },
-                      )
-                    } catch (error) {
-                      console.error('Error send email CBNV:', error.message)
-                    }
+                  try {
+                    const listSendEmailCBNV = listDataCBNVPhanQuyen.map(
+                      (cbnv) => {
+                        return sendEmailTTHCGV_TP_CBNV(
+                          listYeuCauPheDuyet[0].label,
+                          {
+                            ...dataDetailYeuCau,
+                            ...newDataTPKhongPheDuyetUpdate,
+                          },
+                          dataCBGV,
+                          dataDetailTPHSYeuCau,
+                          contentEmail,
+                          dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
+                            ''
+                            ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
+                            : null,
+                          dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                            ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                            : null,
+                          cbnv?.QTPM_QLEMAIL_EmailUneti,
+                        ).then(() => console.log('SEND EMAIL OK'))
+                      },
+                    )
+                  } catch (error) {
+                    console.error('Error send email CBNV:', error.message)
                   }
+
                   onLoading(true)
                   onContentEmail('')
                   setContentBGHPheDuyet('')
@@ -681,6 +697,10 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                   setIsBGHPheDuyet(null)
                   setErrorTimeWork(null)
                   setIsSendEmail(null)
+                  onAttachedFile({
+                    MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile: '',
+                    MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile: '',
+                  })
                 } else {
                   return Swal.fire({
                     icon: 'error',
@@ -743,7 +763,6 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                     icon: 'success',
                   })
                   // GỬI THÔNG BÁO EMAIL KHÔNG PHÊ DUYỆT CHO CBNV XỬ LÝ HỒ SƠ
-                  //   if (isSendEmail === 'true' || isSendEmail === true) {
                   try {
                     const listSendEmailCBNV = listDataCBNVPhanQuyen.map(
                       (cbnv) => {
@@ -756,12 +775,12 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                           dataCBGV,
                           dataDetailTPHSYeuCau,
                           contentEmail,
-                          newDataTPTrinhDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
+                          dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
                             ''
-                            ? newDataTPTrinhDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
+                            ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
                             : null,
-                          newDataTPTrinhDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                            ? newDataTPTrinhDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                          dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                            ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
                             : null,
                           cbnv?.QTPM_QLEMAIL_EmailUneti,
                         ).then(() => console.log('SEND EMAIL OK'))
@@ -770,7 +789,6 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                   } catch (error) {
                     console.error('Error send email CBNV:', error.message)
                   }
-                  //   }
                   sendEmailTTHCGV_TP_BGH(
                     'Trình duyệt',
                     {
@@ -780,12 +798,12 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                     dataCBGV,
                     dataDetailTPHSYeuCau,
                     contentEmail,
-                    newDataTPTrinhDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
+                    dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
                       ''
-                      ? newDataTPTrinhDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
+                      ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
                       : null,
-                    newDataTPTrinhDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                      ? newDataTPTrinhDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                    dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                      ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
                       : null,
                     dataDetailYeuCau?.MC_TTHC_GV_EmailBGHPheDuyet,
                   )
@@ -798,6 +816,10 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                   setIsBGHPheDuyet(null)
                   setErrorTimeWork(null)
                   setIsSendEmail(null)
+                  onAttachedFile({
+                    MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile: '',
+                    MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile: '',
+                  })
                 } else {
                   return Swal.fire({
                     icon: 'error',
@@ -898,12 +920,12 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                           dataCBGV,
                           dataDetailTPHSYeuCau,
                           contentEmail,
-                          newDataBGHPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
+                          dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
                             ''
-                            ? newDataBGHPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
+                            ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
                             : null,
-                          newDataBGHPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                            ? newDataBGHPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                          dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                            ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
                             : null,
                           cbnv?.QTPM_QLEMAIL_EmailUneti,
                         ).then(() => console.log('SEND EMAIL OK'))
@@ -921,12 +943,12 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                     dataCBGV,
                     dataDetailTPHSYeuCau,
                     contentEmail,
-                    newDataBGHPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
+                    dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
                       ''
-                      ? newDataBGHPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
+                      ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
                       : null,
-                    newDataBGHPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                      ? newDataBGHPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                    dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                      ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
                       : null,
                     dataDetailYeuCau.MC_TTHC_GV_EmailTruongPhongPheDuyet,
                   ).then(() => console.log('SEND EMAIL OK'))
@@ -940,6 +962,10 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                   setIsBGHPheDuyet(null)
                   setErrorTimeWork(null)
                   setIsSendEmail(null)
+                  onAttachedFile({
+                    MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile: '',
+                    MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile: '',
+                  })
                 } else {
                   return Swal.fire({
                     icon: 'error',
@@ -1016,12 +1042,12 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                           dataCBGV,
                           dataDetailTPHSYeuCau,
                           contentEmail,
-                          newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
+                          dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
                             ''
-                            ? newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
+                            ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
                             : null,
-                          newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                            ? newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                          dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                            ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
                             : null,
                           cbnv?.QTPM_QLEMAIL_EmailUneti,
                         ).then(() => console.log('SEND EMAIL OK'))
@@ -1041,12 +1067,12 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                     dataCBGV,
                     dataDetailTPHSYeuCau,
                     contentEmail,
-                    newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
+                    dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim() !==
                       ''
-                      ? newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
+                      ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile.trim()
                       : null,
-                    newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
-                      ? newDataTPKhongPheDuyetUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                    dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
+                      ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
                       : null,
                     dataDetailYeuCau.MC_TTHC_GV_EmailTruongPhongPheDuyet,
                   ).then(() => console.log('SEND EMAIL OK'))
@@ -1059,6 +1085,10 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                   setIsTPPheDuyet(null)
                   setIsBGHPheDuyet(null)
                   setErrorTimeWork(null)
+                  onAttachedFile({
+                    MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile: '',
+                    MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile: '',
+                  })
                 } else {
                   return Swal.fire({
                     icon: 'error',
@@ -1166,18 +1196,16 @@ const FormGuiEmailThongBaoXuLy = (props) => {
               icon: 'success',
             })
 
-            if (isSendEmail === 'true' || isSendEmail === true) {
-              sendEmailTTHCGiangVien(
-                TEMPLATE_SUBJECT_CANCEL_EMAIL,
-                '',
-                { ...dataDetailYeuCau, ...newDataUpdate },
-                dataCBGV,
-                dataDetailTPHSYeuCau,
-                contentEmail,
-                newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile,
-                newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile,
-              ).then(() => console.log('SEND EMAIL OK'))
-            }
+            sendEmailTTHCGiangVien(
+              TEMPLATE_SUBJECT_CANCEL_EMAIL,
+              '',
+              { ...dataDetailYeuCau, ...newDataUpdate },
+              dataCBGV,
+              dataDetailTPHSYeuCau,
+              contentEmail,
+              newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile,
+              newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile,
+            ).then(() => console.log('SEND EMAIL OK'))
             onLoading(true)
             onContentEmail('')
             setContentBGHPheDuyet('')
@@ -1187,6 +1215,10 @@ const FormGuiEmailThongBaoXuLy = (props) => {
             setIsBGHPheDuyet(null)
             setErrorTimeWork(null)
             setIsSendEmail(null)
+            onAttachedFile({
+              MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile: '',
+              MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile: '',
+            })
           } else {
             return Swal.fire({
               icon: 'error',
@@ -1351,23 +1383,10 @@ const FormGuiEmailThongBaoXuLy = (props) => {
     listStatus[currentStep - 1]?.MC_TTHC_GV_TrangThai_DoiTuongXuLy,
   )
 
-  useEffect(() => {
-    if (!dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT) {
-      setIsSendEmail([0])
-    } else if (
-      dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT === 1 &&
-      dataDetailYeuCau?.MC_TTHC_GV_IsTruongPhongPheDuyet === true
-    ) {
-      setIsSendEmail([0, 2])
-    } else if (dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT === 2) {
-      setIsSendEmail([1, 3])
-    } else if (dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT === 3) {
-      setIsSendEmail([1, 2])
-    } else if (dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT === 4) {
-      setIsSendEmail([0])
-    }
-  }, [dataDetailYeuCau])
+  useEffect(() => {}, [dataDetailYeuCau])
 
+  console.log(dataDetailYeuCau)
+  console.log('listCBNV: ', listDataCBNVPhanQuyen)
   return (
     <div className="my-4">
       <div className="form__content border border-gray-400 p-4 rounded-lg mb-4">
@@ -1376,15 +1395,30 @@ const FormGuiEmailThongBaoXuLy = (props) => {
         </h4>
         {/* START: Chọn gửi Email */}
 
-        <div className={clsx('mb-6', stepHandle === 5 && 'hidden')}>
+        <div
+          className={clsx(
+            'mb-6',
+            dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT ===
+              dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STTMAX - 1 && 'hidden',
+          )}
+        >
           <p className="font-semibold">Gửi email:</p>
           <div className="flex items-center gap-36 border p-2 rounded-md">
-            {stepHandle === 1 && (
-              <div className="flex items-center gap-2">
+            {/* Checkbox gửi email cho Người dùng */}
+            {((dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT !==
+              dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT_TPD &&
+              dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT !==
+                dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT_BGHD &&
+              stepHandle !== dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT_TPD &&
+              stepHandle !== dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT_BGHD) ||
+              dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT === null) && (
+              <div
+                className={clsx(
+                  'flex items-center gap-2',
+                  stepHandle === 2 && 'hidden',
+                )}
+              >
                 <input
-                  onChange={(e) => {
-                    setIsSendEmail(e.target.value)
-                  }}
                   type="checkbox"
                   defaultChecked={true}
                   disabled={true}
@@ -1395,130 +1429,79 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                 <label htmlFor="isSendEmail">{optionSendEmail[0].label}</label>
               </div>
             )}
+
             {stepHandle === 2 && (
-              <>
-                <div className="flex items-center gap-2">
-                  <input
-                    onChange={(e) => {
-                      if (e.target.checked === true) {
-                        setIsSendEmail([...isSendEmail, 0])
-                      } else {
-                        setIsSendEmail([2])
-                      }
-                    }}
-                    type="checkbox"
-                    defaultChecked={true}
-                    value={optionSendEmail[0].value}
-                    name="isSendEmail"
-                    id="isSendEmail"
-                  />
-                  <label htmlFor="isSendEmail">
-                    {optionSendEmail[0].label}
-                  </label>
-                </div>
-                <div
-                  className={clsx(
-                    'flex items-center gap-2',
-                    !dataDetailYeuCau?.MC_TTHC_GV_IsTruongPhongPheDuyet &&
-                      'hidden',
-                  )}
-                >
-                  <input
-                    onChange={(e) => {
-                      setIsSendEmail(e.target.value)
-                    }}
-                    type="checkbox"
-                    defaultChecked={true}
-                    disabled={true}
-                    value={true}
-                    name="isSendEmail"
-                    id="isSendEmail"
-                  />
-                  <label htmlFor="isSendEmail">Trưởng/Phó đơn vị</label>
-                </div>
-              </>
+              <div className="flex items-center gap-2">
+                <input
+                  onChange={(e) => {
+                    setSendEmailNguoiDung(e.target.checked)
+                  }}
+                  type="checkbox"
+                  defaultChecked={true}
+                  value={optionSendEmail[0].value}
+                  name="isSendEmail"
+                  id="isSendEmail"
+                />
+                <label htmlFor="isSendEmail">{optionSendEmail[0].label}</label>
+              </div>
             )}
-            {stepHandle === 3 && (
-              <>
-                <div className="flex items-center gap-2">
-                  <input
-                    onChange={(e) => {
-                      setIsSendEmail(e.target.value)
-                    }}
-                    type="checkbox"
-                    defaultChecked={true}
-                    value={optionSendEmail[1].value}
-                    disabled={true}
-                    name="isSendEmail"
-                    id="isSendEmail"
-                  />
-                  <label htmlFor="isSendEmail">
-                    {optionSendEmail[1].label}
-                  </label>
-                </div>
-                <div
-                  className={clsx(
-                    'flex items-center gap-2',
-                    !dataDetailYeuCau?.MC_TTHC_GV_IsBGHPheDuyet && 'hidden',
-                  )}
-                >
-                  <input
-                    onChange={(e) => {
-                      setIsSendEmail(e.target.value)
-                    }}
-                    type="checkbox"
-                    defaultChecked={true}
-                    disabled={true}
-                    value={optionSendEmail[3].value}
-                    name="isSendEmail"
-                    id="isSendEmail"
-                  />
-                  <label htmlFor="isSendEmail">
-                    {optionSendEmail[3].label}
-                  </label>
-                </div>
-              </>
+            {/* Checkbox gửi email cho CBNV */}
+            {(dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT ==
+              dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT_TPD - 1 ||
+              dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT ==
+                dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT_BGHD - 1) && (
+              <div className="flex items-center gap-2">
+                <input
+                  onChange={(e) => {
+                    setIsSendEmail(e.target.value)
+                  }}
+                  type="checkbox"
+                  defaultChecked={true}
+                  value={optionSendEmail[1].value}
+                  disabled={true}
+                  name="isSendEmail"
+                  id="isSendEmail"
+                />
+                <label htmlFor="isSendEmail">{optionSendEmail[1].label}</label>
+              </div>
             )}
-            {stepHandle === 4 && (
-              <>
-                <div className="flex items-center gap-2">
-                  <input
-                    onChange={(e) => {
-                      setIsSendEmail(e.target.value)
-                    }}
-                    type="checkbox"
-                    defaultChecked={true}
-                    value={optionSendEmail[1].value}
-                    disabled={true}
-                    name="isSendEmail"
-                    id="isSendEmail"
-                  />
-                  <label htmlFor="isSendEmail">
-                    {optionSendEmail[1].label}
-                  </label>
-                </div>
-                <div
-                  className={clsx(
-                    'flex items-center gap-2',
-                    !dataDetailYeuCau?.MC_TTHC_GV_IsBGHPheDuyet && 'hidden',
-                  )}
-                >
-                  <input
-                    onChange={(e) => {
-                      setIsSendEmail(e.target.value)
-                    }}
-                    type="checkbox"
-                    defaultChecked={true}
-                    disabled={true}
-                    value={optionSendEmail[2].value}
-                    name="isSendEmail"
-                    id="isSendEmail"
-                  />
-                  <label htmlFor="isSendEmail">
-                    {optionSendEmail[2].label}
-                  </label>
-                </div>
-              </>
+
+            {/* Checkbox gửi email cho Trưởng phòng */}
+            {(dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT ==
+              dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT_TPD - 2 ||
+              dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT ==
+                dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT_BGHD) && (
+              <div className={clsx('flex items-center gap-2')}>
+                <input
+                  type="checkbox"
+                  defaultChecked={true}
+                  disabled={true}
+                  value={optionSendEmail[2].value}
+                  name="isSendEmail"
+                  id="isSendEmail"
+                />
+                <label htmlFor="isSendEmail">{optionSendEmail[2].label}</label>
+              </div>
+            )}
+            {/* Checkbox gửi email cho BGH */}
+            {dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT ==
+              dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT_TPD - 1 && (
+              <div
+                className={clsx(
+                  'flex items-center gap-2',
+                  !dataDetailYeuCau?.MC_TTHC_GV_IsBGHPheDuyet && 'hidden',
+                )}
+              >
+                <input
+                  type="checkbox"
+                  defaultChecked={true}
+                  disabled={true}
+                  value={optionSendEmail[3].value}
+                  name="isSendEmail"
+                  id="isSendEmail"
+                />
+                <label htmlFor="isSendEmail">{optionSendEmail[3].label}</label>
+              </div>
             )}
           </div>
         </div>

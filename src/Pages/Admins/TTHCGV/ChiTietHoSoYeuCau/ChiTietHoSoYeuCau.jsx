@@ -133,9 +133,9 @@ function ChiTietHoSoYeuCau() {
     }
   }
 
-  const getListDataPhanQuyenByIDGoc = async (id) => {
+  const getListDataPhanQuyenByIDGoc = async (idGocTTHC) => {
     try {
-      const res = await getInfoPhanQuyenCBNV(id)
+      const res = await getInfoPhanQuyenCBNV(idGocTTHC)
       if (res.status === 200) {
         const data = await res.data?.body
         setListDataCBNVPhanQuyen(data)
@@ -691,19 +691,27 @@ function ChiTietHoSoYeuCau() {
     getListDataNoiTraKetQua()
   }, [])
   useEffect(() => {
-    getDataHoSoYeuCauById(id)
-    getDataTPHSDeNghiYeuCauByIDGoc(id)
-    getDataTrinhTuThucHienYeuCauByIDGoc(id)
+    const fetchData = async () => {
+      await getDataHoSoYeuCauById(id)
+      await getDataTPHSDeNghiYeuCauByIDGoc(id)
+      await getDataTrinhTuThucHienYeuCauByIDGoc(id)
+    }
+    fetchData()
   }, [id, loading])
 
   useEffect(() => {
-    getDataTrangThaiYeuCauByIDGoc(
-      dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
-    )
-    getListDataPhanQuyenByIDGoc(
-      dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
-    )
-  }, [dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID])
+    if (dataDetailYeuCau) {
+      const fetchData = async () => {
+        await getDataTrangThaiYeuCauByIDGoc(
+          dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
+        )
+        await getListDataPhanQuyenByIDGoc(
+          dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
+        )
+      }
+      fetchData()
+    }
+  }, [dataDetailYeuCau, id])
 
   const displayedListQuyTrinhXuLy = useMemo(() => {
     if (!showQuaTrinhXuLy) {
@@ -1267,16 +1275,13 @@ function ChiTietHoSoYeuCau() {
                                 : 'bg-gray-200 text-uneti-primary',
                             )}
                           >
-                            {tt.MC_TTHC_GV_TrangThai_STT === index ? (
-                              <FaCaretDown
-                                className="text-white cursor-pointer"
-                                onClick={handleShowThongTinNguoiNop}
-                              />
+                            {tt?.MC_TTHC_GV_TrangThai_STT ===
+                              dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT ||
+                            dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT >
+                              index ? (
+                              <FaCaretRight className="text-white cursor-pointer" />
                             ) : (
-                              <FaCaretRight
-                                className="text-white cursor-pointer"
-                                onClick={handleShowThongTinNguoiNop}
-                              />
+                              <FaCaretDown className="text-uneti-primary cursor-pointer" />
                             )}
                             <h3 className="font-medium leading-10">
                               Bước {index + 1}:{' '}
