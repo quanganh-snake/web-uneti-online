@@ -9,11 +9,6 @@ export default defineConfig({
   server: {
     forceHttps: true,
   },
-  esbuild: {
-    legalComments: 'external',
-    platform: 'browser',
-    treeShaking: true,
-  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src/'),
