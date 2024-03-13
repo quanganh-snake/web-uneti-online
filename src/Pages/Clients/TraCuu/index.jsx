@@ -6,7 +6,7 @@ function HomeTraCuu() {
   return (
     <>
       <div>
-        <div className="flex flex-col md:flex-row px-4 gap-7">
+        <div className="grid grid-col-1 sm:grid-cols-2 md:grid-cols-3 px-4 gap-7">
           {homeTraCuu.map((item, index) => {
             return (
               <div key={index} className="flex-1">

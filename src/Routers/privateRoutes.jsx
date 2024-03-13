@@ -93,6 +93,7 @@ import DiemDanh from '@/Pages/Clients/TraCuu/DiemDanh/DiemDanh'
 import RenLuyen from '@/Pages/Clients/TraCuu/RenLuyen/RenLuyen'
 import DanhSachPhan from '@/Pages/Clients/HocTap/OnLuyen/OnTap/DanhSachPhan/DanhSachPhan'
 import DanhSachChuong from '@/Pages/Clients/HocTap/OnLuyen/OnTap/DanhSachChuong/DanhSachChuong'
+import DuKienKetQuaHocTap from '@/Pages/Clients/TraCuu/DuKienKetQuaHocTap/DuKienKetQuaHocTap'
 
 export const ROLES = {
   G0101: 'GV',
@@ -248,6 +249,10 @@ export const privateRoutes = (
           <Route path="diem-danh" element={<DiemDanh />} />
           <Route path="ren-luyen" element={<RenLuyen />} />
           <Route path="thoi-khoa-bieu" element={<ThoiKhoaBieu />} />
+          <Route
+            path="du-kien-ket-qua-hoc-tap"
+            element={<DuKienKetQuaHocTap />}
+          />
         </Route>
       </Route>
       {/* Hỗ trợ TBGD */}

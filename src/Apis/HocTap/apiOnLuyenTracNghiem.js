@@ -90,7 +90,7 @@ export const getTongSoTrangTheoMonHoc = ({ MaMonHoc, DieuKienLoc }) =>
 
 export const getCauHoiTheoMonHoc = ({
   IDSinhVien,
-  soTrang = 1,
+  soTrang,
   maMonHoc,
   dieuKienLoc = LOAD_CAU_HOI_DIEU_KIEN_LOC.TatCa,
 }) =>
