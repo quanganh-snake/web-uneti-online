@@ -1,5 +1,4 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import SidebarTTHCGV from '../Sidebar/SidebarTTHCGV'
 import { Link } from 'react-router-dom'
 import { changeSlug } from '../../../../Services/Utils/stringUtils'
@@ -8,6 +7,7 @@ import { FaCaretLeft, FaCaretRight } from 'react-icons/fa'
 import moment from 'moment'
 import Loading from './../../../../Components/Loading/Loading'
 import { DebounceInput } from 'react-debounce-input'
+import clsx from 'clsx'
 function CanBoNghiepVuView({
   loading,
   listHoSoYeuCau,
@@ -58,7 +58,7 @@ function CanBoNghiepVuView({
                     id=""
                   >
                     <option value="">Tất cả hồ sơ</option>
-                    {listTrangThaiHoSo?.map((iTrangThai, index) => {
+                    {listTrangThaiHoSo?.map((iTrangThai) => {
                       return (
                         <option
                           value={iTrangThai.MC_TTHC_GV_TrangThai_TenTrangThai}
@@ -119,7 +119,7 @@ function CanBoNghiepVuView({
                                   {itemYeuCau.MC_TTHC_GV_TenThuTuc}
                                 </p>
                                 <ul>
-                                  <li>
+                                  <li className="hidden">
                                     - Số biên tiếp nhận:{' '}
                                     {
                                       itemYeuCau?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong
@@ -132,12 +132,12 @@ function CanBoNghiepVuView({
                                     </span>
                                   </li>
                                   <li>
-                                    - Ngày tiếp nhận:{' '}
+                                    - Ngày nộp hồ sơ:{' '}
                                     {moment(
                                       itemYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayGui,
                                     ).format('DD/MM/YYYY')}
                                   </li>
-                                  <li>
+                                  <li className="hidden">
                                     - Ngày hẹn trả:{' '}
                                     {itemYeuCau.ngayHenTra
                                       ? itemYeuCau.ngayHenTra
@@ -146,7 +146,7 @@ function CanBoNghiepVuView({
                                 </ul>
                                 <div className="flex flex-wrap items-center gap-4">
                                   <Link
-                                    to={`/admin/can-bo-nghiep-vu/chi-tiet-yeu-cau/${titleSlug}/${itemYeuCau.MC_TTHC_GV_GuiYeuCau_ID}`}
+                                    to={`/admin/xu-ly-nghiep-vu/chi-tiet-yeu-cau/${titleSlug}/${itemYeuCau.MC_TTHC_GV_GuiYeuCau_ID}`}
                                     className="whitespace-nowrap lg:whitespace-normal text-white font-semibold bg-[#336699] px-3 py-1 rounded-full hover:opacity-70"
                                   >
                                     Xử lý/Xem chi tiết
@@ -159,12 +159,12 @@ function CanBoNghiepVuView({
                                       onClick={() => {
                                         handleTiepNhanHoSo(itemYeuCau)
                                       }}
-                                      className="whitespace-nowrap lg:whitespace-normal text-white font-semibold bg-[#0484AC] px-3 py-1 rounded-full hover:opacity-70"
+                                      className="hidden whitespace-nowrap lg:whitespace-normal text-white font-semibold bg-[#0484AC] px-3 py-1 rounded-full hover:opacity-70"
                                     >
                                       Tiếp nhận
                                     </button>
                                   ) : (
-                                    <p className="whitespace-nowrap lg:whitespace-normal text-white font-semibold bg-green-700 px-3 py-1 rounded-full">
+                                    <p className="hidden whitespace-nowrap lg:whitespace-normal text-white font-semibold bg-green-700 px-3 py-1 rounded-full">
                                       Đã tiếp nhận
                                     </p>
                                   )}
@@ -182,11 +182,28 @@ function CanBoNghiepVuView({
                               </p>
                             </td>
                             <td className="px-2 py-1">
-                              <p className="font-semibold flex flex-col">
+                              <p
+                                className={clsx(
+                                  'font-semibold flex flex-col text-white p-2 rounded-md',
+                                  itemYeuCau?.IsHoanThanh
+                                    ? 'bg-green-500'
+                                    : itemYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID ===
+                                        -1
+                                      ? 'bg-red-500'
+                                      : itemYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID !==
+                                          0
+                                        ? 'bg-sky-500'
+                                        : 'bg-orange-500',
+                                )}
+                              >
                                 <span className="text-center">
-                                  {
-                                    itemYeuCau?.MC_TTHC_GV_TrangThai_TenTrangThai
-                                  }
+                                  {itemYeuCau?.IsHoanThanh
+                                    ? 'Đã hoàn thành'
+                                    : itemYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID !==
+                                        -1 &&
+                                      itemYeuCau?.MC_TTHC_GV_TrangThai_TenTrangThai}
+                                  {itemYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID ===
+                                    -1 && 'Đã hủy trả'}
                                 </span>
                               </p>
                             </td>

@@ -58,6 +58,8 @@ export const handlePreviewFileBase64 = async (
   fileName,
   base64StringWithoutPrefix,
 ) => {
+  console.log(fileName)
+
   const createBlobAndOpen = (base64, contentType) => {
     const byteCharacters = atob(base64)
     const byteNumbers = new Array(byteCharacters.length)
@@ -79,15 +81,15 @@ export const handlePreviewFileBase64 = async (
     }
   }
 
-  if (fileName.endsWith('.pdf')) {
+  if (fileName?.endsWith('.pdf')) {
     createBlobAndOpen(base64StringWithoutPrefix, 'application/pdf')
-  } else if (fileName.match(/\.(jpeg|jpg|png|gif)$/i)) {
+  } else if (fileName?.match(/\.(jpeg|jpg|png|gif)$/i)) {
     let prefixImage
-    if (fileName.endsWith('.jpeg') || fileName.endsWith('.jpg')) {
+    if (fileName?.endsWith('.jpeg') || fileName?.endsWith('.jpg')) {
       prefixImage = 'image/jpeg'
-    } else if (fileName.endsWith('.png')) {
+    } else if (fileName?.endsWith('.png')) {
       prefixImage = 'image/png'
-    } else if (fileName.endsWith('.gif')) {
+    } else if (fileName?.endsWith('.gif')) {
       prefixImage = 'image/gif'
     }
     createBlobAndOpen(

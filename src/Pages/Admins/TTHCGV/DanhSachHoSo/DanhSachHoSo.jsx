@@ -1,12 +1,8 @@
-import React from 'react'
 import SidebarTTHCGV from '../Sidebar/SidebarTTHCGV'
 import {
-  delThuTucHanhChinhByID,
-  getAllThuTucHanhChinhGV,
   getThuTucHanhChinhByKeyWords,
+  putHienThiHoSoThuTuc,
 } from '../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
-import { DataCanBoGV } from '../../../../Services/Utils/dataCanBoGV'
-import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import ReactPaginate from 'react-paginate'
@@ -19,6 +15,7 @@ import { DebounceInput } from 'react-debounce-input'
 import Swal from 'sweetalert2'
 import { toast } from 'react-toastify'
 import Loading from '../../../../Components/Loading/Loading'
+import { typeEditThuTuc } from '../constants'
 
 const PATH_TTHCGV = '/admin/quan-tri-TTHCGV/ho-so-thu-tuc'
 
@@ -66,11 +63,11 @@ function DanhSachHoSo() {
       setItemsPerPage(parseInt(value))
     }
   }
-  const handleDeleteThuTuc = async (idThuTuc) => {
-    if (idThuTuc) {
+  const handleHienThiThuTuc = async (idThuTuc, type) => {
+    if (type === typeEditThuTuc.typeHidden) {
       Swal.fire({
         icon: 'question',
-        title: 'Bạn có chắc chắn muốn xóa thủ tục này không?',
+        title: 'Bạn có chắc chắn muốn ẩn thủ tục này không?',
         showConfirmButton: true,
         showCancelButton: true,
         confirmButtonText: 'Đồng ý',
@@ -78,11 +75,32 @@ function DanhSachHoSo() {
       }).then(async (result) => {
         if (result.isConfirmed) {
           setLoading(true)
-          const res = await delThuTucHanhChinhByID(idThuTuc)
+          const res = await putHienThiHoSoThuTuc(idThuTuc, type)
           if (res.status === 200) {
             setLoading(false)
             getListHoSoThuTuc()
-            toast.success('Đã xóa thành công thủ tục!')
+            toast.success('Đã ẩn thành công thủ tục!')
+          }
+        }
+      })
+    }
+
+    if (type === typeEditThuTuc.typeShow) {
+      Swal.fire({
+        icon: 'question',
+        title: 'Bạn có chắc chắn muốn hiển thị thủ tục này không?',
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Đồng ý',
+        cancelButtonText: 'Hủy',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          setLoading(true)
+          const res = await putHienThiHoSoThuTuc(idThuTuc, type)
+          if (res.status === 200) {
+            setLoading(false)
+            getListHoSoThuTuc()
+            toast.success('Đã hiển thị thành công thủ tục!')
           }
         }
       })
@@ -156,7 +174,7 @@ function DanhSachHoSo() {
                       <th className="px-2 py-1 rounded-tl-lg border-r">STT</th>
                       <th className="px-2 py-1 border-r">Thủ tục</th>
                       <th className="px-2 py-1 border-r">Lĩnh vực</th>
-                      <th className="px-2 py-1 rounded-tr-lg"></th>
+                      <th className="px-2 py-1 rounded-tr-lg w-8">Tác vụ</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -222,21 +240,33 @@ function DanhSachHoSo() {
                               {itemThuTuc.MC_TTHC_GV_LinhVuc}
                             </td>
                             <td className="px-2 py-1 border-r border-slate-300">
-                              <div className="flex gap-4">
+                              <div className="flex flex-col gap-2 w-28">
                                 <Link
                                   to={`${PATH_TTHCGV}/xem/chi-tiet/${titleSlug}/${itemThuTuc.MC_TTHC_GV_ID}`}
-                                  className="bg-white text-[#336699] font-semibold rounded-md border px-2 py-1 hover:bg-[#336699] hover:text-white"
+                                  className="block w-full bg-white text-[#336699] text-center font-semibold rounded-md border px-2 py-1 hover:bg-[#336699] hover:text-white"
                                 >
                                   Sửa
                                 </Link>
                                 <button
                                   type="button"
                                   onClick={() => {
-                                    handleDeleteThuTuc(itemThuTuc.MC_TTHC_GV_ID)
+                                    handleHienThiThuTuc(
+                                      itemThuTuc.MC_TTHC_GV_ID,
+                                      itemThuTuc.MC_TTHC_GV_HienThi
+                                        ? typeEditThuTuc.typeHidden
+                                        : typeEditThuTuc.typeShow,
+                                    )
                                   }}
-                                  className="bg-red-500 text-white font-semibold px-2 py-1 rounded-md hover:opacity-70"
+                                  className={clsx(
+                                    'block w-full text-white text-center font-semibold py-2 px-5 rounded-md hover:opacity-70',
+                                    itemThuTuc.MC_TTHC_GV_HienThi
+                                      ? 'bg-red-500'
+                                      : 'bg-green-500',
+                                  )}
                                 >
-                                  Xóa
+                                  {itemThuTuc.MC_TTHC_GV_HienThi
+                                    ? 'Ẩn'
+                                    : 'Hiển thị'}
                                 </button>
                               </div>
                             </td>

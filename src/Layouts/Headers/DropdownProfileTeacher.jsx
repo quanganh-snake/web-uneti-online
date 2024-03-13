@@ -1,44 +1,32 @@
-import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+// import { useLocation } from 'react-router-dom'
 import { MdLogout, MdNotificationImportant } from 'react-icons/md'
-import { FaYoutube } from 'react-icons/fa6'
+// import { FaYoutube } from 'react-icons/fa6'
+import DropdownProfileItem from './DropdownProfileItem'
 
 function DropdownProfileTeacher(props) {
   const { handleLogout } = props
+  //   const { pathname } = useLocation()
   return (
-    <React.Fragment>
-      <ul className="py-2" aria-labelledby="user-menu-button">
-        <li>
-          <Link
-            to="tthc-giang-vien/theo-doi-quy-trinh"
-            className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:font-bold hover:text-white hover:bg-sky-800"
-          >
-            <MdNotificationImportant className="text-xl" />
-            <span>Theo dõi đề nghị</span>
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="https://www.youtube.com/playlist?list=PLtaZam4oqTqBgIrLn2LBviw4nQArnNYqJ"
-            target="_blank"
-            className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:font-bold hover:text-white hover:bg-sky-800"
-          >
-            <FaYoutube className="text-xl" />
-            Hướng dẫn sử dụng
-          </Link>
-        </li>
-        <li>
-          <Link
-            onClick={handleLogout}
-            className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700  hover:font-bold hover:text-white hover:bg-sky-800"
-          >
-            <MdLogout className="text-xl" />
-            Đăng xuất
-          </Link>
-        </li>
-      </ul>
-    </React.Fragment>
+    <>
+      <div className="p-3" aria-labelledby="user-menu-button">
+        <DropdownProfileItem
+          to="tthc-giang-vien/theo-doi-quy-trinh"
+          icon={<MdNotificationImportant className="text-xl" />}
+          text="Theo dõi đề nghị"
+        />
+        {/* <DropdownProfileItem
+          to="https://www.youtube.com/playlist?list=PLtaZam4oqTqBgIrLn2LBviw4nQArnNYqJ"
+          icon={<FaYoutube className="text-xl" />}
+          text="Hướng dẫn sử dụng"
+        /> */}
+        <DropdownProfileItem
+          onClick={handleLogout}
+          icon={<MdLogout className="text-xl" />}
+          text="Đăng xuất"
+        />
+      </div>
+    </>
   )
 }
 

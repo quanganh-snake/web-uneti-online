@@ -55,6 +55,7 @@ export const DataCanBoGV = () => {
     LoaiTaiKhoan,
     Role,
     HT_GROUPUSER_ID,
+    EmailUneti,
   } = teacher ?? ''
   return {
     IDNhanSu,
@@ -107,5 +108,6 @@ export const DataCanBoGV = () => {
     Role,
     dataToken,
     HT_GROUPUSER_ID,
+    EmailUneti,
   }
 }

@@ -35,7 +35,7 @@ function Home() {
                 <Link
                   to={`${module.path}`}
                   key={index}
-                className="flex flex-col items-center p-10 bg-white cursor-pointer hover:shadow-none rounded-[22px] border-2 hover:border-uneti-primary-lighter transition-all shadow-module-item"
+                  className="flex flex-col items-center p-10 bg-white cursor-pointer hover:shadow-none rounded-[22px] border-2 hover:border-uneti-primary-lighter transition-all shadow-module-item"
                 >
                   <img
                     src={module.icon}

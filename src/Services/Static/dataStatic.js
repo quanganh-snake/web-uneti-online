@@ -38,6 +38,10 @@ import icoOnLuyenTracNghiem from '@/assets/Icons/icoOnLuyenTracNghiem.png'
 
 // data Static NguonTiepNhan
 export const NguonTiepNhan_WEB = 1
+
+// data Static WEB Version
+export const WEB_VERSION = '2.0.0.2'
+
 // data Static homeMain
 export const homeMain = [
   {
@@ -85,7 +89,7 @@ export const homeMain = [
     desc: 'Tổng hợp file cài đặt, tài liệu hướng dẫn sử dụng các phần mềm.',
     icon: icoHTSDPM,
     path: '/ho-tro-su-dung-phan-mem',
-    moduleActive: true,
+    moduleActive: false,
     roleActive: ['GV', 'SV'],
   },
   {
@@ -1436,15 +1440,15 @@ export const homeTTHCGV = [
   },
   {
     id: 2,
-    title: 'Cán bộ nghiệp vụ',
-    name: 'Cán bộ nghiệp vụ',
-    path: '/admin/can-bo-nghiep-vu',
+    title: 'Xử lý nghiệp vụ',
+    name: 'Xử lý nghiệp vụ',
+    path: '/admin/xu-ly-nghiep-vu',
     roleActive: ['Admin', 'CBNV'],
   },
   {
     id: 3,
-    title: 'Quản trị hệ thống',
-    name: 'Quản trị hệ thống',
+    title: 'Quản trị đơn vị',
+    name: 'Quản trị đơn vị',
     path: '/admin/quan-tri-TTHCGV',
     roleActive: ['Admin'],
   },

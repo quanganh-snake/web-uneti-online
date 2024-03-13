@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom'
 import { MdOutlineLocationOn, MdPhone, MdOutlinePublic } from 'react-icons/md'
 // data
 import logoUNETI from '@/assets/Images/LOGO_UNETI.ico'
+import { WEB_VERSION } from '@/Services/Static/dataStatic'
+
 function Footer() {
   return (
     <footer className="bg-sky-800">
@@ -97,7 +99,7 @@ function Footer() {
       <div className="bg-[#134156]">
         <div className="max-w-7xl mx-auto text-white flex items-center justify-between font-semibold p-3">
           <p>&#169; Copyright Trường Đại học Kinh tế - Kỹ thuật Công nghiệp</p>
-          <p className="text-center">Version: 2.0.0.1</p>
+          <p className="text-center">Version: {WEB_VERSION}</p>
         </div>
       </div>
     </footer>

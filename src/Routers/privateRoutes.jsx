@@ -238,6 +238,11 @@ export const ROLES = {
   G0101: 'GV',
   S0202: 'SV',
 }
+
+export const ROLE_VIEW_ACTION_HTTB = {
+  QT_XLSC: '14',
+}
+
 export const ROLE_VIEW_ACTION_TTHCGV = {
   QT_TTHCGV: '15',
   CBNV_TTHCGV: '16',
@@ -254,7 +259,7 @@ export const privateRoutes = (
         <Route path="admin">
           <Route index element={<HomeAdmin />} />
           <Route
-            path="can-bo-nghiep-vu"
+            path="xu-ly-nghiep-vu"
             element={
               <RoleViewActionMiddleware
                 allowedRoleViewAction={[ROLE_VIEW_ACTION_TTHCGV.CBNV_TTHCGV]}
@@ -308,7 +313,16 @@ export const privateRoutes = (
         <Route path="ho-tro-thiet-bi">
           <Route index element={<HomeTaiSan />} />
           <Route path="bao-hong-tai-san" element={<BaoHongTaiSan />} />
-          <Route path="sua-chua-tai-san" element={<SuaChuaTaiSan />} />
+          <Route
+            path="sua-chua-tai-san"
+            element={
+              <RoleViewActionMiddleware
+                allowedRoleViewAction={[ROLE_VIEW_ACTION_HTTB.QT_XLSC]}
+              />
+            }
+          >
+            <Route index element={<SuaChuaTaiSan />} />
+          </Route>
           <Route path="tra-cuu-tai-san" element={<TraCuuTaiSan />} />
           <Route path="cap-nhat-tai-san" element={<CapNhatTaiSan />} />
         </Route>
@@ -381,7 +395,16 @@ export const privateRoutes = (
         <Route path="ho-tro-thiet-bi-giang-duong">
           <Route index element={<HomeTBGD />} />
           <Route path="bao-hong/:id?" element={<BaoHong />} />
-          <Route path="xu-ly-su-co" element={<XuLySuCo />} />
+          <Route
+            path="xu-ly-su-co"
+            element={
+              <RoleViewActionMiddleware
+                allowedRoleViewAction={[ROLE_VIEW_ACTION_HTTB.QT_XLSC]}
+              />
+            }
+          >
+            <Route index element={<XuLySuCo />} />
+          </Route>
           <Route
             path="dang-ky-su-dung-thiet-bi"
             element={<DangKySuDungThietBi />}
