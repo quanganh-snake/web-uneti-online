@@ -2,17 +2,17 @@ import GiayGioiThieuView from './GiayGioiThieuView'
 
 function GiayGioiThieu() {
   const home = {
-    path: '/motcua',
+    path: '/mot-cua',
     title: 'Bộ phận một cửa',
   }
 
   const breadcrumbs = [
     {
-      path: '/motcua/hanhchinh',
+      path: '/mot-cua/hanh-chinh',
       title: 'Hành chính',
     },
     {
-      path: '/motcua/hanhchinh/GiayGioiThieu',
+      path: '/mot-cua/hanh-chinh/GiayGioiThieu',
       title: 'Giấy giới thiệu',
     },
   ]

@@ -11,11 +11,11 @@ function DiemDanh() {
 
   const breadcrumbs = [
     {
-      path: '/tracuu',
+      path: '/tra-cuu',
       title: 'Tra cứu',
     },
     {
-      path: '/tracuu/diemdanh',
+      path: '/tra-cuu/diem-danh',
       title: 'Điểm danh',
     },
   ]

@@ -18,7 +18,7 @@ function ModuleItem(props) {
     <>
       {item.moduleActive ? (
         <Link to={`${pathname}${item.path}`}>
-          <div className="bg-white p-8 rounded-[22px] w-full h-full flex md:flex-col md:justify-start flex-row justify-center items-center shadow-sm">
+          <div className="bg-white p-8 rounded-[22px] w-full h-full flex md:flex-col md:justify-start flex-row justify-center items-center shadow-module-item hover:shadow-none transition-all hover:border-uneti-primary-lighter border">
             <img
               src={item.thumbnail}
               className="inline-block w-8 h-8 md:w-20 md:h-20"

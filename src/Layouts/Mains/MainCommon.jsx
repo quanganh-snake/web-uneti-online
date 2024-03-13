@@ -18,7 +18,7 @@ function MainCommon() {
 
   return (
     <>
-      {pathname === '/' || pathname === '/dangnhap' ? null : dataRole ==
+      {pathname === '/' || pathname === '/dang-nhap' ? null : dataRole ==
         'SV' ? (
         <HeaderSV />
       ) : (
@@ -28,7 +28,7 @@ function MainCommon() {
       <main className="px-5 mt-40 lg:mt-52 xl:mt-30 mb-[50px] max-w-7xl mx-auto gap-10 min-h-[500px]">
         <RouterCore />
       </main>
-      {pathname === '/' || pathname === '/dangnhap' ? null : <Footer />}
+      {pathname === '/' || pathname === '/dang-nhap' ? null : <Footer />}
       <AutoScrollTop />
     </>
   )

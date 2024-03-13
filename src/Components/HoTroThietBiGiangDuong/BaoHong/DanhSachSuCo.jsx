@@ -11,13 +11,13 @@ export default function DanhSachSuCo(props) {
       <table className="w-full">
         <thead>
           <tr>
-            <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+            <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
               #
             </th>
-            <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+            <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
               Tên sự cố
             </th>
-            <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+            <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
               Đề xuất phương án khắc phục
             </th>
           </tr>

@@ -17,9 +17,9 @@ export const logOut = async (role, dispatch, navigate, refreshToken) => {
     } else if (role === 'GV') {
       await http.post(`/jwtGV/LogoutGV`, dataRefresh)
     } else {
-      navigate('/dangnhap')
+      navigate('/dang-nhap')
     }
-    navigate('/dangnhap')
+    navigate('/dang-nhap')
     localStorage.removeItem('persist:root')
     localStorage.removeItem('currentUrl')
     dispatch(logOutSuccess())

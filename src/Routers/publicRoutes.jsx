@@ -7,7 +7,7 @@ export const publicRoutes = (
   <>
     <Route path={'/'}>
       <Route index element={<Default />} />
-      <Route path="/dangnhap" element={<Login />} />
+      <Route path="/dang-nhap" element={<Login />} />
       <Route path="/error/403" element={<Error403 />} />
     </Route>
   </>

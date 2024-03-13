@@ -14,7 +14,7 @@ export const BaoHongView = (props) => {
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
 
         <div className="form-submit flex flex-col w-full justify-center">
-          <h2 className="text-center uppercase text-2xl font-semibold text-sky-800 mb-6">
+          <h2 className="text-center uppercase text-lg md:text-2xl font-semibold text-sky-800 mb-3 md:mb-6">
             Báo hỏng thiết bị
           </h2>
           <div className="lg:px-36">
@@ -38,7 +38,7 @@ export const BaoHongView = (props) => {
                   Gửi yêu cầu
                 </button>
 
-                <Link to={'/hotrothietbigiangduong'}>
+                <Link to={'/ho-tro-thiet-bi-giang-duong'}>
                   <button className="cursor-pointer duration-200 px-3 py-2 bg-white text-sky-800 font-semibold border border-sky-800 rounded-xl hover:bg-sky-800 hover:text-white">
                     Trở lại
                   </button>

@@ -38,7 +38,7 @@ function MenuMobileMotCua() {
         <ul>
           <li>
             <Link
-              to={'/motcua'}
+              to={'/mot-cua'}
               onClick={() => {
                 setShowMenu(false)
               }}
@@ -49,7 +49,7 @@ function MenuMobileMotCua() {
           </li>
           <li>
             <Link
-              to={'/motcua/khaothi'}
+              to={'/mot-cua/khao-thi'}
               onClick={() => {
                 setShowMenu(false)
               }}
@@ -60,7 +60,7 @@ function MenuMobileMotCua() {
           </li>
           <li>
             <Link
-              to={'/motcua/daotao'}
+              to={'/mot-cua/dao-tao'}
               onClick={() => {
                 setShowMenu(false)
               }}
@@ -71,7 +71,7 @@ function MenuMobileMotCua() {
           </li>
           <li>
             <Link
-              to={'/motcua/ct&ctsv'}
+              to={'/mot-cua/ct&ctsv'}
               onClick={() => {
                 setShowMenu(false)
               }}
@@ -82,7 +82,7 @@ function MenuMobileMotCua() {
           </li>
           <li>
             <Link
-              to={'/motcua/hanhchinh'}
+              to={'/mot-cua/hanh-chinh'}
               onClick={() => {
                 setShowMenu(false)
               }}

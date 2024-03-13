@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import {
   getDetailEditStatusYeuCau,
   getHoSoGuiYeuCauById,
   getTrangThaiXuLyYeuCauById,
 } from '@/Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
-import { getListTrangThaiTTHCGVByIDGoc } from '@/Apis/ThuTucHanhChinhGiangVien/apiTrangThai'
 import moment from 'moment'
 import clsx from 'clsx'
 import Loading from '@/Components/Loading/Loading'
 
 function TheoDoiDeNghiTTHCGVChiTiet() {
-  const { tieude, id } = useParams()
+  const { id } = useParams()
 
   const [loading, setLoading] = useState(true)
   const [infoProcedure, setInfoProcedure] = useState(null)
   const [listTrangThai, setListTrangThai] = useState(null)
-  const [currentStatusByProcedure, setCurrentStatusByProcedure] = useState(0)
+  const [currentStatusByProcedure] = useState(0)
   const [indexActive, setIndexActive] = useState(-1)
   const [detailEditStatus, setDetailEditStatus] = useState([])
   const [activeDetail, setActiveDetail] = useState(false)
@@ -59,7 +58,7 @@ function TheoDoiDeNghiTTHCGVChiTiet() {
         if (resTrangThaiXuLyYeuCau.status === 200) {
           setListTrangThai(resTrangThaiXuLyYeuCau.data?.body)
         }
-      } catch (error) {
+      } catch (err) {
         console.log(err.message)
       } finally {
         setLoading(false)

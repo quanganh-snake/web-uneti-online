@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { clsx } from 'clsx'
+import { useEffect, useState } from 'react'
 import { getListThuTucYeuCauByMaNhanSu } from '@/Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 import moment from 'moment'
@@ -25,7 +24,7 @@ function TheoDoiDeNghiTTHCGV() {
   }, [])
 
   return (
-    <div clsx={'bg-white w-full h-[100vh]'}>
+    <div className="w-full h-[100vh]">
       {listHoSoYeuCau?.length < 1 && (
         <p className="p-2 text-center text-[#336699] border font-semibold">
           Bạn chưa có yêu cầu đề nghị nào!
@@ -70,7 +69,7 @@ function TheoDoiDeNghiTTHCGV() {
                       </td>
                       <td className="border-r text-center flex items-center justify-center py-2">
                         <Link
-                          to={`/tthcgiangvien/theodoiquytrinh/chitiet/${titleSlug}/${iHoSo?.MC_TTHC_GV_GuiYeuCau_ID}`}
+                          to={`/tthc-giang-vien/theo-doi-quy-trinh/chi-tiet/${titleSlug}/${iHoSo?.MC_TTHC_GV_GuiYeuCau_ID}`}
                           className="p-2 bg-[#336699] text-white rounded-full hover:opacity-70"
                         >
                           Xem chi tiết

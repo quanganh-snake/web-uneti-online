@@ -4,11 +4,9 @@ import { getThuTucHanhChinhByKeyWords } from '@/Apis/ThuTucHanhChinhGiangVien/ap
 
 function HomeTTHCGV() {
   const home = {
-    path: '/tthcgiangvien',
+    path: '/tthc-giang-vien',
     title: 'TTHC Giảng Viên',
   }
-
-  const breadcrumbs = []
 
   const [listHoSoThuTuc, setListHoSoThuTuc] = useState([])
   const [keywords, setKeywords] = useState('')

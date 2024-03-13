@@ -20,17 +20,17 @@ function FormDangKyThiLai(props) {
   } = props
 
   return (
-    <div className="border-[#336699] border border-solid mt-5 rounded-md">
-      <form className="py-8 flex flex-col justify-center items-center gap-4">
-        <h2 className="text-center uppercase text-2xl font-semibold text-sky-800 mb-6">
+    <div className="mt-5 rounded-md">
+      <form className="md:py-8 flex flex-col justify-center items-center gap-4">
+        <h2 className="text-center uppercase text-lg md:text-2xl font-semibold text-sky-800 mb-3 md:mb-6">
           TIẾP NHẬN YÊU CẦU ĐĂNG KÝ THI LẠI
         </h2>
-        <div className="w-[75%] flex justify-between items-center">
+        <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row items-start justify-between md:items-center">
           <span className="block pr-10">Học kỳ (*)</span>
           <select
             value={hocKy}
             onChange={(e) => setHocKy(e.target.value)}
-            className="flex-1 max-w-[75%] px-2 py-1 rounded-md border border-solid border-gray-300"
+            className="flex-1 w-full md:max-w-[75%] px-2 py-1 rounded-md border border-solid border-gray-300"
           >
             <option value="">Chọn học kỳ</option>
             {listHocKy.map((e, index) => (
@@ -40,16 +40,16 @@ function FormDangKyThiLai(props) {
             ))}
           </select>
         </div>
-        <div className="w-[75%] flex justify-between items-center">
+        <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row items-start justify-between md:items-center">
           <span className="block pr-10">Loại thi</span>
           <select
             defaultValue="Thi Lại"
-            className="flex-1 max-w-[75%] px-2 py-1 rounded-md border border-solid border-gray-300"
+            className="flex-1 w-full md:max-w-[75%] px-2 py-1 rounded-md border border-solid border-gray-300"
           >
             <option value="Thi Lại">Thi Lại</option>
           </select>
         </div>
-        <div className="w-[75%] flex justify-between items-center">
+        <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row items-start justify-between md:items-center">
           <span className="block pr-10">Lý do (*)</span>
           <select
             value={lyDo}
@@ -57,7 +57,7 @@ function FormDangKyThiLai(props) {
               setLyDo(e.target.value)
               setLyDoKhac('')
             }}
-            className="flex-1 max-w-[75%] px-2 py-1 rounded-md border border-solid border-gray-300"
+            className="flex-1 w-full md:max-w-[75%] px-2 py-1 rounded-md border border-solid border-gray-300"
           >
             <option value="0">Trùng lịch thi</option>
             <option value="1">Lỗi Website</option>

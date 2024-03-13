@@ -34,7 +34,7 @@ function AuthMiddleware() {
     role == '' ||
     role == undefined
   ) {
-    return <Navigate to={'/dangnhap'} />
+    return <Navigate to={'/dang-nhap'} />
   } else {
     return <Outlet />
   }

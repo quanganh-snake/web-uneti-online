@@ -164,7 +164,7 @@ function XuLySuCoView() {
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
 
         <div className="form-submit flex flex-col w-full justify-center">
-          <h2 className="text-center uppercase text-2xl font-semibold text-sky-800 mb-6">
+          <h2 className="text-center uppercase text-lg md:text-2xl font-semibold text-sky-800 mb-3 md:mb-6">
             XỬ LÝ SỰ CỐ
           </h2>
           <div className="lg:px-36">
@@ -182,34 +182,34 @@ function XuLySuCoView() {
               <table className="w-full">
                 <thead>
                   <tr>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                       #
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Cơ sở
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Tên địa điểm
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Tên dãy nhà
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Tên phòng
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Mã giảng viên
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Họ tên
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[50px]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[50px]">
                       Tiết
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Ngày
                     </th>
-                    <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+                    <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
                       Danh sách sự cố
                     </th>
                   </tr>
@@ -287,7 +287,7 @@ function XuLySuCoView() {
                 {/* hướng dẫn sử dụng */}
                 <HuongDanSuDung />
 
-                <Link to={'/hotrothietbigiangduong'}>
+                <Link to={'/ho-tro-thiet-bi-giang-duong'}>
                   <button className="duration-200 px-3 py-2 bg-white text-sky-800 font-semibold border border-sky-800 rounded-xl hover:bg-sky-800 hover:text-white">
                     Trở lại
                   </button>

@@ -1,11 +1,11 @@
 export const home = {
-  path: '/hotrothietbigiangduong',
+  path: '/ho-tro-thiet-bi-giang-duong',
   title: 'Hệ thống thiết bị giảng đường',
 }
 
 export const breadcrumbs = [
   {
-    path: '/hotrothietbigiangduong/baohong',
+    path: '/ho-tro-thiet-bi-giang-duong/bao-hong',
     title: 'Báo hỏng',
   },
 ]

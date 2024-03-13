@@ -1,8 +1,7 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 
 function Error({ statusCode }) {
-  return <div>Error</div>
+  return <div>Error {statusCode}</div>
 }
 
 Error.propTypes = {

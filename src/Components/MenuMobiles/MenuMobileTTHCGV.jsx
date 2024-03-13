@@ -50,7 +50,7 @@ function MenuMobileTTHCGV() {
           </li>
           <li>
             <Link
-              to={'/admin/canbonghiepvu'}
+              to={'/admin/can-bo-nghiep-vu'}
               onClick={() => {
                 setShowMenu(false)
               }}
@@ -61,7 +61,7 @@ function MenuMobileTTHCGV() {
           </li>
           <li>
             <Link
-              to={'/admin/quantriTTHCGV'}
+              to={'/admin/quan-tri-TTHCGV'}
               onClick={() => {
                 setShowMenu(false)
               }}

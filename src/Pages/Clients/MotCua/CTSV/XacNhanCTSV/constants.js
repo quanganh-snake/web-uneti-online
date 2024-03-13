@@ -1,15 +1,15 @@
 export const home = {
-  path: '/motcua',
+  path: '/mot-cua',
   title: 'Bộ phận một cửa',
 }
 
 export const breadcrumbs = [
   {
-    path: '/motcua/ct&ctsv',
+    path: '/mot-cua/ct&ctsv',
     title: 'Công tác sinh viên',
   },
   {
-    path: '/motcua/ct&ctsv/xacnhan',
+    path: '/mot-cua/ct&ctsv/xac-nhan',
     title: 'Xác nhận',
   },
 ]

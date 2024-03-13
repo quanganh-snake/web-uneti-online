@@ -3,17 +3,17 @@ import SuaThongTinView from './SuaThongTinView'
 
 function SuaThongTin() {
   const home = {
-    path: '/motcua',
+    path: '/mot-cua',
     title: 'Bộ phận một cửa',
   }
 
   const breadcrumbs = [
     {
-      path: '/motcua/daotao',
+      path: '/mot-cua/dao-tao',
       title: 'Đào tạo',
     },
     {
-      path: '/motcua/daotao/suathongtin',
+      path: '/mot-cua/dao-tao/sua-thong-tin',
       title: 'Sửa thông tin',
     },
   ]

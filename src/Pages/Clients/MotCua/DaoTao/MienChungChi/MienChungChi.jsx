@@ -3,17 +3,17 @@ import MienChungChiView from './MienChungChiView'
 
 function MienChungChi() {
   const home = {
-    path: '/motcua',
+    path: '/mot-cua',
     title: 'Bộ phận một cửa',
   }
 
   const breadcrumbs = [
     {
-      path: '/motcua/daotao',
+      path: '/mot-cua/dao-tao',
       title: 'Đào tạo',
     },
     {
-      path: '/motcua/daotao/mienchungchi',
+      path: '/mot-cua/dao-tao/mien-chung-chi',
       title: 'Miễn chứng chỉ',
     },
   ]

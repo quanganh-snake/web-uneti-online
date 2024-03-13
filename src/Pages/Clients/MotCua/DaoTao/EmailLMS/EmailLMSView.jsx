@@ -22,18 +22,18 @@ function EmailLMSView(props) {
   } = props
 
   return (
-    <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
+    <div className="bg-white shadow-module-item rounded-md">
       <div className="p-4 flex flex-col">
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
-        <div className="border-[#336699] border border-solid mt-5 rounded-md">
+        <div className="mt-5 rounded-md">
           <form
             onSubmit={handleSubmitData}
-            className="py-8 flex flex-col justify-center items-center gap-4"
+            className="md:py-8 flex flex-col justify-center items-center gap-4"
           >
-            <h2 className="text-center uppercase text-2xl font-semibold text-sky-800 mb-6">
+            <h2 className="text-center uppercase text-lg md:text-2xl font-semibold text-sky-800 mb-3 md:mb-6">
               TIẾP NHẬN XỬ LÝ CÁC VẤN ĐỀ EMAIL/LMS
             </h2>
-            <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+            <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10 w-[200px]">Đề nghị (*)</span>
               <select
                 value={deNghi}
@@ -48,7 +48,7 @@ function EmailLMSView(props) {
               </select>
             </div>
 
-            <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+            <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10 w-[200px]">
                 Chi tiết đề nghị (*)
               </span>
@@ -66,7 +66,7 @@ function EmailLMSView(props) {
             </div>
 
             {deNghi === 'Tài khoản Email UNETI' && (
-              <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+              <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
                 <span className="block pr-10 w-[200px]">
                   Email cá nhân _ Ví dụ: @gmail.com (*)
                 </span>
@@ -80,7 +80,7 @@ function EmailLMSView(props) {
             )}
             {/* TODO: resolve magic number '7' */}
             {deNghi === 'Tài khoản Email UNETI' && chiTietDeNghi === '7' && (
-              <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+              <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
                 <span className="block pr-10 w-[200px]">Số điện thoại (*)</span>
                 <input
                   value={soDienThoai}

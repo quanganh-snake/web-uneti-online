@@ -13,6 +13,7 @@ import { logOut } from '@/Apis/apiLogout'
 import { persistor, store } from '@/Services/Redux/store.js'
 
 import './HeaderSV.scss'
+import { transformCls } from '@/Services/Utils/reactUtils.js'
 
 function HeaderSV() {
   const bem = useNamespace('header')
@@ -34,10 +35,10 @@ function HeaderSV() {
 
   return (
     <header
-      className={[
+      className={transformCls([
         bem.b(),
-        ' fixed left-0 right-0 top-0 z-10 w-full border-gray-200 bg-white shadow-md',
-      ]}
+        'border border-gray-200 bg-white shadow-module-item',
+      ])}
     >
       <nav className={[bem.e('nav'), 'container mx-auto']}>
         <div className="max-w-7xl flex flex-wrap items-center justify-between mx-auto relative">
@@ -79,7 +80,7 @@ function HeaderSV() {
             </button>
             {/* Dropdown menu */}
             <div
-              className={`min-w-[220px] z-50 absolute top-[80%] my-4 right-0 text-base list-none bg-white divide-y divide-gray-100 rounded-b-lg shadow`}
+              className={`min-w-[220px] z-50 border shadow-icon absolute top-[80%] my-4 right-0 text-base list-none bg-white rounded-[14px]`}
               id="user-dropdown"
             >
               <DropdownProfileStudent handleLogout={handleLogout} />
@@ -101,35 +102,35 @@ function HeaderSV() {
               </p>
             </div>
           )}
-          {pathname.includes('/motcua') && (
+          {pathname.includes('/mot-cua') && (
             <div className="hidden lg:block col-span-7">
               <div className="flex items-center justify-center">
                 <NavbarMotCua />
               </div>
             </div>
           )}
-          {pathname.includes('/hoctap') && (
+          {pathname.includes('/hoc-tap') && (
             <div className="hidden lg:block col-span-8 lg:col-span-7">
               <p className="hidden md:inline-block w-full text-center text-2xl font-bold uppercase text-uneti-primary">
                 HỌC TẬP
               </p>
             </div>
           )}
-          {pathname.includes('/tracuu') && (
+          {pathname.includes('/tra-cuu') && (
             <div className="hidden lg:block col-span-8 lg:col-span-7">
               <p className="hidden md:inline-block w-full text-center text-2xl font-bold uppercase text-uneti-primary">
                 TRA CỨU
               </p>
             </div>
           )}
-          {pathname.includes('/hotrothietbi') && (
+          {pathname.includes('/ho-tro-thiet-bi') && (
             <div className="hidden lg:block col-span-8 lg:col-span-7">
               <p className="hidden md:inline-block w-full text-center text-2xl font-bold uppercase text-uneti-primary">
                 Hỗ Trợ Thiết Bị
               </p>
             </div>
           )}
-          {pathname.includes('/hotrosudungphanmem') && (
+          {pathname.includes('/ho-tro-su-dung-phan-mem') && (
             <div className="hidden lg:block col-span-8 lg:col-span-7">
               <p className="hidden md:inline-block w-full text-center text-2xl font-bold uppercase text-uneti-primary">
                 HỖ TRỢ SỬ DỤNG PHẦN MỀM

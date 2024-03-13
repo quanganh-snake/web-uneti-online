@@ -39,11 +39,11 @@ function ThoiKhoaBieu() {
 
   const breadcrumbs = [
     {
-      path: '/tracuu',
+      path: '/tra-cuu',
       title: 'Tra cứu',
     },
     {
-      path: '/tracuu/thoikhoabieu',
+      path: '/tra-cuu/thoi-khoa-bieu',
       title: 'Thời khóa biểu',
     },
   ]

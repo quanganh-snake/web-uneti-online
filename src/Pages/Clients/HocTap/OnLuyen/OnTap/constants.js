@@ -1,15 +1,15 @@
 export const home = {
-  path: '/hoctap',
+  path: '/hoc-tap',
   title: 'Học tập',
 }
 
 export const breadcrumbs = [
   {
-    path: '/hoctap/onluyen',
+    path: '/hoc-tap/on-luyen',
     title: 'Ôn luyện',
   },
   {
-    path: '/hoctap/onluyen/ontap',
+    path: '/hoc-tap/on-luyen/on-tap',
     title: 'Ôn tập',
   },
 ]

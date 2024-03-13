@@ -32,7 +32,7 @@ function DanhSachChuong() {
 
       if (isNil(filterData)) {
         //   nếu không tìm thấy môn học nào thì trở lại trang danh sách
-        navigate('/hoctap/onluyen/ontap')
+        navigate('/hoc-tap/on-luyen/on-tap')
       } else {
         setMonHoc(filterData)
       }
@@ -48,7 +48,7 @@ function DanhSachChuong() {
 
       if (isNil(filterData)) {
         //   nếu không tìm thấy môn học nào thì trở lại trang danh sách
-        navigate(`/hoctap/onluyen/ontap/danhsachphan/${maMonHoc}`)
+        navigate(`/hoc-tap/on-luyen/on-tap/danh-sach-phan/${maMonHoc}`)
       } else {
         setPhanCauHoi(filterData)
       }
@@ -80,8 +80,8 @@ function DanhSachChuong() {
       <div className="flex flex-col text-center justify-start items-center gap-4 bg-white shadow-sm rounded-[26px] mb-4 p-4">
         {listChuong.map((element, index) => (
           <Link
-            to={`danhsachcauhoi/${element.Id}`}
-            // to={`danhsachcauhoi/2415`}
+            to={`danh-sach-cau-hoi/${element.Id}`}
+            // to={`danh-sach-cau-hoi/2415`}
             key={index}
             className="w-full"
           >

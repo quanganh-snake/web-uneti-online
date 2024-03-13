@@ -18,7 +18,7 @@ function HomeKhaoThi() {
   ]
 
   const home = {
-    path: '/motcua',
+    path: '/mot-cua',
     title: 'Bộ phận Một cửa',
   }
 

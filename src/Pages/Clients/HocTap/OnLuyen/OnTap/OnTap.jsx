@@ -7,7 +7,6 @@ import { getAllMonHocThiThu } from '@/Apis/HocTap/apiOnLuyenThiThu'
 import { breadcrumbs, home } from './constants'
 import HocKy from '@/Components/HocTap/OnTap/HocKy'
 import { useMemo } from 'react'
-import { hocTapSidebar } from '../../constants'
 import MonHoc from '@/Components/HocTap/OnTap/MonHoc'
 
 import iconOnLuyen from '@/assets/Icons/icon-onluyen.png'
@@ -48,16 +47,12 @@ export default function OnTap() {
 
   return (
     <>
-      <CommonLayout
-        sidebar={hocTapSidebar}
-        breadcrumbs={breadcrumbs}
-        home={home}
-      >
+      <CommonLayout breadcrumbs={breadcrumbs} home={home}>
         {danhSachMonHocTheoHocKy.map((hocKy, index) => (
           <HocKy key={index} hocKy={hocKy.HocKy}>
             {hocKy.MonHoc.map((mh, index) => (
-              <Link key={index} to={`danhsachphan/${mh.MaMonHoc}`}>
-                {/* <Link key={index} to={`danhsachphan/001942`}> */}
+              <Link key={index} to={`danh-sach-phan/${mh.MaMonHoc}`}>
+                {/* <Link key={index} to={`danh-sach-phan/001942`}> */}
                 <MonHoc
                   TenMonHoc={mh.TenMonHoc}
                   MaMonHoc={`Mã môn học: ${mh.MaMonHoc}`}

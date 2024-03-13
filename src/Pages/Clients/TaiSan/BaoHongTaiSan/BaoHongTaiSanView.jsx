@@ -56,7 +56,7 @@ const BaoHongTaiSanView = (props) => {
   ]
 
   const home = {
-    path: '/hotrothietbi',
+    path: '/ho-tro-thiet-bi',
     title: 'Hỗ trợ thiết bị',
   }
 

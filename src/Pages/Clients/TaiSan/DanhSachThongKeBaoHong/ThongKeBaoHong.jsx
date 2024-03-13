@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react'
 import {
   Box,
   Checkbox,
-  Pagination,
   Paper,
   Table,
   TableBody,
@@ -14,8 +13,6 @@ import {
 } from '@mui/material'
 
 import moment from 'moment'
-import Loading from '@/Components/Loading/Loading'
-import { DateTimePicker } from '@mui/x-date-pickers'
 import dayjs from 'dayjs'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 import Swal from 'sweetalert2'
@@ -68,9 +65,7 @@ const ThongKeBaoHong = () => {
       (item) =>
         item.DT_QLTS_TS_HoTroThietBi_ID === row.DT_QLTS_TS_HoTroThietBi_ID,
     ) !== false
-  const totalPage = useMemo(() => {
-    return Math.ceil(listBaoHong?.length / itemPerPage)
-  }, [listBaoHong])
+
   const filteredBaoHong = filterData(listBaoHong, filters)
 
   const postsShow = useMemo(() => {
@@ -180,11 +175,9 @@ const ThongKeBaoHong = () => {
     }
 
     if (yeuCauCuaToi.length > 0) {
-      let hasError = false
       try {
         const deleteYeuCauCuaToi = yeuCauCuaToi.map((item) => {
           if (item.DT_QLTS_TS_HoTroThietBi_XuLy_NgayXuLy) {
-            hasError = true
             Swal.fire({
               icon: 'error',
               title: 'Lỗi',

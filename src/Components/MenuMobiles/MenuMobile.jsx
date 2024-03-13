@@ -47,7 +47,7 @@ function MenuMobile() {
           </li>
           <li>
             <Link
-              to={'/admin/canbonghiepvu'}
+              to={'/admin/can-bo-nghiep-vu'}
               className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
             >
               Cán bộ nghiệp vụ
@@ -55,7 +55,7 @@ function MenuMobile() {
           </li>
           <li>
             <Link
-              to={'/admin/quantriTTHCGV'}
+              to={'/admin/quan-tri-TTHCGV'}
               className="block w-full p-3 text-white font-medium hover:text-black hover:bg-gray-200 hover:border hover:boder-slate-600"
             >
               Quản trị hệ thống

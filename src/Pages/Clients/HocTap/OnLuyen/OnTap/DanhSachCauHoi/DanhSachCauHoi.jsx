@@ -1,9 +1,11 @@
 import {
   getCauHoiTheoChuong,
+  getCauHoiTheoMonHoc,
   getChuongTheoPhanCauHoi,
   getMonHocTheoSinhVien,
   getPhanTheoMonHoc,
   getTongSoTrangTheoChuong,
+  getTongSoTrangTheoMonHoc,
   postDanhSachOnTap,
   postKetQuaOnTap,
 } from '@/Apis/HocTap/apiOnLuyenTracNghiem'
@@ -66,7 +68,7 @@ function DanhSachDeThi() {
 
       if (isNil(filterData)) {
         //   nếu không tìm thấy môn học nào thì trở lại trang danh sách
-        navigate('/hoctap/onluyen/ontap')
+        navigate('/hoc-tap/on-luyen/on-tap')
       } else {
         setMonHoc(filterData)
       }
@@ -74,6 +76,9 @@ function DanhSachDeThi() {
 
     //lấy thông tin phần câu hỏi
     const getPhanCauHoi = async () => {
+      if (idPhanCauHoi == 'all') {
+        return
+      }
       const resData = await getPhanTheoMonHoc(maMonHoc)
       const data = await resData?.data?.body
       const filterData = data.filter(
@@ -82,7 +87,7 @@ function DanhSachDeThi() {
 
       if (isNil(filterData)) {
         //   nếu không tìm thấy môn học nào thì trở lại trang danh sách
-        navigate(`/hoctap/onluyen/ontap/danhsachphan/${maMonHoc}`)
+        navigate(`/hoc-tap/on-luyen/on-tap/danh-sach-phan/${maMonHoc}`)
       } else {
         setPhanCauHoi(filterData)
       }
@@ -90,6 +95,9 @@ function DanhSachDeThi() {
 
     // lấy thông tin chương
     const getChuong = async () => {
+      if (idChuong == 'all') {
+        return
+      }
       const resData = await getChuongTheoPhanCauHoi(idPhanCauHoi)
       const data = await resData?.data?.body
       const filterData = data.filter(
@@ -98,7 +106,7 @@ function DanhSachDeThi() {
       if (isNil(filterData)) {
         //   nếu không tìm thấy môn học nào thì trở lại trang danh sách
         navigate(
-          `/hoctap/onluyen/ontap/danhsachphan/${maMonHoc}/danhsachchuong/${idPhanCauHoi}`,
+          `/hoc-tap/on-luyen/on-tap/danh-sach-phan/${maMonHoc}/danh-sach-chuong/${idPhanCauHoi}`,
         )
       } else {
         setChuong(filterData)
@@ -108,13 +116,25 @@ function DanhSachDeThi() {
     // lấy danh sách câu hỏi
     const getAllCauHoi = async () => {
       setIsLoading(true)
-      const resData = await getCauHoiTheoChuong({
-        IDSinhVien: dataSV.IdSinhVien.toString(),
-        IDChuong: idChuong.toString(),
-        SoTrang: currPage.toString(),
-        SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
-        DieuKienLoc: dieuKienLoc.toString(),
-      })
+      setCurrPage(1)
+      let resData = null
+
+      if (idChuong === 'all') {
+        resData = await getCauHoiTheoMonHoc({
+          IDSinhVien: dataSV.IdSinhVien.toString(),
+          SoTrang: currPage.toString(),
+          maMonHoc: maMonHoc.toString(),
+          DieuKienLoc: dieuKienLoc.toString(),
+        })
+      } else {
+        resData = await getCauHoiTheoChuong({
+          IDSinhVien: dataSV.IdSinhVien.toString(),
+          IDChuong: idChuong.toString(),
+          SoTrang: currPage.toString(),
+          SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
+          DieuKienLoc: dieuKienLoc.toString(),
+        })
+      }
 
       const data = await resData?.data?.body
 
@@ -151,12 +171,20 @@ function DanhSachDeThi() {
 
     // lấy danh tổng số trang câu hỏi
     const getTotalPage = async () => {
-      const resData = await getTongSoTrangTheoChuong({
-        IDSinhVien: dataSV.IdSinhVien,
-        IDChuong: idChuong,
-        SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
-        DieuKienLoc: dieuKienLoc,
-      })
+      let resData = null
+      if (idChuong == 'all') {
+        resData = await getTongSoTrangTheoMonHoc({
+          MaMonHoc: maMonHoc.toString(),
+          DieuKienLoc: dieuKienLoc,
+        })
+      } else {
+        resData = await getTongSoTrangTheoChuong({
+          IDSinhVien: dataSV.IdSinhVien,
+          IDChuong: idChuong,
+          SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
+          DieuKienLoc: dieuKienLoc,
+        })
+      }
 
       const { TongSoTrang } = (await resData.data.body[0]) || { TongSoTrang: 1 }
 
@@ -183,14 +211,24 @@ function DanhSachDeThi() {
     // lấy danh sách câu hỏi
     const getAllCauHoi = async () => {
       setIsLoading(true)
-      setCurrPage(1)
-      const resData = await getCauHoiTheoChuong({
-        IDSinhVien: dataSV.IdSinhVien.toString(),
-        IDChuong: idChuong.toString(),
-        SoTrang: currPage.toString(),
-        SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
-        DieuKienLoc: dieuKienLoc.toString(),
-      })
+      let resData = null
+
+      if (idChuong === 'all') {
+        resData = await getCauHoiTheoMonHoc({
+          IDSinhVien: dataSV.IdSinhVien.toString(),
+          SoTrang: currPage.toString(),
+          maMonHoc: maMonHoc.toString(),
+          DieuKienLoc: dieuKienLoc.toString(),
+        })
+      } else {
+        resData = await getCauHoiTheoChuong({
+          IDSinhVien: dataSV.IdSinhVien.toString(),
+          IDChuong: idChuong.toString(),
+          SoTrang: currPage.toString(),
+          SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
+          DieuKienLoc: dieuKienLoc.toString(),
+        })
+      }
 
       const data = await resData?.data?.body
 
@@ -227,12 +265,20 @@ function DanhSachDeThi() {
 
     // lấy danh tổng số trang câu hỏi
     const getTotalPage = async () => {
-      const resData = await getTongSoTrangTheoChuong({
-        IDSinhVien: dataSV.IdSinhVien,
-        IDChuong: idChuong,
-        SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
-        DieuKienLoc: dieuKienLoc,
-      })
+      let resData = null
+      if (idChuong == 'all') {
+        resData = await getTongSoTrangTheoMonHoc({
+          MaMonHoc: maMonHoc.toString(),
+          DieuKienLoc: dieuKienLoc,
+        })
+      } else {
+        resData = await getTongSoTrangTheoChuong({
+          IDSinhVien: dataSV.IdSinhVien,
+          IDChuong: idChuong,
+          SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
+          DieuKienLoc: dieuKienLoc,
+        })
+      }
 
       const { TongSoTrang } = (await resData.data.body[0]) || { TongSoTrang: 1 }
 
@@ -249,16 +295,19 @@ function DanhSachDeThi() {
 
   const handlePostData = async () => {
     if (listCauTraLoiPost.current.length == 0) return
-    const data = {
-      TC_SV_OnThi_DanhSachOnTap_IDSinhVien: dataSV.IdSinhVien.toString(),
-      TC_SV_OnThi_DanhSachOnTap_IdChuong: parseInt(idChuong),
-      TC_SV_OnThi_DanhSachOnTap_ThoiGianGioBatDau: thoiGianBatDau.current,
-      TC_SV_OnThi_DanhSachOnTap_ThoiGianGioKetThuc: dayjs().toISOString(),
-      TC_SV_OnThi_DanhSachOnTap_NguonTiepNhan: NguonTiepNhan_WEB.toString(),
-    }
 
-    // danh sách ôn tập
-    await postDanhSachOnTap(data)
+    if (idChuong != 'all') {
+      const data = {
+        TC_SV_OnThi_DanhSachOnTap_IDSinhVien: dataSV.IdSinhVien.toString(),
+        TC_SV_OnThi_DanhSachOnTap_IdChuong: parseInt(idChuong),
+        TC_SV_OnThi_DanhSachOnTap_ThoiGianGioBatDau: thoiGianBatDau.current,
+        TC_SV_OnThi_DanhSachOnTap_ThoiGianGioKetThuc: dayjs().toISOString(),
+        TC_SV_OnThi_DanhSachOnTap_NguonTiepNhan: NguonTiepNhan_WEB.toString(),
+      }
+
+      // danh sách ôn tập
+      await postDanhSachOnTap(data)
+    }
 
     // kết quả ôn tập
     let convertedListCauTraLoiPost = listCauTraLoiPost.current?.map((item) => ({
@@ -532,9 +581,11 @@ function DanhSachDeThi() {
         <h3 className="text-uneti-primary text-center uppercase font-semibold text-xl">
           {monHoc?.TenMonHoc}
         </h3>
-        <span className="text-uneti-primary uppercase text-sm">
-          {phanCauHoi?.TenPhan} - {chuong?.TenChuong}
-        </span>
+        {idPhanCauHoi == 'all' && idChuong == 'all' ? null : (
+          <span className="text-uneti-primary uppercase text-sm">
+            {phanCauHoi?.TenPhan} - {chuong?.TenChuong}
+          </span>
+        )}
       </div>
       <div>
         <div className="flex flex-col text-center justify-start items-center gap-4 rounded-[26px] mb-4">

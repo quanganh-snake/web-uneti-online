@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import { useState } from 'react'
 import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import { FiSearch } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
@@ -32,10 +31,6 @@ function HomeTTHCGVView(props) {
     if (id == 'records-number' || name == 'records-number') {
       setItemsPerPage(parseInt(value))
     }
-  }
-
-  const handleSearch = (e) => {
-    e.preventDefault()
   }
 
   return (
@@ -118,7 +113,7 @@ function HomeTTHCGVView(props) {
                                   <ul>
                                     <li>
                                       <Link
-                                        to={`/tthcgiangvien/chitiet/${nameSlug}/${iData.MC_TTHC_GV_ID}`}
+                                        to={`/tthc-giang-vien/chi-tiet/${nameSlug}/${iData.MC_TTHC_GV_ID}`}
                                         className="uppercase font-semibold text-[#0C4A6E]"
                                       >
                                         {iData.MC_TTHC_GV_TenThuTuc}

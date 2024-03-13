@@ -24,14 +24,14 @@ function TheoDoiDeNghiView(props) {
     itemPerPage * (currentPage - 1) + itemPerPage,
   )
   return (
-    <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
+    <div className="bg-white shadow-module-item rounded-md">
       <div className="p-4 flex flex-col">
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
         <div className="w-full rounded-md mt-4 p-3 flex flex-col justify-center items-center">
           <h3 className="text-xl md:text-2xl lg:text-3xl uppercase text-center mb-4 font-semibold my-3 text-uneti-primary">
             DANH SÁCH THÔNG TIN XỬ LÝ GỬI YÊU CẦU TIẾP NHẬN
           </h3>
-          <div className="my-4 w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+          <div className="my-4 w-[90%] md:w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
             <select
               value={loaiYeuCau}
               onChange={(e) => setLoaiYeuCau(e.target.value)}
@@ -44,26 +44,26 @@ function TheoDoiDeNghiView(props) {
               ))}
             </select>
           </div>
-          <div className="w-[75%] overflow-x-auto">
+          <div className="w-full md:w-[75%] overflow-x-auto">
             <table className="w-full min-w-[800px]">
               <thead>
                 <tr>
-                  <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                  <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                     STT
                   </th>
-                  <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                  <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                     NHÓM
                   </th>
-                  <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                  <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                     TÊN YÊU CẦU XỬ LÝ
                   </th>
-                  <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                  <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                     CHI TIẾT ĐỀ NGHỊ
                   </th>
-                  <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                  <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                     NGÀY GỬI
                   </th>
-                  <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+                  <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
                     TÌNH TRẠNG XỬ LÝ
                   </th>
                 </tr>
@@ -108,7 +108,8 @@ function TheoDoiDeNghiView(props) {
                         'Đã xử lý' ? (
                           <Link
                             to={{
-                              pathname: '/theodoidenghi/theodoidenghichitiet',
+                              pathname:
+                                '/theo-doi-de-nghi/theo-doi-de-nghi-chi-tiet',
                             }}
                             state={{ yeuCau: yc }}
                           >

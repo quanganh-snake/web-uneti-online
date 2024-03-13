@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
+import { useEffect, useState } from 'react'
 import ChiTietThuTucView from './ChiTietThuTucView'
 import { useParams } from 'react-router-dom'
 import { getThuTucHanhChinhByID } from '@/Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
 
-function ChiTietThuTuc(props) {
+function ChiTietThuTuc() {
   const { tieude, id } = useParams()
 
   const home = {
-    path: '/tthcgiangvien',
+    path: '/tthc-giang-vien',
     title: 'TTHC Giảng Viên',
   }
 
   const breadcrumbs = [
     {
-      path: `/tthcgiangvien/chitiet/${tieude}/${id}`,
+      path: `/tthc-giang-vien/chi-tiet/${tieude}/${id}`,
       title: 'Chi tiết thủ tục',
     },
   ]

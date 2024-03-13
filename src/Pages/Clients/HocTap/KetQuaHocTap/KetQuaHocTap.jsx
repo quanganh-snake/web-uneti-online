@@ -4,17 +4,16 @@ import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import CommonLayout from '@/Layouts/Common/CommonLayout'
-import { hocTapSidebar } from '../constants'
 
 export default function KetQuaHocTap() {
   const home = {
-    path: '/hoctap',
+    path: '/hoc-tap',
     title: 'Học tập',
   }
 
   const breadcrumbs = [
     {
-      path: '/hoctap/ketquahoctap',
+      path: '/hoc-tap/ket-qua-hoc-tap',
       title: 'Kết quả học tập',
     },
   ]
@@ -57,7 +56,6 @@ export default function KetQuaHocTap() {
         heading="KẾT QUẢ HỌC TẬP"
         home={home}
         breadcrumbs={breadcrumbs}
-        sidebar={hocTapSidebar}
       >
         {listHocKy.length
           ? listHocKy.map((hk, index) => (
@@ -175,7 +173,7 @@ export default function KetQuaHocTap() {
                               <tr key={i}>
                                 <td className="transition-all sticky left-0 top-0 bg-white font-semibold duration-200 hover:text-uneti-primary cursor-pointer py-2 px-4 border border-solid border-uneti-primary border-opacity-30 border-b-0 border-l-0 border-r-0">
                                   <Link
-                                    to={`ketquahoctapchitiet/${mh.TC_SV_KetQuaHocTap_MaLopHocPhan}`}
+                                    to={`ket-qua-hoc-tap-chi-tiet/${mh.TC_SV_KetQuaHocTap_MaLopHocPhan}`}
                                   >
                                     {mh.TC_SV_KetQuaHocTap_TenMonHoc}
                                   </Link>

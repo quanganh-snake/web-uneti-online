@@ -3,17 +3,17 @@ import CapBanSaoView from './CapBanSaoView'
 
 function CapBanSao() {
   const home = {
-    path: '/motcua',
+    path: '/mot-cua',
     title: 'Bộ phận một cửa',
   }
 
   const breadcrumbs = [
     {
-      path: '/motcua/daotao',
+      path: '/mot-cua/dao-tao',
       title: 'Đào tạo',
     },
     {
-      path: '/motcua/daotao/capbansao',
+      path: '/mot-cua/dao-tao/cap-ban-sao',
       title: 'Cấp bản sao',
     },
   ]

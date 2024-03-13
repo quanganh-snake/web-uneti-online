@@ -18,7 +18,7 @@ function HomeHanhChinh() {
   ]
 
   const home = {
-    path: '/motcua',
+    path: '/mot-cua',
     title: 'Bộ phận một cửa',
   }
 

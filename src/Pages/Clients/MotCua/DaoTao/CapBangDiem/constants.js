@@ -1,15 +1,15 @@
 export const home = {
-  path: '/motcua',
+  path: '/mot-cua',
   title: 'Bộ phận một cửa',
 }
 
 export const breadcrumbs = [
   {
-    path: '/motcua/daotao',
+    path: '/mot-cua/dao-tao',
     title: 'Đào tạo',
   },
   {
-    path: '/motcua/daotao/capbangdiem',
+    path: '/mot-cua/dao-tao/cap-bang-diem',
     title: 'Cấp bảng điểm',
   },
 ]

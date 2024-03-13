@@ -18,17 +18,17 @@ function HuyDangKyThiLai() {
   const HUY_DANG_KY_THI_LAI_PREFIX = 'MC_KT_HDKThiLai_'
 
   const home = {
-    path: '/motcua',
+    path: '/mot-cua',
     title: 'Bộ phận một cửa',
   }
 
   const breadcrumbs = [
     {
-      path: '/motcua/khaothi',
+      path: '/mot-cua/khao-thi',
       title: 'Khảo thí',
     },
     {
-      path: '/motcua/khaothi/huydangkythilai',
+      path: '/mot-cua/khao-thi/huy-dang-ky-thi-lai',
       title: 'Hủy đăng ký thi lại',
     },
   ]

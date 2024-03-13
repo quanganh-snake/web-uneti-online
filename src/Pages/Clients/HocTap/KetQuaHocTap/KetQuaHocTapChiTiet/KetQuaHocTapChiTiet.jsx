@@ -16,17 +16,17 @@ function KetQuaHocTapChiTiet() {
   const dataSV = DataSinhVien()
 
   const home = {
-    path: '/hoctap',
+    path: '/hoc-tap',
     title: 'Học tập',
   }
 
   const breadcrumbs = [
     {
-      path: '/hoctap/ketquahoctap',
+      path: '/hoc-tap/ket-qua-hoc-tap',
       title: 'Kết quả học tập',
     },
     {
-      path: '/hoctap/ketquahoctap/ketquahoctapchitiet/' + id,
+      path: '/hoc-tap/ket-qua-hoc-tap/ket-qua-hoc-tap-chi-tiet/' + id,
       title: 'Đăng ký thi lại',
     },
   ]
@@ -38,7 +38,7 @@ function KetQuaHocTapChiTiet() {
           (mh) => mh.TC_SV_KetQuaHocTap_MaLopHocPhan.toString() === id,
         ).length
       ) {
-        navigate('/hoctap/ketquahoctap')
+        navigate('/hoc-tap/ket-qua-hoc-tap')
       }
       setMonHoc(
         res?.data?.body.filter(

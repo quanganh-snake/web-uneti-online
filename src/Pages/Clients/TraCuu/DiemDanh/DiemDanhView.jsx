@@ -4,7 +4,7 @@ import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 function DiemDanhView(props) {
   const { home, breadcrumbs, listDiemDanh, listHocKy } = props
   return (
-    <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
+    <div className="bg-white shadow-module-item rounded-md">
       <div className="p-4 flex flex-col">
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
         <div className="w-full rounded-md mt-4 p-3 flex flex-col justify-center items-center">

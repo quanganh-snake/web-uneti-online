@@ -1,5 +1,3 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import SidebarTTHCGV from '../SidebarTTHCGV/SidebarTTHCGV'
 import Breadcrumb from '../../../../Components/Breadcumb/Breadcrumb'
 import { Link, useParams } from 'react-router-dom'
@@ -37,7 +35,7 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                 Thông tin thủ tục
               </p>
               <Link
-                to={`/tthcgiangvien/soanhoso/${tieude}/${id}/submit`}
+                to={`/tthc-giang-vien/soan-ho-so/${tieude}/${id}/submit`}
                 className="px-3 py-1 bg-[#336699] text-white rounded-md hover:opacity-70"
               >
                 Nộp hồ sơ

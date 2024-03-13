@@ -480,7 +480,7 @@ function AdminTTHCGVView({
               showConfirmButton: false,
               timer: 1500,
             })
-            navigate('/admin/quantriTTHCGV/hosothutuc/xem/tatca')
+            navigate('/admin/quan-tri-TTHCGV/ho-so-thu-tuc/xem/tat-ca')
             return
           } else {
             return Swal.fire({

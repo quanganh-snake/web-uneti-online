@@ -29,15 +29,15 @@ function KetQuaHocTapView(props) {
   } = props
 
   return (
-    <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
+    <div className="bg-white shadow-module-item rounded-md">
       <div className="p-4 flex flex-col gap-4">
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
-        <div className="border-[#336699] border border-solid mt-5 rounded-md">
-          <form className="py-8 flex flex-col justify-center items-center gap-4">
-            <h2 className="text-center uppercase text-2xl font-semibold text-sky-800 mb-6">
+        <div className="mt-5 rounded-md">
+          <form className="md:py-8 flex flex-col justify-center items-center gap-4">
+            <h2 className="text-center uppercase text-lg md:text-2xl font-semibold text-sky-800 mb-3 md:mb-6">
               TIẾP NHẬN KẾT QUẢ HỌC TẬP
             </h2>
-            <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+            <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10 w-[120px]">Học kỳ (*)</span>
               <select
                 value={tenDot}
@@ -53,7 +53,7 @@ function KetQuaHocTapView(props) {
                 ))}
               </select>
             </div>
-            <div className="w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
+            <div className="w-[90%] md:w-[75%] flex flex-col md:flex-row md:justify-between md:items-center gap-2">
               <span className="block pr-10 w-[120px]">Lý do (*)</span>
               <select
                 value={lyDo}

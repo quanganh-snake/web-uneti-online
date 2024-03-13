@@ -72,6 +72,7 @@ function DeThi() {
 
   // timer is calc by seconds
   const [timeCountDown, setTimeCountDown] = useState(0)
+  const [timeUsed, setTimeUsed] = useState(0)
   const [isFinished, setIsFinished] = useState(false)
 
   // audio playing
@@ -178,6 +179,8 @@ function DeThi() {
     setFilterState(FILTER_ACTIONS.ALL)
     setIsFinished(true)
     clearInterval(INTERVAL_ID.current)
+
+    setTimeUsed(() => deThi.ThoiGianThi * 60 - timeCountDown)
     setTimeCountDown(0)
   }
 
@@ -192,7 +195,7 @@ function DeThi() {
         {
           IDDeThi: `${deThi.Id}`,
           IDSinhVien: `${dataSV.IdSinhVien}`,
-          ThoiGianPhut: `${deThi.ThoiGianThi}`,
+          ThoiGianPhut: `${Number(timeUsed / 60).toFixed(2)}`,
           Diem: `${getScore}`,
           NguonTiepNhan: DANH_SACH_ON_THI_NGUON_TIEP_NHAN.WEB,
         },
@@ -361,7 +364,7 @@ function DeThi() {
         (mh) => mh.MaMonHoc === maMonHoc,
       )
       if (!_monHoc) {
-        navigate('/hoctap/onluyen/thithu')
+        navigate('/hoc-tap/on-luyen/thi-thu')
       }
       setMonHoc(_monHoc)
     }
@@ -369,7 +372,7 @@ function DeThi() {
       const _listDeThi = await getAllDeThiThiThu(maMonHoc)
       const _deThi = _listDeThi.data.body.find((e) => e.MaDeThi == maDe)
       if (!_deThi) {
-        navigate('/hoctap/onluyen/thithu')
+        navigate('/hoc-tap/on-luyen/thi-thu')
       }
       setDeThi(_deThi)
     }
@@ -387,10 +390,10 @@ function DeThi() {
       handleXacNhanNopBai()
     }
   }, [timeCountDown])
-  async function getQuestions(currentPage) {
+  function getQuestions(currentPage) {
     if (!deThi || !currentPage || pageLoaded.includes(currentPage)) return
 
-    await retries(async () => {
+    retries(async () => {
       setIsLoading(true)
       const res = await getCauHoiTheoDe({
         IDDeThi: deThi.Id,

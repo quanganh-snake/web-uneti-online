@@ -44,7 +44,7 @@ function CanBoNghiepVu() {
       }
 
       const resHoSoYeuCau = await getAllHoSoGuiYeuCauByNhanSuXuLy(
-        pathname.includes('hosoxuly') ? 1 : 0,
+        pathname.includes('ho-so-xu-ly') ? 1 : 0,
         dataCBGV?.MaNhanSu,
       )
       if (resHoSoYeuCau.status === 200) {

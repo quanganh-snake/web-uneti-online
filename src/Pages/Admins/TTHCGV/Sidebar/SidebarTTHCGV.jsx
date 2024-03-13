@@ -11,7 +11,7 @@ import clsx from 'clsx'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 import { ROLE_VIEW_ACTION_TTHCGV } from '@/Routers/privateRoutes'
 
-const PATH_TTHCGV = '/admin/quantriTTHCGV/hosothutuc'
+const PATH_TTHCGV = '/admin/quan-tri-TTHCGV/ho-so-thu-tuc'
 
 function SidebarTTHCGV() {
   const dataCBNV = DataCanBoGV()
@@ -69,7 +69,7 @@ function SidebarTTHCGV() {
             </li>
             <li>
               <Link
-                to={`${PATH_TTHCGV}/xem/tatca`}
+                to={`${PATH_TTHCGV}/xem/tat-ca`}
                 className="flex flex-row items-center  gap-2 mb-4 bg-slate-200 p-1 rounded-md hover:bg-slate-500 hover:text-white"
               >
                 <CiViewList size={24} />
@@ -85,7 +85,7 @@ function SidebarTTHCGV() {
           <ul>
             <li>
               <Link
-                to={'/admin/canbonghiepvu'}
+                to={'/admin/can-bo-nghiep-vu'}
                 className="flex flex-row items-center justify-between  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white"
               >
                 <div className="flex flex-row items-center  gap-2">
@@ -97,7 +97,7 @@ function SidebarTTHCGV() {
             </li>
             <li>
               <Link
-                to={'/admin/canbonghiepvu/hosoxuly'}
+                to={'/admin/can-bo-nghiep-vu/ho-so-xu-ly'}
                 className="flex flex-row items-center justify-between  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white"
               >
                 <div className="flex flex-row items-center  gap-2">

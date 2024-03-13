@@ -11,22 +11,22 @@ export default function LichHoc(props) {
       <table className="w-full">
         <thead>
           <tr>
-            <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
+            <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6]">
               #
             </th>
-            <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+            <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
               Tên phòng
             </th>
-            <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+            <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
               Mã lớp học phần
             </th>
-            <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+            <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
               Tên môn học
             </th>
-            <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
+            <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[100px]">
               Tên lớp học
             </th>
-            <th className="p-2 font-semibold bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[50px]">
+            <th className="p-2 text-xs md:text-base font-medium bg-[#245D7C] text-white border border-solid border-[#dee2e6] min-w-[50px]">
               Tiết
             </th>
           </tr>

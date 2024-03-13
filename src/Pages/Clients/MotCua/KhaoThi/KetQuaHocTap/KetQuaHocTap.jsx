@@ -18,17 +18,17 @@ function KetQuaHocTap() {
   const KET_QUA_HOC_TAP_PREFIX = 'MC_KT_KetQuaHT_'
 
   const home = {
-    path: '/motcua',
+    path: '/mot-cua',
     title: 'Bộ phận một cửa',
   }
 
   const breadcrumbs = [
     {
-      path: '/motcua/khaothi',
+      path: '/mot-cua/khao-thi',
       title: 'Khảo thí',
     },
     {
-      path: '/motcua/khaothi/ketquahoctap',
+      path: '/mot-cua/khao-thi/ket-qua-hoc-tap',
       title: 'Kết quả học tập',
     },
   ]

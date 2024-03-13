@@ -26,17 +26,17 @@ const CHUYEN_DIEM_CHI_TIET_PREFIX = `${CHUYEN_DIEM_PREFIX}ChiTiet_`
 
 function ChuyenDiem() {
   const home = {
-    path: '/motcua',
+    path: '/mot-cua',
     title: 'Bộ phận một cửa',
   }
 
   const breadcrumbs = [
     {
-      path: '/motcua/daotao',
+      path: '/mot-cua/dao-tao',
       title: 'Đào tạo',
     },
     {
-      path: '/motcua/daotao/chuyendiem',
+      path: '/mot-cua/dao-tao/chuyen-diem',
       title: 'Chuyển điểm',
     },
   ]

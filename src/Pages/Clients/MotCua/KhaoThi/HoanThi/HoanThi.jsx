@@ -230,15 +230,15 @@ function HoanThi() {
   }, [tenDot, loaiThi, lyDo])
 
   return (
-    <div className="bg-white shadow-md rounded-md mx-4 lg:mx-0">
+    <div className="bg-white shadow-module-item rounded-md">
       <div className="p-4 flex flex-col gap-4">
         <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
 
         <div className="form-submit flex flex-col w-full justify-center">
-          <h2 className="text-center uppercase text-2xl font-semibold text-sky-800 mb-6">
+          <h2 className="text-center uppercase text-lg md:text-2xl font-semibold text-sky-800 mb-3 md:mb-6">
             Tiếp nhận yêu cầu hoãn thi
           </h2>
-          <div className="lg:px-36">
+          <div className="md:py-8 flex flex-col justify-center items-center gap-4">
             <HoanThiForm
               listHocKy={listHocKy}
               handleChangeValue={handleChangeValue}
@@ -246,18 +246,20 @@ function HoanThi() {
             />
 
             {/* START: Table học phần */}
-            <HoanThiTable
-              loading={loading}
-              tenDot={tenDot}
-              loaiThi={loaiThi}
-              lyDo={lyDo}
-              listHocPhan={listHocPhan}
-              selectedRow={selectedRow}
-              files={files}
-              handleRowSelection={handleRowSelection}
-              handleFilesChange={handleFilesChange}
-              handleSubmitData={handleSubmitData}
-            />
+            <div className="w-full">
+              <HoanThiTable
+                loading={loading}
+                tenDot={tenDot}
+                loaiThi={loaiThi}
+                lyDo={lyDo}
+                listHocPhan={listHocPhan}
+                selectedRow={selectedRow}
+                files={files}
+                handleRowSelection={handleRowSelection}
+                handleFilesChange={handleFilesChange}
+                handleSubmitData={handleSubmitData}
+              />
+            </div>
             {/* END: Table học phần */}
           </div>
         </div>
