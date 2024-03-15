@@ -554,12 +554,13 @@ function DanhSachDeThi() {
                       // hiển thị câu hỏi cha
                       (() => {
                         if (element.CauHoiCha.type === 'image') {
-                          return (
-                            <img
-                              className="w-full"
-                              src={`data:image/png;base64,${element.CauHoiCha.data}`}
-                            />
-                          )
+                          if (element.CauHoiCha.data)
+                            return (
+                              <img
+                                className="w-full"
+                                src={`data:image/png;base64,${element.CauHoiCha.data}`}
+                              />
+                            )
                         }
                         return (
                           <span
