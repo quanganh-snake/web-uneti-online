@@ -1,0 +1,43 @@
+@include b(ctdt) {
+  @include e(table) {
+    width: 100%;
+
+    th,
+    td {
+      padding: 10px;
+      border: 1px solid getColor('gray-4');
+      z-index: 1;
+      border-right: transparent;
+      border-bottom: transparent;
+
+      div {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+      }
+
+      &:nth-child(1) {
+        width: 120px;
+      }
+    }
+    th {
+      filter: drop-shadow(1px 0px 0px rgba(255, 255, 255, 0.3));
+      background: getColor(primary);
+      color: #f0f0fa;
+    }
+    td {
+      filter: drop-shadow(1px 0px 0px rgba(0, 0, 0, 0.1));
+      &:last-child {
+        filter: none;
+        border: none;
+      }
+    }
+
+    tr:nth-child(n) td {
+      background-color: #fff;
+    }
+    tr:nth-child(2n) td {
+      background-color: getColor(gray-2);
+    }
+  }
+}

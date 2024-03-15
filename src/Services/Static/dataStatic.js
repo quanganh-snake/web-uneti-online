@@ -1506,6 +1506,16 @@ export const homeTraCuu = [
     thumbnail: iconLich,
     roleActive: ['SV'],
   },
+
+  {
+    id: 4,
+    title: 'Chương trình đào tạo',
+    desc: 'Theo dõi chương trình đào tạo',
+    path: '/chuong-trinh-dao-tao',
+    moduleActive: true,
+    thumbnail: iconLich,
+    roleActive: ['SV'],
+  },
 ]
 
 export const homeOnLuyen = [
