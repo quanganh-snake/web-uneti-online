@@ -108,9 +108,9 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                             id=""
                           />
                         </div>
-                        <div className="col-span-4 lg:col-span-2 flex items-center gap-2 border p-1 justify-between">
+                        <div className="flex col-span-4 lg:col-span-2 items-center gap-2 border p-1 justify-between">
                           <p className="whitespace-nowrap">
-                            Thủ tục càn trưởng phòng phê duyệt
+                            Thủ tục cần trưởng phòng phê duyệt
                           </p>
                           <input
                             type="checkbox"

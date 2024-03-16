@@ -234,6 +234,11 @@ const DanhSachChuong = lazy(
     ),
 )
 
+// Page Kiểm định chất lượng - GV
+const KiemDinhChatLuong = lazy(
+  () => import('@/Pages/Admins/KiemDinhChatLuong/KiemDinhChatLuong'),
+)
+
 export const ROLES = {
   G0101: 'GV',
   S0202: 'SV',
@@ -246,6 +251,8 @@ export const ROLE_VIEW_ACTION_HTTB = {
 export const ROLE_VIEW_ACTION_TTHCGV = {
   QT_TTHCGV: '15',
   CBNV_TTHCGV: '16',
+  TP_TTHCGV: '24',
+  BGH_TTHCGV: '25',
 }
 
 export const privateRoutes = (
@@ -262,7 +269,11 @@ export const privateRoutes = (
             path="xu-ly-nghiep-vu"
             element={
               <RoleViewActionMiddleware
-                allowedRoleViewAction={[ROLE_VIEW_ACTION_TTHCGV.CBNV_TTHCGV]}
+                allowedRoleViewAction={[
+                  ROLE_VIEW_ACTION_TTHCGV.CBNV_TTHCGV,
+                  ROLE_VIEW_ACTION_TTHCGV.TP_TTHCGV,
+                  ROLE_VIEW_ACTION_TTHCGV.BGH_TTHCGV,
+                ]}
               />
             }
           >
@@ -450,6 +461,13 @@ export const privateRoutes = (
       </Route>
       {/* Hỗ trợ SDPM */}
       <Route path="ho-tro-su-dung-phan-mem" element={<HoTroSuDungPhanMem />} />
+      {/* Kiểm định chất lượng */}
+      <Route
+        path="kiem-dinh-chat-luong"
+        element={<RoleMiddleware allowedRoles={[ROLES.G0101]} />}
+      >
+        <Route index element={<KiemDinhChatLuong />} />
+      </Route>
     </Route>
   </>
 )

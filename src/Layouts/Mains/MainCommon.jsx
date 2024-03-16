@@ -8,6 +8,7 @@ import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 
 import '../Headers/Header.scss'
+import clsx from 'clsx'
 
 function MainCommon() {
   const location = useLocation()
@@ -25,7 +26,12 @@ function MainCommon() {
         <HeaderCBGV />
       )}
 
-      <main className="px-5 mt-40 lg:mt-52 xl:mt-30 mb-[50px] max-w-7xl mx-auto gap-10 min-h-[500px]">
+      <main
+        className={clsx(
+          'xl:mt-30 mx-auto mb-[50px] mt-40 min-h-[500px] gap-10 px-5 lg:mt-52',
+          pathname === '/kiem-dinh-chat-luong' ? ' w-full' : ' max-w-7xl',
+        )}
+      >
         <RouterCore />
       </main>
       {pathname === '/' || pathname === '/dang-nhap' ? null : <Footer />}
