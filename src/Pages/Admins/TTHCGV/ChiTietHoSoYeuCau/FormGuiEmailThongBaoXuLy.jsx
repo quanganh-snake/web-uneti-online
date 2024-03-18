@@ -1467,7 +1467,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                 <input
                   type="checkbox"
                   defaultChecked={true}
-                  disabled={true}
+                  disabled={false}
                   value={optionSendEmail[0].value}
                   name="isSendEmail"
                   id="isSendEmail"
@@ -1504,7 +1504,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                   type="checkbox"
                   defaultChecked={true}
                   value={optionSendEmail[1].value}
-                  disabled={true}
+                  disabled={false}
                   name="isSendEmail"
                   id="isSendEmail"
                 />
@@ -1521,7 +1521,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                 <input
                   type="checkbox"
                   defaultChecked={true}
-                  disabled={true}
+                  disabled={false}
                   value={optionSendEmail[2].value}
                   name="isSendEmail"
                   id="isSendEmail"
@@ -1542,7 +1542,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                   <input
                     type="checkbox"
                     defaultChecked={true}
-                    disabled={true}
+                    disabled={false}
                     value={optionSendEmail[3].value}
                     name="isSendEmail"
                     id="isSendEmail"

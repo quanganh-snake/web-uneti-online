@@ -250,7 +250,6 @@ function ThongTinChiTietHoSo() {
       }))
     } else {
       if (type === 'checkbox') {
-        console.log(name, checked)
         setEditValueRow((prevEditValueRow) => ({
           ...prevEditValueRow,
           [name]: checked,
@@ -486,6 +485,10 @@ function ThongTinChiTietHoSo() {
         MC_TTHC_GV_TrangThai_TenTrangThai:
           valueRow?.MC_TTHC_GV_TrangThai_TenTrangThai,
         MC_TTHC_GV_TrangThai_MoTa: valueRow?.MC_TTHC_GV_TrangThai_MoTa,
+        MC_TTHC_GV_TrangThai_DoiTuongXuLy:
+          valueRow?.MC_TTHC_GV_TrangThai_DoiTuongXuLy,
+        MC_TTHC_GV_TrangThai_IsHienThiThongTin:
+          valueRow?.MC_TTHC_GV_TrangThai_IsHienThiThongTin,
       }
       try {
         Swal.fire({
@@ -684,7 +687,7 @@ function ThongTinChiTietHoSo() {
                     </div>
                   </div>
                   {/* Tổng thời gian giải quyết */}
-                  <div className="col-span-4 lg:col-span-2">
+                  <div className="hidden col-span-4 lg:col-span-2">
                     <div className="flex flex-col gap-1">
                       <label
                         htmlFor="MC_TTHC_GV_TongThoiGianGiaiQuyet"
@@ -1128,7 +1131,7 @@ function ThongTinChiTietHoSo() {
                           <th className="border-r px-2 py-1">Bản chính</th>
                           <th className="border-r px-2 py-1">Bản sao</th>
                           <th className="border-r px-2 py-1">Bắt buộc</th>
-                          <th className="px-2 py-1 rounded-tr-xl"></th>
+                          <th className="px-2 py-1 rounded-tr-xl">Tác vụ</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1535,7 +1538,7 @@ function ThongTinChiTietHoSo() {
                             <th className="border-r px-2 py-1">
                               <p className="w-[140px]">Kết quả</p>
                             </th>
-                            <th className="px-2 py-1 rounded-tr-xl"></th>
+                            <th className="px-2 py-1 rounded-tr-xl">Tác vụ</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -1888,7 +1891,7 @@ function ThongTinChiTietHoSo() {
                           <th className="border-r px-2 py-1">Đơn vị</th>
                           <th className="border-r px-2 py-1">Tổ</th>
                           <th className="border-r px-2 py-1">Nhóm</th>
-                          <th className="px-2 py-1 rounded-tr-xl"></th>
+                          <th className="px-2 py-1 rounded-tr-xl">Tác vụ</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1999,7 +2002,10 @@ function ThongTinChiTietHoSo() {
                           </th>
                           <th className="border-r px-2 py-1">Tên trạng thái</th>
                           <th className="border-r px-2 py-1">Mô tả</th>
-                          <th className="px-2 py-1 rounded-tr-xl"></th>
+                          <th className="border-r px-2 py-1">
+                            Hiển thị thông tin xử lý
+                          </th>
+                          <th className="px-2 py-1 rounded-tr-xl">Tác vụ</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -2042,6 +2048,23 @@ function ThongTinChiTietHoSo() {
                                       }
                                       name="MC_TTHC_GV_TrangThai_MoTa"
                                       id="MC_TTHC_GV_TrangThai_MoTa"
+                                      onChange={(e) => {
+                                        handleChangeValue(TABS.tabTrangThai, e)
+                                      }}
+                                    />
+                                  </div>
+                                </td>
+                                <td className="border-r px-2 py-1 text-center">
+                                  <div className="">
+                                    <input
+                                      type="checkbox"
+                                      className="w-full focus:outline-slate-400 px-3 py-2 border-2 border-gray-400 bg-gray-50"
+                                      checked={
+                                        editValueRow?.MC_TTHC_GV_TrangThai_IsHienThiThongTin ||
+                                        false
+                                      }
+                                      name="MC_TTHC_GV_TrangThai_IsHienThiThongTin"
+                                      id="MC_TTHC_GV_TrangThai_IsHienThiThongTin"
                                       onChange={(e) => {
                                         handleChangeValue(TABS.tabTrangThai, e)
                                       }}
@@ -2094,6 +2117,14 @@ function ThongTinChiTietHoSo() {
                                 </td>
                                 <td className="border-r px-2 py-1 text-center">
                                   {iTrangThai.MC_TTHC_GV_TrangThai_MoTa}
+                                </td>
+                                <td className="border-r px-2 py-1 text-center">
+                                  <input
+                                    type="checkbox"
+                                    checked={
+                                      iTrangThai.MC_TTHC_GV_TrangThai_IsHienThiThongTin
+                                    }
+                                  />
                                 </td>
                                 <td className="border-r px-2 py-1 text-center">
                                   <div className="flex flex-col lg:flex-row items-center justify-center gap-2">
