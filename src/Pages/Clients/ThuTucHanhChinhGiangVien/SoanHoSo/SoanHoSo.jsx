@@ -121,13 +121,6 @@ function SoanHoSo() {
       })
     }
 
-    // if (
-    //   !newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong ||
-    //   parseInt(newDataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong) < 1
-    // ) {
-    //   return toast.error('Vui lòng nhập số lượng bản ghi nhận tối thiểu là 1')
-    // }
-
     let idGuiYeuCau
     try {
       // Kiểm tra đầy đủ thông tin

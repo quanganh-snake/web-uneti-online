@@ -19,6 +19,8 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
     return sum
   }, [dataThuTuc?.TrinhTuThucHien])
 
+  console.log(dataThuTuc?.ThongTinHoSo)
+
   return (
     <>
       {loading ? (
@@ -78,10 +80,7 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                   <tr>
                     <td colSpan={2} className="border border-slate-500">
                       <div className="grid grid-cols-4 gap-2 p-2">
-                        <div className="col-span-4 lg:col-span-2 flex items-center gap-2 border p-1 justify-between">
-                          <p className="whitespace-nowrap">
-                            Thủ tục liên thông
-                          </p>
+                        <div className="col-span-4 lg:col-span-2 flex items-center gap-4 border p-1">
                           <input
                             type="checkbox"
                             defaultChecked={
@@ -89,14 +88,13 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                                 ?.MC_TTHC_GV_ThuTucLienThong
                             }
                             disabled
-                            name=""
-                            id=""
+                            className="w-4 h-4"
                           />
-                        </div>
-                        <div className="col-span-4 lg:col-span-2 flex items-center gap-2 border p-1 justify-between">
                           <p className="whitespace-nowrap">
-                            Thủ tục không áp dụng trực tuyến
+                            Thủ tục liên thông
                           </p>
+                        </div>
+                        <div className="col-span-4 lg:col-span-2 flex items-center gap-4 border p-1">
                           <input
                             type="checkbox"
                             defaultChecked={
@@ -104,14 +102,13 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                                 ?.MC_TTHC_GV_ThuTucKhongApDungTrucTuyen
                             }
                             disabled
-                            name=""
-                            id=""
+                            className="w-4 h-4"
                           />
-                        </div>
-                        <div className="flex col-span-4 lg:col-span-2 items-center gap-2 border p-1 justify-between">
                           <p className="whitespace-nowrap">
-                            Thủ tục cần trưởng phòng phê duyệt
+                            Thủ tục không áp dụng trực tuyến
                           </p>
+                        </div>
+                        <div className="flex col-span-4 lg:col-span-2 items-center gap-4 border p-1">
                           <input
                             type="checkbox"
                             defaultChecked={
@@ -119,23 +116,24 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                                 ?.MC_TTHC_GV_IsTruongPhongPheDuyet
                             }
                             disabled
-                            name=""
-                            id=""
+                            className="w-4 h-4"
                           />
-                        </div>
-                        <div className="col-span-4 lg:col-span-2 flex items-center gap-2 border p-1 justify-between">
                           <p className="whitespace-nowrap">
-                            Thủ tục cần Ban giám hiệu phê duyệt
+                            Thủ tục cần trưởng phòng phê duyệt
                           </p>
+                        </div>
+                        <div className="col-span-4 lg:col-span-2 flex items-center gap-4 border p-1">
                           <input
                             type="checkbox"
                             defaultChecked={
                               dataThuTuc?.ThongTinHoSo?.MC_TTHC_GV_IsBGHPheDuyet
                             }
                             disabled
-                            name=""
-                            id=""
+                            className="w-4 h-4"
                           />
+                          <p className="whitespace-nowrap">
+                            Thủ tục cần Ban giám hiệu phê duyệt
+                          </p>
                         </div>
                       </div>
                     </td>
@@ -236,6 +234,17 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                               ?.MC_TTHC_GV_TepThuTuc_TenFile
                           }
                         </p>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="p-1 border border-slate-500 font-semibold">
+                      Quy trình thủ tục
+                    </td>
+                    <td className="p-1 border border-slate-500">
+                      <div className="">
+                        {dataThuTuc?.ThongTinHoSo?.MC_TTHC_GV_QuyTrinhThuTuc ??
+                          'Đang cập nhật'}
                       </div>
                     </td>
                   </tr>
@@ -459,7 +468,7 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                       </div>
                     </td>
                   </tr>
-                  <tr>
+                  <tr className="hidden">
                     <td className="p-1 border border-slate-500 font-semibold">
                       Số bộ hồ sơ
                     </td>

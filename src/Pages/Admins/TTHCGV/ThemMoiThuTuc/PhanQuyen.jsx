@@ -11,6 +11,7 @@ import clsx from 'clsx'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
 import { isDuplicateValueObjectInArray } from '@/Services/Utils/filterData'
 import Swal from 'sweetalert2'
+import { FaSave } from 'react-icons/fa'
 
 const PhanQuyen = memo(function PhanQuyen(props) {
   const {
@@ -401,6 +402,13 @@ const PhanQuyen = memo(function PhanQuyen(props) {
         >
           <FaArrowLeft />
           <span className="text-md">Quay lại</span>
+        </button>
+        <button
+          type="submit"
+          className="flex items-center gap-2 font-md text-md px-3 py-2 bg-emerald-600 text-white hover:opacity-70 rounded-md"
+        >
+          <FaSave />
+          Lưu hồ sơ
         </button>
         <button
           type="button"

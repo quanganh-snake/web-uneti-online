@@ -172,7 +172,11 @@ function DanhSachHoSo() {
                   <thead className="bg-[#336699] text-white">
                     <tr>
                       <th className="px-2 py-1 rounded-tl-lg border-r">STT</th>
+                      <th className="px-2 py-1 border-r">
+                        <div className="w-20">Mã thủ tục</div>
+                      </th>
                       <th className="px-2 py-1 border-r">Thủ tục</th>
+                      <th className="px-2 py-1 border-r">Đơn vị</th>
                       <th className="px-2 py-1 border-r">Lĩnh vực</th>
                       <th className="px-2 py-1 rounded-tr-lg w-8">Tác vụ</th>
                     </tr>
@@ -199,6 +203,11 @@ function DanhSachHoSo() {
                           >
                             <td className="px-2 py-1 border-r border-l border-slate-300 text-center font-semibold">
                               {index + 1}
+                            </td>
+                            <td className="px-2 py-1 border-r border-slate-300 text-center">
+                              <p className="inline-block w-20 line-clamp-2">
+                                {itemThuTuc.MC_TTHC_GV_MaThuTuc}
+                              </p>
                             </td>
                             <td className="px-2 py-1 border-r border-slate-300">
                               <div className="flex flex-col gap-1">
@@ -235,6 +244,9 @@ function DanhSachHoSo() {
                                   </span>
                                 </p>
                               </div>
+                            </td>
+                            <td className="px-2 py-1 border-r border-slate-300">
+                              <p>{itemThuTuc.MC_TTHC_GV_NoiTiepNhan}</p>
                             </td>
                             <td className="px-2 py-1 border-r border-slate-300 text-center">
                               {itemThuTuc.MC_TTHC_GV_LinhVuc}

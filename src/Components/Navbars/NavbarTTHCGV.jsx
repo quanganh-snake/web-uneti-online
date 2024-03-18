@@ -22,8 +22,6 @@ function NavbarTTHCGV() {
     roleViewAction = null
   }
 
-  console.log(roleViewAction)
-
   return (
     <div
       className="items-center justify-between hidden w-full lg:flex md:w-auto md:order-1"

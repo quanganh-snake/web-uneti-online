@@ -1,4 +1,4 @@
-import { memo, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { BiChevronDown } from 'react-icons/bi'
@@ -8,6 +8,8 @@ import { convertDataFileToBase64 } from '../../../../Services/Utils/stringUtils'
 import { MdDelete } from 'react-icons/md'
 import { handleOpenFileBase64 } from '../../../../Services/Utils/fileUtils'
 import Swal from 'sweetalert2'
+import { TextEditor } from '@/Components/TextEditor/TextEditor'
+
 const ThongTinHoSo = memo(function ThongTinHoSo(props) {
   const {
     inputTenThuTucRef,
@@ -32,6 +34,8 @@ const ThongTinHoSo = memo(function ThongTinHoSo(props) {
     noiTraKetQua,
     setNoiTraKetQua,
     diaChiNhanTraHoSo,
+    quyTrinhThuTuc,
+    setQuyTrinhThuTuc,
     isTruongPhongPheDuyet,
     isBGHPheDuyet,
     thuTucLienThong,
@@ -53,12 +57,14 @@ const ThongTinHoSo = memo(function ThongTinHoSo(props) {
   const [openSelectLinhVuc, setOpenSelectLinhVuc] = useState(false)
   const [openSelectNoiTraKetQua, setOpenSelectNoiTraKetQua] = useState(false)
 
+  console.log(quyTrinhThuTuc)
+
   return (
     <div className="uneti-tthcgv__thongtinhoso mb-5">
       <h2 className="text-2xl font-semibold uppercase mb-4">
         Thiết lập thông tin hồ sơ
       </h2>
-      <div className="grid grid-cols-4 gap-5">
+      <div className="grid grid-cols-4 gap-6">
         {/* START:  MC_TTHC_GV_TenThuTuc*/}
         <div className="col-span-4 lg:col-span-2">
           <label htmlFor="MC_TTHC_GV_TenThuTuc">
@@ -183,7 +189,7 @@ const ThongTinHoSo = memo(function ThongTinHoSo(props) {
         {/* END:  MC_TTHC_GV_DieuKienThucHien*/}
 
         {/* START:  MC_TTHC_GV_TongThoiGianGiaiQuyet*/}
-        <div className="col-span-4 lg:col-span-2">
+        <div className="hidden col-span-4 lg:col-span-2">
           <label
             htmlFor="MC_TTHC_GV_TongThoiGianGiaiQuyet"
             className="flex flex-col"
@@ -228,250 +234,254 @@ const ThongTinHoSo = memo(function ThongTinHoSo(props) {
         </div>
         {/* END:  MC_TTHC_GV_SoBoHoSo*/}
 
-        {/* START:  MC_TTHC_GV_LinhVuc*/}
-        <div className="col-span-4 lg:col-span-2">
-          <label htmlFor="MC_TTHC_GV_LinhVuc">
-            <p className="font-semibold mb-2">Lĩnh vực</p>
-            <div className="col-span-4 md:col-span-2 relative">
-              <div
-                id="MC_TTHC_GV_LinhVuc"
-                onClick={() => {
-                  setOpenSelectLinhVuc(!openSelectLinhVuc)
-                }}
-                className="bg-white w-full p-2 flex items-center justify-between rounded-md border border-slate-300 cursor-pointer"
-              >
-                <span
-                  className={clsx(linhVuc && 'text-gray-700 font-semibold')}
-                >
-                  {linhVuc ? linhVuc : 'Chọn lĩnh vực thủ tục'}
-                </span>
-                <BiChevronDown
-                  size={20}
-                  className={clsx(openSelectLinhVuc && 'rotate-180')}
-                />
-              </div>
-              <ul
-                className={clsx(
-                  'bg-white mt-2 border shadow-lg overflow-y-auto absolute right-0 left-0 top-full z-10',
-                  openSelectLinhVuc ? 'max-h-60' : 'hidden',
-                )}
-              >
-                <div className="flex items-center px-2 sticky top-0 bg-white shadow-md">
-                  <AiOutlineSearch size={18} className="text-gray-700" />
-                  <input
-                    type="text"
-                    value={searchLinhVuc}
-                    onChange={(e) => {
-                      setSearchLinhVuc(e.target.value)
-                    }}
-                    placeholder="Nhập tên đơn vị"
-                    className="w-full placeholder:text-gray-500 p-2 outline-none"
-                  />
-                </div>
-                {searchLinhVuc ? (
-                  <li
-                    className={clsx(
-                      'font-semibold px-2 py-3 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
-                    )}
+        <div className="col-span-4">
+          <div className="grid grid-cols-4 gap-6">
+            {/* START:  MC_TTHC_GV_LinhVuc*/}
+            <div className="col-span-4 lg:col-span-2">
+              <label htmlFor="MC_TTHC_GV_LinhVuc">
+                <p className="font-semibold mb-2">Lĩnh vực</p>
+                <div className="col-span-4 md:col-span-2 relative">
+                  <div
+                    id="MC_TTHC_GV_LinhVuc"
                     onClick={() => {
-                      setLinhVuc(searchLinhVuc)
-                      setOpenSelectLinhVuc(false)
-                      setSearchLinhVuc('')
+                      setOpenSelectLinhVuc(!openSelectLinhVuc)
                     }}
+                    className="bg-white w-full p-2 flex items-center justify-between rounded-md border border-slate-300 cursor-pointer"
                   >
-                    {searchLinhVuc}
-                  </li>
-                ) : null}
-                {listLinhVuc &&
-                  listLinhVuc?.map((iLinhVuc, index) => {
-                    return (
+                    <span
+                      className={clsx(linhVuc && 'text-gray-700 font-semibold')}
+                    >
+                      {linhVuc ? linhVuc : 'Chọn lĩnh vực thủ tục'}
+                    </span>
+                    <BiChevronDown
+                      size={20}
+                      className={clsx(openSelectLinhVuc && 'rotate-180')}
+                    />
+                  </div>
+                  <ul
+                    className={clsx(
+                      'bg-white mt-2 border shadow-lg overflow-y-auto absolute right-0 left-0 top-full z-10',
+                      openSelectLinhVuc ? 'max-h-60' : 'hidden',
+                    )}
+                  >
+                    <div className="flex items-center px-2 sticky top-0 bg-white shadow-md">
+                      <AiOutlineSearch size={18} className="text-gray-700" />
+                      <input
+                        type="text"
+                        value={searchLinhVuc}
+                        onChange={(e) => {
+                          setSearchLinhVuc(e.target.value)
+                        }}
+                        placeholder="Nhập tên đơn vị"
+                        className="w-full placeholder:text-gray-500 p-2 outline-none"
+                      />
+                    </div>
+                    {searchLinhVuc ? (
                       <li
-                        key={index}
                         className={clsx(
-                          'p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
-                          iLinhVuc?.MC_TTHC_GV_LinhVuc.toLowerCase().includes(
-                            searchLinhVuc,
-                          )
-                            ? 'block'
-                            : 'hidden',
+                          'font-semibold px-2 py-3 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
                         )}
                         onClick={() => {
-                          setLinhVuc(iLinhVuc?.MC_TTHC_GV_LinhVuc)
+                          setLinhVuc(searchLinhVuc)
                           setOpenSelectLinhVuc(false)
                           setSearchLinhVuc('')
                         }}
                       >
-                        {iLinhVuc?.MC_TTHC_GV_LinhVuc}
+                        {searchLinhVuc}
                       </li>
-                    )
-                  })}
-              </ul>
-            </div>
-          </label>
-        </div>
-        {/* END:  MC_TTHC_GV_LinhVuc*/}
-
-        {/* START:  MC_TTHC_GV_NoiTiepNhan*/}
-        <div className="col-span-4 md:col-span-2">
-          <label htmlFor="MC_TTHC_GV_NoiTiepNhan">
-            <p className="font-semibold mb-2">
-              Đơn vị tiếp nhận <span className="text-red-500">*</span>
-            </p>
-            <div className="col-span-4 md:col-span-2 relative">
-              <div
-                id="MC_TTHC_GV_PhanQuyen_DonVi"
-                ref={inputDonViTiepNhanRef}
-                onClick={() => {
-                  setOpenSelectDonVi(!openSelectDonVi)
-                }}
-                className="bg-white w-full p-2 flex items-center justify-between rounded-md border border-slate-300 cursor-pointer"
-              >
-                <span
-                  className={clsx(
-                    donViTiepNhan && 'text-gray-700 font-semibold',
-                  )}
-                >
-                  {donViTiepNhan ? donViTiepNhan : 'Chọn đơn vị tiếp nhận'}
-                </span>
-                <BiChevronDown
-                  size={20}
-                  className={clsx(openSelectDonVi && 'rotate-180')}
-                />
-              </div>
-              <ul
-                className={clsx(
-                  'bg-white mt-2 border shadow-sm overflow-y-auto absolute right-0 left-0 top-full',
-                  openSelectDonVi ? 'max-h-60' : 'hidden',
-                )}
-              >
-                <div className="flex items-center px-2 sticky top-0 bg-white shadow-md">
-                  <AiOutlineSearch size={18} className="text-gray-700" />
-                  <input
-                    type="text"
-                    value={searchDonVi}
-                    onChange={(e) => {
-                      setSearchDonVi(e.target.value.toLowerCase())
-                    }}
-                    placeholder="Nhập tên đơn vị"
-                    className="w-full placeholder:text-gray-500 p-2 outline-none"
-                  />
+                    ) : null}
+                    {listLinhVuc &&
+                      listLinhVuc?.map((iLinhVuc, index) => {
+                        return (
+                          <li
+                            key={index}
+                            className={clsx(
+                              'p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
+                              iLinhVuc?.MC_TTHC_GV_LinhVuc.toLowerCase().includes(
+                                searchLinhVuc,
+                              )
+                                ? 'block'
+                                : 'hidden',
+                            )}
+                            onClick={() => {
+                              setLinhVuc(iLinhVuc?.MC_TTHC_GV_LinhVuc)
+                              setOpenSelectLinhVuc(false)
+                              setSearchLinhVuc('')
+                            }}
+                          >
+                            {iLinhVuc?.MC_TTHC_GV_LinhVuc}
+                          </li>
+                        )
+                      })}
+                  </ul>
                 </div>
-                {listDonViTiepNhan &&
-                  listDonViTiepNhan?.map((iDonVi, index) => {
-                    return (
-                      <li
-                        key={index}
-                        className={clsx(
-                          'p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
-                          iDonVi?.TenPhongBan.toLowerCase().includes(
-                            searchDonVi,
-                          )
-                            ? 'block'
-                            : 'hidden',
-                        )}
-                        onClick={() => {
-                          setDonViTiepNhan(iDonVi?.TenPhongBan)
-                          setOpenSelectDonVi(false)
-                          setSearchDonVi('')
-                        }}
-                      >
-                        {iDonVi?.TenPhongBan}
-                      </li>
-                    )
-                  })}
-              </ul>
+              </label>
             </div>
-          </label>
-        </div>
-        {/* END:  MC_TTHC_GV_NoiTiepNhan*/}
+            {/* END:  MC_TTHC_GV_LinhVuc*/}
 
-        {/* START:  MC_TTHC_GV_NoiTraKetQua*/}
-        <div className="hidden col-span-4 md:col-span-2">
-          <label htmlFor="MC_TTHC_GV_NoiTraKetQua">
-            <p className="font-semibold mb-2">
-              Nơi trả kết quả <span className="text-red-500">*</span>
-            </p>
-            <div className="col-span-4 md:col-span-2 relative">
-              <div
-                id="MC_TTHC_GV_NoiTraKetQua"
-                ref={inputNoiTraKetQuaRef}
-                onClick={() => {
-                  setOpenSelectNoiTraKetQua(!openSelectNoiTraKetQua)
-                }}
-                className="bg-white w-full p-2 flex items-center justify-between rounded-md border border-slate-300 cursor-pointer"
-              >
-                <span
-                  className={clsx(
-                    noiTraKetQua && 'text-gray-700 font-semibold',
-                  )}
-                >
-                  {noiTraKetQua ? noiTraKetQua : 'Chọn nơi trả kết quả'}
-                </span>
-                <BiChevronDown
-                  size={20}
-                  className={clsx(openSelectNoiTraKetQua && 'rotate-180')}
-                />
-              </div>
-              <ul
-                className={clsx(
-                  'bg-white mt-2 border shadow-sm overflow-y-auto absolute right-0 left-0 top-full',
-                  openSelectNoiTraKetQua ? 'max-h-60' : 'hidden',
-                )}
-              >
-                <div className="flex items-center px-2 sticky top-0 bg-white shadow-md">
-                  <AiOutlineSearch size={18} className="text-gray-700" />
-                  <input
-                    type="text"
-                    value={searchNoiTraKetQua}
-                    onChange={(e) => {
-                      setSearchNoiTraKetQua(e.target.value)
-                    }}
-                    placeholder="Nhập nơi trả kết quả..."
-                    className="w-full placeholder:text-gray-500 p-2 outline-none"
-                  />
-                </div>
-                {searchNoiTraKetQua ? (
-                  <li
-                    className={clsx(
-                      'font-semibold px-2 py-3 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
-                    )}
+            {/* START:  MC_TTHC_GV_NoiTiepNhan*/}
+            <div className="col-span-4 md:col-span-2">
+              <label htmlFor="MC_TTHC_GV_NoiTiepNhan">
+                <p className="font-semibold mb-2">
+                  Đơn vị tiếp nhận <span className="text-red-500">*</span>
+                </p>
+                <div className="col-span-4 md:col-span-2 relative">
+                  <div
+                    id="MC_TTHC_GV_PhanQuyen_DonVi"
+                    ref={inputDonViTiepNhanRef}
                     onClick={() => {
-                      setNoiTraKetQua(searchNoiTraKetQua)
-                      setOpenSelectNoiTraKetQua(false)
-                      setSearchNoiTraKetQua('')
+                      setOpenSelectDonVi(!openSelectDonVi)
                     }}
+                    className="bg-white w-full p-2 flex items-center justify-between rounded-md border border-slate-300 cursor-pointer"
                   >
-                    {searchNoiTraKetQua}
-                  </li>
-                ) : null}
-                {diaChiNhanTraHoSo &&
-                  diaChiNhanTraHoSo?.map((iDiaChi, index) => {
-                    return (
+                    <span
+                      className={clsx(
+                        donViTiepNhan && 'text-gray-700 font-semibold',
+                      )}
+                    >
+                      {donViTiepNhan ? donViTiepNhan : 'Chọn đơn vị tiếp nhận'}
+                    </span>
+                    <BiChevronDown
+                      size={20}
+                      className={clsx(openSelectDonVi && 'rotate-180')}
+                    />
+                  </div>
+                  <ul
+                    className={clsx(
+                      'bg-white mt-2 border shadow-sm overflow-y-auto absolute right-0 left-0 top-full z-20',
+                      openSelectDonVi ? 'max-h-60' : 'hidden',
+                    )}
+                  >
+                    <div className="flex items-center px-2 sticky top-0 bg-white shadow-md">
+                      <AiOutlineSearch size={18} className="text-gray-700" />
+                      <input
+                        type="text"
+                        value={searchDonVi}
+                        onChange={(e) => {
+                          setSearchDonVi(e.target.value.toLowerCase())
+                        }}
+                        placeholder="Nhập tên đơn vị"
+                        className="w-full placeholder:text-gray-500 p-2 outline-none"
+                      />
+                    </div>
+                    {listDonViTiepNhan &&
+                      listDonViTiepNhan?.map((iDonVi, index) => {
+                        return (
+                          <li
+                            key={index}
+                            className={clsx(
+                              'p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
+                              iDonVi?.TenPhongBan.toLowerCase().includes(
+                                searchDonVi,
+                              )
+                                ? 'block'
+                                : 'hidden',
+                            )}
+                            onClick={() => {
+                              setDonViTiepNhan(iDonVi?.TenPhongBan)
+                              setOpenSelectDonVi(false)
+                              setSearchDonVi('')
+                            }}
+                          >
+                            {iDonVi?.TenPhongBan}
+                          </li>
+                        )
+                      })}
+                  </ul>
+                </div>
+              </label>
+            </div>
+            {/* END:  MC_TTHC_GV_NoiTiepNhan*/}
+
+            {/* START:  MC_TTHC_GV_NoiTraKetQua*/}
+            <div className="hidden col-span-4 md:col-span-2">
+              <label htmlFor="MC_TTHC_GV_NoiTraKetQua">
+                <p className="font-semibold mb-2">
+                  Nơi trả kết quả <span className="text-red-500">*</span>
+                </p>
+                <div className="col-span-4 md:col-span-2 relative">
+                  <div
+                    id="MC_TTHC_GV_NoiTraKetQua"
+                    ref={inputNoiTraKetQuaRef}
+                    onClick={() => {
+                      setOpenSelectNoiTraKetQua(!openSelectNoiTraKetQua)
+                    }}
+                    className="bg-white w-full p-2 flex items-center justify-between rounded-md border border-slate-300 cursor-pointer"
+                  >
+                    <span
+                      className={clsx(
+                        noiTraKetQua && 'text-gray-700 font-semibold',
+                      )}
+                    >
+                      {noiTraKetQua ? noiTraKetQua : 'Chọn nơi trả kết quả'}
+                    </span>
+                    <BiChevronDown
+                      size={20}
+                      className={clsx(openSelectNoiTraKetQua && 'rotate-180')}
+                    />
+                  </div>
+                  <ul
+                    className={clsx(
+                      'bg-white mt-2 border shadow-sm overflow-y-auto absolute right-0 left-0 top-full',
+                      openSelectNoiTraKetQua ? 'max-h-60' : 'hidden',
+                    )}
+                  >
+                    <div className="flex items-center px-2 sticky top-0 bg-white shadow-md">
+                      <AiOutlineSearch size={18} className="text-gray-700" />
+                      <input
+                        type="text"
+                        value={searchNoiTraKetQua}
+                        onChange={(e) => {
+                          setSearchNoiTraKetQua(e.target.value)
+                        }}
+                        placeholder="Nhập nơi trả kết quả..."
+                        className="w-full placeholder:text-gray-500 p-2 outline-none"
+                      />
+                    </div>
+                    {searchNoiTraKetQua ? (
                       <li
-                        key={index}
                         className={clsx(
-                          'p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
-                          iDiaChi?.MC_TTHC_GV_NoiTraKetQua.toLowerCase().includes(
-                            searchNoiTraKetQua,
-                          )
-                            ? 'block'
-                            : 'hidden',
+                          'font-semibold px-2 py-3 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
                         )}
                         onClick={() => {
-                          setNoiTraKetQua(iDiaChi?.MC_TTHC_GV_NoiTraKetQua)
+                          setNoiTraKetQua(searchNoiTraKetQua)
                           setOpenSelectNoiTraKetQua(false)
                           setSearchNoiTraKetQua('')
                         }}
                       >
-                        {iDiaChi?.MC_TTHC_GV_NoiTraKetQua}
+                        {searchNoiTraKetQua}
                       </li>
-                    )
-                  })}
-              </ul>
+                    ) : null}
+                    {diaChiNhanTraHoSo &&
+                      diaChiNhanTraHoSo?.map((iDiaChi, index) => {
+                        return (
+                          <li
+                            key={index}
+                            className={clsx(
+                              'p-2 text-sm cursor-pointer hover:bg-sky-600 hover:text-white',
+                              iDiaChi?.MC_TTHC_GV_NoiTraKetQua.toLowerCase().includes(
+                                searchNoiTraKetQua,
+                              )
+                                ? 'block'
+                                : 'hidden',
+                            )}
+                            onClick={() => {
+                              setNoiTraKetQua(iDiaChi?.MC_TTHC_GV_NoiTraKetQua)
+                              setOpenSelectNoiTraKetQua(false)
+                              setSearchNoiTraKetQua('')
+                            }}
+                          >
+                            {iDiaChi?.MC_TTHC_GV_NoiTraKetQua}
+                          </li>
+                        )
+                      })}
+                  </ul>
+                </div>
+              </label>
             </div>
-          </label>
+            {/* END:  MC_TTHC_GV_NoiTraKetQua*/}
+          </div>
         </div>
-        {/* END:  MC_TTHC_GV_NoiTraKetQua*/}
 
         {/* START:  MC_TTHC_GV_IsTruongPhongPheDuyet*/}
         <div className="col-span-4 lg:col-span-2 flex flex-row gap-3 items-center">
@@ -552,8 +562,20 @@ const ThongTinHoSo = memo(function ThongTinHoSo(props) {
         </div>
         {/* END:  MC_TTHC_GV_ThuTucKhongApDungTrucTuyen*/}
 
+        {/* START: QuyTrinhThuTuc */}
+        <div className="col-span-4 mb-4">
+          <label className="" htmlFor="MC_TTHC_GV_QuyTrinhThuTuc">
+            <p className="font-semibold mb-2">Quy trình thủ tục (Nếu có)</p>
+          </label>
+          <TextEditor
+            id="MC_TTHC_GV_QuyTrinhThuTuc"
+            onChange={setQuyTrinhThuTuc}
+          />
+        </div>
+        {/* END: QuyTrinhThuTuc */}
+
         {/* START:  MC_TTHC_GV_TepThuTuc*/}
-        <div className="col-span-4 my-4">
+        <div className="col-span-4 mb-4">
           <label className="" htmlFor="MC_TTHC_GV_TepThuTuc_DataFileFile">
             <p className="font-semibold mb-2">Tài liệu hướng dẫn (Nếu có)</p>
           </label>
@@ -644,6 +666,7 @@ const ThongTinHoSo = memo(function ThongTinHoSo(props) {
         </div>
         {/* END:  MC_TTHC_GV_TepThuTuc*/}
       </div>
+
       <button
         type="button"
         onClick={() => {
