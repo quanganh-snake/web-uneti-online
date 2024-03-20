@@ -85,7 +85,7 @@ function SidebarTTHCGV() {
           <ul>
             <li>
               <Link
-                to={'/admin/can-bo-nghiep-vu'}
+                to={'/admin/xu-ly-nghiep-vu'}
                 className="flex flex-row items-center justify-between  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white"
               >
                 <div className="flex flex-row items-center  gap-2">
@@ -97,7 +97,7 @@ function SidebarTTHCGV() {
             </li>
             <li>
               <Link
-                to={'/admin/can-bo-nghiep-vu/ho-so-xu-ly'}
+                to={'/admin/xu-ly-nghiep-vu/ho-so-xu-ly'}
                 className="flex flex-row items-center justify-between  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white"
               >
                 <div className="flex flex-row items-center  gap-2">

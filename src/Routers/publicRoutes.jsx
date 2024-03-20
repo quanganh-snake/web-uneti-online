@@ -1,7 +1,9 @@
-import { Route } from 'react-router-dom'
-import Login from '@/Pages/Login/Login'
-import Default from '@/Pages/Default'
 import { Error403 } from '@/Pages/Errors/403/Error403'
+import { lazy } from 'react'
+import { Route } from 'react-router-dom'
+const Login = lazy(() => import('@/Pages/Login/Login'))
+const Default = lazy(() => import('@/Pages/Default'))
+// const Error403 = lazy(() => import('@/Pages/Errors/403/Error403'))
 
 export const publicRoutes = (
   <>

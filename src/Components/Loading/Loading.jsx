@@ -3,7 +3,7 @@ import './Loading.scss'
 
 function Loading() {
   return (
-    <>
+    <div className="absolute inset-0 w-full h-full flex items-center justify-center">
       <div
         className="loadingio-spinner-spinner-yfuq28igrq"
         style={{
@@ -30,7 +30,7 @@ function Loading() {
           <div />
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

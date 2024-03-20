@@ -223,6 +223,9 @@ const ThoiKhoaBieu = lazy(
 )
 const DiemDanh = lazy(() => import('@/Pages/Clients/TraCuu/DiemDanh/DiemDanh'))
 const RenLuyen = lazy(() => import('@/Pages/Clients/TraCuu/RenLuyen/RenLuyen'))
+const ChuongTrinhDaoTao = lazy(
+  () => import('@/Pages/Clients/TraCuu/ChuongTrinhDaoTao/ChuongTrinhDaoTao'),
+)
 const DanhSachPhan = lazy(
   () =>
     import('@/Pages/Clients/HocTap/OnLuyen/OnTap/DanhSachPhan/DanhSachPhan'),
@@ -259,7 +262,7 @@ export const privateRoutes = (
         <Route path="admin">
           <Route index element={<HomeAdmin />} />
           <Route
-            path="can-bo-nghiep-vu"
+            path="xu-ly-nghiep-vu"
             element={
               <RoleViewActionMiddleware
                 allowedRoleViewAction={[ROLE_VIEW_ACTION_TTHCGV.CBNV_TTHCGV]}
@@ -388,6 +391,7 @@ export const privateRoutes = (
           <Route path="diem-danh" element={<DiemDanh />} />
           <Route path="ren-luyen" element={<RenLuyen />} />
           <Route path="thoi-khoa-bieu" element={<ThoiKhoaBieu />} />
+          <Route path="chuong-trinh-dao-tao" element={<ChuongTrinhDaoTao />} />
         </Route>
       </Route>
       {/* Hỗ trợ TBGD */}

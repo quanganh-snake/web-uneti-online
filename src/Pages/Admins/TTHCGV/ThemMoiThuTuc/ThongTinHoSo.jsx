@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import { memo, useState } from 'react'
 import PropTypes from 'prop-types'
 import clsx from 'clsx'
 import { BiChevronDown } from 'react-icons/bi'
@@ -32,8 +32,10 @@ const ThongTinHoSo = memo(function ThongTinHoSo(props) {
     noiTraKetQua,
     setNoiTraKetQua,
     diaChiNhanTraHoSo,
+    isTruongPhongPheDuyet,
+    isBGHPheDuyet,
     thuTucLienThong,
-    thuTucKhongApDungMotCua,
+    thuTucKhongApDungTrucTuyen,
     canCuPhapLyCuaTTHC,
     dieuKienThucHien,
     dataFilesTepThuTuc,
@@ -78,7 +80,7 @@ const ThongTinHoSo = memo(function ThongTinHoSo(props) {
         {/* END:  MC_TTHC_GV_TenThuTuc*/}
 
         {/* START:  MC_TTHC_GV_ThuTu*/}
-        <div className="col-span-4 lg:col-span-2">
+        <div className="hidden col-span-4 lg:col-span-2">
           <label htmlFor="MC_TTHC_GV_ThuTu">
             <p className="font-semibold mb-2">Vị trí</p>
             <input
@@ -209,7 +211,7 @@ const ThongTinHoSo = memo(function ThongTinHoSo(props) {
         {/* END:  MC_TTHC_GV_TongThoiGianGiaiQuyet*/}
 
         {/* START:  MC_TTHC_GV_SoBoHoSo*/}
-        <div className="col-span-4 lg:col-span-2">
+        <div className="hidden col-span-4 lg:col-span-2">
           <label htmlFor="MC_TTHC_GV_SoBoHoSo">
             <p className="font-semibold mb-2">Số bộ hồ sơ kèm theo</p>
             <input
@@ -384,7 +386,7 @@ const ThongTinHoSo = memo(function ThongTinHoSo(props) {
         {/* END:  MC_TTHC_GV_NoiTiepNhan*/}
 
         {/* START:  MC_TTHC_GV_NoiTraKetQua*/}
-        <div className="col-span-4 md:col-span-2">
+        <div className="hidden col-span-4 md:col-span-2">
           <label htmlFor="MC_TTHC_GV_NoiTraKetQua">
             <p className="font-semibold mb-2">
               Nơi trả kết quả <span className="text-red-500">*</span>
@@ -471,8 +473,47 @@ const ThongTinHoSo = memo(function ThongTinHoSo(props) {
         </div>
         {/* END:  MC_TTHC_GV_NoiTraKetQua*/}
 
+        {/* START:  MC_TTHC_GV_IsTruongPhongPheDuyet*/}
+        <div className="col-span-4 lg:col-span-2 flex flex-row gap-3 items-center">
+          <input
+            type="checkbox"
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            name="MC_TTHC_GV_IsTruongPhongPheDuyet"
+            id="MC_TTHC_GV_IsTruongPhongPheDuyet"
+            checked={isTruongPhongPheDuyet}
+            onChange={handleChangeValue}
+          />
+          <label
+            htmlFor="MC_TTHC_GV_IsTruongPhongPheDuyet"
+            className="cursor-pointer"
+          >
+            <span className="font-semibold">
+              Thủ tục cần trưởng phòng phê duyệt
+            </span>
+          </label>
+        </div>
+        {/* END:  MC_TTHC_GV_IsTruongPhongPheDuyet*/}
+
+        {/* START:  MC_TTHC_GV_IsBGHPheDuyet*/}
+        <div className="col-span-4 lg:col-span-2 flex flex-row gap-3 items-center">
+          <input
+            type="checkbox"
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            name="MC_TTHC_GV_IsBGHPheDuyet"
+            id="MC_TTHC_GV_IsBGHPheDuyet"
+            checked={isBGHPheDuyet}
+            onChange={handleChangeValue}
+          />
+          <label htmlFor="MC_TTHC_GV_IsBGHPheDuyet" className="cursor-pointer">
+            <span className="font-semibold">
+              Thủ tục cần Ban giám hiệu phê duyệt
+            </span>
+          </label>
+        </div>
+        {/* END:  MC_TTHC_GV_IsBGHPheDuyet*/}
+
         {/* START:  MC_TTHC_GV_ThuTucLienThong*/}
-        <div className="col-span-4 flex flex-row gap-3 items-center">
+        <div className="col-span-4 lg:col-span-2 flex flex-row gap-3 items-center">
           <input
             type="checkbox"
             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
@@ -490,24 +531,26 @@ const ThongTinHoSo = memo(function ThongTinHoSo(props) {
         </div>
         {/* END:  MC_TTHC_GV_ThuTucLienThong*/}
 
-        {/* START:  MC_TTHC_GV_ThuTucKhongApDungMC*/}
-        <div className="col-span-4 flex flex-row gap-3 items-center">
+        {/* START:  MC_TTHC_GV_ThuTucKhongApDungTrucTuyen*/}
+        <div className="col-span-4 lg:col-span-2 flex flex-row gap-3 items-center">
           <input
             type="checkbox"
             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            name="MC_TTHC_GV_ThuTucKhongApDungMC"
-            id="MC_TTHC_GV_ThuTucKhongApDungMC"
-            checked={thuTucKhongApDungMotCua}
+            name="MC_TTHC_GV_ThuTucKhongApDungTrucTuyen"
+            id="MC_TTHC_GV_ThuTucKhongApDungTrucTuyen"
+            checked={thuTucKhongApDungTrucTuyen}
             onChange={handleChangeValue}
           />
           <label
-            htmlFor="MC_TTHC_GV_ThuTucKhongApDungMC"
+            htmlFor="MC_TTHC_GV_ThuTucKhongApDungTrucTuyen"
             className="cursor-pointer"
           >
-            <span className="font-semibold">Thủ tục không áp dụng Một cửa</span>
+            <span className="font-semibold">
+              Thủ tục không áp dụng trực tuyến
+            </span>
           </label>
         </div>
-        {/* END:  MC_TTHC_GV_ThuTucKhongApDungMC*/}
+        {/* END:  MC_TTHC_GV_ThuTucKhongApDungTrucTuyen*/}
 
         {/* START:  MC_TTHC_GV_TepThuTuc*/}
         <div className="col-span-4 my-4">
@@ -626,8 +669,10 @@ ThongTinHoSo.propTypes = {
   linhVuc: PropTypes.string,
   donViTiepNhan: PropTypes.string,
   noiTraKetQua: PropTypes.string,
+  isTruongPhongPheDuyet: PropTypes.bool,
+  isBGHPheDuyet: PropTypes.bool,
   thuTucLienThong: PropTypes.bool,
-  thuTucKhongApDungMotCua: PropTypes.bool,
+  thuTucKhongApDungTrucTuyen: PropTypes.bool,
   handleChangeValue: PropTypes.func,
 }
 
