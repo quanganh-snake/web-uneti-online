@@ -56,8 +56,8 @@ export const listMucDoThuTuc = [
   },
 ]
 
-// List trạng thái
-export const listTrangThai_3Buoc = [
+// List trạng thái cho mức độ 2-3
+export const listTrangThai_4Buoc_MD23 = [
   {
     MC_TTHC_GV_TrangThai_IDTTHC: '',
     MC_TTHC_GV_TrangThai_STT: '1',
@@ -82,9 +82,17 @@ export const listTrangThai_3Buoc = [
     MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
     MC_TTHC_GV_TrangThai_MoTa: 'Trả kết quả',
   },
+  {
+    MC_TTHC_GV_TrangThai_IDTTHC: '',
+    MC_TTHC_GV_TrangThai_STT: '4',
+    MC_TTHC_GV_TrangThai_TenTrangThai: 'Xác nhận hoàn thành',
+    MC_TTHC_GV_TrangThai_DoiTuongXuLy: '',
+    MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
+    MC_TTHC_GV_TrangThai_MoTa: 'Xác nhận hoàn thành',
+  },
 ]
 
-export const listTrangThai_4Buoc = [
+export const listTrangThai_5Buoc_MD23 = [
   {
     MC_TTHC_GV_TrangThai_IDTTHC: '',
     MC_TTHC_GV_TrangThai_STT: '1',
@@ -104,10 +112,10 @@ export const listTrangThai_4Buoc = [
   {
     MC_TTHC_GV_TrangThai_IDTTHC: '',
     MC_TTHC_GV_TrangThai_STT: '3',
-    MC_TTHC_GV_TrangThai_TenTrangThai: 'Trưởng/Phó đơn vị phê duyệt',
-    MC_TTHC_GV_TrangThai_DoiTuongXuLy: '24',
+    MC_TTHC_GV_TrangThai_TenTrangThai: MC_TTHC_GV_DoiTuongXuLy_PheDuyet[0].name,
+    MC_TTHC_GV_TrangThai_DoiTuongXuLy: MC_TTHC_GV_DoiTuongXuLy_PheDuyet[0].id,
     MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
-    MC_TTHC_GV_TrangThai_MoTa: 'Trưởng/Phó đơn vị phê duyệt',
+    MC_TTHC_GV_TrangThai_MoTa: MC_TTHC_GV_DoiTuongXuLy_PheDuyet[0].name,
   },
   {
     MC_TTHC_GV_TrangThai_IDTTHC: '',
@@ -116,53 +124,18 @@ export const listTrangThai_4Buoc = [
     MC_TTHC_GV_TrangThai_DoiTuongXuLy: '',
     MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
     MC_TTHC_GV_TrangThai_MoTa: 'Trả kết quả',
-  },
-]
-
-export const listTrangThai_5Buoc = [
-  {
-    MC_TTHC_GV_TrangThai_IDTTHC: '',
-    MC_TTHC_GV_TrangThai_STT: '1',
-    MC_TTHC_GV_TrangThai_TenTrangThai: 'Tiếp nhận hồ sơ',
-    MC_TTHC_GV_TrangThai_DoiTuongXuLy: '',
-    MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
-    MC_TTHC_GV_TrangThai_MoTa: 'Tiếp nhận hồ sơ',
-  },
-  {
-    MC_TTHC_GV_TrangThai_IDTTHC: '',
-    MC_TTHC_GV_TrangThai_STT: '2',
-    MC_TTHC_GV_TrangThai_TenTrangThai: 'Xử lý hồ sơ',
-    MC_TTHC_GV_TrangThai_DoiTuongXuLy: '',
-    MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
-    MC_TTHC_GV_TrangThai_MoTa: 'Xử lý hồ sơ',
-  },
-  {
-    MC_TTHC_GV_TrangThai_IDTTHC: '',
-    MC_TTHC_GV_TrangThai_STT: '3',
-    MC_TTHC_GV_TrangThai_TenTrangThai: 'Trưởng/Phó đơn vị phê duyệt',
-    MC_TTHC_GV_TrangThai_DoiTuongXuLy: '24',
-    MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
-    MC_TTHC_GV_TrangThai_MoTa: 'Trưởng/Phó đơn vị phê duyệt',
-  },
-  {
-    MC_TTHC_GV_TrangThai_IDTTHC: '',
-    MC_TTHC_GV_TrangThai_STT: '4',
-    MC_TTHC_GV_TrangThai_TenTrangThai: 'Ban giám hiệu phê duyệt',
-    MC_TTHC_GV_TrangThai_DoiTuongXuLy: '25',
-    MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
-    MC_TTHC_GV_TrangThai_MoTa: 'Ban giám hiệu phê duyệt',
   },
   {
     MC_TTHC_GV_TrangThai_IDTTHC: '',
     MC_TTHC_GV_TrangThai_STT: '5',
-    MC_TTHC_GV_TrangThai_TenTrangThai: 'Trả kết quả',
+    MC_TTHC_GV_TrangThai_TenTrangThai: 'Xác nhận hoàn thành',
     MC_TTHC_GV_TrangThai_DoiTuongXuLy: '',
     MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
-    MC_TTHC_GV_TrangThai_MoTa: 'Trả kết quả',
+    MC_TTHC_GV_TrangThai_MoTa: 'Xác nhận hoàn thành',
   },
 ]
 
-export const listTrangThai_6Buoc = [
+export const listTrangThai_6Buoc_MD23 = [
   {
     MC_TTHC_GV_TrangThai_IDTTHC: '',
     MC_TTHC_GV_TrangThai_STT: '1',
@@ -182,18 +155,18 @@ export const listTrangThai_6Buoc = [
   {
     MC_TTHC_GV_TrangThai_IDTTHC: '',
     MC_TTHC_GV_TrangThai_STT: '3',
-    MC_TTHC_GV_TrangThai_TenTrangThai: 'Trưởng/Phó đơn vị phê duyệt',
-    MC_TTHC_GV_TrangThai_DoiTuongXuLy: '24',
+    MC_TTHC_GV_TrangThai_TenTrangThai: MC_TTHC_GV_DoiTuongXuLy_PheDuyet[0].name,
+    MC_TTHC_GV_TrangThai_DoiTuongXuLy: MC_TTHC_GV_DoiTuongXuLy_PheDuyet[0].id,
     MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
-    MC_TTHC_GV_TrangThai_MoTa: 'Trưởng/Phó đơn vị phê duyệt',
+    MC_TTHC_GV_TrangThai_MoTa: MC_TTHC_GV_DoiTuongXuLy_PheDuyet[0].name,
   },
   {
     MC_TTHC_GV_TrangThai_IDTTHC: '',
     MC_TTHC_GV_TrangThai_STT: '4',
-    MC_TTHC_GV_TrangThai_TenTrangThai: 'Ban giám hiệu phê duyệt',
-    MC_TTHC_GV_TrangThai_DoiTuongXuLy: '25',
+    MC_TTHC_GV_TrangThai_TenTrangThai: MC_TTHC_GV_DoiTuongXuLy_PheDuyet[1].name,
+    MC_TTHC_GV_TrangThai_DoiTuongXuLy: MC_TTHC_GV_DoiTuongXuLy_PheDuyet[1].id,
     MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
-    MC_TTHC_GV_TrangThai_MoTa: 'Ban giám hiệu phê duyệt',
+    MC_TTHC_GV_TrangThai_MoTa: MC_TTHC_GV_DoiTuongXuLy_PheDuyet[1].name,
   },
   {
     MC_TTHC_GV_TrangThai_IDTTHC: '',
@@ -210,5 +183,111 @@ export const listTrangThai_6Buoc = [
     MC_TTHC_GV_TrangThai_DoiTuongXuLy: '',
     MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
     MC_TTHC_GV_TrangThai_MoTa: 'Xác nhận hoàn thành',
+  },
+]
+
+// List trạng thái cho mức độ 4
+export const listTrangThai_3Buoc_MD4 = [
+  {
+    MC_TTHC_GV_TrangThai_IDTTHC: '',
+    MC_TTHC_GV_TrangThai_STT: '1',
+    MC_TTHC_GV_TrangThai_TenTrangThai: 'Tiếp nhận hồ sơ',
+    MC_TTHC_GV_TrangThai_DoiTuongXuLy: '',
+    MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
+    MC_TTHC_GV_TrangThai_MoTa: 'Tiếp nhận hồ sơ',
+  },
+  {
+    MC_TTHC_GV_TrangThai_IDTTHC: '',
+    MC_TTHC_GV_TrangThai_STT: '2',
+    MC_TTHC_GV_TrangThai_TenTrangThai: 'Xử lý hồ sơ',
+    MC_TTHC_GV_TrangThai_DoiTuongXuLy: '',
+    MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
+    MC_TTHC_GV_TrangThai_MoTa: 'Xử lý hồ sơ',
+  },
+  {
+    MC_TTHC_GV_TrangThai_IDTTHC: '',
+    MC_TTHC_GV_TrangThai_STT: '3',
+    MC_TTHC_GV_TrangThai_TenTrangThai: 'Trả kết quả, hoàn thành',
+    MC_TTHC_GV_TrangThai_DoiTuongXuLy: '',
+    MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
+    MC_TTHC_GV_TrangThai_MoTa: 'Trả kết quả, hoàn thành',
+  },
+]
+
+export const listTrangThai_4Buoc_MD4 = [
+  {
+    MC_TTHC_GV_TrangThai_IDTTHC: '',
+    MC_TTHC_GV_TrangThai_STT: '1',
+    MC_TTHC_GV_TrangThai_TenTrangThai: 'Tiếp nhận hồ sơ',
+    MC_TTHC_GV_TrangThai_DoiTuongXuLy: '',
+    MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
+    MC_TTHC_GV_TrangThai_MoTa: 'Tiếp nhận hồ sơ',
+  },
+  {
+    MC_TTHC_GV_TrangThai_IDTTHC: '',
+    MC_TTHC_GV_TrangThai_STT: '2',
+    MC_TTHC_GV_TrangThai_TenTrangThai: 'Xử lý hồ sơ',
+    MC_TTHC_GV_TrangThai_DoiTuongXuLy: '',
+    MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
+    MC_TTHC_GV_TrangThai_MoTa: 'Xử lý hồ sơ',
+  },
+  {
+    MC_TTHC_GV_TrangThai_IDTTHC: '',
+    MC_TTHC_GV_TrangThai_STT: '3',
+    MC_TTHC_GV_TrangThai_TenTrangThai: MC_TTHC_GV_DoiTuongXuLy_PheDuyet[0].name,
+    MC_TTHC_GV_TrangThai_DoiTuongXuLy: MC_TTHC_GV_DoiTuongXuLy_PheDuyet[0].id,
+    MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
+    MC_TTHC_GV_TrangThai_MoTa: MC_TTHC_GV_DoiTuongXuLy_PheDuyet[0].name,
+  },
+  {
+    MC_TTHC_GV_TrangThai_IDTTHC: '',
+    MC_TTHC_GV_TrangThai_STT: '4',
+    MC_TTHC_GV_TrangThai_TenTrangThai: 'Trả kết quả, hoàn thành',
+    MC_TTHC_GV_TrangThai_DoiTuongXuLy: '',
+    MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
+    MC_TTHC_GV_TrangThai_MoTa: 'Trả kết quả, hoàn thành',
+  },
+]
+
+export const listTrangThai_5Buoc_MD4 = [
+  {
+    MC_TTHC_GV_TrangThai_IDTTHC: '',
+    MC_TTHC_GV_TrangThai_STT: '1',
+    MC_TTHC_GV_TrangThai_TenTrangThai: 'Tiếp nhận hồ sơ',
+    MC_TTHC_GV_TrangThai_DoiTuongXuLy: '',
+    MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
+    MC_TTHC_GV_TrangThai_MoTa: 'Tiếp nhận hồ sơ',
+  },
+  {
+    MC_TTHC_GV_TrangThai_IDTTHC: '',
+    MC_TTHC_GV_TrangThai_STT: '2',
+    MC_TTHC_GV_TrangThai_TenTrangThai: 'Xử lý hồ sơ',
+    MC_TTHC_GV_TrangThai_DoiTuongXuLy: '',
+    MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
+    MC_TTHC_GV_TrangThai_MoTa: 'Xử lý hồ sơ',
+  },
+  {
+    MC_TTHC_GV_TrangThai_IDTTHC: '',
+    MC_TTHC_GV_TrangThai_STT: '3',
+    MC_TTHC_GV_TrangThai_TenTrangThai: MC_TTHC_GV_DoiTuongXuLy_PheDuyet[0].name,
+    MC_TTHC_GV_TrangThai_DoiTuongXuLy: MC_TTHC_GV_DoiTuongXuLy_PheDuyet[0].id,
+    MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
+    MC_TTHC_GV_TrangThai_MoTa: MC_TTHC_GV_DoiTuongXuLy_PheDuyet[0].name,
+  },
+  {
+    MC_TTHC_GV_TrangThai_IDTTHC: '',
+    MC_TTHC_GV_TrangThai_STT: '4',
+    MC_TTHC_GV_TrangThai_TenTrangThai: MC_TTHC_GV_DoiTuongXuLy_PheDuyet[1].name,
+    MC_TTHC_GV_TrangThai_DoiTuongXuLy: MC_TTHC_GV_DoiTuongXuLy_PheDuyet[1].id,
+    MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
+    MC_TTHC_GV_TrangThai_MoTa: MC_TTHC_GV_DoiTuongXuLy_PheDuyet[1].name,
+  },
+  {
+    MC_TTHC_GV_TrangThai_IDTTHC: '',
+    MC_TTHC_GV_TrangThai_STT: '5',
+    MC_TTHC_GV_TrangThai_TenTrangThai: 'Trả kết quả, hoàn thành',
+    MC_TTHC_GV_TrangThai_DoiTuongXuLy: '',
+    MC_TTHC_GV_TrangThai_IsHienThiThongTin: true,
+    MC_TTHC_GV_TrangThai_MoTa: 'Trả kết quả, hoàn thành',
   },
 ]

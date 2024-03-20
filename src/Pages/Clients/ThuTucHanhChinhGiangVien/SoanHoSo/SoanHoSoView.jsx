@@ -5,10 +5,13 @@ import { Link } from 'react-router-dom'
 import { BsSend } from 'react-icons/bs'
 import { MdCancel } from 'react-icons/md'
 import Loading from '@/Components/Loading/Loading'
-import { convertBufferToBase64 } from '@/Services/Utils/stringUtils'
-import { handlePreviewFileBase64 } from '@/Services/Utils/fileUtils'
+import {
+  convertBufferToBase64,
+  htmlToMarkdown,
+} from '@/Services/Utils/stringUtils'
 import Swal from 'sweetalert2'
 import { TextEditor } from '@/Components/TextEditor/TextEditor'
+import { handlePreviewFileBase64 } from '@/Services/Utils/fileUtils'
 function SoanHoSoView({
   home,
   breadcrumbs,
@@ -133,6 +136,9 @@ function SoanHoSoView({
                 <div className="h-full">
                   <TextEditor
                     id={'MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu'}
+                    value={
+                      dataHoSoYeuCau.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu ?? ''
+                    }
                     onChange={handleChangeValue}
                   />
                 </div>

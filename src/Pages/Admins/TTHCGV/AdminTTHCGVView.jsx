@@ -23,11 +23,14 @@ import { useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 import {
-  listTrangThai_3Buoc,
-  listTrangThai_4Buoc,
-  listTrangThai_5Buoc,
-  listTrangThai_6Buoc,
+  listTrangThai_3Buoc_MD4,
+  listTrangThai_4Buoc_MD23,
+  listTrangThai_4Buoc_MD4,
+  listTrangThai_5Buoc_MD23,
+  listTrangThai_5Buoc_MD4,
+  listTrangThai_6Buoc_MD23,
 } from './constants'
+import { htmlToMarkdown } from '@/Services/Utils/stringUtils'
 
 function AdminTTHCGVView({
   listMucDo,
@@ -74,7 +77,7 @@ function AdminTTHCGVView({
   //   const [phiLePhi, setPhiLePhi] = useState([])
   const [trangThai, setTrangThai] = useState([])
   const [phanQuyen, setPhanQuyen] = useState([])
-  const [quyTrinhThuTuc, setQuyTrinhThuTuc] = useState('')
+  const [quyTrinhThucHien, setQuyTrinhThucHien] = useState('')
   const [tenTepThuTuc, setTenTepThuTuc] = useState('')
   const [dataFilesTepThuTuc, setDataFilesTepThuTuc] = useState(null)
   const [editRowIndex, setEditRowIndex] = useState(0)
@@ -212,8 +215,8 @@ function AdminTTHCGVView({
       setTenTepThuTuc(value)
     }
 
-    if (id === 'MC_TTHC_GV_QuyTrinhThuTuc') {
-      setQuyTrinhThuTuc(value)
+    if (id === 'MC_TTHC_GV_QuyTrinhThucHien') {
+      setQuyTrinhThucHien(value)
     }
   }
 
@@ -287,7 +290,7 @@ function AdminTTHCGVView({
         dataFilesTepThuTuc?.MC_TTHC_GV_TepThuTuc_TenFile,
       MC_TTHC_GV_TepThuTuc_DataFileFile:
         dataFilesTepThuTuc?.MC_TTHC_GV_TepThuTuc_DataFileFile?.split(',')[1],
-      MC_TTHC_GV_QuyTrinhThuTuc: quyTrinhThuTuc,
+      MC_TTHC_GV_QuyTrinhThucHien: htmlToMarkdown(quyTrinhThucHien),
     }
 
     if (
@@ -335,21 +338,6 @@ function AdminTTHCGVView({
       return
     }
 
-    // if (
-    //   dataThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet == '' ||
-    //   dataThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet == null ||
-    //   dataThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet == undefined
-    // ) {
-    //   toast.error('Vui lòng nhập tổng thời gian giải quyết!')
-    //   setThongTinActive(true)
-    //   setTPHoSoDeNghiActive(false)
-    //   setTrinhTuThucHienActive(false)
-    //   setPhanQuyenActive(false)
-    //   setTrangThaiActive(false)
-    //   inputTongThoiGianRef.current.focus()
-    //   return
-    // }
-
     if (
       dataThongTinHoSo?.MC_TTHC_GV_NoiTiepNhan == '' ||
       dataThongTinHoSo?.MC_TTHC_GV_NoiTiepNhan == null ||
@@ -365,15 +353,6 @@ function AdminTTHCGVView({
       return
     }
 
-    // if (
-    //   dataThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua == '' ||
-    //   dataThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua == null ||
-    //   dataThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua == undefined
-    // ) {
-    //   toast.error('Vui lòng chọn nơi trả kết quả!')
-    //   inputNoiTraKetQuaRef.current.focus()
-    //   return
-    // }
     //   Bổ sung thông báo nếu hồ sơ chọn cần trưởng phòng/BGH phê duyệt
     let flagCheckTTTPPheDuyet = false
     let flagCheckTTBGHPheDuyet = false
@@ -643,24 +622,24 @@ function AdminTTHCGVView({
       case 2:
       case 3:
         if (isTruongPhongPheDuyet && isBGHPheDuyet) {
-          trangThai = listTrangThai_6Buoc
+          trangThai = listTrangThai_6Buoc_MD23
         } else if (isTruongPhongPheDuyet) {
-          trangThai = listTrangThai_4Buoc
+          trangThai = listTrangThai_5Buoc_MD23
         } else {
-          trangThai = listTrangThai_3Buoc
+          trangThai = listTrangThai_4Buoc_MD23
         }
         break
       case 4:
         if (isTruongPhongPheDuyet && isBGHPheDuyet) {
-          trangThai = listTrangThai_5Buoc
+          trangThai = listTrangThai_5Buoc_MD4
         } else if (isTruongPhongPheDuyet) {
-          trangThai = listTrangThai_4Buoc
+          trangThai = listTrangThai_4Buoc_MD4
         } else {
-          trangThai = listTrangThai_3Buoc
+          trangThai = listTrangThai_3Buoc_MD4
         }
         break
       default:
-        trangThai = listTrangThai_3Buoc
+        trangThai = listTrangThai_4Buoc_MD23
         break
     }
 
@@ -726,8 +705,8 @@ function AdminTTHCGVView({
               noiTraKetQua={noiTraKetQua}
               setNoiTraKetQua={setNoiTraKetQua}
               diaChiNhanTraHoSo={listNoiTraKetQua}
-              quyTrinhThuTuc={quyTrinhThuTuc}
-              setQuyTrinhThuTuc={setQuyTrinhThuTuc}
+              quyTrinhThucHien={quyTrinhThucHien}
+              setQuyTrinhThucHien={setQuyTrinhThucHien}
               isTruongPhongPheDuyet={isTruongPhongPheDuyet}
               isBGHPheDuyet={isBGHPheDuyet}
               thuTucLienThong={thuTucLienThong}

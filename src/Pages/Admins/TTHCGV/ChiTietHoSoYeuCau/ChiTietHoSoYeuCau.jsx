@@ -4,6 +4,10 @@ import { useEffect, useMemo, useState, Suspense, lazy } from 'react'
 import { FaCaretRight, FaCaretDown } from 'react-icons/fa'
 import { FaCaretLeft } from 'react-icons/fa6'
 import { useParams } from 'react-router-dom'
+import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import rehypeKatex from 'rehype-katex'
+import 'katex/dist/katex.min.css'
 const SidebarTTHCGV = lazy(() => import('../Sidebar/SidebarTTHCGV'))
 import {
   getHoSoGuiYeuCauById,
@@ -749,12 +753,20 @@ function ChiTietHoSoYeuCau() {
                     )}
 
                     {/* Nội dung yêu cầu của người gửi */}
-                    <p className="col-span-1 mb-4">
-                      Nội dung yêu cầu của người gửi:{' '}
-                      <span className="font-semibold">
-                        {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu}
-                      </span>
-                    </p>
+                    <div className="col-span-1 mb-4">
+                      <p>Nội dung yêu cầu của người gửi: </p>
+                      {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu ? (
+                        <Markdown
+                          remarkPlugins={[remarkGfm]}
+                          rehypePlugins={[rehypeKatex]}
+                          className={'px-6 font-medium'}
+                        >
+                          {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu}
+                        </Markdown>
+                      ) : (
+                        'Không có nội dung yêu cầu'
+                      )}
+                    </div>
 
                     {/* START: Cập nhật/Xử lý hồ sơ */}
                     <div className="hidden col-span-2">
@@ -1170,8 +1182,10 @@ function ChiTietHoSoYeuCau() {
                           <th className="border-r px-2">STT</th>
                           <th className="border-r px-2">Nhân sự xử lý</th>
                           <th className="border-r px-2">Hình thức xử lý</th>
-                          <th className="border-r px-2">Ngày hẹn trả hồ sơ</th>
-                          <th className="border-r px-2">Nơi trả kết quả</th>
+                          <th className="border-r px-2">
+                            Nội dung xử lý hồ sơ
+                          </th>
+                          <th className="border-r px-2">Tài liệu đính kèm</th>
                           <th className="border-r px-2">Thời gian xử lý</th>
                         </tr>
                       </thead>

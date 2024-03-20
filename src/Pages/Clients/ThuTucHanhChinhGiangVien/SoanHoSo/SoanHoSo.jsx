@@ -12,7 +12,10 @@ import moment from 'moment-timezone'
 import { DataCanBoGV } from '../../../../Services/Utils/dataCanBoGV'
 import Swal from 'sweetalert2'
 import { validateEmail } from '../../../../Services/Utils/emailUtils'
-import { convertDataFileToBase64 } from '../../../../Services/Utils/stringUtils'
+import {
+  convertDataFileToBase64,
+  htmlToMarkdown,
+} from '../../../../Services/Utils/stringUtils'
 function SoanHoSo() {
   const home = {
     path: '/tthc-giang-vien',
@@ -97,6 +100,9 @@ function SoanHoSo() {
 
     const newDataHoSoYeuCau = {
       ...dataHoSoYeuCau,
+      MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu: htmlToMarkdown(
+        dataHoSoYeuCau.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu,
+      ),
       MC_TTHC_GV_GuiYeuCau_DaNop: false,
       MC_TTHC_GV_GuiYeuCau_NoiTraKetQua:
         dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua,

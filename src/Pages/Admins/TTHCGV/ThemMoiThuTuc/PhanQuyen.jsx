@@ -43,7 +43,6 @@ const PhanQuyen = memo(function PhanQuyen(props) {
 
     if (idSelect === 'nhansu') {
       setNhanSuSelected(value)
-      console.log(phanQuyen)
       let dataNhanSuPhanQuyen = {
         ...value,
         MC_TTHC_GV_PhanQuyen_DonVi: donViSelected?.TenPhongBan
@@ -410,7 +409,7 @@ const PhanQuyen = memo(function PhanQuyen(props) {
           <FaSave />
           Lưu hồ sơ
         </button>
-        <button
+        {/* <button
           type="button"
           onClick={() => {
             setPhanQuyenActive(false)
@@ -420,7 +419,7 @@ const PhanQuyen = memo(function PhanQuyen(props) {
         >
           <span className="text-md">Tiếp theo</span>
           <FaArrowRight />
-        </button>
+        </button> */}
       </div>
     </div>
   )

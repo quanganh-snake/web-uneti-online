@@ -2,7 +2,12 @@ import SidebarTTHCGV from '../SidebarTTHCGV/SidebarTTHCGV'
 import Breadcrumb from '../../../../Components/Breadcumb/Breadcrumb'
 import { Link, useParams } from 'react-router-dom'
 import Loading from './../../../../Components/Loading/Loading'
-import { convertBufferToBase64 } from '../../../../Services/Utils/stringUtils'
+import {
+  convertBufferToBase64,
+  htmlToMarkdown,
+} from '../../../../Services/Utils/stringUtils'
+import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { handlePreviewFileBase64 } from '../../../../Services/Utils/fileUtils'
 import clsx from 'clsx'
 import { useMemo } from 'react'
@@ -242,10 +247,16 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                       Quy trình thủ tục
                     </td>
                     <td className="p-1 border border-slate-500">
-                      <div className="">
-                        {dataThuTuc?.ThongTinHoSo?.MC_TTHC_GV_QuyTrinhThuTuc ??
-                          'Đang cập nhật'}
-                      </div>
+                      {dataThuTuc?.ThongTinHoSo?.MC_TTHC_GV_QuyTrinhThucHien ? (
+                        <Markdown remarkPlugins={[remarkGfm]}>
+                          {
+                            dataThuTuc?.ThongTinHoSo
+                              ?.MC_TTHC_GV_QuyTrinhThucHien
+                          }
+                        </Markdown>
+                      ) : (
+                        'Đang cập nhật'
+                      )}
                     </td>
                   </tr>
                   <tr>

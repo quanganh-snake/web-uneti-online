@@ -34,7 +34,6 @@ export default function DanhSachSuCo(props) {
                 </td>
                 <td className="px-2 border border-solid border-[#dee2e6]">
                   {sc.DT_CVNB_TBGD_TL_Ten}
-                  abc
                 </td>
                 <td className="px-2 border border-solid border-[#dee2e6]">
                   {sc.DT_CVNB_TBGD_TL_GhiChu}

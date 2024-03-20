@@ -34,8 +34,8 @@ const ThongTinHoSo = memo(function ThongTinHoSo(props) {
     noiTraKetQua,
     setNoiTraKetQua,
     diaChiNhanTraHoSo,
-    quyTrinhThuTuc,
-    setQuyTrinhThuTuc,
+    quyTrinhThucHien,
+    setQuyTrinhThucHien,
     isTruongPhongPheDuyet,
     isBGHPheDuyet,
     thuTucLienThong,
@@ -57,7 +57,7 @@ const ThongTinHoSo = memo(function ThongTinHoSo(props) {
   const [openSelectLinhVuc, setOpenSelectLinhVuc] = useState(false)
   const [openSelectNoiTraKetQua, setOpenSelectNoiTraKetQua] = useState(false)
 
-  console.log(quyTrinhThuTuc)
+  console.log(quyTrinhThucHien)
 
   return (
     <div className="uneti-tthcgv__thongtinhoso mb-5">
@@ -569,7 +569,8 @@ const ThongTinHoSo = memo(function ThongTinHoSo(props) {
           </label>
           <TextEditor
             id="MC_TTHC_GV_QuyTrinhThuTuc"
-            onChange={setQuyTrinhThuTuc}
+            value={quyTrinhThucHien}
+            onChange={setQuyTrinhThucHien}
           />
         </div>
         {/* END: QuyTrinhThuTuc */}

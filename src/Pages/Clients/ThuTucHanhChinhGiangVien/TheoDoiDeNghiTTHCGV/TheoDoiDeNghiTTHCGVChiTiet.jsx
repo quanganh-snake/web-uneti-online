@@ -99,7 +99,7 @@ function TheoDoiDeNghiTTHCGVChiTiet() {
                   <td className="text-right px-2 font-semibold">Ngày gửi:</td>
                   <td>
                     {moment(infoProcedure?.MC_TTHC_GV_GuiYeuCau_NgayGui).format(
-                      'DD/MM/YYYY HH:mm:ss',
+                      'DD/MM/YYYY',
                     )}
                   </td>
                 </tr>
@@ -153,7 +153,7 @@ function TheoDoiDeNghiTTHCGVChiTiet() {
                             {iTrangThai?.MC_TTHC_GV_GuiYeuCau_DateEditor
                               ? moment(
                                   iTrangThai?.MC_TTHC_GV_GuiYeuCau_DateEditor,
-                                ).format('DD/MM/YYYY HH:mm:ss')
+                                ).format('DD/MM/YYYY')
                               : null}
                           </td>
                           <td className="text-center py-2">
@@ -212,7 +212,7 @@ function TheoDoiDeNghiTTHCGVChiTiet() {
                                 {iDetail?.MC_TTHC_GV_GuiYeuCau_NgayHenTra &&
                                   moment(
                                     iDetail?.MC_TTHC_GV_GuiYeuCau_NgayHenTra,
-                                  ).format('DD/MM/YYYY HH:mm:ss')}
+                                  ).format('DD/MM/YYYY')}
                               </td>
                               <td className="px-2 py-1 text-center border-r">
                                 {iDetail?.MC_TTHC_GV_GuiYeuCau_NoiTraKetQua}
@@ -221,7 +221,7 @@ function TheoDoiDeNghiTTHCGVChiTiet() {
                                 {iDetail?.MC_TTHC_GV_GuiYeuCau_DateEditor
                                   ? moment(
                                       iDetail?.MC_TTHC_GV_GuiYeuCau_DateEditor,
-                                    ).format('DD/MM/YYYY HH:mm:ss')
+                                    ).format('DD/MM/YYYY')
                                   : null}
                               </td>
                             </tr>

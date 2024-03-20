@@ -42,6 +42,7 @@ import {
 import { handlePreviewFileBase64 } from '@/Services/Utils/fileUtils'
 import { DebounceInput } from 'react-debounce-input'
 import { EditPhanQuyenThuTuc } from './EditPhanQuyenThuTuc/EditPhanQuyenThuTuc'
+import Markdown from 'react-markdown'
 
 function ThongTinChiTietHoSo() {
   const { id } = useParams()
@@ -312,21 +313,6 @@ function ThongTinChiTietHoSo() {
         MC_TTHC_GV_NoiTiepNhan: editThongTinChung?.MC_TTHC_GV_NoiTiepNhan,
         MC_TTHC_GV_NoiTraKetQua: editThongTinChung?.MC_TTHC_GV_NoiTraKetQua,
       }
-
-      //   const checkMaThuTucResponse = await getKiemTraTrungMaTTHCGV(
-      //     editThongTinChung?.MC_TTHC_GV_MaThuTuc,
-      //   )
-      //   if (checkMaThuTucResponse.status === 200) {
-      //     const dataTrungMaTTHCGV = await checkMaThuTucResponse.data.body
-      //     if (dataTrungMaTTHCGV?.length > 0) {
-      //       return Swal.fire({
-      //         icon: 'error',
-      //         title: 'Lỗi',
-      //         text: 'Mã thủ tục này đã tồn tại',
-      //       })
-      //     }
-      //   }
-
       const isEqualValue = checkConditionObject(
         detailHoSoThuTuc?.ThongTinHoSo,
         newDataUpdateThongTinHoSo,
@@ -531,6 +517,7 @@ function ThongTinChiTietHoSo() {
   const { ThongTinHoSo, ThanhPhanHoSo, TrinhTuThucHien, PhanQuyen, TrangThai } =
     detailHoSoThuTuc ?? null
 
+  console.log(ThongTinHoSo)
   return (
     <div className="px-5 lg:px-0 grid grid-cols-12 flex-row gap-4">
       <div className="col-span-12 lg:col-span-2">
@@ -755,6 +742,22 @@ function ThongTinChiTietHoSo() {
                       />
                     </div>
                   </div>
+                  {/* Quy trình thực hiện */}
+                  <div className="col-span-4">
+                    <div className="flex flex-col gap-1">
+                      <label
+                        htmlFor="MC_TTHC_GV_DoiTuongThucHien"
+                        className="font-semibold"
+                      >
+                        Quy trình thực hiện
+                      </label>
+                      <Markdown
+                        className={'bg-slate-100 border p-4 rounded-md'}
+                      >
+                        {ThongTinHoSo?.MC_TTHC_GV_QuyTrinhThucHien}
+                      </Markdown>
+                    </div>
+                  </div>
                   {/* Căn cứ pháp lý của Thủ tục hành chính */}
                   <div className="col-span-4 lg:col-span-2">
                     <div className="flex flex-col gap-1">
@@ -803,21 +806,22 @@ function ThongTinChiTietHoSo() {
                     </div>
                   </div>
                   {/* START: Thủ tục cần trưởng phòng phê duyệt */}
-                  <div className="col-span-4 lg:col-span-2 w-full flex-1 flex items-center gap-4 border px-3 py-1 rounded-md">
+                  <div className="col-span-4 lg:col-span-2 bg-slate-300 w-full flex-1 flex items-center gap-4 border px-3 py-1 rounded-md">
                     <input
                       type="checkbox"
                       className="w-4 h-4 px-3 py-1 bg-slate-300 border border-slate-200 rounded-md focus:outline-none"
                       defaultChecked={
                         ThongTinHoSo?.MC_TTHC_GV_IsTruongPhongPheDuyet
                       }
+                      disabled={true}
                       name="MC_TTHC_GV_IsTruongPhongPheDuyet"
                       id="MC_TTHC_GV_IsTruongPhongPheDuyet"
-                      onChange={(e) => {
-                        setEditThongTinChung({
-                          ...editThongTinChung,
-                          MC_TTHC_GV_IsTruongPhongPheDuyet: e.target.checked,
-                        })
-                      }}
+                      //   onChange={(e) => {
+                      //     setEditThongTinChung({
+                      //       ...editThongTinChung,
+                      //       MC_TTHC_GV_IsTruongPhongPheDuyet: e.target.checked,
+                      //     })
+                      //   }}
                     />
                     <label htmlFor="MC_TTHC_GV_IsTruongPhongPheDuyet">
                       Thủ tục cần trưởng phòng phê duyệt
@@ -826,19 +830,20 @@ function ThongTinChiTietHoSo() {
                   {/* END: Thủ tục cần trưởng phòng phê duyệt */}
 
                   {/* START: Thủ tục cần BGH phê duyệt */}
-                  <div className="col-span-4 lg:col-span-2 w-full flex items-center gap-4 border px-3 py-1 rounded-md">
+                  <div className="col-span-4 lg:col-span-2 bg-slate-300 w-full flex items-center gap-4 border px-3 py-1 rounded-md">
                     <input
                       type="checkbox"
                       className="w-4 h-4 px-3 py-1 bg-slate-300 border border-slate-200 rounded-md focus:outline-none"
                       defaultChecked={ThongTinHoSo?.MC_TTHC_GV_IsBGHPheDuyet}
+                      disabled={true}
                       name="MC_TTHC_GV_IsBGHPheDuyet"
                       id="MC_TTHC_GV_IsBGHPheDuyet"
-                      onChange={(e) => {
-                        setEditThongTinChung({
-                          ...editThongTinChung,
-                          MC_TTHC_GV_IsBGHPheDuyet: e.target.checked,
-                        })
-                      }}
+                      //   onChange={(e) => {
+                      //     setEditThongTinChung({
+                      //       ...editThongTinChung,
+                      //       MC_TTHC_GV_IsBGHPheDuyet: e.target.checked,
+                      //     })
+                      //   }}
                     />
                     <label htmlFor="MC_TTHC_GV_IsBGHPheDuyet">
                       Thủ tục cần Ban giám hiệu phê duyệt
@@ -847,11 +852,12 @@ function ThongTinChiTietHoSo() {
                   {/* END: Thủ tục cần BGH phê duyệt */}
 
                   {/* START: Thủ tục liên thông */}
-                  <div className="col-span-4 lg:col-span-2 w-full flex items-center gap-4 border px-3 py-1 rounded-md">
+                  <div className="col-span-4 lg:col-span-2 bg-slate-300 w-full flex items-center gap-4 border px-3 py-1 rounded-md">
                     <input
                       type="checkbox"
                       className="w-4 h-4 px-3 py-1 bg-slate-300 border border-slate-200 rounded-md focus:outline-none"
                       defaultChecked={ThongTinHoSo?.MC_TTHC_GV_ThuTucLienThong}
+                      disabled={true}
                       name="MC_TTHC_GV_ThuTucLienThong"
                       id="MC_TTHC_GV_ThuTucLienThong"
                       onChange={(e) => {
@@ -868,13 +874,14 @@ function ThongTinChiTietHoSo() {
                   {/* END: Thủ tục liên thông */}
 
                   {/* START: Thủ tục không áp dụng trực tuyến */}
-                  <div className="col-span-4 lg:col-span-2 w-full flex items-center gap-4 border px-3 py-1 rounded-md">
+                  <div className="col-span-4 lg:col-span-2 bg-slate-300 w-full flex items-center gap-4 border px-3 py-1 rounded-md">
                     <input
                       type="checkbox"
                       className="w-4 h-4 px-3 py-1 bg-slate-300 border border-slate-200 rounded-md focus:outline-none"
                       defaultChecked={
                         ThongTinHoSo?.MC_TTHC_GV_ThuTucKhongApDungTrucTuyen
                       }
+                      disabled={true}
                       name="MC_TTHC_GV_ThuTucKhongApDungTrucTuyen"
                       id="MC_TTHC_GV_ThuTucKhongApDungTrucTuyen"
                       onChange={(e) => {

@@ -12,13 +12,13 @@ const TOOLBAR_OPTIONS = [
 ]
 
 export const TextEditor = (props) => {
-  const { id, onChange } = props
+  const { id, value, onChange } = props
   const reactQuillRef = useRef(null)
   const [content, setContent] = useState('')
 
   const handleChangeValue = (value) => {
     setContent(value)
-    onChange(htmlToMarkdown(value))
+    onChange(value)
   }
 
   return (
@@ -32,7 +32,7 @@ export const TextEditor = (props) => {
           container: TOOLBAR_OPTIONS,
         },
       }}
-      value={content}
+      value={value || content}
       onChange={handleChangeValue}
     />
   )
