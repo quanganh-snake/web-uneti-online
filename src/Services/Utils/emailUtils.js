@@ -408,7 +408,7 @@ export const sendEmailTTHCGV_TP_BGH = async (
             }</b></p>
             <p style="margin: 0;">&emsp;&emsp;1.2. Họ và tên: <b>${dataUserHandle?.HoDem + ' ' + dataUserHandle?.Ten}</b></p>
             <p style="margin: 0;">&emsp;&emsp;1.3. Đơn vị quản lý nhân sự: <b>${
-              dataUserHandle?.HienTaiPhongBan
+              dataUserHandle?.TenPhongBan
             }</b></p>
 
             <b>2. Nội dung trình duyệt:</b>
@@ -420,6 +420,86 @@ export const sendEmailTTHCGV_TP_BGH = async (
         </div>
         <div>
             <b>LƯU Ý:</b>
+            <p style="margin: 0;">- Đây là email tự động, vui lòng không trả lời (no reply), chúng tôi sẽ không nhận được email của Thầy/Cô,</p>
+            <p style="margin: 0;">- Nếu cần tư vấn hoặc giải đáp thắc mắc về NỘI DUNG GIẢI QUYẾT ĐỀ NGHỊ. Thầy/Cô vui lòng liên hệ (trong giờ hành chính) với nhân sự sau:</p>
+            <p style="margin: 0;">&emsp;+ Họ và tên: ${
+              dataUserHandle?.HoDem + ' ' + dataUserHandle?.Ten
+            }</p>
+            <p style="margin: 0;">&emsp;+ Điện thoại: ${dataUserHandle?.SoDienThoai}</p>
+            <p style="margin: 0;">&emsp;+ Email: ${dataUserHandle?.Email}</p>
+        </div>
+    `
+
+  const dataSendEmail = {
+    to: toEmailCBNV,
+    subject: subjectEmail,
+    text: '',
+    tenfile: tenFileKemTheo,
+    dulieu: dataFileKemTheo,
+    html: emailHtml,
+  }
+  const res = await apiSendEmailUNETI(dataSendEmail)
+  return res
+}
+
+export const sendEmailTTHCGV_BGH_TP = async (
+  contentSubject = '',
+  dataUserSuggest = {},
+  dataUserHandle = {},
+  listThanhPhanHoSo = [],
+  noiDungLyDo,
+  linkFileKemTheo,
+  tenFileKemTheo = '',
+  dataFileKemTheo = '',
+  toEmailCBNV = null,
+) => {
+  let listThanhPhanHoSoHtml = ``
+
+  for (let i = 0; i < listThanhPhanHoSo.length; i++) {
+    listThanhPhanHoSoHtml += `<p> &#160;&#160;&#160;&#160;&#160; &#8722; ${listThanhPhanHoSo[i]?.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo}</p>`
+  }
+
+  let subjectEmail = `Thông báo ${contentSubject.toUpperCase()} - Đề nghị ${dataUserSuggest?.MC_TTHC_GV_TenThuTuc.toUpperCase()} (Email tự động, vui lòng không trả lời)`
+
+  let emailHtml = `
+        <div>
+            <p>Kính gửi Thầy/Cô Trưởng/Phó đơn vị xử lý,</p>
+        </div>
+        <div>
+            <p>Tôi đã xem xét đề nghị ${dataUserSuggest?.MC_TTHC_GV_TenThuTuc.toUpperCase()} của quý Thầy/Cô ${dataUserSuggest?.HoTen}, với thông tin như sau:</p>
+        </div>
+        <div>
+            <h4 style="margin-bottom: 0;">A. THÔNG TIN ĐỀ NGHỊ:</h4>
+            <p style="margin: 0;"><b>1. Người đề nghị</b></p>
+            <p style="margin: 0;">&emsp;&emsp;1.1. Mã nhân sự: <b>${
+              dataUserSuggest?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_MaNhanSu
+            }</b></p>
+            <p style="margin: 0;">&emsp;&emsp;1.2. Họ và tên: <b>${dataUserSuggest?.HoTen}</b></p>
+            <p style="margin: 0;">&emsp;&emsp;1.3. Đơn vị quản lý nhân sự: <b>${
+              dataUserSuggest?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Khoa
+            }</b></p>
+
+            <h4 style="margin-bottom: 0;">2. Nội dung đề nghị:</h4>
+            <p style="margin: 0;">&emsp;&emsp;2.1. Danh sách hồ sơ tiếp nhận: <b>${listThanhPhanHoSoHtml}</b></p>
+            <p style="margin: 0;">&emsp;&emsp;2.2. Nội dung đề nghị: ${
+              dataUserSuggest?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu
+            }</p>
+            <p style="margin: 0;">&emsp;&emsp;2.3. Số lượng bản in kết quả đề nghị: <b>${
+              dataUserSuggest?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong
+            }</b></p>
+        </div>
+        <div>
+            <h4 style="margin-bottom: 0;">B. THÔNG TIN PHÊ DUYỆT:</h4>
+            <p style="margin: 0;"><b>1. Trạng thái phê duyệt: ${contentSubject}</b></p>
+            <p style="margin: 0;"><b>2. Lý do:</b></p>
+            <p style="margin: 0;">&emsp;&emsp;${noiDungLyDo}</p>
+            ${linkFileKemTheo !== '' ? `<p>Quý Thầy/Cô vui lòng tải tệp tại đây: ${linkFileKemTheo}</p>` : ''}
+        </div>
+        <div>
+            <p>Trân trọng!</p>
+        </div>
+        <div>
+            <h4 style="margin-bottom: 0;">LƯU Ý:</h4>
             <p style="margin: 0;">- Đây là email tự động, vui lòng không trả lời (no reply), chúng tôi sẽ không nhận được email của Thầy/Cô,</p>
             <p style="margin: 0;">- Nếu cần tư vấn hoặc giải đáp thắc mắc về NỘI DUNG GIẢI QUYẾT ĐỀ NGHỊ. Thầy/Cô vui lòng liên hệ (trong giờ hành chính) với nhân sự sau:</p>
             <p style="margin: 0;">&emsp;+ Họ và tên: ${

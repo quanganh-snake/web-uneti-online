@@ -1203,12 +1203,7 @@ function ChiTietHoSoYeuCau() {
                                 {iQTXuLy?.MC_TTHC_GV_TrangThai_TenTrangThai}
                               </td>
                               <td className="border-r p-2 text-center">
-                                {iQTXuLy?.MC_TTHC_GV_GuiYeuCau_NgayHenTra
-                                  ? moment(
-                                      iQTXuLy?.MC_TTHC_GV_GuiYeuCau_NgayHenTra,
-                                      'YYYY-MM-DDTHH:mm:ss.SSS[Z]',
-                                    ).format('DD/MM/YYYY HH:mm:ss')
-                                  : null}
+                                {iQTXuLy?.MC_TTHC_GV_GuiYeuCau_NoiDung_XuLy}
                               </td>
                               <td className="border-r p-2 text-center">
                                 {iQTXuLy?.MC_TTHC_GV_GuiYeuCau_NoiTraKetQua}

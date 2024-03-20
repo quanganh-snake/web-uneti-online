@@ -13,6 +13,7 @@ import {
   TEMPLATE_SUBJECT_CANCEL_EMAIL,
   TEMPLATE_SUBJECT_PENDING_EMAIL,
   TEMPLATE_SUBJECT_RECEIVED_EMAIL,
+  sendEmailTTHCGV_BGH_TP,
   sendEmailTTHCGV_CBNV_TP,
   sendEmailTTHCGV_MucDo2,
   sendEmailTTHCGV_TP_BGH,
@@ -971,14 +972,13 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                     icon: 'success',
                   })
 
-                  //   GỬI EMAIL THÔNG BÁO CHO CÁN BỘ NGHIỆP VỤ
+                  // BGH GỬI EMAIL THÔNG BÁO PHÊ DUYỆT CHO CÁN BỘ NGHIỆP VỤ
                   if (isSendEmailCBNV === true) {
                     try {
                       const listSendEmailCBNV = listDataCBNVPhanQuyen.map(
                         async (cbnv) => {
-                          return await sendEmailTTHCGiangVien(
-                            TEMPLATE_SUBJECT_PENDING_EMAIL,
-                            infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai,
+                          return await sendEmailTTHCGV_TP_CBNV(
+                            listYeuCauPheDuyet[0].label,
                             {
                               ...dataDetailYeuCau,
                               ...newDataBGHPheDuyetUpdate,
@@ -1005,10 +1005,12 @@ const FormGuiEmailThongBaoXuLy = (props) => {
 
                   //   GỬI EMAIL THÔNG BÁO CHO TRƯỞNG/PHÓ PHÒNG
                   if (isSendEmailTruongPhong === true) {
-                    sendEmailTTHCGiangVien(
-                      TEMPLATE_SUBJECT_PENDING_EMAIL,
-                      infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai,
-                      { ...dataDetailYeuCau, ...newDataBGHPheDuyetUpdate },
+                    sendEmailTTHCGV_BGH_TP(
+                      listYeuCauPheDuyet[0].label,
+                      {
+                        ...dataDetailYeuCau,
+                        ...newDataBGHPheDuyetUpdate,
+                      },
                       dataCBGV,
                       dataDetailTPHSYeuCau,
                       contentEmail,
@@ -1023,7 +1025,6 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                       dataDetailYeuCau.MC_TTHC_GV_EmailTruongPhongPheDuyet,
                     ).then(() => console.log('SEND EMAIL OK'))
                   }
-                  //   }
                   onLoading(true)
                   onContentEmail('')
                   setContentBGHPheDuyet('')
@@ -1058,7 +1059,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
           )
           if (resNewTrangThaiID.status === 200) {
             const dataTrangThaiIDNew = await resNewTrangThaiID.data?.body[0]
-            const newDataTPKhongPheDuyetUpdate = {
+            const newDataBGHKhongPheDuyetUpdate = {
               ...dataYeuCauTTHCGV,
               MC_TTHC_GV_GuiYeuCau_TrangThai_ID:
                 dataTrangThaiIDNew?.MC_TTHC_GV_TrangThai_ID,
@@ -1093,7 +1094,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
             }).then(async (result) => {
               if (result.isConfirmed) {
                 const resPutHoSoThuTuc = await putHoSoThuTucGuiYeuCauById(
-                  newDataTPKhongPheDuyetUpdate,
+                  newDataBGHKhongPheDuyetUpdate,
                 )
                 if (resPutHoSoThuTuc.status === 200) {
                   Swal.fire({
@@ -1102,18 +1103,16 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                     icon: 'success',
                   })
 
-                  //   if (isSendEmail === 'true' || isSendEmail === true) {
-                  // GỬI EMAIL THÔNG BÁO CHO CBNV
+                  // BGH GỬI EMAIL THÔNG BÁO KHÔNG PHÊ DUYỆT CHO CBNV
                   if (isSendEmailCBNV === true) {
                     try {
                       const listSendEmailCBNV = listDataCBNVPhanQuyen.map(
                         async (cbnv) => {
                           return await sendEmailTTHCGiangVien(
-                            TEMPLATE_SUBJECT_PENDING_EMAIL,
-                            infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai,
+                            listYeuCauPheDuyet[0].label,
                             {
                               ...dataDetailYeuCau,
-                              ...newDataTPKhongPheDuyetUpdate,
+                              ...newDataBGHKhongPheDuyetUpdate,
                             },
                             dataCBGV,
                             dataDetailTPHSYeuCau,
@@ -1127,21 +1126,20 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                               ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
                               : null,
                             cbnv?.QTPM_QLEMAIL_EmailUneti,
-                          ).then(() => console.log('SEND EMAIL OK'))
+                          ).then(() => console.log('BGH SEND EMAIL TO CBNV OK'))
                         },
                       )
                     } catch (error) {
                       console.error('Error send email CBNV:', error.message)
                     }
                   }
-                  // GỬI EMAIL THÔNG BÁO CHO TRƯỞNG/PHÓ PHÒNG
+                  // BGH GỬI EMAIL THÔNG BÁO KHÔNG PHÊ DUYỆT CHO TRƯỞNG/PHÓ PHÒNG
                   if (isSendEmailTruongPhong === true) {
-                    sendEmailTTHCGiangVien(
-                      TEMPLATE_SUBJECT_PENDING_EMAIL,
-                      infoStatus.MC_TTHC_GV_TrangThai_TenTrangThai,
+                    sendEmailTTHCGV_BGH_TP(
+                      listYeuCauPheDuyet[1].label,
                       {
                         ...dataDetailYeuCau,
-                        ...newDataTPKhongPheDuyetUpdate,
+                        ...newDataBGHKhongPheDuyetUpdate,
                       },
                       dataCBGV,
                       dataDetailTPHSYeuCau,
@@ -1155,7 +1153,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
                         ? dataAttachedFile?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile
                         : null,
                       dataDetailYeuCau.MC_TTHC_GV_EmailTruongPhongPheDuyet,
-                    ).then(() => console.log('SEND EMAIL OK'))
+                    ).then(() => console.log('BGH SEND EMAIL TO TPDV OK'))
                   }
 
                   onLoading(true)
@@ -1354,7 +1352,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
               >
                 <input
                   onChange={() => {
-                    setIsBGHPheDuyet(1)
+                    setIsTPPheDuyet(1)
                   }}
                   type="radio"
                   id="isKhongPheDuyet"
@@ -1492,22 +1490,14 @@ const FormGuiEmailThongBaoXuLy = (props) => {
         </h4>
         {/* START: Chọn gửi Email */}
 
-        <div
-          className={clsx(
-            'mb-6',
-            dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT ===
-              dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STTMAX - 1 && 'hidden',
-          )}
-        >
+        <div className={clsx('mb-6')}>
           <p className="font-semibold">Gửi email:</p>
           <div className="flex items-center gap-36 border p-2 rounded-md">
             {/* Checkbox gửi email cho Người dùng */}
-            {((dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT !==
+            {((+dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT + 1 !==
               dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT_TPD &&
-              dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT !==
-                dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT_BGHD &&
-              stepHandle !== dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT_TPD &&
-              stepHandle !== dataDetailYeuCau.MC_TTHC_GV_TrangThai_STT_BGHD) ||
+              +dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT + 1 !==
+                dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT_BGHD) ||
               dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT === null) && (
               <div
                 className={clsx(
@@ -1548,7 +1538,7 @@ const FormGuiEmailThongBaoXuLy = (props) => {
             {(dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT ==
               dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT_TPD - 1 ||
               dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT ==
-                dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT_BGHD - 2) && (
+                dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT_BGHD - 1) && (
               <div className="flex items-center gap-2">
                 <input
                   onChange={(e) => {
