@@ -9,6 +9,7 @@ import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 
 import '../Headers/Header.scss'
 import clsx from 'clsx'
+import { ROLES } from '@/Routers/privateRoutes'
 
 function MainCommon() {
   const location = useLocation()
@@ -20,7 +21,7 @@ function MainCommon() {
   return (
     <>
       {pathname === '/' || pathname === '/dang-nhap' ? null : dataRole ==
-        'SV' ? (
+        ROLES.S0202 ? (
         <HeaderSV />
       ) : (
         <HeaderCBGV />

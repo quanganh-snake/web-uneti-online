@@ -6,6 +6,7 @@ const HomeMotCua = lazy(() => import('@/Pages/Clients/MotCua'))
 // Middlewares
 import RoleMiddleware from '@/Middlewares/RoleMiddleware.jsx'
 import RoleViewActionMiddleware from '@/Middlewares/RoleViewActionMiddleware'
+import { simpleSHA256 } from '@/Services/Utils/stringUtils'
 
 // Pages MC - Khảo Thí
 const HomeKhaoThi = lazy(() => import('@/Pages/Clients/MotCua/KhaoThi'))
@@ -243,8 +244,10 @@ const KiemDinhChatLuong = lazy(
 )
 
 export const ROLES = {
-  G0101: 'GV',
-  S0202: 'SV',
+  A0000: simpleSHA256('Admin'),
+  G0101: simpleSHA256('GV'),
+  S0202: simpleSHA256('SV'),
+  CBNV0: simpleSHA256('CBNV'),
 }
 
 export const ROLE_VIEW_ACTION_HTTB = {
