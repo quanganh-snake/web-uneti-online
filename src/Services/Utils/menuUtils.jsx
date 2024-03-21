@@ -35,7 +35,7 @@ export const getMenus = (menus = [], menuIndex = 0) => {
                   className={clsx(
                     'flex rounded-lg cursor-pointer items-center justify-between p-2 font-semibold hover:bg-uneti-primary hover:text-white',
                     isActive &&
-                      'bg-uneti-primary text-white rounded-[10px_10px_0_0]',
+                      'bg-uneti-primary text-white !rounded-[10px_10px_0_0]',
                   )}
                 >
                   <p className={clsx('text-md')}>{label}</p>
