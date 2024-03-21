@@ -15,7 +15,7 @@ export const logOut = async (role, dispatch, navigate, refreshToken) => {
     }
     if (role === ROLES.S0202) {
       await http.post(`/jwt/Logout`, dataRefresh)
-    } else if (role === 'GV') {
+    } else if (role === ROLES.G0101) {
       await http.post(`/jwtGV/LogoutGV`, dataRefresh)
     } else {
       navigate('/dang-nhap')
