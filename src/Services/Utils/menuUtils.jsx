@@ -23,8 +23,9 @@ export const getMenus = (menus = [], menuIndex = 0) => {
   if (menus.length > 0) {
     return (
       <ul className="flex flex-col gap-2">
-        {menus.map(({ path, label, children }, index) => {
+        {menus.map(({ path, label, children, sidebarActive }, index) => {
           const isActive = index === activeMenuIndex
+          if (!sidebarActive) return null
 
           if (children?.length > 0) {
             return (
