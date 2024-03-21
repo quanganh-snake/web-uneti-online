@@ -30,7 +30,16 @@ function MainCommon() {
       <main
         className={clsx(
           'xl:mt-30 mx-auto mb-[50px] mt-40 min-h-[500px] gap-10 px-5 lg:mt-52',
-          pathname === '/kiem-dinh-chat-luong' ? ' w-full' : ' max-w-7xl',
+          [
+            'kiem-dinh-chat-luong',
+            'quan-tri-he-thong',
+            'dam-bao-chat-luong',
+            'khao-sat-va-dgcl',
+            'csdl-don-vi',
+            'quan-ly-minh-chung',
+          ].some((e) => pathname.includes(e))
+            ? ' w-full'
+            : ' max-w-7xl',
         )}
       >
         <RouterCore />

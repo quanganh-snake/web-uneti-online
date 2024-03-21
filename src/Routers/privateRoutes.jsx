@@ -7,6 +7,14 @@ const HomeMotCua = lazy(() => import('@/Pages/Clients/MotCua'))
 import RoleMiddleware from '@/Middlewares/RoleMiddleware.jsx'
 import RoleViewActionMiddleware from '@/Middlewares/RoleViewActionMiddleware'
 import { simpleSHA256 } from '@/Services/Utils/stringUtils'
+import KDCLLayout from '@/Layouts/LayoutKDCL/KDCLLayout'
+import KiemDinhChatLuongCTDT from '@/Pages/Admins/DamBaoChatLuong/KiemDinhChatLuongCTDT/KiemDinhChatLuongCTDT'
+import KiemDinhChatLuongCSGD from '@/Pages/Admins/DamBaoChatLuong/KiemDinhChatLuongCSGD/KiemDinhChatLuongCSGD'
+import CauHinhNhiemVu from '@/Pages/Admins/DamBaoChatLuong/CauHinhNhiemVu/CauHinhNhiemVu'
+import PhanHoi from '@/Pages/Admins/KhaoSatVaDanhGiaChatLuong/PhanHoi/PhanHoi'
+import CSDLDonVi from '@/Pages/Admins/CSDLDonVi/CSDLDonVi'
+import MCDungChungDonVi from '@/Pages/Admins/QuanLyMinhChung/MCDungChungDonVi/MCDungChungDonVi'
+import CauHinhDinhDangMaMC from '@/Pages/Admins/QuanLyMinhChung/CauHinhDinhDangMaMC/CauHinhDinhDangMaMC'
 
 // Pages MC - Khảo Thí
 const HomeKhaoThi = lazy(() => import('@/Pages/Clients/MotCua/KhaoThi'))
@@ -243,6 +251,35 @@ const KiemDinhChatLuong = lazy(
   () => import('@/Pages/Admins/KiemDinhChatLuong/KiemDinhChatLuong'),
 )
 
+const QuanLyNhomQuyen = lazy(
+  () => import('@/Pages/Admins/QuanTriHeThong/QuanLyNhomQuyen/QuanLyNhomQuyen'),
+)
+const QuanLyDanhMuc = lazy(
+  () => import('@/Pages/Admins/QuanTriHeThong/QuanLyDanhMuc/QuanLyDanhMuc'),
+)
+const QuanLyThuMuc = lazy(
+  () => import('@/Pages/Admins/QuanTriHeThong/QuanLyThuMuc/QuanLyThuMuc'),
+)
+const SoDoToChuc = lazy(
+  () => import('@/Pages/Admins/QuanTriHeThong/SoDoToChuc/SoDoToChuc'),
+)
+const ThamSoHeThong = lazy(
+  () => import('@/Pages/Admins/QuanTriHeThong/ThamSoHeThong/ThamSoHeThong'),
+)
+const BoTieuChuanKiemDinh = lazy(
+  () =>
+    import(
+      '@/Pages/Admins/QuanTriHeThong/BoTieuChuanKiemDinh/BoTieuChuanKiemDinh'
+    ),
+)
+const MauKhaoSat = lazy(
+  () => import('@/Pages/Admins/QuanTriHeThong/MauKhaoSat/MauKhaoSat'),
+)
+const NamHoc = lazy(() => import('@/Pages/Admins/QuanTriHeThong/NamHoc/NamHoc'))
+const QuanLyNguoiDung = lazy(
+  () => import('@/Pages/Admins/QuanTriHeThong/QuanLyNguoiDung/QuanLyNguoiDung'),
+)
+
 export const ROLES = {
   A0000: simpleSHA256('Admin'),
   G0101: simpleSHA256('GV'),
@@ -468,12 +505,56 @@ export const privateRoutes = (
       </Route>
       {/* Hỗ trợ SDPM */}
       <Route path="ho-tro-su-dung-phan-mem" element={<HoTroSuDungPhanMem />} />
-      {/* Kiểm định chất lượng */}
-      <Route
-        path="kiem-dinh-chat-luong"
-        element={<RoleMiddleware allowedRoles={[ROLES.G0101]} />}
-      >
-        <Route index element={<KiemDinhChatLuong />} />
+
+      <Route element={<RoleMiddleware allowedRoles={[ROLES.G0101]} />}>
+        <Route element={<KDCLLayout />}>
+          {/* Kiểm định chất lượng */}
+          <Route path="kiem-dinh-chat-luong" element={<KiemDinhChatLuong />} />
+          {/* Quản trị hệ thống */}
+          <Route path="quan-tri-he-thong">
+            <Route path="nguoi-dung" element={<QuanLyNguoiDung />} />
+            <Route path="quan-ly-nhom-quyen" element={<QuanLyNhomQuyen />} />
+            <Route path="danh-muc" element={<QuanLyDanhMuc />} />
+            <Route path="so-do-to-chuc" element={<SoDoToChuc />} />
+            <Route path="tham-so-he-thong" element={<ThamSoHeThong />} />
+            <Route
+              path="bo-tieu-chuan-kiem-dinh"
+              element={<BoTieuChuanKiemDinh />}
+            />
+            <Route path="mau-khao-sat" element={<MauKhaoSat />} />
+            <Route path="nam-hoc" element={<NamHoc />} />
+            <Route path="thu-muc" element={<QuanLyThuMuc />} />
+          </Route>
+          {/* Đảm bảo chất lượng */}
+          <Route path="dam-bao-chat-luong">
+            <Route path="chat-luong-ctdt" element={<KiemDinhChatLuongCTDT />} />
+            <Route path="chat-luong-csgd" element={<KiemDinhChatLuongCSGD />} />
+            <Route path="cau-hinh-nhiem-vu" element={<CauHinhNhiemVu />} />
+          </Route>
+
+          {/* Khảo sát và đánh giá chất lượng */}
+          <Route path="khao-sat-va-dgcl">
+            <Route
+              path="danh-gia-cua-cac-ben-lien-quan"
+              element={<PhanHoi />}
+            />
+          </Route>
+
+          {/* CSDL đơn vị */}
+          <Route path="csdl-don-vi/tong-quan" element={<CSDLDonVi />} />
+
+          {/* Quản lý minh chứng */}
+          <Route path="quan-ly-minh-chung">
+            <Route
+              path="minh-chung-dung-chung-don-vi"
+              element={<MCDungChungDonVi />}
+            />
+            <Route
+              path="cau-hinh-ma-minh-chung"
+              element={<CauHinhDinhDangMaMC />}
+            />
+          </Route>
+        </Route>
       </Route>
     </Route>
   </>

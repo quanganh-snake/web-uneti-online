@@ -1,35 +1,40 @@
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { FaAngleRight } from 'react-icons/fa6'
 import { useState } from 'react'
 import clsx from 'clsx'
 
-export const getMenus = (menus = []) => {
+export const getMenus = (menus = [], menuIndex = 0) => {
   const [activeMenuIndex, setActiveMenuIndex] = useState(0)
+  const navigate = useNavigate()
 
   const handleOpenMenu = () => {}
+
+  const handleActive = (path, index) => {
+    if (activeMenuIndex === index) {
+      setActiveMenuIndex(null)
+    } else {
+      setActiveMenuIndex(index)
+    }
+    if (path) {
+      navigate(path)
+    }
+  }
 
   if (menus.length > 0) {
     return (
       <ul className="flex flex-col gap-2">
         {menus.map(({ path, label, children }, index) => {
-          const handleActive = () => {
-            if (activeMenuIndex === index) {
-              setActiveMenuIndex(null)
-            } else {
-              setActiveMenuIndex(index)
-            }
-          }
           const isActive = index === activeMenuIndex
 
           if (children?.length > 0) {
             return (
               <li key={index}>
-                <Link
-                  to={path}
-                  onClick={handleActive}
+                <div
+                  onClick={() => handleActive(path, index)}
                   className={clsx(
-                    'flex items-center justify-between p-2 font-semibold hover:bg-uneti-primary hover:text-white',
-                    isActive && 'bg-uneti-primary text-white',
+                    'flex rounded-lg cursor-pointer items-center justify-between p-2 font-semibold hover:bg-uneti-primary hover:text-white',
+                    isActive &&
+                      'bg-uneti-primary text-white rounded-[10px_10px_0_0]',
                   )}
                 >
                   <p className={clsx('text-md')}>{label}</p>
@@ -40,16 +45,16 @@ export const getMenus = (menus = []) => {
                         : null
                     }
                   />
-                </Link>
+                </div>
 
                 <div
                   className={clsx(
                     isActive
-                      ? 'block bg-uneti-primary-lighter text-white transition delay-300 ease-in-out'
+                      ? 'cursor-pointer overflow-hidden rounded-[0_0_10px_10px] bg-uneti-primary-lighter text-white transition delay-300 ease-in-out'
                       : 'hidden',
                   )}
                 >
-                  {getMenus(children)}
+                  {getMenus(children, menuIndex + 1)}
                 </div>
               </li>
             )
@@ -57,14 +62,15 @@ export const getMenus = (menus = []) => {
 
           return (
             <li key={index}>
-              <NavLink
-                to={path}
+              <div
+                onClick={() => handleActive(path, index)}
                 className={clsx(
-                  'text-md block p-2 font-semibold hover:bg-uneti-primary hover:text-white',
+                  'text-md cursor-pointer p-2 font-semibold hover:bg-uneti-primary hover:text-white',
+                  menuIndex == 0 && 'rounded-lg',
                 )}
               >
                 {label}
-              </NavLink>
+              </div>
             </li>
           )
         })}
