@@ -108,6 +108,14 @@ export const homeMain = [
     moduleActive: true,
     roleActive: ['GV'],
   },
+  {
+    title: 'Kiểm định chất lượng',
+    desc: 'Kiểm định chất lượng, Khảo sát và đánh giá chất lượng, Cơ sở dữ liệu đơn vị, Quản lý minh chứng, Tiện ích, Quản trị hệ thống.',
+    icon: icoTTHCSV,
+    path: '/kiem-dinh-chat-luong',
+    moduleActive: true,
+    roleActive: ['GV'],
+  },
 ]
 
 export const homeMotCua = [
@@ -1443,7 +1451,7 @@ export const homeTTHCGV = [
     title: 'Xử lý nghiệp vụ',
     name: 'Xử lý nghiệp vụ',
     path: '/admin/xu-ly-nghiep-vu',
-    roleActive: ['Admin', 'CBNV'],
+    roleActive: ['CBNV'],
   },
   {
     id: 3,

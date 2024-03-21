@@ -4,6 +4,10 @@ import { useEffect, useMemo, useState, Suspense, lazy } from 'react'
 import { FaCaretRight, FaCaretDown } from 'react-icons/fa'
 import { FaCaretLeft } from 'react-icons/fa6'
 import { useParams } from 'react-router-dom'
+import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import rehypeKatex from 'rehype-katex'
+import 'katex/dist/katex.min.css'
 const SidebarTTHCGV = lazy(() => import('../Sidebar/SidebarTTHCGV'))
 import {
   getHoSoGuiYeuCauById,
@@ -133,9 +137,9 @@ function ChiTietHoSoYeuCau() {
     }
   }
 
-  const getListDataPhanQuyenByIDGoc = async (id) => {
+  const getListDataPhanQuyenByIDGoc = async (idGocTTHC) => {
     try {
-      const res = await getInfoPhanQuyenCBNV(id)
+      const res = await getInfoPhanQuyenCBNV(idGocTTHC)
       if (res.status === 200) {
         const data = await res.data?.body
         setListDataCBNVPhanQuyen(data)
@@ -485,203 +489,6 @@ function ChiTietHoSoYeuCau() {
     }
   }
 
-  //   const updateStepTrangThaiHoSoYeuCau = async (dataGuiYeuCau, type) => {
-  //     let currentTrangThaiSTT
-  //     let newTenTrangThaiUpdate = ''
-  //     let listTrangThaiHoSo
-  //     const resultListTrangThaiByIDGoc = await getListTrangThaiTTHCGVByIDGoc(
-  //       dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
-  //     )
-
-  //     if (resultListTrangThaiByIDGoc.status === 200) {
-  //       listTrangThaiHoSo = await resultListTrangThaiByIDGoc.data?.body
-  //       if (listTrangThaiHoSo.length > 0) {
-  //         for (let i = 0; i < listTrangThaiHoSo?.length; i++) {
-  //           if (
-  //             parseInt(dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID) ===
-  //             parseInt(listTrangThaiHoSo[i].MC_TTHC_GV_TrangThai_ID)
-  //           ) {
-  //             currentTrangThaiSTT = parseInt(
-  //               listTrangThaiHoSo[i].MC_TTHC_GV_TrangThai_STT,
-  //             )
-  //           }
-  //         }
-  //       }
-  //     }
-
-  //     const resultTrangThaiIDUpdate = await getTrangThaiIDGuiYeuCauXuLySTT(
-  //       dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
-  //       currentTrangThaiSTT,
-  //       type,
-  //     )
-
-  //     if (resultTrangThaiIDUpdate.status === 200) {
-  //       const dataTrangThaiIDUpdate = await resultTrangThaiIDUpdate.data?.body[0]
-  //       if (dataTrangThaiIDUpdate?.MC_TTHC_GV_TrangThai_ID) {
-  //         for (let i = 0; i < listTrangThaiHoSo?.length; i++) {
-  //           if (
-  //             parseInt(listTrangThaiHoSo[i].MC_TTHC_GV_TrangThai_ID) ===
-  //             parseInt(dataTrangThaiIDUpdate?.MC_TTHC_GV_TrangThai_ID)
-  //           ) {
-  //             newTenTrangThaiUpdate =
-  //               listTrangThaiHoSo[i].MC_TTHC_GV_TrangThai_TenTrangThai
-  //           }
-  //         }
-
-  //         const dataUpdateNew = {
-  //           MC_TTHC_GV_GuiYeuCau_ID: dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_ID,
-  //           MC_TTHC_GV_GuiYeuCau_NhanSuGui_MaNhanSu:
-  //             dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_MaNhanSu,
-  //           MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email:
-  //             dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
-  //           MC_TTHC_GV_GuiYeuCau_NhanSuGui_SDT:
-  //             dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_SDT,
-  //           MC_TTHC_GV_GuiYeuCau_NhanSuGui_Khoa:
-  //             dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Khoa,
-  //           MC_TTHC_GV_GuiYeuCau_YeuCau_ID:
-  //             dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
-  //           MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu:
-  //             dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu,
-  //           MC_TTHC_GV_GuiYeuCau_TrangThai_ID:
-  //             dataTrangThaiIDUpdate?.MC_TTHC_GV_TrangThai_ID,
-  //           MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu:
-  //             dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
-  //           MC_TTHC_GV_GuiYeuCau_NgayGui:
-  //             dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayGui,
-  //           MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong:
-  //             dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong,
-  //           MC_TTHC_GV_GuiYeuCau_DaNop: dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_DaNop,
-  //           MC_TTHC_GV_GuiYeuCau_NgayHenTra:
-  //             dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayHenTra,
-  //           MC_TTHC_GV_GuiYeuCau_NgayGiaoTra:
-  //             dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayGiaoTra,
-  //           MC_TTHC_GV_GuiYeuCau_NoiTraKetQua:
-  //             dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NoiTraKetQua,
-  //           MC_TTHC_GV_GuiYeuCau_NguonTiepNhan:
-  //             dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NguonTiepNhan,
-  //         }
-  //         const responseUpdateSTTTrangThaiHoSo =
-  //           await putHoSoThuTucGuiYeuCauById(dataUpdateNew)
-  //         if (responseUpdateSTTTrangThaiHoSo.status === 200) {
-  //           setLoading(false)
-  //           getDataHoSoYeuCauById(id)
-  //           getDataTPHSDeNghiYeuCauByIDGoc(id)
-  //           getDataTrinhTuThucHienYeuCauByIDGoc(id)
-  //           getDataTrangThaiYeuCauByIDGoc(id)
-
-  //           return {
-  //             status: 1,
-  //             message: `Đã chuyển trạng thái hồ sơ thành "${newTenTrangThaiUpdate}" thành công!`,
-  //           }
-  //         }
-  //       } else {
-  //         if (type == 'next') {
-  //           return {
-  //             status: -1,
-  //             message:
-  //               'Đã chuyển trạng thái hồ sơ đến bước tiếp theo thất bại! Do hồ sơ đang ở trạng thái cuối cùng.',
-  //           }
-  //         }
-
-  //         if (type == 'prev') {
-  //           return {
-  //             status: -1,
-  //             message:
-  //               'Đã chuyển trạng thái hồ sơ về bước trước thất bại! Do hồ sơ đang ở trạng thái mặc định được khởi tạo.',
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-
-  //   const handlePrevStep = async (dataGuiYeuCau) => {
-  //     const dataUpdate = await updateStepTrangThaiHoSoYeuCau(
-  //       dataGuiYeuCau,
-  //       'prev',
-  //     )
-  //     if (dataUpdate?.status == 1) {
-  //       Swal.fire({
-  //         icon: 'success',
-  //         title: `${dataUpdate?.message}`,
-  //       })
-  //       return
-  //     }
-
-  //     if (dataUpdate?.status == -1) {
-  //       Swal.fire({
-  //         icon: 'error',
-  //         title: `${dataUpdate?.message}`,
-  //       })
-  //       return
-  //     }
-  //   }
-
-  //   const handleNextStep = async (dataGuiYeuCau) => {
-  //     const dataUpdate = await updateStepTrangThaiHoSoYeuCau(
-  //       dataGuiYeuCau,
-  //       'next',
-  //     )
-  //     if (dataUpdate?.status == 1) {
-  //       Swal.fire({
-  //         icon: 'success',
-  //         title: `${dataUpdate?.message}`,
-  //       })
-  //       return
-  //     }
-
-  //     if (dataUpdate?.status == -1) {
-  //       Swal.fire({
-  //         icon: 'error',
-  //         title: `${dataUpdate?.message}`,
-  //       })
-  //       return
-  //     }
-  //   }
-
-  //   const handleCancelHoSo = async (dataHoSoYeuCau) => {
-  //     Swal.fire({
-  //       icon: 'question',
-  //       title: 'Bạn chắc chắn muốn hủy/trả yêu cầu này?',
-  //       showConfirmButton: true,
-  //       showCancelButton: true,
-  //       confirmButtonText: 'Đồng ý',
-  //       cancelButtonText: 'Hủy',
-  //     }).then(async (result) => {
-  //       if (result.isConfirmed) {
-  //         if (dataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu == '') {
-  //           Swal.fire({
-  //             icon: 'error',
-  //             title:
-  //               'Vui lòng nhập nội dung chi tiết hủy/trả hồ sơ tại mục ghi chú!',
-  //           })
-  //           return
-  //         }
-  //         // Thực hiện xóa
-  //         delThuTucHanhChinhGuiYeuCauByID(
-  //           dataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_ID,
-  //         ).then((res) => {
-  //           Swal.fire({
-  //             icon: 'success',
-  //             title: 'Hủy/trả yêu cầu hồ sơ thành công!',
-  //           })
-  //           // Gửi email thông báo cho người dùng
-  //           sendEmailTTHCGiangVien(
-  //             dataHoSoYeuCau,
-  //             dataCBGV,
-  //             listTPHSDeNghiYeuCau,
-  //             dataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
-  //             '',
-  //             '',
-  //           ).then((res) => {
-  //             console.log(res.statusText)
-  //           })
-  //           navigate(-1)
-  //           return
-  //         })
-  //       }
-  //     })
-  //   }
-
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected)
   }
@@ -691,19 +498,27 @@ function ChiTietHoSoYeuCau() {
     getListDataNoiTraKetQua()
   }, [])
   useEffect(() => {
-    getDataHoSoYeuCauById(id)
-    getDataTPHSDeNghiYeuCauByIDGoc(id)
-    getDataTrinhTuThucHienYeuCauByIDGoc(id)
+    const fetchData = async () => {
+      await getDataHoSoYeuCauById(id)
+      await getDataTPHSDeNghiYeuCauByIDGoc(id)
+      await getDataTrinhTuThucHienYeuCauByIDGoc(id)
+    }
+    fetchData()
   }, [id, loading])
 
   useEffect(() => {
-    getDataTrangThaiYeuCauByIDGoc(
-      dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
-    )
-    getListDataPhanQuyenByIDGoc(
-      dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
-    )
-  }, [dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID])
+    if (dataDetailYeuCau) {
+      const fetchData = async () => {
+        await getDataTrangThaiYeuCauByIDGoc(
+          dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
+        )
+        await getListDataPhanQuyenByIDGoc(
+          dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
+        )
+      }
+      fetchData()
+    }
+  }, [dataDetailYeuCau, id])
 
   const displayedListQuyTrinhXuLy = useMemo(() => {
     if (!showQuaTrinhXuLy) {
@@ -749,21 +564,21 @@ function ChiTietHoSoYeuCau() {
                       showThongTinNguoiNop ? null : 'hidden',
                     )}
                   >
-                    <p className="col-span-2 md:col-span-1 mb-3">
+                    <p className="col-span-2 md:col-span-1 mb-4">
                       Mã nhân sự:{' '}
                       <span className="font-semibold">
                         {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_MaNhanSu ??
                           'Chưa cập nhật'}
                       </span>
                     </p>
-                    <p className="col-span-2 md:col-span-1 mb-3">
+                    <p className="col-span-2 md:col-span-1 mb-4">
                       Họ và tên:{' '}
                       <span className="font-semibold">
                         {dataDetailYeuCau?.HoTen}
                       </span>
                     </p>
 
-                    <p className="col-span-2 md:col-span-1 mb-3">
+                    <p className="col-span-2 md:col-span-1 mb-4">
                       Ngày sinh:{' '}
                       <span className="font-semibold">
                         {dataDetailYeuCau?.NgaySinh
@@ -773,20 +588,20 @@ function ChiTietHoSoYeuCau() {
                           : ''}
                       </span>
                     </p>
-                    <p className="col-span-2 md:col-span-1 mb-3">
+                    <p className="col-span-2 md:col-span-1 mb-4">
                       Điện thoại:{' '}
                       <span className="font-semibold">
                         {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_SDT ??
                           'Chưa cập nhật'}
                       </span>
                     </p>
-                    <p className="col-span-2 md:col-span-1 mb-3">
+                    <p className="col-span-2 md:col-span-1 mb-4">
                       Email:{' '}
                       <span className="font-semibold whitespace-pre-wrap">
                         {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email}
                       </span>
                     </p>
-                    <p className="col-span-2 md:col-span-1 mb-3">
+                    <p className="col-span-2 md:col-span-1 mb-4">
                       Đơn vị:{' '}
                       <span className="font-semibold">
                         {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Khoa ??
@@ -822,7 +637,7 @@ function ChiTietHoSoYeuCau() {
                     )}
                   >
                     {/* Lĩnh vực */}
-                    <p className="col-span-1 mb-3">
+                    <p className="col-span-1 mb-4">
                       Lĩnh vực:{' '}
                       <span className="font-semibold">
                         {dataDetailYeuCau?.MC_TTHC_GV_LinhVuc}
@@ -830,7 +645,7 @@ function ChiTietHoSoYeuCau() {
                     </p>
 
                     {/* Mã thủ tục */}
-                    <p className="col-span-2 md:col-span-1 mb-3">
+                    <p className="col-span-2 md:col-span-1 mb-4">
                       Mã thủ tục:{' '}
                       <span className="font-semibold">
                         {dataDetailYeuCau?.MC_TTHC_GV_MaThuTuc}
@@ -838,7 +653,7 @@ function ChiTietHoSoYeuCau() {
                     </p>
 
                     {/* Tên thủ tục */}
-                    <p className="col-span-1 md:col-span-1 mb-3">
+                    <p className="col-span-1 md:col-span-1 mb-4">
                       Tên thủ tục:{' '}
                       <span className="font-semibold">
                         {dataDetailYeuCau?.MC_TTHC_GV_TenThuTuc}
@@ -846,7 +661,7 @@ function ChiTietHoSoYeuCau() {
                     </p>
 
                     {/* Mức độ thủ tục */}
-                    <p className="col-span-2 md:col-span-1 mb-3">
+                    <p className="col-span-2 md:col-span-1 mb-4">
                       Mức độ thủ tục:{' '}
                       <span className="font-semibold">
                         {listMucDoThuTuc.map((md) => {
@@ -857,7 +672,7 @@ function ChiTietHoSoYeuCau() {
                       </span>
                     </p>
                     {/* Ngày nộp hồ sơ */}
-                    <p className="col-span-1 mb-3">
+                    <p className="col-span-1 mb-4">
                       Ngày nộp hồ sơ:{' '}
                       <span className="font-semibold">
                         {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayGui &&
@@ -867,7 +682,7 @@ function ChiTietHoSoYeuCau() {
                       </span>
                     </p>
                     {/* Đơn vị tiếp nhận */}
-                    <p className="col-span-1 mb-3">
+                    <p className="col-span-1 mb-4">
                       Đơn vị tiếp nhận:{' '}
                       <span className="font-semibold">
                         {dataDetailYeuCau?.MC_TTHC_GV_NoiTiepNhan}
@@ -876,7 +691,7 @@ function ChiTietHoSoYeuCau() {
 
                     {/* START: Thành phần hồ show */}
                     {dataDetailTPHSYeuCau?.length > 0 && (
-                      <div className="col-span-2 mb-3">
+                      <div className="col-span-2 mb-4">
                         <p className="font-semibold">Giấy tờ kèm theo:</p>
                         <table className="w-full">
                           <thead className="bg-[#075985] text-white ">
@@ -936,6 +751,22 @@ function ChiTietHoSoYeuCau() {
                         </table>
                       </div>
                     )}
+
+                    {/* Nội dung yêu cầu của người gửi */}
+                    <div className="col-span-1 mb-4">
+                      <p>Nội dung yêu cầu của người gửi: </p>
+                      {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu ? (
+                        <Markdown
+                          remarkPlugins={[remarkGfm]}
+                          rehypePlugins={[rehypeKatex]}
+                          className={'px-6 font-medium'}
+                        >
+                          {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu}
+                        </Markdown>
+                      ) : (
+                        'Không có nội dung yêu cầu'
+                      )}
+                    </div>
 
                     {/* START: Cập nhật/Xử lý hồ sơ */}
                     <div className="hidden col-span-2">
@@ -1232,7 +1063,7 @@ function ChiTietHoSoYeuCau() {
                     <h4>Quy trình xử lý</h4>
                   </div>
                   {/* Trạng thái hồ sơ */}
-                  <p className="col-span-2 md:col-span-1 mb-3">
+                  <p className="col-span-2 md:col-span-1 mb-4">
                     Trạng thái hồ sơ:{' '}
                     <span className="font-semibold text-red-600">
                       {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID ===
@@ -1267,16 +1098,13 @@ function ChiTietHoSoYeuCau() {
                                 : 'bg-gray-200 text-uneti-primary',
                             )}
                           >
-                            {tt.MC_TTHC_GV_TrangThai_STT === index ? (
-                              <FaCaretDown
-                                className="text-white cursor-pointer"
-                                onClick={handleShowThongTinNguoiNop}
-                              />
+                            {tt?.MC_TTHC_GV_TrangThai_STT ===
+                              dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT ||
+                            dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT >
+                              index ? (
+                              <FaCaretRight className="text-white cursor-pointer" />
                             ) : (
-                              <FaCaretRight
-                                className="text-white cursor-pointer"
-                                onClick={handleShowThongTinNguoiNop}
-                              />
+                              <FaCaretDown className="text-uneti-primary cursor-pointer" />
                             )}
                             <h3 className="font-medium leading-10">
                               Bước {index + 1}:{' '}
@@ -1354,8 +1182,10 @@ function ChiTietHoSoYeuCau() {
                           <th className="border-r px-2">STT</th>
                           <th className="border-r px-2">Nhân sự xử lý</th>
                           <th className="border-r px-2">Hình thức xử lý</th>
-                          <th className="border-r px-2">Ngày hẹn trả hồ sơ</th>
-                          <th className="border-r px-2">Nơi trả kết quả</th>
+                          <th className="border-r px-2">
+                            Nội dung xử lý hồ sơ
+                          </th>
+                          <th className="border-r px-2">Tài liệu đính kèm</th>
                           <th className="border-r px-2">Thời gian xử lý</th>
                         </tr>
                       </thead>
@@ -1373,12 +1203,7 @@ function ChiTietHoSoYeuCau() {
                                 {iQTXuLy?.MC_TTHC_GV_TrangThai_TenTrangThai}
                               </td>
                               <td className="border-r p-2 text-center">
-                                {iQTXuLy?.MC_TTHC_GV_GuiYeuCau_NgayHenTra
-                                  ? moment(
-                                      iQTXuLy?.MC_TTHC_GV_GuiYeuCau_NgayHenTra,
-                                      'YYYY-MM-DDTHH:mm:ss.SSS[Z]',
-                                    ).format('DD/MM/YYYY HH:mm:ss')
-                                  : null}
+                                {iQTXuLy?.MC_TTHC_GV_GuiYeuCau_NoiDung_XuLy}
                               </td>
                               <td className="border-r p-2 text-center">
                                 {iQTXuLy?.MC_TTHC_GV_GuiYeuCau_NoiTraKetQua}

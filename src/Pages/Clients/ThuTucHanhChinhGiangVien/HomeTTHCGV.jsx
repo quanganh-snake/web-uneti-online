@@ -9,12 +9,14 @@ function HomeTTHCGV() {
   }
 
   const [listHoSoThuTuc, setListHoSoThuTuc] = useState([])
+  const [phongBan, setPhongBan] = useState('')
   const [keywords, setKeywords] = useState('')
   const [dieuKienLoc, setDieuKienLoc] = useState('')
   useEffect(() => {
     const getListHoSoThuTuc = async () => {
       try {
         const resultListHoSoThuTuc = await getThuTucHanhChinhByKeyWords(
+          phongBan,
           dieuKienLoc,
           keywords,
         )

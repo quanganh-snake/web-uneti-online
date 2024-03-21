@@ -10,7 +10,7 @@ function Tabs(props) {
     trinhTuThucHienActive,
     // phiActive,
     phanQuyenActive,
-    trangThaiActive,
+    // trangThaiActive,
     zoomView,
     setZoomView,
   } = props
@@ -97,7 +97,7 @@ function Tabs(props) {
             Phân quyền
           </button>
         </li>
-        <li className="me-2">
+        {/* <li className="me-2">
           <button
             type="button"
             id="btnTrangThai"
@@ -111,7 +111,7 @@ function Tabs(props) {
           >
             Trạng thái
           </button>
-        </li>
+        </li> */}
       </ul>
       <div className="">
         {zoomView ? (

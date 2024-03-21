@@ -1,4 +1,10 @@
 import mammoth from 'mammoth'
+import { remark } from 'remark'
+import remarkHtml from 'remark-html'
+
+import rehypeParse from 'rehype-parse'
+import rehypeRemark from 'rehype-remark'
+import remarkStringify from 'remark-stringify'
 
 export const compareStrings = (str1, str2) => {
   return str1.trim() === str2.trim()
@@ -514,4 +520,19 @@ export const convertBase64ToArrayBuffer = (base64) => {
   }
 
   return bytes.buffer
+}
+
+export function markdownToHtml(markdownText) {
+  const file = remark().use(remarkHtml).processSync(markdownText)
+  return String(file)
+}
+
+export function htmlToMarkdown(htmlText) {
+  const file = remark()
+    .use(rehypeParse, { emitParseErrors: true, duplicateAttribute: false })
+    .use(rehypeRemark)
+    .use(remarkStringify)
+    .processSync(htmlText)
+
+  return String(file)
 }
