@@ -14,7 +14,7 @@ const KDCLLayout = () => {
   }
   return (
     <>
-      <div className="grid w-full grid-cols-12 items-start px-0 md:gap-6 md:px-4">
+      <div className="grid w-full grid-cols-12 items-start px-0 md:gap-4">
         {sidebarList.length ? (
           <div className="hidden h-max lg:col-span-2 lg:block">
             <SidebarKDCL
@@ -43,10 +43,8 @@ const KDCLLayout = () => {
               </div>
             )}
           </div>
-          <div className="rounded-2xl bg-white p-7 pt-4">
-            <div className="w-full">
-              <Outlet />
-            </div>
+          <div className="w-full rounded-2xl bg-white p-7 pt-4">
+            <Outlet />
           </div>
         </div>
       </div>
