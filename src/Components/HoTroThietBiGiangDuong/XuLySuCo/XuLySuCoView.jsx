@@ -35,6 +35,7 @@ function XuLySuCoView() {
       setListLichDay([])
       getAllLichDayXuLySuCo(
         dayjs(new Date()).format('MM/DD/YYYY hh:mm:ss A'),
+        // dayjs(new Date()).format('YYYY/MM/DD'),
         // '2024-01-05T00:00:00.000Z',
         '',
         '',

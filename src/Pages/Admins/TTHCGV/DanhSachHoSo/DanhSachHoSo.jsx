@@ -29,7 +29,8 @@ function DanhSachHoSo() {
   const [listDepartments, setListDepartments] = useState([])
   const [listArea, setListArea] = useState([])
 
-  const [phongBan, setPhongBan] = useState(dataCBNV.TenPhongBan)
+  //   const [phongBan, setPhongBan] = useState(dataCBNV?.TenPhongBan ?? '')
+  const [phongBan, setPhongBan] = useState('')
   const [keywords, setKeywords] = useState('')
   const [dieuKienLoc, setDieuKienLoc] = useState('')
 
@@ -276,7 +277,7 @@ function DanhSachHoSo() {
                   <tbody>
                     {displayData?.length <= 0 ? (
                       <tr>
-                        <td colSpan={4}>
+                        <td colSpan={6}>
                           <p className="font-semibold text-[#336699] text-center border">
                             Chưa có hồ sơ/thủ tục nào được tạo.
                           </p>

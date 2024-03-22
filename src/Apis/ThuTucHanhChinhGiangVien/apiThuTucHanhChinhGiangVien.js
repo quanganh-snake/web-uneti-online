@@ -119,9 +119,9 @@ export const getGuiYeuCauHoSoThuTucKiemTraTrung = (
 
 // GET: Tìm kiếm hồ sơ thủ tục hành chính Giảng Viên
 export const getThuTucHanhChinhByKeyWords = (
-  phongBan,
-  dieuKienLoc,
-  keywords,
+  phongBan = '',
+  dieuKienLoc = '',
+  keywords = '',
 ) => {
   try {
     return http.get('SP_MC_TTHC_GV_TiepNhan/TimKiemThuTuc', {
