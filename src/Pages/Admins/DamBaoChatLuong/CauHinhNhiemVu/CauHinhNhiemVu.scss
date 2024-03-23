@@ -1,0 +1,32 @@
+@include b(cau-hinh-nhiem-vu) {
+  @include e(header) {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @include m(title) {
+      font-weight: 500;
+      font-size: 15px;
+
+      @include res(sm) {
+        font-size: 16px;
+      }
+      @include res(md) {
+        font-size: 17px;
+      }
+      @include res(lg) {
+        font-size: 18px;
+      }
+    }
+  }
+
+  @include e(tabs) {
+    @include m(tab) {
+      text-transform: initial !important;
+      font-weight: 500 !important;
+      font-family: inherit !important;
+      font-size: 15px !important;
+    }
+  }
+}
