@@ -3,11 +3,21 @@ import { useRef, useImperativeHandle, forwardRef } from 'react'
 
 import './Dialog.scss'
 import { createPortal } from 'react-dom'
+import { transformCls } from '@/Services/Utils/reactUtils'
 
 export const Dialog = forwardRef((props, ref) => {
   const bem = useNamespace('dialog')
 
-  const { footer, header, children, isOpen, setIsOpen } = props
+  const {
+    footer,
+    header,
+    children,
+    isOpen,
+    setIsOpen,
+    noPadding = false,
+    headerCenter = true,
+    headerClass = '',
+  } = props
 
   const dialogRef = useRef()
   const dialogOriginalRef = useRef()
@@ -35,7 +45,13 @@ export const Dialog = forwardRef((props, ref) => {
       {isOpen && (
         <div ref={dialogRef} className={bem.b()}>
           <div ref={dialogOriginalRef} className={bem.e('original')}>
-            <div className={bem.e('header')}>
+            <div
+              className={transformCls([
+                bem.e('header'),
+                bem.is('center', headerCenter == true),
+                headerClass,
+              ])}
+            >
               {/* Btn close */}
               <div className={bem.e('close')} onClick={handleCloseDialog}>
                 <svg

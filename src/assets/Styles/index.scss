@@ -32,3 +32,20 @@ body {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+.icon-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  height: 37px;
+  width: 37px;
+  border: 2px solid getColor(text, 0.1);
+}
+
+.base-button {
+  border-radius: 6px;
+  color: #fff;
+  padding: 8px 16px;
+  font-size: 14px;
+}
