@@ -29,8 +29,9 @@ function DanhSachHoSo() {
   const [listDepartments, setListDepartments] = useState([])
   const [listArea, setListArea] = useState([])
 
-  //   const [phongBan, setPhongBan] = useState(dataCBNV?.TenPhongBan ?? '')
-  const [phongBan, setPhongBan] = useState('')
+  const [phongBan, setPhongBan] = useState(dataCBNV?.TenPhongBan ?? '')
+  //   const [phongBan, setPhongBan] = useState('')
+  const [linhVuc, setLinhVuc] = useState('')
   const [keywords, setKeywords] = useState('')
   const [dieuKienLoc, setDieuKienLoc] = useState('')
 
@@ -69,27 +70,33 @@ function DanhSachHoSo() {
   }
   const handleChangeValue = (e) => {
     const { id, name, value } = e.target
+
     if (id == 'records-number' || name == 'records-number') {
       value ? setItemsPerPage(parseInt(value)) : setItemsPerPage(10)
     }
 
     if (id == 'donvi' || name == 'donvi') {
-      if (value) {
+      if (value && value !== 'dvnull') {
         setDieuKienLoc('NoiTiepNhan')
-        setKeywords(value)
+        setPhongBan(value)
+        setCurrentPage(0)
       } else {
         setDieuKienLoc('')
         setKeywords('')
+        setPhongBan('')
       }
     }
 
     if (id == 'linhvuc' || name == 'linhvuc') {
-      if (value) {
+      if (value && value !== 'lvnull') {
         setDieuKienLoc('LinhVuc')
+        setLinhVuc(value)
         setKeywords(value)
+        setCurrentPage(0)
       } else {
         setDieuKienLoc('')
         setKeywords('')
+        setLinhVuc('')
       }
     }
   }
@@ -143,11 +150,11 @@ function DanhSachHoSo() {
 
   useEffect(() => {
     getListHoSoThuTuc()
-    return () => {
-      setKeywords('')
-      setDieuKienLoc('')
-    }
-  }, [keywords, dieuKienLoc])
+    // return () => {
+    //   setKeywords('')
+    //   setDieuKienLoc('')
+    // }
+  }, [keywords, dieuKienLoc, phongBan, linhVuc])
 
   useEffect(() => {
     const getAllDepartments = async () => {
@@ -219,12 +226,13 @@ function DanhSachHoSo() {
                     </div>
                   </form>
                   <select
-                    className="col-span-5 lg:col-span-1 rounded-full px-3 py-1  border border-slate-400 focus:outline-slate-300"
+                    className="hidden col-span-5 lg:col-span-1 rounded-full px-3 py-1  border border-slate-400 focus:outline-slate-300"
                     onChange={handleChangeValue}
+                    value={phongBan}
                     name="donvi"
                     id="donvi"
                   >
-                    <option value="">Đơn vị/Tổ chức</option>
+                    <option value={'dvnull'}>Đơn vị/Tổ chức</option>
                     {listDepartments.map((item, index) => {
                       return (
                         <option value={item.MC_TTHC_GV_NoiTiepNhan} key={index}>
@@ -236,10 +244,11 @@ function DanhSachHoSo() {
                   <select
                     className="col-span-5 lg:col-span-1 rounded-full px-3 py-1  border border-slate-400 focus:outline-slate-300"
                     onChange={handleChangeValue}
+                    value={linhVuc}
                     name="linhvuc"
                     id="linhvuc"
                   >
-                    <option value="">Lĩnh vực</option>
+                    <option value={'lvnull'}>Lĩnh vực</option>
                     {listArea.map((item, index) => {
                       return (
                         <option value={item.MC_TTHC_GV_LinhVuc} key={index}>

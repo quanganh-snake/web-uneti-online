@@ -20,7 +20,7 @@ function RoleMiddleware(props) {
   return allowedRoles?.includes(role) ? (
     <Outlet />
   ) : (
-    <Navigate to="/dang-nhap" />
+    <Navigate to="/error/403" />
   )
 }
 
