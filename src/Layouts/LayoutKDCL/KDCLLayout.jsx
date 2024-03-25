@@ -4,19 +4,19 @@ import Breadcrumb from '@/Components/Breadcumb/Breadcrumb'
 import SidebarKDCL from './SidebarKDCL/SidebarKDCL'
 import clsx from 'clsx'
 import { IoMenu } from 'react-icons/io5'
+import { Outlet } from 'react-router-dom'
+import { kiemdinhSidebar as sidebarList } from './constants'
 
-const KDCLLayout = (props) => {
-  const { children, sidebarList = [], home = {}, breadcrumbs = [] } = props
-
+const KDCLLayout = () => {
   const [openSidebar, setOpenSidebar] = useState(true)
   const handleOpenSidebar = () => {
     setOpenSidebar(!openSidebar)
   }
   return (
     <>
-      <div className="grid w-full grid-cols-12 items-start px-0 md:gap-6 md:px-4">
+      <div className="grid w-full grid-cols-12 items-start px-0 md:gap-4">
         {sidebarList.length ? (
-          <div className="hidden h-full lg:col-span-2 lg:block">
+          <div className="hidden h-max lg:col-span-2 lg:block">
             <SidebarKDCL
               titleSidebar={'Kiểm định chất lượng'}
               sidebarList={sidebarList}
@@ -28,24 +28,23 @@ const KDCLLayout = (props) => {
 
         <div
           className={clsx(
-            'h-full rounded-2xl bg-white shadow-lg',
+            'h-max rounded-2xl bg-white shadow-sm',
             openSidebar ? 'col-span-12 lg:col-span-10' : 'col-span-12',
           )}
         >
-          <div className="flex items-center gap-10 p-4">
+          <div className="flex items-center gap-10">
             {!openSidebar && (
-              <IoMenu
-                size={24}
-                onClick={handleOpenSidebar}
-                className="cursor-pointer hover:opacity-50"
-              />
+              <div className="p-4">
+                <IoMenu
+                  size={24}
+                  onClick={handleOpenSidebar}
+                  className="cursor-pointer hover:opacity-50"
+                />
+              </div>
             )}
-            <div className="flex-1">
-              <Breadcrumb home={home} breadcrumbs={breadcrumbs} />
-            </div>
           </div>
-          <div className="rounded-2xl bg-white p-4 shadow-sm">
-            <div className="w-full">{children}</div>
+          <div className="w-full rounded-2xl bg-white p-7 pt-4">
+            <Outlet />
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ import {
 } from '@/Services/Redux/Slice/authSlice'
 import http from '@/Configs/http'
 import { userSuccess } from '@/Services/Redux/Slice/userSlice'
+import { ROLES } from '@/Routers/privateRoutes'
 
 export const logOut = async (role, dispatch, navigate, refreshToken) => {
   dispatch(logOutStart())
@@ -12,9 +13,9 @@ export const logOut = async (role, dispatch, navigate, refreshToken) => {
     const dataRefresh = {
       refreshToken: refreshToken,
     }
-    if (role === 'SV') {
+    if (role === ROLES.S0202) {
       await http.post(`/jwt/Logout`, dataRefresh)
-    } else if (role === 'GV') {
+    } else if (role === ROLES.G0101) {
       await http.post(`/jwtGV/LogoutGV`, dataRefresh)
     } else {
       navigate('/dang-nhap')

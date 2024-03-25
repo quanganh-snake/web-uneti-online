@@ -12,23 +12,23 @@ body {
 
 .is-color-primary {
   // --#{$namespace}-color: 25, 91, 255;
-  --#{$namespace}-color: 4, 132, 172;
+  --#{$namespace}-color: 4, 132, 172 !important;
 }
 
 .is-color-success {
-  --#{$namespace}-color: 70, 201, 58;
+  --#{$namespace}-color: 70, 201, 58 !important;
 }
 
 .is-color-danger {
-  --#{$namespace}-color: 255, 71, 87;
+  --#{$namespace}-color: 255, 71, 87 !important;
 }
 
 .is-color-warn {
-  --#{$namespace}-color: 255, 186, 0;
+  --#{$namespace}-color: 255, 186, 0 !important;
 }
 
 .is-color-error {
-  --#{$namespace}-color: 255, 71, 87;
+  --#{$namespace}-color: 255, 71, 87 !important;
 }
 
 .is-color-dark {

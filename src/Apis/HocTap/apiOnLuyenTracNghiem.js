@@ -1,4 +1,5 @@
 import http from '@/Configs/http'
+import { LOAD_CAU_HOI_DIEU_KIEN_LOC } from '@/Services/Tokens'
 
 // GET
 export const getMonHocTheoSinhVien = (MaSinhVien = '') => {
@@ -75,6 +76,32 @@ export const getTongSoTrangTheoChuong = ({
       },
     },
   )
+
+export const getTongSoTrangTheoMonHoc = ({ MaMonHoc, DieuKienLoc }) =>
+  http.get(
+    '/SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/TongSoTrangCauHoi_TheoMonHoc',
+    {
+      params: {
+        MaMonHoc,
+        DieuKienLoc,
+      },
+    },
+  )
+
+export const getCauHoiTheoMonHoc = ({
+  IDSinhVien,
+  soTrang = 1,
+  maMonHoc,
+  dieuKienLoc = LOAD_CAU_HOI_DIEU_KIEN_LOC.TatCa,
+}) =>
+  http.get('SP_TC_SV_OnThi_Load_CauHoi_TiepNhan/TheoMonHoc', {
+    params: {
+      IDSinhVien: IDSinhVien,
+      SoTrang: soTrang,
+      MaMonHoc: maMonHoc,
+      DieuKienLoc: dieuKienLoc,
+    },
+  })
 
 export const postDanhSachOnTap = (data = {}) =>
   http.post(

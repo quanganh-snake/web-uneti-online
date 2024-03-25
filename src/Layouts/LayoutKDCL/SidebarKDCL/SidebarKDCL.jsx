@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useNamespace } from '@/Services/Hooks'
 import clsx from 'clsx'
 import { IoMenu, IoClose } from 'react-icons/io5'
 import { getMenus } from '@/Services/Utils/menuUtils'
@@ -8,13 +7,11 @@ import { getMenus } from '@/Services/Utils/menuUtils'
 const SidebarKDCL = (props) => {
   const { titleSidebar, sidebarList, openSidebar, onOpenSidebar } = props
 
-  const bem = useNamespace('sidebar')
-
   return (
     <>
       <div
         className={clsx(
-          'h-full rounded-2xl bg-white shadow-lg',
+          'h-full p-3 overflow-hidden rounded-2xl bg-white shadow-module-item',
           openSidebar ? 'w-full' : 'hidden',
         )}
       >
