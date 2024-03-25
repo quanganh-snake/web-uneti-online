@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV.js'
 import { ROLE_VIEW_ACTION_TTHCGV } from '@/Routers/privateRoutes.jsx'
 import clsx from 'clsx'
+import { simpleSHA256 } from './../../Services/Utils/stringUtils'
 
 function NavbarTTHCGV() {
   const dataCBGV = DataCanBoGV()
@@ -34,7 +35,8 @@ function NavbarTTHCGV() {
               <li
                 key={module.id}
                 className={clsx(
-                  module?.roleActive.includes(roleViewAction) === true
+                  module?.roleActive?.includes(simpleSHA256(roleViewAction)) ===
+                    true
                     ? ''
                     : 'hidden',
                 )}

@@ -4,9 +4,11 @@ import { home, breadcrumbs } from './constants'
 import { Link } from 'react-router-dom'
 import HuongDanSuDung from './HuongDanSuDung'
 import { isEmpty } from 'lodash-unified'
+import dayjs from 'dayjs'
 
 export const BaoHongView = (props) => {
-  const { handleSubmitData, selectedSuCo, selectedLichHoc } = props
+  const { handleSubmitData, selectedSuCo, selectedLichHoc, infoPersonOnDuty } =
+    props
 
   return (
     <div className="bg-vs-theme-layout rounded-2xl mx-4 lg:mx-0">
@@ -20,6 +22,57 @@ export const BaoHongView = (props) => {
           <div className="lg:px-36">
             <BaoHongForm {...props} />
 
+            {infoPersonOnDuty.length > 0 && (
+              <div className="my-6">
+                <h2 className="uppercase font-semibold text-xl italic text-red-500 mb-4">
+                  Thông tin cán bộ trực thiết bị giảng đường
+                </h2>
+                <table className="border w-full">
+                  <tbody>
+                    {infoPersonOnDuty.map((nt, index) => (
+                      <tr key={index} className="border-b border-neutral-200">
+                        <table className="border w-full">
+                          <tbody>
+                            <tr className="border-b border-neutral-200">
+                              <td className="border-r p-2 font-medium">
+                                Họ và tên
+                              </td>
+                              <td className="p-2">{nt.DT_CVNB_LTTBGD_HoTen}</td>
+                            </tr>
+                            <tr className="border-b border-neutral-200">
+                              <td className="border-r p-2 font-medium">
+                                Số điện thoại
+                              </td>
+                              <td className="p-2">
+                                {nt.DT_CVNB_LTTBGD_DienThoai}
+                              </td>
+                            </tr>
+                            <tr className="border-b border-neutral-200">
+                              <td className="border-r p-2 font-medium">
+                                Email
+                              </td>
+                              <td className="p-2">{nt.DT_CVNB_LTTBGD_Email}</td>
+                            </tr>
+                            <tr className="border-b border-neutral-200">
+                              <td className="border-r p-2 font-medium">
+                                Ca trực
+                              </td>
+                              <td className="p-2">
+                                {nt.DT_CVNB_LTTBGD_CaTruc +
+                                  ' - ' +
+                                  dayjs(nt.DT_CVNB_LTTBGD_NgayTruc).format(
+                                    'DD/MM/YYYY',
+                                  )}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
             <div className="relative sm:rounded-lg my-6">
               <div className="pb-10 uneti-action flex justify-center gap-2">
                 <HuongDanSuDung />

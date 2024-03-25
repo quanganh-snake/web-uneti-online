@@ -114,7 +114,7 @@ export const homeMain = [
     desc: 'Kiểm định chất lượng, Khảo sát và đánh giá chất lượng, Cơ sở dữ liệu đơn vị, Quản lý minh chứng, Tiện ích, Quản trị hệ thống.',
     icon: icoTTHCSV,
     path: '/kiem-dinh-chat-luong',
-    moduleActive: true,
+    moduleActive: false,
     roleActive: [ROLES.G0101],
   },
 ]
@@ -1521,7 +1521,7 @@ export const homeTraCuu = [
     title: 'Chương trình đào tạo',
     desc: 'Theo dõi chương trình đào tạo',
     path: '/chuong-trinh-dao-tao',
-    moduleActive: true,
+    moduleActive: false,
     thumbnail: iconLich,
     roleActive: [ROLES.S0202],
   },

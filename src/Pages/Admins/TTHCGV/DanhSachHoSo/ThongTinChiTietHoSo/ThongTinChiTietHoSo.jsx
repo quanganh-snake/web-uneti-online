@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import {
+  getKiemTraTrungEditPara,
   getKiemTraTrungMaTTHCGV,
   getThuTucHanhChinhByID,
   putThongTinHoSoThuTuc,
@@ -43,6 +44,8 @@ import { handlePreviewFileBase64 } from '@/Services/Utils/fileUtils'
 import { DebounceInput } from 'react-debounce-input'
 import { EditPhanQuyenThuTuc } from './EditPhanQuyenThuTuc/EditPhanQuyenThuTuc'
 import Markdown from 'react-markdown'
+import { TextEditor } from '@/Components/TextEditor/TextEditor'
+import { marked } from 'marked'
 
 function ThongTinChiTietHoSo() {
   const { id } = useParams()
@@ -63,6 +66,7 @@ function ThongTinChiTietHoSo() {
   const [editValueRow, setEditValueRow] = useState({})
   const [editType, setEditType] = useState('')
   const [editThongTinChung, setEditThongTinChung] = useState({})
+  const [dataQuyTrinhThucHien, setDataQuyTrinhThucHien] = useState('')
 
   const TABS = {
     tabThongTinHoSo: 'ThongTinHoSo',
@@ -82,6 +86,7 @@ function ThongTinChiTietHoSo() {
           const { ThongTinHoSo } = dataDetailHoSoThuTuc
           setDetailHoSoThuTuc(dataDetailHoSoThuTuc)
           setEditThongTinChung(ThongTinHoSo)
+          setDataQuyTrinhThucHien(ThongTinHoSo.MC_TTHC_GV_QuyTrinhThucHien)
           setLoading(false)
         }
       }
@@ -305,6 +310,7 @@ function ThongTinChiTietHoSo() {
           editThongTinChung?.MC_TTHC_GV_CanCuPhapLyCuaTTHC,
         MC_TTHC_GV_DieuKienThucHien:
           editThongTinChung?.MC_TTHC_GV_DieuKienThucHien,
+        MC_TTHC_GV_QuyTrinhThucHien: dataQuyTrinhThucHien,
         MC_TTHC_GV_TepThuTuc_TenFile:
           editThongTinChung?.MC_TTHC_GV_TepThuTuc_TenFile,
         MC_TTHC_GV_TepThuTuc_DataFileFile:
@@ -328,6 +334,29 @@ function ThongTinChiTietHoSo() {
         }).then(async (result) => {
           if (result.isConfirmed) {
             try {
+              const checkDuplicateMaThuTuc = await getKiemTraTrungEditPara(
+                newDataUpdateThongTinHoSo.MC_TTHC_GV_ID,
+                newDataUpdateThongTinHoSo.MC_TTHC_GV_MaThuTuc,
+              )
+
+              let checkTrungMaThuTuc = false
+              if (checkDuplicateMaThuTuc.status === 200) {
+                const dataTrung = checkDuplicateMaThuTuc.data?.body
+
+                if (dataTrung?.length > 0) {
+                  checkTrungMaThuTuc = true
+                }
+              }
+
+              if (checkTrungMaThuTuc === true) {
+                Swal.fire({
+                  icon: 'error',
+                  title:
+                    'Mã thủ tục đã tồn tại. Vui lòng nhập mã thủ tục khác!',
+                })
+                return
+              }
+
               const resUpdateThongTinHoSo = await putThongTinHoSoThuTuc(
                 newDataUpdateThongTinHoSo,
               )
@@ -517,7 +546,6 @@ function ThongTinChiTietHoSo() {
   const { ThongTinHoSo, ThanhPhanHoSo, TrinhTuThucHien, PhanQuyen, TrangThai } =
     detailHoSoThuTuc ?? null
 
-  console.log(ThongTinHoSo)
   return (
     <div className="px-5 lg:px-0 grid grid-cols-12 flex-row gap-4">
       <div className="col-span-12 lg:col-span-2">
@@ -633,12 +661,11 @@ function ThongTinChiTietHoSo() {
                       </label>
                       <input
                         type="text"
-                        className="px-3 py-1 w-full bg-slate-300 border border-slate-200 rounded-md focus:outline-none"
+                        className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-none"
                         defaultValue={ThongTinHoSo?.MC_TTHC_GV_MaThuTuc}
                         placeholder="Nhập mã thủ tục"
                         name="MC_TTHC_GV_MaThuTuc"
                         id="MC_TTHC_GV_MaThuTuc"
-                        disabled
                         onChange={(e) => {
                           handleChangeValue(TABS.tabThongTinHoSo, e)
                         }}
@@ -746,16 +773,17 @@ function ThongTinChiTietHoSo() {
                   <div className="col-span-4">
                     <div className="flex flex-col gap-1">
                       <label
-                        htmlFor="MC_TTHC_GV_DoiTuongThucHien"
+                        htmlFor="MC_TTHC_GV_QuyTrinhThucHien"
                         className="font-semibold"
                       >
                         Quy trình thực hiện
                       </label>
-                      <Markdown
-                        className={'bg-slate-100 border p-4 rounded-md'}
-                      >
-                        {ThongTinHoSo?.MC_TTHC_GV_QuyTrinhThucHien}
-                      </Markdown>
+                      {/* textarea */}
+                      <TextEditor
+                        id="MC_TTHC_GV_QuyTrinhThucHien"
+                        value={marked.parse(dataQuyTrinhThucHien)}
+                        onChange={setDataQuyTrinhThucHien}
+                      />
                     </div>
                   </div>
                   {/* Căn cứ pháp lý của Thủ tục hành chính */}
@@ -816,12 +844,6 @@ function ThongTinChiTietHoSo() {
                       disabled={true}
                       name="MC_TTHC_GV_IsTruongPhongPheDuyet"
                       id="MC_TTHC_GV_IsTruongPhongPheDuyet"
-                      //   onChange={(e) => {
-                      //     setEditThongTinChung({
-                      //       ...editThongTinChung,
-                      //       MC_TTHC_GV_IsTruongPhongPheDuyet: e.target.checked,
-                      //     })
-                      //   }}
                     />
                     <label htmlFor="MC_TTHC_GV_IsTruongPhongPheDuyet">
                       Thủ tục cần trưởng phòng phê duyệt
@@ -838,12 +860,6 @@ function ThongTinChiTietHoSo() {
                       disabled={true}
                       name="MC_TTHC_GV_IsBGHPheDuyet"
                       id="MC_TTHC_GV_IsBGHPheDuyet"
-                      //   onChange={(e) => {
-                      //     setEditThongTinChung({
-                      //       ...editThongTinChung,
-                      //       MC_TTHC_GV_IsBGHPheDuyet: e.target.checked,
-                      //     })
-                      //   }}
                     />
                     <label htmlFor="MC_TTHC_GV_IsBGHPheDuyet">
                       Thủ tục cần Ban giám hiệu phê duyệt
@@ -860,12 +876,6 @@ function ThongTinChiTietHoSo() {
                       disabled={true}
                       name="MC_TTHC_GV_ThuTucLienThong"
                       id="MC_TTHC_GV_ThuTucLienThong"
-                      onChange={(e) => {
-                        setEditThongTinChung({
-                          ...editThongTinChung,
-                          MC_TTHC_GV_ThuTucLienThong: e.target.checked,
-                        })
-                      }}
                     />
                     <label htmlFor="MC_TTHC_GV_ThuTucLienThong">
                       Thủ tục liên thông
@@ -884,13 +894,6 @@ function ThongTinChiTietHoSo() {
                       disabled={true}
                       name="MC_TTHC_GV_ThuTucKhongApDungTrucTuyen"
                       id="MC_TTHC_GV_ThuTucKhongApDungTrucTuyen"
-                      onChange={(e) => {
-                        setEditThongTinChung({
-                          ...editThongTinChung,
-                          MC_TTHC_GV_ThuTucKhongApDungTrucTuyen:
-                            e.target.checked,
-                        })
-                      }}
                     />
                     <label htmlFor="MC_TTHC_GV_ThuTucKhongApDungTrucTuyen">
                       Thủ tục không áp dụng trực tuyến
@@ -2066,7 +2069,7 @@ function ThongTinChiTietHoSo() {
                                     <input
                                       type="checkbox"
                                       className="w-full focus:outline-slate-400 px-3 py-2 border-2 border-gray-400 bg-gray-50"
-                                      checked={
+                                      defaultChecked={
                                         editValueRow?.MC_TTHC_GV_TrangThai_IsHienThiThongTin ||
                                         false
                                       }
@@ -2128,7 +2131,7 @@ function ThongTinChiTietHoSo() {
                                 <td className="border-r px-2 py-1 text-center">
                                   <input
                                     type="checkbox"
-                                    checked={
+                                    defaultChecked={
                                       iTrangThai.MC_TTHC_GV_TrangThai_IsHienThiThongTin
                                     }
                                   />

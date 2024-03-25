@@ -1,6 +1,7 @@
 import {
   getAllLichDayBaoHong,
   getAllSuCo,
+  getTTNguoiTrucThietBi,
   getTTPhongBaoHong,
   updateBaoHong,
 } from '@/Apis/HoTroThietBiGiangDuong/apiBaoHong'
@@ -20,7 +21,7 @@ export default function BaoHong() {
   const [selectedLichHoc, setSelectedLichHoc] = useState({})
   const [listSuCo, setListSuCo] = useState([])
   const [selectedSuCo, setSelectedSuCo] = useState([])
-
+  const [infoPersonOnDuty, setInfoPersonOnDuty] = useState([])
   const dataCBGV = DataCanBoGV()
 
   useEffect(() => {
@@ -111,7 +112,14 @@ export default function BaoHong() {
   }
 
   const handlePostData = async (dataSuCo) => {
+    // console.log('>>>selectedLichHoc: ', selectedLichHoc)
+    //   DT_CVNB_TBGD_LichHoc_TenDiaDiem
+    //   DT_CVNB_TBGD_LichHoc_TenDayNha
+
     try {
+      const resGetInfoPersonOnDuty = await getTTNguoiTrucThietBi(
+        selectedLichHoc.DT_CVNB_TBGD_LichHoc_TenDiaDiem,
+      )
       const resPostData = await updateBaoHong(dataSuCo)
 
       if (resPostData == 'ERR_BAD_REQUEST') {
@@ -130,6 +138,11 @@ export default function BaoHong() {
           showConfirmButton: false,
           timer: 1500,
         })
+      }
+
+      if (resGetInfoPersonOnDuty.status === 200) {
+        const data = await resGetInfoPersonOnDuty.data.body
+        setInfoPersonOnDuty(data)
       }
     } catch (error) {
       console.log(error)
@@ -153,6 +166,7 @@ export default function BaoHong() {
       listSuCo={listSuCo}
       selectedSuCo={selectedSuCo}
       handleSelectSuCo={handleSelectSuCo}
+      infoPersonOnDuty={infoPersonOnDuty}
     />
   )
 }

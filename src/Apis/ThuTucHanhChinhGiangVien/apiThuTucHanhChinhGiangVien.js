@@ -250,3 +250,13 @@ export const getQuyTrinhXuLyCBNV = (idGuiYeuCau = '') => {
     },
   )
 }
+
+// GET: Kiểm tra trùng EDIT TTHCGV - Theo ID + Mã thủ tục
+export const getKiemTraTrungEditPara = (idThuTuc, maThuTuc) => {
+  return http.get('SP_MC_TTHC_GV_TiepNhan/Edit_Para_KiemTraTrung', {
+    params: {
+      MC_TTHC_GV_ID: idThuTuc,
+      MC_TTHC_GV_MaThuTuc: maThuTuc,
+    },
+  })
+}

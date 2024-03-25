@@ -18,7 +18,9 @@ export const TextEditor = (props) => {
 
   const handleChangeValue = (value) => {
     setContent(value)
-    onChange(value)
+    if (onChange) {
+      onChange(value)
+    }
   }
 
   return (
@@ -39,6 +41,6 @@ export const TextEditor = (props) => {
 }
 
 TextEditor.propTypes = {
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   id: PropTypes.string,
 }

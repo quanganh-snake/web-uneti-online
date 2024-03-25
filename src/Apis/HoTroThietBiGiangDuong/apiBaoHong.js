@@ -36,3 +36,13 @@ export const getAllSuCo = (id = '', tenPhong = '') => {
 export const updateBaoHong = (data = {}) => {
   return http.put('SP_DT_QLP_Phong_TiepNhan/Edit_SuCo_Web', data)
 }
+
+// GET: Lấy thông tin người trực TBGD
+export const getTTNguoiTrucThietBi = (diaDiem = '', toaNha = '') => {
+  return http.get('SP_DT_QLP_Phong_TiepNhan/LTTBGD_Load_Para_Ngay', {
+    params: {
+      DT_CVNB_LTTBGD_DiaDiem: diaDiem,
+      DT_CVNB_LTTBGD_ToaNha: toaNha,
+    },
+  })
+}
