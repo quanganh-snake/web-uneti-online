@@ -1,10 +1,9 @@
 import Icon from '@/Components/Base/Icon/Icon'
 import { RotateLeft } from '@/Components/Base/Icons/RotateLeft'
-import { useClickOutside, useNamespace } from '@/Services/Hooks'
+import AdvanceSearch from '@/Components/KiemDinhChatLuong/AdvanceSearch'
+import { useNamespace } from '@/Services/Hooks'
 import { transformCls } from '@/Services/Utils/reactUtils'
 import { Pagination, Tooltip } from '@mui/material'
-import { useState } from 'react'
-import { useRef } from 'react'
 import { BiChevronDown } from 'react-icons/bi'
 import { Link } from 'react-router-dom'
 
@@ -32,15 +31,6 @@ const DATA = [
 export default function ThongKeNhanLuc() {
   const ns = useNamespace('kiem-dinh-chat-luong')
 
-  const [isOpenSearchAdvance, setIsOpenSearchAdvance] = useState(false)
-  const searchAdvanceRef = useRef()
-  const searchDropdownRef = useRef()
-
-  useClickOutside(searchDropdownRef, (event) => {
-    if (event.target !== searchAdvanceRef.current) {
-      setIsOpenSearchAdvance(false)
-    }
-  })
   return (
     <div className="box">
       <div className="flex justify-between items-center">
@@ -73,41 +63,7 @@ export default function ThongKeNhanLuc() {
           </h3>
 
           <div className={ns.e('actions')}>
-            <div className={ns.em('actions', 'search')}>
-              <div className={ns.em('search', 'controls')}>
-                <input
-                  className={ns.em('search', 'control')}
-                  placeholder="Nhập từ khóa tìm kiếm"
-                />
-                <div className="relative">
-                  <button
-                    ref={searchAdvanceRef}
-                    className={ns.em('search', 'advance')}
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      e.preventDefault()
-                      setIsOpenSearchAdvance((prev) => !prev)
-                    }}
-                  >
-                    Tìm kiếm nâng cao
-                    <Icon>
-                      <BiChevronDown />
-                    </Icon>
-                  </button>
-
-                  <div
-                    ref={searchDropdownRef}
-                    className={transformCls([
-                      ns.em('search', 'dropdown'),
-                      ns.is('open', isOpenSearchAdvance),
-                    ])}
-                  >
-                    Dropdown
-                  </div>
-                </div>
-              </div>
-              <button className="base-button bg-uneti-primary">Tìm kiếm</button>
-            </div>
+            <AdvanceSearch />
 
             <Tooltip title="Tải lại dữ liệu">
               <button className="icon-btn">

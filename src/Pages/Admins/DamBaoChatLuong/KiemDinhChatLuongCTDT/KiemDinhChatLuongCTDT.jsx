@@ -1,4 +1,4 @@
-import { useClickOutside, useNamespace } from '@/Services/Hooks'
+import { useNamespace } from '@/Services/Hooks'
 import { Box, Pagination, Tooltip } from '@mui/material'
 import Row from '@/Components/Base/Row/Row'
 import Col from '@/Components/Base/Col/Col'
@@ -13,6 +13,7 @@ import CreateForm from '@/Components/KiemDinhChatLuong/DamBaoChatLuong/KiemDinhC
 import Button from '@/Components/Base/Button/Button'
 import { FiTrash } from 'react-icons/fi'
 import { table, data, data2 } from './faker'
+import AdvanceSearch from '@/Components/KiemDinhChatLuong/AdvanceSearch'
 
 import './KiemDinhChatLuongCTDT.scss'
 
@@ -20,28 +21,13 @@ export default function KiemDinhChatLuongCTDT() {
   const ns = useNamespace('kdcl-ctdt')
   const nsLayoutKDCL = useNamespace('kiem-dinh-chat-luong')
 
-  const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
   const [pageSize] = useState(10)
-  const [isOpenSearchAdvance, setIsOpenSearchAdvance] = useState(false)
-  const searchAdvanceRef = useRef()
-  const searchDropdownRef = useRef()
-
-  const handleSearch = (event) => {
-    setSearch(event.target.value)
-  }
+  const [kiemDinh, setKiemDinh] = useState()
 
   const handleChangePage = (event, value) => {
     setPage(value)
   }
-
-  useClickOutside(searchDropdownRef, (event) => {
-    if (event.target !== searchAdvanceRef.current) {
-      setIsOpenSearchAdvance(false)
-    }
-  })
-
-  const [kiemDinh, setKiemDinh] = useState()
 
   const congViec = useMemo(() => {
     return data2.filter((item) => item.PID === kiemDinh)
@@ -158,45 +144,7 @@ export default function KiemDinhChatLuongCTDT() {
             </h3>
 
             <div className={ns.e('actions')}>
-              <div className={ns.em('actions', 'search')}>
-                <div className={ns.em('search', 'controls')}>
-                  <input
-                    className={ns.em('search', 'control')}
-                    value={search}
-                    onInput={handleSearch}
-                    placeholder="Nhập từ khóa tìm kiếm"
-                  />
-                  <div className="relative">
-                    <button
-                      ref={searchAdvanceRef}
-                      className={ns.em('search', 'advance')}
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        e.preventDefault()
-                        setIsOpenSearchAdvance((prev) => !prev)
-                      }}
-                    >
-                      Tìm kiếm nâng cao
-                      <Icon>
-                        <BiChevronDown />
-                      </Icon>
-                    </button>
-
-                    <div
-                      ref={searchDropdownRef}
-                      className={transformCls([
-                        ns.em('search', 'dropdown'),
-                        ns.is('open', isOpenSearchAdvance),
-                      ])}
-                    >
-                      Dropdown
-                    </div>
-                  </div>
-                </div>
-                <button className="base-button bg-uneti-primary">
-                  Tìm kiếm
-                </button>
-              </div>
+              <AdvanceSearch />
 
               <Tooltip title="Tải lại dữ liệu">
                 <button className="icon-btn">
