@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import React, { memo, useState } from 'react'
+import { memo, useState } from 'react'
 import { MdAdd } from 'react-icons/md'
 import Swal from 'sweetalert2'
 import { convertDataFileToBase64 } from '../../../../Services/Utils/stringUtils'
@@ -36,7 +36,9 @@ const ThanhPhanHoSoDeNghi = memo(function ThanhPhanHoSoDeNghi(props) {
     setEditRowIndex(-1)
     setEditValueRow({})
   }
-
+  const handleCancelDataRow = () => {
+    setEditRowIndex(-1)
+  }
   const handleDeleteRow = (rowIndex) => {
     Swal.fire({
       title: 'Bạn chắc chắn muốn xóa dữ liệu này?',
@@ -112,7 +114,7 @@ const ThanhPhanHoSoDeNghi = memo(function ThanhPhanHoSoDeNghi(props) {
               <th className="border-r px-2 py-1">Bản chính</th>
               <th className="border-r px-2 py-1">Bản sao</th>
               <th className="border-r px-2 py-1">Bắt buộc</th>
-              <th className="px-2 py-1 rounded-tr-xl">Actions</th>
+              <th className="px-2 py-1 rounded-tr-xl">Tác vụ</th>
             </tr>
           </thead>
           <tbody>
@@ -125,200 +127,114 @@ const ThanhPhanHoSoDeNghi = memo(function ThanhPhanHoSoDeNghi(props) {
                 </td>
               </tr>
             )}
-            {thanhPhanHoSo.map((row, index) => (
-              <tr
-                key={index}
-                className={clsx(editRowIndex === index ? 'bg-slate-200' : null)}
-              >
-                {/* Dữ liệu hiển thị */}
-                {editRowIndex === index ? (
-                  <>
-                    {/* Hiển thị dữ liệu cho phép chỉnh sửa */}
-                    <td className="border-r border-white px-2 py-1 text-center">
-                      {index + 1}
-                    </td>
-                    <td className="border-r border-white px-2 py-1">
-                      <textarea
-                        type="text"
-                        className="w-full border border-slate-300 rounded-md px-2 focus:outline-slate-300"
-                        placeholder="Nhập tên giấy tờ..."
-                        value={
-                          editValueRow.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo || ''
-                        }
-                        onChange={(e) =>
-                          handleChangeValue(
-                            e,
-                            'MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo',
-                          )
-                        }
-                      ></textarea>
-                    </td>
-                    <td className="border-r border-white px-2 py-1">
-                      <input
-                        type="file"
-                        name="MC_TTHC_GV_ThanhPhanHoSo_TenFile"
-                        id="MC_TTHC_GV_ThanhPhanHoSo_TenFile"
-                        onChange={(e) => {
-                          handleChangeValue(
-                            e,
-                            'MC_TTHC_GV_ThanhPhanHoSo_TenFile',
-                          )
-                        }}
-                      />
-                    </td>
-                    <td className="border-r border-white px-2 py-1 text-center">
-                      <input
-                        type="checkbox"
-                        checked={
-                          editValueRow.MC_TTHC_GV_ThanhPhanHoSo_BanChinh ||
-                          false
-                        }
-                        onChange={(e) =>
-                          handleChangeValue(
-                            e,
-                            'MC_TTHC_GV_ThanhPhanHoSo_BanChinh',
-                          )
-                        }
-                      />
-                    </td>
-                    <td className="border-r border-white px-2 py-1 text-center">
-                      <input
-                        type="checkbox"
-                        checked={
-                          editValueRow.MC_TTHC_GV_ThanhPhanHoSo_BanSao || false
-                        }
-                        onChange={(e) =>
-                          handleChangeValue(
-                            e,
-                            'MC_TTHC_GV_ThanhPhanHoSo_BanSao',
-                          )
-                        }
-                      />
-                    </td>
-                    <td className="border-r border-white px-2 py-1 text-center">
-                      <input
-                        type="checkbox"
-                        checked={
-                          editValueRow.MC_TTHC_GV_ThanhPhanHoSo_BatBuoc || false
-                        }
-                        onChange={(e) =>
-                          handleChangeValue(
-                            e,
-                            'MC_TTHC_GV_ThanhPhanHoSo_BatBuoc',
-                          )
-                        }
-                      />
-                    </td>
-                    <td className="border-r px-2 py-1 text-center flex flex-col lg:flex-row justify-center gap-2">
-                      <button
-                        type="button"
-                        className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
-                        onClick={handleSaveDataRow}
-                      >
-                        Lưu
-                      </button>
-                      <button
-                        type="button"
-                        className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
-                        onClick={handleSaveDataRow}
-                      >
-                        Hủy
-                      </button>
-                      <button
-                        type="button"
-                        className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
-                        onClick={() => handleDeleteRow(index)}
-                      >
-                        Xóa
-                      </button>
-                    </td>
-                  </>
-                ) : (
-                  <>
-                    <td className="text-center border-r px-2 py-1">
-                      {index + 1}
-                    </td>
-                    <td className="text-center border-r px-2 py-1">
-                      <p className="min-w-[160px] text-left">
-                        {row.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo ?? ''}
-                      </p>
-                    </td>
-                    <td className="text-center border-r px-2 py-1">
-                      <p className="min-w-[160px] text-left">
-                        {row.MC_TTHC_GV_ThanhPhanHoSo_TenFile ?? ''}
-                      </p>
-                      <p className="hidden">
-                        {row.MC_TTHC_GV_ThanhPhanHoSo_DataFile ?? ''}
-                      </p>
-                    </td>
-                    <td className="text-center border-r px-2 py-1">
-                      {row.MC_TTHC_GV_ThanhPhanHoSo_BanChinh &&
-                      row.MC_TTHC_GV_ThanhPhanHoSo_BanChinh == true ? (
+            {thanhPhanHoSo?.length > 0 &&
+              thanhPhanHoSo.map((row, index) => (
+                <tr
+                  key={index}
+                  className={clsx(
+                    editRowIndex === index ? 'bg-slate-200' : null,
+                  )}
+                >
+                  {/* Dữ liệu hiển thị */}
+                  {editRowIndex === index ? (
+                    <>
+                      {/* Hiển thị dữ liệu cho phép chỉnh sửa */}
+                      <td className="border-r border-white px-2 py-1 text-center">
+                        {index + 1}
+                      </td>
+                      <td className="border-r border-white px-2 py-1">
+                        <textarea
+                          type="text"
+                          className="w-full border border-slate-300 rounded-md px-2 focus:outline-slate-300"
+                          placeholder="Nhập tên giấy tờ..."
+                          value={
+                            editValueRow.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo ||
+                            ''
+                          }
+                          onChange={(e) =>
+                            handleChangeValue(
+                              e,
+                              'MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo',
+                            )
+                          }
+                        ></textarea>
+                      </td>
+                      <td className="border-r border-white px-2 py-1">
+                        <input
+                          type="file"
+                          name="MC_TTHC_GV_ThanhPhanHoSo_TenFile"
+                          id="MC_TTHC_GV_ThanhPhanHoSo_TenFile"
+                          onChange={(e) => {
+                            handleChangeValue(
+                              e,
+                              'MC_TTHC_GV_ThanhPhanHoSo_TenFile',
+                            )
+                          }}
+                        />
+                      </td>
+                      <td className="border-r border-white px-2 py-1 text-center">
+                        <input
+                          type="number"
+                          min={0}
+                          className="p-1 rounded-md w-12"
+                          checked={
+                            editValueRow.MC_TTHC_GV_ThanhPhanHoSo_BanChinh ||
+                            false
+                          }
+                          onChange={(e) =>
+                            handleChangeValue(
+                              e,
+                              'MC_TTHC_GV_ThanhPhanHoSo_BanChinh',
+                            )
+                          }
+                        />
+                      </td>
+                      <td className="border-r border-white px-2 py-1 text-center">
+                        <input
+                          type="number"
+                          min={0}
+                          className="p-1 rounded-md w-12"
+                          checked={
+                            editValueRow.MC_TTHC_GV_ThanhPhanHoSo_BanSao ||
+                            false
+                          }
+                          onChange={(e) =>
+                            handleChangeValue(
+                              e,
+                              'MC_TTHC_GV_ThanhPhanHoSo_BanSao',
+                            )
+                          }
+                        />
+                      </td>
+                      <td className="border-r border-white px-2 py-1 text-center">
                         <input
                           type="checkbox"
-                          disabled={true}
-                          checked={true}
-                          name=""
-                          id=""
+                          checked={
+                            editValueRow.MC_TTHC_GV_ThanhPhanHoSo_BatBuoc ||
+                            false
+                          }
+                          onChange={(e) =>
+                            handleChangeValue(
+                              e,
+                              'MC_TTHC_GV_ThanhPhanHoSo_BatBuoc',
+                            )
+                          }
                         />
-                      ) : (
-                        <input
-                          type="checkbox"
-                          disabled={true}
-                          checked={false}
-                          name=""
-                          id=""
-                        />
-                      )}
-                    </td>
-                    <td className="text-center border-r px-2 py-1">
-                      {row.MC_TTHC_GV_ThanhPhanHoSo_BanSao &&
-                      row.MC_TTHC_GV_ThanhPhanHoSo_BanSao == true ? (
-                        <input
-                          type="checkbox"
-                          disabled={true}
-                          checked={true}
-                          name=""
-                          id=""
-                        />
-                      ) : (
-                        <input
-                          type="checkbox"
-                          disabled={true}
-                          checked={false}
-                          name=""
-                          id=""
-                        />
-                      )}
-                    </td>
-                    <td className="text-center border-r px-2 py-1">
-                      {row.MC_TTHC_GV_ThanhPhanHoSo_BatBuoc &&
-                      row.MC_TTHC_GV_ThanhPhanHoSo_BatBuoc == true ? (
-                        <input
-                          type="checkbox"
-                          disabled={true}
-                          checked={true}
-                          name=""
-                          id=""
-                        />
-                      ) : (
-                        <input
-                          type="checkbox"
-                          disabled={true}
-                          checked={false}
-                          name=""
-                          id=""
-                        />
-                      )}
-                    </td>
-                    <td className="text-center border-r px-2 py-1">
-                      <div className="flex flex-col lg:flex-row items-center justify-center gap-2">
+                      </td>
+                      <td className="border-r px-2 py-1 text-center flex flex-col lg:flex-row justify-center gap-2">
                         <button
                           type="button"
                           className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
-                          onClick={() => handleEditRow(index)}
+                          onClick={handleSaveDataRow}
                         >
-                          Sửa
+                          Lưu
+                        </button>
+                        <button
+                          type="button"
+                          className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
+                          onClick={handleCancelDataRow}
+                        >
+                          Hủy
                         </button>
                         <button
                           type="button"
@@ -327,12 +243,92 @@ const ThanhPhanHoSoDeNghi = memo(function ThanhPhanHoSoDeNghi(props) {
                         >
                           Xóa
                         </button>
-                      </div>
-                    </td>
-                  </>
-                )}
-              </tr>
-            ))}
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td className="text-center border-r px-2 py-1">
+                        {index + 1}
+                      </td>
+                      <td className="text-center border-r px-2 py-1">
+                        <p className="min-w-[160px] text-left">
+                          {row.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo ?? ''}
+                        </p>
+                      </td>
+                      <td className="text-center border-r px-2 py-1">
+                        <p className="min-w-[160px] text-left">
+                          {row.MC_TTHC_GV_ThanhPhanHoSo_TenFile ?? ''}
+                        </p>
+                        <p className="hidden">
+                          {row.MC_TTHC_GV_ThanhPhanHoSo_DataFile ?? ''}
+                        </p>
+                      </td>
+                      <td className="text-center border-r px-2 py-1">
+                        {row.MC_TTHC_GV_ThanhPhanHoSo_BanChinh && (
+                          <input
+                            type="number"
+                            className="p-1 rounded-md w-10 text-center"
+                            disabled={true}
+                            value={row.MC_TTHC_GV_ThanhPhanHoSo_BanChinh}
+                            name=""
+                            id=""
+                          />
+                        )}
+                      </td>
+                      <td className="text-center border-r px-2 py-1">
+                        {row.MC_TTHC_GV_ThanhPhanHoSo_BanSao && (
+                          <input
+                            type="number"
+                            className="p-1 rounded-md w-10 text-center"
+                            disabled={true}
+                            value={row.MC_TTHC_GV_ThanhPhanHoSo_BanSao}
+                            name=""
+                            id=""
+                          />
+                        )}
+                      </td>
+                      <td className="text-center border-r px-2 py-1">
+                        {row.MC_TTHC_GV_ThanhPhanHoSo_BatBuoc &&
+                        row.MC_TTHC_GV_ThanhPhanHoSo_BatBuoc == true ? (
+                          <input
+                            type="checkbox"
+                            disabled={true}
+                            checked={true}
+                            name=""
+                            id=""
+                          />
+                        ) : (
+                          <input
+                            type="checkbox"
+                            disabled={true}
+                            checked={false}
+                            name=""
+                            id=""
+                          />
+                        )}
+                      </td>
+                      <td className="text-center border-r px-2 py-1">
+                        <div className="flex flex-col lg:flex-row items-center justify-center gap-2">
+                          <button
+                            type="button"
+                            className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
+                            onClick={() => handleEditRow(index)}
+                          >
+                            Sửa
+                          </button>
+                          <button
+                            type="button"
+                            className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
+                            onClick={() => handleDeleteRow(index)}
+                          >
+                            Xóa
+                          </button>
+                        </div>
+                      </td>
+                    </>
+                  )}
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

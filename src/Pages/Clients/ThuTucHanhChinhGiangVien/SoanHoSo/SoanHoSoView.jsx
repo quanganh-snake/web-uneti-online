@@ -5,9 +5,13 @@ import { Link } from 'react-router-dom'
 import { BsSend } from 'react-icons/bs'
 import { MdCancel } from 'react-icons/md'
 import Loading from '@/Components/Loading/Loading'
-import { convertBufferToBase64 } from '@/Services/Utils/stringUtils'
-import { handlePreviewFileBase64 } from '@/Services/Utils/fileUtils'
+import {
+  convertBufferToBase64,
+  htmlToMarkdown,
+} from '@/Services/Utils/stringUtils'
 import Swal from 'sweetalert2'
+import { TextEditor } from '@/Components/TextEditor/TextEditor'
+import { handlePreviewFileBase64 } from '@/Services/Utils/fileUtils'
 function SoanHoSoView({
   home,
   breadcrumbs,
@@ -21,6 +25,13 @@ function SoanHoSoView({
   handleSubmitForm,
   handleCancelSubmit,
 }) {
+  const handleChangeValue = (value) => {
+    setDataHoSoYeuCau({
+      ...dataHoSoYeuCau,
+      MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu: value,
+    })
+  }
+
   return (
     <>
       {loading ? (
@@ -55,7 +66,7 @@ function SoanHoSoView({
                   <span className="underline">Đơn vị tiếp nhận</span>:{' '}
                   {dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_NoiTiepNhan}
                 </p>
-                <p className="font-semibold">
+                <p className="hidden font-semibold">
                   <span className="underline">Nơi trả kết quả</span>:{' '}
                   {dataChiTietThuTuc?.ThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua}
                 </p>
@@ -74,6 +85,9 @@ function SoanHoSoView({
                   rows={4}
                   name="MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email"
                   id="MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email"
+                  defaultValue={
+                    dataHoSoYeuCau.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email
+                  }
                   placeholder="Ví dụ: example@example.com"
                   required={true}
                   onChange={(e) => {
@@ -99,6 +113,9 @@ function SoanHoSoView({
                   name="MC_TTHC_GV_GuiYeuCau_NhanSuGui_SDT"
                   id="MC_TTHC_GV_GuiYeuCau_NhanSuGui_SDT"
                   placeholder="Ví dụ: +8434350166 hoặc 0334350166"
+                  defaultValue={
+                    dataHoSoYeuCau.MC_TTHC_GV_GuiYeuCau_NhanSuGui_SDT
+                  }
                   pattern="^(\+84|0)\d{9}$"
                   required={true}
                   onChange={(e) => {
@@ -110,27 +127,32 @@ function SoanHoSoView({
                 />
               </div>
               <div className="flex flex-col form-group mb-4 col-span-2">
-                <label htmlFor="noidungyc" className="font-semibold mb-2">
+                <label
+                  htmlFor="MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu"
+                  className="font-semibold mb-2"
+                >
                   Nội dung yêu cầu
                 </label>
-                <textarea
-                  className="border border-slate-300 px-2 py-1 rounded-xl focus:outline-1 focus:outline-slate-300"
-                  rows={4}
-                  name="noidungyc"
-                  id="noidungyc"
-                  placeholder="Nhập nội dung"
-                  onChange={(e) => {
-                    setDataHoSoYeuCau({
-                      ...dataHoSoYeuCau,
-                      MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu: e.target.value,
-                    })
-                  }}
-                ></textarea>
+                <div className="h-full">
+                  <TextEditor
+                    id={'MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu'}
+                    value={
+                      dataHoSoYeuCau.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu ?? ''
+                    }
+                    onChange={handleChangeValue}
+                  />
+                </div>
               </div>
               <div className="flex flex-col form-group mb-4 col-span-2 md:col-span-1">
-                <label htmlFor="quantity" className="font-semibold mb-2">
-                  Nhập số lượng bản{' '}
+                <label htmlFor="quantity" className="mb-2">
+                  <span className="font-semibold">
+                    Số lượng bản in kết quả đề nghị{' '}
+                  </span>
                   <span className="font-semibold text-red-500">*</span>
+                  <br />
+                  <i>
+                    (Ví dụ: 2 bộ lý lịch khoa học, 3 bộ giấy giới thiệu, ...)
+                  </i>
                 </label>
                 <input
                   type="number"
@@ -147,45 +169,6 @@ function SoanHoSoView({
                   }}
                 />
               </div>
-              {/* START: Nơi trả kết quả SELECT */}
-              {/* <div className="flex flex-col form-group mb-4 col-span-2 md:col-span-1">
-                                <label htmlFor="MC_TTHC_GV_NoiTraKetQua">
-                                    <p className="font-semibold mb-2">
-                                        Nơi trả kết quả{' '}
-                                        <span className="text-red-500">*</span>
-                                    </p>
-                                    <select
-                                        className="px-2 py-1 w-full rounded-full border border-slate-300 focus:outline-slate-300"
-                                        name="MC_TTHC_GV_NoiTraKetQua"
-                                        id="MC_TTHC_GV_NoiTraKetQua"
-                                        required={true}
-                                        onChange={(e) => {
-                                            setDataHoSoYeuCau({
-                                                ...dataHoSoYeuCau,
-                                                MC_TTHC_GV_GuiYeuCau_NoiTraKetQua:
-                                                    e.target.value,
-                                            })
-                                        }}
-                                    >
-                                        <option value="">
-                                            Chọn nơi trả kết quả
-                                        </option>
-                                        <option value="Trả online - Email">
-                                            Trả online - Email
-                                        </option>
-                                        <option value="1 - Minh Khai">
-                                            1 - Minh Khai
-                                        </option>
-                                        <option value="2 - Lĩnh Nam">
-                                            2 - Lĩnh Nam
-                                        </option>
-                                        <option value="3 - Nam Định">
-                                            3 - Nam Định
-                                        </option>
-                                    </select>
-                                </label>
-                            </div> */}
-              {/* END: Nơi trả kết quả SELECT */}
 
               {/* START: Danh sách giấy tờ kèm theo */}
               <div className="flex flex-col form-group mb-4 col-span-2">
@@ -264,10 +247,11 @@ function SoanHoSoView({
                                 </td>
                                 <td className="px-2 py-1 border border-slate-300 text-center">
                                   <input
-                                    type="checkbox"
-                                    defaultChecked={
+                                    type="number"
+                                    defaultValue={
                                       iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BanChinh
                                     }
+                                    className="w-6 text-center"
                                     disabled
                                     name=""
                                     id=""
@@ -275,10 +259,11 @@ function SoanHoSoView({
                                 </td>
                                 <td className="px-2 py-1 border border-slate-300 text-center">
                                   <input
-                                    type="checkbox"
-                                    defaultChecked={
+                                    type="number"
+                                    defaultValue={
                                       iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BanSao
                                     }
+                                    className="w-8 text-center"
                                     disabled
                                     name=""
                                     id=""
@@ -406,8 +391,8 @@ function SoanHoSoView({
                                 </p>
                                 <p className="p-2 w-full">
                                   <input
-                                    type="checkbox"
-                                    defaultChecked={
+                                    type="number"
+                                    defaultValue={
                                       iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BanChinh
                                     }
                                     disabled
@@ -422,8 +407,8 @@ function SoanHoSoView({
                                 </p>
                                 <p className="p-2 w-full">
                                   <input
-                                    type="checkbox"
-                                    defaultChecked={
+                                    type="number"
+                                    defaultValue={
                                       iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_BanSao
                                     }
                                     disabled

@@ -1,10 +1,12 @@
 import clsx from 'clsx'
-import React, { memo } from 'react'
+import { memo } from 'react'
 import { useState } from 'react'
 import { FaSave } from 'react-icons/fa'
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
+import { FaArrowLeft } from 'react-icons/fa6'
 import { MdAdd } from 'react-icons/md'
 import Swal from 'sweetalert2'
+import { MC_TTHC_GV_DoiTuongXuLy_PheDuyet } from '../constants'
+import { convertDataFileToBase64 } from '@/Services/Utils/stringUtils'
 
 const TrangThaiHoSo = memo(function TrangThaiHoSo(props) {
   const {
@@ -37,6 +39,10 @@ const TrangThaiHoSo = memo(function TrangThaiHoSo(props) {
     setEditValueRow({})
   }
 
+  const handleCancelDataRow = () => {
+    setEditRowIndex(-1)
+  }
+
   const handleDeleteRow = (rowIndex) => {
     Swal.fire({
       title: 'Bạn chắc chắn muốn xóa dữ liệu này?',
@@ -65,6 +71,7 @@ const TrangThaiHoSo = memo(function TrangThaiHoSo(props) {
 
   const handleChangeValue = (e, fieldName) => {
     const { value, checked, type, files } = e.target
+
     let fieldValue
     if (type === 'checkbox') {
       fieldValue = checked
@@ -97,7 +104,7 @@ const TrangThaiHoSo = memo(function TrangThaiHoSo(props) {
   return (
     <div className="uneti-tthcgv__tphosodenghi mb-5 w-full">
       <h2 className="text-2xl font-semibold uppercase mb-4">
-        Thiết lập thành phần hồ sơ đề nghị
+        Thiết lập trạng thái hồ sơ đề nghị
       </h2>
 
       <div className="w-full overflow-x-auto mb-4 border border-slate-300 rounded-xl ">
@@ -107,7 +114,8 @@ const TrangThaiHoSo = memo(function TrangThaiHoSo(props) {
               <th className="border-r px-2 py-1 rounded-tl-xl">STT</th>
               <th className="border-r px-2 py-1">Tên trạng thái</th>
               <th className="border-r px-2 py-1">Mô tả</th>
-              <th className="px-2 py-1 rounded-tr-xl">Actions</th>
+              <th className="border-r px-2 py-1">Đối tượng phê duyệt</th>
+              <th className="px-2 py-1 rounded-tr-xl">Tác vụ</th>
             </tr>
           </thead>
           <tbody>
@@ -135,7 +143,7 @@ const TrangThaiHoSo = memo(function TrangThaiHoSo(props) {
                     <td className="border-r px-2 py-1">
                       <input
                         type="text"
-                        className="w-full border border-slate-300 rounded-md px-2 focus:outline-slate-300"
+                        className="w-full border border-slate-300 rounded-md px-3 py-2 focus:outline-slate-300"
                         placeholder="Nhập tên trạng thái..."
                         value={
                           editValueRow.MC_TTHC_GV_TrangThai_TenTrangThai || ''
@@ -159,8 +167,29 @@ const TrangThaiHoSo = memo(function TrangThaiHoSo(props) {
                         }
                       ></textarea>
                     </td>
-
-                    <td className="border-r px-2 py-1 text-center flex flex-col lg:flex-row justify-center gap-2">
+                    <td className="border-r px-2 py-1">
+                      <select
+                        id="MC_TTHC_GV_TrangThai_DoiTuongXuLy"
+                        name="MC_TTHC_GV_TrangThai_DoiTuongXuLy"
+                        className="px-3 py-2 rounded-md w-full focus:outline-slate-400"
+                        onChange={(e) =>
+                          handleChangeValue(
+                            e,
+                            'MC_TTHC_GV_TrangThai_DoiTuongXuLy',
+                          )
+                        }
+                      >
+                        <option value="">Chọn đối tượng xử lý</option>
+                        {MC_TTHC_GV_DoiTuongXuLy_PheDuyet.map((obj) => {
+                          return (
+                            <option value={obj.id} key={obj.id}>
+                              {obj.name}
+                            </option>
+                          )
+                        })}
+                      </select>
+                    </td>
+                    <td className="border-r px-3 py-4 text-center flex flex-col lg:flex-row justify-center gap-2">
                       <button
                         type="button"
                         className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
@@ -171,7 +200,7 @@ const TrangThaiHoSo = memo(function TrangThaiHoSo(props) {
                       <button
                         type="button"
                         className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
-                        onClick={handleSaveDataRow}
+                        onClick={handleCancelDataRow}
                       >
                         Hủy
                       </button>
@@ -194,6 +223,14 @@ const TrangThaiHoSo = memo(function TrangThaiHoSo(props) {
                     </td>
                     <td className="text-center border-r px-2 py-1">
                       {row.MC_TTHC_GV_TrangThai_MoTa ?? ''}
+                    </td>
+                    <td className="text-center border-r px-2 py-1">
+                      {row.MC_TTHC_GV_TrangThai_DoiTuongXuLy &&
+                        row.MC_TTHC_GV_TrangThai_DoiTuongXuLy === '24' &&
+                        'Trưởng phòng'}
+                      {row.MC_TTHC_GV_TrangThai_DoiTuongXuLy &&
+                        row.MC_TTHC_GV_TrangThai_DoiTuongXuLy === '25' &&
+                        'Ban giám hiệu'}
                     </td>
                     <td className="text-center border-r px-2 py-1">
                       <div className="flex flex-col lg:flex-row items-center justify-center gap-2">

@@ -65,7 +65,7 @@ function HomeTTHCGVView(props) {
                   <FiSearch size={24} className="font-semibold" />
                 </form>
                 <select
-                  className="w-full md:w-auto px-3 py-2 border rounded-full font-semibold text-white bg-[#0484AC] focus:outline-none"
+                  className="w-full md:w-auto px-3 py-2 border rounded-full font-semibold focus:outline-none"
                   name="records-number"
                   id="records-number"
                   onChange={handleChangeValue}
@@ -106,10 +106,10 @@ function HomeTTHCGVView(props) {
                           return (
                             <tr key={index}>
                               <td className="border border-slate-300 text-center">
-                                {index + 1}
+                                {index + 1 + currentPage * itemsPerPage}
                               </td>
                               <td className="border border-slate-300">
-                                <div className="px-2">
+                                <div className="p-3">
                                   <ul>
                                     <li>
                                       <Link
@@ -149,11 +149,6 @@ function HomeTTHCGVView(props) {
                                         >
                                           {iData.MC_TTHC_GV_IDMucDo}
                                         </span>
-                                      </span>
-                                    </li>
-                                    <li>
-                                      <span className="font-semibold italic text-red-600">
-                                        {'Nộp hồ sơ'}
                                       </span>
                                     </li>
                                   </ul>

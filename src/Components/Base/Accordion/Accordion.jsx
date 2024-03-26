@@ -13,12 +13,12 @@ import './Accordion.scss'
 import { useImperativeHandle } from 'react'
 
 export const Accordion = forwardRef(
-  ({ children, className, ...attrs }, ref) => {
+  ({ children, className, isOpen = false, ...attrs }, ref) => {
     const bem = useNamespace('accordion')
 
     const [state, dispatch] = useReducer(reducer, {
       isAccordion: true,
-      isOpen: false,
+      isOpen,
     })
 
     const accordionCls = useMemo(

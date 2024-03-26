@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import PropTypes from 'prop-types'
+import { useEffect, useRef, useState } from 'react'
+// import PropTypes from 'prop-types'
 import Tabs from './Tabs/Tabs'
 import ThongTinHoSo from './ThemMoiThuTuc/ThongTinHoSo'
 import ThanhPhanHoSoDeNghi from './ThemMoiThuTuc/ThanhPhanHoSoDeNghi'
 import TrinhTuThucHien from './ThemMoiThuTuc/TrinhTuThucHien'
-import PhiLePhi from './ThemMoiThuTuc/PhiLePhi'
+// import PhiLePhi from './ThemMoiThuTuc/PhiLePhi'
 import TrangThaiHoSo from './ThemMoiThuTuc/TrangThaiHoSo'
 import PhanQuyen from './ThemMoiThuTuc/PhanQuyen'
 import SidebarTTHCGV from './Sidebar/SidebarTTHCGV'
@@ -13,14 +13,24 @@ import { NguonTiepNhan_WEB } from '../../../Services/Static/dataStatic'
 import Swal from 'sweetalert2'
 import { postThanhPhanHoSoTTHCGV } from './../../../Apis/ThuTucHanhChinhGiangVien/apiThanhPhanHoSo'
 import { postTrinhTuThucHienTTHCGV } from './../../../Apis/ThuTucHanhChinhGiangVien/apiTrinhTuThucHien'
-import { postLePhi } from './../../../Apis/ThuTucHanhChinhGiangVien/apiLePhi'
+// import { postLePhi } from './../../../Apis/ThuTucHanhChinhGiangVien/apiLePhi'
 import { postTrangThaiTTHCGV } from './../../../Apis/ThuTucHanhChinhGiangVien/apiTrangThai'
 import { getThuTucHanhChinhByMaThuTuc } from './../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
 import { postPhanQuyenTTHCGV } from '../../../Apis/ThuTucHanhChinhGiangVien/apiPhanQuyen'
 import { toast } from 'react-toastify'
-import { FaSave } from 'react-icons/fa'
+// import { FaSave } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import clsx from 'clsx'
+import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
+import {
+  listTrangThai_3Buoc_MD4,
+  listTrangThai_4Buoc_MD23,
+  listTrangThai_4Buoc_MD4,
+  listTrangThai_5Buoc_MD23,
+  listTrangThai_5Buoc_MD4,
+  listTrangThai_6Buoc_MD23,
+} from './constants'
+import { htmlToMarkdown } from '@/Services/Utils/stringUtils'
 
 function AdminTTHCGVView({
   listMucDo,
@@ -37,6 +47,7 @@ function AdminTTHCGVView({
   const inputNoiTraKetQuaRef = useRef(null)
 
   // variables
+  const dataCBNV = DataCanBoGV()
   // var: active Tabs
   const [thongTinActive, setThongTinActive] = useState(false)
   const [tpHoSoDeNghiActive, setTPHoSoDeNghiActive] = useState(false)
@@ -54,16 +65,19 @@ function AdminTTHCGVView({
   const [tongThoiGianGiaiQuyet, setTongThoiGianGiaiQuyet] = useState('')
   const [soBoHoSo, setSoBoHoSo] = useState('')
   const [linhVuc, setLinhVuc] = useState('')
-  const [donViTiepNhan, setDonViTiepNhan] = useState('')
+  const [donViTiepNhan, setDonViTiepNhan] = useState(dataCBNV.TenPhongBan)
   const [noiTraKetQua, setNoiTraKetQua] = useState('')
+  const [isTruongPhongPheDuyet, setIsTruongPhongPheDuyet] = useState(false)
+  const [isBGHPheDuyet, setIsBGHPheDuyet] = useState(false)
   const [thuTucLienThong, setThuTucLienThong] = useState(false)
-  const [thuTucKhongApDungMotCua, setThuTucLienThongApDungMotCua] =
+  const [thuTucKhongApDungTrucTuyen, setThuTucKhongApDungTrucTuyen] =
     useState(false)
   const [thanhPhanHoSo, setThanhPhanHoSo] = useState([])
   const [quyTrinh, setQuyTrinh] = useState([])
-  const [phiLePhi, setPhiLePhi] = useState([])
+  //   const [phiLePhi, setPhiLePhi] = useState([])
   const [trangThai, setTrangThai] = useState([])
   const [phanQuyen, setPhanQuyen] = useState([])
+  const [quyTrinhThucHien, setQuyTrinhThucHien] = useState('')
   const [tenTepThuTuc, setTenTepThuTuc] = useState('')
   const [dataFilesTepThuTuc, setDataFilesTepThuTuc] = useState(null)
   const [editRowIndex, setEditRowIndex] = useState(0)
@@ -128,7 +142,7 @@ function AdminTTHCGVView({
   }
 
   const handleChangeValue = (e) => {
-    const { id, value, checked, files } = e.target
+    const { id, value, checked } = e.target
     if (id === 'MC_TTHC_GV_TenThuTuc') {
       setTenThuTuc(value)
     }
@@ -161,12 +175,28 @@ function AdminTTHCGVView({
       setNoiTraKetQua(value)
     }
 
+    if (id === 'MC_TTHC_GV_IsTruongPhongPheDuyet') {
+      setIsTruongPhongPheDuyet(checked)
+    }
+
+    if (id === 'MC_TTHC_GV_IsBGHPheDuyet') {
+      if (isTruongPhongPheDuyet === true) {
+        setIsBGHPheDuyet(checked)
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi',
+          text: `Vui lòng chọn 'Thủ tục cần Trưởng/Phó đơn vị phê duyệt' trước khi chọn 'Thủ tục cần Ban giám hiệu phê duyệt'!`,
+        })
+      }
+    }
+
     if (id === 'MC_TTHC_GV_ThuTucLienThong') {
       setThuTucLienThong(checked)
     }
 
-    if (id === 'MC_TTHC_GV_ThuTucKhongApDungMC') {
-      setThuTucLienThongApDungMotCua(checked)
+    if (id === 'MC_TTHC_GV_ThuTucKhongApDungTrucTuyen') {
+      setThuTucKhongApDungTrucTuyen(checked)
     }
 
     if (id === 'MC_TTHC_GV_SoBoHoSo') {
@@ -184,6 +214,10 @@ function AdminTTHCGVView({
     if (id === 'MC_TTHC_GV_TepThuTuc_DataFileFile') {
       setTenTepThuTuc(value)
     }
+
+    if (id === 'MC_TTHC_GV_QuyTrinhThucHien') {
+      setQuyTrinhThucHien(value)
+    }
   }
 
   const handleAddThanhPhanHoSo = () => {
@@ -191,8 +225,8 @@ function AdminTTHCGVView({
       MC_TTHC_GV_ThanhPhanHoSo_IDTTHC: '',
       MC_TTHC_GV_ThanhPhanHoSo_STT: '',
       MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo: '',
-      MC_TTHC_GV_ThanhPhanHoSo_BanChinh: false,
-      MC_TTHC_GV_ThanhPhanHoSo_BanSao: false,
+      MC_TTHC_GV_ThanhPhanHoSo_BanChinh: 0,
+      MC_TTHC_GV_ThanhPhanHoSo_BanSao: 0,
       MC_TTHC_GV_ThanhPhanHoSo_BatBuoc: false,
       MC_TTHC_GV_ThanhPhanHoSo_DataFile: null,
       MC_TTHC_GV_ThanhPhanHoSo_TenFile: '',
@@ -219,21 +253,12 @@ function AdminTTHCGVView({
     setEditRowIndex(quyTrinh.length)
   }
 
-  const handleAddLePhi = () => {
-    const newLePhi = {
-      MC_TTHC_GV_LePhi_STT: null,
-      MC_TTHC_GV_LePhi_MucPhi: null,
-      MC_TTHC_GV_LePhi_MoTa: '',
-    }
-
-    setPhiLePhi([...phiLePhi, newLePhi])
-  }
-
   const handleAddTrangThai = () => {
     const newTrangThai = {
       MC_TTHC_GV_TrangThai_IDTTHC: '',
       MC_TTHC_GV_TrangThai_STT: '',
       MC_TTHC_GV_TrangThai_TenTrangThai: '',
+      MC_TTHC_GV_TrangThai_DoiTuongXuLy: '',
       MC_TTHC_GV_TrangThai_MoTa: '',
     }
 
@@ -250,8 +275,10 @@ function AdminTTHCGVView({
       MC_TTHC_GV_GhiChu: '',
       MC_TTHC_GV_IDMucDo: mucDo,
       MC_TTHC_GV_LinhVuc: linhVuc,
+      MC_TTHC_GV_IsTruongPhongPheDuyet: isTruongPhongPheDuyet,
+      MC_TTHC_GV_IsBGHPheDuyet: isBGHPheDuyet,
       MC_TTHC_GV_ThuTucLienThong: thuTucLienThong,
-      MC_TTHC_GV_ThuTucKhongApDungMC: thuTucKhongApDungMotCua,
+      MC_TTHC_GV_ThuTucKhongApDungTrucTuyen: thuTucKhongApDungTrucTuyen,
       MC_TTHC_GV_SoBoHoSo: soBoHoSo,
       MC_TTHC_GV_TongThoiGianGiaiQuyet: tongThoiGianGiaiQuyet,
       MC_TTHC_GV_CanCuPhapLyCuaTTHC: canCuPhapLyCuaTTHC,
@@ -263,6 +290,7 @@ function AdminTTHCGVView({
         dataFilesTepThuTuc?.MC_TTHC_GV_TepThuTuc_TenFile,
       MC_TTHC_GV_TepThuTuc_DataFileFile:
         dataFilesTepThuTuc?.MC_TTHC_GV_TepThuTuc_DataFileFile?.split(',')[1],
+      MC_TTHC_GV_QuyTrinhThucHien: htmlToMarkdown(quyTrinhThucHien),
     }
 
     if (
@@ -271,6 +299,11 @@ function AdminTTHCGVView({
       dataThongTinHoSo?.MC_TTHC_GV_TenThuTuc == undefined
     ) {
       toast.error('Vui lòng nhập tên thủ tục!')
+      setThongTinActive(true)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(false)
+      setPhanQuyenActive(false)
+      //   setTrangThaiActive(false)
       inputTenThuTucRef.current.focus()
       return
     }
@@ -281,7 +314,12 @@ function AdminTTHCGVView({
       dataThongTinHoSo?.MC_TTHC_GV_MaThuTuc == undefined
     ) {
       toast.error('Vui lòng nhập mã thủ tục!')
-      inputMaThuTucRef.current.focus()
+      setThongTinActive(true)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(false)
+      setPhanQuyenActive(false)
+      //   setTrangThaiActive(false)
+      inputMaThuTucRef.current?.focus()
       return
     }
 
@@ -291,17 +329,12 @@ function AdminTTHCGVView({
       dataThongTinHoSo?.MC_TTHC_GV_IDMucDo == undefined
     ) {
       toast.error('Vui lòng chọn mức độ thủ tục!')
+      setThongTinActive(true)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(false)
+      setPhanQuyenActive(false)
+      //   setTrangThaiActive(false)
       inputMucDoRef.current.focus()
-      return
-    }
-
-    if (
-      dataThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet == '' ||
-      dataThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet == null ||
-      dataThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet == undefined
-    ) {
-      toast.error('Vui lòng nhập tổng thời gian giải quyết!')
-      inputTongThoiGianRef.current.focus()
       return
     }
 
@@ -311,17 +344,68 @@ function AdminTTHCGVView({
       dataThongTinHoSo?.MC_TTHC_GV_NoiTiepNhan == undefined
     ) {
       toast.error('Vui lòng chọn đơn vị tiếp nhận!')
+      setThongTinActive(true)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(false)
+      setPhanQuyenActive(false)
+      setTrangThaiActive(false)
       inputDonViTiepNhanRef.current.focus()
       return
     }
 
-    if (
-      dataThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua == '' ||
-      dataThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua == null ||
-      dataThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua == undefined
-    ) {
-      toast.error('Vui lòng chọn nơi trả kết quả!')
-      inputNoiTraKetQuaRef.current.focus()
+    //   Bổ sung thông báo nếu hồ sơ chọn cần trưởng phòng/BGH phê duyệt
+    let flagCheckTTTPPheDuyet = false
+    let flagCheckTTBGHPheDuyet = false
+    if (dataThongTinHoSo?.MC_TTHC_GV_IsTruongPhongPheDuyet === true) {
+      flagCheckTTTPPheDuyet = trangThai.some((iTrangThai) => {
+        if (
+          iTrangThai?.MC_TTHC_GV_TrangThai_DoiTuongXuLy &&
+          iTrangThai?.MC_TTHC_GV_TrangThai_DoiTuongXuLy === '24'
+        ) {
+          return true
+        }
+      })
+    } else {
+      flagCheckTTTPPheDuyet = true
+    }
+
+    if (dataThongTinHoSo?.MC_TTHC_GV_IsBGHPheDuyet === true) {
+      flagCheckTTBGHPheDuyet = trangThai.some((iTrangThai) => {
+        if (
+          iTrangThai?.MC_TTHC_GV_TrangThai_DoiTuongXuLy &&
+          iTrangThai?.MC_TTHC_GV_TrangThai_DoiTuongXuLy === '25'
+        ) {
+          return true
+        }
+      })
+    } else {
+      flagCheckTTBGHPheDuyet = true
+    }
+
+    if (flagCheckTTTPPheDuyet === false) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi thiết lập',
+        text: 'Vui lòng thiết lập "Đối tượng phê duyệt" hồ sơ là "Trưởng phòng" tại trạng thái cần phê duyệt!',
+      })
+      setThongTinActive(false)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(false)
+      setPhanQuyenActive(false)
+      setTrangThaiActive(true)
+      return
+    }
+    if (flagCheckTTBGHPheDuyet === false) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi thiết lập',
+        text: 'Vui lòng thiết lập "Đối tượng phê duyệt" hồ sơ là "Ban giám hiệu" tại trạng thái cần phê duyệt!',
+      })
+      setThongTinActive(false)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(false)
+      setPhanQuyenActive(false)
+      setTrangThaiActive(true)
       return
     }
 
@@ -358,8 +442,8 @@ function AdminTTHCGVView({
             text: 'Vui lòng thiết lập đầy đủ thông tin tên công việc của trình tự thực hiện!',
           })
           setThongTinActive(false)
-          setTPHoSoDeNghiActive(true)
-          setTrinhTuThucHienActive(false)
+          setTPHoSoDeNghiActive(false)
+          setTrinhTuThucHienActive(true)
           setPhanQuyenActive(false)
           setTrangThaiActive(false)
           return
@@ -376,31 +460,42 @@ function AdminTTHCGVView({
       return toast.error('Vui lòng thiết lập phân quyền cho người thực hiện!')
     }
 
-    let checkDataTrangThai = false
+    //   if () {
 
-    if (trangThai.length < 1) {
-      setThongTinActive(false)
-      setTPHoSoDeNghiActive(false)
-      setTrinhTuThucHienActive(false)
-      setPhanQuyenActive(false)
-      setTrangThaiActive(true)
-      return toast.error('Vui lòng thiết lập trạng thái cho hồ sơ thủ tục!')
-    } else {
-      trangThai.forEach((iTrangThai) => {
-        if (
-          !iTrangThai.MC_TTHC_GV_TrangThai_TenTrangThai ||
-          iTrangThai?.MC_TTHC_GV_TrangThai_TenTrangThai == ''
-        ) {
-          return (checkDataTrangThai = true)
-        }
-      })
-    }
+    //   }
+    // Xử lý trạng thái
+    // let checkDataTrangThai = false
 
-    if (checkDataTrangThai == true) {
-      return toast.error(
-        'Vui lòng thiết lập thông tin tên trạng thái cho hồ sơ thủ tục!',
-      )
-    }
+    // if (trangThai.length < 3 || trangThai.length > 5) {
+    //   setThongTinActive(false)
+    //   setTPHoSoDeNghiActive(false)
+    //   setTrinhTuThucHienActive(false)
+    //   setPhanQuyenActive(false)
+    //   setTrangThaiActive(true)
+    //   return Swal.fire({
+    //     icon: 'error',
+    //     title: 'Lỗi thiết lập trạng thái',
+    //     text: 'Vui lòng thiết lập trạng thái hồ sơ. Mỗi hồ sơ cần ít nhất là 3 trạng thái & nhiều nhất là 5 trạng thái!',
+    //   })
+    // } else {
+    //   trangThai.forEach((iTrangThai) => {
+    //     if (
+    //       !iTrangThai.MC_TTHC_GV_TrangThai_TenTrangThai ||
+    //       iTrangThai?.MC_TTHC_GV_TrangThai_TenTrangThai == ''
+    //     ) {
+    //       return (checkDataTrangThai = true)
+    //     }
+    //   })
+    // }
+
+    // if (checkDataTrangThai == true) {
+    //   return Swal.fire({
+    //     icon: 'error',
+    //     title: 'Lỗi thiết lập trạng thái',
+    //     text: 'Vui lòng thiết lập thông tin tên trạng thái cho hồ sơ thủ tục!',
+    //   })
+    // }
+    //   End: Xử lý trạng thái
 
     let idTTHCGV
     try {
@@ -511,7 +606,6 @@ function AdminTTHCGVView({
     setTrinhTuThucHienActive(false)
     setPhiActive(false)
     setPhanQuyenActive(false)
-    setTrangThaiActive(false)
   }, [])
 
   useEffect(() => {}, [
@@ -520,8 +614,43 @@ function AdminTTHCGVView({
     trinhTuThucHienActive,
     phiActive,
     phanQuyenActive,
-    trangThaiActive,
   ])
+
+  useEffect(() => {
+    let trangThai
+    switch (+mucDo) {
+      case 2:
+      case 3:
+        if (isTruongPhongPheDuyet && isBGHPheDuyet) {
+          trangThai = listTrangThai_6Buoc_MD23
+        } else if (isTruongPhongPheDuyet) {
+          trangThai = listTrangThai_5Buoc_MD23
+        } else {
+          trangThai = listTrangThai_4Buoc_MD23
+        }
+        break
+      case 4:
+        if (isTruongPhongPheDuyet && isBGHPheDuyet) {
+          trangThai = listTrangThai_5Buoc_MD4
+        } else if (isTruongPhongPheDuyet) {
+          trangThai = listTrangThai_4Buoc_MD4
+        } else {
+          trangThai = listTrangThai_3Buoc_MD4
+        }
+        break
+      default:
+        trangThai = listTrangThai_4Buoc_MD23
+        break
+    }
+
+    setTrangThai(trangThai)
+  }, [mucDo, isTruongPhongPheDuyet, isBGHPheDuyet])
+
+  useEffect(() => {
+    if (isTruongPhongPheDuyet === false) {
+      setIsBGHPheDuyet(false)
+    }
+  }, [isTruongPhongPheDuyet])
 
   return (
     <div className="px-5 lg:px-0 grid grid-cols-12 gap-4 ">
@@ -576,8 +705,12 @@ function AdminTTHCGVView({
               noiTraKetQua={noiTraKetQua}
               setNoiTraKetQua={setNoiTraKetQua}
               diaChiNhanTraHoSo={listNoiTraKetQua}
+              quyTrinhThucHien={quyTrinhThucHien}
+              setQuyTrinhThucHien={setQuyTrinhThucHien}
+              isTruongPhongPheDuyet={isTruongPhongPheDuyet}
+              isBGHPheDuyet={isBGHPheDuyet}
               thuTucLienThong={thuTucLienThong}
-              thuTucKhongApDungMotCua={thuTucKhongApDungMotCua}
+              thuTucKhongApDungTrucTuyen={thuTucKhongApDungTrucTuyen}
               dataFilesTepThuTuc={dataFilesTepThuTuc}
               tenTepThuTuc={tenTepThuTuc}
               setDataFilesTepThuTuc={setDataFilesTepThuTuc}
@@ -626,7 +759,7 @@ function AdminTTHCGVView({
           {/* END: Phí, lệ phí */}
 
           {/* START: Trạng thái */}
-          {trangThaiActive ? (
+          {/* {trangThaiActive ? (
             <TrangThaiHoSo
               trangThai={trangThai}
               setTrangThai={setTrangThai}
@@ -636,7 +769,7 @@ function AdminTTHCGVView({
               editRowIndex={editRowIndex}
               setEditRowIndex={setEditRowIndex}
             />
-          ) : null}
+          ) : null} */}
           {/* END: Trạng thái */}
 
           {/* START: Phân quyền */}

@@ -78,14 +78,25 @@ function SidebarTTHCGV() {
             </li>
           </ul>
         </div>
-        <div className="mb-4">
+        <div
+          className={clsx(
+            dataCBNV.HT_GROUPUSER_ID.some(
+              (role) =>
+                role === ROLE_VIEW_ACTION_TTHCGV.CBNV_TTHCGV ||
+                role === ROLE_VIEW_ACTION_TTHCGV.BGH_TTHCGV ||
+                role === ROLE_VIEW_ACTION_TTHCGV.TP_TTHCGV,
+            )
+              ? ''
+              : 'hidden',
+          )}
+        >
           <h4 className="text-md font-semibold uppercase mb-4">
             Danh sách hồ sơ
           </h4>
           <ul>
             <li>
               <Link
-                to={'/admin/can-bo-nghiep-vu'}
+                to={'/admin/xu-ly-nghiep-vu'}
                 className="flex flex-row items-center justify-between  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white"
               >
                 <div className="flex flex-row items-center  gap-2">
@@ -97,7 +108,7 @@ function SidebarTTHCGV() {
             </li>
             <li>
               <Link
-                to={'/admin/can-bo-nghiep-vu/ho-so-xu-ly'}
+                to={'/admin/xu-ly-nghiep-vu/ho-so-xu-ly'}
                 className="flex flex-row items-center justify-between  gap-2 mb-4 bg-slate-200 p-2 rounded-md hover:bg-slate-500 hover:text-white"
               >
                 <div className="flex flex-row items-center  gap-2">

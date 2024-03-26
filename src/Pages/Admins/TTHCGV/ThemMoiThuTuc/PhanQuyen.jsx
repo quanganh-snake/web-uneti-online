@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import {
   getAllNhanSuByTenPhongBan,
   getAllPhongBan,
@@ -9,6 +9,9 @@ import { AiOutlineSearch } from 'react-icons/ai'
 import { MdClose } from 'react-icons/md'
 import clsx from 'clsx'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6'
+import { isDuplicateValueObjectInArray } from '@/Services/Utils/filterData'
+import Swal from 'sweetalert2'
+import { FaSave } from 'react-icons/fa'
 
 const PhanQuyen = memo(function PhanQuyen(props) {
   const {
@@ -53,7 +56,62 @@ const PhanQuyen = memo(function PhanQuyen(props) {
         MC_TTHC_GV_PhanQuyen_QuyenSua: true,
         MC_TTHC_GV_PhanQuyen_QuyenXoa: true,
       }
-      setPhanQuyen([...phanQuyen, dataNhanSuPhanQuyen])
+
+      const dataTruongPhong = phanQuyen.filter((item) => {
+        if (item?.IsTruongPhong === true) {
+          return item
+        }
+      })
+
+      const dataBanGiamHieu = phanQuyen.filter((item) => {
+        if (item?.IsBanGiamHieu === true) {
+          return item
+        }
+      })
+
+      const checkExistTruongPhong = phanQuyen.some((item) => {
+        if (
+          item.MC_TTHC_GV_PhanQuyen_MaNhanSu !==
+            dataNhanSuPhanQuyen.MC_TTHC_GV_PhanQuyen_MaNhanSu &&
+          dataNhanSuPhanQuyen.IsTruongPhong === true
+        ) {
+          return true
+        }
+      })
+
+      const checkExistBanGiamHieu = phanQuyen.some((item) => {
+        if (
+          item.MC_TTHC_GV_PhanQuyen_MaNhanSu !==
+            dataNhanSuPhanQuyen.MC_TTHC_GV_PhanQuyen_MaNhanSu &&
+          dataNhanSuPhanQuyen.IsBanGiamHieu === true
+        ) {
+          return true
+        }
+      })
+
+      if (checkExistTruongPhong && dataTruongPhong?.length > 0) {
+        return Swal.fire({
+          icon: 'error',
+          title: 'Thông báo',
+          html: `Mỗi hồ sơ chỉ có duy nhất 1 Trưởng phòng xử lý! <br/> Trưởng phòng xử lý hiện tại là: ${dataTruongPhong[0]?.MC_TTHC_GV_PhanQuyen_MaNhanSu} - ${dataTruongPhong[0]?.MC_TTHC_GV_PhanQuyen_HoTen}`,
+        })
+      }
+
+      if (checkExistBanGiamHieu && dataBanGiamHieu?.length > 0) {
+        return Swal.fire({
+          icon: 'error',
+          title: 'Thông báo',
+          html: `Mỗi hồ sơ chỉ có duy nhất 1 Ban giám hiệu xử lý! <br/> Ban giám hiệu xử lý hiện tại là: ${dataBanGiamHieu[0]?.MC_TTHC_GV_PhanQuyen_MaNhanSu} - ${dataBanGiamHieu[0]?.MC_TTHC_GV_PhanQuyen_HoTen}`,
+        })
+      }
+
+      const checkDuplicatePhanQuyen = isDuplicateValueObjectInArray(
+        dataNhanSuPhanQuyen,
+        phanQuyen,
+        'MC_TTHC_GV_PhanQuyen_MaNhanSu',
+      )
+      !checkDuplicatePhanQuyen &&
+        setPhanQuyen((prevArray) => [...phanQuyen, dataNhanSuPhanQuyen])
     }
   }
 
@@ -128,7 +186,7 @@ const PhanQuyen = memo(function PhanQuyen(props) {
               </div>
               <ul
                 className={clsx(
-                  'bg-white mt-2 border shadow-md overflow-y-auto absolute right-0 left-0 top-full',
+                  'bg-white mt-2 border shadow-md overflow-y-auto absolute right-0 left-0 top-full z-20',
                   openSelectDonVi ? 'max-h-60' : 'hidden',
                 )}
               >
@@ -191,27 +249,6 @@ const PhanQuyen = memo(function PhanQuyen(props) {
           </div>
         </div>
         {/* END: Select Tổ nghiệp vụ */}
-
-        {/* START: Select Nhóm thực hiện */}
-        <div className="col-span-4 md:col-span-2">
-          <div className="flex flex-col gap-2">
-            <label htmlFor="MC_TTHC_GV_PhanQuyen_Nhom">
-              <p className="font-semibold mb-2">Nhóm thực hiện (Nếu có)</p>
-              <input
-                className="px-3 py-2 w-full rounded-lg border border-slate-300 focus:outline-slate-300"
-                type="text"
-                placeholder="Nhập nhóm thực hiện"
-                name="MC_TTHC_GV_PhanQuyen_Nhom"
-                id="MC_TTHC_GV_PhanQuyen_Nhom"
-                onChange={(e) => {
-                  setInputNhomThucHien(e.target.value)
-                }}
-              />
-            </label>
-          </div>
-        </div>
-        {/* END: Select Nhóm thực hiện */}
-
         {/* START: Select Nhân sự thực hiện */}
         <div className="col-span-4 md:col-span-2">
           <div className="flex flex-col gap-2">
@@ -281,6 +318,8 @@ const PhanQuyen = memo(function PhanQuyen(props) {
                             {
                               MC_TTHC_GV_PhanQuyen_MaNhanSu: iNhanSu.MaNhanSu,
                               MC_TTHC_GV_PhanQuyen_HoTen: iNhanSu.HoVaTen,
+                              IsTruongPhong: iNhanSu.IsTruongPhong,
+                              IsBanGiamHieu: iNhanSu.IsBanGiamHieu,
                             },
                             'nhansu',
                           )
@@ -297,6 +336,26 @@ const PhanQuyen = memo(function PhanQuyen(props) {
           </div>
         </div>
         {/* END: Select Nhân sự thực hiện */}
+        {/* START: Select Nhóm thực hiện */}
+        <div className="col-span-4 md:col-span-2">
+          <div className="flex flex-col gap-2">
+            <label htmlFor="MC_TTHC_GV_PhanQuyen_Nhom">
+              <p className="font-semibold mb-2">Nhóm thực hiện (Nếu có)</p>
+              <input
+                className="px-3 py-2 w-full rounded-lg border border-slate-300 focus:outline-slate-300"
+                type="text"
+                placeholder="Nhập nhóm thực hiện"
+                name="MC_TTHC_GV_PhanQuyen_Nhom"
+                id="MC_TTHC_GV_PhanQuyen_Nhom"
+                onChange={(e) => {
+                  setInputNhomThucHien(e.target.value)
+                }}
+              />
+            </label>
+          </div>
+        </div>
+        {/* END: Select Nhóm thực hiện */}
+
         {phanQuyen && phanQuyen.length ? (
           <div className="col-span-4">
             <div className="flex flex-col gap-4">
@@ -318,7 +377,7 @@ const PhanQuyen = memo(function PhanQuyen(props) {
                         color="red"
                         className="cursor-pointer hover:opacity-70"
                         onClick={() => {
-                          const newPhanQuyen = phanQuyen.splice(index, 1)
+                          phanQuyen.splice(index, 1)
                           setPhanQuyen([...phanQuyen])
                         }}
                       />
@@ -344,6 +403,13 @@ const PhanQuyen = memo(function PhanQuyen(props) {
           <span className="text-md">Quay lại</span>
         </button>
         <button
+          type="submit"
+          className="flex items-center gap-2 font-md text-md px-3 py-2 bg-emerald-600 text-white hover:opacity-70 rounded-md"
+        >
+          <FaSave />
+          Lưu hồ sơ
+        </button>
+        {/* <button
           type="button"
           onClick={() => {
             setPhanQuyenActive(false)
@@ -353,7 +419,7 @@ const PhanQuyen = memo(function PhanQuyen(props) {
         >
           <span className="text-md">Tiếp theo</span>
           <FaArrowRight />
-        </button>
+        </button> */}
       </div>
     </div>
   )

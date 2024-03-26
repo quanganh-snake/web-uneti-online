@@ -1,14 +1,15 @@
 import clsx from 'clsx'
-import React, { useEffect, useMemo } from 'react'
-import { useState } from 'react'
+import { useEffect, useMemo, useState, Suspense, lazy } from 'react'
 
 import { FaCaretRight, FaCaretDown } from 'react-icons/fa'
-import { FaFileDownload } from 'react-icons/fa'
-import { FaCaretLeft, FaListCheck } from 'react-icons/fa6'
-import { useNavigate, useParams } from 'react-router-dom'
-import SidebarTTHCGV from '../Sidebar/SidebarTTHCGV'
+import { FaCaretLeft } from 'react-icons/fa6'
+import { useParams } from 'react-router-dom'
+import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import rehypeKatex from 'rehype-katex'
+import 'katex/dist/katex.min.css'
+const SidebarTTHCGV = lazy(() => import('../Sidebar/SidebarTTHCGV'))
 import {
-  delThuTucHanhChinhGuiYeuCauByID,
   getHoSoGuiYeuCauById,
   getQuyTrinhXuLyCBNV,
   putHoSoThuTucGuiYeuCauById,
@@ -22,7 +23,6 @@ import Swal from 'sweetalert2'
 import {
   getListTrangThaiTTHCGVByIDGoc,
   getTrangThaiIDBySTTYeuCauId,
-  getTrangThaiIDGuiYeuCauXuLySTT,
 } from '@/Apis/ThuTucHanhChinhGiangVien/apiTrangThai'
 import { toast } from 'react-toastify'
 import { NguonTiepNhan_WEB } from '@/Services/Static/dataStatic'
@@ -33,27 +33,31 @@ import {
 } from '@/Services/Utils/emailUtils'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 import {
-  compareStrings,
   convertBufferToBase64,
   convertDataFileToBase64,
 } from '@/Services/Utils/stringUtils'
 import Loading from '@/Components/Loading/Loading'
 import { DebounceInput } from 'react-debounce-input'
 import ReactPaginate from 'react-paginate'
-import {
-  handleOpenFileBase64,
-  handlePreviewFileBase64,
-} from '@/Services/Utils/fileUtils'
+// import { handleOpenFileBase64 } from '@/Services/Utils/fileUtils'
 import { BiChevronDown } from 'react-icons/bi'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { getListNoiTraKetQua } from '@/Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
+import { listMucDoThuTuc } from '../constants'
+const FormGuiEmailThongBaoXuLy = lazy(
+  () => import('./FormGuiEmailThongBaoXuLy'),
+)
+import { FaCheck } from 'react-icons/fa'
+import { handlePreviewFileBase64 } from '@/Services/Utils/fileUtils'
+import { getInfoPhanQuyenCBNV } from '@/Apis/ThuTucHanhChinhGiangVien/apiPhanQuyen'
 
 function ChiTietHoSoYeuCau() {
   const { id } = useParams()
 
   const [showThongTinNguoiNop, setShowThongTinNguoiNop] = useState(true)
   const [showThongTinHoSo, setShowThongTinHoSo] = useState(true)
-  const [showXuLyHoSo, setShowXuLyHoSo] = useState(true)
+  //   const [showXuLyHoSo, setShowXuLyHoSo] = useState(true)
+  const [showQuaTrinhXuLy, setShowQuaTrinhXuLy] = useState(true)
   const [dataDetailYeuCau, setDataDetailYeuCau] = useState(null)
   const [dataDetailTPHSYeuCau, setDataDetailTPHSYeuCauYeuCau] = useState(null)
   const [ngayHenTra, setNgayHenTra] = useState(null)
@@ -72,9 +76,10 @@ function ChiTietHoSoYeuCau() {
     MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile: '',
     MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile: '',
   })
-  const navigate = useNavigate()
+  const [listDataCBNVPhanQuyen, setListDataCBNVPhanQuyen] = useState([])
+  //   const navigate = useNavigate()
 
-  let khoaGiangVien = ''
+  //   let khoaGiangVien = ''
   const dataCBGV = DataCanBoGV()
 
   const [currentPage, setCurrentPage] = useState(0)
@@ -94,7 +99,6 @@ function ChiTietHoSoYeuCau() {
       setDataDetailYeuCau(data)
       setNgayHenTra(data?.MC_TTHC_GV_GuiYeuCau_NgayHenTra)
       setNgayGiaoTra(data?.MC_TTHC_GV_GuiYeuCau_NgayGiaoTra)
-      setTrangThaiGhiChu(data?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu)
     }
   }
   const getDataTPHSDeNghiYeuCauByIDGoc = async (id) => {
@@ -133,6 +137,19 @@ function ChiTietHoSoYeuCau() {
     }
   }
 
+  const getListDataPhanQuyenByIDGoc = async (idGocTTHC) => {
+    try {
+      const res = await getInfoPhanQuyenCBNV(idGocTTHC)
+      if (res.status === 200) {
+        const data = await res.data?.body
+        setListDataCBNVPhanQuyen(data)
+        setLoading(false)
+      }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
   // event handlers
   const handleChangeValue = (e) => {
     const { id, name, value } = e.target
@@ -159,8 +176,8 @@ function ChiTietHoSoYeuCau() {
     setShowThongTinHoSo(!showThongTinHoSo)
   }
 
-  const handleShowXuLyHoSo = () => {
-    setShowXuLyHoSo(!showXuLyHoSo)
+  const handleShowQuaTrinhXuLyHoSo = () => {
+    setShowQuaTrinhXuLy(!showQuaTrinhXuLy)
   }
 
   const handleUpdateYeuCauGui = async (yeuCauID, trangThaiID) => {
@@ -225,7 +242,7 @@ function ChiTietHoSoYeuCau() {
                   newDataUpdate.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
                   '',
                   '',
-                ).then((res) => console.log('SEND EMAIL OK'))
+                ).then((res) => console.log('SEND EMAIL OK', res))
                 getDataHoSoYeuCauById(id)
                 getDataTrinhTuThucHienYeuCauByIDGoc(id)
               }
@@ -356,7 +373,7 @@ function ChiTietHoSoYeuCau() {
                 contentReply,
                 newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile,
                 newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile,
-              ).then((res) => console.log('SEND EMAIL OK'))
+              ).then((res) => console.log('SEND EMAIL OK', res))
               getDataHoSoYeuCauById(id)
               getDataTrinhTuThucHienYeuCauByIDGoc(id)
             }
@@ -420,7 +437,7 @@ function ChiTietHoSoYeuCau() {
                   contentReply,
                   newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile,
                   newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile,
-                ).then((res) => console.log('SEND EMAIL OK'))
+                ).then((res) => console.log('SEND EMAIL OK', res))
                 getDataHoSoYeuCauById(id)
                 getDataTrinhTuThucHienYeuCauByIDGoc(id)
                 return
@@ -455,7 +472,7 @@ function ChiTietHoSoYeuCau() {
                   newDataUpdate.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
                   newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_TenFile,
                   newDataUpdate?.MC_TTHC_GV_GuiYeuCau_TraKetQua_DataFile,
-                ).then((res) => console.log('SEND EMAIL OK'))
+                ).then((res) => console.log('SEND EMAIL OK', res))
                 getDataHoSoYeuCauById(id)
                 getDataTrinhTuThucHienYeuCauByIDGoc(id)
               }
@@ -472,203 +489,6 @@ function ChiTietHoSoYeuCau() {
     }
   }
 
-  const updateStepTrangThaiHoSoYeuCau = async (dataGuiYeuCau, type) => {
-    let currentTrangThaiSTT
-    let newTenTrangThaiUpdate = ''
-    let listTrangThaiHoSo
-    const resultListTrangThaiByIDGoc = await getListTrangThaiTTHCGVByIDGoc(
-      dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
-    )
-
-    if (resultListTrangThaiByIDGoc.status === 200) {
-      listTrangThaiHoSo = await resultListTrangThaiByIDGoc.data?.body
-      if (listTrangThaiHoSo.length > 0) {
-        for (let i = 0; i < listTrangThaiHoSo?.length; i++) {
-          if (
-            parseInt(dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID) ===
-            parseInt(listTrangThaiHoSo[i].MC_TTHC_GV_TrangThai_ID)
-          ) {
-            currentTrangThaiSTT = parseInt(
-              listTrangThaiHoSo[i].MC_TTHC_GV_TrangThai_STT,
-            )
-          }
-        }
-      }
-    }
-
-    const resultTrangThaiIDUpdate = await getTrangThaiIDGuiYeuCauXuLySTT(
-      dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
-      currentTrangThaiSTT,
-      type,
-    )
-
-    if (resultTrangThaiIDUpdate.status === 200) {
-      const dataTrangThaiIDUpdate = await resultTrangThaiIDUpdate.data?.body[0]
-      if (dataTrangThaiIDUpdate?.MC_TTHC_GV_TrangThai_ID) {
-        for (let i = 0; i < listTrangThaiHoSo?.length; i++) {
-          if (
-            parseInt(listTrangThaiHoSo[i].MC_TTHC_GV_TrangThai_ID) ===
-            parseInt(dataTrangThaiIDUpdate?.MC_TTHC_GV_TrangThai_ID)
-          ) {
-            newTenTrangThaiUpdate =
-              listTrangThaiHoSo[i].MC_TTHC_GV_TrangThai_TenTrangThai
-          }
-        }
-
-        const dataUpdateNew = {
-          MC_TTHC_GV_GuiYeuCau_ID: dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_ID,
-          MC_TTHC_GV_GuiYeuCau_NhanSuGui_MaNhanSu:
-            dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_MaNhanSu,
-          MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email:
-            dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email,
-          MC_TTHC_GV_GuiYeuCau_NhanSuGui_SDT:
-            dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_SDT,
-          MC_TTHC_GV_GuiYeuCau_NhanSuGui_Khoa:
-            dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Khoa,
-          MC_TTHC_GV_GuiYeuCau_YeuCau_ID:
-            dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
-          MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu:
-            dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu,
-          MC_TTHC_GV_GuiYeuCau_TrangThai_ID:
-            dataTrangThaiIDUpdate?.MC_TTHC_GV_TrangThai_ID,
-          MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu:
-            dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
-          MC_TTHC_GV_GuiYeuCau_NgayGui:
-            dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayGui,
-          MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong:
-            dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_KetQua_SoLuong,
-          MC_TTHC_GV_GuiYeuCau_DaNop: dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_DaNop,
-          MC_TTHC_GV_GuiYeuCau_NgayHenTra:
-            dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayHenTra,
-          MC_TTHC_GV_GuiYeuCau_NgayGiaoTra:
-            dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayGiaoTra,
-          MC_TTHC_GV_GuiYeuCau_NoiTraKetQua:
-            dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NoiTraKetQua,
-          MC_TTHC_GV_GuiYeuCau_NguonTiepNhan:
-            dataGuiYeuCau?.MC_TTHC_GV_GuiYeuCau_NguonTiepNhan,
-        }
-        const responseUpdateSTTTrangThaiHoSo =
-          await putHoSoThuTucGuiYeuCauById(dataUpdateNew)
-        if (responseUpdateSTTTrangThaiHoSo.status === 200) {
-          setLoading(false)
-          getDataHoSoYeuCauById(id)
-          getDataTPHSDeNghiYeuCauByIDGoc(id)
-          getDataTrinhTuThucHienYeuCauByIDGoc(id)
-          getDataTrangThaiYeuCauByIDGoc(id)
-
-          return {
-            status: 1,
-            message: `Đã chuyển trạng thái hồ sơ thành "${newTenTrangThaiUpdate}" thành công!`,
-          }
-        }
-      } else {
-        if (type == 'next') {
-          return {
-            status: -1,
-            message:
-              'Đã chuyển trạng thái hồ sơ đến bước tiếp theo thất bại! Do hồ sơ đang ở trạng thái cuối cùng.',
-          }
-        }
-
-        if (type == 'prev') {
-          return {
-            status: -1,
-            message:
-              'Đã chuyển trạng thái hồ sơ về bước trước thất bại! Do hồ sơ đang ở trạng thái mặc định được khởi tạo.',
-          }
-        }
-      }
-    }
-  }
-
-  const handlePrevStep = async (dataGuiYeuCau) => {
-    const dataUpdate = await updateStepTrangThaiHoSoYeuCau(
-      dataGuiYeuCau,
-      'prev',
-    )
-    if (dataUpdate?.status == 1) {
-      Swal.fire({
-        icon: 'success',
-        title: `${dataUpdate?.message}`,
-      })
-      return
-    }
-
-    if (dataUpdate?.status == -1) {
-      Swal.fire({
-        icon: 'error',
-        title: `${dataUpdate?.message}`,
-      })
-      return
-    }
-  }
-
-  const handleNextStep = async (dataGuiYeuCau) => {
-    const dataUpdate = await updateStepTrangThaiHoSoYeuCau(
-      dataGuiYeuCau,
-      'next',
-    )
-    if (dataUpdate?.status == 1) {
-      Swal.fire({
-        icon: 'success',
-        title: `${dataUpdate?.message}`,
-      })
-      return
-    }
-
-    if (dataUpdate?.status == -1) {
-      Swal.fire({
-        icon: 'error',
-        title: `${dataUpdate?.message}`,
-      })
-      return
-    }
-  }
-
-  const handleCancelHoSo = async (dataHoSoYeuCau) => {
-    Swal.fire({
-      icon: 'question',
-      title: 'Bạn chắc chắn muốn hủy/trả yêu cầu này?',
-      showConfirmButton: true,
-      showCancelButton: true,
-      confirmButtonText: 'Đồng ý',
-      cancelButtonText: 'Hủy',
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        if (dataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu == '') {
-          Swal.fire({
-            icon: 'error',
-            title:
-              'Vui lòng nhập nội dung chi tiết hủy/trả hồ sơ tại mục ghi chú!',
-          })
-          return
-        }
-        // Thực hiện xóa
-        delThuTucHanhChinhGuiYeuCauByID(
-          dataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_ID,
-        ).then((res) => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Hủy/trả yêu cầu hồ sơ thành công!',
-          })
-          // Gửi email thông báo cho người dùng
-          sendEmailTTHCGiangVien(
-            dataHoSoYeuCau,
-            dataCBGV,
-            listTPHSDeNghiYeuCau,
-            dataHoSoYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu,
-            '',
-            '',
-          ).then((res) => {
-            console.log(res.statusText)
-          })
-          navigate(-1)
-          return
-        })
-      }
-    })
-  }
-
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected)
   }
@@ -678,18 +498,34 @@ function ChiTietHoSoYeuCau() {
     getListDataNoiTraKetQua()
   }, [])
   useEffect(() => {
-    getDataHoSoYeuCauById(id)
-    getDataTPHSDeNghiYeuCauByIDGoc(id)
-    getDataTrinhTuThucHienYeuCauByIDGoc(id)
-    getDataTrangThaiYeuCauByIDGoc(id)
+    const fetchData = async () => {
+      await getDataHoSoYeuCauById(id)
+      await getDataTPHSDeNghiYeuCauByIDGoc(id)
+      await getDataTrinhTuThucHienYeuCauByIDGoc(id)
+    }
+    fetchData()
   }, [id, loading])
 
+  useEffect(() => {
+    if (dataDetailYeuCau) {
+      const fetchData = async () => {
+        await getDataTrangThaiYeuCauByIDGoc(
+          dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
+        )
+        await getListDataPhanQuyenByIDGoc(
+          dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_ID,
+        )
+      }
+      fetchData()
+    }
+  }, [dataDetailYeuCau, id])
+
   const displayedListQuyTrinhXuLy = useMemo(() => {
-    if (!showXuLyHoSo) {
+    if (!showQuaTrinhXuLy) {
       return paginateListQuyTrinhXuLy
     }
     return []
-  }, [paginateListQuyTrinhXuLy, showXuLyHoSo])
+  }, [paginateListQuyTrinhXuLy, showQuaTrinhXuLy])
 
   if (dataDetailYeuCau) {
     return (
@@ -699,12 +535,12 @@ function ChiTietHoSoYeuCau() {
             <Loading />
           </div>
         ) : (
-          <>
+          <Suspense fallback={<Loading />}>
             <div className="col-span-12 lg:col-span-2">
               <SidebarTTHCGV />
             </div>
             <div className="col-span-12 lg:col-span-10">
-              <div className="w-full p-4 bg-white rounded-xl">
+              <div className="w-full p-4 bg-white shadow-lg rounded-xl">
                 {/* START: Thông tin người nộp */}
                 <div className="mb-4">
                   <div className="flex flex-row items-center gap-2 bg-[#0484AC] text-white font-semibold px-3 py-1 rounded-md mb-4">
@@ -719,7 +555,7 @@ function ChiTietHoSoYeuCau() {
                         onClick={handleShowThongTinNguoiNop}
                       />
                     )}
-                    <h4>Thông tin người nộp</h4>
+                    <h4>Thông tin người nộp hồ sơ</h4>
                   </div>
 
                   <div
@@ -728,19 +564,21 @@ function ChiTietHoSoYeuCau() {
                       showThongTinNguoiNop ? null : 'hidden',
                     )}
                   >
-                    <p className="col-span-2 md:col-span-1 mb-3">
+                    <p className="col-span-2 md:col-span-1 mb-4">
+                      Mã nhân sự:{' '}
+                      <span className="font-semibold">
+                        {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_MaNhanSu ??
+                          'Chưa cập nhật'}
+                      </span>
+                    </p>
+                    <p className="col-span-2 md:col-span-1 mb-4">
                       Họ và tên:{' '}
                       <span className="font-semibold">
                         {dataDetailYeuCau?.HoTen}
                       </span>
                     </p>
-                    <p className="col-span-2 md:col-span-1 mb-3">
-                      Địa chỉ hiện tại:{' '}
-                      <span className="font-semibold">
-                        {dataDetailYeuCau?.NoiOHienTai ?? 'Chưa cập nhật'}
-                      </span>
-                    </p>
-                    <p className="col-span-2 md:col-span-1 mb-3">
+
+                    <p className="col-span-2 md:col-span-1 mb-4">
                       Ngày sinh:{' '}
                       <span className="font-semibold">
                         {dataDetailYeuCau?.NgaySinh
@@ -750,28 +588,24 @@ function ChiTietHoSoYeuCau() {
                           : ''}
                       </span>
                     </p>
-                    <p className="col-span-2 md:col-span-1 mb-3">
-                      CMTND/CCCD:{' '}
+                    <p className="col-span-2 md:col-span-1 mb-4">
+                      Điện thoại:{' '}
                       <span className="font-semibold">
-                        {dataDetailYeuCau?.SoCMND ?? 'Chưa cập nhật'}
+                        {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_SDT ??
+                          'Chưa cập nhật'}
                       </span>
                     </p>
-                    <p className="col-span-2 md:col-span-1 mb-3">
-                      Số điện thoại:{' '}
-                      <span className="font-semibold">
-                        {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_SDT}
-                      </span>
-                    </p>
-                    <p className="col-span-2 md:col-span-1 mb-3">
-                      Email liên hệ:{' '}
+                    <p className="col-span-2 md:col-span-1 mb-4">
+                      Email:{' '}
                       <span className="font-semibold whitespace-pre-wrap">
                         {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Email}
                       </span>
                     </p>
-                    <p className="col-span-2 md:col-span-1 mb-3">
-                      Quê quán:{' '}
+                    <p className="col-span-2 md:col-span-1 mb-4">
+                      Đơn vị:{' '}
                       <span className="font-semibold">
-                        {dataDetailYeuCau?.QueQuan ?? 'Chưa cập nhật'}
+                        {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NhanSuGui_Khoa ??
+                          'Chưa cập nhật'}
                       </span>
                     </p>
                   </div>
@@ -779,7 +613,7 @@ function ChiTietHoSoYeuCau() {
                 {/* END: Thông tin người nộp */}
 
                 {/* START: Thông tin hồ sơ */}
-                <div className="mb-10">
+                <div className="mb-4">
                   <div className="flex flex-row items-center gap-2 bg-[#0484AC] text-white font-semibold px-3 py-1 rounded-md mb-4">
                     {showThongTinHoSo ? (
                       <FaCaretDown
@@ -802,29 +636,43 @@ function ChiTietHoSoYeuCau() {
                       showThongTinHoSo ? null : 'hidden',
                     )}
                   >
-                    {/* Tên thủ tục */}
-                    <p className="col-span-2 md:col-span-1 mb-3">
-                      Tên thủ tục:{' '}
+                    {/* Lĩnh vực */}
+                    <p className="col-span-1 mb-4">
+                      Lĩnh vực:{' '}
                       <span className="font-semibold">
-                        {dataDetailYeuCau?.MC_TTHC_GV_TenThuTuc}
+                        {dataDetailYeuCau?.MC_TTHC_GV_LinhVuc}
                       </span>
                     </p>
+
                     {/* Mã thủ tục */}
-                    <p className="col-span-2 md:col-span-1 mb-3">
+                    <p className="col-span-2 md:col-span-1 mb-4">
                       Mã thủ tục:{' '}
                       <span className="font-semibold">
                         {dataDetailYeuCau?.MC_TTHC_GV_MaThuTuc}
                       </span>
                     </p>
+
+                    {/* Tên thủ tục */}
+                    <p className="col-span-1 md:col-span-1 mb-4">
+                      Tên thủ tục:{' '}
+                      <span className="font-semibold">
+                        {dataDetailYeuCau?.MC_TTHC_GV_TenThuTuc}
+                      </span>
+                    </p>
+
                     {/* Mức độ thủ tục */}
-                    <p className="col-span-2 md:col-span-1 mb-3">
+                    <p className="col-span-2 md:col-span-1 mb-4">
                       Mức độ thủ tục:{' '}
                       <span className="font-semibold">
-                        {dataDetailYeuCau?.MC_TTHC_GV_IDMucDo}
+                        {listMucDoThuTuc.map((md) => {
+                          if (md.id === dataDetailYeuCau?.MC_TTHC_GV_IDMucDo) {
+                            return `${dataDetailYeuCau?.MC_TTHC_GV_IDMucDo} - ${md.moTaMucDo}`
+                          }
+                        })}
                       </span>
                     </p>
                     {/* Ngày nộp hồ sơ */}
-                    <p className="col-span-1 mb-3">
+                    <p className="col-span-1 mb-4">
                       Ngày nộp hồ sơ:{' '}
                       <span className="font-semibold">
                         {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayGui &&
@@ -833,63 +681,99 @@ function ChiTietHoSoYeuCau() {
                           ).format('DD/MM/YYYY')}
                       </span>
                     </p>
-                    {/* Ngày tiếp nhận */}
-                    <p className="col-span-1 mb-3">
-                      Ngày tiếp nhận:{' '}
-                      <span className="font-semibold">
-                        {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayGui &&
-                          moment(
-                            dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_NgayGui,
-                          ).format('DD/MM/YYYY')}
-                      </span>
-                    </p>
                     {/* Đơn vị tiếp nhận */}
-                    <p className="col-span-1 mb-3">
+                    <p className="col-span-1 mb-4">
                       Đơn vị tiếp nhận:{' '}
                       <span className="font-semibold">
                         {dataDetailYeuCau?.MC_TTHC_GV_NoiTiepNhan}
                       </span>
                     </p>
-                    {/* Lĩnh vực */}
-                    <p className="col-span-1 mb-3">
-                      Lĩnh vực:{' '}
-                      <span className="font-semibold">
-                        {dataDetailYeuCau?.MC_TTHC_GV_LinhVuc}
-                      </span>
-                    </p>
-                    {/* Trạng thái hồ sơ */}
-                    <p className="col-span-2 md:col-span-1 mb-3">
-                      Trạng thái hồ sơ:{' '}
-                      <span className="font-semibold text-red-600">
-                        {dataDetailYeuCau?.MC_TTHC_GV_TrangThai_TenTrangThai}
-                      </span>
-                    </p>
+
+                    {/* START: Thành phần hồ show */}
+                    {dataDetailTPHSYeuCau?.length > 0 && (
+                      <div className="col-span-2 mb-4">
+                        <p className="font-semibold">Giấy tờ kèm theo:</p>
+                        <table className="w-full">
+                          <thead className="bg-[#075985] text-white ">
+                            <tr>
+                              <th className="border-r px-2 py-1 rounded-tl-xl">
+                                STT
+                              </th>
+                              <th className="border-r px-2 py-1">
+                                Tên giấy tờ
+                              </th>
+                              <th className="border-r px-2 py-1 rounded-tr-xl">
+                                Giấy tờ kèm theo
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {dataDetailTPHSYeuCau &&
+                              dataDetailTPHSYeuCau?.map(
+                                (iTPHSYeuCau, index) => {
+                                  return (
+                                    <tr className="border" key={index}>
+                                      <td className="border-r px-2 py-1 text-center">
+                                        {index + 1}
+                                      </td>
+                                      <td className="border-r px-2 py-1">
+                                        <p className="">
+                                          {
+                                            iTPHSYeuCau?.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo
+                                          }
+                                        </p>
+                                      </td>
+                                      <td className="border-r px-2 py-1 text-center">
+                                        <button
+                                          type="button"
+                                          className="text-[#336699] font-medium"
+                                          onClick={() => {
+                                            const base64StringWithoutPrefix =
+                                              convertBufferToBase64(
+                                                iTPHSYeuCau
+                                                  ?.MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_DataFile
+                                                  ?.data,
+                                              )
+                                            handlePreviewFileBase64(
+                                              iTPHSYeuCau?.MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_TenFile,
+                                              base64StringWithoutPrefix,
+                                            )
+                                          }}
+                                        >
+                                          Xem
+                                        </button>
+                                      </td>
+                                    </tr>
+                                  )
+                                },
+                              )}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+
+                    {/* Nội dung yêu cầu của người gửi */}
+                    <div className="col-span-1 mb-4">
+                      <p>Nội dung yêu cầu của người gửi: </p>
+                      {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu ? (
+                        <Markdown
+                          remarkPlugins={[remarkGfm]}
+                          rehypePlugins={[rehypeKatex]}
+                          className={'px-6 font-medium'}
+                        >
+                          {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_YeuCau_GhiChu}
+                        </Markdown>
+                      ) : (
+                        'Không có nội dung yêu cầu'
+                      )}
+                    </div>
 
                     {/* START: Cập nhật/Xử lý hồ sơ */}
-                    <div className="col-span-2">
+                    <div className="hidden col-span-2">
                       <div className="grid grid-cols-2 gap-2 border border-slate-400 p-2">
                         {/* START: Hình thức trả */}
                         <div className="flex flex-col gap-2 col-span-1">
                           <p>Hình thức giao trả:</p>
-                          {/* <select
-                                                        className="p-2 border focus:outline-slate-400"
-                                                        name="HinhThucTra"
-                                                        id="HinhThucTra"
-                                                        onChange={
-                                                            handleChangeValue
-                                                        }
-                                                    >
-                                                        <option value="">
-                                                            Chọn hình thức giao
-                                                            trả
-                                                        </option>
-                                                        <option value="1">
-                                                            Trả online - Email
-                                                        </option>
-                                                        <option value="2">
-                                                            Trả trực tiếp
-                                                        </option>
-                                                    </select> */}
 
                           {dataDetailYeuCau?.MC_TTHC_GV_IDMucDo === 4 && (
                             <label
@@ -954,7 +838,7 @@ function ChiTietHoSoYeuCau() {
                                         'Tệp tải lên không đúng định dạng yêu cầu. Vui lòng kiểm tra lại.',
                                       text: 'Tệp tải lên phải có dạng PDF (Kích thước tối đa 5MB)',
                                     })
-                                    setDataFilesTepThuTuc(null)
+                                    // setDataFilesTepThuTuc(null)
                                     return
                                   } else {
                                     if (file.size > maxSizeInBytes) {
@@ -1158,211 +1042,205 @@ function ChiTietHoSoYeuCau() {
                     </div>
                     {/* END: Cập nhật/Xử lý hồ sơ */}
                   </div>
-
-                  {/* START: Thành phần hồ show */}
-                  {dataDetailTPHSYeuCau?.length > 0 && (
-                    <div className="w-full">
-                      <table className="w-full">
-                        <thead className="bg-[#075985] text-white ">
-                          <tr>
-                            <th className="border-r px-2 py-1 rounded-tl-xl">
-                              STT
-                            </th>
-                            <th className="border-r px-2 py-1">Tên giấy tờ</th>
-                            <th className="border-r px-2 py-1 rounded-tr-xl">
-                              Giấy tờ kèm theo
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {dataDetailTPHSYeuCau &&
-                            dataDetailTPHSYeuCau?.map((iTPHSYeuCau, index) => {
-                              return (
-                                <tr className="border" key={index}>
-                                  <td className="border-r px-2 py-1 text-center">
-                                    {index + 1}
-                                  </td>
-                                  <td className="border-r px-2 py-1">
-                                    <p className="">
-                                      {
-                                        iTPHSYeuCau?.MC_TTHC_GV_ThanhPhanHoSo_TenGiayTo
-                                      }
-                                    </p>
-                                  </td>
-                                  <td className="border-r px-2 py-1 text-center">
-                                    <button
-                                      type="button"
-                                      className="text-[#336699] font-medium"
-                                      onClick={() => {
-                                        const base64StringWithoutPrefix =
-                                          convertBufferToBase64(
-                                            iTPHSYeuCau
-                                              ?.MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_DataFile
-                                              ?.data,
-                                          )
-                                        console.log(
-                                          '🚀 ~ ChiTietHoSoYeuCau ~ base64StringWithoutPrefix:',
-                                          base64StringWithoutPrefix,
-                                        )
-                                        handlePreviewFileBase64(
-                                          iTPHSYeuCau?.MC_TTHC_GV_ThanhPhanHoSo_GuiYeuCau_TenFile,
-                                          base64StringWithoutPrefix,
-                                        )
-                                      }}
-                                    >
-                                      Xem
-                                    </button>
-                                  </td>
-                                </tr>
-                              )
-                            })}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
                 </div>
                 {/* END: Thông tin hồ sơ */}
 
-                {/* START: Xử lý hồ sơ */}
-                <div className="mb-4">
-                  <div className="tabs__xulyhoso flex flex-row gap-4 border-b pb-2 mb-4">
-                    <button
-                      type="button"
-                      onClick={handleShowXuLyHoSo}
-                      className={clsx(
-                        'px-3 py-1 rounded-md flex flex-row items-center gap-2 cursor-pointer hover:opacity-70',
-                        showXuLyHoSo
-                          ? 'bg-[#0484AC] text-white'
-                          : 'border border-[#0484AC] text-[#336699]',
-                      )}
-                    >
-                      <FaFileDownload />
-                      Xử lý hồ sơ
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleShowXuLyHoSo}
-                      className={clsx(
-                        'px-3 py-1 rounded-md flex flex-row items-center gap-2 cursor-pointer hover:opacity-70',
-                        showXuLyHoSo
-                          ? 'border border-[#0484AC] text-[#336699]'
-                          : 'bg-[#0484AC] text-white',
-                      )}
-                    >
-                      <FaListCheck />
-                      Quá trình xử lý hồ sơ
-                    </button>
-                  </div>
-                  {showXuLyHoSo ? (
-                    <div className="flex flex-row items-center gap-4">
-                      <button
-                        type="button"
-                        className="px-3 py-1 text-white rounded-lg font-semibold hover:opacity-70 bg-[#D85D17]"
-                        onClick={() => {
-                          handlePrevStep(dataDetailYeuCau)
-                        }}
-                      >
-                        Chuyển bước trước
-                      </button>
-                      <button
-                        type="button"
-                        className="px-3 py-1 text-white rounded-lg font-semibold hover:opacity-70 bg-[#70C788]"
-                        onClick={() => {
-                          handleNextStep(dataDetailYeuCau)
-                        }}
-                      >
-                        Chuyển bước tiếp
-                      </button>
-                      <button
-                        type="button"
-                        className="px-3 py-1 text-white rounded-lg font-semibold hover:opacity-70 bg-[#FF0000]"
-                        onClick={() => {
-                          handleCancelHoSo({
-                            ...dataDetailYeuCau,
-                            MC_TTHC_GV_GuiYeuCau_TrangThai_GhiChu:
-                              trangThaiGhiChu,
-                          })
-                        }}
-                      >
-                        Hủy/trả hồ sơ
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="w-full">
-                      <table className="relative w-full left-0 right-0 border mb-4">
-                        <thead className="bg-[#336699] text-white">
-                          <tr className="border">
-                            <th className="border-r px-2">STT</th>
-                            <th className="border-r px-2">Nhân sự xử lý</th>
-                            <th className="border-r px-2">Hình thức xử lý</th>
-                            <th className="border-r px-2">
-                              Ngày hẹn trả hồ sơ
-                            </th>
-                            <th className="border-r px-2">Nơi trả kết quả</th>
-                            <th className="border-r px-2">Thời gian xử lý</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {displayedListQuyTrinhXuLy?.length > 0 &&
-                            displayedListQuyTrinhXuLy?.map((iQTXuLy, index) => {
-                              return (
-                                <tr className="border-b" key={index}>
-                                  <td className="border-r p-2 text-center">
-                                    {index + 1}
-                                  </td>
-                                  <td className="border-r p-2 text-center">
-                                    {iQTXuLy?.HoTen}
-                                  </td>
-                                  <td className="border-r p-2 text-center">
-                                    {iQTXuLy?.MC_TTHC_GV_TrangThai_TenTrangThai}
-                                  </td>
-                                  <td className="border-r p-2 text-center">
-                                    {iQTXuLy?.MC_TTHC_GV_GuiYeuCau_NgayHenTra
-                                      ? moment(
-                                          iQTXuLy?.MC_TTHC_GV_GuiYeuCau_NgayHenTra,
-                                          'YYYY-MM-DDTHH:mm:ss.SSS[Z]',
-                                        ).format('DD/MM/YYYY HH:mm:ss')
-                                      : null}
-                                  </td>
-                                  <td className="border-r p-2 text-center">
-                                    {iQTXuLy?.MC_TTHC_GV_GuiYeuCau_NoiTraKetQua}
-                                  </td>
-                                  <td className="p-2 text-center">
-                                    {moment(
-                                      iQTXuLy?.MC_TTHC_GV_GuiYeuCau_DateEditor,
-                                      'YYYY-MM-DDTHH:mm:ss.SSS[Z]',
-                                    ).format('DD/MM/YYYY HH:mm:ss')}
-                                  </td>
-                                </tr>
-                              )
-                            })}
-                        </tbody>
-                      </table>
-                      <ReactPaginate
-                        previousLabel={
-                          <FaCaretLeft color="#336699" size={32} />
-                        }
-                        nextLabel={<FaCaretRight color="#336699" size={32} />}
-                        pageCount={pageCount}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        onPageChange={handlePageChange}
-                        containerClassName={'pagination'}
-                        pageClassName={
-                          'px-2 py-1 hover:text-white hover:font-semibold hover:bg-[#336699]'
-                        }
-                        activeClassName={
-                          'px-2 py-1 text-white font-semibold bg-[#336699]'
-                        }
-                        className="w-full flex items-center justify-end gap-1"
+                {/* START: Các bước xử lý hồ sơ - Quy trình xử lý */}
+
+                <div className="w-full">
+                  <div className="flex flex-row items-center gap-2 bg-[#0484AC] text-white font-semibold px-3 py-1 rounded-md mb-4">
+                    {showThongTinNguoiNop ? (
+                      <FaCaretDown
+                        className="text-white cursor-pointer"
+                        onClick={handleShowThongTinNguoiNop}
                       />
-                    </div>
-                  )}
+                    ) : (
+                      <FaCaretRight
+                        className="text-white cursor-pointer"
+                        onClick={handleShowThongTinNguoiNop}
+                      />
+                    )}
+                    <h4>Quy trình xử lý</h4>
+                  </div>
+                  {/* Trạng thái hồ sơ */}
+                  <p className="col-span-2 md:col-span-1 mb-4">
+                    Trạng thái hồ sơ:{' '}
+                    <span className="font-semibold text-red-600">
+                      {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID ===
+                        -1 && 'Hồ sơ đã được hủy trả'}
+                      {dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID !==
+                        -1 &&
+                        dataDetailYeuCau?.MC_TTHC_GV_TrangThai_TenTrangThai}
+                    </span>
+                  </p>
+                  <ol className="relative m-10 text-gray-500 border-s border-gray-200 dark:border-gray-700 dark:text-gray-400">
+                    {listTrangThaiYeuCau.map((tt, index) => {
+                      return (
+                        <li className="mb-10 ms-10" key={index}>
+                          <span className="absolute flex items-center justify-center w-10 h-10 bg-gray-200 rounded-full -start-5 ring-10 ring-white border">
+                            {tt?.MC_TTHC_GV_TrangThai_STT ===
+                              dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT ||
+                            dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT >
+                              index ? (
+                              <FaCheck className="text-green-600" />
+                            ) : (
+                              ''
+                            )}
+                          </span>
+                          <div
+                            className={clsx(
+                              'flex flex-row items-center gap-2 px-5 rounded-2xl',
+                              tt?.MC_TTHC_GV_TrangThai_STT ===
+                                dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT ||
+                                dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT >
+                                  index
+                                ? 'bg-[#0484AC] text-white '
+                                : 'bg-gray-200 text-uneti-primary',
+                            )}
+                          >
+                            {tt?.MC_TTHC_GV_TrangThai_STT ===
+                              dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT ||
+                            dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT >
+                              index ? (
+                              <FaCaretRight className="text-white cursor-pointer" />
+                            ) : (
+                              <FaCaretDown className="text-uneti-primary cursor-pointer" />
+                            )}
+                            <h3 className="font-medium leading-10">
+                              Bước {index + 1}:{' '}
+                              {tt.MC_TTHC_GV_TrangThai_TenTrangThai}
+                            </h3>
+                          </div>
+                          <div
+                            className={clsx(
+                              dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID ===
+                                -1
+                                ? 'hidden'
+                                : dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT ===
+                                    tt.MC_TTHC_GV_TrangThai_STT
+                                  ? 'hidden'
+                                  : index + 1 ===
+                                      dataDetailYeuCau?.MC_TTHC_GV_TrangThai_STT +
+                                        1
+                                    ? 'block'
+                                    : 'hidden',
+                            )}
+                          >
+                            <FormGuiEmailThongBaoXuLy
+                              idGocTTHCGV={id}
+                              dataDetailYeuCau={dataDetailYeuCau}
+                              dataDetailTPHSYeuCau={dataDetailTPHSYeuCau}
+                              currentStatusId={
+                                dataDetailYeuCau?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID
+                              }
+                              infoStatus={tt}
+                              currentStep={tt.MC_TTHC_GV_TrangThai_STT}
+                              stepHandle={index + 1}
+                              listStatus={listTrangThaiYeuCau}
+                              isDTPheDuyet={
+                                tt.MC_TTHC_GV_TrangThai_DoiTuongXuLy
+                              }
+                              mucDoId={dataDetailYeuCau?.MC_TTHC_GV_IDMucDo}
+                              contentEmail={trangThaiGhiChu}
+                              onContentEmail={setTrangThaiGhiChu}
+                              linkAttachedFile={linkFileTraKetQuaOnline}
+                              dataAttachedFile={dataFileTraKetQuaKemTheo}
+                              onLinkAttachedFile={setLinkFileTraKetQuaOnline}
+                              onAttachedFile={setDataFileTraKetQuaKemTheo}
+                              listDataCBNVPhanQuyen={listDataCBNVPhanQuyen}
+                              onLoading={setLoading}
+                            />
+                          </div>
+                        </li>
+                      )
+                    })}
+                  </ol>
+                </div>
+
+                {/* END: Các bước xử lý hồ sơ - Quy trình xử lý */}
+
+                {/* START: Xử lý hồ sơ */}
+                <div className={clsx('mb-4')}>
+                  <div className="flex flex-row items-center gap-2 bg-[#0484AC] text-white font-semibold px-3 py-1 rounded-md mb-4">
+                    {!showQuaTrinhXuLy ? (
+                      <FaCaretDown
+                        className="text-white cursor-pointer"
+                        onClick={handleShowQuaTrinhXuLyHoSo}
+                      />
+                    ) : (
+                      <FaCaretRight
+                        className="text-white cursor-pointer"
+                        onClick={handleShowQuaTrinhXuLyHoSo}
+                      />
+                    )}
+                    <h4>Chi tiết quá trình xử lý hồ sơ</h4>
+                  </div>
+                  <div className={clsx('w-full', showQuaTrinhXuLy && 'hidden')}>
+                    <table className="relative w-full left-0 right-0 border mb-4">
+                      <thead className="bg-[#336699] text-white">
+                        <tr className="border">
+                          <th className="border-r px-2">STT</th>
+                          <th className="border-r px-2">Nhân sự xử lý</th>
+                          <th className="border-r px-2">Hình thức xử lý</th>
+                          <th className="border-r px-2">
+                            Nội dung xử lý hồ sơ
+                          </th>
+                          <th className="border-r px-2">Tài liệu đính kèm</th>
+                          <th className="border-r px-2">Thời gian xử lý</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {displayedListQuyTrinhXuLy?.map((iQTXuLy, index) => {
+                          return (
+                            <tr className="border-b" key={index}>
+                              <td className="border-r p-2 text-center">
+                                {index + 1}
+                              </td>
+                              <td className="border-r p-2 text-center">
+                                {iQTXuLy?.HoTen}
+                              </td>
+                              <td className="border-r p-2 text-center">
+                                {iQTXuLy?.MC_TTHC_GV_TrangThai_TenTrangThai}
+                              </td>
+                              <td className="border-r p-2 text-center">
+                                {iQTXuLy?.MC_TTHC_GV_GuiYeuCau_NoiDung_XuLy}
+                              </td>
+                              <td className="border-r p-2 text-center">
+                                {iQTXuLy?.MC_TTHC_GV_GuiYeuCau_NoiTraKetQua}
+                              </td>
+                              <td className="p-2 text-center">
+                                {moment(
+                                  iQTXuLy?.MC_TTHC_GV_GuiYeuCau_DateEditor,
+                                  'YYYY-MM-DDTHH:mm:ss.SSS[Z]',
+                                ).format('DD/MM/YYYY HH:mm:ss')}
+                              </td>
+                            </tr>
+                          )
+                        })}
+                      </tbody>
+                    </table>
+                    <ReactPaginate
+                      previousLabel={<FaCaretLeft color="#336699" size={32} />}
+                      nextLabel={<FaCaretRight color="#336699" size={32} />}
+                      pageCount={pageCount}
+                      marginPagesDisplayed={2}
+                      pageRangeDisplayed={5}
+                      onPageChange={handlePageChange}
+                      containerClassName={'pagination'}
+                      pageClassName={
+                        'px-2 py-1 hover:text-white hover:font-semibold hover:bg-[#336699]'
+                      }
+                      activeClassName={
+                        'px-2 py-1 text-white font-semibold bg-[#336699]'
+                      }
+                      className="w-full flex items-center justify-end gap-1"
+                    />
+                  </div>
                 </div>
                 {/* END: Xử lý hồ sơ */}
               </div>
             </div>
-          </>
+          </Suspense>
         )}
       </div>
     )

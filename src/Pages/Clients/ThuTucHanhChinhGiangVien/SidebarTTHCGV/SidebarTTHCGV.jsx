@@ -58,7 +58,7 @@ function SidebarTTHCGV({ setKeywords, setDieuKienLoc }) {
   }, [])
 
   return (
-    <div className={clsx('w-full', openMenu ? ' md:min-w-[220px]' : '')}>
+    <div className={clsx('w-full', openMenu ? ' md:min-w-[300px]' : '')}>
       <div
         className={clsx(
           'uneti__menu mb-2 flex',
@@ -100,7 +100,7 @@ function SidebarTTHCGV({ setKeywords, setDieuKienLoc }) {
               setKeywords('')
             }}
           />
-          <span>Đơn vị</span>
+          <span>Đơn vị/Tổ chức</span>
         </label>
         <label
           onChange={handleChangeSelectionData}

@@ -1,7 +1,9 @@
 import SidebarTTHCGV from '../Sidebar/SidebarTTHCGV'
 import {
-  delThuTucHanhChinhByID,
+  getAllLinhVuc,
+  getListDonVi,
   getThuTucHanhChinhByKeyWords,
+  putHienThiHoSoThuTuc,
 } from '../../../../Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
 import { useState } from 'react'
 import { useEffect } from 'react'
@@ -15,12 +17,19 @@ import { DebounceInput } from 'react-debounce-input'
 import Swal from 'sweetalert2'
 import { toast } from 'react-toastify'
 import Loading from '../../../../Components/Loading/Loading'
+import { typeEditThuTuc } from '../constants'
+import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 
 const PATH_TTHCGV = '/admin/quan-tri-TTHCGV/ho-so-thu-tuc'
 
 function DanhSachHoSo() {
+  const dataCBNV = DataCanBoGV()
   // variables
   const [listHoSoThuTuc, setListHoSoThuTuc] = useState([])
+  const [listDepartments, setListDepartments] = useState([])
+  const [listArea, setListArea] = useState([])
+
+  const [phongBan, setPhongBan] = useState(dataCBNV.TenPhongBan)
   const [keywords, setKeywords] = useState('')
   const [dieuKienLoc, setDieuKienLoc] = useState('')
 
@@ -37,6 +46,7 @@ function DanhSachHoSo() {
   const getListHoSoThuTuc = async () => {
     try {
       const resultGetSearchThuTuc = await getThuTucHanhChinhByKeyWords(
+        phongBan,
         dieuKienLoc,
         keywords,
       )
@@ -59,14 +69,34 @@ function DanhSachHoSo() {
   const handleChangeValue = (e) => {
     const { id, name, value } = e.target
     if (id == 'records-number' || name == 'records-number') {
-      setItemsPerPage(parseInt(value))
+      value ? setItemsPerPage(parseInt(value)) : setItemsPerPage(10)
+    }
+
+    if (id == 'donvi' || name == 'donvi') {
+      if (value) {
+        setDieuKienLoc('NoiTiepNhan')
+        setKeywords(value)
+      } else {
+        setDieuKienLoc('')
+        setKeywords('')
+      }
+    }
+
+    if (id == 'linhvuc' || name == 'linhvuc') {
+      if (value) {
+        setDieuKienLoc('LinhVuc')
+        setKeywords(value)
+      } else {
+        setDieuKienLoc('')
+        setKeywords('')
+      }
     }
   }
-  const handleDeleteThuTuc = async (idThuTuc) => {
-    if (idThuTuc) {
+  const handleHienThiThuTuc = async (idThuTuc, type) => {
+    if (type === typeEditThuTuc.typeHidden) {
       Swal.fire({
         icon: 'question',
-        title: 'Bạn có chắc chắn muốn xóa thủ tục này không?',
+        title: 'Bạn có chắc chắn muốn ẩn thủ tục này không?',
         showConfirmButton: true,
         showCancelButton: true,
         confirmButtonText: 'Đồng ý',
@@ -74,11 +104,32 @@ function DanhSachHoSo() {
       }).then(async (result) => {
         if (result.isConfirmed) {
           setLoading(true)
-          const res = await delThuTucHanhChinhByID(idThuTuc)
+          const res = await putHienThiHoSoThuTuc(idThuTuc, type)
           if (res.status === 200) {
             setLoading(false)
             getListHoSoThuTuc()
-            toast.success('Đã xóa thành công thủ tục!')
+            toast.success('Đã ẩn thành công thủ tục!')
+          }
+        }
+      })
+    }
+
+    if (type === typeEditThuTuc.typeShow) {
+      Swal.fire({
+        icon: 'question',
+        title: 'Bạn có chắc chắn muốn hiển thị thủ tục này không?',
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Đồng ý',
+        cancelButtonText: 'Hủy',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          setLoading(true)
+          const res = await putHienThiHoSoThuTuc(idThuTuc, type)
+          if (res.status === 200) {
+            setLoading(false)
+            getListHoSoThuTuc()
+            toast.success('Đã hiển thị thành công thủ tục!')
           }
         }
       })
@@ -97,6 +148,39 @@ function DanhSachHoSo() {
     }
   }, [keywords, dieuKienLoc])
 
+  useEffect(() => {
+    const getAllDepartments = async () => {
+      try {
+        const resultAllDepartments = await getListDonVi()
+        if (resultAllDepartments.status === 200) {
+          const dataDepartments = await resultAllDepartments?.data?.body
+          if (dataDepartments) {
+            setListDepartments([...dataDepartments])
+          }
+        }
+      } catch (error) {
+        console.info(error)
+      }
+    }
+
+    const getAllAreas = async () => {
+      try {
+        const resultAllAreas = await getAllLinhVuc()
+        if (resultAllAreas.status === 200) {
+          const dataLinhnVuc = await resultAllAreas?.data?.body
+          if (dataLinhnVuc.length) {
+            setListArea([...dataLinhnVuc])
+          }
+        }
+      } catch (error) {
+        console.info(error.message)
+      }
+    }
+
+    getAllDepartments()
+    getAllAreas()
+  }, [])
+
   return (
     <>
       {loading ? (
@@ -112,16 +196,16 @@ function DanhSachHoSo() {
             <div className="w-full p-4 rounded-xl shadow-lg bg-white">
               <div className="flex flex-col gap-4 relative top-0 bottom-0 h-full">
                 <div className="grid grid-cols-5 items-center gap-4 justify-between">
-                  <div className="col-span-5 lg:col-span-2">
-                    <h3 className="text-center lg:text-left text-lg font-semibold uppercase underline">
+                  <div className="col-span-5">
+                    <h3 className="text-xl lg:text-3xl text-center font-bold uppercase">
                       Danh sách quy trình hồ sơ
                     </h3>
                   </div>
-                  <form className="col-span-5 lg:col-span-2">
-                    <div className="flex items-center gap-2 border px-2 rounded-full">
+                  <form className="col-span-5">
+                    <div className="flex items-center gap-2  border border-slate-400 px-2 rounded-full">
                       <DebounceInput
                         type="text"
-                        placeholder="Nhập từ khóa tìm kiếm"
+                        placeholder="Nhập mã thủ tục, tên thủ tục, ..."
                         className="px-3 py-1 bg-transparent w-full focus:outline-none"
                         onChange={(e) => {
                           setKeywords(e.target.value.toLowerCase())
@@ -134,7 +218,37 @@ function DanhSachHoSo() {
                     </div>
                   </form>
                   <select
-                    className="col-span-5 lg:col-span-1 rounded-full px-3 py-1 border focus:outline-slate-300"
+                    className="col-span-5 lg:col-span-1 rounded-full px-3 py-1  border border-slate-400 focus:outline-slate-300"
+                    onChange={handleChangeValue}
+                    name="donvi"
+                    id="donvi"
+                  >
+                    <option value="">Đơn vị/Tổ chức</option>
+                    {listDepartments.map((item, index) => {
+                      return (
+                        <option value={item.MC_TTHC_GV_NoiTiepNhan} key={index}>
+                          {item.MC_TTHC_GV_NoiTiepNhan}
+                        </option>
+                      )
+                    })}
+                  </select>
+                  <select
+                    className="col-span-5 lg:col-span-1 rounded-full px-3 py-1  border border-slate-400 focus:outline-slate-300"
+                    onChange={handleChangeValue}
+                    name="linhvuc"
+                    id="linhvuc"
+                  >
+                    <option value="">Lĩnh vực</option>
+                    {listArea.map((item, index) => {
+                      return (
+                        <option value={item.MC_TTHC_GV_LinhVuc} key={index}>
+                          {item.MC_TTHC_GV_LinhVuc}
+                        </option>
+                      )
+                    })}
+                  </select>
+                  <select
+                    className="col-span-5 lg:col-span-1 rounded-full px-3 py-1  border border-slate-400 focus:outline-slate-300"
                     onChange={handleChangeValue}
                     name="records-number"
                     id="records-number"
@@ -150,9 +264,13 @@ function DanhSachHoSo() {
                   <thead className="bg-[#336699] text-white">
                     <tr>
                       <th className="px-2 py-1 rounded-tl-lg border-r">STT</th>
+                      <th className="px-2 py-1 border-r">
+                        <div className="w-20">Mã thủ tục</div>
+                      </th>
                       <th className="px-2 py-1 border-r">Thủ tục</th>
+                      <th className="px-2 py-1 border-r">Đơn vị</th>
                       <th className="px-2 py-1 border-r">Lĩnh vực</th>
-                      <th className="px-2 py-1 rounded-tr-lg">Tác vụ</th>
+                      <th className="px-2 py-1 rounded-tr-lg w-8">Tác vụ</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -176,7 +294,12 @@ function DanhSachHoSo() {
                             key={itemThuTuc.MC_TTHC_GV_ID}
                           >
                             <td className="px-2 py-1 border-r border-l border-slate-300 text-center font-semibold">
-                              {index + 1}
+                              {index + 1 + currentPage * itemsPerPage}
+                            </td>
+                            <td className="px-2 py-1 border-r border-slate-300 text-center">
+                              <p className="inline-block w-20 line-clamp-2">
+                                {itemThuTuc.MC_TTHC_GV_MaThuTuc}
+                              </p>
                             </td>
                             <td className="px-2 py-1 border-r border-slate-300">
                               <div className="flex flex-col gap-1">
@@ -214,24 +337,32 @@ function DanhSachHoSo() {
                                 </p>
                               </div>
                             </td>
+                            <td className="px-2 py-1 border-r border-slate-300">
+                              <p>{itemThuTuc.MC_TTHC_GV_NoiTiepNhan}</p>
+                            </td>
                             <td className="px-2 py-1 border-r border-slate-300 text-center">
                               {itemThuTuc.MC_TTHC_GV_LinhVuc}
                             </td>
                             <td className="px-2 py-1 border-r border-slate-300">
-                              <div className="flex flex-col gap-2">
+                              <div className="flex flex-col gap-2 w-28">
                                 <Link
                                   to={`${PATH_TTHCGV}/xem/chi-tiet/${titleSlug}/${itemThuTuc.MC_TTHC_GV_ID}`}
-                                  className="bg-white text-[#336699] text-center font-semibold rounded-md border px-2 py-1 hover:bg-[#336699] hover:text-white"
+                                  className="block w-full bg-white text-[#336699] text-center font-semibold rounded-md border px-2 py-1 hover:bg-[#336699] hover:text-white"
                                 >
                                   Sửa
                                 </Link>
                                 <button
                                   type="button"
                                   onClick={() => {
-                                    handleDeleteThuTuc(itemThuTuc.MC_TTHC_GV_ID)
+                                    handleHienThiThuTuc(
+                                      itemThuTuc.MC_TTHC_GV_ID,
+                                      itemThuTuc.MC_TTHC_GV_HienThi
+                                        ? typeEditThuTuc.typeHidden
+                                        : typeEditThuTuc.typeShow,
+                                    )
                                   }}
                                   className={clsx(
-                                    ' text-white text-center font-semibold py-2 px-5 rounded-md hover:opacity-70',
+                                    'block w-full text-white text-center font-semibold py-2 px-5 rounded-md hover:opacity-70',
                                     itemThuTuc.MC_TTHC_GV_HienThi
                                       ? 'bg-red-500'
                                       : 'bg-green-500',

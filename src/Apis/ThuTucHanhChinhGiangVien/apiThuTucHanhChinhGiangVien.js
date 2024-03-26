@@ -5,7 +5,7 @@
  */
 
 import http from '@/Configs/http'
-
+import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 // DELETE
 export const delThuTucHanhChinhByID = (id) => {
   return http.delete('SP_MC_TTHC_GV_TiepNhan/Del_Para', {
@@ -52,10 +52,27 @@ export const putThongTinHoSoThuTuc = (data = {}) => {
   return http.put('SP_MC_TTHC_GV_TiepNhan/Edit_Para', data)
 }
 
+// PUT: update Hồ sơ Ẩn/Hiển thị
+export const putHienThiHoSoThuTuc = (idThuTuc, type) => {
+  return http.put('SP_MC_TTHC_GV_TiepNhan/HienThi_ThuTuc_Edit_para', {
+    MC_TTHC_GV_ID: parseInt(idThuTuc),
+    MC_TTHC_GV_HienThi: parseInt(type),
+  })
+}
+
 // GET DATA
 // GET: Tất cả hồ sơ thủ tục hành chính Giảng Viên
 export const getAllThuTucHanhChinhGV = () => {
   return http.get('SP_MC_TTHC_GV_TiepNhan/Load')
+}
+
+// GET: Kiểm tra trùng Mã Thủ Tục GV
+export const getKiemTraTrungMaTTHCGV = (MC_TTHC_GV_MaThuTuc) => {
+  return http.get('SP_MC_TTHC_GV_TiepNhan/Add_Para_KiemTraTrung', {
+    params: {
+      MC_TTHC_GV_MaThuTuc,
+    },
+  })
 }
 
 // GET: hồ sơ thủ tục hành chính Giảng Viên theo ID
@@ -101,10 +118,15 @@ export const getGuiYeuCauHoSoThuTucKiemTraTrung = (
 }
 
 // GET: Tìm kiếm hồ sơ thủ tục hành chính Giảng Viên
-export const getThuTucHanhChinhByKeyWords = (dieuKienLoc, keywords) => {
+export const getThuTucHanhChinhByKeyWords = (
+  phongBan,
+  dieuKienLoc,
+  keywords,
+) => {
   try {
     return http.get('SP_MC_TTHC_GV_TiepNhan/TimKiemThuTuc', {
       params: {
+        PhongBan: phongBan,
         MC_TTHC_GV_DieuKienLoc: dieuKienLoc,
         TuKhoaTimKiem: keywords,
       },

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import {
+  getKiemTraTrungMaTTHCGV,
   getThuTucHanhChinhByID,
   putThongTinHoSoThuTuc,
 } from '@/Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
@@ -41,6 +42,7 @@ import {
 import { handlePreviewFileBase64 } from '@/Services/Utils/fileUtils'
 import { DebounceInput } from 'react-debounce-input'
 import { EditPhanQuyenThuTuc } from './EditPhanQuyenThuTuc/EditPhanQuyenThuTuc'
+import Markdown from 'react-markdown'
 
 function ThongTinChiTietHoSo() {
   const { id } = useParams()
@@ -249,7 +251,6 @@ function ThongTinChiTietHoSo() {
       }))
     } else {
       if (type === 'checkbox') {
-        console.log(name, checked)
         setEditValueRow((prevEditValueRow) => ({
           ...prevEditValueRow,
           [name]: checked,
@@ -288,10 +289,13 @@ function ThongTinChiTietHoSo() {
         MC_TTHC_GV_GhiChu: editThongTinChung?.MC_TTHC_GV_GhiChu,
         MC_TTHC_GV_IDMucDo: editThongTinChung?.MC_TTHC_GV_IDMucDo,
         MC_TTHC_GV_LinhVuc: editThongTinChung?.MC_TTHC_GV_LinhVuc,
+        MC_TTHC_GV_IsTruongPhongPheDuyet:
+          editThongTinChung?.MC_TTHC_GV_IsTruongPhongPheDuyet,
+        MC_TTHC_GV_IsBGHPheDuyet: editThongTinChung?.MC_TTHC_GV_IsBGHPheDuyet,
         MC_TTHC_GV_ThuTucLienThong:
           editThongTinChung?.MC_TTHC_GV_ThuTucLienThong,
-        MC_TTHC_GV_ThuTucKhongApDungMC:
-          editThongTinChung?.MC_TTHC_GV_ThuTucKhongApDungMC,
+        MC_TTHC_GV_ThuTucKhongApDungTrucTuyen:
+          editThongTinChung?.MC_TTHC_GV_ThuTucKhongApDungTrucTuyen,
         MC_TTHC_GV_SoBoHoSo: editThongTinChung?.MC_TTHC_GV_SoBoHoSo,
         MC_TTHC_GV_TongThoiGianGiaiQuyet:
           editThongTinChung?.MC_TTHC_GV_TongThoiGianGiaiQuyet,
@@ -330,11 +334,11 @@ function ThongTinChiTietHoSo() {
               if (resUpdateThongTinHoSo.status === 200) {
                 setLoading(false)
                 setEditType('')
-                getDataDetailHoSoThuTuc()
                 Swal.fire({
                   icon: 'success',
                   title: 'Cập nhật thông tin hồ sơ thành công!',
                 })
+                getDataDetailHoSoThuTuc()
                 return
               }
             } catch (error) {
@@ -424,8 +428,6 @@ function ThongTinChiTietHoSo() {
         MC_TTHC_GV_TrinhTuThucHien_KetQua:
           valueRow?.MC_TTHC_GV_TrinhTuThucHien_KetQua,
       }
-      // console.log("🚀 ~ file: ThongTinChiTietHoSo.jsx:357 ~ handleUpdate ~ dataTrinhTuUpdate:", dataTrinhTuUpdate);
-      // return;
 
       try {
         Swal.fire({
@@ -469,6 +471,10 @@ function ThongTinChiTietHoSo() {
         MC_TTHC_GV_TrangThai_TenTrangThai:
           valueRow?.MC_TTHC_GV_TrangThai_TenTrangThai,
         MC_TTHC_GV_TrangThai_MoTa: valueRow?.MC_TTHC_GV_TrangThai_MoTa,
+        MC_TTHC_GV_TrangThai_DoiTuongXuLy:
+          valueRow?.MC_TTHC_GV_TrangThai_DoiTuongXuLy,
+        MC_TTHC_GV_TrangThai_IsHienThiThongTin:
+          valueRow?.MC_TTHC_GV_TrangThai_IsHienThiThongTin,
       }
       try {
         Swal.fire({
@@ -510,6 +516,8 @@ function ThongTinChiTietHoSo() {
 
   const { ThongTinHoSo, ThanhPhanHoSo, TrinhTuThucHien, PhanQuyen, TrangThai } =
     detailHoSoThuTuc ?? null
+
+  console.log(ThongTinHoSo)
   return (
     <div className="px-5 lg:px-0 grid grid-cols-12 flex-row gap-4">
       <div className="col-span-12 lg:col-span-2">
@@ -588,105 +596,103 @@ function ThongTinChiTietHoSo() {
                 </div>
                 <div
                   className={clsx(
-                    showThongTinHoSo ? 'flex flex-col gap-4' : 'hidden',
+                    showThongTinHoSo ? 'grid grid-cols-4 gap-4' : 'hidden',
                   )}
                 >
-                  <div className="flex flex-col gap-1">
-                    <label htmlFor="MC_TTHC_GV_TenThuTuc">
-                      Tên thủ tục{' '}
-                      <span className="text-red-600 font-semibold">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-none"
-                      defaultValue={ThongTinHoSo?.MC_TTHC_GV_TenThuTuc}
-                      placeholder="Nhập tên thủ tục"
-                      name="MC_TTHC_GV_TenThuTuc"
-                      id="MC_TTHC_GV_TenThuTuc"
-                      onChange={(e) => {
-                        handleChangeValue(TABS.tabThongTinHoSo, e)
-                      }}
-                    />
-                  </div>
-                  <div className="flex flex-col md:flex-row items-center gap-4">
-                    <div className="w-full">
-                      <div className="flex flex-col gap-1">
-                        <label htmlFor="MC_TTHC_GV_MaThuTuc">
-                          Mã thủ tục{' '}
-                          <span className="text-red-600 font-semibold">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-none"
-                          defaultValue={ThongTinHoSo?.MC_TTHC_GV_MaThuTuc}
-                          placeholder="Nhập mã thủ tục"
-                          name="MC_TTHC_GV_MaThuTuc"
-                          id="MC_TTHC_GV_MaThuTuc"
-                          onChange={(e) => {
-                            handleChangeValue(TABS.tabThongTinHoSo, e)
-                          }}
-                        />
-                      </div>
+                  {/* Tên thủ tục */}
+                  <div className="col-span-4">
+                    <div className="flex flex-col gap-1">
+                      <label
+                        htmlFor="MC_TTHC_GV_TenThuTuc"
+                        className="font-semibold"
+                      >
+                        Tên thủ tục{' '}
+                        <span className="text-red-600 font-semibold">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-none"
+                        defaultValue={ThongTinHoSo?.MC_TTHC_GV_TenThuTuc}
+                        placeholder="Nhập tên thủ tục"
+                        name="MC_TTHC_GV_TenThuTuc"
+                        id="MC_TTHC_GV_TenThuTuc"
+                        onChange={(e) => {
+                          handleChangeValue(TABS.tabThongTinHoSo, e)
+                        }}
+                      />
                     </div>
-                    <div className="w-full">
-                      <div className="flex flex-col gap-1">
-                        <label htmlFor="MC_TTHC_GV_IDMucDo">
-                          Mức độ{' '}
-                          <span className="text-red-600 font-semibold">*</span>
-                        </label>
+                  </div>
+                  {/* Mã thủ tục */}
+                  <div className="col-span-4 lg:col-span-2">
+                    <div className="flex flex-col gap-1">
+                      <label
+                        htmlFor="MC_TTHC_GV_MaThuTuc"
+                        className="font-semibold"
+                      >
+                        Mã thủ tục
+                      </label>
+                      <input
+                        type="text"
+                        className="px-3 py-1 w-full bg-slate-300 border border-slate-200 rounded-md focus:outline-none"
+                        defaultValue={ThongTinHoSo?.MC_TTHC_GV_MaThuTuc}
+                        placeholder="Nhập mã thủ tục"
+                        name="MC_TTHC_GV_MaThuTuc"
+                        id="MC_TTHC_GV_MaThuTuc"
+                        disabled
+                        onChange={(e) => {
+                          handleChangeValue(TABS.tabThongTinHoSo, e)
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-span-4 lg:col-span-2">
+                    <div className="flex flex-col gap-1">
+                      <label
+                        htmlFor="MC_TTHC_GV_IDMucDo"
+                        className="font-semibold"
+                      >
+                        Mức độ{' '}
+                        <span className="text-red-600 font-semibold">*</span>
+                      </label>
+                      <input
+                        type="number"
+                        min={1}
+                        max={4}
+                        className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-none"
+                        defaultValue={
+                          ThongTinHoSo?.MC_TTHC_GV_IDMucDo
+                            ? ThongTinHoSo?.MC_TTHC_GV_IDMucDo
+                            : ''
+                        }
+                        placeholder="Nhập mức độ"
+                        name="MC_TTHC_GV_IDMucDo"
+                        id="MC_TTHC_GV_IDMucDo"
+                        onChange={(e) => {
+                          handleChangeValue(TABS.tabThongTinHoSo, e)
+                        }}
+                      />
+                    </div>
+                  </div>
+                  {/* Tổng thời gian giải quyết */}
+                  <div className="hidden col-span-4 lg:col-span-2">
+                    <div className="flex flex-col gap-1">
+                      <label
+                        htmlFor="MC_TTHC_GV_TongThoiGianGiaiQuyet"
+                        className="font-semibold"
+                      >
+                        Tổng thời gian giải quyết (ngày){' '}
+                        <span className="text-red-600 font-semibold">*</span>
+                      </label>
+                      <div className="flex items-center gap-2">
                         <input
                           type="number"
                           min={1}
-                          max={4}
                           className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-none"
                           defaultValue={
-                            ThongTinHoSo?.MC_TTHC_GV_IDMucDo
-                              ? ThongTinHoSo?.MC_TTHC_GV_IDMucDo
-                              : ''
+                            ThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet
                           }
-                          placeholder="Nhập mức độ"
-                          name="MC_TTHC_GV_IDMucDo"
-                          id="MC_TTHC_GV_IDMucDo"
-                          onChange={(e) => {
-                            handleChangeValue(TABS.tabThongTinHoSo, e)
-                          }}
-                        />
-                      </div>
-                    </div>
-                    <div className="w-full">
-                      <div className="flex flex-col gap-1">
-                        <label htmlFor="MC_TTHC_GV_TongThoiGianGiaiQuyet">
-                          Tổng thời gian giải quyết{' '}
-                          <span className="text-red-600 font-semibold">*</span>
-                        </label>
-                        <div className="flex items-center gap-2">
-                          <input
-                            type="number"
-                            min={1}
-                            className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-none"
-                            defaultValue={
-                              ThongTinHoSo?.MC_TTHC_GV_TongThoiGianGiaiQuyet
-                            }
-                            name="MC_TTHC_GV_TongThoiGianGiaiQuyet"
-                            id="MC_TTHC_GV_TongThoiGianGiaiQuyet"
-                            onChange={(e) => {
-                              handleChangeValue(TABS.tabThongTinHoSo, e)
-                            }}
-                          />
-                          <span className="font-medium">Ngày</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="w-full">
-                      <div className="flex flex-col gap-1">
-                        <label htmlFor="MC_TTHC_GV_LinhVuc">Lĩnh vực</label>
-                        <input
-                          type="text"
-                          className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-none"
-                          defaultValue={ThongTinHoSo?.MC_TTHC_GV_LinhVuc}
-                          placeholder="Nhập tên lĩnh vực"
-                          name="MC_TTHC_GV_LinhVuc"
-                          id="MC_TTHC_GV_LinhVuc"
+                          name="MC_TTHC_GV_TongThoiGianGiaiQuyet"
+                          id="MC_TTHC_GV_TongThoiGianGiaiQuyet"
                           onChange={(e) => {
                             handleChangeValue(TABS.tabThongTinHoSo, e)
                           }}
@@ -694,291 +700,395 @@ function ThongTinChiTietHoSo() {
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-col gap-1">
-                    <label
-                      htmlFor="MC_TTHC_GV_DoiTuongThucHien"
-                      className="font-semibold"
-                    >
-                      Đối tượng thực hiện
-                    </label>
-                    <input
-                      type="text"
-                      className="px-3 py-1 w-full bg-slate-300 border border-slate-200 rounded-md focus:outline-none"
-                      defaultValue={ThongTinHoSo?.MC_TTHC_GV_DoiTuongThucHien}
-                      disabled={true}
-                      name="MC_TTHC_GV_DoiTuongThucHien"
-                      id="MC_TTHC_GV_DoiTuongThucHien"
-                      title="Không thể chỉnh sửa đối tượng thực hiện"
-                    />
-                  </div>
-                  <div className="flex flex-col md:flex-row items-center gap-4">
-                    <div className="w-full">
-                      <div className="flex flex-col gap-1">
-                        <label
-                          htmlFor="MC_TTHC_GV_CanCuPhapLyCuaTTHC"
-                          className="font-semibold"
-                        >
-                          Căn cứ pháp lý của Thủ tục hành chính
-                        </label>
-                        <input
-                          type="text"
-                          className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-slate-400"
-                          defaultValue={
-                            ThongTinHoSo?.MC_TTHC_GV_CanCuPhapLyCuaTTHC
-                          }
-                          name="MC_TTHC_GV_CanCuPhapLyCuaTTHC"
-                          id="MC_TTHC_GV_CanCuPhapLyCuaTTHC"
-                          onChange={(e) => {
-                            handleChangeValue(TABS.tabThongTinHoSo, e)
-                          }}
-                        />
-                      </div>
-                    </div>
-                    <div className="w-full">
-                      <div className="flex flex-col gap-1">
-                        <label
-                          htmlFor="MC_TTHC_GV_DieuKienThucHien"
-                          className="font-semibold"
-                        >
-                          Điều kiện thực hiện
-                        </label>
-                        <input
-                          type="text"
-                          className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-slate-400"
-                          defaultValue={
-                            ThongTinHoSo?.MC_TTHC_GV_DieuKienThucHien
-                          }
-                          name="MC_TTHC_GV_DieuKienThucHien"
-                          id="MC_TTHC_GV_DieuKienThucHien"
-                          onChange={(e) => {
-                            handleChangeValue(TABS.tabThongTinHoSo, e)
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col md:flex-row items-center gap-4">
-                    <div className="w-full flex items-center gap-4 border px-3 py-1 rounded-md">
-                      <input
-                        type="checkbox"
-                        className="w-4 h-4 px-3 py-1 bg-slate-300 border border-slate-200 rounded-md focus:outline-none"
-                        defaultChecked={
-                          ThongTinHoSo?.MC_TTHC_GV_ThuTucLienThong
-                        }
-                        name="MC_TTHC_GV_ThuTucLienThong"
-                        id="MC_TTHC_GV_ThuTucLienThong"
-                        onChange={(e) => {
-                          setEditThongTinChung({
-                            ...editThongTinChung,
-                            MC_TTHC_GV_ThuTucLienThong: e.target.checked,
-                          })
-                        }}
-                      />
-                      <label htmlFor="MC_TTHC_GV_ThuTucLienThong">
-                        Thủ tục liên thông
-                      </label>
-                    </div>
-                    <div className="w-full flex items-center gap-4 border px-3 py-1 rounded-md">
-                      <input
-                        type="checkbox"
-                        className="w-4 h-4 px-3 py-1 bg-slate-300 border border-slate-200 rounded-md focus:outline-none"
-                        defaultChecked={
-                          ThongTinHoSo?.MC_TTHC_GV_ThuTucKhongApDungMC
-                        }
-                        name="MC_TTHC_GV_ThuTucKhongApDungMC"
-                        id="MC_TTHC_GV_ThuTucKhongApDungMC"
-                        onChange={(e) => {
-                          setEditThongTinChung({
-                            ...editThongTinChung,
-                            MC_TTHC_GV_ThuTucKhongApDungMC: e.target.checked,
-                          })
-                        }}
-                      />
-                      <label htmlFor="MC_TTHC_GV_ThuTucKhongApDungMC">
-                        Thủ tục không áp dụng Một cửa
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col gap-1">
-                    <label htmlFor="MC_TTHC_GV_TepThuTuc_TenFile">
-                      <span className="font-semibold">
-                        Tệp thủ tục kèm theo
-                      </span>{' '}
-                      <button
-                        className="text-red-600 font-medium hover:opacity-70"
-                        onClick={() => {
-                          setUpdatetepThuTuc(!updatetepThuTuc)
-                        }}
+                  {/* Lĩnh vực */}
+                  <div className="col-span-4 lg:col-span-2">
+                    <div className="flex flex-col gap-1">
+                      <label
+                        htmlFor="MC_TTHC_GV_LinhVuc"
+                        className="font-semibold"
                       >
-                        {updatetepThuTuc ? '(Hủy)' : '(Thay đổi)'}
-                      </button>
+                        Lĩnh vực
+                      </label>
+                      <input
+                        type="text"
+                        className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-none"
+                        defaultValue={ThongTinHoSo?.MC_TTHC_GV_LinhVuc}
+                        placeholder="Nhập tên lĩnh vực"
+                        name="MC_TTHC_GV_LinhVuc"
+                        id="MC_TTHC_GV_LinhVuc"
+                        onChange={(e) => {
+                          handleChangeValue(TABS.tabThongTinHoSo, e)
+                        }}
+                      />
+                    </div>
+                  </div>
+                  {/* Đối tượng thực hiện */}
+                  <div className="col-span-4">
+                    <div className="flex flex-col gap-1">
+                      <label
+                        htmlFor="MC_TTHC_GV_DoiTuongThucHien"
+                        className="font-semibold"
+                      >
+                        Đối tượng thực hiện
+                      </label>
+                      <input
+                        type="text"
+                        className="px-3 py-1 w-full bg-slate-300 border border-slate-200 rounded-md focus:outline-none"
+                        defaultValue={ThongTinHoSo?.MC_TTHC_GV_DoiTuongThucHien}
+                        disabled={true}
+                        name="MC_TTHC_GV_DoiTuongThucHien"
+                        id="MC_TTHC_GV_DoiTuongThucHien"
+                        title="Không thể chỉnh sửa đối tượng thực hiện"
+                      />
+                    </div>
+                  </div>
+                  {/* Quy trình thực hiện */}
+                  <div className="col-span-4">
+                    <div className="flex flex-col gap-1">
+                      <label
+                        htmlFor="MC_TTHC_GV_DoiTuongThucHien"
+                        className="font-semibold"
+                      >
+                        Quy trình thực hiện
+                      </label>
+                      <Markdown
+                        className={'bg-slate-100 border p-4 rounded-md'}
+                      >
+                        {ThongTinHoSo?.MC_TTHC_GV_QuyTrinhThucHien}
+                      </Markdown>
+                    </div>
+                  </div>
+                  {/* Căn cứ pháp lý của Thủ tục hành chính */}
+                  <div className="col-span-4 lg:col-span-2">
+                    <div className="flex flex-col gap-1">
+                      <label
+                        htmlFor="MC_TTHC_GV_CanCuPhapLyCuaTTHC"
+                        className="font-semibold"
+                      >
+                        Căn cứ pháp lý của Thủ tục hành chính
+                      </label>
+                      <input
+                        type="text"
+                        className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-slate-400"
+                        defaultValue={
+                          ThongTinHoSo?.MC_TTHC_GV_CanCuPhapLyCuaTTHC ??
+                          'Không có'
+                        }
+                        name="MC_TTHC_GV_CanCuPhapLyCuaTTHC"
+                        id="MC_TTHC_GV_CanCuPhapLyCuaTTHC"
+                        onChange={(e) => {
+                          handleChangeValue(TABS.tabThongTinHoSo, e)
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-span-4 lg:col-span-2">
+                    <div className="flex flex-col gap-1">
+                      <label
+                        htmlFor="MC_TTHC_GV_DieuKienThucHien"
+                        className="font-semibold"
+                      >
+                        Điều kiện thực hiện
+                      </label>
+                      <input
+                        type="text"
+                        className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-slate-400"
+                        defaultValue={
+                          ThongTinHoSo?.MC_TTHC_GV_DieuKienThucHien ??
+                          'Không có'
+                        }
+                        name="MC_TTHC_GV_DieuKienThucHien"
+                        id="MC_TTHC_GV_DieuKienThucHien"
+                        onChange={(e) => {
+                          handleChangeValue(TABS.tabThongTinHoSo, e)
+                        }}
+                      />
+                    </div>
+                  </div>
+                  {/* START: Thủ tục cần trưởng phòng phê duyệt */}
+                  <div className="col-span-4 lg:col-span-2 bg-slate-300 w-full flex-1 flex items-center gap-4 border px-3 py-1 rounded-md">
+                    <input
+                      type="checkbox"
+                      className="w-4 h-4 px-3 py-1 bg-slate-300 border border-slate-200 rounded-md focus:outline-none"
+                      defaultChecked={
+                        ThongTinHoSo?.MC_TTHC_GV_IsTruongPhongPheDuyet
+                      }
+                      disabled={true}
+                      name="MC_TTHC_GV_IsTruongPhongPheDuyet"
+                      id="MC_TTHC_GV_IsTruongPhongPheDuyet"
+                      //   onChange={(e) => {
+                      //     setEditThongTinChung({
+                      //       ...editThongTinChung,
+                      //       MC_TTHC_GV_IsTruongPhongPheDuyet: e.target.checked,
+                      //     })
+                      //   }}
+                    />
+                    <label htmlFor="MC_TTHC_GV_IsTruongPhongPheDuyet">
+                      Thủ tục cần trưởng phòng phê duyệt
                     </label>
-                    {editThongTinChung?.MC_TTHC_GV_TepThuTuc_DataFileFile ? (
-                      <p className="flex items-center justify-between gap-2 p-2 border">
-                        <span
-                          className="text-sky-800 font-semibold hover:opacity-70 cursor-pointer"
+                  </div>
+                  {/* END: Thủ tục cần trưởng phòng phê duyệt */}
+
+                  {/* START: Thủ tục cần BGH phê duyệt */}
+                  <div className="col-span-4 lg:col-span-2 bg-slate-300 w-full flex items-center gap-4 border px-3 py-1 rounded-md">
+                    <input
+                      type="checkbox"
+                      className="w-4 h-4 px-3 py-1 bg-slate-300 border border-slate-200 rounded-md focus:outline-none"
+                      defaultChecked={ThongTinHoSo?.MC_TTHC_GV_IsBGHPheDuyet}
+                      disabled={true}
+                      name="MC_TTHC_GV_IsBGHPheDuyet"
+                      id="MC_TTHC_GV_IsBGHPheDuyet"
+                      //   onChange={(e) => {
+                      //     setEditThongTinChung({
+                      //       ...editThongTinChung,
+                      //       MC_TTHC_GV_IsBGHPheDuyet: e.target.checked,
+                      //     })
+                      //   }}
+                    />
+                    <label htmlFor="MC_TTHC_GV_IsBGHPheDuyet">
+                      Thủ tục cần Ban giám hiệu phê duyệt
+                    </label>
+                  </div>
+                  {/* END: Thủ tục cần BGH phê duyệt */}
+
+                  {/* START: Thủ tục liên thông */}
+                  <div className="col-span-4 lg:col-span-2 bg-slate-300 w-full flex items-center gap-4 border px-3 py-1 rounded-md">
+                    <input
+                      type="checkbox"
+                      className="w-4 h-4 px-3 py-1 bg-slate-300 border border-slate-200 rounded-md focus:outline-none"
+                      defaultChecked={ThongTinHoSo?.MC_TTHC_GV_ThuTucLienThong}
+                      disabled={true}
+                      name="MC_TTHC_GV_ThuTucLienThong"
+                      id="MC_TTHC_GV_ThuTucLienThong"
+                      onChange={(e) => {
+                        setEditThongTinChung({
+                          ...editThongTinChung,
+                          MC_TTHC_GV_ThuTucLienThong: e.target.checked,
+                        })
+                      }}
+                    />
+                    <label htmlFor="MC_TTHC_GV_ThuTucLienThong">
+                      Thủ tục liên thông
+                    </label>
+                  </div>
+                  {/* END: Thủ tục liên thông */}
+
+                  {/* START: Thủ tục không áp dụng trực tuyến */}
+                  <div className="col-span-4 lg:col-span-2 bg-slate-300 w-full flex items-center gap-4 border px-3 py-1 rounded-md">
+                    <input
+                      type="checkbox"
+                      className="w-4 h-4 px-3 py-1 bg-slate-300 border border-slate-200 rounded-md focus:outline-none"
+                      defaultChecked={
+                        ThongTinHoSo?.MC_TTHC_GV_ThuTucKhongApDungTrucTuyen
+                      }
+                      disabled={true}
+                      name="MC_TTHC_GV_ThuTucKhongApDungTrucTuyen"
+                      id="MC_TTHC_GV_ThuTucKhongApDungTrucTuyen"
+                      onChange={(e) => {
+                        setEditThongTinChung({
+                          ...editThongTinChung,
+                          MC_TTHC_GV_ThuTucKhongApDungTrucTuyen:
+                            e.target.checked,
+                        })
+                      }}
+                    />
+                    <label htmlFor="MC_TTHC_GV_ThuTucKhongApDungTrucTuyen">
+                      Thủ tục không áp dụng trực tuyến
+                    </label>
+                  </div>
+                  {/* END: thủ tục không áp dụng trực tuyến */}
+                  {/* START: Tệp thủ tục kèm theo */}
+                  <div className="col-span-4">
+                    <div className="flex flex-col gap-1">
+                      <label htmlFor="MC_TTHC_GV_TepThuTuc_TenFile">
+                        <span className="font-semibold">
+                          Tệp thủ tục kèm theo
+                        </span>{' '}
+                        <button
+                          className="text-red-600 font-medium hover:opacity-70"
                           onClick={() => {
-                            handlePreviewFileBase64(
-                              editThongTinChung?.MC_TTHC_GV_TepThuTuc_TenFile,
-                              editThongTinChung?.MC_TTHC_GV_TepThuTuc_DataFileFile,
-                            )
+                            setUpdatetepThuTuc(!updatetepThuTuc)
+                            setEditThongTinChung({
+                              ...editThongTinChung,
+                              MC_TTHC_GV_TepThuTuc_TenFile: '',
+                              MC_TTHC_GV_TepThuTuc_DataFileFile: '',
+                            })
                           }}
                         >
-                          {editThongTinChung?.MC_TTHC_GV_TepThuTuc_TenFile}
-                        </span>
-                        <span>
-                          <MdDelete
-                            className="cursor-pointer hover:text-red-600"
+                          {updatetepThuTuc ? '(Hủy)' : '(Thay đổi)'}
+                        </button>
+                      </label>
+                      {updatetepThuTuc ? (
+                        <p className="flex items-center justify-between gap-2 p-2 border">
+                          <span
+                            className="text-sky-800 font-semibold hover:opacity-70 cursor-pointer"
                             onClick={() => {
-                              setEditThongTinChung((prevState) => {
-                                return {
-                                  ...prevState,
-                                  MC_TTHC_GV_TepThuTuc_DataFileFile: null,
-                                  MC_TTHC_GV_TepThuTuc_TenFile: null,
-                                }
-                              })
-                            }}
-                          />
-                        </span>
-                      </p>
-                    ) : null}
-                    {updatetepThuTuc ? (
-                      <>
-                        <label
-                          htmlFor="MC_TTHC_GV_TepThuTuc"
-                          className="block w-full cursor-pointer hover:bg-slate-600 hover:text-white p-2 border border-gray-600 hover:border-gray-600"
-                        >
-                          <span className="font-semibold p-1 border">
-                            Chọn tệp
-                          </span>{' '}
-                          <span className="text-sm ml-2">
-                            Chưa có tệp nào được tải lên
-                          </span>
-                        </label>
-                        <input
-                          type="file"
-                          className="hidden w-full text-sm text-gray-900 border border-gray-300 p-2 cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 hover:bg-sky-800 hover:text-white"
-                          onChange={async (e) => {
-                            const file = e.target.files[0]
-                            const dataFile = await convertDataFileToBase64(file)
-                            const maxSizeInBytes = 5 * 1024 * 1024 // 5MB
-                            if (
-                              !file.name.match(
-                                /\.(pdf|docx|doc|jpeg|jpg|png|gif)$/i,
+                              handlePreviewFileBase64(
+                                editThongTinChung?.MC_TTHC_GV_TepThuTuc_TenFile,
+                                editThongTinChung?.MC_TTHC_GV_TepThuTuc_DataFileFile,
                               )
-                            ) {
-                              Swal.fire({
-                                icon: 'error',
-                                title:
-                                  'Tệp tải lên không đúng định dạng yêu cầu. Vui lòng kiểm tra lại.',
-                                text: 'Các loại file tải lên phải có dạng PDF, DOC, DOCX, PNG, JPG, JPEG hoặc GIF(Kích thước tối đa 5MB)',
-                              })
-                              return
-                            } else {
-                              if (file.size > maxSizeInBytes) {
+                            }}
+                          >
+                            {editThongTinChung?.MC_TTHC_GV_TepThuTuc_TenFile}
+                          </span>
+                          <span>
+                            <MdDelete
+                              className="cursor-pointer hover:text-red-600"
+                              onClick={() => {
+                                setEditThongTinChung((prevState) => {
+                                  return {
+                                    ...prevState,
+                                    MC_TTHC_GV_TepThuTuc_DataFileFile: null,
+                                    MC_TTHC_GV_TepThuTuc_TenFile: null,
+                                  }
+                                })
+                              }}
+                            />
+                          </span>
+                        </p>
+                      ) : null}
+                      {updatetepThuTuc ? (
+                        <>
+                          <label
+                            htmlFor="MC_TTHC_GV_TepThuTuc"
+                            className="block w-full cursor-pointer hover:bg-slate-600 hover:text-white p-2 border border-gray-600 hover:border-gray-600"
+                          >
+                            <span className="font-semibold p-1 border">
+                              Chọn tệp
+                            </span>{' '}
+                            <span className="text-sm ml-2">
+                              Chưa có tệp nào được tải lên
+                            </span>
+                          </label>
+                          <input
+                            type="file"
+                            className="hidden w-full text-sm text-gray-900 border border-gray-300 p-2 cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 hover:bg-sky-800 hover:text-white"
+                            onChange={async (e) => {
+                              const file = e.target.files[0]
+                              const dataFile =
+                                await convertDataFileToBase64(file)
+                              const maxSizeInBytes = 5 * 1024 * 1024 // 5MB
+                              if (
+                                !file.name.match(
+                                  /\.(pdf|docx|doc|jpeg|jpg|png|gif)$/i,
+                                )
+                              ) {
                                 Swal.fire({
                                   icon: 'error',
                                   title:
-                                    'Tệp tải lên vượt quá kích thước cho phép!',
-                                  text: 'Kích thước tối đa 5MB.',
+                                    'Tệp tải lên không đúng định dạng yêu cầu. Vui lòng kiểm tra lại.',
+                                  text: 'Các loại file tải lên phải có dạng PDF, DOC, DOCX, PNG, JPG, JPEG hoặc GIF(Kích thước tối đa 5MB)',
                                 })
                                 return
                               } else {
-                                setEditThongTinChung({
-                                  ...editThongTinChung,
-                                  MC_TTHC_GV_TepThuTuc_TenFile: file.name,
-                                  MC_TTHC_GV_TepThuTuc_DataFileFile:
-                                    dataFile.split(',')[1],
-                                })
+                                if (file.size > maxSizeInBytes) {
+                                  Swal.fire({
+                                    icon: 'error',
+                                    title:
+                                      'Tệp tải lên vượt quá kích thước cho phép!',
+                                    text: 'Kích thước tối đa 5MB.',
+                                  })
+                                  return
+                                } else {
+                                  setEditThongTinChung({
+                                    ...editThongTinChung,
+                                    MC_TTHC_GV_TepThuTuc_TenFile: file.name,
+                                    MC_TTHC_GV_TepThuTuc_DataFileFile:
+                                      dataFile.split(',')[1],
+                                  })
+                                }
                               }
-                            }
-                          }}
-                          name=""
-                          id="MC_TTHC_GV_TepThuTuc"
-                        />
-                        <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
-                          Các loại file tải lên phải có dạng{' '}
-                          <span className="font-medium">PDF</span>,{' '}
-                          <span className="font-medium">DOC</span>,{' '}
-                          <span className="font-medium">DOCX</span>,{' '}
-                          <span className="font-medium">PNG</span>,{' '}
-                          <span className="font-medium">JPG</span>,{' '}
-                          <span className="font-medium">JPEG</span> hoặc{' '}
-                          <span className="font-medium">GIF</span>
-                          <span className="ml-1 font-medium text-red-600">
-                            (Kích thước tối đa 5MB)
-                          </span>
-                        </p>
-                      </>
-                    ) : null}
-                    {ThongTinHoSo?.MC_TTHC_GV_TepThuTuc_TenFile ? (
-                      <div className="flex justify-between border p-2">
-                        <p>{editThongTinChung?.MC_TTHC_GV_TepThuTuc_TenFile}</p>
-                        <button
-                          type="button"
-                          onClick={async () => {
-                            const dataFileBase64WithoutPrefix =
-                              convertBufferToBase64(
-                                editThongTinChung
-                                  ?.MC_TTHC_GV_TepThuTuc_DataFileFile?.data,
+                            }}
+                            name=""
+                            id="MC_TTHC_GV_TepThuTuc"
+                          />
+                          <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
+                            Các loại file tải lên phải có dạng{' '}
+                            <span className="font-medium">PDF</span>,{' '}
+                            <span className="font-medium">DOC</span>,{' '}
+                            <span className="font-medium">DOCX</span>,{' '}
+                            <span className="font-medium">PNG</span>,{' '}
+                            <span className="font-medium">JPG</span>,{' '}
+                            <span className="font-medium">JPEG</span> hoặc{' '}
+                            <span className="font-medium">GIF</span>
+                            <span className="ml-1 font-medium text-red-600">
+                              (Kích thước tối đa 5MB)
+                            </span>
+                          </p>
+                        </>
+                      ) : null}
+                      {ThongTinHoSo?.MC_TTHC_GV_TepThuTuc_TenFile ? (
+                        <div className="flex justify-between border p-2">
+                          <p>{ThongTinHoSo?.MC_TTHC_GV_TepThuTuc_TenFile}</p>
+                          <button
+                            type="button"
+                            onClick={async () => {
+                              const dataFileBase64WithoutPrefix =
+                                convertBufferToBase64(
+                                  ThongTinHoSo
+                                    ?.MC_TTHC_GV_TepThuTuc_DataFileFile?.data,
+                                )
+                              handlePreviewFileBase64(
+                                ThongTinHoSo?.MC_TTHC_GV_TepThuTuc_TenFile,
+                                dataFileBase64WithoutPrefix,
                               )
-                            handlePreviewFileBase64(
-                              editThongTinChung?.MC_TTHC_GV_TepThuTuc_TenFile,
-                              dataFileBase64WithoutPrefix,
-                            )
-                          }}
-                          className="text-red-700 hover:opacity-70 font-semibold"
-                        >
-                          (Xem chi tiết file)
-                        </button>
-                      </div>
-                    ) : null}
-                  </div>
-                  <div className="flex flex-col md:flex-row items-center gap-4">
-                    <div className="w-full">
-                      <div className="flex flex-col gap-1">
-                        <label
-                          htmlFor="MC_TTHC_GV_NoiTiepNhan"
-                          className="font-semibold"
-                        >
-                          Đơn vị tiếp nhận{' '}
-                          <span className="text-red-600 font-semibold">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-slate-400"
-                          defaultValue={ThongTinHoSo?.MC_TTHC_GV_NoiTiepNhan}
-                          name="MC_TTHC_GV_NoiTiepNhan"
-                          id="MC_TTHC_GV_NoiTiepNhan"
-                          onChange={(e) => {
-                            handleChangeValue(TABS.tabThongTinHoSo, e)
-                          }}
-                        />
-                      </div>
-                    </div>
-                    <div className="w-full">
-                      <div className="flex flex-col gap-1">
-                        <label
-                          htmlFor="MC_TTHC_GV_NoiTraKetQua"
-                          className="font-semibold"
-                        >
-                          Nơi trả kết quả{' '}
-                          <span className="text-red-600 font-semibold">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-slate-400"
-                          defaultValue={ThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua}
-                          name="MC_TTHC_GV_NoiTraKetQua"
-                          id="MC_TTHC_GV_NoiTraKetQua"
-                          onChange={(e) => {
-                            handleChangeValue(TABS.tabThongTinHoSo, e)
-                          }}
-                        />
-                      </div>
+                            }}
+                            className="text-red-700 hover:opacity-70 font-semibold"
+                          >
+                            (Xem chi tiết file)
+                          </button>
+                        </div>
+                      ) : null}
                     </div>
                   </div>
+                  {/* END: Tệp thủ tục kèm theo */}
+                  {/* START: Đơn vị tiếp nhận */}
+                  <div className="col-span-4 lg:col-span-2">
+                    <div className="flex flex-col gap-1">
+                      <label
+                        htmlFor="MC_TTHC_GV_NoiTiepNhan"
+                        className="font-semibold"
+                      >
+                        Đơn vị tiếp nhận{' '}
+                        <span className="text-red-600 font-semibold">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-slate-400"
+                        defaultValue={ThongTinHoSo?.MC_TTHC_GV_NoiTiepNhan}
+                        name="MC_TTHC_GV_NoiTiepNhan"
+                        id="MC_TTHC_GV_NoiTiepNhan"
+                        onChange={(e) => {
+                          handleChangeValue(TABS.tabThongTinHoSo, e)
+                        }}
+                      />
+                    </div>
+                  </div>
+                  {/* END: Đơn vị tiếp nhận */}
+
+                  {/* START: Nơi trả kết quả */}
+                  <div className="hidden col-span-4 lg:col-span-2">
+                    <div className="flex flex-col gap-1">
+                      <label
+                        htmlFor="MC_TTHC_GV_NoiTraKetQua"
+                        className="font-semibold"
+                      >
+                        Nơi trả kết quả{' '}
+                        <span className="text-red-600 font-semibold">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        className="px-3 py-1 w-full border border-slate-200 rounded-md focus:outline-slate-400"
+                        defaultValue={ThongTinHoSo?.MC_TTHC_GV_NoiTraKetQua}
+                        name="MC_TTHC_GV_NoiTraKetQua"
+                        id="MC_TTHC_GV_NoiTraKetQua"
+                        onChange={(e) => {
+                          handleChangeValue(TABS.tabThongTinHoSo, e)
+                        }}
+                      />
+                    </div>
+                  </div>
+                  {/* END: Nơi trả kết quả */}
                 </div>
               </div>
               {/* Thành phần hồ sơ */}
@@ -1028,7 +1138,7 @@ function ThongTinChiTietHoSo() {
                           <th className="border-r px-2 py-1">Bản chính</th>
                           <th className="border-r px-2 py-1">Bản sao</th>
                           <th className="border-r px-2 py-1">Bắt buộc</th>
-                          <th className="px-2 py-1 rounded-tr-xl"></th>
+                          <th className="px-2 py-1 rounded-tr-xl">Tác vụ</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1075,9 +1185,6 @@ function ThongTinChiTietHoSo() {
                                                 .MC_TTHC_GV_ThanhPhanHoSo_DataFile
                                                 ?.data,
                                             )
-                                          console.log(
-                                            dataFileBase64WithoutPrefix,
-                                          )
                                           handlePreviewFileBase64(
                                             iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_TenFile,
                                             dataFileBase64WithoutPrefix,
@@ -1182,10 +1289,11 @@ function ThongTinChiTietHoSo() {
                                 <td className="border-r px-2 py-1 text-center">
                                   <div className="">
                                     <input
-                                      type="checkbox"
-                                      checked={
-                                        editValueRow.MC_TTHC_GV_ThanhPhanHoSo_BanChinh ||
-                                        false
+                                      type="number"
+                                      className="w-12 border border-slate-200 focus:outline-slate-400"
+                                      value={
+                                        +editValueRow.MC_TTHC_GV_ThanhPhanHoSo_BanChinh ??
+                                        0
                                       }
                                       name="MC_TTHC_GV_ThanhPhanHoSo_BanChinh"
                                       id="MC_TTHC_GV_ThanhPhanHoSo_BanChinh"
@@ -1198,9 +1306,11 @@ function ThongTinChiTietHoSo() {
                                 <td className="border-r px-2 py-1 text-center">
                                   <div className="">
                                     <input
-                                      type="checkbox"
-                                      defaultChecked={
-                                        editValueRow.MC_TTHC_GV_ThanhPhanHoSo_BanSao
+                                      type="number"
+                                      className="w-12 border border-slate-200 focus:outline-slate-400"
+                                      value={
+                                        +editValueRow.MC_TTHC_GV_ThanhPhanHoSo_BanSao ??
+                                        0
                                       }
                                       name="MC_TTHC_GV_ThanhPhanHoSo_BanSao"
                                       id="MC_TTHC_GV_ThanhPhanHoSo_BanSao"
@@ -1300,10 +1410,12 @@ function ThongTinChiTietHoSo() {
                                 </td>
                                 <td className="border-r px-2 py-1 text-center">
                                   <input
-                                    type="checkbox"
+                                    type="number"
                                     disabled={true}
-                                    defaultChecked={
-                                      iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_BanChinh
+                                    className="w-10 text-center"
+                                    value={
+                                      iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_BanChinh ??
+                                      0
                                     }
                                     name=""
                                     id=""
@@ -1311,10 +1423,12 @@ function ThongTinChiTietHoSo() {
                                 </td>
                                 <td className="border-r px-2 py-1 text-center">
                                   <input
-                                    type="checkbox"
+                                    type="number"
                                     disabled={true}
-                                    defaultChecked={
-                                      iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_BanSao
+                                    className="w-10 text-center"
+                                    value={
+                                      iThanhPhan.MC_TTHC_GV_ThanhPhanHoSo_BanSao ??
+                                      0
                                     }
                                     name=""
                                     id=""
@@ -1431,7 +1545,7 @@ function ThongTinChiTietHoSo() {
                             <th className="border-r px-2 py-1">
                               <p className="w-[140px]">Kết quả</p>
                             </th>
-                            <th className="px-2 py-1 rounded-tr-xl"></th>
+                            <th className="px-2 py-1 rounded-tr-xl">Tác vụ</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -1784,7 +1898,7 @@ function ThongTinChiTietHoSo() {
                           <th className="border-r px-2 py-1">Đơn vị</th>
                           <th className="border-r px-2 py-1">Tổ</th>
                           <th className="border-r px-2 py-1">Nhóm</th>
-                          <th className="px-2 py-1 rounded-tr-xl"></th>
+                          <th className="px-2 py-1 rounded-tr-xl">Tác vụ</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1895,7 +2009,10 @@ function ThongTinChiTietHoSo() {
                           </th>
                           <th className="border-r px-2 py-1">Tên trạng thái</th>
                           <th className="border-r px-2 py-1">Mô tả</th>
-                          <th className="px-2 py-1 rounded-tr-xl"></th>
+                          <th className="border-r px-2 py-1">
+                            Hiển thị thông tin xử lý
+                          </th>
+                          <th className="px-2 py-1 rounded-tr-xl">Tác vụ</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1938,6 +2055,23 @@ function ThongTinChiTietHoSo() {
                                       }
                                       name="MC_TTHC_GV_TrangThai_MoTa"
                                       id="MC_TTHC_GV_TrangThai_MoTa"
+                                      onChange={(e) => {
+                                        handleChangeValue(TABS.tabTrangThai, e)
+                                      }}
+                                    />
+                                  </div>
+                                </td>
+                                <td className="border-r px-2 py-1 text-center">
+                                  <div className="">
+                                    <input
+                                      type="checkbox"
+                                      className="w-full focus:outline-slate-400 px-3 py-2 border-2 border-gray-400 bg-gray-50"
+                                      checked={
+                                        editValueRow?.MC_TTHC_GV_TrangThai_IsHienThiThongTin ||
+                                        false
+                                      }
+                                      name="MC_TTHC_GV_TrangThai_IsHienThiThongTin"
+                                      id="MC_TTHC_GV_TrangThai_IsHienThiThongTin"
                                       onChange={(e) => {
                                         handleChangeValue(TABS.tabTrangThai, e)
                                       }}
@@ -1990,6 +2124,14 @@ function ThongTinChiTietHoSo() {
                                 </td>
                                 <td className="border-r px-2 py-1 text-center">
                                   {iTrangThai.MC_TTHC_GV_TrangThai_MoTa}
+                                </td>
+                                <td className="border-r px-2 py-1 text-center">
+                                  <input
+                                    type="checkbox"
+                                    checked={
+                                      iTrangThai.MC_TTHC_GV_TrangThai_IsHienThiThongTin
+                                    }
+                                  />
                                 </td>
                                 <td className="border-r px-2 py-1 text-center">
                                   <div className="flex flex-col lg:flex-row items-center justify-center gap-2">

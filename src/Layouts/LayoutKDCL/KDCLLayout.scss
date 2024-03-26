@@ -1,0 +1,142 @@
+.box {
+  @apply rounded-2xl bg-white p-7 pt-4 shadow-sm;
+}
+
+.tr {
+  &:not(:only-child):nth-child(2n) {
+    @apply bg-gray-50;
+  }
+}
+
+.th {
+  @apply px-2 py-3 bg-uneti-primary-light text-white;
+
+  &:not(:last-child) {
+    @apply border-r;
+  }
+}
+
+.td {
+  @apply px-2 py-3 border-b;
+
+  &:not(:last-child) {
+    @apply border-r;
+  }
+}
+
+@include b(kiem-dinh-chat-luong) {
+  @include e(header) {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @include m(title) {
+      font-weight: 500;
+      font-size: 15px;
+
+      @include res(sm) {
+        font-size: 16px;
+      }
+      @include res(md) {
+        font-size: 17px;
+      }
+      @include res(lg) {
+        font-size: 18px;
+      }
+    }
+  }
+
+  @include e(actions) {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: flex-end;
+
+    @include m(search) {
+      display: flex;
+      gap: 6px;
+    }
+    @include m(reload) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 8px;
+      height: 37px;
+      width: 37px;
+      border: 2px solid getColor(text, 0.1);
+    }
+    @include m(export) {
+      border-radius: 6px;
+      background-color: getColor(primary-lighter);
+      color: #fff;
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+  }
+
+  @include e(search) {
+    @include m(controls) {
+      display: flex;
+    }
+
+    @include m(control) {
+      font-size: 14px;
+      border: 2px solid getColor(text, 0.1);
+      outline: none;
+      border-radius: 6px 0 0 6px;
+      padding: 4px 10px;
+
+      &:focus {
+        border-color: getColor(primary-lighter, 1);
+      }
+    }
+
+    @include m(advance) {
+      font-size: 14px;
+      border: 2px solid getColor(text, 0.1);
+      outline: none;
+      border-radius: 0 6px 6px 0;
+      padding: 4px 10px;
+      margin-left: -2px;
+      color: getColor(text, 0.8);
+      font-size: 13px;
+      height: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      &:focus {
+        border-color: getColor(primary-lighter, 1);
+      }
+    }
+
+    @include m(button) {
+      border-radius: 6px;
+      background-color: getColor(primary);
+      color: #fff;
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+
+    @include m(dropdown) {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      width: 320px;
+      border: 1px solid getColor(gray-4);
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 10px;
+      margin-top: 4px;
+      box-shadow: 0 15px 30px -8px #00000010;
+      opacity: 0;
+      visibility: hidden;
+
+      @include when(open) {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+}

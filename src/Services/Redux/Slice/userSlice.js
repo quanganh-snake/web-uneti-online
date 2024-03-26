@@ -1,4 +1,6 @@
+import { simpleSHA256 } from '@/Services/Utils/stringUtils'
 import { createSlice } from '@reduxjs/toolkit'
+import { isString } from 'lodash-unified'
 
 const initialState = {
   currentUser: null,
@@ -15,7 +17,12 @@ const userSlice = createSlice({
     },
     userSuccess: (state, action) => {
       state.isFetching = false
-      state.currentUser = action.payload
+      const user = action.payload
+
+      if (isString(user.Role)) {
+        user.Role = simpleSHA256(user.Role)
+      }
+      state.currentUser = user
       state.error = false
     },
     userFailure: (state) => {

@@ -1,3 +1,4 @@
+@use './col.scss';
 @use './css-vars.scss';
 
 body {
@@ -16,8 +17,33 @@ body {
   }
 }
 
-@include res(lg) {
-  body {
-    font-size: 16px;
-  }
+.uneti-divider {
+  display: block;
+  height: 2px;
+  width: 100%;
+  border-radius: 10px;
+  background: getColor(gray-2);
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.icon-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  height: 37px;
+  width: 37px;
+  border: 2px solid getColor(text, 0.1);
+}
+
+.base-button {
+  border-radius: 6px;
+  color: #fff;
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.base-input {
+  @apply focus:ring-2 border border-gray-300 p-2 rounded-lg outline-none;
 }

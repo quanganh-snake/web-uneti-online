@@ -2,20 +2,29 @@ import SidebarTTHCGV from '../SidebarTTHCGV/SidebarTTHCGV'
 import Breadcrumb from '../../../../Components/Breadcumb/Breadcrumb'
 import { Link, useParams } from 'react-router-dom'
 import Loading from './../../../../Components/Loading/Loading'
-import { convertBufferToBase64 } from '../../../../Services/Utils/stringUtils'
+import {
+  convertBufferToBase64,
+  htmlToMarkdown,
+} from '../../../../Services/Utils/stringUtils'
+import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { handlePreviewFileBase64 } from '../../../../Services/Utils/fileUtils'
-
+import clsx from 'clsx'
+import { useMemo } from 'react'
 function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
   const { tieude, id } = useParams()
-  let totalTime = 0
-
-  for (let i = 0; i < dataThuTuc?.TrinhTuThucHien.length; i++) {
-    totalTime =
-      totalTime +
-      parseFloat(
-        dataThuTuc?.TrinhTuThucHien[i]?.MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay,
+  const totalTime = useMemo(() => {
+    let sum = 0
+    for (let i = 0; i < dataThuTuc?.TrinhTuThucHien.length; i++) {
+      sum += parseFloat(
+        dataThuTuc?.TrinhTuThucHien[i]
+          ?.MC_TTHC_GV_TrinhTuThucHien_ThoiGianNgay || 0,
       )
-  }
+    }
+    return sum
+  }, [dataThuTuc?.TrinhTuThucHien])
+
+  console.log(dataThuTuc?.ThongTinHoSo)
 
   return (
     <>
@@ -36,7 +45,10 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
               </p>
               <Link
                 to={`/tthc-giang-vien/soan-ho-so/${tieude}/${id}/submit`}
-                className="px-3 py-1 bg-[#336699] text-white rounded-md hover:opacity-70"
+                className={clsx(
+                  'px-3 py-1 bg-[#336699] text-white rounded-md hover:opacity-70',
+                  dataThuTuc?.ThongTinHoSo.MC_TTHC_GV_IDMucDo < 2 && 'hidden',
+                )}
               >
                 Nộp hồ sơ
               </Link>
@@ -45,69 +57,213 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
               <table className="w-full">
                 <tbody>
                   <tr>
-                    <td className="px-4 py-1 border border-slate-500 font-semibold">
-                      <p className="min-w-[120px]">Lĩnh vực</p>
+                    <td className="p-1 border border-slate-500 font-semibold">
+                      <p className="min-w-[100px]">Lĩnh vực</p>
                     </td>
-                    <td className="px-4 py-1 border border-slate-500">
+                    <td className="p-1 border border-slate-500">
                       {dataThuTuc?.ThongTinHoSo?.MC_TTHC_GV_LinhVuc}
                     </td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-1 border border-slate-500 font-semibold">
+                    <td className="p-1 border border-slate-500 font-semibold">
                       Mã thủ tục
                     </td>
-                    <td className="px-4 py-1 border border-slate-500">
+                    <td className="p-1 border border-slate-500">
                       {dataThuTuc?.ThongTinHoSo?.MC_TTHC_GV_MaThuTuc}
                     </td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-1 border border-slate-500 font-semibold">
+                    <td className="p-1 border border-slate-500 font-semibold">
                       Tên thủ tục
                     </td>
-                    <td className="px-4 py-1 border border-slate-500">
+                    <td className="p-1 border border-slate-500">
                       <div className="uppercase font-semibold text-[#0C4A6E]">
                         {dataThuTuc?.ThongTinHoSo?.MC_TTHC_GV_TenThuTuc}
                       </div>
                     </td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-1 border border-slate-500 font-semibold">
-                      Thủ tục liên thông
+                    <td colSpan={2} className="border border-slate-500">
+                      <div className="grid grid-cols-4 gap-2 p-2">
+                        <div className="col-span-4 lg:col-span-2 flex items-center gap-4 border p-1">
+                          <input
+                            type="checkbox"
+                            defaultChecked={
+                              dataThuTuc?.ThongTinHoSo
+                                ?.MC_TTHC_GV_ThuTucLienThong
+                            }
+                            disabled
+                            className="w-4 h-4"
+                          />
+                          <p className="whitespace-nowrap">
+                            Thủ tục liên thông
+                          </p>
+                        </div>
+                        <div className="col-span-4 lg:col-span-2 flex items-center gap-4 border p-1">
+                          <input
+                            type="checkbox"
+                            defaultChecked={
+                              dataThuTuc?.ThongTinHoSo
+                                ?.MC_TTHC_GV_ThuTucKhongApDungTrucTuyen
+                            }
+                            disabled
+                            className="w-4 h-4"
+                          />
+                          <p className="whitespace-nowrap">
+                            Thủ tục không áp dụng trực tuyến
+                          </p>
+                        </div>
+                        <div className="flex col-span-4 lg:col-span-2 items-center gap-4 border p-1">
+                          <input
+                            type="checkbox"
+                            defaultChecked={
+                              dataThuTuc?.ThongTinHoSo
+                                ?.MC_TTHC_GV_IsTruongPhongPheDuyet
+                            }
+                            disabled
+                            className="w-4 h-4"
+                          />
+                          <p className="whitespace-nowrap">
+                            Thủ tục cần trưởng phòng phê duyệt
+                          </p>
+                        </div>
+                        <div className="col-span-4 lg:col-span-2 flex items-center gap-4 border p-1">
+                          <input
+                            type="checkbox"
+                            defaultChecked={
+                              dataThuTuc?.ThongTinHoSo?.MC_TTHC_GV_IsBGHPheDuyet
+                            }
+                            disabled
+                            className="w-4 h-4"
+                          />
+                          <p className="whitespace-nowrap">
+                            Thủ tục cần Ban giám hiệu phê duyệt
+                          </p>
+                        </div>
+                      </div>
                     </td>
-                    <td className="px-4 py-1 border border-slate-500">
-                      <input
-                        type="checkbox"
-                        defaultChecked={
-                          dataThuTuc?.ThongTinHoSo?.MC_TTHC_GV_ThuTucLienThong
-                        }
-                        disabled
-                        name=""
-                        id=""
-                      />
+                    <td colSpan={2} className="hidden p-0 m-0">
+                      <table className="w-full p-0 m-0">
+                        <tbody>
+                          <tr>
+                            <td className="p-1 border border-slate-500 font-semibold">
+                              Thủ tục liên thông
+                            </td>
+                            <td className="p-1 border border-slate-500">
+                              <input
+                                type="checkbox"
+                                defaultChecked={
+                                  dataThuTuc?.ThongTinHoSo
+                                    ?.MC_TTHC_GV_ThuTucLienThong
+                                }
+                                disabled
+                                name=""
+                                id=""
+                              />
+                            </td>
+                            <td className="p-1 border border-slate-500 font-semibold">
+                              Thủ tục không áp dụng trực tuyến
+                            </td>
+                            <td className="p-1 border border-slate-500">
+                              <input
+                                type="checkbox"
+                                defaultChecked={
+                                  dataThuTuc?.ThongTinHoSo
+                                    ?.MC_TTHC_GV_ThuTucKhongApDungTrucTuyen
+                                }
+                                disabled
+                                name=""
+                                id=""
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="p-1 border border-slate-500 font-semibold">
+                              Thủ tục cần Trưởng phòng phê duyệt
+                            </td>
+                            <td className="p-1 border border-slate-500">
+                              <input
+                                type="checkbox"
+                                defaultChecked={
+                                  dataThuTuc?.ThongTinHoSo
+                                    ?.MC_TTHC_GV_IsTruongPhongPheDuyet
+                                }
+                                disabled
+                                name=""
+                                id=""
+                              />
+                            </td>
+                            <td className="p-1 border border-slate-500 font-semibold">
+                              Thủ tục cần Ban giám hiệu phê duyệt
+                            </td>
+                            <td className="p-1 border border-slate-500">
+                              <input
+                                type="checkbox"
+                                defaultChecked={
+                                  dataThuTuc?.ThongTinHoSo
+                                    ?.MC_TTHC_GV_IsBGHPheDuyet
+                                }
+                                disabled
+                                name=""
+                                id=""
+                              />
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-1 border border-slate-500 font-semibold">
-                      Thủ tục không áp dụng Một cửa
+                    <td className="p-1 border border-slate-500 font-semibold">
+                      Tệp thủ tục
                     </td>
-                    <td className="px-4 py-1 border border-slate-500">
-                      <input
-                        type="checkbox"
-                        defaultChecked={
-                          dataThuTuc?.ThongTinHoSo
-                            ?.MC_TTHC_GV_ThuTucKhongApDungMC
-                        }
-                        disabled
-                        name=""
-                        id=""
-                      />
+                    <td className="p-1 border border-slate-500">
+                      <div>
+                        <p
+                          className="font-semibold text-[#336699] cursor-pointer hover:opacity-70"
+                          onClick={() => {
+                            const base64StringWithoutPrefix =
+                              convertBufferToBase64(
+                                dataThuTuc?.ThongTinHoSo
+                                  ?.MC_TTHC_GV_TepThuTuc_DataFileFile?.data,
+                              )
+                            handlePreviewFileBase64(
+                              dataThuTuc?.ThongTinHoSo
+                                ?.MC_TTHC_GV_TepThuTuc_TenFile,
+                              base64StringWithoutPrefix,
+                            )
+                          }}
+                        >
+                          {
+                            dataThuTuc?.ThongTinHoSo
+                              ?.MC_TTHC_GV_TepThuTuc_TenFile
+                          }
+                        </p>
+                      </div>
                     </td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-1 border border-slate-500 font-semibold">
+                    <td className="p-1 border border-slate-500 font-semibold">
+                      Quy trình thủ tục
+                    </td>
+                    <td className="p-1 border border-slate-500">
+                      {dataThuTuc?.ThongTinHoSo?.MC_TTHC_GV_QuyTrinhThucHien ? (
+                        <Markdown remarkPlugins={[remarkGfm]}>
+                          {
+                            dataThuTuc?.ThongTinHoSo
+                              ?.MC_TTHC_GV_QuyTrinhThucHien
+                          }
+                        </Markdown>
+                      ) : (
+                        'Đang cập nhật'
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="p-1 border border-slate-500 font-semibold">
                       <p>Thành phần hồ sơ đề nghị</p>
                     </td>
-                    <td className="px-4 py-1 border border-slate-500">
+                    <td className="p-1 border border-slate-500">
                       <div className="hidden lg:block ">
                         {dataThuTuc?.ThanhPhanHoSo &&
                         dataThuTuc?.ThanhPhanHoSo.length > 0 ? (
@@ -153,7 +309,7 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                                             <li>
                                               {iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenFile ? (
                                                 <p>
-                                                  Xem mẫu/hướng dẫn: (
+                                                  Xem mẫu/hướng dẫn:
                                                   <p
                                                     onClick={() => {
                                                       const base64StringWithoutPrefix =
@@ -173,7 +329,6 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                                                       iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenFile
                                                     }
                                                   </p>
-                                                  )
                                                 </p>
                                               ) : null}
                                             </li>
@@ -181,22 +336,18 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                                         </div>
                                       </td>
                                       <td className="border border-slate-300 text-center">
-                                        <input
-                                          type="checkbox"
-                                          defaultChecked={
+                                        <p>
+                                          {
                                             iThanhPhanHoSo.MC_TTHC_GV_ThanhPhanHoSo_BanChinh
                                           }
-                                          disabled={true}
-                                        />
+                                        </p>
                                       </td>
                                       <td className="border border-slate-300 text-center">
-                                        <input
-                                          type="checkbox"
-                                          defaultChecked={
+                                        <p>
+                                          {
                                             iThanhPhanHoSo.MC_TTHC_GV_ThanhPhanHoSo_BanSao
                                           }
-                                          disabled={true}
-                                        />
+                                        </p>
                                       </td>
                                       <td className="border border-slate-300 text-center">
                                         <input
@@ -219,7 +370,7 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                           </p>
                         )}
                       </div>
-
+                      {/* Giao diện Mobile: TP Hồ sơ kèm theo */}
                       <div className="flex flex-col gap-2 lg:hidden">
                         {dataThuTuc?.ThanhPhanHoSo.length > 0 ? (
                           <>
@@ -253,7 +404,7 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                                       <p className="w-full">
                                         {iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenFile ? (
                                           <p>
-                                            Xem mẫu/hướng dẫn: (
+                                            Xem mẫu/hướng dẫn:
                                             <p
                                               onClick={() => {
                                                 const base64StringWithoutPrefix =
@@ -273,7 +424,6 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                                                 iThanhPhanHoSo?.MC_TTHC_GV_ThanhPhanHoSo_TenFile
                                               }
                                             </p>
-                                            )
                                           </p>
                                         ) : null}
                                       </p>
@@ -283,13 +433,11 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                                         Bản chính
                                       </p>
                                       <p className="w-full">
-                                        <input
-                                          type="checkbox"
-                                          defaultChecked={
+                                        <p>
+                                          {
                                             iThanhPhanHoSo.MC_TTHC_GV_ThanhPhanHoSo_BanChinh
                                           }
-                                          disabled={true}
-                                        />
+                                        </p>
                                       </p>
                                     </div>
                                     <div className="flex items-center gap-4 p-2 border-b">
@@ -297,13 +445,11 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                                         Bản sao
                                       </p>
                                       <p className="w-full">
-                                        <input
-                                          type="checkbox"
-                                          defaultChecked={
+                                        <p>
+                                          {
                                             iThanhPhanHoSo.MC_TTHC_GV_ThanhPhanHoSo_BanSao
                                           }
-                                          disabled={true}
-                                        />
+                                        </p>
                                       </p>
                                     </div>
                                     <div className="flex items-center gap-4 p-2 border-b">
@@ -333,11 +479,11 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                       </div>
                     </td>
                   </tr>
-                  <tr>
-                    <td className="px-4 py-1 border border-slate-500 font-semibold">
+                  <tr className="hidden">
+                    <td className="p-1 border border-slate-500 font-semibold">
                       Số bộ hồ sơ
                     </td>
-                    <td className="px-4 py-1 border border-slate-500">
+                    <td className="p-1 border border-slate-500">
                       <p>
                         {dataThuTuc?.ThanhPhanHoSo?.length > 0
                           ? dataThuTuc?.ThanhPhanHoSo?.length + ' bộ'
@@ -346,10 +492,10 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                     </td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-1 border border-slate-500 font-semibold">
+                    <td className="p-1 border border-slate-500 font-semibold">
                       Tổng thời gian giải quyết
                     </td>
-                    <td className="px-4 py-1 border border-slate-500">
+                    <td className="p-1 border border-slate-500">
                       <p>
                         {totalTime
                           ? totalTime + ' ngày kể từ khi nhận đủ hồ sơ hợp lệ'
@@ -359,10 +505,10 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                     </td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-1 border border-slate-500 font-semibold">
+                    <td className="p-1 w-10 border border-slate-500 font-semibold">
                       Mô tả trình tự thực hiện
                     </td>
-                    <td className="px-4 py-1 border border-slate-500">
+                    <td className="p-1 border border-slate-500">
                       {/* START: View Desktop - Trình Tực Thực Hiện */}
                       <div className="hidden lg:block">
                         {dataThuTuc?.TrinhTuThucHien &&
@@ -370,29 +516,29 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                           <table className="table-auto w-full">
                             <thead className="bg-[#075985] text-white rounded-t-xl">
                               <tr>
-                                <th className="rounded-tl-xl px-2 py-1">
-                                  Bước
-                                </th>
-                                <th className="border border-slate-300 px-2 py-1">
+                                <th className="rounded-tl-xl p-1">Bước</th>
+                                <th className="border border-slate-300 p-1">
                                   Tên công việc
                                 </th>
-                                <th className="border border-slate-300 px-2 py-1">
+                                <th className="border border-slate-300 p-1">
                                   Cách thức thực hiện
                                 </th>
-                                <th className="border border-slate-300 px-2 py-1">
+                                <th className="border border-slate-300 p-1">
                                   Địa chỉ tiếp nhận / trả hồ sơ
                                 </th>
-                                <th className="border border-slate-300 px-2 py-1">
-                                  Đơn vị thực hiện / được ủy quyền thực hiện
+                                <th className="border border-slate-300 p-1">
+                                  <div className="w-20">Đơn vị thực hiện</div>
                                 </th>
-                                <th className="border border-slate-300 px-2 py-1">
+                                <th className="border border-slate-300 p-1">
                                   Đơn vị phối hợp
                                 </th>
-                                <th className="border border-slate-300 px-2 py-1">
+                                <th className="border border-slate-300 p-1">
                                   Thời gian (ngày)
                                 </th>
-                                <th className="rounded-tr-xl px-2 py-1">
-                                  Kết quả
+                                <th className="rounded-tr-xl p-1">
+                                  <div className="w-60 text-center">
+                                    Kết quả
+                                  </div>
                                 </th>
                               </tr>
                             </thead>
@@ -436,7 +582,7 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                                         </div>
                                       </td>
                                       <td className="border border-slate-300">
-                                        <div className="text-center">
+                                        <div className="text-left p-1">
                                           {
                                             iTrinhTu?.MC_TTHC_GV_TrinhTuThucHien_DonViThucHien
                                           }
@@ -588,11 +734,11 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                       {/* END: View Mobile - Trình Tực Thực Hiện */}
                     </td>
                   </tr>
-                  <tr>
-                    <td className="px-4 py-1 border border-slate-500 font-semibold">
+                  <tr className="hidden">
+                    <td className="p-1 border border-slate-500 font-semibold">
                       Phí, lệ phí
                     </td>
-                    <td className="px-4 py-1 border border-slate-500">
+                    <td className="p-1 border border-slate-500">
                       <p>Không tính phí.</p>
                       {/* <table className="table-auto w-full">
 													<thead className="bg-[#075985] text-white rounded-t-xl">
@@ -613,10 +759,10 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                     </td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-1 border border-slate-500 font-semibold">
+                    <td className="p-1 border border-slate-500 font-semibold">
                       Đối tượng thực hiện
                     </td>
-                    <td className="px-4 py-1 border border-slate-500">
+                    <td className="p-1 border border-slate-500">
                       <div>
                         <p>
                           {
@@ -628,10 +774,10 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                     </td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-1 border border-slate-500 font-semibold">
+                    <td className="p-1 border border-slate-500 font-semibold">
                       Căn cứ pháp lý của TTHC
                     </td>
-                    <td className="px-4 py-1 border border-slate-500">
+                    <td className="p-1 border border-slate-500">
                       <div>
                         <p>
                           {
@@ -643,41 +789,12 @@ function ChiTietThuTucView({ home, breadcrumbs, loading, dataThuTuc }) {
                     </td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-1 border border-slate-500 font-semibold">
+                    <td className="p-1 border border-slate-500 font-semibold">
                       Yêu cầu hoặc điều kiện để thực hiện TTHC
                     </td>
-                    <td className="px-4 py-1 border border-slate-500">
+                    <td className="p-1 border border-slate-500">
                       <div>
                         {dataThuTuc?.ThongTinHoSo?.MC_TTHC_GV_DieuKienThucHien}
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-1 border border-slate-500 font-semibold">
-                      Tệp thủ tục
-                    </td>
-                    <td className="px-4 py-1 border border-slate-500">
-                      <div>
-                        <p
-                          className="font-semibold text-[#336699] cursor-pointer hover:opacity-70"
-                          onClick={() => {
-                            const base64StringWithoutPrefix =
-                              convertBufferToBase64(
-                                dataThuTuc?.ThongTinHoSo
-                                  ?.MC_TTHC_GV_TepThuTuc_DataFileFile?.data,
-                              )
-                            handlePreviewFileBase64(
-                              dataThuTuc?.ThongTinHoSo
-                                ?.MC_TTHC_GV_TepThuTuc_TenFile,
-                              base64StringWithoutPrefix,
-                            )
-                          }}
-                        >
-                          {
-                            dataThuTuc?.ThongTinHoSo
-                              ?.MC_TTHC_GV_TepThuTuc_TenFile
-                          }
-                        </p>
                       </div>
                     </td>
                   </tr>
