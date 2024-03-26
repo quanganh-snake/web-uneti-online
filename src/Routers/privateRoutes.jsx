@@ -15,6 +15,14 @@ import PhanHoi from '@/Pages/Admins/KhaoSatVaDanhGiaChatLuong/PhanHoi/PhanHoi'
 import CSDLDonVi from '@/Pages/Admins/CSDLDonVi/CSDLDonVi'
 import MCDungChungDonVi from '@/Pages/Admins/QuanLyMinhChung/MCDungChungDonVi/MCDungChungDonVi'
 import CauHinhDinhDangMaMC from '@/Pages/Admins/QuanLyMinhChung/CauHinhDinhDangMaMC/CauHinhDinhDangMaMC'
+import GioiThieu from '@/Pages/Admins/CSDLDonVi/GioiThieu/GioiThieu'
+import ThongKeNguoiHoc from '@/Pages/Admins/CSDLDonVi/ThongKeNguoiHoc/ThongKeNguoiHoc'
+import DanhSachCanBoChuChot from '@/Pages/Admins/CSDLDonVi/DanhSachCanBoChuChot/DanhSachCanBoChuChot'
+import ThongKeKhoaHoc from '@/Pages/Admins/CSDLDonVi/ThongKeKhoaHoc/ThongKeKhoaHoc'
+import DanhSachCacDonVi from '@/Pages/Admins/CSDLDonVi/DanhSachCacDonVi/DanhSachCacDonVi'
+import CoSoVatChat from '@/Pages/Admins/CSDLDonVi/CoSoVatChat/CoSoVatChat'
+import ThongKeNhanLuc from '@/Pages/Admins/CSDLDonVi/ThongKeNhanLuc/ThongKeNhanLuc'
+import DoiTac from '@/Pages/Admins/CSDLDonVi/DoiTac/DoiTac'
 
 // Pages MC - Khảo Thí
 const HomeKhaoThi = lazy(() => import('@/Pages/Clients/MotCua/KhaoThi'))
@@ -235,6 +243,10 @@ const RenLuyen = lazy(() => import('@/Pages/Clients/TraCuu/RenLuyen/RenLuyen'))
 const ChuongTrinhDaoTao = lazy(
   () => import('@/Pages/Clients/TraCuu/ChuongTrinhDaoTao/ChuongTrinhDaoTao'),
 )
+const DuKienKetQuaHocTap = lazy(
+  () => import('@/Pages/Clients/TraCuu/DuKienKetQuaHocTap/DuKienKetQuaHocTap'),
+)
+
 const DanhSachPhan = lazy(
   () =>
     import('@/Pages/Clients/HocTap/OnLuyen/OnTap/DanhSachPhan/DanhSachPhan'),
@@ -443,6 +455,10 @@ export const privateRoutes = (
           <Route path="ren-luyen" element={<RenLuyen />} />
           <Route path="thoi-khoa-bieu" element={<ThoiKhoaBieu />} />
           <Route path="chuong-trinh-dao-tao" element={<ChuongTrinhDaoTao />} />
+          <Route
+            path="du-kien-ket-qua-hoc-tap"
+            element={<DuKienKetQuaHocTap />}
+          />
         </Route>
       </Route>
       {/* Hỗ trợ TBGD */}
@@ -541,7 +557,20 @@ export const privateRoutes = (
           </Route>
 
           {/* CSDL đơn vị */}
-          <Route path="csdl-don-vi/tong-quan" element={<CSDLDonVi />} />
+          <Route path="csdl-don-vi">
+            <Route index path="tong-quan" element={<CSDLDonVi />} />
+            <Route path="gioi-thieu" element={<GioiThieu />} />
+            <Route path="thong-ke-nguoi-hoc" element={<ThongKeNguoiHoc />} />
+            <Route
+              path="danh-sach-can-bo-chu-chot"
+              element={<DanhSachCanBoChuChot />}
+            />
+            <Route path="thong-ke-khoa-hoc" element={<ThongKeKhoaHoc />} />
+            <Route path="danh-sach-cac-don-vi" element={<DanhSachCacDonVi />} />
+            <Route path="co-so-vat-chat" element={<CoSoVatChat />} />
+            <Route path="thong-ke-nhan-luc" element={<ThongKeNhanLuc />} />
+            <Route path="doi-tac" element={<DoiTac />} />
+          </Route>
 
           {/* Quản lý minh chứng */}
           <Route path="quan-ly-minh-chung">

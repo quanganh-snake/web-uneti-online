@@ -56,140 +56,140 @@ function DanhSachDeThi() {
   const [isLoading, setIsLoading] = useState(false)
   const listCauTraLoiPost = useRef([])
 
+  // lấy thông tin môn học
+  const getThongTinMonHoc = async () => {
+    const resData = await getMonHocTheoSinhVien(dataSV.MaSinhVien)
+    const data = await resData?.data?.body
+    const filterData = data.filter(
+      (element) => element.MaMonHoc.toString() === maMonHoc,
+    )[0]
+
+    if (isNil(filterData)) {
+      //   nếu không tìm thấy môn học nào thì trở lại trang danh sách
+      navigate('/hoc-tap/on-luyen/on-tap')
+    } else {
+      setMonHoc(filterData)
+    }
+  }
+
+  //lấy thông tin phần câu hỏi
+  const getPhanCauHoi = async () => {
+    if (idPhanCauHoi == 'all') {
+      return
+    }
+    const resData = await getPhanTheoMonHoc(maMonHoc)
+    const data = await resData?.data?.body
+    const filterData = data.filter(
+      (element) => element.Id.toString() === idPhanCauHoi,
+    )[0]
+
+    if (isNil(filterData)) {
+      //   nếu không tìm thấy môn học nào thì trở lại trang danh sách
+      navigate(`/hoc-tap/on-luyen/on-tap/danh-sach-phan/${maMonHoc}`)
+    } else {
+      setPhanCauHoi(filterData)
+    }
+  }
+
+  // lấy thông tin chương
+  const getChuong = async () => {
+    if (idChuong == 'all') {
+      return
+    }
+    const resData = await getChuongTheoPhanCauHoi(idPhanCauHoi)
+    const data = await resData?.data?.body
+    const filterData = data.filter(
+      (element) => element.Id.toString() === idChuong,
+    )[0]
+    if (isNil(filterData)) {
+      //   nếu không tìm thấy môn học nào thì trở lại trang danh sách
+      navigate(
+        `/hoc-tap/on-luyen/on-tap/danh-sach-phan/${maMonHoc}/danh-sach-chuong/${idPhanCauHoi}`,
+      )
+    } else {
+      setChuong(filterData)
+    }
+  }
+
+  // lấy danh sách câu hỏi
+  const getAllCauHoi = async () => {
+    setIsLoading(true)
+    let resData = null
+
+    if (idChuong === 'all') {
+      resData = await getCauHoiTheoMonHoc({
+        IDSinhVien: dataSV.IdSinhVien.toString(),
+        soTrang: currPage.toString(),
+        maMonHoc: maMonHoc.toString(),
+        dieuKienLoc: dieuKienLoc.toString(),
+      })
+    } else {
+      resData = await getCauHoiTheoChuong({
+        IDSinhVien: dataSV.IdSinhVien.toString(),
+        IDChuong: idChuong.toString(),
+        SoTrang: currPage.toString(),
+        SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
+        DieuKienLoc: dieuKienLoc.toString(),
+      })
+    }
+
+    const data = await resData?.data?.body
+
+    const convertData = []
+
+    for (let i = 0; i < data.length; i++) {
+      convertData.push(await convertQuestion(data[i]))
+    }
+
+    const groupData = groupByCauHoiCha(convertData)
+
+    setListCauHoi(groupData)
+
+    let answerData = {}
+
+    groupData.forEach((e) => {
+      e?.listCauHoiCon.forEach((e1) => {
+        answerData[e1.Id] = {
+          TC_SV_OnThi_KetQuaOnTap_IDSinhVien: dataSV.IdSinhVien.toString(),
+          TC_SV_OnThi_KetQuaOnTap_MaMonHoc: maMonHoc,
+          TC_SV_OnThi_KetQuaOnTap_IDCauHoi: e1.Id,
+          TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi:
+            e1.CauTraLoi == null ? 'null' : e1.CauTraLoi.toString(),
+          TC_SV_OnThi_KetQuaOnTap_CauPhanVan:
+            e1.CauPhanVan == null ? 'null' : e1.CauPhanVan.toString(),
+        }
+      })
+    })
+
+    setListCauTraLoi(answerData)
+
+    setIsLoading(false)
+  }
+
+  // lấy danh tổng số trang câu hỏi
+  const getTotalPage = async () => {
+    let resData = null
+    if (idChuong == 'all') {
+      resData = await getTongSoTrangTheoMonHoc({
+        MaMonHoc: maMonHoc.toString(),
+        DieuKienLoc: dieuKienLoc,
+      })
+    } else {
+      resData = await getTongSoTrangTheoChuong({
+        IDSinhVien: dataSV.IdSinhVien,
+        IDChuong: idChuong,
+        SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
+        DieuKienLoc: dieuKienLoc,
+      })
+    }
+
+    const { TongSoTrang } = (await resData.data.body[0]) || { TongSoTrang: 1 }
+
+    setTotalPage(TongSoTrang)
+  }
+
   useEffect(() => {
     if (!dataSV || !maMonHoc || !idChuong) return
-    // lấy thông tin môn học
-    const getThongTinMonHoc = async () => {
-      const resData = await getMonHocTheoSinhVien(dataSV.MaSinhVien)
-      const data = await resData?.data?.body
-      const filterData = data.filter(
-        (element) => element.MaMonHoc.toString() === maMonHoc,
-      )[0]
-
-      if (isNil(filterData)) {
-        //   nếu không tìm thấy môn học nào thì trở lại trang danh sách
-        navigate('/hoc-tap/on-luyen/on-tap')
-      } else {
-        setMonHoc(filterData)
-      }
-    }
-
-    //lấy thông tin phần câu hỏi
-    const getPhanCauHoi = async () => {
-      if (idPhanCauHoi == 'all') {
-        return
-      }
-      const resData = await getPhanTheoMonHoc(maMonHoc)
-      const data = await resData?.data?.body
-      const filterData = data.filter(
-        (element) => element.Id.toString() === idPhanCauHoi,
-      )[0]
-
-      if (isNil(filterData)) {
-        //   nếu không tìm thấy môn học nào thì trở lại trang danh sách
-        navigate(`/hoc-tap/on-luyen/on-tap/danh-sach-phan/${maMonHoc}`)
-      } else {
-        setPhanCauHoi(filterData)
-      }
-    }
-
-    // lấy thông tin chương
-    const getChuong = async () => {
-      if (idChuong == 'all') {
-        return
-      }
-      const resData = await getChuongTheoPhanCauHoi(idPhanCauHoi)
-      const data = await resData?.data?.body
-      const filterData = data.filter(
-        (element) => element.Id.toString() === idChuong,
-      )[0]
-      if (isNil(filterData)) {
-        //   nếu không tìm thấy môn học nào thì trở lại trang danh sách
-        navigate(
-          `/hoc-tap/on-luyen/on-tap/danh-sach-phan/${maMonHoc}/danh-sach-chuong/${idPhanCauHoi}`,
-        )
-      } else {
-        setChuong(filterData)
-      }
-    }
-
-    // lấy danh sách câu hỏi
-    const getAllCauHoi = async () => {
-      setIsLoading(true)
-      setCurrPage(1)
-      let resData = null
-
-      if (idChuong === 'all') {
-        resData = await getCauHoiTheoMonHoc({
-          IDSinhVien: dataSV.IdSinhVien.toString(),
-          SoTrang: currPage.toString(),
-          maMonHoc: maMonHoc.toString(),
-          DieuKienLoc: dieuKienLoc.toString(),
-        })
-      } else {
-        resData = await getCauHoiTheoChuong({
-          IDSinhVien: dataSV.IdSinhVien.toString(),
-          IDChuong: idChuong.toString(),
-          SoTrang: currPage.toString(),
-          SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
-          DieuKienLoc: dieuKienLoc.toString(),
-        })
-      }
-
-      const data = await resData?.data?.body
-
-      const convertData = []
-
-      for (let i = 0; i < data.length; i++) {
-        convertData.push(await convertQuestion(data[i]))
-      }
-
-      const groupData = groupByCauHoiCha(convertData)
-
-      setListCauHoi(groupData)
-
-      let answerData = {}
-
-      groupData.forEach((e) => {
-        e?.listCauHoiCon.forEach((e1) => {
-          answerData[e1.Id] = {
-            TC_SV_OnThi_KetQuaOnTap_IDSinhVien: dataSV.IdSinhVien.toString(),
-            TC_SV_OnThi_KetQuaOnTap_MaMonHoc: maMonHoc,
-            TC_SV_OnThi_KetQuaOnTap_IDCauHoi: e1.Id,
-            TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi:
-              e1.CauTraLoi == null ? 'null' : e1.CauTraLoi.toString(),
-            TC_SV_OnThi_KetQuaOnTap_CauPhanVan:
-              e1.CauPhanVan == null ? 'null' : e1.CauPhanVan.toString(),
-          }
-        })
-      })
-
-      setListCauTraLoi(answerData)
-
-      setIsLoading(false)
-    }
-
-    // lấy danh tổng số trang câu hỏi
-    const getTotalPage = async () => {
-      let resData = null
-      if (idChuong == 'all') {
-        resData = await getTongSoTrangTheoMonHoc({
-          MaMonHoc: maMonHoc.toString(),
-          DieuKienLoc: dieuKienLoc,
-        })
-      } else {
-        resData = await getTongSoTrangTheoChuong({
-          IDSinhVien: dataSV.IdSinhVien,
-          IDChuong: idChuong,
-          SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
-          DieuKienLoc: dieuKienLoc,
-        })
-      }
-
-      const { TongSoTrang } = (await resData.data.body[0]) || { TongSoTrang: 1 }
-
-      setTotalPage(TongSoTrang)
-    }
 
     //auto post data
     const autoPostData = setInterval(handlePostData, 60 * 10 * 1000)
@@ -208,86 +208,14 @@ function DanhSachDeThi() {
 
   useEffect(() => {
     setAudioPlaying(null)
-    // lấy danh sách câu hỏi
-    const getAllCauHoi = async () => {
-      setIsLoading(true)
-      let resData = null
-
-      if (idChuong === 'all') {
-        resData = await getCauHoiTheoMonHoc({
-          IDSinhVien: dataSV.IdSinhVien.toString(),
-          SoTrang: currPage.toString(),
-          maMonHoc: maMonHoc.toString(),
-          DieuKienLoc: dieuKienLoc.toString(),
-        })
-      } else {
-        resData = await getCauHoiTheoChuong({
-          IDSinhVien: dataSV.IdSinhVien.toString(),
-          IDChuong: idChuong.toString(),
-          SoTrang: currPage.toString(),
-          SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
-          DieuKienLoc: dieuKienLoc.toString(),
-        })
-      }
-
-      const data = await resData?.data?.body
-
-      const convertData = []
-
-      for (let i = 0; i < data.length; i++) {
-        convertData.push(await convertQuestion(data[i]))
-      }
-
-      const groupData = groupByCauHoiCha(convertData)
-
-      setListCauHoi(groupData)
-
-      let answerData = {}
-
-      groupData.forEach((e) => {
-        e?.listCauHoiCon.forEach((e1) => {
-          answerData[e1.Id] = {
-            TC_SV_OnThi_KetQuaOnTap_IDSinhVien: dataSV.IdSinhVien.toString(),
-            TC_SV_OnThi_KetQuaOnTap_MaMonHoc: maMonHoc,
-            TC_SV_OnThi_KetQuaOnTap_IDCauHoi: e1.Id,
-            TC_SV_OnThi_KetQuaOnTap_IDCauTraLoi:
-              e1.CauTraLoi == null ? 'null' : e1.CauTraLoi.toString(),
-            TC_SV_OnThi_KetQuaOnTap_CauPhanVan:
-              e1.CauPhanVan == null ? 'null' : e1.CauPhanVan.toString(),
-          }
-        })
-      })
-
-      setListCauTraLoi(answerData)
-
-      setIsLoading(false)
-    }
-
-    // lấy danh tổng số trang câu hỏi
-    const getTotalPage = async () => {
-      let resData = null
-      if (idChuong == 'all') {
-        resData = await getTongSoTrangTheoMonHoc({
-          MaMonHoc: maMonHoc.toString(),
-          DieuKienLoc: dieuKienLoc,
-        })
-      } else {
-        resData = await getTongSoTrangTheoChuong({
-          IDSinhVien: dataSV.IdSinhVien,
-          IDChuong: idChuong,
-          SoCauTrenTrang: ONTAP_SOCAUTRENTRANG,
-          DieuKienLoc: dieuKienLoc,
-        })
-      }
-
-      const { TongSoTrang } = (await resData.data.body[0]) || { TongSoTrang: 1 }
-
-      setTotalPage(TongSoTrang)
-    }
 
     retries(getAllCauHoi)
     retries(getTotalPage)
   }, [dieuKienLoc, currPage, isShowAnswer])
+
+  useEffect(() => {
+    setCurrPage(1)
+  }, [dieuKienLoc])
 
   useEffect(() => {
     listCauTraLoiPost.current = values(listCauTraLoi)
@@ -522,6 +450,9 @@ function DanhSachDeThi() {
   }
 
   const handleWonderQuestion = (question) => {
+    if (isShowAnswer) {
+      return
+    }
     setListCauTraLoi((_listCauTraLoi) => ({
       ..._listCauTraLoi,
       [question.Id]: {
@@ -592,7 +523,7 @@ function DanhSachDeThi() {
           <div className="w-full flex items-center justify-end gap-2">
             <select
               className="px-3 py-2 shadow-sm w-full max-w-[200px] outline-none border-none p-5 rounded-xl cursor-pointer"
-              onChange={handleChangeDieuKienLoc}
+              onChange={(e) => handleChangeDieuKienLoc(e)}
             >
               <option value={LOAD_CAU_HOI_DIEU_KIEN_LOC.TatCa}>Tất cả</option>
               <option value={LOAD_CAU_HOI_DIEU_KIEN_LOC.DaLam}>Đã làm</option>
@@ -623,12 +554,13 @@ function DanhSachDeThi() {
                       // hiển thị câu hỏi cha
                       (() => {
                         if (element.CauHoiCha.type === 'image') {
-                          return (
-                            <img
-                              className="w-full"
-                              src={`data:image/png;base64,${element.CauHoiCha.data}`}
-                            />
-                          )
+                          if (element.CauHoiCha.data)
+                            return (
+                              <img
+                                className="w-full"
+                                src={`data:image/png;base64,${element.CauHoiCha.data}`}
+                              />
+                            )
                         }
                         return (
                           <span

@@ -29,10 +29,14 @@
 
   @include e(header) {
     display: flex;
-    justify-content: center;
     align-items: center;
     padding: 10px 16px;
     position: relative;
+    border-radius: 20px 20px 0 0;
+
+    @include when(center) {
+      justify-content: center;
+    }
   }
 
   @include e(content) {

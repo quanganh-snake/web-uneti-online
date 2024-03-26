@@ -10,7 +10,7 @@ import QuyTrinhDanhGiaNgoai from '@/Components/KiemDinhChatLuong/DamBaoChatLuong
 import QuyenDacBiet from '@/Components/KiemDinhChatLuong/DamBaoChatLuong/CauHinhNhiemVu/QuyenDacBiet'
 
 export default function CauHinhNhiemVu() {
-  const ns = useNamespace('cau-hinh-nhiem-vu')
+  const ns = useNamespace('kiem-dinh-chat-luong')
 
   const [tab, setTab] = useState(0)
 
@@ -19,7 +19,7 @@ export default function CauHinhNhiemVu() {
   }
 
   return (
-    <div className={ns.b()}>
+    <div className={`${ns.b()} box`}>
       {/* header */}
       <div className={ns.e('header')}>
         <h3 className={ns.em('header', 'title')}>

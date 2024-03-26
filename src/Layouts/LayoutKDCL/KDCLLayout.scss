@@ -1,4 +1,52 @@
-@include b(ql-nguoi-dung) {
+.box {
+  @apply rounded-2xl bg-white p-7 pt-4 shadow-sm;
+}
+
+.tr {
+  &:not(:only-child):nth-child(2n) {
+    @apply bg-gray-50;
+  }
+}
+
+.th {
+  @apply px-2 py-3 bg-uneti-primary-light text-white;
+
+  &:not(:last-child) {
+    @apply border-r;
+  }
+}
+
+.td {
+  @apply px-2 py-3 border-b;
+
+  &:not(:last-child) {
+    @apply border-r;
+  }
+}
+
+@include b(kiem-dinh-chat-luong) {
+  @include e(header) {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @include m(title) {
+      font-weight: 500;
+      font-size: 15px;
+
+      @include res(sm) {
+        font-size: 16px;
+      }
+      @include res(md) {
+        font-size: 17px;
+      }
+      @include res(lg) {
+        font-size: 18px;
+      }
+    }
+  }
+
   @include e(actions) {
     display: flex;
     gap: 6px;
@@ -18,7 +66,7 @@
       width: 37px;
       border: 2px solid getColor(text, 0.1);
     }
-    @include m(add) {
+    @include m(export) {
       border-radius: 6px;
       background-color: getColor(primary-lighter);
       color: #fff;
@@ -89,27 +137,6 @@
         opacity: 1;
         visibility: visible;
       }
-    }
-  }
-
-  @include e(table) {
-    width: 100%;
-    border-radius: 12px;
-    border: 1px solid getColor(gray-4);
-    background-color: #fff;
-    padding: 10px;
-    margin-top: 4px;
-    border-collapse: collapse;
-
-    th,
-    td {
-      padding: 4px 10px;
-      border: 1px solid getColor(gray-4);
-    }
-
-    th {
-      background-color: getColor(primary);
-      color: #fff;
     }
   }
 }

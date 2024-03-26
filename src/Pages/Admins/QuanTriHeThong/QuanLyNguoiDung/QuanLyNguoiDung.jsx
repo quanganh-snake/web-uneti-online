@@ -34,6 +34,7 @@ const users = [
 
 export const QuanLyNguoiDung = () => {
   const ns = useNamespace('ql-nguoi-dung')
+  const nsLayoutKDCL = useNamespace('kiem-dinh-chat-luong')
 
   const searchDropdownRef = useRef()
   const searchAdvanceRef = useRef()
@@ -51,10 +52,12 @@ export const QuanLyNguoiDung = () => {
   })
 
   return (
-    <div className={ns.b()}>
+    <div className="box">
       {/* header */}
-      <div className={ns.e('header')}>
-        <h3 className={ns.em('header', 'title')}>Danh sách người dùng</h3>
+      <div className={nsLayoutKDCL.e('header')}>
+        <h3 className={nsLayoutKDCL.em('header', 'title')}>
+          Danh sách người dùng
+        </h3>
 
         <div className={ns.e('actions')}>
           <div className={ns.em('actions', 'search')}>

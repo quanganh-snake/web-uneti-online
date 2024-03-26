@@ -1505,7 +1505,6 @@ export const homeTraCuu = [
     thumbnail: icoTTHCSV,
     roleActive: [ROLES.S0202],
   },
-
   {
     id: 3,
     title: 'Thời khóa biểu',
@@ -1524,6 +1523,15 @@ export const homeTraCuu = [
     moduleActive: false,
     thumbnail: iconLich,
     roleActive: [ROLES.S0202],
+  },
+  {
+    id: 4,
+    title: 'Dự kiến kết quả học tập',
+    desc: 'Dự kiến kết quả học tập bla bla ...',
+    path: '/du-kien-ket-qua-hoc-tap',
+    moduleActive: true,
+    thumbnail: icoHocTap,
+    roleActive: ['SV'],
   },
 ]
 

@@ -1,4 +1,35 @@
-@include b(ql-nguoi-dung) {
+@include b(kdcl-ctdt) {
+  @include e(tabs) {
+    @include m(tab) {
+      text-transform: initial !important;
+      font-weight: 500 !important;
+      font-family: inherit !important;
+      font-size: 15px !important;
+    }
+  }
+
+  @include e(table-header) {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @include m(title) {
+      font-weight: 500;
+      font-size: 15px;
+
+      @include res(sm) {
+        font-size: 16px;
+      }
+      @include res(md) {
+        font-size: 17px;
+      }
+      @include res(lg) {
+        font-size: 18px;
+      }
+    }
+  }
+
   @include e(actions) {
     display: flex;
     gap: 6px;
@@ -18,7 +49,7 @@
       width: 37px;
       border: 2px solid getColor(text, 0.1);
     }
-    @include m(add) {
+    @include m(export) {
       border-radius: 6px;
       background-color: getColor(primary-lighter);
       color: #fff;
