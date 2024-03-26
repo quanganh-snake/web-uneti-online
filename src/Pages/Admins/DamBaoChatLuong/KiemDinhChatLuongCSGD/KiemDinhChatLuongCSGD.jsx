@@ -204,10 +204,10 @@ export default function KiemDinhChatLuongCSGD() {
                   </Icon>
                 </button>
               </Tooltip>
+              <button className="base-button bg-uneti-primary-lighter">
+                Xuất file
+              </button>
             </div>
-            <button className="base-button bg-uneti-primary-lighter">
-              Xuất file
-            </button>
           </div>
 
           <div className="uneti-divider" />
