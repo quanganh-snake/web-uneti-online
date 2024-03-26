@@ -17,7 +17,8 @@ import { table, data, data2 } from './faker'
 import './KiemDinhChatLuongCTDT.scss'
 
 export default function KiemDinhChatLuongCTDT() {
-  const ns = useNamespace('cau-hinh-nhiem-vu')
+  const ns = useNamespace('kdcl-ctdt')
+  const nsLayoutKDCL = useNamespace('kiem-dinh-chat-luong')
 
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
@@ -49,8 +50,8 @@ export default function KiemDinhChatLuongCTDT() {
   return (
     <div className={`${ns.b()} box`}>
       {/* header */}
-      <div className={ns.e('header')}>
-        <h3 className={ns.em('header', 'title')}>
+      <div className={nsLayoutKDCL.e('header')}>
+        <h3 className={nsLayoutKDCL.em('header', 'title')}>
           Kiểm định chương trình đào tạo
         </h3>
 

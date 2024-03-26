@@ -10,7 +10,7 @@ import QuyTrinhDanhGiaNgoai from '@/Components/KiemDinhChatLuong/DamBaoChatLuong
 import QuyenDacBiet from '@/Components/KiemDinhChatLuong/DamBaoChatLuong/CauHinhNhiemVu/QuyenDacBiet'
 
 export default function CauHinhNhiemVu() {
-  const ns = useNamespace('cau-hinh-nhiem-vu')
+  const ns = useNamespace('kiem-dinh-chat-luong')
 
   const [tab, setTab] = useState(0)
 

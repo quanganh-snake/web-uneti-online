@@ -30,7 +30,7 @@ const DATA = [
 ]
 
 export default function ThongKeNhanLuc() {
-  const ns = useNamespace('cau-hinh-nhiem-vu')
+  const ns = useNamespace('kiem-dinh-chat-luong')
 
   const [isOpenSearchAdvance, setIsOpenSearchAdvance] = useState(false)
   const searchAdvanceRef = useRef()
@@ -125,37 +125,29 @@ export default function ThongKeNhanLuc() {
         <div className="overflow-x-scroll">
           <table className="border w-full">
             <thead>
-              <tr className="bg-uneti-primary-light text-white">
-                <th className="px-2 py-3 border-r min-w-[80px]">STT</th>
-                <th className="px-2 py-3 border-r min-w-[160px]">Họ tên</th>
-                <th className="px-2 py-3 border-r border-b">Số ĐT</th>
-                <th className="px-2 py-3 border-r border-b">Học hàm học vị</th>
-                <th className="px-2 py-3 border-r border-b">Chức danh</th>
-                <th className="px-2 py-3 border-r border-b">
-                  Chức vụ chuyên môn
-                </th>
-                <th className="px-2 py-3 border-r border-b">Đơn vị</th>
-                <th className="px-2 min-w-[80px]">Tác vụ</th>
+              <tr className="tr">
+                <th className="th min-w-[80px]">STT</th>
+                <th className="th min-w-[160px]">Họ tên</th>
+                <th className="th">Số ĐT</th>
+                <th className="th">Học hàm học vị</th>
+                <th className="th">Chức danh</th>
+                <th className="th">Chức vụ chuyên môn</th>
+                <th className="th">Đơn vị</th>
+                <th className="th min-w-[80px]">Tác vụ</th>
               </tr>
             </thead>
 
             <tbody>
               {DATA.map((e, i) => (
-                <tr key={i} className={`${i % 2 == 1 ? 'bg-gray-100' : ''}`}>
-                  <td className="border-r px-2 py-3 text-center">{i + 1}</td>
-                  <td className="border-r px-2 py-3">{e.HoTen}</td>
-                  <td className="border-r px-2 py-3 text-center">{e.SoDT}</td>
-                  <td className="border-r px-2 py-3 text-center">{e.HocVi}</td>
-                  <td className="border-r px-2 py-3 text-center">
-                    {e.ChucDanh}
-                  </td>
-                  <td className="border-r px-2 py-3 text-center">
-                    {e.ChucVuChuyenMon}
-                  </td>
-                  <td className="border-r px-2 py-3 text-center">{e.DonVi}</td>
-                  <td className="border-r px-2 py-3 text-center">
-                    {e.KhacSoNguoiHoc}
-                  </td>
+                <tr key={i} className="tr">
+                  <td className="td text-center">{i + 1}</td>
+                  <td className="td">{e.HoTen}</td>
+                  <td className="td text-center">{e.SoDT}</td>
+                  <td className="td text-center">{e.HocVi}</td>
+                  <td className="td text-center">{e.ChucDanh}</td>
+                  <td className="td text-center">{e.ChucVuChuyenMon}</td>
+                  <td className="td text-center">{e.DonVi}</td>
+                  <td className="td text-center">{e.KhacSoNguoiHoc}</td>
                   <td></td>
                 </tr>
               ))}
