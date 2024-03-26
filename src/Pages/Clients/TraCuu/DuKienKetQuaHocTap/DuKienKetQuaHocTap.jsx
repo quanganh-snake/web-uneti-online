@@ -8,7 +8,7 @@ import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 
 const DuKienKetQuaHocTap = () => {
   const home = {
-    path: '/trang-chu',
+    path: '/uneti',
     title: 'Trang chủ',
   }
 
@@ -57,7 +57,7 @@ const DuKienKetQuaHocTap = () => {
       ...listMonHoc.map((e) => ({
         hocKy: e.TC_SV_KetQuaHocTap_HocKy,
         tenMonHoc: e.TC_SV_KetQuaHocTap_TenMonHoc,
-        maLopHocPhan: e.TC_SV_KetQuaHocTap_MaLopHocPhan,
+        maHocPhan: e.TC_SV_KetQuaHocTap_MaHocPhan,
         soTinChi: e.TC_SV_KetQuaHocTap_SoTinChi,
         tinhDiemTBC: e.TC_SV_KetQuaHocTap_KhongTinhDiemTBC == 0,
         diemTongKet:
@@ -76,10 +76,10 @@ const DuKienKetQuaHocTap = () => {
     }
   }, [listMonHoc])
 
-  const handleChangeScore = (maLopHocPhan, newDiemDuKien) => {
+  const handleChangeScore = (maHocPhan, newDiemDuKien) => {
     setListDiemDuKien((_listDiemDuKien) =>
       _listDiemDuKien.map((e) => {
-        if (e.maLopHocPhan != maLopHocPhan) return e
+        if (e.maHocPhan != maHocPhan) return e
 
         e.diemDuKien = newDiemDuKien
         return e
@@ -87,11 +87,11 @@ const DuKienKetQuaHocTap = () => {
     )
   }
 
-  const checkScoreValue = (maLopHocPhan, newDiemDuKien) => {
+  const checkScoreValue = (maHocPhan, newDiemDuKien) => {
     if (isNaN(+newDiemDuKien)) {
       setListDiemDuKien((_listDiemDuKien) =>
         _listDiemDuKien.map((e) => {
-          if (e.maLopHocPhan != maLopHocPhan) return e
+          if (e.maHocPhan != maHocPhan) return e
 
           e.diemDuKien = ''
           return e
@@ -102,7 +102,7 @@ const DuKienKetQuaHocTap = () => {
     if (+newDiemDuKien < 0 || +newDiemDuKien > 10) {
       setListDiemDuKien((_listDiemDuKien) =>
         _listDiemDuKien.map((e) => {
-          if (e.maLopHocPhan != maLopHocPhan) return e
+          if (e.maHocPhan != maHocPhan) return e
 
           e.diemDuKien =
             +newDiemDuKien < 0 ? '0' : +newDiemDuKien > 10 ? '10' : ''
@@ -140,11 +140,22 @@ const DuKienKetQuaHocTap = () => {
       SumDiemTongKetNhanSoTinChi / SumSoTinChi
     ).toFixed(2)
 
+    const DiemHe4 = ((DiemTichLuyDuKien * 4) / 10).toFixed(2)
+
     setDiemTichLuyDuKien({
       diemTichLuyHe10: DiemTichLuyDuKien,
-      diemTichLuyHe4: DiemTichLuyDuKien,
+      diemTichLuyHe4: DiemHe4,
       tongSoTinChiTichLuy: SumSoTinChi,
-      xepLoai: 'Xuất sắc',
+      xepLoai:
+        DiemHe4 >= 3.6
+          ? 'Xuất sắc'
+          : DiemHe4 >= 3.2
+            ? 'Giỏi'
+            : DiemHe4 >= 2.5
+              ? 'Khá'
+              : DiemHe4 >= 2.0
+                ? 'Trung bình'
+                : 'Yếu',
     })
   }
 
@@ -153,7 +164,7 @@ const DuKienKetQuaHocTap = () => {
       ...listMonHoc.map((e) => ({
         hocKy: e.TC_SV_KetQuaHocTap_HocKy,
         tenMonHoc: e.TC_SV_KetQuaHocTap_TenMonHoc,
-        maLopHocPhan: e.TC_SV_KetQuaHocTap_MaLopHocPhan,
+        maHocPhan: e.TC_SV_KetQuaHocTap_MaHocPhan,
         soTinChi: e.TC_SV_KetQuaHocTap_SoTinChi,
         tinhDiemTBC: e.TC_SV_KetQuaHocTap_KhongTinhDiemTBC == 0,
         diemTongKet:

@@ -1,6 +1,9 @@
 import Accordion from '@/Components/Base/Accordion/Accordion'
 import Button from '@/Components/Base/Button/Button'
+import Icon from '@/Components/Base/Icon/Icon'
 import CommonLayout from '@/Layouts/Common/CommonLayout'
+import { Tooltip } from '@mui/material'
+import { FiAlertCircle } from 'react-icons/fi'
 
 const DuKienKetQuaHocTapView = (props) => {
   const {
@@ -19,12 +22,12 @@ const DuKienKetQuaHocTapView = (props) => {
   return (
     <>
       <CommonLayout
-        heading="DỰ KIẾN KẾT QUẢ HỌC TẬP"
+        heading="DỰ KIẾN KẾT QUẢ HỌC TẬP THEO CHƯƠNG TRÌNH ĐÀO TẠO"
         home={home}
         breadcrumbs={breadcrumbs}
       >
         <div>
-          <div className="w-full p-2 flex justify-start items-start gap-4 flex-col md:flex-row">
+          <div className="w-full py-2 flex justify-start items-start gap-4 flex-col md:flex-row">
             <div className="flex-1 w-full">
               <table className="w-full">
                 <thead>
@@ -128,7 +131,7 @@ const DuKienKetQuaHocTapView = (props) => {
               </table>
             </div>
           </div>
-          <div className="flex w-full gap-2 p-2 flex-col sm:flex-row">
+          <div className="flex w-full gap-2 py-2 flex-col sm:flex-row">
             <div className="flex-1">
               <Button onClick={() => handleLamMoi()}>Làm mới</Button>
             </div>
@@ -153,7 +156,7 @@ const DuKienKetQuaHocTapView = (props) => {
                             <span className="absolute w-[1px] h-[100%] top-0 right-[-0.5px] bg-uneti-primary opacity-30"></span>
                           </th>
                           <th className=" py-4 min-w-[200px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0 border-l-0">
-                            Mã lớp học phần
+                            Mã học phần
                           </th>
                           <th className=" py-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0">
                             Số tín chỉ
@@ -174,40 +177,57 @@ const DuKienKetQuaHocTapView = (props) => {
                               <tr key={i}>
                                 <td className="sticky left-0 top-0 bg-white font-semibold duration-200 py-2 px-4 border border-solid border-uneti-primary border-opacity-30 border-b-0 border-l-0 border-r-0">
                                   {mh.tenMonHoc}
+                                  {!mh.tinhDiemTBC && (
+                                    <Tooltip title="Không tính điểm trung bình chung">
+                                      <div className="ml-2 inline-block text-red-600">
+                                        <Icon>
+                                          <FiAlertCircle />
+                                        </Icon>
+                                      </div>
+                                    </Tooltip>
+                                  )}
                                   <span className="absolute w-[1px] h-[100%] top-0 right-[-0.5px] bg-uneti-primary opacity-30"></span>
                                 </td>
-                                <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0 border-l-0">
-                                  {mh.maLopHocPhan}
+                                <td className="py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0 border-l-0">
+                                  {mh.maHocPhan}
                                 </td>
-                                <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
+                                <td className="py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
                                   {mh.soTinChi}
                                 </td>
                                 <td
                                   className={`${
                                     mh.diemTongKet <= 5 ? 'text-vs-danger' : ''
-                                  }  py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0`}
+                                  } py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0`}
                                 >
                                   {mh.diemTongKet}
                                 </td>
-                                <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0 border-r-0 bg-uneti-primary bg-opacity-10">
-                                  <input
-                                    className="outline-none text-center bg-white rounded-lg"
-                                    value={
-                                      mh.diemDuKien != null ? mh.diemDuKien : ''
-                                    }
-                                    onChange={(e) =>
-                                      handleChangeScore(
-                                        mh.maLopHocPhan,
-                                        e.target.value,
-                                      )
-                                    }
-                                    onBlur={(e) =>
-                                      checkScoreValue(
-                                        mh.maLopHocPhan,
-                                        e.target.value,
-                                      )
-                                    }
-                                  />
+                                <td
+                                  className={`py-1 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0 border-r-0 ${mh.tinhDiemTBC ? 'bg-slate-200' : ''}`}
+                                >
+                                  {mh.tinhDiemTBC ? (
+                                    <input
+                                      className="outline-none py-1 text-center bg-white rounded-lg"
+                                      value={
+                                        mh.diemDuKien != null
+                                          ? mh.diemDuKien
+                                          : ''
+                                      }
+                                      onChange={(e) =>
+                                        handleChangeScore(
+                                          mh.maHocPhan,
+                                          e.target.value,
+                                        )
+                                      }
+                                      onBlur={(e) =>
+                                        checkScoreValue(
+                                          mh.maHocPhan,
+                                          e.target.value,
+                                        )
+                                      }
+                                    />
+                                  ) : (
+                                    mh.diemDuKien
+                                  )}
                                 </td>
                               </tr>
                             )
@@ -221,6 +241,21 @@ const DuKienKetQuaHocTapView = (props) => {
               </Accordion>
             ))
           : null}
+
+        <div className="mt-8">
+          <h4>* Ghi chú:</h4>
+          <span className="">
+            - Các môn có đánh dấu
+            <Tooltip title="Không tính điểm trung bình chung">
+              <span className="text-red-600 mx-2">
+                <Icon>
+                  <FiAlertCircle />
+                </Icon>
+              </span>
+            </Tooltip>
+            là những môn không tính vào điểm trung bình chung.
+          </span>
+        </div>
       </CommonLayout>
     </>
   )
