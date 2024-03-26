@@ -74,7 +74,7 @@ const USERS_NCKH = [
 
 export default function ThongKeNguoiHoc() {
   return (
-    <div>
+    <div className="box">
       <div className="flex justify-between items-center">
         <Link to="/csdl-don-vi/tong-quan">
           <button className="base-button bg-uneti-primary">Quay lại</button>

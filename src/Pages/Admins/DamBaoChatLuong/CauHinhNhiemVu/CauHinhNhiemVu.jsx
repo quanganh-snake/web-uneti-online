@@ -19,7 +19,7 @@ export default function CauHinhNhiemVu() {
   }
 
   return (
-    <div className={ns.b()}>
+    <div className={`${ns.b()} box`}>
       {/* header */}
       <div className={ns.e('header')}>
         <h3 className={ns.em('header', 'title')}>

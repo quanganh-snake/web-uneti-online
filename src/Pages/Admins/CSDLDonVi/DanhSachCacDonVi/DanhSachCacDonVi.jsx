@@ -40,7 +40,7 @@ const DS_DON_VI = []
 
 export default function DanhSachCacDonVi() {
   return (
-    <div>
+    <div className="box">
       <div className="flex justify-between items-center">
         <Link to="/csdl-don-vi/tong-quan">
           <button className="base-button bg-uneti-primary">Quay lại</button>
