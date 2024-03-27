@@ -353,62 +353,7 @@ function AdminTTHCGVView({
       return
     }
 
-    //   Bổ sung thông báo nếu hồ sơ chọn cần trưởng phòng/BGH phê duyệt
-    let flagCheckTTTPPheDuyet = false
-    let flagCheckTTBGHPheDuyet = false
-    if (dataThongTinHoSo?.MC_TTHC_GV_IsTruongPhongPheDuyet === true) {
-      flagCheckTTTPPheDuyet = trangThai.some((iTrangThai) => {
-        if (
-          iTrangThai?.MC_TTHC_GV_TrangThai_DoiTuongXuLy &&
-          iTrangThai?.MC_TTHC_GV_TrangThai_DoiTuongXuLy === '24'
-        ) {
-          return true
-        }
-      })
-    } else {
-      flagCheckTTTPPheDuyet = true
-    }
-
-    if (dataThongTinHoSo?.MC_TTHC_GV_IsBGHPheDuyet === true) {
-      flagCheckTTBGHPheDuyet = trangThai.some((iTrangThai) => {
-        if (
-          iTrangThai?.MC_TTHC_GV_TrangThai_DoiTuongXuLy &&
-          iTrangThai?.MC_TTHC_GV_TrangThai_DoiTuongXuLy === '25'
-        ) {
-          return true
-        }
-      })
-    } else {
-      flagCheckTTBGHPheDuyet = true
-    }
-
-    if (flagCheckTTTPPheDuyet === false) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi thiết lập',
-        text: 'Vui lòng thiết lập "Đối tượng phê duyệt" hồ sơ là "Trưởng phòng" tại trạng thái cần phê duyệt!',
-      })
-      setThongTinActive(false)
-      setTPHoSoDeNghiActive(false)
-      setTrinhTuThucHienActive(false)
-      setPhanQuyenActive(false)
-      setTrangThaiActive(true)
-      return
-    }
-    if (flagCheckTTBGHPheDuyet === false) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi thiết lập',
-        text: 'Vui lòng thiết lập "Đối tượng phê duyệt" hồ sơ là "Ban giám hiệu" tại trạng thái cần phê duyệt!',
-      })
-      setThongTinActive(false)
-      setTPHoSoDeNghiActive(false)
-      setTrinhTuThucHienActive(false)
-      setPhanQuyenActive(false)
-      setTrangThaiActive(true)
-      return
-    }
-
+    //   Validate: Thành phần hồ sơ
     if (thanhPhanHoSo.length > 0) {
       for (let i = 0; i < thanhPhanHoSo.length; i++) {
         if (
@@ -430,6 +375,7 @@ function AdminTTHCGVView({
       }
     }
 
+    // Validate: Quy trình
     if (quyTrinh.length > 0) {
       for (let i = 0; i < quyTrinh.length; i++) {
         if (
@@ -451,6 +397,7 @@ function AdminTTHCGVView({
       }
     }
 
+    //   Validate phân quyền
     if (phanQuyen.length < 1) {
       setThongTinActive(false)
       setTPHoSoDeNghiActive(false)
@@ -459,10 +406,57 @@ function AdminTTHCGVView({
       setTrangThaiActive(false)
       return toast.error('Vui lòng thiết lập phân quyền cho người thực hiện!')
     }
+    //   Bổ sung thông báo nếu hồ sơ chọn cần trưởng phòng/BGH phê duyệt
+    let flagCheckTTTPPheDuyet = false
+    let flagCheckTTBGHPheDuyet = false
+    if (dataThongTinHoSo?.MC_TTHC_GV_IsTruongPhongPheDuyet === true) {
+      flagCheckTTTPPheDuyet = phanQuyen.some((iPhanQuyen) => {
+        if (iPhanQuyen?.IsTruongPhong && iPhanQuyen?.IsTruongPhong === true) {
+          return true
+        }
 
-    //   if () {
+        return false
+      })
+    } else {
+      flagCheckTTTPPheDuyet = true
+    }
 
-    //   }
+    if (dataThongTinHoSo?.MC_TTHC_GV_IsBGHPheDuyet === true) {
+      flagCheckTTBGHPheDuyet = phanQuyen.some((iPhanQuyen) => {
+        if (iPhanQuyen?.IsBanGiamHieu && iPhanQuyen?.IsBanGiamHieu === true) {
+          return true
+        }
+        return false
+      })
+    } else {
+      flagCheckTTBGHPheDuyet = true
+    }
+
+    if (flagCheckTTTPPheDuyet === false) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi thiết lập',
+        text: 'Vui lòng thiết lập phân quyền cho "Trưởng/Phó đơn vị" tại mục "Phân quyền"!',
+      })
+      setThongTinActive(false)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(false)
+      setPhanQuyenActive(true)
+      return
+    }
+    if (flagCheckTTBGHPheDuyet === false) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi thiết lập',
+        text: 'Vui lòng thiết lập phân quyền cho "Ban giám hiệu" tại mục "Phân quyền"!',
+      })
+      setThongTinActive(false)
+      setTPHoSoDeNghiActive(false)
+      setTrinhTuThucHienActive(false)
+      setPhanQuyenActive(true)
+      return
+    }
+
     // Xử lý trạng thái
     // let checkDataTrangThai = false
 

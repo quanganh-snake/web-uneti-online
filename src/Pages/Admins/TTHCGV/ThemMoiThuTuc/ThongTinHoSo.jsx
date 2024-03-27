@@ -498,7 +498,7 @@ const ThongTinHoSo = memo(function ThongTinHoSo(props) {
             className="cursor-pointer"
           >
             <span className="font-semibold">
-              Thủ tục cần trưởng phòng phê duyệt
+              Thủ tục cần Trưởng/Phó đơn vị phê duyệt
             </span>
           </label>
         </div>

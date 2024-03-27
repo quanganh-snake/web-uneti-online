@@ -837,7 +837,7 @@ function ThongTinChiTietHoSo() {
                       />
                     </div>
                   </div>
-                  {/* START: Thủ tục cần trưởng phòng phê duyệt */}
+                  {/* START: Thủ tục cần Trưởng/Phó đơn vị phê duyệt */}
                   <div className="col-span-4 lg:col-span-2 bg-slate-300 w-full flex-1 flex items-center gap-4 border px-3 py-1 rounded-md">
                     <input
                       type="checkbox"
@@ -850,10 +850,10 @@ function ThongTinChiTietHoSo() {
                       id="MC_TTHC_GV_IsTruongPhongPheDuyet"
                     />
                     <label htmlFor="MC_TTHC_GV_IsTruongPhongPheDuyet">
-                      Thủ tục cần trưởng phòng phê duyệt
+                      Thủ tục cần Trưởng/Phó đơn vị phê duyệt
                     </label>
                   </div>
-                  {/* END: Thủ tục cần trưởng phòng phê duyệt */}
+                  {/* END: Thủ tục cần Trưởng/Phó đơn vị phê duyệt */}
 
                   {/* START: Thủ tục cần BGH phê duyệt */}
                   <div className="col-span-4 lg:col-span-2 bg-slate-300 w-full flex items-center gap-4 border px-3 py-1 rounded-md">
