@@ -112,10 +112,6 @@ export default function BaoHong() {
   }
 
   const handlePostData = async (dataSuCo) => {
-    // console.log('>>>selectedLichHoc: ', selectedLichHoc)
-    //   DT_CVNB_TBGD_LichHoc_TenDiaDiem
-    //   DT_CVNB_TBGD_LichHoc_TenDayNha
-
     try {
       const resGetInfoPersonOnDuty = await getTTNguoiTrucThietBi(
         selectedLichHoc.DT_CVNB_TBGD_LichHoc_TenDiaDiem,

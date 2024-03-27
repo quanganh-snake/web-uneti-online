@@ -781,7 +781,11 @@ function ThongTinChiTietHoSo() {
                       {/* textarea */}
                       <TextEditor
                         id="MC_TTHC_GV_QuyTrinhThucHien"
-                        value={marked.parse(dataQuyTrinhThucHien)}
+                        value={
+                          dataQuyTrinhThucHien
+                            ? marked.parse(dataQuyTrinhThucHien)
+                            : ''
+                        }
                         onChange={setDataQuyTrinhThucHien}
                       />
                     </div>
@@ -1361,7 +1365,7 @@ function ThongTinChiTietHoSo() {
                                     </button>
                                     <button
                                       type="button"
-                                      className="px-3 py-1 w-full bg-[#336699] text-white hover:opacity-70"
+                                      className="hidden px-3 py-1 w-full bg-[#336699] text-white hover:opacity-70"
                                       onClick={() =>
                                         handleDeleteRow(
                                           TABS.tabTPHSDeNghi,
@@ -1465,7 +1469,7 @@ function ThongTinChiTietHoSo() {
                                     </button>
                                     <button
                                       type="button"
-                                      className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
+                                      className="hidden px-3 py-1 bg-[#336699] text-white hover:opacity-70"
                                       onClick={() =>
                                         handleDeleteRow(
                                           TABS.tabTPHSDeNghi,
@@ -1733,7 +1737,7 @@ function ThongTinChiTietHoSo() {
                                         </button>
                                         <button
                                           type="button"
-                                          className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
+                                          className="hidden spx-3 py-1 bg-[#336699] text-white hover:opacity-70"
                                           onClick={() =>
                                             handleDeleteRow(
                                               TABS.tabTrinhTuThucHien,
@@ -1811,7 +1815,7 @@ function ThongTinChiTietHoSo() {
                                         </button>
                                         <button
                                           type="button"
-                                          className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
+                                          className="hidden px-3 py-1 bg-[#336699] text-white hover:opacity-70"
                                           onClick={() =>
                                             handleDeleteRow(
                                               TABS.tabTrinhTuThucHien,
@@ -2104,7 +2108,7 @@ function ThongTinChiTietHoSo() {
                                     </button>
                                     <button
                                       type="button"
-                                      className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
+                                      className="hidden px-3 py-1 bg-[#336699] text-white hover:opacity-70"
                                       onClick={() =>
                                         handleDeleteRow(
                                           TABS.tabTrangThai,
@@ -2153,7 +2157,7 @@ function ThongTinChiTietHoSo() {
                                     </button>
                                     <button
                                       type="button"
-                                      className="px-3 py-1 bg-[#336699] text-white hover:opacity-70"
+                                      className="hidden px-3 py-1 bg-[#336699] text-white hover:opacity-70"
                                       onClick={() =>
                                         handleDeleteRow(
                                           TABS.tabTrangThai,

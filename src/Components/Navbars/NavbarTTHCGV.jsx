@@ -20,7 +20,7 @@ function NavbarTTHCGV() {
   ) {
     roleViewAction = 'CBNV'
   } else {
-    roleViewAction = null
+    roleViewAction = ''
   }
 
   return (
