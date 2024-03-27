@@ -125,6 +125,7 @@ const DuKienKetQuaHocTap = () => {
     let SumDiemTongKetHe10NhanSoTinChi = 0
     let SumDiemTongKetHe4NhanSoTinChi = 0
     let SumSoTinChi = 0
+    let XepLoai = ''
 
     for (let i = 0; i < listDiemDuKien.length; i++) {
       if (!listDiemDuKien[i].tinhDiemTBC) continue
@@ -159,20 +160,27 @@ const DuKienKetQuaHocTap = () => {
 
     const DiemTichLuyDuKienHe4 = (
       SumDiemTongKetHe4NhanSoTinChi / SumSoTinChi
-    ).toFixed(2)
+    ).toFixed(1)
 
-    console.log({
-      diemTichLuyHe10: DiemTichLuyDuKienHe10,
-      diemTichLuyHe4: DiemTichLuyDuKienHe4,
-      tongSoTinChiTichLuy: SumSoTinChi,
-      xepLoai: 'Xuất sắc',
-    })
+    if (+DiemTichLuyDuKienHe4 >= 3.6) {
+      XepLoai = 'Xuất sắc'
+    } else if (+DiemTichLuyDuKienHe4 >= 3.2) {
+      XepLoai = 'Giỏi'
+    } else if (+DiemTichLuyDuKienHe4 >= 2.5) {
+      XepLoai = 'Khá'
+    } else if (+DiemTichLuyDuKienHe4 >= 2.2) {
+      XepLoai = 'Trung bình khá'
+    } else if (+DiemTichLuyDuKienHe4 >= 2) {
+      XepLoai = 'Trung bình'
+    } else {
+      XepLoai = 'Không đủ điểm tốt nghiệp'
+    }
 
     setDiemTichLuyDuKien({
       diemTichLuyHe10: DiemTichLuyDuKienHe10,
       diemTichLuyHe4: DiemTichLuyDuKienHe4,
       tongSoTinChiTichLuy: SumSoTinChi,
-      xepLoai: 'Xuất sắc',
+      xepLoai: XepLoai,
     })
   }
 
@@ -238,8 +246,6 @@ const DuKienKetQuaHocTap = () => {
       }),
     )
   }
-
-  console.log(listDiemDuKien)
 
   return (
     <DuKienKetQuaHocTapView

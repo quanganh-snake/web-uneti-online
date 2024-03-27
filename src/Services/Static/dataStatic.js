@@ -1440,15 +1440,15 @@ export const homeTTHCGV = [
   },
   {
     id: 2,
-    title: 'Cán bộ nghiệp vụ',
-    name: 'Cán bộ nghiệp vụ',
-    path: '/admin/can-bo-nghiep-vu',
+    title: 'Xử lý nghiệp vụ',
+    name: 'Xử lý nghiệp vụ',
+    path: '/admin/xu-ly-nghiep-vu',
     roleActive: ['Admin', 'CBNV'],
   },
   {
     id: 3,
-    title: 'Quản trị hệ thống',
-    name: 'Quản trị hệ thống',
+    title: 'Quản trị đơn vị',
+    name: 'Quản trị đơn vị',
     path: '/admin/quan-tri-TTHCGV',
     roleActive: ['Admin'],
   },
@@ -1507,12 +1507,20 @@ export const homeTraCuu = [
   },
   {
     id: 4,
+    title: 'Chương trình đào tạo',
+    desc: 'Theo dõi chương trình đào tạo',
+    path: '/chuong-trinh-dao-tao',
+    moduleActive: true,
+    thumbnail: iconLich,
+    roleActive: ['SV'],
+  },
+  {
+    id: 5,
     title: 'Dự kiến kết quả học tập',
     desc: 'Dự kiến kết quả học tập bla bla ...',
     path: '/du-kien-ket-qua-hoc-tap',
     moduleActive: true,
     thumbnail: icoHocTap,
-    roleActive: ['SV'],
   },
 ]
 

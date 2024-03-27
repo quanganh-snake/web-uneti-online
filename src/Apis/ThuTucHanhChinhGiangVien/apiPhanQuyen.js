@@ -18,3 +18,12 @@ export const postPhanQuyenTTHCGV = (data = []) => {
 export const putPhanQuyenTTHCGV = (data = {}) => {
   return http.put('SP_MC_TTHC_GV_PhanQuyenTiepNhan/Edit_Para', data)
 }
+
+// GET
+export const getInfoPhanQuyenCBNV = (idGocTTHC = '') => {
+  return http.get('SP_MC_TTHC_GV_TiepNhan/PhanQuyen_Load_CanBoXuLy_ByIDGoc', {
+    params: {
+      MC_TTHC_GV_PhanQuyen_IDTTHC: idGocTTHC,
+    },
+  })
+}

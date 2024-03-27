@@ -76,24 +76,62 @@ import HoTroSuDungPhanMem from '@/Pages/Clients/HoTroSuDungPhanMem/HoTroSuDungPh
 // page theo dõi đề nghị SV
 import TheoDoiDeNghi from '@/Pages/Clients/TheoDoiDeNghi/TheoDoiDeNghi.jsx'
 import TheoDoiDeNghiChiTiet from '@/Pages/Clients/TheoDoiDeNghi/TheoDoiDeNghiChiTiet/TheoDoiDeNghiChiTiet.jsx'
+import { lazy } from 'react'
+import DuKienKetQuaHocTap from '@/Pages/Clients/TraCuu/DuKienKetQuaHocTap/DuKienKetQuaHocTap'
 
 // Page học tập
-import HomeHocTap from '@/Pages/Clients/HocTap/HocTap.jsx'
-import HocTapKetQuaHocTap from '@/Pages/Clients/HocTap/KetQuaHocTap/KetQuaHocTap.jsx'
-import HocTapOnLuyen from '@/Pages/Clients/HocTap/OnLuyen/OnLuyen.jsx'
-import HocTapOnTap from '@/Pages/Clients/HocTap/OnLuyen/OnTap/OnTap.jsx'
-import HocTapThiThu from '@/Pages/Clients/HocTap/OnLuyen/ThiThu/ThiThu.jsx'
-import KetQuaHocTapChiTiet from '@/Pages/Clients/HocTap/KetQuaHocTap/KetQuaHocTapChiTiet/KetQuaHocTapChiTiet'
-import DeThi from '@/Pages/Clients/HocTap/OnLuyen/ThiThu/DanhSachDeThi/DeThi/DeThi'
-import ThiThuDanhSachDeThi from '@/Pages/Clients/HocTap/OnLuyen/ThiThu/DanhSachDeThi/DanhSachDeThi'
-import OnTapDanhSachCauHoi from '@/Pages/Clients/HocTap/OnLuyen/OnTap/DanhSachCauHoi/DanhSachCauHoi'
-import HomeTraCuu from '@/Pages/Clients/TraCuu'
-import ThoiKhoaBieu from '@/Pages/Clients/TraCuu/ThoiKhoaBieu/ThoiKhoaBieu'
-import DiemDanh from '@/Pages/Clients/TraCuu/DiemDanh/DiemDanh'
-import RenLuyen from '@/Pages/Clients/TraCuu/RenLuyen/RenLuyen'
-import DanhSachPhan from '@/Pages/Clients/HocTap/OnLuyen/OnTap/DanhSachPhan/DanhSachPhan'
-import DanhSachChuong from '@/Pages/Clients/HocTap/OnLuyen/OnTap/DanhSachChuong/DanhSachChuong'
-import DuKienKetQuaHocTap from '@/Pages/Clients/TraCuu/DuKienKetQuaHocTap/DuKienKetQuaHocTap'
+const HomeHocTap = lazy(() => import('@/Pages/Clients/HocTap/HocTap.jsx'))
+const HocTapKetQuaHocTap = lazy(
+  () => import('@/Pages/Clients/HocTap/KetQuaHocTap/KetQuaHocTap.jsx'),
+)
+const HocTapOnLuyen = lazy(
+  () => import('@/Pages/Clients/HocTap/OnLuyen/OnLuyen.jsx'),
+)
+const HocTapOnTap = lazy(
+  () => import('@/Pages/Clients/HocTap/OnLuyen/OnTap/OnTap.jsx'),
+)
+const HocTapThiThu = lazy(
+  () => import('@/Pages/Clients/HocTap/OnLuyen/ThiThu/ThiThu.jsx'),
+)
+const KetQuaHocTapChiTiet = lazy(
+  () =>
+    import(
+      '@/Pages/Clients/HocTap/KetQuaHocTap/KetQuaHocTapChiTiet/KetQuaHocTapChiTiet'
+    ),
+)
+const DeThi = lazy(
+  () =>
+    import('@/Pages/Clients/HocTap/OnLuyen/ThiThu/DanhSachDeThi/DeThi/DeThi'),
+)
+const ThiThuDanhSachDeThi = lazy(
+  () =>
+    import('@/Pages/Clients/HocTap/OnLuyen/ThiThu/DanhSachDeThi/DanhSachDeThi'),
+)
+const OnTapDanhSachCauHoi = lazy(
+  () =>
+    import(
+      '@/Pages/Clients/HocTap/OnLuyen/OnTap/DanhSachCauHoi/DanhSachCauHoi'
+    ),
+)
+const HomeTraCuu = lazy(() => import('@/Pages/Clients/TraCuu'))
+const ThoiKhoaBieu = lazy(
+  () => import('@/Pages/Clients/TraCuu/ThoiKhoaBieu/ThoiKhoaBieu'),
+)
+const DiemDanh = lazy(() => import('@/Pages/Clients/TraCuu/DiemDanh/DiemDanh'))
+const RenLuyen = lazy(() => import('@/Pages/Clients/TraCuu/RenLuyen/RenLuyen'))
+const ChuongTrinhDaoTao = lazy(
+  () => import('@/Pages/Clients/TraCuu/ChuongTrinhDaoTao/ChuongTrinhDaoTao'),
+)
+const DanhSachPhan = lazy(
+  () =>
+    import('@/Pages/Clients/HocTap/OnLuyen/OnTap/DanhSachPhan/DanhSachPhan'),
+)
+const DanhSachChuong = lazy(
+  () =>
+    import(
+      '@/Pages/Clients/HocTap/OnLuyen/OnTap/DanhSachChuong/DanhSachChuong'
+    ),
+)
 
 export const ROLES = {
   G0101: 'GV',
@@ -120,7 +158,7 @@ export const privateRoutes = (
         <Route path="admin">
           <Route index element={<HomeAdmin />} />
           <Route
-            path="can-bo-nghiep-vu"
+            path="xu-ly-nghiep-vu"
             element={
               <RoleViewActionMiddleware
                 allowedRoleViewAction={[ROLE_VIEW_ACTION_TTHCGV.CBNV_TTHCGV]}
@@ -253,6 +291,7 @@ export const privateRoutes = (
             path="du-kien-ket-qua-hoc-tap"
             element={<DuKienKetQuaHocTap />}
           />
+          <Route path="chuong-trinh-dao-tao" element={<ChuongTrinhDaoTao />} />
         </Route>
       </Route>
       {/* Hỗ trợ TBGD */}

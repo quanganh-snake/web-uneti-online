@@ -1,26 +1,55 @@
 import { useEffect, useState } from 'react'
-import { getListThuTucYeuCauByMaNhanSu } from '@/Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
+import {
+  delThuTucHanhChinhGuiYeuCauByID,
+  getListThuTucYeuCauByMaNhanSu,
+} from '@/Apis/ThuTucHanhChinhGiangVien/apiThuTucHanhChinhGiangVien'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 import { changeSlug } from '@/Services/Utils/stringUtils'
+import Swal from 'sweetalert2'
+import { toast } from 'react-toastify'
 
 function TheoDoiDeNghiTTHCGV() {
   const dataCBGV = DataCanBoGV()
   const { MaNhanSu } = dataCBGV
-
   const [listHoSoYeuCau, setListHoSoYeuCau] = useState(null)
-  // event handlers
 
-  // effects
-  useEffect(() => {
+  const fetcherData = () => {
     getListThuTucYeuCauByMaNhanSu(MaNhanSu).then(async (res) => {
-      console.log(res)
       if (res.status === 200) {
         const data = await res.data?.body
         setListHoSoYeuCau(data)
       }
     })
+  }
+
+  // event handlers
+  const handleCancelRequest = async (id) => {
+    try {
+      Swal.fire({
+        icon: 'question',
+        title: 'Thầy/Cô có chắc chắn muốn huỷ gửi yêu cầu này không?',
+        showConfirmButton: true,
+        confirmButtonText: 'Đồng ý',
+        showCancelButton: true,
+        cancelButtonText: 'Huỷ',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const res = await delThuTucHanhChinhGuiYeuCauByID(id)
+          if (res.status === 200) {
+            toast.success('Huỷ yêu cầu thành công!')
+            fetcherData()
+          }
+        }
+      })
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+  // effects
+  useEffect(() => {
+    fetcherData()
   }, [])
 
   return (
@@ -68,12 +97,27 @@ function TheoDoiDeNghiTTHCGV() {
                         <p>{iHoSo?.MC_TTHC_GV_TrangThai_TenTrangThai}</p>
                       </td>
                       <td className="border-r text-center flex items-center justify-center py-2">
-                        <Link
-                          to={`/tthc-giang-vien/theo-doi-quy-trinh/chi-tiet/${titleSlug}/${iHoSo?.MC_TTHC_GV_GuiYeuCau_ID}`}
-                          className="p-2 bg-[#336699] text-white rounded-full hover:opacity-70"
-                        >
-                          Xem chi tiết
-                        </Link>
+                        <div className="flex flex-col gap-4">
+                          <Link
+                            to={`/tthc-giang-vien/theo-doi-quy-trinh/chi-tiet/${titleSlug}/${iHoSo?.MC_TTHC_GV_GuiYeuCau_ID}`}
+                            className="p-2 bg-[#336699] text-white rounded-full hover:opacity-70"
+                          >
+                            Xem chi tiết
+                          </Link>
+
+                          {iHoSo?.MC_TTHC_GV_GuiYeuCau_TrangThai_ID === 0 && (
+                            <button
+                              onClick={() => {
+                                handleCancelRequest(
+                                  iHoSo?.MC_TTHC_GV_GuiYeuCau_ID,
+                                )
+                              }}
+                              className="p-2 bg-red-500 text-white rounded-full hover:opacity-70"
+                            >
+                              Huỷ gửi hồ sơ
+                            </button>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   )

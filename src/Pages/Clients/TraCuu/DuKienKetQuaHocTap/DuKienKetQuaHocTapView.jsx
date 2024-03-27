@@ -1,5 +1,7 @@
 import Accordion from '@/Components/Base/Accordion/Accordion'
 import Button from '@/Components/Base/Button/Button'
+import Icon from '@/Components/Base/Icon/Icon'
+import TickCircle from '@/Components/Base/Icons/TickCircle'
 import CommonLayout from '@/Layouts/Common/CommonLayout'
 
 const DuKienKetQuaHocTapView = (props) => {
@@ -215,11 +217,11 @@ const DuKienKetQuaHocTapView = (props) => {
                           if (mh.hocKy === hk) {
                             return (
                               <tr key={i}>
-                                <td className="sticky left-0 top-0 text-center bg-white font-semibold duration-200 py-2 px-4 border border-solid border-uneti-primary border-opacity-30 border-b-0 border-l-0">
+                                <td className="sticky left-0 top-0 z-[2] text-center bg-white font-semibold duration-200 py-2 px-4 border border-solid border-uneti-primary border-opacity-30 md:border-b-0 md:border-l-0">
                                   {mh.STT}
                                   <span className="absolute w-[1px] h-[100%] top-0 right-[-0.5px] bg-uneti-primary opacity-30"></span>
                                 </td>
-                                <td className="sticky left-[50px] top-0 bg-white font-semibold duration-200 py-2 px-4 border border-solid border-uneti-primary border-opacity-30 border-b-0 border-l-0 border-r-0">
+                                <td className="sticky left-[50px] top-0 z-[2] bg-white font-semibold duration-200 py-2 px-4 border border-solid border-uneti-primary border-opacity-30 md:border-b-0 md:border-l-0 md:border-r-0">
                                   {mh.tenMonHoc}
                                   <span className="absolute w-[1px] h-[100%] top-0 right-[-0.5px] bg-uneti-primary opacity-30"></span>
                                 </td>
@@ -227,7 +229,13 @@ const DuKienKetQuaHocTapView = (props) => {
                                   {mh.maHocPhan}
                                 </td>
                                 <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
-                                  {mh.tinhDiemTBC ? 'có' : 'không'}
+                                  {mh.tinhDiemTBC ? (
+                                    <Icon>
+                                      <TickCircle />
+                                    </Icon>
+                                  ) : (
+                                    ''
+                                  )}
                                 </td>
                                 <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
                                   {mh.soTinChi}
