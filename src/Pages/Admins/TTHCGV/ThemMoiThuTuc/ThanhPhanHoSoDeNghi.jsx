@@ -113,7 +113,7 @@ const ThanhPhanHoSoDeNghi = memo(function ThanhPhanHoSoDeNghi(props) {
               <th className="border-r px-2 py-1">Mẫu hồ sơ/Hướng dẫn</th>
               <th className="border-r px-2 py-1">Bản chính</th>
               <th className="border-r px-2 py-1">Bản sao</th>
-              <th className="border-r px-2 py-1">Bắt buộc</th>
+              <th className="hidden border-r px-2 py-1">Bắt buộc</th>
               <th className="px-2 py-1 rounded-tr-xl">Tác vụ</th>
             </tr>
           </thead>
@@ -206,7 +206,7 @@ const ThanhPhanHoSoDeNghi = memo(function ThanhPhanHoSoDeNghi(props) {
                           }
                         />
                       </td>
-                      <td className="border-r border-white px-2 py-1 text-center">
+                      <td className="hidden border-r border-white px-2 py-1 text-center">
                         <input
                           type="checkbox"
                           checked={
@@ -287,7 +287,7 @@ const ThanhPhanHoSoDeNghi = memo(function ThanhPhanHoSoDeNghi(props) {
                           />
                         )}
                       </td>
-                      <td className="text-center border-r px-2 py-1">
+                      <td className="hidden text-center border-r px-2 py-1">
                         {row.MC_TTHC_GV_ThanhPhanHoSo_BatBuoc &&
                         row.MC_TTHC_GV_ThanhPhanHoSo_BatBuoc == true ? (
                           <input

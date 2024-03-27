@@ -2138,6 +2138,7 @@ function ThongTinChiTietHoSo() {
                                     defaultChecked={
                                       iTrangThai.MC_TTHC_GV_TrangThai_IsHienThiThongTin
                                     }
+                                    disabled={true}
                                   />
                                 </td>
                                 <td className="border-r px-2 py-1 text-center">

@@ -220,7 +220,6 @@ function SoanHoSo() {
       Swal.fire({
         icon: 'error',
         title: 'Đã có lỗi xảy ra',
-        text: `${error.message}`,
         footer: 'Vui lòng liên hệ lại bộ phận kỹ thuật để khắc phục sự cố!',
       })
     }
