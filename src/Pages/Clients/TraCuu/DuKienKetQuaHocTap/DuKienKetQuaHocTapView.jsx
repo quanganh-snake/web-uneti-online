@@ -14,6 +14,7 @@ const DuKienKetQuaHocTapView = (props) => {
     diemTichLuyThucTe,
     diemTichLuyDuKien,
     handleLamMoi,
+    handleConvertHe10ToHe4,
   } = props
 
   return (
@@ -148,22 +149,64 @@ const DuKienKetQuaHocTapView = (props) => {
                     <table className="w-full text-vs-text text-sm rounded-3xl">
                       <thead className="font-semibold">
                         <tr>
-                          <th className=" py-4 min-w-[200px] sticky left-0 bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0 border-l-0 border-r-0">
+                          <th
+                            rowSpan={2}
+                            className=" py-4 min-w-[50px] sticky left-0 bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0 border-l-0"
+                          >
+                            STT
+                            <span className="absolute w-[1px] h-[100%] top-0 right-[-0.5px] bg-uneti-primary opacity-30"></span>
+                          </th>
+                          <th
+                            rowSpan={2}
+                            className=" py-4 min-w-[200px] sticky left-[50px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0 border-l-0 border-r-0"
+                          >
                             Tên môn học
                             <span className="absolute w-[1px] h-[100%] top-0 right-[-0.5px] bg-uneti-primary opacity-30"></span>
                           </th>
-                          <th className=" py-4 min-w-[200px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0 border-l-0">
-                            Mã lớp học phần
+                          <th
+                            rowSpan={2}
+                            className=" py-4 min-w-[200px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0 border-l-0"
+                          >
+                            Mã học phần
                           </th>
-                          <th className=" py-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0">
+                          <th
+                            rowSpan={2}
+                            className=" py-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0"
+                          >
+                            Tính điểm TBC
+                          </th>
+                          <th
+                            rowSpan={2}
+                            className=" py-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0"
+                          >
                             Số tín chỉ
                           </th>
 
-                          <th className=" p-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0">
-                            Điểm tổng kết hệ 10
+                          <th
+                            colSpan={2}
+                            className=" p-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0"
+                          >
+                            Điểm tổng kết
+                          </th>
+                          <th
+                            colSpan={2}
+                            className=" p-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0 border-r-0"
+                          >
+                            Điểm tổng kết dự kiến
+                          </th>
+                        </tr>
+                        <tr>
+                          <th className=" p-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0 border-r-0">
+                            Hệ 10
                           </th>
                           <th className=" p-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0 border-r-0">
-                            Điểm tổng kết dự kiến
+                            Hệ 4
+                          </th>
+                          <th className=" p-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0 border-r-0">
+                            Hệ 10
+                          </th>
+                          <th className=" p-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0 border-r-0">
+                            Hệ 4
                           </th>
                         </tr>
                       </thead>
@@ -172,42 +215,72 @@ const DuKienKetQuaHocTapView = (props) => {
                           if (mh.hocKy === hk) {
                             return (
                               <tr key={i}>
-                                <td className="sticky left-0 top-0 bg-white font-semibold duration-200 py-2 px-4 border border-solid border-uneti-primary border-opacity-30 border-b-0 border-l-0 border-r-0">
+                                <td className="sticky left-0 top-0 text-center bg-white font-semibold duration-200 py-2 px-4 border border-solid border-uneti-primary border-opacity-30 border-b-0 border-l-0">
+                                  {mh.STT}
+                                  <span className="absolute w-[1px] h-[100%] top-0 right-[-0.5px] bg-uneti-primary opacity-30"></span>
+                                </td>
+                                <td className="sticky left-[50px] top-0 bg-white font-semibold duration-200 py-2 px-4 border border-solid border-uneti-primary border-opacity-30 border-b-0 border-l-0 border-r-0">
                                   {mh.tenMonHoc}
                                   <span className="absolute w-[1px] h-[100%] top-0 right-[-0.5px] bg-uneti-primary opacity-30"></span>
                                 </td>
                                 <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0 border-l-0">
-                                  {mh.maLopHocPhan}
+                                  {mh.maHocPhan}
+                                </td>
+                                <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
+                                  {mh.tinhDiemTBC ? 'có' : 'không'}
                                 </td>
                                 <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
                                   {mh.soTinChi}
                                 </td>
                                 <td
                                   className={`${
-                                    mh.diemTongKet <= 5 ? 'text-vs-danger' : ''
+                                    mh.diemTongKetHe10 <= 5
+                                      ? 'text-vs-danger'
+                                      : ''
                                   }  py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0`}
                                 >
-                                  {mh.diemTongKet}
+                                  {mh.diemTongKetHe10}
+                                </td>
+                                <td
+                                  className={`${
+                                    mh.diemTongKetHe4 <= 2
+                                      ? 'text-vs-danger'
+                                      : ''
+                                  }  py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0`}
+                                >
+                                  {mh.diemTongKetHe4}
                                 </td>
                                 <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0 border-r-0 bg-uneti-primary bg-opacity-10">
                                   <input
-                                    className="outline-none text-center bg-white rounded-lg"
+                                    className="max-w-[100px] outline-none text-center bg-white rounded-lg"
                                     value={
-                                      mh.diemDuKien != null ? mh.diemDuKien : ''
+                                      mh.diemDuKienHe10 != null
+                                        ? mh.diemDuKienHe10
+                                        : ''
                                     }
                                     onChange={(e) =>
                                       handleChangeScore(
-                                        mh.maLopHocPhan,
+                                        mh.maHocPhan,
                                         e.target.value,
                                       )
                                     }
-                                    onBlur={(e) =>
+                                    onBlur={(e) => {
                                       checkScoreValue(
-                                        mh.maLopHocPhan,
+                                        mh.maHocPhan,
                                         e.target.value,
                                       )
-                                    }
+                                      handleConvertHe10ToHe4(mh.maHocPhan)
+                                    }}
                                   />
+                                </td>
+                                <td
+                                  className={`${
+                                    mh.diemDuKienHe4 <= 2
+                                      ? 'text-vs-danger'
+                                      : ''
+                                  }  py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0`}
+                                >
+                                  {mh.diemDuKienHe4}
                                 </td>
                               </tr>
                             )
