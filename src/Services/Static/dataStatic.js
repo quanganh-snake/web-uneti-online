@@ -35,6 +35,7 @@ import icoTraCuuTS from '@/assets/Icons/icoTraCuuTS.png'
 // icons - thumbnails Module Học Tập
 import icoKetQuaHocTapOnLuyen from '@/assets/Icons/icoKetQuaHocTapOnLuyen.png'
 import icoOnLuyenTracNghiem from '@/assets/Icons/icoOnLuyenTracNghiem.png'
+import { ROLES } from '@/Routers/privateRoutes'
 
 // data Static NguonTiepNhan
 export const NguonTiepNhan_WEB = 1
@@ -50,7 +51,7 @@ export const homeMain = [
     icon: icoHTTBGD,
     path: '/ho-tro-thiet-bi-giang-duong',
     moduleActive: true,
-    roleActive: ['GV'],
+    roleActive: [ROLES.G0101],
   },
   {
     title: 'Thủ tục hành chính',
@@ -58,7 +59,7 @@ export const homeMain = [
     icon: icoTTHCSV,
     path: '/mot-cua',
     moduleActive: true,
-    roleActive: ['SV'],
+    roleActive: [ROLES.S0202],
   },
   {
     title: 'Học tập',
@@ -66,7 +67,7 @@ export const homeMain = [
     icon: icoHocTap,
     path: '/hoc-tap',
     moduleActive: true,
-    roleActive: ['SV'],
+    roleActive: [ROLES.S0202],
   },
   {
     title: 'Tra cứu',
@@ -74,7 +75,7 @@ export const homeMain = [
     icon: icoTCTTTS,
     path: '/tra-cuu',
     moduleActive: true,
-    roleActive: ['SV'],
+    roleActive: [ROLES.S0202],
   },
   {
     title: 'Hỗ trợ thiết bị',
@@ -82,7 +83,7 @@ export const homeMain = [
     icon: icoTCTTTS,
     path: '/ho-tro-thiet-bi',
     moduleActive: true,
-    roleActive: ['GV'],
+    roleActive: [ROLES.G0101],
   },
   {
     title: 'Hỗ trợ sử dụng phần mềm',
@@ -90,7 +91,7 @@ export const homeMain = [
     icon: icoHTSDPM,
     path: '/ho-tro-su-dung-phan-mem',
     moduleActive: false,
-    roleActive: ['GV', 'SV'],
+    roleActive: [ROLES.G0101, ROLES.S0202],
   },
   {
     title: 'Quản lý chi tiết công việc',
@@ -98,7 +99,7 @@ export const homeMain = [
     icon: icoQLCTCV,
     path: '/uneti',
     moduleActive: false,
-    roleActive: ['GV'],
+    roleActive: [ROLES.G0101],
   },
   {
     title: 'Thủ tục hành chính',
@@ -106,7 +107,15 @@ export const homeMain = [
     icon: icoTTHCSV,
     path: '/tthc-giang-vien',
     moduleActive: true,
-    roleActive: ['GV'],
+    roleActive: [ROLES.G0101],
+  },
+  {
+    title: 'Kiểm định chất lượng',
+    desc: 'Kiểm định chất lượng, Khảo sát và đánh giá chất lượng, Cơ sở dữ liệu đơn vị, Quản lý minh chứng, Tiện ích, Quản trị hệ thống.',
+    icon: icoTTHCSV,
+    path: '/kiem-dinh-chat-luong',
+    moduleActive: true,
+    roleActive: [ROLES.G0101],
   },
 ]
 
@@ -1287,7 +1296,7 @@ export const homeTaiSan = {
       path: '/bao-hong-tai-san',
       desc: '<b>Báo hỏng</b>: Các thiết bị đang sử dụng, đang quản lý.',
       thumbnail: iconHTTBGDBaoHong,
-      roleActive: ['Admin', 'GV', 'CBNV'],
+      roleActive: [ROLES.A0000, ROLES.G0101, ROLES.CBNV0],
       moduleActive: true,
     },
     {
@@ -1297,7 +1306,7 @@ export const homeTaiSan = {
       path: '/tra-cuu-tai-san',
       desc: '<b>Tra cứu</b>: Thông tin tài sản, thông tin nhóm thiết bị đi kèm, nhân sự quản lý, nhân sự sử dụng.',
       thumbnail: icoTraCuuTS,
-      roleActive: ['Admin', 'GV', 'CBNV'],
+      roleActive: [ROLES.A0000, ROLES.G0101, ROLES.CBNV0],
       moduleActive: true,
     },
     {
@@ -1307,7 +1316,7 @@ export const homeTaiSan = {
       path: '/sua-chua-tai-san',
       desc: '<b>Sửa chữa</b>: Những tài sản được báo hỏng.',
       thumbnail: iconHTTBGDXuLySuCo,
-      roleActive: ['Admin', 'GV', 'CBNV'],
+      roleActive: [ROLES.A0000, ROLES.G0101, ROLES.CBNV0],
       moduleActive: true,
     },
     {
@@ -1317,7 +1326,7 @@ export const homeTaiSan = {
       path: '/cap-nhat-tai-san',
       desc: '<b>Cập nhật</b>: Thông tin tài sản, thông tin nhóm thiết bị đi kèm, nhân sự quản lý, nhân sự sử dụng.',
       thumbnail: iconHTTBGDGopY,
-      roleActive: ['Admin', 'GV', 'CBNV'],
+      roleActive: [ROLES.A0000, ROLES.G0101, ROLES.CBNV0],
       moduleActive: false,
     },
   ],
@@ -1436,21 +1445,21 @@ export const homeTTHCGV = [
     title: 'Trang chủ',
     name: 'Trang chủ',
     path: '/tthc-giang-vien',
-    roleActive: ['Admin', 'GV', 'CBNV'],
+    roleActive: [ROLES.A0000, ROLES.G0101, ROLES.CBNV0],
   },
   {
     id: 2,
     title: 'Xử lý nghiệp vụ',
     name: 'Xử lý nghiệp vụ',
     path: '/admin/xu-ly-nghiep-vu',
-    roleActive: ['Admin', 'CBNV'],
+    roleActive: [ROLES.CBNV0],
   },
   {
     id: 3,
     title: 'Quản trị đơn vị',
     name: 'Quản trị đơn vị',
     path: '/admin/quan-tri-TTHCGV',
-    roleActive: ['Admin'],
+    roleActive: [ROLES.A0000],
   },
 ]
 
@@ -1461,7 +1470,7 @@ export const homeHocTap = [
     desc: 'Kết quả đánh giá chi tiết của từng môn học trong học kỳ.',
     path: '/ket-qua-hoc-tap',
     thumbnail: icoHTTBGD,
-    roleActive: ['SV'],
+    roleActive: [ROLES.S0202],
     moduleActive: true,
   },
 
@@ -1472,7 +1481,7 @@ export const homeHocTap = [
     path: '/on-luyen',
     moduleActive: true,
     thumbnail: icoTTHCSV,
-    roleActive: ['SV'],
+    roleActive: [ROLES.S0202],
   },
 ]
 
@@ -1483,7 +1492,7 @@ export const homeTraCuu = [
     desc: 'Theo dõi toàn bộ quá trình điểm danh đối với các môn học tương ứng tại các học kỳ',
     path: '/diem-danh',
     thumbnail: iconDiemDanh,
-    roleActive: ['SV'],
+    roleActive: [ROLES.S0202],
     moduleActive: true,
   },
 
@@ -1494,7 +1503,7 @@ export const homeTraCuu = [
     path: '/ren-luyen',
     moduleActive: true,
     thumbnail: icoTTHCSV,
-    roleActive: ['SV'],
+    roleActive: [ROLES.S0202],
   },
   {
     id: 3,
@@ -1503,7 +1512,7 @@ export const homeTraCuu = [
     path: '/thoi-khoa-bieu',
     moduleActive: true,
     thumbnail: iconLich,
-    roleActive: ['SV'],
+    roleActive: [ROLES.S0202],
   },
   {
     id: 4,
@@ -1531,7 +1540,7 @@ export const homeOnLuyen = [
     desc: 'Ôn tập lý thuyết',
     path: '/on-tap',
     thumbnail: icoHTTBGD,
-    roleActive: ['SV'],
+    roleActive: [ROLES.S0202],
     moduleActive: true,
   },
 
@@ -1542,7 +1551,7 @@ export const homeOnLuyen = [
     path: '/thi-thu',
     moduleActive: true,
     thumbnail: icoTTHCSV,
-    roleActive: ['SV'],
+    roleActive: [ROLES.S0202],
   },
 ]
 

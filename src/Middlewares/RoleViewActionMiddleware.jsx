@@ -1,12 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Navigate, Outlet } from 'react-router-dom'
-import { DataSinhVien } from '../Services/Utils/dataSinhVien'
 import { DataCanBoGV } from '../Services/Utils/dataCanBoGV'
 
 function RoleViewActionMiddleware(props) {
   const { allowedRoleViewAction } = props
-  const dataSV = DataSinhVien()
   const dataCBGV = DataCanBoGV()
 
   let userRoles = null
@@ -16,9 +14,9 @@ function RoleViewActionMiddleware(props) {
     userRoles = null
   }
 
-  const resultRoleViewAction = userRoles
-    ? allowedRoleViewAction.every((role) => userRoles.includes(role))
-    : false
+  const resultRoleViewAction = userRoles?.some((role) =>
+    allowedRoleViewAction.includes(role),
+  )
 
   return resultRoleViewAction ? <Outlet /> : <Navigate to="/error/403" />
 }

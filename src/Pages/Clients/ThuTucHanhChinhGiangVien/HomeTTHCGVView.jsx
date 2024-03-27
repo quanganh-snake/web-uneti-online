@@ -106,7 +106,7 @@ function HomeTTHCGVView(props) {
                           return (
                             <tr key={index}>
                               <td className="border border-slate-300 text-center">
-                                {index + 1}
+                                {index + 1 + currentPage * itemsPerPage}
                               </td>
                               <td className="border border-slate-300">
                                 <div className="p-3">

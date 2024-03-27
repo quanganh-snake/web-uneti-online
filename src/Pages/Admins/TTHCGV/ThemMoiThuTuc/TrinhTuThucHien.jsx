@@ -482,7 +482,6 @@ const TrinhTuThucHien = memo(function TrinhTuThucHien(props) {
                           editValueRow.MC_TTHC_GV_TrinhTuThucHien_KetQua || ''
                         }
                         onChange={(e) => {
-                          console.log(e.target.value)
                           handleChangeValue(
                             e,
                             'MC_TTHC_GV_TrinhTuThucHien_KetQua',

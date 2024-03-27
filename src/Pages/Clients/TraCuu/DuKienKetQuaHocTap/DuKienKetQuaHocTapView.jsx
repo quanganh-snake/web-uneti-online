@@ -1,8 +1,9 @@
 import Accordion from '@/Components/Base/Accordion/Accordion'
 import Button from '@/Components/Base/Button/Button'
 import Icon from '@/Components/Base/Icon/Icon'
-import TickCircle from '@/Components/Base/Icons/TickCircle'
 import CommonLayout from '@/Layouts/Common/CommonLayout'
+import { Tooltip } from '@mui/material'
+import { FiAlertCircle } from 'react-icons/fi'
 
 const DuKienKetQuaHocTapView = (props) => {
   const {
@@ -22,12 +23,12 @@ const DuKienKetQuaHocTapView = (props) => {
   return (
     <>
       <CommonLayout
-        heading="DỰ KIẾN KẾT QUẢ HỌC TẬP"
+        heading="DỰ KIẾN KẾT QUẢ HỌC TẬP THEO CHƯƠNG TRÌNH ĐÀO TẠO"
         home={home}
         breadcrumbs={breadcrumbs}
       >
         <div>
-          <div className="w-full p-2 flex justify-start items-start gap-4 flex-col md:flex-row">
+          <div className="w-full py-2 flex justify-start items-start gap-4 flex-col md:flex-row">
             <div className="flex-1 w-full">
               <table className="w-full">
                 <thead>
@@ -131,7 +132,7 @@ const DuKienKetQuaHocTapView = (props) => {
               </table>
             </div>
           </div>
-          <div className="flex w-full gap-2 p-2 flex-col sm:flex-row">
+          <div className="flex w-full gap-2 py-2 flex-col sm:flex-row">
             <div className="flex-1">
               <Button onClick={() => handleLamMoi()}>Làm mới</Button>
             </div>
@@ -170,12 +171,6 @@ const DuKienKetQuaHocTapView = (props) => {
                             className=" py-4 min-w-[200px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0 border-l-0"
                           >
                             Mã học phần
-                          </th>
-                          <th
-                            rowSpan={2}
-                            className=" py-4 min-w-[100px] bg-[#F0FBFF] border border-solid border-uneti-primary border-opacity-30 border-t-0"
-                          >
-                            Tính điểm TBC
                           </th>
                           <th
                             rowSpan={2}
@@ -223,21 +218,21 @@ const DuKienKetQuaHocTapView = (props) => {
                                 </td>
                                 <td className="sticky left-[50px] top-0 z-[2] bg-white font-semibold duration-200 py-2 px-4 border border-solid border-uneti-primary border-opacity-30 md:border-b-0 md:border-l-0 md:border-r-0">
                                   {mh.tenMonHoc}
+                                  {!mh.tinhDiemTBC && (
+                                    <Tooltip title="Không tính điểm trung bình chung">
+                                      <div className="ml-2 inline-block text-red-600">
+                                        <Icon>
+                                          <FiAlertCircle />
+                                        </Icon>
+                                      </div>
+                                    </Tooltip>
+                                  )}
                                   <span className="absolute w-[1px] h-[100%] top-0 right-[-0.5px] bg-uneti-primary opacity-30"></span>
                                 </td>
                                 <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0 border-l-0">
                                   {mh.maHocPhan}
                                 </td>
-                                <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
-                                  {mh.tinhDiemTBC ? (
-                                    <Icon>
-                                      <TickCircle />
-                                    </Icon>
-                                  ) : (
-                                    ''
-                                  )}
-                                </td>
-                                <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
+                                <td className="py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0">
                                   {mh.soTinChi}
                                 </td>
                                 <td
@@ -258,28 +253,34 @@ const DuKienKetQuaHocTapView = (props) => {
                                 >
                                   {mh.diemTongKetHe4}
                                 </td>
-                                <td className=" py-2 px-2 text-center border border-solid border-uneti-primary border-opacity-30 border-b-0 border-r-0 bg-uneti-primary bg-opacity-10">
-                                  <input
-                                    className="max-w-[100px] outline-none text-center bg-white rounded-lg"
-                                    value={
-                                      mh.diemDuKienHe10 != null
-                                        ? mh.diemDuKienHe10
-                                        : ''
-                                    }
-                                    onChange={(e) =>
-                                      handleChangeScore(
-                                        mh.maHocPhan,
-                                        e.target.value,
-                                      )
-                                    }
-                                    onBlur={(e) => {
-                                      checkScoreValue(
-                                        mh.maHocPhan,
-                                        e.target.value,
-                                      )
-                                      handleConvertHe10ToHe4(mh.maHocPhan)
-                                    }}
-                                  />
+                                <td
+                                  className={`${mh.tinhDiemTBC ? 'border-uneti-primary' : 'bg-white'} py-2 px-2 text-center border border-solid  border-opacity-30 border-b-0 border-r-0 bg-uneti-primary bg-opacity-10`}
+                                >
+                                  {mh.tinhDiemTBC ? (
+                                    <input
+                                      className="outline-none text-center bg-white rounded-lg"
+                                      value={
+                                        mh.diemDuKienHe10 != null
+                                          ? mh.diemDuKienHe10
+                                          : ''
+                                      }
+                                      onChange={(e) =>
+                                        handleChangeScore(
+                                          mh.maHocPhan,
+                                          e.target.value,
+                                        )
+                                      }
+                                      onBlur={(e) => {
+                                        checkScoreValue(
+                                          mh.maHocPhan,
+                                          e.target.value,
+                                        )
+                                        handleConvertHe10ToHe4(mh.maHocPhan)
+                                      }}
+                                    />
+                                  ) : (
+                                    <>{mh.diemDuKienHe10}</>
+                                  )}
                                 </td>
                                 <td
                                   className={`${
@@ -302,6 +303,21 @@ const DuKienKetQuaHocTapView = (props) => {
               </Accordion>
             ))
           : null}
+
+        <div className="mt-8">
+          <h4>* Ghi chú:</h4>
+          <span className="">
+            - Các môn có đánh dấu
+            <Tooltip title="Không tính điểm trung bình chung">
+              <span className="text-red-600 mx-2">
+                <Icon>
+                  <FiAlertCircle />
+                </Icon>
+              </span>
+            </Tooltip>
+            là những môn không tính vào điểm trung bình chung.
+          </span>
+        </div>
       </CommonLayout>
     </>
   )

@@ -8,7 +8,7 @@ import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 
 const DuKienKetQuaHocTap = () => {
   const home = {
-    path: '/trang-chu',
+    path: '/uneti',
     title: 'Trang chủ',
   }
 
@@ -160,7 +160,7 @@ const DuKienKetQuaHocTap = () => {
 
     const DiemTichLuyDuKienHe4 = (
       SumDiemTongKetHe4NhanSoTinChi / SumSoTinChi
-    ).toFixed(1)
+    ).toFixed(2)
 
     if (+DiemTichLuyDuKienHe4 >= 3.6) {
       XepLoai = 'Xuất sắc'

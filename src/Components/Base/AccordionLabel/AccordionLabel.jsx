@@ -10,7 +10,12 @@ import ArrowRight from '../Icons/ArrowRight'
 import './AccordionLabel.scss'
 import { transformCls } from '@/Services/Utils/reactUtils'
 
-export default function AccordionLabel({ children, className = '', ...attrs }) {
+export default function AccordionLabel({
+  children,
+  showIcon = true,
+  className = '',
+  ...attrs
+}) {
   const accordionCtx = useContext(AccordionContext)
 
   const bem = useNamespace('accordion')
@@ -29,7 +34,7 @@ export default function AccordionLabel({ children, className = '', ...attrs }) {
         className={transformCls([className, bem.e('label')])}
         {...attrs}
       >
-        <ArrowRight className={bem.e('icon')} />
+        {showIcon ? <ArrowRight className={bem.e('icon')} /> : null}
 
         <h3>{children}</h3>
       </div>

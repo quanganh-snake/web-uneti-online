@@ -8,6 +8,8 @@ import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
 
 import '../Headers/Header.scss'
+import clsx from 'clsx'
+import { ROLES } from '@/Routers/privateRoutes'
 
 function MainCommon() {
   const location = useLocation()
@@ -19,13 +21,27 @@ function MainCommon() {
   return (
     <>
       {pathname === '/' || pathname === '/dang-nhap' ? null : dataRole ==
-        'SV' ? (
+        ROLES.S0202 ? (
         <HeaderSV />
       ) : (
         <HeaderCBGV />
       )}
 
-      <main className="px-2 md:px-3 mt-36 mb-[50px] max-w-7xl mx-auto gap-10 min-h-[500px]">
+      <main
+        className={clsx(
+          'xl:mt-30 mx-auto mb-[50px] mt-40 min-h-[500px] gap-10 px-5 lg:mt-52',
+          [
+            'kiem-dinh-chat-luong',
+            'quan-tri-he-thong',
+            'dam-bao-chat-luong',
+            'khao-sat-va-dgcl',
+            'csdl-don-vi',
+            'quan-ly-minh-chung',
+          ].some((e) => pathname.includes(e))
+            ? ' w-full'
+            : ' max-w-7xl',
+        )}
+      >
         <RouterCore />
       </main>
       {pathname === '/' || pathname === '/dang-nhap' ? null : <Footer />}

@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { DataSinhVien } from '@/Services/Utils/dataSinhVien'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
+import { simpleSHA256 } from '@/Services/Utils/stringUtils'
+
 function AuthMiddleware() {
   const { pathname } = useLocation()
 
@@ -31,7 +33,7 @@ function AuthMiddleware() {
     dataAuth == undefined ||
     dataAuth == '' ||
     role == null ||
-    role == '' ||
+    role == simpleSHA256('') ||
     role == undefined
   ) {
     return <Navigate to={'/dang-nhap'} />

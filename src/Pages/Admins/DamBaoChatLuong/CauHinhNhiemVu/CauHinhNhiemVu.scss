@@ -1,0 +1,10 @@
+@include b(kiem-dinh-chat-luong) {
+  @include e(tabs) {
+    @include m(tab) {
+      text-transform: initial !important;
+      font-weight: 500 !important;
+      font-family: inherit !important;
+      font-size: 15px !important;
+    }
+  }
+}

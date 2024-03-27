@@ -1,0 +1,44 @@
+@include b(kdcl-csgd) {
+  @include e(table-header) {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @include m(title) {
+      font-weight: 500;
+      font-size: 15px;
+
+      @include res(sm) {
+        font-size: 16px;
+      }
+      @include res(md) {
+        font-size: 17px;
+      }
+      @include res(lg) {
+        font-size: 18px;
+      }
+    }
+  }
+
+  @include e(table) {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid getColor(gray-4);
+    background-color: #fff;
+    padding: 10px;
+    margin-top: 4px;
+    border-collapse: collapse;
+
+    th,
+    td {
+      padding: 4px 10px;
+      border: 1px solid getColor(gray-4);
+    }
+
+    th {
+      background-color: getColor(primary);
+      color: #fff;
+    }
+  }
+}

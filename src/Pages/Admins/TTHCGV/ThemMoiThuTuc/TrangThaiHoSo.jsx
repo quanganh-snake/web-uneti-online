@@ -104,7 +104,7 @@ const TrangThaiHoSo = memo(function TrangThaiHoSo(props) {
   return (
     <div className="uneti-tthcgv__tphosodenghi mb-5 w-full">
       <h2 className="text-2xl font-semibold uppercase mb-4">
-        Thiết lập thành phần hồ sơ đề nghị
+        Thiết lập trạng thái hồ sơ đề nghị
       </h2>
 
       <div className="w-full overflow-x-auto mb-4 border border-slate-300 rounded-xl ">
