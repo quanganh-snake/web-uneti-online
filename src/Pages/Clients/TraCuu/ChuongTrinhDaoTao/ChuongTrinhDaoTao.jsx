@@ -17,7 +17,7 @@ const ChuongTrinhDaoTao = () => {
   useEffect(() => {
     async function getChuongTrinhDaoTao() {
       const res = await getAllChuongTrinhDaoTao(dataSV.MaSinhVien)
-      const ctdt = res.data?.body || []
+      const ctdt = res.data || []
 
       const listCTDTWithoutPrefix = ctdt.map((e) =>
         transformKeys(e, (key) => `${key}`.replace(CTDT_PREFIX, '')),
