@@ -3,6 +3,8 @@ import clsx from 'clsx'
 import { IoMdMenu, IoMdClose } from 'react-icons/io'
 import { Link } from 'react-router-dom'
 import { DataCanBoGV } from '@/Services/Utils/dataCanBoGV'
+import { simpleSHA256 } from '@/Services/Utils/stringUtils'
+import { ROLE_VIEW_ACTION_TTHCGV } from '@/Routers/privateRoutes'
 
 function MenuMobileTTHCGV() {
   const [showMenu, setShowMenu] = useState(false)

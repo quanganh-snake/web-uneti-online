@@ -516,18 +516,21 @@ function ThongTinChiTietHoSo() {
         }).then(async (result) => {
           if (result.isConfirmed) {
             try {
+              setLoading(true)
               const resUpdateTPHSDeNghi =
                 await putTrangthaiTTHCGV(dataTrangThaiUpdate)
               if (resUpdateTPHSDeNghi.status === 200) {
                 getDataDetailHoSoThuTuc()
                 setEditRowIndex(-1)
                 setEditValueRow({})
+                setLoading(false)
                 Swal.fire({
                   icon: 'success',
                   title: `Cập nhật thông tin trạng thái ${valueRow?.MC_TTHC_GV_TrangThai_TenTrangThai} thành công!`,
                 })
               }
             } catch (error) {
+              setLoading(false)
               console.log(error.message)
             }
           }
@@ -1144,7 +1147,9 @@ function ThongTinChiTietHoSo() {
                           </th>
                           <th className="border-r px-2 py-1">Bản chính</th>
                           <th className="border-r px-2 py-1">Bản sao</th>
-                          <th className="border-r px-2 py-1">Bắt buộc</th>
+                          <th className="hidden border-r px-2 py-1">
+                            Bắt buộc
+                          </th>
                           <th className="px-2 py-1 rounded-tr-xl">Tác vụ</th>
                         </tr>
                       </thead>
@@ -1327,7 +1332,7 @@ function ThongTinChiTietHoSo() {
                                     />
                                   </div>
                                 </td>
-                                <td className="border-r px-2 py-1 text-center">
+                                <td className="hidden border-r px-2 py-1 text-center">
                                   <div className="">
                                     <input
                                       type="checkbox"
@@ -1441,7 +1446,7 @@ function ThongTinChiTietHoSo() {
                                     id=""
                                   />
                                 </td>
-                                <td className="border-r px-2 py-1 text-center">
+                                <td className="hidden border-r px-2 py-1 text-center">
                                   <input
                                     type="checkbox"
                                     disabled={true}

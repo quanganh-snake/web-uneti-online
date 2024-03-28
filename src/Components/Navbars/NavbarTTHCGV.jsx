@@ -10,17 +10,19 @@ function NavbarTTHCGV() {
   const dataCBGV = DataCanBoGV()
   const { HT_GROUPUSER_ID } = dataCBGV
 
-  let roleViewAction
+  let roleViewAction = []
   if (HT_GROUPUSER_ID?.includes(ROLE_VIEW_ACTION_TTHCGV.QT_TTHCGV)) {
-    roleViewAction = 'Admin'
-  } else if (
+    roleViewAction.push(simpleSHA256('Admin'))
+    roleViewAction.push(simpleSHA256('GV'))
+  }
+
+  if (
     HT_GROUPUSER_ID?.includes(ROLE_VIEW_ACTION_TTHCGV.CBNV_TTHCGV) ||
     HT_GROUPUSER_ID?.includes(ROLE_VIEW_ACTION_TTHCGV.TP_TTHCGV) ||
     HT_GROUPUSER_ID?.includes(ROLE_VIEW_ACTION_TTHCGV.BGH_TTHCGV)
   ) {
-    roleViewAction = 'CBNV'
-  } else {
-    roleViewAction = ''
+    roleViewAction.push(simpleSHA256('CBNV'))
+    roleViewAction.push(simpleSHA256('GV'))
   }
 
   return (
@@ -31,15 +33,13 @@ function NavbarTTHCGV() {
       <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
         {homeTTHCGV &&
           homeTTHCGV.map((module, index) => {
+            let roleNav = module?.roleActive?.every((value) =>
+              roleViewAction.includes(value),
+            )
             return (
               <li
                 key={module.id}
-                className={clsx(
-                  module?.roleActive?.includes(simpleSHA256(roleViewAction)) ===
-                    true
-                    ? ''
-                    : 'hidden',
-                )}
+                className={clsx(roleNav === true ? '' : 'hidden')}
               >
                 <NavLink
                   to={module.path}
