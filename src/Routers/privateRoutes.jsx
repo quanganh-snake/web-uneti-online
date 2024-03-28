@@ -1,28 +1,69 @@
 import { lazy } from 'react'
 import { Route } from 'react-router-dom'
 import AuthMiddleware from '@/Middlewares/AuthMiddleware'
-const Home = lazy(() => import('@/Pages/Clients/Home/Home'))
-const HomeMotCua = lazy(() => import('@/Pages/Clients/MotCua'))
 // Middlewares
 import RoleMiddleware from '@/Middlewares/RoleMiddleware.jsx'
 import RoleViewActionMiddleware from '@/Middlewares/RoleViewActionMiddleware'
 import { simpleSHA256 } from '@/Services/Utils/stringUtils'
 import KDCLLayout from '@/Layouts/LayoutKDCL/KDCLLayout'
-import KiemDinhChatLuongCTDT from '@/Pages/Admins/DamBaoChatLuong/KiemDinhChatLuongCTDT/KiemDinhChatLuongCTDT'
-import KiemDinhChatLuongCSGD from '@/Pages/Admins/DamBaoChatLuong/KiemDinhChatLuongCSGD/KiemDinhChatLuongCSGD'
-import CauHinhNhiemVu from '@/Pages/Admins/DamBaoChatLuong/CauHinhNhiemVu/CauHinhNhiemVu'
-import PhanHoi from '@/Pages/Admins/KhaoSatVaDanhGiaChatLuong/PhanHoi/PhanHoi'
-import CSDLDonVi from '@/Pages/Admins/CSDLDonVi/CSDLDonVi'
-import MCDungChungDonVi from '@/Pages/Admins/QuanLyMinhChung/MCDungChungDonVi/MCDungChungDonVi'
-import CauHinhDinhDangMaMC from '@/Pages/Admins/QuanLyMinhChung/CauHinhDinhDangMaMC/CauHinhDinhDangMaMC'
-import GioiThieu from '@/Pages/Admins/CSDLDonVi/GioiThieu/GioiThieu'
-import ThongKeNguoiHoc from '@/Pages/Admins/CSDLDonVi/ThongKeNguoiHoc/ThongKeNguoiHoc'
-import DanhSachCanBoChuChot from '@/Pages/Admins/CSDLDonVi/DanhSachCanBoChuChot/DanhSachCanBoChuChot'
-import ThongKeKhoaHoc from '@/Pages/Admins/CSDLDonVi/ThongKeKhoaHoc/ThongKeKhoaHoc'
-import DanhSachCacDonVi from '@/Pages/Admins/CSDLDonVi/DanhSachCacDonVi/DanhSachCacDonVi'
-import CoSoVatChat from '@/Pages/Admins/CSDLDonVi/CoSoVatChat/CoSoVatChat'
-import ThongKeNhanLuc from '@/Pages/Admins/CSDLDonVi/ThongKeNhanLuc/ThongKeNhanLuc'
-import DoiTac from '@/Pages/Admins/CSDLDonVi/DoiTac/DoiTac'
+
+const Home = lazy(() => import('@/Pages/Clients/Home/Home'))
+const HomeMotCua = lazy(() => import('@/Pages/Clients/MotCua'))
+
+const KiemDinhChatLuongCTDT = lazy(
+  () =>
+    import(
+      '@/Pages/Admins/DamBaoChatLuong/KiemDinhChatLuongCTDT/KiemDinhChatLuongCTDT'
+    ),
+)
+const KiemDinhChatLuongCSGD = lazy(
+  () =>
+    import(
+      '@/Pages/Admins/DamBaoChatLuong/KiemDinhChatLuongCSGD/KiemDinhChatLuongCSGD'
+    ),
+)
+const CauHinhNhiemVu = lazy(
+  () => import('@/Pages/Admins/DamBaoChatLuong/CauHinhNhiemVu/CauHinhNhiemVu'),
+)
+const PhanHoi = lazy(
+  () => import('@/Pages/Admins/KhaoSatVaDanhGiaChatLuong/PhanHoi/PhanHoi'),
+)
+const CSDLDonVi = lazy(() => import('@/Pages/Admins/CSDLDonVi/CSDLDonVi'))
+const MCDungChungDonVi = lazy(
+  () =>
+    import('@/Pages/Admins/QuanLyMinhChung/MCDungChungDonVi/MCDungChungDonVi'),
+)
+const CauHinhDinhDangMaMC = lazy(
+  () =>
+    import(
+      '@/Pages/Admins/QuanLyMinhChung/CauHinhDinhDangMaMC/CauHinhDinhDangMaMC'
+    ),
+)
+const GioiThieu = lazy(
+  () => import('@/Pages/Admins/CSDLDonVi/GioiThieu/GioiThieu'),
+)
+const ThongKeNguoiHoc = lazy(
+  () => import('@/Pages/Admins/CSDLDonVi/ThongKeNguoiHoc/ThongKeNguoiHoc'),
+)
+const DanhSachCanBoChuChot = lazy(
+  () =>
+    import(
+      '@/Pages/Admins/CSDLDonVi/DanhSachCanBoChuChot/DanhSachCanBoChuChot'
+    ),
+)
+const ThongKeKhoaHoc = lazy(
+  () => import('@/Pages/Admins/CSDLDonVi/ThongKeKhoaHoc/ThongKeKhoaHoc'),
+)
+const DanhSachCacDonVi = lazy(
+  () => import('@/Pages/Admins/CSDLDonVi/DanhSachCacDonVi/DanhSachCacDonVi'),
+)
+const CoSoVatChat = lazy(
+  () => import('@/Pages/Admins/CSDLDonVi/CoSoVatChat/CoSoVatChat'),
+)
+const ThongKeNhanLuc = lazy(
+  () => import('@/Pages/Admins/CSDLDonVi/ThongKeNhanLuc/ThongKeNhanLuc'),
+)
+const DoiTac = lazy(() => import('@/Pages/Admins/CSDLDonVi/DoiTac/DoiTac'))
 
 // Pages MC - Khảo Thí
 const HomeKhaoThi = lazy(() => import('@/Pages/Clients/MotCua/KhaoThi'))
