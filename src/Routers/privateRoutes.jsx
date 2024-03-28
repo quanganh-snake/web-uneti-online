@@ -39,6 +39,13 @@ const CauHinhDinhDangMaMC = lazy(
       '@/Pages/Admins/QuanLyMinhChung/CauHinhDinhDangMaMC/CauHinhDinhDangMaMC'
     ),
 )
+const ThemMoiMinhChung = lazy(
+  () => import('@/Pages/Admins/QuanLyMinhChung/ThemMoiMinhChung/ThemMoi'),
+)
+const ChiTietMinhChung = lazy(
+  () =>
+    import('@/Pages/Admins/QuanLyMinhChung/ChiTietMinhChung/ChiTietMinhChung'),
+)
 const GioiThieu = lazy(
   () => import('@/Pages/Admins/CSDLDonVi/GioiThieu/GioiThieu'),
 )
@@ -623,6 +630,8 @@ export const privateRoutes = (
               path="cau-hinh-ma-minh-chung"
               element={<CauHinhDinhDangMaMC />}
             />
+            <Route path="them-moi-minh-chung" element={<ThemMoiMinhChung />} />
+            <Route path="chi-tiet-minh-chung" element={<ChiTietMinhChung />} />
           </Route>
         </Route>
       </Route>

@@ -7,6 +7,7 @@ import { transformCls } from '@/Services/Utils/reactUtils'
 import { Tooltip } from '@mui/material'
 import { BiChevronDown, BiPencil, BiTrash } from 'react-icons/bi'
 import { BsEye } from 'react-icons/bs'
+import { Link } from 'react-router-dom'
 
 export default function MCDungChungDonVi() {
   const ns = useNamespace('kiem-dinh-chat-luong')
@@ -47,9 +48,11 @@ export default function MCDungChungDonVi() {
             </span>
             <button className="base-button bg-orange-500">Import file</button>
             <button className="base-button bg-uneti-primary">Xuất file</button>
-            <button className="base-button bg-uneti-primary-lighter">
-              Thêm mới
-            </button>
+            <Link to="/quan-ly-minh-chung/them-moi-minh-chung">
+              <button className="base-button bg-uneti-primary-lighter">
+                Thêm mới
+              </button>
+            </Link>
           </div>
         </div>
         <table className="border w-full">
@@ -103,11 +106,13 @@ export default function MCDungChungDonVi() {
               <td className="td">Không sử dụng</td>
               <td className="td">
                 <div className="flex items-center justify-center gap-22">
-                  <Button type="transparent" icon>
-                    <Icon>
-                      <BsEye />
-                    </Icon>
-                  </Button>
+                  <Link to="/quan-ly-minh-chung/chi-tiet-minh-chung">
+                    <Button type="transparent" icon>
+                      <Icon>
+                        <BsEye />
+                      </Icon>
+                    </Button>
+                  </Link>
                   <Button type="transparent" icon color="warn">
                     <Icon>
                       <BiPencil />
