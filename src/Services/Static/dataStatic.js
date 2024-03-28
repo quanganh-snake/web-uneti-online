@@ -114,7 +114,7 @@ export const homeMain = [
     desc: 'Kiểm định chất lượng, Khảo sát và đánh giá chất lượng, Cơ sở dữ liệu đơn vị, Quản lý minh chứng, Tiện ích, Quản trị hệ thống.',
     icon: icoTTHCSV,
     path: '/kiem-dinh-chat-luong',
-    moduleActive: false,
+    moduleActive: true,
     roleActive: [ROLES.G0101],
   },
 ]
