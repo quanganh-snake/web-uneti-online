@@ -305,7 +305,7 @@ const DuKienKetQuaHocTapView = (props) => {
           : null}
 
         <div className="mt-8">
-          <h4>* Ghi chú:</h4>
+          <h4 className="font-semibold">* Ghi chú:</h4>
           <span className="">
             - Các môn có đánh dấu
             <Tooltip title="Không tính điểm trung bình chung">
